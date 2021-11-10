@@ -5,12 +5,12 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorldescapeService.Core
+namespace WorldescapeService.Core;
+
+public class ServiceResponse
 {
-	public class ServiceResponse
-	{
-		public string RequestUri { get; set; }
-		public string ExternalError { get; set; }
-		public HttpStatusCode HttpStatusCode { get; set; }
-	}
+    public string RequestUri { get; set; }
+    public string ExternalError { get; set; }
+    public HttpStatusCode HttpStatusCode { get; set; }
 }
+

@@ -3,48 +3,48 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
 
-namespace Worldescape
+namespace Worldescape;
+
+/// <summary>
+/// Interaction logic for App.xaml
+/// </summary>
+public partial class App : Application
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    private readonly IServiceProvider _serviceProvider;
+
+    public App()
     {
-        private readonly IServiceProvider _serviceProvider;
+        ServiceCollection services = new ServiceCollection();
+        ConfigureServices(services);
+        _serviceProvider = services.BuildServiceProvider();
+    }
 
-        public App()
+    private void OnStartup(object sender, StartupEventArgs e)
+    {
+        DispatcherUnhandledException += (sender, args) =>
         {
-            ServiceCollection services = new ServiceCollection();
-            ConfigureServices(services);
-            _serviceProvider = services.BuildServiceProvider();
-        }
+            args.Handled = true;
+        };
 
-		private void OnStartup(object sender, StartupEventArgs e)
-		{
-			DispatcherUnhandledException += (sender, args) =>
-			{				
-				args.Handled = true;
-			};			
+        var mainWindow = _serviceProvider.GetService<MainWindow>();
+        mainWindow.Show();
+    }
 
-			var mainWindow = _serviceProvider.GetService<MainWindow>();
-            mainWindow.Show();
-		}
+    private void ConfigureServices(ServiceCollection services)
+    {
+        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        services.AddSingleton<IConfiguration>(configuration);
 
-		private void ConfigureServices(ServiceCollection services)
-		{
-			var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-			services.AddSingleton<IConfiguration>(configuration);
+        // Extensions
+        services.AddHttpService();
 
-			// Extensions
-			services.AddHttpService();			
+        // Views
+        services.AddSingleton<MainWindow>();
+    }
 
-			// Views
-			services.AddSingleton<MainWindow>();			
-		}
+    private void OnExit(object sender, ExitEventArgs e)
+    {
 
-        private void OnExit(object sender, ExitEventArgs e)
-        {
-
-        }
     }
 }
+

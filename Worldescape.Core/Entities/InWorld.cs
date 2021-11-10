@@ -1,23 +1,23 @@
-﻿namespace Worldescape.Core
+﻿namespace Worldescape.Core;
+
+/// <summary>
+/// Information of the world in which an avatar or a construct is.
+/// </summary>
+public class InWorld
 {
     /// <summary>
-    /// Information of the world in which an avatar or a construct is.
+    /// World's id.
     /// </summary>
-    public class InWorld 
-    {
-        /// <summary>
-        /// World's id.
-        /// </summary>
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        /// <summary>
-        /// World's name.
-        /// </summary>
-        public string Name { get; set; } = string.Empty;
+    /// <summary>
+    /// World's name.
+    /// </summary>
+    public string Name { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Image Url of the world.
-        /// </summary>
-        public string ImageUrl { get; set; } = string.Empty;
-    }
+    /// <summary>
+    /// Image Url of the world.
+    /// </summary>
+    public string ImageUrl { get; set; } = string.Empty;
 }
+

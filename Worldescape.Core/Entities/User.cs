@@ -1,23 +1,23 @@
-﻿namespace Worldescape.Core
+﻿namespace Worldescape.Core;
+
+/// <summary>
+/// A registered user in real world.
+/// </summary>
+public class User : CoreBase
 {
     /// <summary>
-    /// A registered user in real world.
+    /// The email address of the user.
     /// </summary>
-    public class User : CoreBase
-    {
-        /// <summary>
-        /// The email address of the user.
-        /// </summary>
-        public string Email { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
 
-        /// <summary>
-        /// The phone number of the user.
-        /// </summary>
-        public string Phone { get; set; } = string.Empty;
+    /// <summary>
+    /// The phone number of the user.
+    /// </summary>
+    public string Phone { get; set; } = string.Empty;
 
-        /// <summary>
-        /// The password of the user.
-        /// </summary>
-        public string Pasword { get; set; } = string.Empty;
-    }
+    /// <summary>
+    /// The password of the user.
+    /// </summary>
+    public string Pasword { get; set; } = string.Empty;
 }
+

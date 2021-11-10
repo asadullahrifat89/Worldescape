@@ -1,30 +1,30 @@
-﻿namespace Worldescape.Core
+﻿namespace Worldescape.Core;
+
+public static class Enums
 {
-    public static class Enums
+    public enum ActivityStatus
     {
-		public enum ActivityStatus
-		{
-			Online,
+        Online,
 
-			Moving,
+        Moving,
 
-			Working,
+        Working,
 
-			Eating,
+        Eating,
 
-			Sleeping,
+        Sleeping,
 
-			Toilet,
+        Toilet,
 
-			Meeting,
+        Meeting,
 
-			Texting,
+        Texting,
 
-			Away,
+        Away,
 
-			Offline,
+        Offline,
 
-			Crafting,
-		}
-	}
+        Crafting,
+    }
 }
+
