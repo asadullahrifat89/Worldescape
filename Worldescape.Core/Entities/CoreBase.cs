@@ -7,11 +7,6 @@ public class CoreBase
     /// </summary>
     public int Id { get; set; }
 
-    ///// <summary>
-    ///// Guid of an entity.
-    ///// </summary>
-    //public string Guid { get; set; } = string.Empty;
-
     /// <summary>
     /// Name of an entity.
     /// </summary>
@@ -31,7 +26,6 @@ public class CoreBase
     /// The datetime on which this entity was updated on.
     /// </summary>
     public DateTime? UpdatedOn { get; set; } = DateTime.Now;
-
 
     public bool IsEmpty()
     {
