@@ -7,6 +7,11 @@ public class CoreBase
     /// </summary>
     public int Id { get; set; }
 
+    ///// <summary>
+    ///// Guid of an entity.
+    ///// </summary>
+    //public string Guid { get; set; } = string.Empty;
+
     /// <summary>
     /// Name of an entity.
     /// </summary>

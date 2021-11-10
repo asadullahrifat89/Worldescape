@@ -46,7 +46,7 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ServiceResp
             using (var db = new LiteDatabase(@"WorldescapeServiceData.db"))
             {
                 // Get Users collection
-                var col = db.GetCollection<User>("Users");
+                var colUsers = db.GetCollection<User>("Users");
 
                 // Create new user instance
                 var user = new User
@@ -61,7 +61,20 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ServiceResp
                 };
 
                 // Insert new user document (Id will be auto-incremented)
-                col.Insert(user);
+                BsonValue? userId = colUsers.Insert(user);
+
+                // Get AccessTokens collection
+                var colAccessTokens = db.GetCollection<AccessToken>("AccessTokens");
+
+                // Create new access token instance for the saved user
+                var accessToken = new AccessToken()
+                {
+                    UserId = userId.AsInt32,
+                    Token = Guid.NewGuid().ToString()
+                };
+
+                // Insert new access token document
+                colAccessTokens.Upsert(accessToken);
             }
 
             return new ServiceResponse() { HttpStatusCode = System.Net.HttpStatusCode.OK };

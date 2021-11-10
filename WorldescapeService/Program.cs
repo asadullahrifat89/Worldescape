@@ -44,11 +44,17 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
-app.MapPost("/saveuser", async (AddUserCommand command, IMediator mediator) =>
+app.MapPost("/api/adduser", async (AddUserCommand command, IMediator mediator) =>
 {
     return await mediator.Send(command);
 })
-.WithName("SaveUser");
+.WithName("AddUser");
+
+app.MapPost("/api/updateuser", async (UpdateUserCommand command, IMediator mediator) =>
+{
+    return await mediator.Send(command);
+})
+.WithName("UpdateUser");
 
 app.Run();
 

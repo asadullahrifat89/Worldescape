@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Worldescape.Core;
 
-internal class AccessToken
+public class AccessToken
 {
     /// <summary>
     /// Id of the user to which this token is being generated.
