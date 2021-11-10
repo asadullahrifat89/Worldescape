@@ -2,9 +2,10 @@ using MediatR;
 using System.Reflection;
 using WorldescapeService.Core;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region Add Services
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -14,6 +15,8 @@ builder.Services.AddSwaggerGen();
 // add validation and mediator
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(AddUserCommandValidator).GetTypeInfo().Assembly));
 builder.Services.AddMediatR(typeof(AddUserCommandValidator).GetTypeInfo().Assembly);
+
+#endregion
 
 var app = builder.Build();
 
@@ -25,6 +28,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+#region Endpoint Mapping
 
 app.MapGet("/api/GetAccessToken", async (string email, string password, IMediator mediator) =>
 {
@@ -44,9 +49,6 @@ app.MapPost("/api/UpdateUser", async (UpdateUserCommand command, IMediator media
 })
 .WithName("UpdateUser");
 
-app.Run();
+#endregion
 
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+app.Run();
