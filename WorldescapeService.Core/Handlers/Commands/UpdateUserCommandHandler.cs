@@ -53,7 +53,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Servi
                 result.ImageUrl = request.ImageUrl;
                 result.UpdatedOn = DateTime.Now;
                 result.Email = request.Email;
-                result.Pasword = request.Password;
+                result.Password = request.Password;
                 result.Phone = request.Phone;
 
                 // update user document (Id will be auto-incremented)

@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Data;
 using System.Text;
 using Newtonsoft.Json;
+using Worldescape.Core;
 
 namespace Worldescape;
 
@@ -254,16 +255,3 @@ internal class HttpService : IHttpService, IDisposable
 
     #endregion
 }
-
-public class ServiceResponse
-{
-    public string RequestUri { get; set; }
-    public string ExternalError { get; set; }
-    public HttpStatusCode HttpStatusCode { get; set; }
-}
-
-public class StringResponse : ServiceResponse
-{
-    public string Response { get; set; }
-}
-

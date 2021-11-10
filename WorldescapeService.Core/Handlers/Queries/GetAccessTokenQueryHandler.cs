@@ -43,10 +43,13 @@ public class GetAccessTokenQueryHandler : IRequestHandler<GetAccessTokenQuery, S
                 // Get Users collection
                 var colUsers = db.GetCollection<User>("Users");
 
-                var user = colUsers.FindOne(x => x.Email == request.Email && x.Pasword == request.Password);
+                var user = colUsers.FindOne(x => x.Email == request.Email);
 
                 if (user == null)
                     throw new Exception("User not found");
+
+                if (user.Password != request.Password)
+                    throw new Exception("Invalid password");
 
                 // Get AccessTokens collection
                 var colAccessTokens = db.GetCollection<ApiToken>("AccessTokens");

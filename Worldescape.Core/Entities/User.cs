@@ -18,6 +18,6 @@ public class User : CoreBase
     /// <summary>
     /// The password of the user.
     /// </summary>
-    public string Pasword { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
 }
 

@@ -51,7 +51,7 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ServiceResp
                     CreatedOn = DateTime.Now,
                     UpdatedOn = null,
                     Email = request.Email,
-                    Pasword = request.Password,
+                    Password = request.Password,
                     Phone = request.Phone,
                 };
 

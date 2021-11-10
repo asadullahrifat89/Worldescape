@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 
 // add validation and mediator
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(AddUserCommandValidator).GetTypeInfo().Assembly));
-builder.Services.AddMediatR(typeof(ServiceResponse).GetTypeInfo().Assembly);
+builder.Services.AddMediatR(typeof(AddUserCommandValidator).GetTypeInfo().Assembly);
 
 var app = builder.Build();
 
