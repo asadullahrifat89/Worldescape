@@ -26,19 +26,19 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/api/GetAccessToken", async (string email, string password, [FromServices] IMediator mediator) =>
+app.MapGet("/api/GetAccessToken", async (string email, string password, IMediator mediator) =>
 {
     return await mediator.Send(new GetAccessTokenQuery() { Email = email, Password = password });
 })
 .WithName("GetAccessToken");
 
-app.MapPost("/api/AddUser", async (AddUserCommand command, [FromServices] IMediator mediator) =>
+app.MapPost("/api/AddUser", async (AddUserCommand command, IMediator mediator) =>
 {
     return await mediator.Send(command);
 })
 .WithName("AddUser");
 
-app.MapPost("/api/UpdateUser", async (UpdateUserCommand command, [FromServices] IMediator mediator) =>
+app.MapPost("/api/UpdateUser", async (UpdateUserCommand command, IMediator mediator) =>
 {
     return await mediator.Send(command);
 })

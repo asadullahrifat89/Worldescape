@@ -5,7 +5,7 @@ using Worldescape.Core;
 
 namespace WorldescapeService.Core;
 
-public class GetAccessTokenQueryHandler : IRequestHandler<GetAccessTokenQuery, string>
+public class GetAccessTokenQueryHandler : IRequestHandler<GetAccessTokenQuery, StringResponse>
 {
     #region Fields
 
@@ -28,7 +28,7 @@ public class GetAccessTokenQueryHandler : IRequestHandler<GetAccessTokenQuery, s
 
     #region Methods
 
-    public async Task<string> Handle(
+    public async Task<StringResponse> Handle(
         GetAccessTokenQuery request,
         CancellationToken cancellationToken)
     {
@@ -53,13 +53,13 @@ public class GetAccessTokenQueryHandler : IRequestHandler<GetAccessTokenQuery, s
 
                 var accessToken = colAccessTokens.FindOne(x => x.UserId == user.Id);
 
-                return accessToken.Token;
+                return new StringResponse() { Response = accessToken.Token };
             }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return string.Empty;
+            return new StringResponse() { HttpStatusCode = System.Net.HttpStatusCode.InternalServerError, ExternalError = ex.Message };
         }
     }
 

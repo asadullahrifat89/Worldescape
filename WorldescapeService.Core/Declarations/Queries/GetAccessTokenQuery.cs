@@ -5,7 +5,7 @@ namespace WorldescapeService.Core;
 /// <summary>
 /// A command that inserts or updates a user.
 /// </summary>
-public class GetAccessTokenQuery : IRequest<string>
+public class GetAccessTokenQuery : IRequest<StringResponse>
 {
     /// <summary>
     /// The email address of the user.
