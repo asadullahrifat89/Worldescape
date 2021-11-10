@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Worldescape.Core;
 
-namespace Worldescape.Core;
-
-public class AccessToken
+public class ApiToken
 {
     /// <summary>
     /// Id of the user to which this token is being generated.

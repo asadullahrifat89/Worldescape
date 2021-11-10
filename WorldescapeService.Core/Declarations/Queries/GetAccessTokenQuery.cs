@@ -1,17 +1,11 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Worldescape.Core;
 
 namespace WorldescapeService.Core;
 
 /// <summary>
 /// A command that inserts or updates a user.
 /// </summary>
-public class GetAccessTokenQuery : IRequest<AccessToken>
+public class GetAccessTokenQuery : IRequest<string>
 {
     /// <summary>
     /// The email address of the user.

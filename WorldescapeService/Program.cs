@@ -2,6 +2,7 @@ using MediatR;
 using System.Reflection;
 using WorldescapeService.Core;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,32 +26,19 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapGet("/api/GetAccessToken", async (string email, string password, [FromServices] IMediator mediator) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-       new WeatherForecast
-       (
-           DateTime.Now.AddDays(index),
-           Random.Shared.Next(-20, 55),
-           summaries[Random.Shared.Next(summaries.Length)]
-       ))
-        .ToArray();
-    return forecast;
+    return await mediator.Send(new GetAccessTokenQuery() { Email = email, Password = password });
 })
-.WithName("GetWeatherForecast");
+.WithName("GetAccessToken");
 
-app.MapPost("/api/adduser", async (AddUserCommand command, IMediator mediator) =>
+app.MapPost("/api/AddUser", async (AddUserCommand command, [FromServices] IMediator mediator) =>
 {
     return await mediator.Send(command);
 })
 .WithName("AddUser");
 
-app.MapPost("/api/updateuser", async (UpdateUserCommand command, IMediator mediator) =>
+app.MapPost("/api/UpdateUser", async (UpdateUserCommand command, [FromServices] IMediator mediator) =>
 {
     return await mediator.Send(command);
 })

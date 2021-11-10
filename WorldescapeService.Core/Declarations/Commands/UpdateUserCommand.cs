@@ -1,11 +1,4 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WorldescapeService.Core;
+﻿namespace WorldescapeService.Core;
 
 /// <summary>
 /// A command that inserts or updates a user.

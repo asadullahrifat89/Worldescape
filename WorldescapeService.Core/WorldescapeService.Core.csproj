@@ -18,9 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Handlers\Queries\" />
     <Folder Include="Requests\" />
-    <Folder Include="Validators\Queries\" />
   </ItemGroup>
 
 </Project>
