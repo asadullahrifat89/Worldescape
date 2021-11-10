@@ -2,9 +2,9 @@
 
 namespace WorldescapeService.Core;
 
-public class SaveUserCommandValidator : AbstractValidator<SaveUserCommand>
+public class AddUserCommandValidator : AbstractValidator<AddUserCommand>
 {
-    public SaveUserCommandValidator()
+    public AddUserCommandValidator()
     {
         RuleFor(x => x.Name).NotNull().NotEmpty();
         RuleFor(x => x.Email).NotNull().NotEmpty();

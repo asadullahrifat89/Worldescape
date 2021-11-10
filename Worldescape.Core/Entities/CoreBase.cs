@@ -25,7 +25,7 @@ public class CoreBase
     /// <summary>
     /// The datetime on which this entity was updated on.
     /// </summary>
-    public DateTime UpdatedOn { get; set; } = DateTime.Now;
+    public DateTime? UpdatedOn { get; set; } = DateTime.Now;
 
 
     public bool IsEmpty()

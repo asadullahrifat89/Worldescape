@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // add validation and mediator
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(SaveUserCommandValidator).GetTypeInfo().Assembly));
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(AddUserCommandValidator).GetTypeInfo().Assembly));
 builder.Services.AddMediatR(typeof(ServiceResponse).GetTypeInfo().Assembly);
 
 var app = builder.Build();
@@ -44,7 +44,7 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast");
 
-app.MapPost("/saveuser", async (SaveUserCommand command, IMediator mediator) =>
+app.MapPost("/saveuser", async (AddUserCommand command, IMediator mediator) =>
 {
     return await mediator.Send(command);
 })

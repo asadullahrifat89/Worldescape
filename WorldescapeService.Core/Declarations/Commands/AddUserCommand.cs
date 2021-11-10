@@ -10,7 +10,7 @@ namespace WorldescapeService.Core;
 /// <summary>
 /// A command that inserts or updates a user.
 /// </summary>
-public class SaveUserCommand : IRequest<ServiceResponse>
+public class AddUserCommand : IRequest<ServiceResponse>
 {
     /// <summary>
     /// Name of the user.
