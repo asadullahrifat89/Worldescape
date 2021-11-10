@@ -5,12 +5,19 @@
     /// </summary>
     public class User : CoreBase
     {
-		public string Email { get; set; } = string.Empty;
+        /// <summary>
+        /// The email address of the user.
+        /// </summary>
+        public string Email { get; set; } = string.Empty;
 
-		public string Phone { get; set; } = string.Empty;
+        /// <summary>
+        /// The phone number of the user.
+        /// </summary>
+        public string Phone { get; set; } = string.Empty;
 
-		public string ProfilePictureUrl { get; set; } = string.Empty;
-
-		public string Pasword { get; set; } = string.Empty;
+        /// <summary>
+        /// The password of the user.
+        /// </summary>
+        public string Pasword { get; set; } = string.Empty;
     }
 }
