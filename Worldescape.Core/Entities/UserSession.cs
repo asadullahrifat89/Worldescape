@@ -1,7 +1,7 @@
 ﻿namespace Worldescape.Core
 {
     /// <summary>
-    /// A session for a user.
+    /// Session information of a user in a world.
     /// </summary>
     public class UserSession
     {

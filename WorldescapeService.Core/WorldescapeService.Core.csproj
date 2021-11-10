@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.3.4" />
+    <PackageReference Include="LiteDB" Version="5.0.11" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Worldescape.Core\Worldescape.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Declarations\Queries\" />
+    <Folder Include="Handlers\Queries\" />
+    <Folder Include="Requests\" />
+    <Folder Include="Validators\Queries\" />
+  </ItemGroup>
+
+</Project>
