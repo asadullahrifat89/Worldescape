@@ -41,6 +41,6 @@ public class AddUserCommand : IRequest<ServiceResponse>
     /// <summary>
     /// The user's birthday.
     /// </summary>
-    public DateTime DateOfBirth { get; set; }
+    public DateOnly DateOfBirth { get; set; }
 }
 

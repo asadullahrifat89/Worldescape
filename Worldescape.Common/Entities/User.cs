@@ -28,7 +28,7 @@ public class User : CoreBase
     /// <summary>
     /// The user's birthday.
     /// </summary>
-    public DateTime DateOfBirth { get; set; }
+    public DateOnly DateOfBirth { get; set; }
 }
 
 public enum Gender

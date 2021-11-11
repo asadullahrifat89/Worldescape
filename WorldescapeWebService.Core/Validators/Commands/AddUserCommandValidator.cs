@@ -13,7 +13,7 @@ public class AddUserCommandValidator : AbstractValidator<AddUserCommand>
         RuleFor(x => x.Password).NotNull().NotEmpty();
         RuleFor(x => x.ImageUrl).NotNull().NotEmpty();
         RuleFor(x => x.Gender).Must(x => x == Gender.Male || x == Gender.Female || x == Gender.Female);
-        RuleFor(x => x.DateOfBirth).NotNull().Must(x => x != DateTime.MinValue);
+        RuleFor(x => x.DateOfBirth).NotNull().Must(x => x != DateOnly.MinValue);
     }
 }
 
