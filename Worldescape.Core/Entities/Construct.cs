@@ -3,7 +3,7 @@
 /// <summary>
 /// An object in a world.
 /// </summary>
-public class Construct
+public class Construct : CoreBase
 {
     /// <summary>
     /// The world in which this construct is.
@@ -19,6 +19,11 @@ public class Construct
     /// The applied scale of this construct.
     /// </summary>
     public float Scale { get; set; } = 1;
+
+    /// <summary>
+    /// The coordinate of this construct in the world.
+    /// </summary>
+    public Coordinate Coordinate { get; set; } = new Coordinate();
 
     /// <summary>
     /// The coordinate to be used when cloning this construct.

@@ -1,4 +1,6 @@
-﻿namespace Worldescape.Core;
+﻿using static Worldescape.Core.Enums;
+
+namespace Worldescape.Core;
 
 /// <summary>
 /// An entity in a world representing a user with the user's character.
@@ -24,5 +26,20 @@ public class Avatar : CoreBase
     /// The user's session of this avatar in the world.
     /// </summary>
     public UserSession Session { get; set; } = new UserSession();
+
+    /// <summary>
+    /// The connection id of the avatar.
+    /// </summary>
+    public string ConnectionId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The activity status of the avatar in the world.
+    /// </summary>
+    public ActivityStatus ActivityStatus { get; set; }
+
+    /// <summary>
+    /// The coordinate of the avatar in the world.
+    /// </summary>
+    public Coordinate Coordinate { get; set; } = new Coordinate();
 }
 
