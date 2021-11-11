@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape", "Worldescape\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape.Core", "Worldescape.Core\Worldescape.Core.csproj", "{C5B1D65F-77AD-4F41-A816-A3B32F1EDC97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldescapeService", "WorldescapeService\WorldescapeService.csproj", "{09CC312D-F0C1-42D5-A684-C78020DA31AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldescapeServer", "WorldescapeServer\WorldescapeServer.csproj", "{09CC312D-F0C1-42D5-A684-C78020DA31AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldescapeService.Core", "WorldescapeService.Core\WorldescapeService.Core.csproj", "{54FDB26C-EE71-4E77-9D10-86D3A4A7EAAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldescapeServer.Core", "WorldescapeServer.Core\WorldescapeServer.Core.csproj", "{54FDB26C-EE71-4E77-9D10-86D3A4A7EAAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

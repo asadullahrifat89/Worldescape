@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Worldescape.Core;
 
-namespace WorldescapeService.Core;
+namespace WorldescapeServer.Core;
 
 public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, ServiceResponse>
 {
@@ -37,7 +37,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Servi
             validationResult.EnsureValidResult();
 
             // Open database (or create if doesn't exist)
-            using (var db = new LiteDatabase(@"WorldescapeServiceData.db"))
+            using (var db = new LiteDatabase(@"WorldescapeServerData.db"))
             {
                 // Get Users collection
                 var col = db.GetCollection<User>("Users");

@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Worldescape.Core;
 
-namespace WorldescapeService.Core;
+namespace WorldescapeServer.Core;
 
 public class GetAccessTokenQueryHandler : IRequestHandler<GetAccessTokenQuery, StringResponse>
 {
@@ -38,7 +38,7 @@ public class GetAccessTokenQueryHandler : IRequestHandler<GetAccessTokenQuery, S
             validationResult.EnsureValidResult();
 
             // Open database (or create if doesn't exist)
-            using (var db = new LiteDatabase(@"WorldescapeServiceData.db"))
+            using (var db = new LiteDatabase(@"WorldescapeServerData.db"))
             {
                 // Get Users collection
                 var colUsers = db.GetCollection<User>("Users");

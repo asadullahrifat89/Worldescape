@@ -1,6 +1,6 @@
 using MediatR;
 using System.Reflection;
-using WorldescapeService.Core;
+using WorldescapeServer.Core;
 using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);

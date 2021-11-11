@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Worldescape.Core;
 
-namespace WorldescapeService.Core;
+namespace WorldescapeServer.Core;
 
 /// <summary>
 /// A command that inserts or updates a user.

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace WorldescapeService.Core;
+namespace WorldescapeServer.Core;
 
 public class AddUserCommandValidator : AbstractValidator<AddUserCommand>
 {
