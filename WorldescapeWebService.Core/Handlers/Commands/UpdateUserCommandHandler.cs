@@ -55,6 +55,8 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Servi
                 result.Email = request.Email;
                 result.Password = request.Password;
                 result.Phone = request.Phone;
+                result.Gender = request.Gender;
+                result.DateOfBirth = request.DateOfBirth;
 
                 // update user document (Id will be auto-incremented)
                 colUsers.Update(result);
@@ -67,7 +69,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Servi
             _logger.LogError(ex, ex.Message);
             return new ServiceResponse() { HttpStatusCode = System.Net.HttpStatusCode.InternalServerError, ExternalError = ex.Message };
         }
-    } 
+    }
 
     #endregion
 }

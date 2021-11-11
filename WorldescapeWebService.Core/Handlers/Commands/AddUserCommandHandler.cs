@@ -59,6 +59,8 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ServiceResp
                     Email = request.Email,
                     Password = request.Password,
                     Phone = request.Phone,
+                    Gender = request.Gender,
+                    DateOfBirth = request.DateOfBirth,
                 };
 
                 // Insert new user document (Id will be auto-incremented)

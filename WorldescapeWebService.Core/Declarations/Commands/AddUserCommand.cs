@@ -32,5 +32,15 @@ public class AddUserCommand : IRequest<ServiceResponse>
     /// Image url of the user.
     /// </summary>
     public string ImageUrl { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The gender of the user.
+    /// </summary>
+    public Gender Gender { get; set; }
+
+    /// <summary>
+    /// The user's birthday.
+    /// </summary>
+    public DateTime DateOfBirth { get; set; }
 }
 

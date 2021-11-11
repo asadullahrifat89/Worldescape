@@ -19,5 +19,22 @@ public class User : CoreBase
     /// The password of the user.
     /// </summary>
     public string Password { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The gender of the user.
+    /// </summary>
+    public Gender Gender { get; set; }
+
+    /// <summary>
+    /// The user's birthday.
+    /// </summary>
+    public DateTime DateOfBirth { get; set; }
+}
+
+public enum Gender
+{
+    Male,
+    Female,
+    Other,
 }
 
