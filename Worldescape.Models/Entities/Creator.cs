@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Models;
+﻿namespace Worldescape.Common;
 
 /// <summary>
 /// Information of a user who created a construct or a world.

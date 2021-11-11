@@ -1,4 +1,4 @@
-﻿using Worldescape.Models;
+﻿using Worldescape.Common;
 
 namespace WorldescapeServer.Core;
 

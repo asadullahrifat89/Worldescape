@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Models;
+﻿namespace Worldescape.Common;
 
 /// <summary>
 /// An object in a world.

@@ -1,6 +1,6 @@
-﻿using static Worldescape.Models.Enums;
+﻿using static Worldescape.Common.Enums;
 
-namespace Worldescape.Models;
+namespace Worldescape.Common;
 
 /// <summary>
 /// An image url bound to an activity status.

@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Models;
+﻿namespace Worldescape.Common;
 
 /// <summary>
 /// A world consisting of constructs and avatars.

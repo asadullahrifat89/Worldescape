@@ -1,22 +1,22 @@
-﻿namespace Worldescape.Models;
+﻿namespace Worldescape.Common;
 
 /// <summary>
-/// Information of the world in which an avatar or a construct is.
+/// Information of an avatar's character.
 /// </summary>
-public class InWorld
+public class AvatarCharacter
 {
     /// <summary>
-    /// World's id.
+    /// Characte's id.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// World's name.
+    /// Characte's name.
     /// </summary>
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// Image Url of the world.
+    /// Image Url of the character.
     /// </summary>
     public string ImageUrl { get; set; } = string.Empty;
 }
