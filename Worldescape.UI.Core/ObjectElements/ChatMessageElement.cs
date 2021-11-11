@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Worldescape.UI.Core
 {
-    public class ChatMessage
+    public class ChatMessageElement
     {
         public string Message { get; set; }
         public string Author { get; set; }

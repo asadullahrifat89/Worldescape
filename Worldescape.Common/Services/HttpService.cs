@@ -1,15 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Net;
-using System.Net.Http;
 using System.Reflection;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Data;
 using System.Text;
 using Newtonsoft.Json;
-using Worldescape.Common;
 
 namespace Worldescape.Common;
 
