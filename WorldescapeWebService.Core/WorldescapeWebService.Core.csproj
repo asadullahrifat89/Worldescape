@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Responses\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Worldescape.Common\Worldescape.Common.csproj" />
   </ItemGroup>
 

@@ -10,7 +10,7 @@ public class GetApiTokenQueryHandler : IRequestHandler<GetApiTokenQuery, StringR
     #region Fields
 
     private readonly ILogger<GetApiTokenQueryHandler> _logger;
-    private readonly GetAccessTokenQueryValidator _validator;
+    private readonly GetApiTokenQueryValidator _validator;
 
     #endregion
 
@@ -18,7 +18,7 @@ public class GetApiTokenQueryHandler : IRequestHandler<GetApiTokenQuery, StringR
 
     public GetApiTokenQueryHandler(
         ILogger<GetApiTokenQueryHandler> logger,
-        GetAccessTokenQueryValidator validator)
+        GetApiTokenQueryValidator validator)
     {
         _logger = logger;
         _validator = validator;

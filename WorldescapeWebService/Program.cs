@@ -33,11 +33,11 @@ app.UseHttpsRedirection();
 
 #region Endpoint Mapping
 
-app.MapGet("/api/GetAccessToken", async (string email, string password, IMediator mediator) =>
+app.MapGet("/api/GetApiToken", async (string email, string password, IMediator mediator) =>
 {
     return await mediator.Send(new GetApiTokenQuery() { Email = email, Password = password });
 })
-.WithName("GetAccessToken");
+.WithName("GetApiToken");
 
 app.MapPost("/api/AddUser", async (AddUserCommand command, IMediator mediator) =>
 {
@@ -62,6 +62,12 @@ app.MapPost("/api/UpdateWorld", async (UpdateWorldCommand command, IMediator med
     return await mediator.Send(command);
 })
 .WithName("UpdateWorld");
+
+app.MapGet("/api/GetWorlds", async (string token, int pageIndex, int pageSize, string? searchString, IMediator mediator) =>
+{
+    return await mediator.Send(new GetWorldsQuery() { Token = token, PageIndex = pageIndex, PageSize = pageSize, SearchString = searchString });
+})
+.WithName("GetWorlds");
 
 #endregion
 
