@@ -1,4 +1,4 @@
-﻿namespace WorldescapeServer.Core;
+﻿namespace WorldescapeWebService.Core;
 
 /// <summary>
 /// A command that updates a world.

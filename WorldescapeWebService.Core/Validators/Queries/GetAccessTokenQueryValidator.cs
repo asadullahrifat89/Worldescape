@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace WorldescapeServer.Core;
+namespace WorldescapeWebService.Core;
 
 public class GetAccessTokenQueryValidator : AbstractValidator<GetApiTokenQuery>
 {

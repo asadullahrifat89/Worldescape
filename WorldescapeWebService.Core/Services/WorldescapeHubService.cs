@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 using Worldescape.Common;
 using static Worldescape.Common.Enums;
 
-namespace WorldescapeServer.Core;
+namespace WorldescapeWebService.Core;
 
 public class WorldescapeHubService : Hub<IWorldescapeHubService>
 {

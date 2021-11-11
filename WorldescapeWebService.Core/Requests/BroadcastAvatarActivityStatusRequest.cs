@@ -1,6 +1,6 @@
 ﻿using static Worldescape.Common.Enums;
 
-namespace WorldescapeServer.Core;
+namespace WorldescapeWebService.Core;
 
 public class BroadcastAvatarActivityStatusRequest
 {

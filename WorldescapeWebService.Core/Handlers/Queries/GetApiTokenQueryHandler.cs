@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Worldescape.Common;
 
-namespace WorldescapeServer.Core;
+namespace WorldescapeWebService.Core;
 
 public class GetApiTokenQueryHandler : IRequestHandler<GetApiTokenQuery, StringResponse>
 {
