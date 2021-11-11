@@ -40,13 +40,13 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Servi
             using (var db = new LiteDatabase(@"WorldescapeServerData.db"))
             {
                 // Get Users collection
-                var col = db.GetCollection<User>("Users");
+                var colUsers = db.GetCollection<User>("Users");
 
                 // Use LINQ to query documents (with no index)
-                var result = col.FindOne(x => x.Id == request.Id);
+                var result = colUsers.FindOne(x => x.Id == request.Id);
 
-                if (result == null)
-                    throw new Exception("User with Id: " + request.Id + "not found");
+                if (result == null || result.IsEmpty())
+                    throw new Exception("User with Id: " + request.Id + "not found.");
 
                 // update user instance
                 result.Name = request.Name;
@@ -57,7 +57,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Servi
                 result.Phone = request.Phone;
 
                 // update user document (Id will be auto-incremented)
-                col.Update(result);
+                colUsers.Update(result);
             }
 
             return new ServiceResponse() { HttpStatusCode = System.Net.HttpStatusCode.OK };

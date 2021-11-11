@@ -43,6 +43,12 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ServiceResp
                 // Get Users collection
                 var colUsers = db.GetCollection<User>("Users");
 
+                // Use LINQ to query documents (with no index)
+                var result = colUsers.FindOne(x => x.Email == request.Email);
+
+                if (result != null && !result.IsEmpty())
+                    throw new Exception("User with Email: " + request.Email + "already exists.");
+
                 // Create new user instance
                 var user = new User
                 {

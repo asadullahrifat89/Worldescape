@@ -45,7 +45,7 @@ public class GetAccessTokenQueryHandler : IRequestHandler<GetAccessTokenQuery, S
 
                 var user = colUsers.FindOne(x => x.Email == request.Email);
 
-                if (user == null)
+                if (user == null || user.IsEmpty())
                     throw new Exception("User not found");
 
                 if (user.Password != request.Password)
