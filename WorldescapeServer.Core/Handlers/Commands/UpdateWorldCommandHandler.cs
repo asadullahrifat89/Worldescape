@@ -5,20 +5,20 @@ using Worldescape.Core;
 
 namespace WorldescapeServer.Core;
 
-public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, ServiceResponse>
+public class UpdateWorldCommandHandler : IRequestHandler<UpdateWorldCommand, World>
 {
     #region Fields
 
-    private readonly ILogger<UpdateUserCommandHandler> _logger;
-    private readonly UpdateUserCommandValidator _validator;
+    private readonly ILogger<UpdateWorldCommandHandler> _logger;
+    private readonly UpdateWorldCommandValidator _validator;
 
     #endregion
 
     #region Ctor
 
-    public UpdateUserCommandHandler(
-        ILogger<UpdateUserCommandHandler> logger,
-        UpdateUserCommandValidator validator)
+    public UpdateWorldCommandHandler(
+        ILogger<UpdateWorldCommandHandler> logger,
+        UpdateWorldCommandValidator validator)
     {
         _logger = logger;
         _validator = validator;
@@ -27,8 +27,8 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Servi
     #endregion
 
     #region Methods
-    public async Task<ServiceResponse> Handle(
-        UpdateUserCommand request,
+    public async Task<World> Handle(
+        UpdateWorldCommand request,
         CancellationToken cancellationToken)
     {
         try
@@ -39,35 +39,32 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Servi
             // Open database (or create if doesn't exist)
             using (var db = new LiteDatabase(@"Worldescape.db"))
             {
-                // Get Users collection
-                var colUsers = db.GetCollection<User>("Users");
+                // Get Worlds collection
+                var colWorlds = db.GetCollection<World>("Worlds");
 
                 // Use LINQ to query documents (with no index)
-                var result = colUsers.FindById(request.Id);
+                var result = colWorlds.FindById(request.Id);
 
                 if (result == null || result.IsEmpty())
-                    throw new Exception("User with Id: " + request.Id + "not found.");
+                    throw new Exception("World with Id: " + request.Id + "not found.");
 
                 // update user instance
                 result.Name = request.Name;
                 result.ImageUrl = request.ImageUrl;
                 result.UpdatedOn = DateTime.Now;
-                result.Email = request.Email;
-                result.Password = request.Password;
-                result.Phone = request.Phone;
 
                 // update user document (Id will be auto-incremented)
-                colUsers.Update(result);
-            }
+                colWorlds.Update(result);
 
-            return new ServiceResponse() { HttpStatusCode = System.Net.HttpStatusCode.OK };
+                return result;
+            }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new ServiceResponse() { HttpStatusCode = System.Net.HttpStatusCode.InternalServerError, ExternalError = ex.Message };
+            return null;
         }
-    } 
+    }
 
     #endregion
 }

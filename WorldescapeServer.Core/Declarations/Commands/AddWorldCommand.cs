@@ -6,13 +6,8 @@ namespace WorldescapeServer.Core;
 /// <summary>
 /// A command that inserts or updates a user.
 /// </summary>
-public class AddWorldCommand : IRequest<World>
+public class AddWorldCommand : RequestBase<World>
 {
-    /// <summary>
-    /// The token for authentication.
-    /// </summary>
-    public string Token { get; set; } = string.Empty;
-
     /// <summary>
     /// Name of the world.
     /// </summary>

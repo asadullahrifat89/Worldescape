@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
 
 // add validation and mediator
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(AddUserCommandValidator).GetTypeInfo().Assembly));
@@ -54,6 +55,12 @@ app.MapPost("/api/AddWorld", async (AddWorldCommand command, IMediator mediator)
     return await mediator.Send(command);
 })
 .WithName("AddWorld");
+
+app.MapPost("/api/UpdateWorld", async (UpdateWorldCommand command, IMediator mediator) =>
+{
+    return await mediator.Send(command);
+})
+.WithName("UpdateWorld");
 
 #endregion
 
