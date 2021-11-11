@@ -1,11 +1,7 @@
 ﻿using LiteDB;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Concurrent;
 using Worldescape.Core;
 using static Worldescape.Core.Enums;
 
@@ -16,6 +12,9 @@ namespace WorldescapeServer.Core
         #region Fields
 
         private readonly ILogger<WorldescapeHubService> _logger;
+
+        //<WorldId, InWorld> this is just for checking against signalR groups
+        private static ConcurrentDictionary<int, InWorld> OnlineWorlds = new();
 
         #endregion
 
@@ -107,6 +106,103 @@ namespace WorldescapeServer.Core
                 _logger.LogInformation($"<> {user.Id} OnConnectedAsync- {DateTime.Now}");
             }
             return base.OnConnectedAsync();
+        }
+
+        #endregion
+
+        #region Session
+
+        public Tuple<Avatar[], Construct[]> Login(Avatar avatar) // Get a list of online avatars and constructs
+        {
+            // Open database (or create if doesn't exist)
+            using (var db = new LiteDatabase(@"Worldescape.db"))
+            {
+                // Get Avatars collection
+                var colAvatars = db.GetCollection<Avatar>("Avatars");
+
+                // If an existing avatar doesn't exist
+                if (!colAvatars.Exists(x => x.Id == avatar.Id))
+                {
+                    // Delete inactive avatars who have remained inactive for more than a minute
+                    var concurrentAvatars = colAvatars.Find(x => x.World.Id == avatar.World.Id && x.Session != null && x.Session.DisconnectionTime != DateTime.MinValue);
+
+                    foreach (var inAvatar in concurrentAvatars)
+                    {
+                        TimeSpan diff = DateTime.Now - inAvatar.Session.DisconnectionTime;
+
+                        if (diff.TotalMinutes >= TimeSpan.FromMinutes(1).TotalMinutes)
+                        {
+                            colAvatars.Delete(inAvatar.Id);
+                        }
+                    }
+
+                    avatar.Session = new UserSession() { ReconnectionTime = DateTime.Now };
+
+                    // Save the new avatar
+                    BsonValue? id = colAvatars.Insert(avatar);
+
+                    // If not saved then return null
+                    if (id.IsNull || id.AsInt32 <= 0)
+                    {
+                        return null;
+                    }
+
+                    // Get Worlds collection
+                    var colWorlds = db.GetCollection<World>("Worlds");
+
+                    // Check if a world exists or not in SignalR groups
+                    if (!OnlineWorlds.ContainsKey(avatar.World.Id))
+                    {
+                        if (OnlineWorlds.TryAdd(avatar.World.Id, avatar.World))
+                        {
+                            // If the group doesn't exist in hub add it
+                            Groups.AddToGroupAsync(Context.ConnectionId, avatar.World.Id.ToString());
+                        }
+                    }
+
+                    Clients.OthersInGroup(GetUsersGroup(avatar)).AvatarLogin(avatar);
+
+                    _logger.LogInformation($"++ {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now}");
+
+                    // Get Constructs collection
+                    var colConstructs = db.GetCollection<Construct>("Constructs");
+
+                    // Find all constructs from the calling avatar's world
+                    var constructs = colConstructs.Find(x => x.World.Id == avatar.World.Id)?.ToArray();
+
+                    // Find all avatars from the calling avatar's world
+                    var avatars = colAvatars.Find(x => x.World.Id == avatar.World.Id)?.ToArray();
+
+                    // Return the curated avatars and constructs
+                    return new Tuple<Avatar[], Construct[]>(avatars ?? new Avatar[] { }, constructs ?? new Construct[] { });
+                }
+
+                return null;
+            }
+        }
+
+        public void Logout()
+        {
+            Avatar avatar = GetCallingUser();
+
+            if (avatar != null && !avatar.IsEmpty())
+            {
+                // Open database (or create if doesn't exist)
+                using (var db = new LiteDatabase(@"Worldescape.db"))
+                {
+                    // Get Avatars collection
+                    var col = db.GetCollection<Avatar>("Avatars");
+
+                    if (col.Exists(x => x.Id == avatar.Id))
+                    {
+                        col.Delete(avatar.Id);
+
+                        Clients.OthersInGroup(avatar.World.Id.ToString()).AvatarLogout(avatar.Id);
+
+                        _logger.LogInformation($"-- {avatar.Id} Logout-> World {avatar.World.Id} - {DateTime.Now}");
+                    }
+                }
+            }
         }
 
         #endregion
@@ -214,7 +310,7 @@ namespace WorldescapeServer.Core
         public void BroadcastTyping()
         {
             Avatar sender = GetCallingUser();
-            
+
             Clients.OthersInGroup(GetUsersGroup(sender)).AvatarBroadcastTyping(sender.Id);
             _logger.LogInformation($"<> {sender.Id} BroadcastTyping - {DateTime.Now}");
         }
@@ -223,27 +319,27 @@ namespace WorldescapeServer.Core
 
         #region Avatar
 
-        public void BroadcastAvatarMovement(BroadcastAvatarMovementRequest @event)
+        public void BroadcastAvatarMovement(BroadcastAvatarMovementRequest request)
         {
-            if (@event.AvatarId > 0 && @event.Coordinate != null)
+            if (request.AvatarId > 0 && request.Coordinate != null)
             {
-                Clients.OthersInGroup(GetUsersGroup(GetCallingUser(@event.AvatarId))).BroadcastAvatarMovement(@event);
+                Clients.OthersInGroup(GetUsersGroup(GetCallingUser(request.AvatarId))).BroadcastAvatarMovement(request);
 
-                UpdateAvatarMovement(@event.AvatarId, @event.Coordinate);
+                UpdateAvatarMovement(request.AvatarId, request.Coordinate);
 
-                _logger.LogInformation($"<> {@event.AvatarId} BroadcastAvatarMovement - {DateTime.Now}");
+                _logger.LogInformation($"<> {request.AvatarId} BroadcastAvatarMovement - {DateTime.Now}");
             }
         }
 
-        public void BroadcastAvatarActivityStatus(BroadcastAvatarActivityStatusRequest @event)
+        public void BroadcastAvatarActivityStatus(BroadcastAvatarActivityStatusRequest request)
         {
-            if (@event.AvatarId > 0)
+            if (request.AvatarId > 0)
             {
-                Clients.OthersInGroup(GetUsersGroup(GetCallingUser(@event.AvatarId))).BroadcastAvatarActivityStatus(@event);
+                Clients.OthersInGroup(GetUsersGroup(GetCallingUser(request.AvatarId))).BroadcastAvatarActivityStatus(request);
 
-                UpdateAvatarActivityStatus(@event.AvatarId, @event.ActivityStatus);
+                UpdateAvatarActivityStatus(request.AvatarId, request.ActivityStatus);
 
-                _logger.LogInformation($"<> {@event.AvatarId} BroadcastAvatarActivityStatus - {DateTime.Now}");
+                _logger.LogInformation($"<> {request.AvatarId} BroadcastAvatarActivityStatus - {DateTime.Now}");
             }
         }
 

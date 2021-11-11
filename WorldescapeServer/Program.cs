@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 // add validation and mediator
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(AddUserCommandValidator).GetTypeInfo().Assembly));
 builder.Services.AddMediatR(typeof(AddUserCommandValidator).GetTypeInfo().Assembly);
-
+builder.Services.AddSingleton<ApiTokenHelper>();
 #endregion
 
 var app = builder.Build();
@@ -33,7 +33,7 @@ app.UseHttpsRedirection();
 
 app.MapGet("/api/GetAccessToken", async (string email, string password, IMediator mediator) =>
 {
-    return await mediator.Send(new GetAccessTokenQuery() { Email = email, Password = password });
+    return await mediator.Send(new GetApiTokenQuery() { Email = email, Password = password });
 })
 .WithName("GetAccessToken");
 
@@ -48,6 +48,12 @@ app.MapPost("/api/UpdateUser", async (UpdateUserCommand command, IMediator media
     return await mediator.Send(command);
 })
 .WithName("UpdateUser");
+
+app.MapPost("/api/AddWorld", async (AddWorldCommand command, IMediator mediator) =>
+{
+    return await mediator.Send(command);
+})
+.WithName("AddWorld");
 
 #endregion
 

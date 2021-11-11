@@ -2,7 +2,7 @@
 
 namespace WorldescapeServer.Core;
 
-public class GetAccessTokenQueryValidator : AbstractValidator<GetAccessTokenQuery>
+public class GetAccessTokenQueryValidator : AbstractValidator<GetApiTokenQuery>
 {
     public GetAccessTokenQueryValidator()
     {        

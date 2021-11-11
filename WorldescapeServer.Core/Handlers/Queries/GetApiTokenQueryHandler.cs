@@ -5,19 +5,19 @@ using Worldescape.Core;
 
 namespace WorldescapeServer.Core;
 
-public class GetAccessTokenQueryHandler : IRequestHandler<GetAccessTokenQuery, StringResponse>
+public class GetApiTokenQueryHandler : IRequestHandler<GetApiTokenQuery, StringResponse>
 {
     #region Fields
 
-    private readonly ILogger<GetAccessTokenQueryHandler> _logger;
+    private readonly ILogger<GetApiTokenQueryHandler> _logger;
     private readonly GetAccessTokenQueryValidator _validator;
 
     #endregion
 
     #region Ctor
 
-    public GetAccessTokenQueryHandler(
-        ILogger<GetAccessTokenQueryHandler> logger,
+    public GetApiTokenQueryHandler(
+        ILogger<GetApiTokenQueryHandler> logger,
         GetAccessTokenQueryValidator validator)
     {
         _logger = logger;
@@ -29,7 +29,7 @@ public class GetAccessTokenQueryHandler : IRequestHandler<GetAccessTokenQuery, S
     #region Methods
 
     public async Task<StringResponse> Handle(
-        GetAccessTokenQuery request,
+        GetApiTokenQuery request,
         CancellationToken cancellationToken)
     {
         try
@@ -52,7 +52,7 @@ public class GetAccessTokenQueryHandler : IRequestHandler<GetAccessTokenQuery, S
                     throw new Exception("Invalid password");
 
                 // Get AccessTokens collection
-                var colAccessTokens = db.GetCollection<ApiToken>("AccessTokens");
+                var colAccessTokens = db.GetCollection<ApiToken>("ApiTokens");
 
                 var accessToken = colAccessTokens.FindOne(x => x.UserId == user.Id);
 

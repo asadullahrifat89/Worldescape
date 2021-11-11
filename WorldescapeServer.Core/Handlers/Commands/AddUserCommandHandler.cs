@@ -65,17 +65,17 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ServiceResp
                 BsonValue? userId = colUsers.Insert(user);
 
                 // Get AccessTokens collection
-                var colAccessTokens = db.GetCollection<ApiToken>("AccessTokens");
+                var colAccessTokens = db.GetCollection<ApiToken>("ApiTokens");
 
                 // Create new access token instance for the saved user
-                var accessToken = new ApiToken()
+                var apiToken = new ApiToken()
                 {
                     UserId = userId.AsInt32,
                     Token = Guid.NewGuid().ToString()
                 };
 
                 // Insert new access token document
-                colAccessTokens.Upsert(accessToken);
+                colAccessTokens.Upsert(apiToken);
             }
 
             return new ServiceResponse() { HttpStatusCode = System.Net.HttpStatusCode.OK };

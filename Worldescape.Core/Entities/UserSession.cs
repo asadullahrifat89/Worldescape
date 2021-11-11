@@ -5,7 +5,7 @@
 /// </summary>
 public class UserSession
 {
-    public DateTime DisconnectionTime { get; set; }
+    public DateTime DisconnectionTime { get; set; } = DateTime.MinValue;
 
     public DateTime ReconnectionTime { get; set; }
 }
