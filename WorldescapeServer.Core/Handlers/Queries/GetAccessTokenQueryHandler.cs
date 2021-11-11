@@ -38,7 +38,7 @@ public class GetAccessTokenQueryHandler : IRequestHandler<GetAccessTokenQuery, S
             validationResult.EnsureValidResult();
 
             // Open database (or create if doesn't exist)
-            using (var db = new LiteDatabase(@"WorldescapeServerData.db"))
+            using (var db = new LiteDatabase(@"Worldescape.db"))
             {
                 // Get Users collection
                 var colUsers = db.GetCollection<User>("Users");
