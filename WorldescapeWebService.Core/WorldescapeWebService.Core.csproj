@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Worldescape.Models\Worldescape.Common.csproj" />
+    <ProjectReference Include="..\Worldescape.Common\Worldescape.Common.csproj" />
   </ItemGroup>
 
 </Project>
