@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Worldescape.Views;
 
 namespace Worldescape
 {
@@ -7,9 +8,13 @@ namespace Worldescape
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly SignInPage _signInPage;
+        public MainWindow(SignInPage signInPage)
         {
             InitializeComponent();
+            _signInPage = signInPage;
+
+            this.Frame_ContentFrame.Content = _signInPage;
         }
     }
 }

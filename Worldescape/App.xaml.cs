@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
 using Worldescape.Common;
+using Worldescape.Views;
 
 namespace Worldescape;
 
@@ -51,6 +52,7 @@ public partial class App : Application
 
         // Views
         services.AddSingleton<MainWindow>();
+        services.AddTransient<SignInPage>();
     }
 
     private void OnExit(object sender, ExitEventArgs e)
