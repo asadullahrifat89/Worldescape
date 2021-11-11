@@ -12,7 +12,7 @@ namespace WorldescapeServer.Core
         /// <summary>
         /// Id of the avatar who moved in a world.
         /// </summary>
-        public string AvatarId { get; set; } = string.Empty;
+        public int AvatarId { get; set; }
 
         /// <summary>
         /// Coordinate of the avatar's movement.

@@ -30,9 +30,9 @@ namespace WorldescapeServer.Core
 
         #region Common
 
-        private static int GetUsersGroup(Avatar newUser)
+        private static string GetUsersGroup(Avatar newUser)
         {
-            return newUser.World.Id;
+            return newUser.World.Id.ToString();
         }
 
         private Avatar GetCallingUser(int userId = 0)
@@ -90,7 +90,7 @@ namespace WorldescapeServer.Core
             {
                 UpdateAvatarDisconnectionTime(user.Id, DateTime.Now);
 
-                Clients.OthersInGroup(GetUsersGroup(user).ToString()).AvatarDisconnection(user.Id);
+                Clients.OthersInGroup(GetUsersGroup(user)).AvatarDisconnection(user.Id);
                 _logger.LogInformation($"<> {user.Id} OnDisconnectedAsync - {DateTime.Now}");
             }
             return base.OnDisconnectedAsync(exception);
@@ -103,7 +103,7 @@ namespace WorldescapeServer.Core
             {
                 UpdateAvatarReconnectionTime(user.Id, DateTime.Now);
 
-                Clients.OthersInGroup(GetUsersGroup(user).ToString()).AvatarReconnection(user.Id);
+                Clients.OthersInGroup(GetUsersGroup(user)).AvatarReconnection(user.Id);
                 _logger.LogInformation($"<> {user.Id} OnConnectedAsync- {DateTime.Now}");
             }
             return base.OnConnectedAsync();
@@ -111,7 +111,145 @@ namespace WorldescapeServer.Core
 
         #endregion
 
-        #region ConnectedAvatars
+        #region Texting
+        public void BroadcastTextMessage(string message)
+        {
+            if (!string.IsNullOrEmpty(message))
+            {
+                Avatar sender = GetCallingUser();
+
+                Clients.OthersInGroup(GetUsersGroup(sender)).BroadcastTextMessage(sender.Id, message);
+
+                _logger.LogInformation($"<> {sender.Id} BroadcastTextMessage - {DateTime.Now}");
+            }
+        }
+
+        public void BroadcastImageMessage(byte[] img)
+        {
+            if (img != null)
+            {
+                Avatar sender = GetCallingUser();
+
+                Clients.OthersInGroup(GetUsersGroup(sender)).BroadcastPictureMessage(sender.Id, img);
+
+                _logger.LogInformation($"<> {sender.Id} BroadcastImageMessage - {DateTime.Now}");
+            }
+        }
+
+        public void UnicastTextMessage(int recepientId, string message)
+        {
+            Avatar sender = GetCallingUser();
+            string recipientConnectionId = GetUserConnectionId(recepientId);
+
+            if (sender != null
+                && recepientId != sender.Id
+                && !string.IsNullOrEmpty(message))
+            {
+                // Open database (or create if doesn't exist)
+                using (var db = new LiteDatabase(@"Worldescape.db"))
+                {
+                    // Get Avatars collection
+                    var col = db.GetCollection<Avatar>("Avatars");
+
+                    if (col.Exists(x => x.Id == recepientId && x.ConnectionId == recipientConnectionId))
+                    {
+                        Clients.Client(recipientConnectionId).UnicastTextMessage(sender.Id, message);
+
+                        _logger.LogInformation($"<> {sender.Id} UnicastTextMessage - {DateTime.Now}");
+                    }
+                }
+            }
+        }
+
+        public void UnicastImageMessage(int recepientId, byte[] img)
+        {
+            Avatar sender = GetCallingUser();
+            string recipientConnectionId = GetUserConnectionId(recepientId);
+
+            if (sender != null
+                && recepientId != sender.Id
+                && img != null)
+            {
+                // Open database (or create if doesn't exist)
+                using (var db = new LiteDatabase(@"Worldescape.db"))
+                {
+                    // Get Avatars collection
+                    var col = db.GetCollection<Avatar>("Avatars");
+
+                    if (col.Exists(x => x.Id == recepientId && x.ConnectionId == recipientConnectionId))
+                    {
+                        Clients.Client(recipientConnectionId).UnicastPictureMessage(sender.Id, img);
+
+                        _logger.LogInformation($"<> {sender.Id} UnicastImageMessage - {DateTime.Now}");
+                    }
+                }
+            }
+        }
+
+        public void Typing(int recepientId)
+        {
+            if (recepientId <= 0)
+            {
+                return;
+            }
+
+            Avatar sender = GetCallingUser();
+            string recipientConnectionId = GetUserConnectionId(recepientId);
+
+            // Open database (or create if doesn't exist)
+            using (var db = new LiteDatabase(@"Worldescape.db"))
+            {
+                // Get Avatars collection
+                var col = db.GetCollection<Avatar>("Avatars");
+
+                if (col.Exists(x => x.Id == recepientId && x.ConnectionId == recipientConnectionId))
+                {
+                    Clients.Client(recipientConnectionId).AvatarTyping(sender.Id);
+
+                    _logger.LogInformation($"<> {sender.Id} Typing - {DateTime.Now}");
+                }
+            }
+        }
+
+        public void BroadcastTyping()
+        {
+            Avatar sender = GetCallingUser();
+            
+            Clients.OthersInGroup(GetUsersGroup(sender)).AvatarBroadcastTyping(sender.Id);
+            _logger.LogInformation($"<> {sender.Id} BroadcastTyping - {DateTime.Now}");
+        }
+
+        #endregion
+
+        #region Avatar
+
+        public void BroadcastAvatarMovement(BroadcastAvatarMovementRequest @event)
+        {
+            if (@event.AvatarId > 0 && @event.Coordinate != null)
+            {
+                Clients.OthersInGroup(GetUsersGroup(GetCallingUser(@event.AvatarId))).BroadcastAvatarMovement(@event);
+
+                UpdateAvatarMovement(@event.AvatarId, @event.Coordinate);
+
+                _logger.LogInformation($"<> {@event.AvatarId} BroadcastAvatarMovement - {DateTime.Now}");
+            }
+        }
+
+        public void BroadcastAvatarActivityStatus(BroadcastAvatarActivityStatusRequest @event)
+        {
+            if (@event.AvatarId > 0)
+            {
+                Clients.OthersInGroup(GetUsersGroup(GetCallingUser(@event.AvatarId))).BroadcastAvatarActivityStatus(@event);
+
+                UpdateAvatarActivityStatus(@event.AvatarId, @event.ActivityStatus);
+
+                _logger.LogInformation($"<> {@event.AvatarId} BroadcastAvatarActivityStatus - {DateTime.Now}");
+            }
+        }
+
+        #endregion
+
+        #region Connected Avatars
 
         private void UpdateAvatarReconnectionTime(int avatarId, DateTime reconnectionTime)
         {
@@ -129,7 +267,7 @@ namespace WorldescapeServer.Core
 
                     result.Session.ReconnectionTime = reconnectionTime;
 
-                    col.Update(result); 
+                    col.Update(result);
                 }
             }
         }
@@ -150,7 +288,7 @@ namespace WorldescapeServer.Core
 
                     result.Session.DisconnectionTime = disconnectionTime;
 
-                    col.Update(result); 
+                    col.Update(result);
                 }
             }
         }
@@ -171,7 +309,7 @@ namespace WorldescapeServer.Core
 
                     result.ActivityStatus = activityStatus;
 
-                    col.Update(result); 
+                    col.Update(result);
                 }
             }
         }
@@ -192,14 +330,15 @@ namespace WorldescapeServer.Core
 
                     result.Coordinate = coordinate;
 
-                    col.Update(result); 
+                    col.Update(result);
                 }
             }
         }
 
         #endregion
 
-        #region ConcurrentConstructs
+        #region Connected Constructs
+
         private void UpdateConstructPlacementInConstructs(int constructId, int z)
         {
             // Open database (or create if doesn't exist)
@@ -214,7 +353,7 @@ namespace WorldescapeServer.Core
 
                     result.Coordinate.Z = z;
 
-                    col.Update(result); 
+                    col.Update(result);
                 }
             }
         }
@@ -254,7 +393,7 @@ namespace WorldescapeServer.Core
 
                     col.Update(result);
                 }
-            }         
+            }
         }
 
         private void RemoveConstructFromConstructs(int constructId)
@@ -269,7 +408,7 @@ namespace WorldescapeServer.Core
                 {
                     col.Delete(constructId);
                 }
-            }           
+            }
         }
 
         private void AddOrUpdateConstructInConstructs(Construct construct)
@@ -294,6 +433,7 @@ namespace WorldescapeServer.Core
                 }
             }
         }
+
         #endregion
     }
 }

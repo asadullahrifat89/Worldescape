@@ -51,4 +51,6 @@ app.MapPost("/api/UpdateUser", async (UpdateUserCommand command, IMediator media
 
 #endregion
 
+app.MapHub<WorldescapeHubService>("/WorldescapeHub");
+
 app.Run();

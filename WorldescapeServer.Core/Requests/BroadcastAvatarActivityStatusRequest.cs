@@ -7,7 +7,7 @@ namespace WorldescapeServer.Core
         /// <summary>
         /// Id of the avatar who's activity status changed.
         /// </summary>
-        public string AvatarId { get; set; } = string.Empty;
+        public int AvatarId { get; set; }
 
         /// <summary>
         /// Activity status of the avatar.
