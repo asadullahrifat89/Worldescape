@@ -9,6 +9,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="appsettings.Development.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="appsettings.Development.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
 		<Compile Update="App.xaml.cs">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Compile>

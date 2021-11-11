@@ -28,17 +28,24 @@ public partial class App : Application
         };
 
         var mainWindow = _serviceProvider.GetService<MainWindow>();
-        mainWindow.Show();
+        mainWindow?.Show();
     }
 
     private void ConfigureServices(ServiceCollection services)
     {
-        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
+#if DEBUG
+        var appsettings = "appsettings.Development.json";
+#else
+        var appsettings = "appsettings.Production.json";
+#endif
+
+        var configuration = new ConfigurationBuilder().AddJsonFile(appsettings).Build();
         services.AddSingleton<IConfiguration>(configuration);
 
         // Services
         services.AddSingleton<IWorldescapeHubService, WorldescapeHubService>();
-        
+
         // Extensions
         services.AddHttpService();
 
