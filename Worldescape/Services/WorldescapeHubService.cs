@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Worldescape.Common;
 using Worldescape.UI.Core;
+using Microsoft.Extensions.Configuration;
 
 namespace Worldescape
 {
@@ -16,7 +17,7 @@ namespace Worldescape
         #region Fields
 
         private HubConnection connection;
-        private string url = "https://localhost:7034/WorldescapeHub";
+        //private string url = "https://localhost:7034/WorldescapeHub";
 
         // Connection
         public event Action<int> AvatarDisconnected;
@@ -53,8 +54,10 @@ namespace Worldescape
 
         #region Ctor
         
-        public WorldescapeHubService()
+        public WorldescapeHubService(IConfiguration configuration)
         {
+            var url = configuration["BaseUrls:WorldescapeWebServiceHubUrl"];
+
             connection = new HubConnectionBuilder().WithUrl(url).WithAutomaticReconnect().Build();
 
             connection.On<Avatar>("AvatarLogin", (u) => AvatarLoggedIn?.Invoke(u));

@@ -36,6 +36,9 @@ public partial class App : Application
         var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
         services.AddSingleton<IConfiguration>(configuration);
 
+        // Services
+        services.AddSingleton<IWorldescapeHubService, WorldescapeHubService>();
+        
         // Extensions
         services.AddHttpService();
 
