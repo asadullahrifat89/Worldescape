@@ -11,7 +11,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Worldescape.Common;
 
-namespace Worldescape;
+namespace Worldescape.Common;
 
 internal class HttpService : IHttpService, IDisposable
 {

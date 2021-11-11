@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebServices", "WebServices", "{2F265F2C-582E-4EFC-BF8D-CF525BFB55A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worldescape.UI.Core", "Worldescape.UI.Core\Worldescape.UI.Core.csproj", "{D6C4E001-D06F-4F73-88DD-1D5E06CC9FE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{54FDB26C-EE71-4E77-9D10-86D3A4A7EAAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54FDB26C-EE71-4E77-9D10-86D3A4A7EAAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54FDB26C-EE71-4E77-9D10-86D3A4A7EAAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6C4E001-D06F-4F73-88DD-1D5E06CC9FE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6C4E001-D06F-4F73-88DD-1D5E06CC9FE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6C4E001-D06F-4F73-88DD-1D5E06CC9FE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6C4E001-D06F-4F73-88DD-1D5E06CC9FE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{C5B1D65F-77AD-4F41-A816-A3B32F1EDC97} = {6DE6833C-2640-4A72-945A-6E9A5A3238B3}
 		{09CC312D-F0C1-42D5-A684-C78020DA31AD} = {2F265F2C-582E-4EFC-BF8D-CF525BFB55A3}
 		{54FDB26C-EE71-4E77-9D10-86D3A4A7EAAC} = {2F265F2C-582E-4EFC-BF8D-CF525BFB55A3}
+		{D6C4E001-D06F-4F73-88DD-1D5E06CC9FE1} = {CE7D5598-7C96-4969-81CC-2F584423BADE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {43D28B23-E329-435F-8BF1-85AF1424B251}

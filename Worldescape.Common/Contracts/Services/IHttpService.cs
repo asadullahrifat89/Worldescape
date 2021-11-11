@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Worldescape;
+namespace Worldescape.Common;
 
 internal interface IHttpService
 {
