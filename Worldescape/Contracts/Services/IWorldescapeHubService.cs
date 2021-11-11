@@ -8,6 +8,8 @@ namespace Worldescape
 {
     public interface IWorldescapeHubService
     {
+        #region Fields
+
         // Connection
         event Action<int> AvatarDisconnected;
         event Action<int> AvatarReconnected;
@@ -37,15 +39,27 @@ namespace Worldescape
         event Action<int, float> NewBroadcastConstructRotation;
         event Action<ConcurrentDictionary<int, float>> NewBroadcastConstructRotations;
         event Action<int, float> NewBroadcastConstructScale;
-        event Action<int[], float> NewBroadcastConstructScales;
+        event Action<int[], float> NewBroadcastConstructScales; 
+
+        #endregion
+
+        #region Connection
 
         Task ConnectAsync();
 
-        Task DisconnectAsync();
+        Task DisconnectAsync(); 
+
+        #endregion
+
+        #region Session
 
         Task<Tuple<Avatar[], Construct[]>> LoginAsync(Avatar avatar);
 
         Task LogoutAsync();
+
+        #endregion
+
+        #region Texting
 
         Task SendBroadcastMessageAsync(string msg);
 
@@ -59,9 +73,17 @@ namespace Worldescape
 
         Task BroadcastTypingAsync();
 
+        #endregion
+
+        #region Avatar
+        
         Task BroadcastAvatarMovementAsync(BroadcastAvatarMovementRequest @event);
 
         Task BroadcastAvatarActivityStatusAsync(BroadcastAvatarActivityStatusRequest @event);
+
+        #endregion
+
+        #region Construct
 
         Task BroadcastConstructAsync(Construct construct);
 
@@ -79,6 +101,8 @@ namespace Worldescape
 
         Task BroadcastConstructScaleAsync(int constructId, float scale);
 
-        Task BroadcastConstructScalesAsync(int[] constructIds, float scale);
+        Task BroadcastConstructScalesAsync(int[] constructIds, float scale); 
+
+        #endregion
     }
 }
