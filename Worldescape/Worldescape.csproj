@@ -8,32 +8,27 @@
 		<StartupObject>Worldescape.App</StartupObject>
 	</PropertyGroup>
 
-	<ItemGroup>		
-		<PackageReference Include="ModernWpfUis" Version="1.2.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	<ItemGroup>
+		<Compile Update="App.xaml.cs">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Worldescape.Common\Worldescape.Common.csproj" />
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="App.xaml.cs">
-	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-	  </Compile>
+		<Folder Include="Contracts\Services\" />
+		<Folder Include="Extensions\" />
+		<Folder Include="Services\" />
+		<Folder Include="Views\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="appsettings.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Contracts\Services\" />
-	  <Folder Include="Extensions\" />
-	  <Folder Include="Services\" />
-	  <Folder Include="Views\" />
+	  <ProjectReference Include="..\Worldescape.UI.Core\Worldescape.UI.Core.csproj" />
 	</ItemGroup>
 
 </Project>
