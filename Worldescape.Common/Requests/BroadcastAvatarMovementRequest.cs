@@ -1,6 +1,6 @@
 ﻿using Worldescape.Common;
 
-namespace WorldescapeWebService.Core;
+namespace Worldescape.Common;
 
 public class BroadcastAvatarMovementRequest
 {
