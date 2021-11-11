@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Core;
+﻿namespace Worldescape.Models;
 
 /// <summary>
 /// Session information of a user in a world.

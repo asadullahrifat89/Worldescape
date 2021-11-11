@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape", "Worldescape\Worldescape.csproj", "{2A82A395-A0B7-4317-8956-AA2CA7E8640C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape.Core", "Worldescape.Core\Worldescape.Core.csproj", "{C5B1D65F-77AD-4F41-A816-A3B32F1EDC97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape.Models", "Worldescape.Core\Worldescape.Models.csproj", "{C5B1D65F-77AD-4F41-A816-A3B32F1EDC97}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldescapeServer", "WorldescapeServer\WorldescapeServer.csproj", "{09CC312D-F0C1-42D5-A684-C78020DA31AD}"
 EndProject

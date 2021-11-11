@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Core;
+﻿namespace Worldescape.Models;
 
 /// <summary>
 /// A character for users to choose from when joining a world.

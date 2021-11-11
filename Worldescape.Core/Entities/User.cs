@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Core;
+﻿namespace Worldescape.Models;
 
 /// <summary>
 /// A registered user in real world.

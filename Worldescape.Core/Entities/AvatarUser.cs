@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Core;
+﻿namespace Worldescape.Models;
 
 /// <summary>
 /// Information of an avatar's user.

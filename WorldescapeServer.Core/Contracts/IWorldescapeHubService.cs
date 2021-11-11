@@ -1,5 +1,5 @@
 ﻿using System.Collections.Concurrent;
-using Worldescape.Core;
+using Worldescape.Models;
 
 namespace WorldescapeServer.Core;
 

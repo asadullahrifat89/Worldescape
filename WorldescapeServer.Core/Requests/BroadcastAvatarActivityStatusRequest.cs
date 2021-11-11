@@ -1,4 +1,4 @@
-﻿using static Worldescape.Core.Enums;
+﻿using static Worldescape.Models.Enums;
 
 namespace WorldescapeServer.Core;
 

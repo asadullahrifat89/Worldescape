@@ -1,6 +1,6 @@
-﻿using static Worldescape.Core.Enums;
+﻿using static Worldescape.Models.Enums;
 
-namespace Worldescape.Core;
+namespace Worldescape.Models;
 
 /// <summary>
 /// An entity in a world representing a user with the user's character.

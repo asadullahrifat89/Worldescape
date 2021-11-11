@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Core;
+﻿namespace Worldescape.Models;
 
 public static class Enums
 {

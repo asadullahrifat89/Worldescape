@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -15,11 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Worldescape.Core\Worldescape.Core.csproj" />
+    <Folder Include="Responses\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Responses\" />
+    <ProjectReference Include="..\Worldescape.Core\Worldescape.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿using LiteDB;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Worldescape.Core;
+using Worldescape.Models;
 
 namespace WorldescapeServer.Core;
 

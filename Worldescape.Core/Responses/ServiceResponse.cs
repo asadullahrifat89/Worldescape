@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Worldescape.Core;
+namespace Worldescape.Models;
 
 public class ServiceResponse
 {

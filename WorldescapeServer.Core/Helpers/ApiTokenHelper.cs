@@ -1,5 +1,5 @@
 ﻿using LiteDB;
-using Worldescape.Core;
+using Worldescape.Models;
 
 namespace WorldescapeServer.Core
 {
