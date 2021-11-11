@@ -17,6 +17,7 @@ builder.Services.AddSignalR();
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(AddUserCommandValidator).GetTypeInfo().Assembly));
 builder.Services.AddMediatR(typeof(AddUserCommandValidator).GetTypeInfo().Assembly);
 builder.Services.AddSingleton<ApiTokenHelper>();
+
 #endregion
 
 var app = builder.Build();
