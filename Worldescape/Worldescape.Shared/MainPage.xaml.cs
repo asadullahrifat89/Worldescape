@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
@@ -65,6 +66,8 @@ namespace Worldescape
                 Width = 100,
             };
 
+            //avatar.TranslationTransition = new Vector3Transition();
+
             Canvas.SetTop(avatar, new Random().Next(500));
             Canvas.SetLeft(avatar, new Random().Next(500));
             this.Canvas_root.Children.Add(avatar);
@@ -116,6 +119,7 @@ namespace Worldescape
 
                     Canvas.SetTop(rect, i * 100);
                     Canvas.SetLeft(rect, (i + j * 2) * 100);
+
                     Canvas_root.Children.Add(rect);
                 }
             }
@@ -142,10 +146,8 @@ namespace Worldescape
                 var nowX = Canvas.GetLeft(avatar);
                 var nowY = Canvas.GetTop(avatar);
 
-
                 var goToX = e.GetCurrentPoint(this.Canvas_root).Position.X;
                 var goToY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
-
 
                 float distance = Vector3.Distance(
                     new Vector3(
@@ -161,6 +163,39 @@ namespace Worldescape
                 float timeToTravelunitPixel = 0.5f;
 
                 float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
+
+                var nowZ = Canvas.GetZIndex(avatar);
+
+                #region XamlFlair                
+
+                //XamlFlair.CompoundSettings compoundSettings = new XamlFlair.CompoundSettings();
+                //compoundSettings.Sequence = new List<XamlFlair.AnimationSettings>()
+                //{
+                //    new XamlFlair.AnimationSettings()
+                //    {
+                //        Kind = XamlFlair.AnimationKind.TranslateXTo,
+                //        Duration = timeToTravelDistance,
+                //        OffsetX = new XamlFlair.Offset() { OffsetValue = goToX },
+                //        Easing = XamlFlair.EasingType.Quartic,
+                //        EasingMode = EasingMode.EaseOut,
+                //    },
+                //    new XamlFlair.AnimationSettings()
+                //    {
+                //        Kind = XamlFlair.AnimationKind.TranslateXTo,
+                //        Duration = timeToTravelDistance,
+                //        OffsetX = new XamlFlair.Offset() { OffsetValue = goToY },
+                //        Easing = XamlFlair.EasingType.Quartic,
+                //        EasingMode = EasingMode.EaseOut,
+                //    },
+                //};
+
+                //compoundSettings.Event = "PointerReleased";
+                //XamlFlair.Animations.SetPrimary(avatar, compoundSettings);
+
+
+                #endregion              
+
+                #region Storyboard
 
                 EasingFunctionBase easingFunction = new ExponentialEase
                 {
@@ -196,6 +231,10 @@ namespace Worldescape
                 moveStory.Children.Add(setRight);
 
                 moveStory.Begin();
+
+                #endregion
+
+                Console.WriteLine("Avatar moved.");
             }
         }
 
