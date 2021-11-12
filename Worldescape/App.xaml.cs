@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
 using Worldescape.Common;
+using Worldescape.Core;
 using Worldescape.Views;
 
 namespace Worldescape;

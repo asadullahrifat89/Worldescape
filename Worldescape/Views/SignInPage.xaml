@@ -9,74 +9,60 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SignInPage">
 
-    <StackPanel 
+      <StackPanel Margin="10"
         HorizontalAlignment="Center"
 		VerticalAlignment="Center">
 
-        <StackPanel
+            <StackPanel
 			x:Name="StackPanel_Initials"
+			Width="350"			
+			HorizontalAlignment="Stretch">
+
+                <TextBox
+                ui:ControlHelper.Header="Email"
+                ui:ControlHelper.PlaceholderText="Enter your email"
+				x:Name="TextBox_Email"
+				Margin="5"/>
+
+                <PasswordBox
+				x:Name="PasswordBox_Password"
+				Margin="5"
+				ui:ControlHelper.Header="Password"
+                ui:ControlHelper.PlaceholderText="Enter your password"/>
+
+            </StackPanel>
+
+            <StackPanel
 			Width="350"
 			Margin="10"
 			HorizontalAlignment="Stretch">
 
-            <TextBox
-				x:Name="TextBox_Email"
-				Margin="5"/>
-
-            <PasswordBox
-				x:Name="PasswordBox_Password"
-				Margin="5"
-				
-				 />
-
-        </StackPanel>
-
-        <StackPanel
-			Width="350"
-			Margin="10"
-			HorizontalAlignment="Stretch"
-			>
-
-            <Button
+                <Button
 				x:Name="Button_Signin"
 				Margin="5"
 				HorizontalAlignment="Stretch"
-				Click="Button_Signin_Click">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        
-                        <TextBlock Margin="5,0,0,0" Text="Sign In" />
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-
-            <StackPanel
-				Margin="5,15"
-				HorizontalAlignment="Stretch"
-				>
-
-                <TextBlock
-					VerticalAlignment="Center"
-					FontWeight="SemiBold"
-					
-					
-					Text="New here? Let's create an account..."
-					TextAlignment="Left" />
-
-                <Button
-					x:Name="Button_Signup"
-					Click="Button_Signup_Click"
-					>
+				Click="Button_Signin_Click" Background="ForestGreen" Foreground="White">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
-                    
-                            <TextBlock Margin="5,0,0,0" Text="Sign Up" />
+                            <TextBlock Margin="5,0,0,0" Text="Sign In" />
                         </StackPanel>
                     </Button.Content>
                 </Button>
+
+                <Button
+                Margin="5"
+                HorizontalAlignment="Stretch"
+				x:Name="Button_Signup"
+				Click="Button_Signup_Click" Background="DodgerBlue" Foreground="White">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="5,0,0,0" Text="Create New Account" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+
             </StackPanel>
 
         </StackPanel>
 
-    </StackPanel>
 </Page>

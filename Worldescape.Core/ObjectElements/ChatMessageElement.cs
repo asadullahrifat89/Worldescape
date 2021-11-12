@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Worldescape.UI.Core
+namespace Worldescape.Core
 {
     public class ChatMessageElement
     {

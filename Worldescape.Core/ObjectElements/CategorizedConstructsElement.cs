@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using Worldescape.Common;
 
-namespace Worldescape.UI.Core
+namespace Worldescape.Core
 {
     public class CategorizedConstructsElement: CoreBase
     {

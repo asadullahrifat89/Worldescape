@@ -2,9 +2,8 @@
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Worldescape.Common;
-using Worldescape.UI.Core;
 
-namespace Worldescape
+namespace Worldescape.Core
 {
     public interface IWorldescapeHubService
     {
@@ -39,7 +38,7 @@ namespace Worldescape
         event Action<int, float> NewBroadcastConstructRotation;
         event Action<ConcurrentDictionary<int, float>> NewBroadcastConstructRotations;
         event Action<int, float> NewBroadcastConstructScale;
-        event Action<int[], float> NewBroadcastConstructScales; 
+        event Action<int[], float> NewBroadcastConstructScales;
 
         #endregion
 
@@ -47,7 +46,7 @@ namespace Worldescape
 
         Task ConnectAsync();
 
-        Task DisconnectAsync(); 
+        Task DisconnectAsync();
 
         #endregion
 
@@ -76,7 +75,7 @@ namespace Worldescape
         #endregion
 
         #region Avatar
-        
+
         Task BroadcastAvatarMovementAsync(BroadcastAvatarMovementRequest @event);
 
         Task BroadcastAvatarActivityStatusAsync(BroadcastAvatarActivityStatusRequest @event);
@@ -101,7 +100,7 @@ namespace Worldescape
 
         Task BroadcastConstructScaleAsync(int constructId, float scale);
 
-        Task BroadcastConstructScalesAsync(int[] constructIds, float scale); 
+        Task BroadcastConstructScalesAsync(int[] constructIds, float scale);
 
         #endregion
     }

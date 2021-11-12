@@ -3,7 +3,7 @@ using static Worldescape.Common.Enums;
 using Worldescape.Common;
 using System.Collections.ObjectModel;
 
-namespace Worldescape.UI.Core
+namespace Worldescape.Core
 {
     public class AvatarElement : INotifyPropertyChanged
     {
