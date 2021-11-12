@@ -31,13 +31,52 @@ namespace Worldescape
         double _objectLeft;
         double _objectTop;
 
+        bool _isCraftingMode;
+
         public MainPage()
         {
             this.InitializeComponent();
             DrawObjectsOnCanvas();
+            AddCharacterOnCanvas();
+
+            this.CraftButton.Click += CraftButton_Click;
+            
         }
 
-        private string[] _objects = new string[] { "ms-appx:///Assets/Images/World_Objects/Landscape/Grass.png", "ms-appx:///Assets/Images/World_Objects/Landscape/Big_Tree.png", "ms-appx:///Assets/Images/World_Objects/Prototype/arrow_E.png" };
+        private void AddCharacterOnCanvas()
+        {
+            var uri = "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png";
+
+            var rect = new Rectangle()
+            {
+                Fill = new ImageBrush()
+                {
+                    ImageSource = new BitmapImage() { UriSource = new Uri(uri) },
+                    Stretch = Stretch.Uniform,
+                },
+                Stretch = Stretch.Uniform,
+                Height = 100,
+                Width = 100,
+            };
+
+            Canvas.SetTop(rect, new Random().Next(500));
+            Canvas.SetLeft(rect, new Random().Next(500));
+            canvas_root.Children.Add(rect);
+        }
+
+        private void CraftButton_Click(object sender, RoutedEventArgs e)
+        {
+            _isCraftingMode = !_isCraftingMode;
+
+            this.CraftButton.Content = _isCraftingMode ? "Crafting" : "Craft";
+        }
+
+        private string[] _objects = new string[]
+        {
+            "ms-appx:///Assets/Images/World_Objects/Landscape/Grass.png",
+            "ms-appx:///Assets/Images/World_Objects/Landscape/Big_Tree.png",
+            "ms-appx:///Assets/Images/World_Objects/Prototype/arrow_E.png",
+        };
 
         private void DrawObjectsOnCanvas()
         {
@@ -45,7 +84,7 @@ namespace Worldescape
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    var uri = _objects[new Random().Next(3)];
+                    var uri = _objects[new Random().Next(_objects.Count())];
 
                     var rect = new Rectangle()
                     {
@@ -54,12 +93,14 @@ namespace Worldescape
                             ImageSource = new BitmapImage() { UriSource = new Uri(uri) },
                             Stretch = Stretch.Uniform,
                         },
-                        Height = 300,
-                        Width = 300,
+                        MinHeight = 300,
+                        MinWidth = 300,
                         //new SolidColorBrush(Colors.Green),
                     };
 
                     rect.AllowDrop = true;
+                    rect.AllowFocusOnInteraction = true;
+
                     rect.DoubleTapped += Rect_DoubleTapped;
 
                     rect.PointerPressed += Button_PointerPressed;
@@ -67,72 +108,86 @@ namespace Worldescape
                     rect.PointerReleased += Button_PointerReleased;
 
                     Canvas.SetTop(rect, i * 100);
-                    Canvas.SetLeft(rect, (i + j) * 100);
+                    Canvas.SetLeft(rect, (i + j * 2) * 100);
                     canvas_root.Children.Add(rect);
                 }
             }
+
+
         }
 
         private void Button_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            UIElement uielement = (UIElement)sender;
-            _objectLeft = Canvas.GetLeft(uielement);
-            _objectTop = Canvas.GetTop(uielement);
+            if (_isCraftingMode)
+            {
+                UIElement uielement = (UIElement)sender;
+                _objectLeft = Canvas.GetLeft(uielement);
+                _objectTop = Canvas.GetTop(uielement);
 
-            _pointerX = e.GetCurrentPoint(canvas_root).Position.X;
-            _pointerY = e.GetCurrentPoint(canvas_root).Position.Y;
-            uielement.CapturePointer(e.Pointer);
+                _pointerX = e.GetCurrentPoint(canvas_root).Position.X;
+                _pointerY = e.GetCurrentPoint(canvas_root).Position.Y;
+                uielement.CapturePointer(e.Pointer);
 
-            _isPointerCaptured = true;
+                _isPointerCaptured = true;
+            }
         }
 
         private void Button_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            UIElement uielement = (UIElement)sender;
-
-            if (_isPointerCaptured)
+            if (_isCraftingMode)
             {
-                // Calculate the new position of the object:
-                double deltaH = e.GetCurrentPoint(canvas_root).Position.X - _pointerX;
-                double deltaV = e.GetCurrentPoint(canvas_root).Position.Y - _pointerY;
+                UIElement uielement = (UIElement)sender;
 
-                _objectLeft = deltaH + _objectLeft;
-                _objectTop = deltaV + _objectTop;
+                if (_isPointerCaptured)
+                {
+                    // Calculate the new position of the object:
+                    double deltaH = e.GetCurrentPoint(canvas_root).Position.X - _pointerX;
+                    double deltaV = e.GetCurrentPoint(canvas_root).Position.Y - _pointerY;
 
-                // Update the object position:
-                Canvas.SetLeft(uielement, _objectLeft);
-                Canvas.SetTop(uielement, _objectTop);
+                    _objectLeft = deltaH + _objectLeft;
+                    _objectTop = deltaV + _objectTop;
 
-                // Remember the pointer position:
-                _pointerX = e.GetCurrentPoint(canvas_root).Position.X;
-                _pointerY = e.GetCurrentPoint(canvas_root).Position.Y;
+                    // Update the object position:
+                    Canvas.SetLeft(uielement, _objectLeft);
+                    Canvas.SetTop(uielement, _objectTop);
+
+                    // Remember the pointer position:
+                    _pointerX = e.GetCurrentPoint(canvas_root).Position.X;
+                    _pointerY = e.GetCurrentPoint(canvas_root).Position.Y;
+                }
             }
         }
 
         private void Button_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            UIElement uielement = (UIElement)sender;
-            _isPointerCaptured = false;
-            uielement.ReleasePointerCapture(e.Pointer);
+            if (_isCraftingMode)
+            {
+                UIElement uielement = (UIElement)sender;
+                _isPointerCaptured = false;
+                uielement.ReleasePointerCapture(e.Pointer);
+            }
         }
 
         private async void Rect_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            //UIElement uielement = (UIElement)sender;
+            if (_isCraftingMode)
+            {
+                //UIElement uielement = (UIElement)sender;
 
-            //var flyout = new Flyout() { Content = new Button() { Content = new TextBlock() { Text = "Click" } } };
+                //var flyout = new Flyout() { Content = new Button() { Content = new TextBlock() { Text = "Click" } } };
 
-            //var _objectLeft = Canvas.GetLeft(uielement);
-            //var _objectTop = Canvas.GetTop(uielement);
+                //var _objectLeft = Canvas.GetLeft(uielement);
+                //var _objectTop = Canvas.GetTop(uielement);
 
-            ContentDialog dialog = new ContentDialog();
-            dialog.Title = "Save your work?";
-            dialog.PrimaryButtonText = "Save";
-            dialog.SecondaryButtonText = "Don't Save";
-            dialog.CloseButtonText = "Cancel";
-            dialog.DefaultButton = ContentDialogButton.Primary;
+                ContentDialog dialog = new ContentDialog();
+                dialog.Title = "Save your work?";
+                dialog.PrimaryButtonText = "Save";
+                dialog.SecondaryButtonText = "Don't Save";
+                dialog.CloseButtonText = "Cancel";
+                dialog.DefaultButton = ContentDialogButton.Primary;
 
-            var result = await dialog.ShowAsync();
+                var result = await dialog.ShowAsync();
+            }
         }
     }
 }

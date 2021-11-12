@@ -8,26 +8,38 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">        
-        <ScrollViewer x:Name="ScrollViewer_World"
-				HorizontalScrollBarVisibility="Auto"
-				HorizontalScrollMode="Enabled"
-				IsHorizontalRailEnabled="True"
-				IsHorizontalScrollChainingEnabled="True"
-				IsTabStop="False"
-				IsVerticalRailEnabled="True"
-				IsVerticalScrollChainingEnabled="True"
-				IsZoomChainingEnabled="True"
-				IsZoomInertiaEnabled="True"
-				VerticalScrollBarVisibility="Auto"
-				VerticalScrollMode="Enabled"
-				ZoomMode="Enabled">
-            <Canvas x:Name="canvas_root"  
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Button Content="Craft" Margin="10" x:Name="CraftButton"></Button>
+
+        <ScrollViewer Grid.Row="1"
+            x:Name="ScrollViewer_World"
+			HorizontalScrollBarVisibility="Auto"
+			HorizontalScrollMode="Enabled"
+			IsHorizontalRailEnabled="True"
+			IsHorizontalScrollChainingEnabled="True"
+			IsTabStop="False"
+			IsVerticalRailEnabled="True"
+			IsVerticalScrollChainingEnabled="True"
+			IsZoomChainingEnabled="True"
+			IsZoomInertiaEnabled="True"
+			VerticalScrollBarVisibility="Auto"
+			VerticalScrollMode="Enabled"
+			ZoomMode="Enabled">
+            
+            <Canvas 
+                x:Name="canvas_root"  
                 Width="8000"
 			    Height="8000"
                 Background="Transparent" 
-                AllowDrop="True">                
+                AllowDrop="True">               
             </Canvas>
+            
         </ScrollViewer>
     </Grid>
 </Page>
