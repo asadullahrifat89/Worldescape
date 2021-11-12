@@ -49,5 +49,8 @@
     <PackageReference Include="Uno.Wasm.Bootstrap" Version="3.0.0" />
     <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="3.0.0" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Worldescape.Core\Worldescape.Core.csproj" />
+  </ItemGroup>
   <Import Project="..\Worldescape.Shared\Worldescape.Shared.projitems" Label="Shared" Condition="Exists('..\Worldescape.Shared\Worldescape.Shared.projitems')" />
 </Project>
