@@ -1,9 +1,13 @@
 ﻿using LiteDB;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Worldescape.App.Core;
+using Worldescape.Common.Entities;
+using WorldescapeWebService.Core.Declarations.Queries;
+using WorldescapeWebService.Core.Extensions;
+using WorldescapeWebService.Core.Responses.Queries;
+using WorldescapeWebService.Core.Validators.Queries;
 
-namespace WorldescapeWebService.Core;
+namespace WorldescapeWebService.Core.Handlers.Queries;
 
 public class GetWorldsQueryHandler : IRequestHandler<GetWorldsQuery, GetWorldsQueryResponse>
 {

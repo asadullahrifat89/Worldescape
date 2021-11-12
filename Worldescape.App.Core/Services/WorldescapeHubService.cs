@@ -3,12 +3,13 @@ using System.Collections.Concurrent;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
-using Worldescape.App.Core;
 using Microsoft.Extensions.Configuration;
+using Worldescape.App.Core.Contracts.Services;
+using Worldescape.App.Core.ObjectElements;
 
-namespace Worldescape.App.Core
+namespace Worldescape.App.Core.Services
 {
-    public class WorldescapeHubService: IWorldescapeHubService
+    public class WorldescapeHubService : IWorldescapeHubService
     {
         #region Fields
 
@@ -24,7 +25,7 @@ namespace Worldescape.App.Core
 
         // Session        
         public event Action<Avatar> AvatarLoggedIn;
-        public event Action<int> AvatarLoggedOut;       
+        public event Action<int> AvatarLoggedOut;
 
         // Texting
         public event Action<int, string, MessageType> NewTextMessage;
@@ -49,7 +50,7 @@ namespace Worldescape.App.Core
         #endregion
 
         #region Ctor
-        
+
         public WorldescapeHubService(IConfiguration configuration)
         {
             var url = configuration["BaseUrls:WorldescapeWebServiceHubUrl"];
@@ -87,39 +88,39 @@ namespace Worldescape.App.Core
             connection.Closed += Connection_Closed;
 
             ServicePointManager.DefaultConnectionLimit = 10;
-        } 
+        }
 
         #endregion
 
         #region Connection
 
         public async Task ConnectAsync()
-		{
-			await connection.StartAsync();
-		}
+        {
+            await connection.StartAsync();
+        }
 
-		public async Task DisconnectAsync()
-		{
-			await connection.StopAsync();
-		}
+        public async Task DisconnectAsync()
+        {
+            await connection.StopAsync();
+        }
 
-		private Task Connection_Closed(Exception arg)
-		{
-			ConnectionClosed?.Invoke();
-			return Task.Delay(100);
-		}
+        private Task Connection_Closed(Exception arg)
+        {
+            ConnectionClosed?.Invoke();
+            return Task.Delay(100);
+        }
 
-		private Task Connection_Reconnected(string arg)
-		{
-			ConnectionReconnected?.Invoke();
-			return Task.Delay(100);
-		}
+        private Task Connection_Reconnected(string arg)
+        {
+            ConnectionReconnected?.Invoke();
+            return Task.Delay(100);
+        }
 
-		private Task Connection_Reconnecting(Exception arg)
-		{
-			ConnectionReconnecting?.Invoke();
-			return Task.Delay(100);
-		}
+        private Task Connection_Reconnecting(Exception arg)
+        {
+            ConnectionReconnecting?.Invoke();
+            return Task.Delay(100);
+        }
         #endregion
 
         #region Session

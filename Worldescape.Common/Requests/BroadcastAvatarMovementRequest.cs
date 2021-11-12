@@ -1,15 +1,17 @@
-﻿namespace Worldescape.App.Core;
+﻿using Worldescape.Common.Entities;
 
-public class BroadcastAvatarMovementRequest
+namespace Worldescape.Common.Requests
 {
-    /// <summary>
-    /// Id of the avatar who moved in a world.
-    /// </summary>
-    public int AvatarId { get; set; }
+    public class BroadcastAvatarMovementRequest
+    {
+        /// <summary>
+        /// Id of the avatar who moved in a world.
+        /// </summary>
+        public int AvatarId { get; set; }
 
-    /// <summary>
-    /// Coordinate of the avatar's movement.
-    /// </summary>
-    public Coordinate Coordinate { get; set; } = new Coordinate();
+        /// <summary>
+        /// Coordinate of the avatar's movement.
+        /// </summary>
+        public Coordinate Coordinate { get; set; } = new Coordinate();
+    }
 }
-

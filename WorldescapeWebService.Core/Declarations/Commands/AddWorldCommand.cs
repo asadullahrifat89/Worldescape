@@ -1,6 +1,7 @@
-﻿using Worldescape.App.Core;
+﻿using Worldescape.Common.Entities;
+using WorldescapeWebService.Core.Requests;
 
-namespace WorldescapeWebService.Core;
+namespace WorldescapeWebService.Core.Declarations.Commands;
 
 /// <summary>
 /// A command that inserts or updates a user.
@@ -10,7 +11,7 @@ public class AddWorldCommand : RequestBase<World>
     /// <summary>
     /// Name of the world.
     /// </summary>
-    public string Name { get; set; } = string.Empty;   
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// Image url of the world.

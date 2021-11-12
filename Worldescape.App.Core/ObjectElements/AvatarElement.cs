@@ -1,20 +1,18 @@
 ﻿using System.ComponentModel;
-using static Worldescape.App.Core.Enums;
-using Worldescape.App.Core;
 using System.Collections.ObjectModel;
 
-namespace Worldescape.App.Core
+namespace Worldescape.App.Core.ObjectElements
 {
     public class AvatarElement : INotifyPropertyChanged
     {
-		#region PropertyChanged
+        #region PropertyChanged
 
-		public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-		protected void RaisePropertyChanged(string name)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-		}
+        protected void RaisePropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
 
         #endregion
 

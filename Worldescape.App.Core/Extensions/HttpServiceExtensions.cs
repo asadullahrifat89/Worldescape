@@ -4,8 +4,10 @@ using Polly.Extensions.Http;
 using Polly.Timeout;
 using System;
 using System.Net;
+using Worldescape.App.Core.Contracts.Services;
+using Worldescape.App.Core.Services;
 
-namespace Worldescape.App.Core 
+namespace Worldescape.App.Core.Extensions
 {
     public static class HttpServiceExtensions
     {

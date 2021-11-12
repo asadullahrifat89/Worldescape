@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using Worldescape.App.Core;
+using WorldescapeWebService.Core.Declarations.Commands;
 
-namespace WorldescapeWebService.Core;
+namespace WorldescapeWebService.Core.Validators.Commands;
 
 public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 {

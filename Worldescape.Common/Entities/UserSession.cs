@@ -1,12 +1,14 @@
-﻿namespace Worldescape.App.Core;
+﻿using System;
 
-/// <summary>
-/// Session information of a user in a world.
-/// </summary>
-public class UserSession
+namespace Worldescape.Common.Entities
 {
-    public DateTime DisconnectionTime { get; set; } = DateTime.MinValue;
+    /// <summary>
+    /// Session information of a user in a world.
+    /// </summary>
+    public class UserSession
+    {
+        public DateTime DisconnectionTime { get; set; } = DateTime.MinValue;
 
-    public DateTime ReconnectionTime { get; set; }
+        public DateTime ReconnectionTime { get; set; }
+    }
 }
-

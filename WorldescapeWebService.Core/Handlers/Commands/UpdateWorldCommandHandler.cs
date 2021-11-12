@@ -1,9 +1,12 @@
 ﻿using LiteDB;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Worldescape.App.Core;
+using Worldescape.Common.Entities;
+using WorldescapeWebService.Core.Declarations.Commands;
+using WorldescapeWebService.Core.Extensions;
+using WorldescapeWebService.Core.Validators.Commands;
 
-namespace WorldescapeWebService.Core;
+namespace WorldescapeWebService.Core.Handlers.Commands;
 
 public class UpdateWorldCommandHandler : IRequestHandler<UpdateWorldCommand, World>
 {

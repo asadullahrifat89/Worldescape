@@ -1,7 +1,8 @@
 ﻿using System.Collections.Concurrent;
-using Worldescape.App.Core;
+using Worldescape.Common.Entities;
+using Worldescape.Common.Requests;
 
-namespace WorldescapeWebService.Core;
+namespace WorldescapeWebService.Core.Contracts.Services;
 
 public interface IWorldescapeHubService
 {

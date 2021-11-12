@@ -1,20 +1,18 @@
-﻿using static Worldescape.App.Core.Enums;
-
-namespace Worldescape.App.Core;
-
-/// <summary>
-/// An image url bound to an activity status.
-/// </summary>
-public class StatusBoundImageUrl
+﻿namespace Worldescape.Common.Entities
 {
     /// <summary>
-    /// An activity status.
+    /// An image url bound to an activity status.
     /// </summary>
-    public ActivityStatus Status { get; set; }
+    public class StatusBoundImageUrl
+    {
+        /// <summary>
+        /// An activity status.
+        /// </summary>
+        public ActivityStatus Status { get; set; }
 
-    /// <summary>
-    /// Image url for the activity status.
-    /// </summary>
-    public string ImageUrl { get; set; } = string.Empty;
+        /// <summary>
+        /// Image url for the activity status.
+        /// </summary>
+        public string ImageUrl { get; set; } = string.Empty;
+    }
 }
-

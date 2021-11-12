@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace WorldescapeWebService.Core;
+namespace WorldescapeWebService.Core.Requests;
 
 public class RequestBase<T> : IRequest<T>
 {

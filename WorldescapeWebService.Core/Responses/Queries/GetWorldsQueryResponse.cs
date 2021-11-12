@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Worldescape.App.Core;
+using Worldescape.Common.Entities;
 
-namespace WorldescapeWebService.Core
+namespace WorldescapeWebService.Core.Responses.Queries
 {
     public class GetWorldsQueryResponse
     {

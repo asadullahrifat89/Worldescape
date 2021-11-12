@@ -1,7 +1,8 @@
 ﻿using MediatR;
-using Worldescape.App.Core;
+using WorldescapeWebService.Core.Requests;
+using WorldescapeWebService.Core.Responses.Queries;
 
-namespace WorldescapeWebService.Core;
+namespace WorldescapeWebService.Core.Declarations.Queries;
 
 /// <summary>
 /// A query that fetches worlds.

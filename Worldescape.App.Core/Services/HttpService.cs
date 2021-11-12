@@ -9,8 +9,9 @@ using System;
 using System.Net.Http;
 using System.Linq;
 using System.Threading.Tasks;
+using Worldescape.App.Core.Contracts.Services;
 
-namespace Worldescape.App.Core
+namespace Worldescape.App.Core.Services
 {
     internal class HttpService : IHttpService, IDisposable
     {
@@ -229,7 +230,7 @@ namespace Worldescape.App.Core
             {
                 Method = httpMethod,
                 RequestUri = requestUri,
-                Content = (httpMethod != HttpMethod.Get && payload != null)
+                Content = httpMethod != HttpMethod.Get && payload != null
                 ? new StringContent(JsonConvert.SerializeObject(
                     value: payload,
                     formatting: Formatting.Indented,

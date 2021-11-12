@@ -1,4 +1,4 @@
-﻿namespace WorldescapeWebService.Core;
+﻿namespace WorldescapeWebService.Core.Declarations.Commands;
 
 /// <summary>
 /// A command that inserts or updates a user.

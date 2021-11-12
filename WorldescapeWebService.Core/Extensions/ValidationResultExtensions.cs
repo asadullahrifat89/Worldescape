@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 
-namespace WorldescapeWebService.Core;
+namespace WorldescapeWebService.Core.Extensions;
 
 public static class ValidationResultExtensions
 {

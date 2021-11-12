@@ -1,23 +1,26 @@
-﻿namespace Worldescape.App.Core;
-
-/// <summary>
-/// Information of an avatar's character.
-/// </summary>
-public class AvatarCharacter
+﻿namespace Worldescape.Common.Entities
 {
     /// <summary>
-    /// Characte's id.
+    /// Information of an avatar's character.
     /// </summary>
-    public int Id { get; set; }
+    public class AvatarCharacter
+    {
+        /// <summary>
+        /// Characte's id.
+        /// </summary>
+        public int Id { get; set; }
 
-    /// <summary>
-    /// Characte's name.
-    /// </summary>
-    public string Name { get; set; } = string.Empty;
+        /// <summary>
+        /// Characte's name.
+        /// </summary>
+        public string Name { get; set; } = string.Empty;
 
-    /// <summary>
-    /// Image Url of the character.
-    /// </summary>
-    public string ImageUrl { get; set; } = string.Empty;
+        /// <summary>
+        /// Image Url of the character.
+        /// </summary>
+        public string ImageUrl { get; set; } = string.Empty;
+    }
 }
+
+
 
