@@ -1,10 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Worldescape.Core.Contracts.Services;
+using Worldescape.Core.Services;
 
 namespace Worldescape
 {
@@ -13,6 +16,7 @@ namespace Worldescape
     /// </summary>
     public sealed partial class App : Application
     {
+        private readonly IServiceProvider _serviceProvider;
         private Window _window;
 
         /// <summary>
@@ -28,6 +32,22 @@ namespace Worldescape
 #if HAS_UNO || NETFX_CORE
             this.Suspending += OnSuspending;
 #endif
+
+            ServiceCollection services = new ServiceCollection();
+            ConfigureServices(services);
+            _serviceProvider = services.BuildServiceProvider();
+        }
+
+        private void ConfigureServices(ServiceCollection services)
+        {
+            //var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            //services.AddSingleton<IConfiguration>(configuration);
+
+            // Extensions
+            //services.AddHttpService();
+
+            // Services
+            services.AddSingleton<IWorldescapeHubService, WorldescapeHubService>();
         }
 
         /// <summary>

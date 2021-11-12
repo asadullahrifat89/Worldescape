@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Worldescape.Common.Entities;
 
-namespace Worldescape.App.Core.ObjectElements
+namespace Worldescape.Core.ObjectElements
 {
     public class CategorizedConstructsElement : CoreBase
     {

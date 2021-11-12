@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worldescape.UWP", "Worldesc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape.Wasm", "Worldescape\Worldescape.Wasm\Worldescape.Wasm.csproj", "{700BC7D0-3A2B-4F96-BF05-5B1805BB56F4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape.App.Core", "Worldescape.App.Core\Worldescape.App.Core.csproj", "{414C40D6-9FB2-4BF7-A6DF-FC6BEFB1202E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape.Core", "Worldescape.App.Core\Worldescape.Core.csproj", "{414C40D6-9FB2-4BF7-A6DF-FC6BEFB1202E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worldescape.Common", "Worldescape.Common\Worldescape.Common.csproj", "{70D12ACE-4398-4617-BEA8-3FB19D8173AE}"
 EndProject

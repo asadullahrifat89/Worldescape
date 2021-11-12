@@ -9,9 +9,10 @@ using System;
 using System.Net.Http;
 using System.Linq;
 using System.Threading.Tasks;
-using Worldescape.App.Core.Contracts.Services;
+using Worldescape.Core.Contracts.Services;
+using Worldescape.Common.Responses;
 
-namespace Worldescape.App.Core.Services
+namespace Worldescape.Core.Services
 {
     internal class HttpService : IHttpService, IDisposable
     {

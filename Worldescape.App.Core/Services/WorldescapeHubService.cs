@@ -4,10 +4,12 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
-using Worldescape.App.Core.Contracts.Services;
-using Worldescape.App.Core.ObjectElements;
+using Worldescape.Core.Contracts.Services;
+using Worldescape.Core.ObjectElements;
+using Worldescape.Common.Entities;
+using Worldescape.Common.Requests;
 
-namespace Worldescape.App.Core.Services
+namespace Worldescape.Core.Services
 {
     public class WorldescapeHubService : IWorldescapeHubService
     {
