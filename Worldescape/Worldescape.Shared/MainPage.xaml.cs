@@ -37,13 +37,15 @@ namespace Worldescape
             DrawObjectsOnCanvas();
         }
 
+        private string[] _objects = new string[] { "ms-appx:///Assets/Images/World_Objects/Landscape/Grass.png", "ms-appx:///Assets/Images/World_Objects/Landscape/Big_Tree.png", "ms-appx:///Assets/Images/World_Objects/Prototype/arrow_E.png" };
+
         private void DrawObjectsOnCanvas()
         {
             for (int j = 0; j < 5; j++)
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    var uri = j % 2 == 0 ? "ms-appx:///Assets/Images/World_Objects/Landscape/Grass.png" : "ms-appx:///Assets/Images/World_Objects/Landscape/Big_Tree.png";
+                    var uri = _objects[new Random().Next(3)];
 
                     var rect = new Rectangle()
                     {
