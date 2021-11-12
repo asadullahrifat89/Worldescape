@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
 
@@ -40,14 +41,22 @@ namespace Worldescape
         {
             for (int j = 0; j < 5; j++)
             {
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 10; i++)
                 {
+                    var uri = j % 2 == 0 ? "ms-appx:///Assets/Images/World_Objects/Landscape/Grass.png" : "ms-appx:///Assets/Images/World_Objects/Landscape/Big_Tree.png";
+
                     var rect = new Rectangle()
                     {
-                        Height = 100,
-                        Width = 100,
-                        Fill = new SolidColorBrush(Colors.Green),
+                        Fill = new ImageBrush()
+                        {
+                            ImageSource = new BitmapImage() { UriSource = new Uri(uri) },
+                            Stretch = Stretch.Uniform,
+                        },
+                        Height = 300,
+                        Width = 300,
+                        //new SolidColorBrush(Colors.Green),
                     };
+
                     rect.AllowDrop = true;
                     rect.DoubleTapped += Rect_DoubleTapped;
 

@@ -8,8 +8,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-		<!--<TextBlock Text="Hello, world!" Margin="20" FontSize="30" />-->
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">        
         <ScrollViewer x:Name="ScrollViewer_World"
 				HorizontalScrollBarVisibility="Auto"
 				HorizontalScrollMode="Enabled"
@@ -24,10 +23,11 @@
 				VerticalScrollMode="Enabled"
 				ZoomMode="Enabled">
             <Canvas x:Name="canvas_root"  
-            Width="8000"
-			Height="8000"
-            Background="Transparent" 
-            AllowDrop="True"></Canvas>
+                Width="8000"
+			    Height="8000"
+                Background="Transparent" 
+                AllowDrop="True">                
+            </Canvas>
         </ScrollViewer>
     </Grid>
 </Page>
