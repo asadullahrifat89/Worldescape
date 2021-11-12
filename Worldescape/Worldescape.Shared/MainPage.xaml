@@ -33,7 +33,7 @@
 			ZoomMode="Enabled">
             
             <Canvas 
-                x:Name="canvas_root"  
+                x:Name="Canvas_root"  
                 Width="8000"
 			    Height="8000"
                 Background="Transparent" 

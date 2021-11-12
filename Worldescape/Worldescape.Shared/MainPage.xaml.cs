@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -12,6 +13,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Shapes;
@@ -33,6 +35,8 @@ namespace Worldescape
 
         bool _isCraftingMode;
 
+        Rectangle avatar = new Rectangle();
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -40,14 +44,14 @@ namespace Worldescape
             AddCharacterOnCanvas();
 
             this.CraftButton.Click += CraftButton_Click;
-            
+
         }
 
         private void AddCharacterOnCanvas()
         {
             var uri = "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png";
 
-            var rect = new Rectangle()
+            avatar = new Rectangle()
             {
                 Fill = new ImageBrush()
                 {
@@ -59,9 +63,9 @@ namespace Worldescape
                 Width = 100,
             };
 
-            Canvas.SetTop(rect, new Random().Next(500));
-            Canvas.SetLeft(rect, new Random().Next(500));
-            canvas_root.Children.Add(rect);
+            Canvas.SetTop(avatar, new Random().Next(500));
+            Canvas.SetLeft(avatar, new Random().Next(500));
+            this.Canvas_root.Children.Add(avatar);
         }
 
         private void CraftButton_Click(object sender, RoutedEventArgs e)
@@ -109,7 +113,7 @@ namespace Worldescape
 
                     Canvas.SetTop(rect, i * 100);
                     Canvas.SetLeft(rect, (i + j * 2) * 100);
-                    canvas_root.Children.Add(rect);
+                    Canvas_root.Children.Add(rect);
                 }
             }
 
@@ -124,11 +128,71 @@ namespace Worldescape
                 _objectLeft = Canvas.GetLeft(uielement);
                 _objectTop = Canvas.GetTop(uielement);
 
-                _pointerX = e.GetCurrentPoint(canvas_root).Position.X;
-                _pointerY = e.GetCurrentPoint(canvas_root).Position.Y;
+                _pointerX = e.GetCurrentPoint(this.Canvas_root).Position.X;
+                _pointerY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
                 uielement.CapturePointer(e.Pointer);
 
                 _isPointerCaptured = true;
+            }
+            else
+            {
+                var nowX = Canvas.GetLeft(avatar);
+                var nowY = Canvas.GetTop(avatar);
+
+
+                var goToX = e.GetCurrentPoint(this.Canvas_root).Position.X;
+                var goToY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
+
+
+                float distance = Vector3.Distance(
+                    new Vector3(
+                        (float)nowX,
+                        (float)nowY,
+                        0),
+                    new Vector3(
+                        (float)goToX,
+                        (float)goToY,
+                        0));
+
+                float unitPixel = 200f;
+                float timeToTravelunitPixel = 0.5f;
+
+                float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
+
+                EasingFunctionBase easingFunction = new ExponentialEase
+                {
+                    EasingMode = EasingMode.EaseOut,
+                    Exponent = 5,
+                };
+
+                Storyboard moveStory = new Storyboard();
+                
+                DoubleAnimation setLeft = new DoubleAnimation()
+                {
+                    From = nowX,
+                    To = goToX,
+                    Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                    EasingFunction = easingFunction,
+                };
+
+                DoubleAnimation setRight = new DoubleAnimation()
+                {
+                    From = nowY,
+                    To = goToY,
+                    Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                    EasingFunction = easingFunction,
+                };
+
+                Storyboard.SetTarget(setLeft, avatar);
+                Storyboard.SetTargetProperty(setLeft, "(Canvas.Left)");
+
+                Storyboard.SetTarget(setRight, avatar);
+                Storyboard.SetTargetProperty(setRight, "(Canvas.Top)");
+
+                moveStory.Children.Add(setLeft);
+                moveStory.Children.Add(setRight);
+
+                moveStory.Begin();
             }
         }
 
@@ -141,8 +205,8 @@ namespace Worldescape
                 if (_isPointerCaptured)
                 {
                     // Calculate the new position of the object:
-                    double deltaH = e.GetCurrentPoint(canvas_root).Position.X - _pointerX;
-                    double deltaV = e.GetCurrentPoint(canvas_root).Position.Y - _pointerY;
+                    double deltaH = e.GetCurrentPoint(this.Canvas_root).Position.X - _pointerX;
+                    double deltaV = e.GetCurrentPoint(this.Canvas_root).Position.Y - _pointerY;
 
                     _objectLeft = deltaH + _objectLeft;
                     _objectTop = deltaV + _objectTop;
@@ -152,8 +216,8 @@ namespace Worldescape
                     Canvas.SetTop(uielement, _objectTop);
 
                     // Remember the pointer position:
-                    _pointerX = e.GetCurrentPoint(canvas_root).Position.X;
-                    _pointerY = e.GetCurrentPoint(canvas_root).Position.Y;
+                    _pointerX = e.GetCurrentPoint(this.Canvas_root).Position.X;
+                    _pointerY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
                 }
             }
         }
