@@ -51,11 +51,13 @@ namespace Worldescape
         {
             var uri = "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png";
 
+            var bitmap = new BitmapImage(new Uri(uri));
+
             avatar = new Rectangle()
             {
                 Fill = new ImageBrush()
                 {
-                    ImageSource = new BitmapImage() { UriSource = new Uri(uri) },
+                    ImageSource = bitmap,
                     Stretch = Stretch.Uniform,
                 },
                 Stretch = Stretch.Uniform,
@@ -90,16 +92,17 @@ namespace Worldescape
                 {
                     var uri = _objects[new Random().Next(_objects.Count())];
 
+                    var bitmap = new BitmapImage(new Uri(uri));
+
                     var rect = new Rectangle()
                     {
                         Fill = new ImageBrush()
                         {
-                            ImageSource = new BitmapImage() { UriSource = new Uri(uri) },
+                            ImageSource = bitmap,
                             Stretch = Stretch.Uniform,
                         },
-                        MinHeight = 300,
-                        MinWidth = 300,
-                        //new SolidColorBrush(Colors.Green),
+                        Height = 350,
+                        Width = 350,
                     };
 
                     rect.AllowDrop = true;
@@ -166,21 +169,21 @@ namespace Worldescape
                 };
 
                 Storyboard moveStory = new Storyboard();
-                
+
                 DoubleAnimation setLeft = new DoubleAnimation()
                 {
                     From = nowX,
                     To = goToX,
-                    Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                    EasingFunction = easingFunction,
+                    //Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                    //EasingFunction = easingFunction,
                 };
 
                 DoubleAnimation setRight = new DoubleAnimation()
                 {
                     From = nowY,
                     To = goToY,
-                    Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                    EasingFunction = easingFunction,
+                    //Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                    //EasingFunction = easingFunction,
                 };
 
                 Storyboard.SetTarget(setLeft, avatar);
