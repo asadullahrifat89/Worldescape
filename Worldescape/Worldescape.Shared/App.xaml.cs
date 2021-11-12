@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Worldescape.Core.Contracts.Services;
 using Worldescape.Core.Services;
+using Worldescape.Core.Extensions;
 
 namespace Worldescape
 {
@@ -44,7 +45,7 @@ namespace Worldescape
             //services.AddSingleton<IConfiguration>(configuration);
 
             // Extensions
-            //services.AddHttpService();
+            services.AddHttpService();
 
             // Services
             services.AddSingleton<IWorldescapeHubService, WorldescapeHubService>();
