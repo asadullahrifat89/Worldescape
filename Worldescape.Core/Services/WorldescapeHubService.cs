@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
-using Worldescape.Common;
+using Worldescape.App.Core;
 using Microsoft.Extensions.Configuration;
 
 namespace Worldescape.Core

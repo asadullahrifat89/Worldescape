@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Common;
+﻿namespace Worldescape.App.Core;
 
 public class BroadcastAvatarMovementRequest
 {

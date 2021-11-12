@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Common;
+﻿namespace Worldescape.App.Core;
 
 /// <summary>
 /// An object in a world.

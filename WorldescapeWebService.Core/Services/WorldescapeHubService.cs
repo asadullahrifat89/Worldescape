@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
-using Worldescape.Common;
-using static Worldescape.Common.Enums;
+using Worldescape.App.Core;
+using static Worldescape.App.Core.Enums;
 
 namespace WorldescapeWebService.Core;
 

@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace Worldescape.Common;
+namespace Worldescape.App.Core;
 
 internal class HttpService : IHttpService, IDisposable
 {

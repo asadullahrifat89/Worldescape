@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Worldescape.Common;
+using Worldescape.App.Core;
 
 namespace WorldescapeWebService.Core;
 
@@ -41,6 +41,6 @@ public class AddUserCommand : IRequest<ServiceResponse>
     /// <summary>
     /// The user's birthday.
     /// </summary>
-    public DateOnly DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; }
 }
 

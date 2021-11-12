@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Worldescape.Common;
+using Worldescape.App.Core;
 
 namespace WorldescapeWebService.Core
 {

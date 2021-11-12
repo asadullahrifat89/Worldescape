@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Worldescape.Common;
+using Worldescape.App.Core;
 
 namespace Worldescape.Core
 {

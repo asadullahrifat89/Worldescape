@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Common;
+﻿namespace Worldescape.App.Core;
 
 /// <summary>
 /// Information of an avatar's character.

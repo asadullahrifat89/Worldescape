@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Common;
+﻿namespace Worldescape.App.Core;
 
 /// <summary>
 /// Session information of a user in a world.

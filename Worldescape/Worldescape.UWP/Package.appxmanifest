@@ -7,11 +7,11 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="ffbd88c0-a686-4ad1-b49f-19c6f42a26a4"
+    Name="fae48d31-6360-4054-b506-8c6fa6743116"
     Publisher="CN=User"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="f2334296-fc4c-4b69-85bd-79e060863644" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="12521fd4-7309-4bf5-ba93-a8593c8e1dbb" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Worldescape</DisplayName>

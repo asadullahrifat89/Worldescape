@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
-using static Worldescape.Common.Enums;
-using Worldescape.Common;
+using static Worldescape.App.Core.Enums;
+using Worldescape.App.Core;
 using System.Collections.ObjectModel;
 
 namespace Worldescape.Core
