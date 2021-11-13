@@ -90,6 +90,7 @@
 		<Compile Include="Contracts\Services\IHttpService.cs" />
 		<Compile Include="Contracts\Services\IWorldescapeHubService.cs" />
 		<Compile Include="Extensions\HttpServiceExtensions.cs" />
+		<Compile Include="Internals\ConstructAssetPicker.cs" />
 		<Compile Include="Internals\MasonryPanel.cs" />
 		<Compile Include="Internals\MasonryPanelWithProgressiveLoading.cs" />
 		<Compile Include="MainPage.xaml.cs" />

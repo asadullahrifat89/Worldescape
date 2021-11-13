@@ -388,70 +388,18 @@ namespace Worldescape.Pages
             childWindow.Show();
         }
 
+        int pageSize = 50;
+        int pageIndex = 0;
+
         private void ConstructGalleryButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (!ConstructAssets.Any())
             {
-                if (!ConstructAssets.Any())
-                {
-                    ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).ToList();
-                }
-
-                childWindow = new ChildWindow()
-                {
-                    Height = 500,
-                    Width = 470,
-                    Title = "Select a Construct",
-                    Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style
-                };
-
-                ScrollViewer scrollViewer = new ScrollViewer()
-                {
-                    HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
-                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                };
-
-                MasonryPanelWithProgressiveLoading wrapPanel = new MasonryPanelWithProgressiveLoading()
-                {
-                    Margin = new Thickness(5),
-                    Style = Application.Current.Resources["Panel_Style"] as Style
-                };
-
-                var constructAssets = ConstructAssets.Take(50);
-
-                foreach (var item in constructAssets)
-                {
-                    var uri = item.ImageUrl;
-
-                    var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
-
-                    var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 100, Width = 100 };
-
-                    var buttonConstructAsset = new Button()
-                    {
-                        Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                        Width = 100,
-                        Height = 100,
-                        Margin = new Thickness(3)
-                    };
-
-                    buttonConstructAsset.Click += ButtonConstructAsset_Click;
-
-                    buttonConstructAsset.Content = img;
-
-                    wrapPanel.Children.Add(buttonConstructAsset);
-                }
-
-                scrollViewer.Content = wrapPanel;
-
-                childWindow.Content = scrollViewer;
-
-                childWindow.Show();
+                ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).ToList();
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+
+            ConstructAssetPicker constructAssetPicker = new ConstructAssetPicker(ConstructAssets);
+            constructAssetPicker.Show();
         }
 
         private void ButtonConstructAsset_Click(object sender, RoutedEventArgs e)
