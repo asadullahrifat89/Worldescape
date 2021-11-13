@@ -373,18 +373,22 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Path=Foreground, Converter={StaticResource AccentColorConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                                         </ObjectAnimationUsingKeyFrames>
 
-                                        <!--  Hover effect  -->
+                                        <!--  Border effect  -->
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OuterBorder" Storyboard.TargetProperty="BorderThickness">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="5" />
                                         </ObjectAnimationUsingKeyFrames>
+
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState Name="Pressed">
-                                    <!--<Storyboard>
-                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="OuterBorder">
-                                         <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
-                                         </ObjectAnimationUsingKeyFrames>
-                                         </Storyboard>-->
+
+                                    <!--  Opacity effect  -->
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerBorder" Storyboard.TargetProperty="Opacity">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="0.5" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+
                                 </VisualState>
                                 <VisualState Name="Disabled">
                                     <Storyboard>
