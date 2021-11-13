@@ -55,7 +55,7 @@ namespace Worldescape.Interaction.Services
 
         public WorldescapeHubService(IConfiguration configuration)
         {
-            var url = configuration["BaseUrls:WorldescapeWebServiceHubUrl"];
+            var url = configuration["BaseUrls:HubService"];
 
             connection = new HubConnectionBuilder().WithUrl(url).WithAutomaticReconnect().Build();
 

@@ -17,6 +17,7 @@
 		<Page Include="MainPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
+		<Content Include="appsettings.json" />
 		<Content Include="Pages\SignupPage.xaml">
 		  <SubType>Designer</SubType>
 		  <Generator>MSBuild:Compile</Generator>

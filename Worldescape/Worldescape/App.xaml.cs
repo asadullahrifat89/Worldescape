@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using Windows.UI.Xaml;
 using Worldescape.Interaction.Contracts.Services;
@@ -31,8 +32,8 @@ namespace Worldescape
 
         private void ConfigureServices(ServiceCollection services)
         {
-            //var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            //services.AddSingleton<IConfiguration>(configuration);
+            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            services.AddSingleton<IConfiguration>(configuration);
 
             // Extensions
             services.AddHttpService();
