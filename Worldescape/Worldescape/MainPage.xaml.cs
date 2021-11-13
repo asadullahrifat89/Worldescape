@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Effects;
 using Windows.UI;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -345,8 +346,35 @@ namespace Worldescape
 
             var stackpanel = new StackPanel();
 
-            stackpanel.Children.Add(new TextBox() { Margin = new Thickness(10), Height = 30, Style = Application.Current.Resources["MaterialDesign_TextBox_Style"] as Style });
-            stackpanel.Children.Add(new PasswordBox() { Margin = new Thickness(10), Height = 30, Style = Application.Current.Resources["MaterialDesign_PasswordBox_Style"] as Style });
+            stackpanel.Children.Add(new TextBlock()
+            {
+                Text = "Email",
+                FontSize = 14,
+                Margin = new Thickness(10, 0, 10, 0),
+                Foreground = new SolidColorBrush(Colors.DarkGray),
+                FontWeight = FontWeights.SemiBold
+            });
+            stackpanel.Children.Add(new TextBox()
+            {
+                Margin = new Thickness(10),
+                FontSize = 14,                
+                Style = Application.Current.Resources["MaterialDesign_TextBox_Style"] as Style
+            });
+
+            stackpanel.Children.Add(new TextBlock()
+            {
+                Text = "Password",
+                FontSize = 14,
+                Margin = new Thickness(10, 0, 10, 0),
+                Foreground = new SolidColorBrush(Colors.DarkGray),
+                FontWeight = FontWeights.SemiBold
+            });
+            stackpanel.Children.Add(new PasswordBox()
+            {
+                Margin = new Thickness(10),                
+                FontSize = 14,
+                Style = Application.Current.Resources["MaterialDesign_PasswordBox_Style"] as Style
+            });
 
             childWindow.Content = stackpanel;
 
