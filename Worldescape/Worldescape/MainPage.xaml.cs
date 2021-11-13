@@ -44,7 +44,7 @@ namespace Worldescape
             PageContainer.Source = uri;
 
             // Scroll to top:
-            FrameScrollViewer.ScrollToVerticalOffset(0d);
+            //FrameScrollViewer.ScrollToVerticalOffset(0d);
         }
 
         #endregion

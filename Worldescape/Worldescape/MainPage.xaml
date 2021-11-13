@@ -20,30 +20,30 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <ScrollViewer
+        <!--<ScrollViewer
             x:Name="FrameScrollViewer"
             Grid.Row="1"
             HorizontalScrollBarVisibility="Auto"
             IsTabStop="False"
-            VerticalScrollBarVisibility="Auto">
+            VerticalScrollBarVisibility="Auto">-->
 
-            <Frame
-                x:Name="PageContainer"
-                Grid.Row="1"
-                HorizontalContentAlignment="Stretch"
-                VerticalContentAlignment="Stretch"
-                JournalOwnership="Automatic">
-                <Frame.UriMapper>
-                    <UriMapper>
-                        <UriMapping MappedUri="/Pages/{page_name}.xaml" Uri="/{page_name}" />
-                    </UriMapper>
-                </Frame.UriMapper>
-                <Frame.RenderTransform>
-                    <TranslateTransform />
-                </Frame.RenderTransform>
-            </Frame>
+        <Frame
+            x:Name="PageContainer"
+            Grid.Row="1"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            JournalOwnership="Automatic">
+            <Frame.UriMapper>
+                <UriMapper>
+                    <UriMapping MappedUri="/Pages/{page_name}.xaml" Uri="/{page_name}" />
+                </UriMapper>
+            </Frame.UriMapper>
+            <Frame.RenderTransform>
+                <TranslateTransform />
+            </Frame.RenderTransform>
+        </Frame>
 
-        </ScrollViewer>
+        <!--</ScrollViewer>-->
 
     </Grid>
 

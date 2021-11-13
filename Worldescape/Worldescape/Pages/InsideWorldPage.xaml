@@ -73,6 +73,7 @@
                 AllowDrop="True"
                 Background="Transparent"
                 PointerPressed="Canvas_root_PointerPressed" />
+
         </ScrollViewer>
     </Grid>
 </Page>
