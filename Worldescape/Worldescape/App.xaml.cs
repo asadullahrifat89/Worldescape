@@ -43,5 +43,16 @@ namespace Worldescape
 
             services.AddSingleton<MainPage>();
         }
+
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            this.UnhandledException += App_UnhandledException;
+        }
+
+        private void App_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show(e.ExceptionObject.Message + Environment.NewLine + e.ExceptionObject.StackTrace);
+            e.Handled = true;
+        }
     }
 }

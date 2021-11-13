@@ -61,75 +61,60 @@ namespace Worldescape.Pages
 
         private void DrawConstructsOnCanvas()
         {
-            try
+            for (int j = 0; j < 5; j++)
             {
-                for (int j = 0; j < 5; j++)
+                for (int i = 0; i < 10; i++)
                 {
-                    for (int i = 0; i < 10; i++)
+                    var uri = _objects[new Random().Next(_objects.Count())];
+
+                    var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+                    var img = new Image() { Source = bitmap, Stretch = Stretch.None };
+
+                    var obj = new Button()
                     {
-                        var uri = _objects[new Random().Next(_objects.Count())];
+                        BorderBrush = new SolidColorBrush(Colors.DodgerBlue),
+                        Style = Application.Current.Resources["MaterialDesign_ConstructButton_Style"] as Style
+                    };
 
-                        var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+                    obj.Content = img;
 
-                        var img = new Image() { Source = bitmap, Stretch = Stretch.None };
+                    //obj.AllowDrop = true;
+                    obj.AllowScrollOnTouchMove = false;
 
-                        var obj = new Button()
-                        {
-                            BorderBrush = new SolidColorBrush(Colors.DodgerBlue),
-                            Style = Application.Current.Resources["MaterialDesign_ConstructButton_Style"] as Style
-                        };
+                    obj.PointerPressed += Construct_PointerPressed;
+                    obj.PointerMoved += Construct_PointerMoved;
+                    obj.PointerReleased += Construct_PointerReleased;
 
-                        obj.Content = img;
+                    Canvas.SetTop(obj, i * 100);
+                    Canvas.SetLeft(obj, (i + j * 2) * 100);
 
-                        //obj.AllowDrop = true;
-                        obj.AllowScrollOnTouchMove = false;
-
-                        obj.PointerPressed += Construct_PointerPressed;
-                        obj.PointerMoved += Construct_PointerMoved;
-                        obj.PointerReleased += Construct_PointerReleased;
-
-                        Canvas.SetTop(obj, i * 100);
-                        Canvas.SetLeft(obj, (i + j * 2) * 100);
-
-                        Canvas_root.Children.Add(obj);
-                    }
+                    Canvas_root.Children.Add(obj);
                 }
-            }
-            catch (Exception ex)
-            {
-
             }
         }
 
         private void DrawAvatarOnCanvas()
         {
-            try
+            var uri = avatarUrl;
+
+            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+            var img = new Image()
             {
-                var uri = avatarUrl;
+                Source = bitmap,
+                Stretch = Stretch.Uniform,
+                Height = 100,
+                Width = 100,
+            };
 
-                var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+            avatar.Content = img;
 
-                var img = new Image()
-                {
-                    Source = bitmap,
-                    Stretch = Stretch.Uniform,
-                    Height = 100,
-                    Width = 100,
-                };
+            //avatar.Effect = new DropShadowEffect() { ShadowDepth = 3, Color = Colors.Black, BlurRadius = 10, Opacity = 0.3 };
 
-                avatar.Content = img;
-
-                //avatar.Effect = new DropShadowEffect() { ShadowDepth = 3, Color = Colors.Black, BlurRadius = 10, Opacity = 0.3 };
-
-                Canvas.SetTop(avatar, new Random().Next(500));
-                Canvas.SetLeft(avatar, new Random().Next(500));
-                this.Canvas_root.Children.Add(avatar);
-            }
-            catch (Exception ex)
-            {
-
-
-            }
+            Canvas.SetTop(avatar, new Random().Next(500));
+            Canvas.SetLeft(avatar, new Random().Next(500));
+            this.Canvas_root.Children.Add(avatar);
         }
 
         private void CraftButton_Click(object sender, RoutedEventArgs e)
@@ -236,19 +221,10 @@ namespace Worldescape.Pages
 
         private void ShowInteractiveConstruct(UIElement uielement)
         {
-            try
-            {
-                Button historyButton = CopyConstructContent(uielement);
+            Button historyButton = CopyConstructContent(uielement);
 
-                InteractiveConstructHolder.Children.Clear();
-                InteractiveConstructHolder.Children.Add(historyButton);
-
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            InteractiveConstructHolder.Children.Clear();
+            InteractiveConstructHolder.Children.Add(historyButton);
         }
 
         private static Button CopyConstructContent(UIElement uielement)
@@ -270,45 +246,28 @@ namespace Worldescape.Pages
 
         private void MoveButton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                _isMovingMode = !_isMovingMode;
-                MoveButton.Content = _isMovingMode ? "Moving" : "Move";
+            _isMovingMode = !_isMovingMode;
+            MoveButton.Content = _isMovingMode ? "Moving" : "Move";
 
-                if (!_isMovingMode)
-                {
-                    movingConstruct = null;
-                    MovingConstructHolder.Children.Clear();
-                }
-                else
-                {
-                    UIElement uielement = interactiveConstruct;
-                    movingConstruct = uielement;
-                    ShowMovingConstruct(movingConstruct);
-                }
+            if (!_isMovingMode)
+            {
+                movingConstruct = null;
+                MovingConstructHolder.Children.Clear();
             }
-            catch (Exception ex)
+            else
             {
-
-                throw;
+                UIElement uielement = interactiveConstruct;
+                movingConstruct = uielement;
+                ShowMovingConstruct(movingConstruct);
             }
         }
 
         private void ShowMovingConstruct(UIElement uielement)
         {
-            try
-            {
-                Button historyButton = CopyConstructContent(uielement);
+            Button historyButton = CopyConstructContent(uielement);
 
-                MovingConstructHolder.Children.Clear();
-                MovingConstructHolder.Children.Add(historyButton);
-
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            MovingConstructHolder.Children.Clear();
+            MovingConstructHolder.Children.Add(historyButton);
         }
 
         private void MoveElement(PointerRoutedEventArgs e, UIElement uIElement)

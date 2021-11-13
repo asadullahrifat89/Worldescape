@@ -17,7 +17,7 @@
 
         <StackPanel x:Name="TopButtonHolder" Orientation="Horizontal">
 
-            <Button
+            <!--<Button
                 x:Name="ChildWindowButton"
                 Height="50"
                 MinWidth="100"
@@ -25,7 +25,7 @@
                 Click="ChildWindowButton_Click"
                 Content="Login"
                 FontSize="20"
-                Style="{StaticResource MaterialDesign_Button_Style}" />
+                Style="{StaticResource MaterialDesign_Button_Style}" />-->
 
             <Button
                 x:Name="CraftButton"

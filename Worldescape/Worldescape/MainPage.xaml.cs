@@ -20,17 +20,9 @@ namespace Worldescape
 
         public void NavigateToPage(string targetUri)
         {
-            try
-            {
-                // Navigate to the target page:
-                Uri uri = new Uri(targetUri, UriKind.Relative);
-                PageContainer.Source = uri;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
+            // Navigate to the target page:
+            Uri uri = new Uri(targetUri, UriKind.Relative);
+            PageContainer.Source = uri;
         }
 
         #endregion
