@@ -33,7 +33,7 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Grid.Row="1"
-                            CornerRadius="2">
+                            CornerRadius="5">
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup Name="CommonStates">
                                     <VisualState Name="Normal"/>
@@ -57,7 +57,7 @@
                             <Border x:Name="InnerBorder"
                                     Background="{TemplateBinding Background}"
                                 Padding="{TemplateBinding Padding}"
-                                CornerRadius="2">
+                                CornerRadius="5">
                                 <Border.Effect>
                                     <DropShadowEffect x:Name="DropShadowEffect" Color="Gray" Opacity="0.4" BlurRadius="6" Direction="-30" ShadowDepth="0"/>
                                 </Border.Effect>
@@ -90,7 +90,7 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="2">
+                            CornerRadius="5">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup Name="CommonStates">
                                 <VisualState Name="Normal">
@@ -126,7 +126,7 @@
                                     Background="{TemplateBinding Background}"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                CornerRadius="2">
+                                CornerRadius="5">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Margin="{TemplateBinding Padding}">
                                 <ContentControl x:Name="ContentPresenter"
                                                   Foreground="Black"

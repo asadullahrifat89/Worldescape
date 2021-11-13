@@ -35,7 +35,7 @@
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="LightGray"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="2"
+                                CornerRadius="5"
                                 Padding="12,7">
                             <Grid>
                                 <Grid.ColumnDefinitions>

@@ -335,12 +335,18 @@ namespace Worldescape
 
         private void ChildWindowButton_Click(object sender, RoutedEventArgs e)
         {
-            ChildWindow childWindow = new ChildWindow();
+            ChildWindow childWindow = new ChildWindow()
+            {
+                Height = 500,
+                Width = 500,
+                Title = "Login",
+                Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style
+            };
 
             var stackpanel = new StackPanel();
 
-            stackpanel.Children.Add(new TextBox() { Margin = new Thickness(10), Height = 30 });
-            stackpanel.Children.Add(new PasswordBox() { Margin = new Thickness(10), Height = 30 });
+            stackpanel.Children.Add(new TextBox() { Margin = new Thickness(10), Height = 30, Style = Application.Current.Resources["MaterialDesign_TextBox_Style"] as Style });
+            stackpanel.Children.Add(new PasswordBox() { Margin = new Thickness(10), Height = 30, Style = Application.Current.Resources["MaterialDesign_PasswordBox_Style"] as Style });
 
             childWindow.Content = stackpanel;
 

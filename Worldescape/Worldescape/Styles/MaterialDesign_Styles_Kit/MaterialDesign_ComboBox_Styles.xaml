@@ -17,7 +17,8 @@
                     <Border x:Name="OuterBorder"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup Name="CommonStates">
                                 <VisualState Name="Normal"/>
@@ -35,6 +36,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Border x:Name="InnerBorder"
+                                CornerRadius="5"
                                     Background="{TemplateBinding Background}">
                             <ContentPresenter x:Name="ContentPresenter"
                                                   ContentTemplate="{TemplateBinding ContentTemplate}"
