@@ -28,23 +28,24 @@ namespace Worldescape
 
         public MainPage()
         {
-            this.InitializeComponent();
-
-            NavigateToPage("/LoginPage");
-
-            // Enter construction logic here...
+            this.InitializeComponent();            
         }
 
         #region Methods
 
-        void NavigateToPage(string targetUri)
+        public void NavigateToPage(string targetUri)
         {
-            // Navigate to the target page:
-            Uri uri = new Uri(targetUri, UriKind.Relative);
-            PageContainer.Source = uri;
+            try
+            {
+                // Navigate to the target page:
+                Uri uri = new Uri(targetUri, UriKind.Relative);
+                PageContainer.Source = uri;
+            }
+            catch (Exception ex)
+            {
 
-            // Scroll to top:
-            //FrameScrollViewer.ScrollToVerticalOffset(0d);
+                throw;
+            }           
         }
 
         #endregion

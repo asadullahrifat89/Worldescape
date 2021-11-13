@@ -13,23 +13,22 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Worldescape.Pages
 {
-    public partial class LoginPage : Page
-    {       
-
-        public LoginPage()
+    public partial class SignupPage : Page
+    {
+        public SignupPage()
         {
             this.InitializeComponent();
         }
 
-        private void Button_Login_Click(object sender, RoutedEventArgs e)
+        private void Button_Signup_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void Button_SignUp_Click(object sender, RoutedEventArgs e)
+        private void Button_Login_Click(object sender, RoutedEventArgs e)
         {
             var mainPage = App._serviceProvider.GetService(typeof(MainPage)) as MainPage;
-            mainPage.NavigateToPage("/SignupPage");
+            mainPage.NavigateToPage("/LoginPage");
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Worldescape
 {
     public sealed partial class App : Application
     {
-        private readonly IServiceProvider _serviceProvider;
+        public static IServiceProvider _serviceProvider;
 
         public App()
         {
@@ -25,8 +25,12 @@ namespace Worldescape
             ConfigureServices(services);
             _serviceProvider = services.BuildServiceProvider();
 
-            var mainPage = new MainPage();
+            var mainPage = App._serviceProvider.GetService(typeof(MainPage)) as MainPage;
+
+            //var mainPage = new MainPage();
             Window.Current.Content = mainPage;
+
+            mainPage.NavigateToPage("/LoginPage");
         }
 
 		private void ConfigureServices(ServiceCollection services)
@@ -39,6 +43,9 @@ namespace Worldescape
 
             // Core Services
             services.AddSingleton<IWorldescapeHubService, WorldescapeHubService>();
+
+
+            services.AddSingleton<MainPage>();
         }
 	}
 }

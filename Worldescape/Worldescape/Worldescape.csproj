@@ -17,6 +17,10 @@
 		<Page Include="MainPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
+		<Content Include="Pages\SignupPage.xaml">
+		  <SubType>Designer</SubType>
+		  <Generator>MSBuild:Compile</Generator>
+		</Content>
 		<Content Include="Pages\LoginPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
@@ -77,6 +81,9 @@
 		<Compile Include="App.xaml.cs" />
 		<Compile Include="MainPage.xaml.cs" />
 		<Compile Include="Pages\InsideWorldPage.xaml.cs" />
+		<Compile Include="Pages\SignupPage.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
 		<Compile Include="Pages\LoginPage.xaml.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\AccentColorConverter.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\DoubleToCornerRadiusConverter.cs" />
