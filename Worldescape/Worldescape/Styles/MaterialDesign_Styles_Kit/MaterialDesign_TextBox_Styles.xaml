@@ -14,7 +14,7 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="BorderBrush" Value="{StaticResource MaterialDesign_DefaultAccentColor}"/>
         <Setter Property="Background" Value="White"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
@@ -43,9 +43,10 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <ContentPresenter Grid.Column="0" Content="{TemplateBinding Tag}" Margin="2"/>
-                                <TextBlock Grid.Column="1" Text="{TemplateBinding PlaceholderText}"
-                                           Foreground="DarkGray"
-                                           Visibility="{Binding Path=Text, Converter={StaticResource TextToPlaceholderTextVisibilityConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                <TextBlock 
+                                    Grid.Column="1" Text="{TemplateBinding PlaceholderText}"                                           
+                                    Foreground="DarkGray"                                           
+                                    Visibility="{Binding Path=Text, Converter={StaticResource TextToPlaceholderTextVisibilityConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                 <ContentPresenter Grid.Column="1" x:Name="ContentElement"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="Center"/>
