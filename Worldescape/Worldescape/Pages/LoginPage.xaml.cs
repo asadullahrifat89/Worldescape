@@ -13,7 +13,8 @@ namespace Worldescape.Pages
 
         private void Button_Login_Click(object sender, RoutedEventArgs e)
         {
-
+            var mainPage = App._serviceProvider.GetService(typeof(MainPage)) as MainPage;
+            mainPage.NavigateToPage("/InsideWorldPage");
         }
 
         private void Button_SignUp_Click(object sender, RoutedEventArgs e)
