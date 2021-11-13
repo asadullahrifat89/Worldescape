@@ -25,7 +25,7 @@
                     <Border
                         x:Name="InnerBorder"
                         Background="{TemplateBinding Background}"
-                        CornerRadius="0">
+                        CornerRadius="5">
                         <Border.Effect>
                             <DropShadowEffect
                                 x:Name="DropShadowEffect"

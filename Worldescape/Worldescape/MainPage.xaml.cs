@@ -30,7 +30,7 @@ namespace Worldescape
         {
             this.InitializeComponent();
 
-            NavigateToPage("/InsideWorldPage");
+            NavigateToPage("/LoginPage");
 
             // Enter construction logic here...
         }

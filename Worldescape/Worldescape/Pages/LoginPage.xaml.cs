@@ -19,5 +19,15 @@ namespace Worldescape.Pages
         {
             this.InitializeComponent();
         }
+
+        private void Button_Login_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_SignUp_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
