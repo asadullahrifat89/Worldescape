@@ -40,7 +40,7 @@ namespace Worldescape.Pages
         {
             "ms-appx:///Images/World_Objects/Landscape/Grass.png",
             "ms-appx:///Images/World_Objects/Landscape/Big_Tree.png",
-            "ms-appx:///Images/World_Objects/Prototype/arrow_E.png",
+            "ms-appx:///Images/World_Objects/Prototype/block_W.png",
         };
 
         string avatarUrl = "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png";
@@ -86,8 +86,8 @@ namespace Worldescape.Pages
                     obj.PointerMoved += Construct_PointerMoved;
                     obj.PointerReleased += Construct_PointerReleased;
 
-                    Canvas.SetTop(obj, i * 100);
-                    Canvas.SetLeft(obj, (i + j * 2) * 100);
+                    Canvas.SetTop(obj, i * 200);
+                    Canvas.SetLeft(obj, (i + j * 2) * 200);
 
                     Canvas_root.Children.Add(obj);
                 }
