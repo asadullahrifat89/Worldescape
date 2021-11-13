@@ -38,8 +38,6 @@ namespace Worldescape
             Exponent = 5,
         };
 
-        Storyboard currentStoryboard = null;
-
         string[] _objects = new string[]
         {
             "ms-appx:///Images/World_Objects/Landscape/Grass.png",
