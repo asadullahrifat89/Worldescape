@@ -31,6 +31,12 @@ namespace Worldescape
 
         UIElement lastInteractedConstruct;
 
+        EasingFunctionBase easingFunction = new ExponentialEase()
+        {
+            EasingMode = EasingMode.EaseOut,
+            Exponent = 5,
+        };
+
         string[] _objects = new string[]
         {
             "ms-appx:///Images/World_Objects/Landscape/Grass.png",
@@ -141,6 +147,14 @@ namespace Worldescape
             }
         }
 
+        private void Canvas_root_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (_isMovingMode && lastInteractedConstruct != null)
+            {
+                MoveElement(e, lastInteractedConstruct);
+            }
+        }
+
         private void Construct_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (_isMovingMode)
@@ -241,8 +255,16 @@ namespace Worldescape
             lastInteractedConstruct = null;
         }
 
+        private void MoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            _isMovingMode = !_isMovingMode;
+            MoveButton.Content = _isMovingMode ? "Moving" : "Move";
+        }
+
         private void MoveElement(PointerRoutedEventArgs e, UIElement uIElement)
         {
+            //moveStory.Stop();
+
             var nowX = Canvas.GetLeft(uIElement);
             var nowY = Canvas.GetTop(uIElement);
 
@@ -265,12 +287,6 @@ namespace Worldescape
             float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
 
             #region Storyboard
-
-            EasingFunctionBase easingFunction = new ExponentialEase
-            {
-                EasingMode = EasingMode.EaseOut,
-                Exponent = 5,
-            };
 
             Storyboard moveStory = new Storyboard();
 
@@ -304,20 +320,6 @@ namespace Worldescape
             #endregion
 
             Console.WriteLine("uIElement moved.");
-        }
-
-        private void Canvas_root_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (_isMovingMode && lastInteractedConstruct != null)
-            {
-                MoveElement(e, lastInteractedConstruct);
-            }
-        }
-
-        private void MoveButton_Click(object sender, RoutedEventArgs e)
-        {
-            _isMovingMode = !_isMovingMode;
-            MoveButton.Content = _isMovingMode ? "Moving" : "Move";
         }
     }
 }
