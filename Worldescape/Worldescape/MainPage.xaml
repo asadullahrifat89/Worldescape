@@ -8,24 +8,11 @@
     mc:Ignorable="d">
 
     <Grid>
-        <!--<ScrollViewer
-            Grid.Row="1"
-            x:Name="FrameScrollViewer"
-			HorizontalScrollBarVisibility="Auto"			
-			IsTabStop="False"			
-			VerticalScrollBarVisibility="Auto">-->
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-
-        <!--<ScrollViewer
-            x:Name="FrameScrollViewer"
-            Grid.Row="1"
-            HorizontalScrollBarVisibility="Auto"
-            IsTabStop="False"
-            VerticalScrollBarVisibility="Auto">-->
 
         <Frame
             x:Name="PageContainer"
@@ -42,8 +29,6 @@
                 <TranslateTransform />
             </Frame.RenderTransform>
         </Frame>
-
-        <!--</ScrollViewer>-->
 
     </Grid>
 

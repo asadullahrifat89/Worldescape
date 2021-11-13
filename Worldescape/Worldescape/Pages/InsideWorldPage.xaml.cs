@@ -144,10 +144,7 @@ namespace Worldescape.Pages
             this.CraftButton.Content = _isCraftingMode ? "Crafting" : "Craft";
 
             _isMovingMode = false;
-            this.MoveButton.Content = "Move";
-
-            InteractiveConstructHolder.Children.Clear();
-            interactiveConstruct = null;
+            this.MoveButton.Content = "Move";           
 
             if (!_isCraftingMode)
             {
@@ -267,7 +264,7 @@ namespace Worldescape.Pages
             var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
             var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 100, Margin = new Thickness(10) };
 
-            var historyButton = new Button() { Content = img, Style = Application.Current.Resources["MaterialDesign_ConstructButton_Style"] as Style };
+            var historyButton = new Button() { Content = img, Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style };
             return historyButton;
         }
 
