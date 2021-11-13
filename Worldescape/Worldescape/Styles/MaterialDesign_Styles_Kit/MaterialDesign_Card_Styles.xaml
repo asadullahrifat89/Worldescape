@@ -24,7 +24,7 @@
                 <ControlTemplate TargetType="ContentControl">
                     <Border x:Name="InnerBorder"
                             Background="{TemplateBinding Background}"
-                            CornerRadius="2">
+                            CornerRadius="0">
                         <Border.Effect>
                             <DropShadowEffect x:Name="DropShadowEffect" Color="Gray" Opacity="0.4" BlurRadius="6" Direction="-30" ShadowDepth="0"/>
                         </Border.Effect>
@@ -63,7 +63,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             Padding="{TemplateBinding Padding}"
-                            CornerRadius="2">
+                            CornerRadius="0">
                         <ContentControl x:Name="ContentPresenter"
                                                   Background="{TemplateBinding Background}"
                                                   FontSize="{TemplateBinding FontSize}"
@@ -98,7 +98,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             Padding="{TemplateBinding Padding}"
-                            CornerRadius="2">
+                            CornerRadius="0">
                         <ContentControl x:Name="ContentPresenter"
                                             Background="{TemplateBinding Background}"
                                             FontSize="{TemplateBinding FontSize}"
@@ -133,7 +133,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             Padding="{TemplateBinding Padding}"
-                            CornerRadius="2">
+                            CornerRadius="0">
                         <ContentControl x:Name="ContentPresenter"
                                                   Background="{TemplateBinding Background}"
                                                   FontSize="{TemplateBinding FontSize}"
