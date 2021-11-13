@@ -2929,5 +2929,9 @@
     <Content Include="Images\World_Objects\Space\weapon_rifle_SE.png" />
     <Content Include="Images\World_Objects\Space\weapon_rifle_SW.png" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Worldescape.Core\Worldescape.Interaction.csproj" />
+  </ItemGroup>
   
 </Project>
