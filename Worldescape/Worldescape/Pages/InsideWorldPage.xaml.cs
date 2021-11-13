@@ -94,8 +94,6 @@ namespace Worldescape.Pages
                         obj.PointerMoved += Construct_PointerMoved;
                         obj.PointerReleased += Construct_PointerReleased;
 
-                        obj.Click += Construct_Click;
-
                         Canvas.SetTop(obj, i * 100);
                         Canvas.SetLeft(obj, (i + j * 2) * 100);
 
@@ -107,14 +105,7 @@ namespace Worldescape.Pages
             {
 
             }
-        }
-
-        private void Construct_Click(object sender, RoutedEventArgs e)
-        {
-            UIElement uielement = (UIElement)sender;
-            interactiveConstruct = uielement;
-            ShowInteractiveConstruct(uielement);
-        }
+        }     
 
         private void DrawAvatarOnCanvas()
         {
@@ -158,14 +149,12 @@ namespace Worldescape.Pages
             InteractiveConstructHolder.Children.Clear();
             interactiveConstruct = null;
 
-            //if (_isCraftingMode)
-            //{
-            //    this.MoveButton.Visibility = Visibility.Visible;
-            //}
-            //else
-            //{
-            //    this.MoveButton.Visibility = Visibility.Collapsed;
-            //}
+            if (!_isCraftingMode)
+            {
+                this.MoveButton.Visibility = Visibility.Collapsed;
+                movingConstruct = null;
+                MovingConstructHolder.Children.Clear();
+            }
         }
 
         private void Canvas_root_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -178,10 +167,10 @@ namespace Worldescape.Pages
 
         private void Construct_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (_isCraftingMode && interactiveConstruct == null)
-            {
-                this.MoveButton.Visibility = Visibility.Visible;
-            }
+
+            UIElement uielement = (UIElement)sender;
+            interactiveConstruct = uielement;
+            ShowInteractiveConstruct(uielement);
 
             if (_isMovingMode)
             {
@@ -192,7 +181,9 @@ namespace Worldescape.Pages
             }
             else if (_isCraftingMode)
             {
-                UIElement uielement = (UIElement)sender;
+                this.MoveButton.Visibility = Visibility.Visible;
+
+                //UIElement uielement = (UIElement)sender;
                 _objectLeft = Canvas.GetLeft(uielement);
                 _objectTop = Canvas.GetTop(uielement);
 
