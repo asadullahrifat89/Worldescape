@@ -398,7 +398,10 @@ namespace Worldescape.Pages
                 ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).ToList();
             }
 
-            ConstructAssetPicker constructAssetPicker = new ConstructAssetPicker(ConstructAssets);
+            var constructAssetPicker = new ConstructAssetPicker(ConstructAssets, (asset) =>
+            {
+                MessageBox.Show(asset.Name);
+            });
             constructAssetPicker.Show();
         }
 

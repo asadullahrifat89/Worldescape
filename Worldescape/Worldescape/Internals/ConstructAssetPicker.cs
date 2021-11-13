@@ -14,6 +14,8 @@ namespace Worldescape.Internals
     {
         List<ConstructAsset> _constructAssets = new List<ConstructAsset>();
 
+        Action<ConstructAsset> _assetSelected;
+
         ScrollViewer scrollViewer = new ScrollViewer()
         {
             HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
@@ -26,9 +28,12 @@ namespace Worldescape.Internals
             Style = Application.Current.Resources["Panel_Style"] as Style
         };
 
-        public ConstructAssetPicker(List<ConstructAsset> constructAssets)
+        public ConstructAssetPicker(
+            List<ConstructAsset> constructAssets,
+            Action<ConstructAsset> assetSelected)
         {
             _constructAssets = constructAssets;
+            _assetSelected = assetSelected;
 
             Height = 500;
             Width = 470;
@@ -54,7 +59,8 @@ namespace Worldescape.Internals
                     Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
                     Width = 100,
                     Height = 100,
-                    Margin = new Thickness(3)
+                    Margin = new Thickness(3),
+                    Tag = item,
                 };
 
                 buttonConstructAsset.Click += ButtonConstructAsset_Click;
@@ -65,8 +71,10 @@ namespace Worldescape.Internals
             }
         }
 
+     
         private void ButtonConstructAsset_Click(object sender, RoutedEventArgs e)
-        {
+        {           
+            _assetSelected?.Invoke(((Button)sender).Tag as ConstructAsset);
             this.Close();
         }
     }
