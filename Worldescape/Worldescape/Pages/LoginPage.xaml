@@ -7,72 +7,72 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+    <Grid>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
 
-        <StackPanel Margin="200">
-            <TextBlock
-                Margin="20"
-                FontSize="40"
-                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                Text="Worldescape" />
-
-            <TextBlock Margin="10" Text="Create your metaverse, explore millions..." />
-        </StackPanel>
-
-        <ContentControl Grid.Column="1" Style="{StaticResource MaterialDesign_Card_Style}">
-
-            <StackPanel Width="350" Margin="10">
+            <StackPanel Margin="20">
+                <TextBlock
+                    Margin="20"
+                    FontSize="100"
+                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
+                    Text="Worldescape" />
 
                 <TextBlock
                     Margin="10"
-                    FontSize="20"
-                    FontStyle="Normal"
-                    FontWeight="Bold"
-                    Text="Email address" />
-
-                <TextBox
-                    x:Name="TextBox_Email"
-                    Margin="10,5,10,10"
-                    FontSize="16"
-                    Style="{StaticResource MaterialDesign_TextBox_Style}" />
-
-                <TextBlock
-                    Margin="10"
-                    FontSize="20"
-                    FontStyle="Normal"
-                    FontWeight="Bold"
-                    Text="Password" />
-
-                <PasswordBox
-                    x:Name="PasswordBox_Pasword"
-                    Margin="10,5,10,10"
-                    FontSize="16"
-                    Style="{StaticResource MaterialDesign_PasswordBox_Style}" />
-
-                <Button
-                    x:Name="Button_Login"
-                    Margin="10"
-                    Click="Button_Login_Click"
-                    Content="Log In"
-                    FontSize="16"
-                    Style="{StaticResource MaterialDesign_Button_Style}" />
-
-                <Button
-                    x:Name="Button_SignUp"
-                    Margin="10"
-                    Click="Button_SignUp_Click"
-                    Content="Sign Up"
-                    FontSize="16"
-                    Style="{StaticResource MaterialDesign_Button_Style}" />
-
+                    FontSize="40"
+                    Text="Create your metaverse, explore millions..." />
             </StackPanel>
 
-        </ContentControl>
+            <ContentControl Grid.Column="1" Style="{StaticResource MaterialDesign_Card_Style}">
+
+                <StackPanel Width="350" Margin="10">
+
+                    <TextBlock
+                        Margin="10"
+                        FontSize="20"
+                        Text="Email address" />
+
+                    <TextBox
+                        x:Name="TextBox_Email"
+                        Margin="10,5,10,10"
+                        FontSize="16"
+                        Style="{StaticResource MaterialDesign_TextBox_Style}" />
+
+                    <TextBlock
+                        Margin="10"
+                        FontSize="20"
+                        Text="Password" />
+
+                    <PasswordBox
+                        x:Name="PasswordBox_Pasword"
+                        Margin="10,5,10,10"
+                        FontSize="16"
+                        Style="{StaticResource MaterialDesign_PasswordBox_Style}" />
+
+                    <Button
+                        x:Name="Button_Login"
+                        Margin="10"
+                        Click="Button_Login_Click"
+                        Content="Log In"
+                        FontSize="16"
+                        Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                    <Button
+                        x:Name="Button_SignUp"
+                        Margin="10"
+                        Click="Button_SignUp_Click"
+                        Content="Sign Up"
+                        FontSize="16"
+                        Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                </StackPanel>
+
+            </ContentControl>
+        </StackPanel>
 
     </Grid>
 </Page>
