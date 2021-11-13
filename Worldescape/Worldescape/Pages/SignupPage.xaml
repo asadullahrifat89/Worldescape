@@ -9,35 +9,28 @@
 
     <Grid>
 
-        <!--<Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>-->
-
-        <!--<ScrollViewer
-            Grid.Row="1"
-            HorizontalScrollBarVisibility="Auto"
-            IsTabStop="False"
-            VerticalScrollBarVisibility="Auto">-->
-
-        <WrapPanel
+        <StackPanel
             Margin="20"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
 
-            <StackPanel Margin="20" VerticalAlignment="Top">
+            <StackPanel Margin="20" VerticalAlignment="Center">
+
                 <TextBlock
                     Margin="20"
                     FontSize="100"
                     Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                    Text="Worldescape" />
+                    Text="Worldescape"
+                    TextAlignment="Center" />
 
                 <TextBlock
                     Margin="10"
                     FontSize="40"
                     Text="Your worldescaping journey starts here..."
+                    TextAlignment="Center"
                     TextWrapping="Wrap" />
+
             </StackPanel>
 
             <ContentControl Grid.Column="1" Style="{StaticResource MaterialDesign_Card_Style}">
@@ -53,7 +46,8 @@
                         x:Name="TextBox_Email"
                         Margin="10,5,10,10"
                         FontSize="16"
-                        Style="{StaticResource MaterialDesign_TextBox_Style}" />
+                        Style="{StaticResource MaterialDesign_TextBox_Style}"
+                        TextAlignment="Left" />
 
                     <TextBlock
                         Margin="10"
@@ -121,9 +115,7 @@
                 </StackPanel>
 
             </ContentControl>
-        </WrapPanel>
-
-        <!--</ScrollViewer>-->
+        </StackPanel>
 
     </Grid>
 </Page>
