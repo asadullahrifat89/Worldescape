@@ -7,115 +7,115 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <StackPanel
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Orientation="Vertical">
 
-        <StackPanel
-            Margin="20"
+        <StackPanel Margin="20" VerticalAlignment="Center">
+
+            <TextBlock
+                Margin="20"
+                FontSize="100"
+                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
+                Text="Worldescape"
+                TextAlignment="Center" />
+
+            <TextBlock
+                Margin="10"
+                FontSize="30"
+                Text="Your worldescaping journey starts here..."
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+
+        </StackPanel>
+
+        <ContentControl
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Orientation="Horizontal">
+            Style="{StaticResource MaterialDesign_Card_Style}">
 
-            <StackPanel Margin="20" VerticalAlignment="Center">
-
-                <TextBlock
-                    Margin="20"
-                    FontSize="100"
-                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                    Text="Worldescape"
-                    TextAlignment="Center" />
+            <StackPanel Width="350" Margin="10">
 
                 <TextBlock
                     Margin="10"
-                    FontSize="40"
-                    Text="Your worldescaping journey starts here..."
-                    TextAlignment="Center"
-                    TextWrapping="Wrap" />
+                    FontSize="16"
+                    Text="Email" />
+
+                <TextBox
+                    x:Name="TextBox_Email"
+                    Margin="10,5,10,10"
+                    FontSize="16"
+                    Style="{StaticResource MaterialDesign_TextBox_Style}"
+                    TextAlignment="Left" />
+
+                <TextBlock
+                    Margin="10"
+                    FontSize="16"
+                    Text="Password" />
+
+                <PasswordBox
+                    x:Name="PasswordBox_Pasword"
+                    Margin="10,5,10,10"
+                    FontSize="16"
+                    Style="{StaticResource MaterialDesign_PasswordBox_Style}" />
+
+                <TextBlock
+                    Margin="10"
+                    FontSize="16"
+                    Text="Date of birth" />
+
+                <DatePicker
+                    x:Name="DatePicker_DateOfBirth"
+                    Margin="10,5,10,10"
+                    FontSize="16"
+                    Style="{StaticResource MaterialDesign_DatePicker_Style}" />
+
+                <TextBlock
+                    Margin="10"
+                    FontSize="16"
+                    Text="Gender" />
+
+                <StackPanel Margin="10,5,10,10" Orientation="Horizontal">
+                    <RadioButton
+                        x:Name="RadioButton_Male"
+                        Margin="10"
+                        Content="Male"
+                        Style="{StaticResource MaterialDesign_RadioButton_Style}" />
+
+                    <RadioButton
+                        x:Name="RadioButton_Female"
+                        Margin="10"
+                        Content="Female"
+                        Style="{StaticResource MaterialDesign_RadioButton_Style}" />
+
+                    <RadioButton
+                        x:Name="RadioButton_Other"
+                        Margin="10"
+                        Content="Other"
+                        Style="{StaticResource MaterialDesign_RadioButton_Style}" />
+                </StackPanel>
+
+                <Button
+                    x:Name="Button_Signup"
+                    Margin="10"
+                    Click="Button_Signup_Click"
+                    Content="Create Account"
+                    FontSize="16"
+                    Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                <Button
+                    x:Name="Button_Login"
+                    Margin="10"
+                    Click="Button_Login_Click"
+                    Content="Log In"
+                    FontSize="16"
+                    Style="{StaticResource MaterialDesign_Button_Style}" />
 
             </StackPanel>
 
-            <ContentControl Grid.Column="1" Style="{StaticResource MaterialDesign_Card_Style}">
+        </ContentControl>
 
-                <StackPanel Width="350" Margin="10">
 
-                    <TextBlock
-                        Margin="10"
-                        FontSize="16"
-                        Text="Email" />
-
-                    <TextBox
-                        x:Name="TextBox_Email"
-                        Margin="10,5,10,10"
-                        FontSize="16"
-                        Style="{StaticResource MaterialDesign_TextBox_Style}"
-                        TextAlignment="Left" />
-
-                    <TextBlock
-                        Margin="10"
-                        FontSize="16"
-                        Text="Password" />
-
-                    <PasswordBox
-                        x:Name="PasswordBox_Pasword"
-                        Margin="10,5,10,10"
-                        FontSize="16"
-                        Style="{StaticResource MaterialDesign_PasswordBox_Style}" />
-
-                    <TextBlock
-                        Margin="10"
-                        FontSize="16"
-                        Text="Date of birth" />
-
-                    <DatePicker
-                        x:Name="DatePicker_DateOfBirth"
-                        Margin="10,5,10,10"
-                        FontSize="16"
-                        Style="{StaticResource MaterialDesign_DatePicker_Style}" />
-
-                    <TextBlock
-                        Margin="10"
-                        FontSize="16"
-                        Text="Gender" />
-
-                    <StackPanel Margin="10,5,10,10" Orientation="Horizontal">
-                        <RadioButton
-                            x:Name="RadioButton_Male"
-                            Margin="10"
-                            Content="Male"
-                            Style="{StaticResource MaterialDesign_RadioButton_Style}" />
-
-                        <RadioButton
-                            x:Name="RadioButton_Female"
-                            Margin="10"
-                            Content="Female"
-                            Style="{StaticResource MaterialDesign_RadioButton_Style}" />
-
-                        <RadioButton
-                            x:Name="RadioButton_Other"
-                            Margin="10"
-                            Content="Other"
-                            Style="{StaticResource MaterialDesign_RadioButton_Style}" />
-                    </StackPanel>
-
-                    <Button
-                        x:Name="Button_Signup"
-                        Margin="10"
-                        Click="Button_Signup_Click"
-                        Content="Create Account"
-                        FontSize="16"
-                        Style="{StaticResource MaterialDesign_Button_Style}" />
-
-                    <Button
-                        x:Name="Button_Login"
-                        Margin="10"
-                        Click="Button_Login_Click"
-                        Content="Log In"
-                        FontSize="16"
-                        Style="{StaticResource MaterialDesign_Button_Style}" />
-
-                </StackPanel>
-
-            </ContentControl>
-        </StackPanel>
-
-    </Grid>
+    </StackPanel>
 </Page>

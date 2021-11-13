@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Numerics;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media.Effects;
 using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -14,7 +9,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Shapes;
 
 namespace Worldescape.Pages
 {
@@ -105,7 +99,7 @@ namespace Worldescape.Pages
             {
 
             }
-        }     
+        }
 
         private void DrawAvatarOnCanvas()
         {
@@ -144,7 +138,7 @@ namespace Worldescape.Pages
             this.CraftButton.Content = _isCraftingMode ? "Crafting" : "Craft";
 
             _isMovingMode = false;
-            this.MoveButton.Content = "Move";           
+            this.MoveButton.Content = "Move";
 
             if (!_isCraftingMode)
             {

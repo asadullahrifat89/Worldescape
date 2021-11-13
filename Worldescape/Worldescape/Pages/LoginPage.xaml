@@ -3,17 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:internals="clr-namespace:Worldescape"
     xmlns:local="clr-namespace:Worldescape.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-
-
-    <WrapPanel
+    <StackPanel
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
-        Orientation="Horizontal">
+        Orientation="Vertical">
 
         <StackPanel Margin="20" VerticalAlignment="Center">
             <TextBlock
@@ -25,13 +22,10 @@
 
             <TextBlock
                 Margin="10"
-                FontSize="40"
-                TextAlignment="Left"
-                TextWrapping="Wrap">
-                <Run Text="Create and explore worlds" />
-                <LineBreak />
-                <Run Text="with millions of people..." />
-            </TextBlock>
+                FontSize="30"
+                Text="Create and explore worlds with millions of people..."
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
         </StackPanel>
 
         <ContentControl
@@ -84,7 +78,7 @@
 
         </ContentControl>
 
-    </WrapPanel>
+    </StackPanel>
 
 
 </Page>

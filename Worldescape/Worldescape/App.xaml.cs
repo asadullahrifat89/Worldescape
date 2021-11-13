@@ -1,9 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Windows;
 using Windows.UI.Xaml;
 using Worldescape.Interaction.Contracts.Services;
 using Worldescape.Interaction.Extensions;
@@ -33,13 +29,13 @@ namespace Worldescape
             mainPage.NavigateToPage("/LoginPage");
         }
 
-		private void ConfigureServices(ServiceCollection services)
-		{
-			//var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-			//services.AddSingleton<IConfiguration>(configuration);
+        private void ConfigureServices(ServiceCollection services)
+        {
+            //var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            //services.AddSingleton<IConfiguration>(configuration);
 
-			// Extensions
-			services.AddHttpService();
+            // Extensions
+            services.AddHttpService();
 
             // Core Services
             services.AddSingleton<IWorldescapeHubService, WorldescapeHubService>();
@@ -47,5 +43,5 @@ namespace Worldescape
 
             services.AddSingleton<MainPage>();
         }
-	}
+    }
 }
