@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
+using Worldescape.Internals;
 using Worldescape.Shared.Entities;
 using Worldescape.Shared.Models;
 using Image = Windows.UI.Xaml.Controls.Image;
@@ -51,6 +52,8 @@ namespace Worldescape.Pages
         string avatarUrl = "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png";
 
         public ObservableCollection<ConstructAsset> ConstructAssets = new ObservableCollection<ConstructAsset>();
+
+        ChildWindow childWindow = new ChildWindow();
 
         #endregion
 
@@ -388,10 +391,10 @@ namespace Worldescape.Pages
         {
             try
             {
-                ChildWindow childWindow = new ChildWindow()
+                childWindow = new ChildWindow()
                 {
                     Height = 500,
-                    Width = 500,
+                    Width = 460,
                     Title = "Select a Construct",
                     Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style
                 };
@@ -402,7 +405,7 @@ namespace Worldescape.Pages
                     VerticalScrollBarVisibility = ScrollBarVisibility.Auto
                 };
 
-                WrapPanel wrapPanel = new WrapPanel();
+                MasonryPanelWithProgressiveLoading wrapPanel = new MasonryPanelWithProgressiveLoading();
 
                 var constructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).Take(50);
 
@@ -412,15 +415,20 @@ namespace Worldescape.Pages
 
                     var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
 
-                    var img = new Image() { Source = bitmap, Stretch = Stretch.None };
+                    var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 100, Width = 100 };
 
-                    var buttonConstructAsset = new Border()
+                    var buttonConstructAsset = new Button()
                     {
-                        BorderBrush = new SolidColorBrush(Colors.DodgerBlue),                        
+                        Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                        Width = 100,
+                        Height = 100,
+                        Margin = new Thickness(3)
                     };
 
-                    buttonConstructAsset.Child = img;
-                    
+                    buttonConstructAsset.Click += ButtonConstructAsset_Click;
+
+                    buttonConstructAsset.Content = img;
+
                     wrapPanel.Children.Add(buttonConstructAsset);
                 }
 
@@ -434,6 +442,12 @@ namespace Worldescape.Pages
             {
                 throw ex;
             }
+        }
+
+        private void ButtonConstructAsset_Click(object sender, RoutedEventArgs e)
+        {
+            UIElement uielement = (UIElement)sender;
+            childWindow?.Close();
         }
 
         private void ConstructGalleryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
