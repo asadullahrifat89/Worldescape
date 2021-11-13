@@ -31,7 +31,8 @@ namespace Worldescape
 
         HyperlinkButton avatar = new HyperlinkButton() { BorderThickness = new Thickness(0) };
 
-        UIElement lastInteractedConstruct;
+        UIElement interactiveConstruct;
+        UIElement movingConstruct;
 
         EasingFunctionBase easingFunction = new ExponentialEase()
         {
@@ -86,6 +87,8 @@ namespace Worldescape
                         obj.PointerMoved += Construct_PointerMoved;
                         obj.PointerReleased += Construct_PointerReleased;
 
+                        obj.Click += Construct_Click;
+
                         Canvas.SetTop(obj, i * 100);
                         Canvas.SetLeft(obj, (i + j * 2) * 100);
 
@@ -97,6 +100,13 @@ namespace Worldescape
             {
 
             }
+        }
+
+        private void Construct_Click(object sender, RoutedEventArgs e)
+        {
+            UIElement uielement = (UIElement)sender;
+            interactiveConstruct = uielement;
+            ShowSelectedConstruct(uielement);
         }
 
         private void DrawAvatarOnCanvas()
@@ -139,34 +149,38 @@ namespace Worldescape
             this.MoveButton.Content = "Move";
 
             LastConstructHolder.Children.Clear();
-            lastInteractedConstruct = null;
+            interactiveConstruct = null;
 
-            if (_isCraftingMode)
-            {
-                this.MoveButton.Visibility = Visibility.Visible;
-
-            }
-            else
-            {
-                this.MoveButton.Visibility = Visibility.Collapsed;
-            }
+            //if (_isCraftingMode)
+            //{
+            //    this.MoveButton.Visibility = Visibility.Visible;
+            //}
+            //else
+            //{
+            //    this.MoveButton.Visibility = Visibility.Collapsed;
+            //}
         }
 
         private void Canvas_root_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (_isMovingMode && lastInteractedConstruct != null)
+            if (_isMovingMode && movingConstruct != null)
             {
-                MoveElement(e, lastInteractedConstruct);
+                MoveElement(e, movingConstruct);
             }
         }
 
         private void Construct_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
+            if (_isCraftingMode && interactiveConstruct == null)
+            {
+                this.MoveButton.Visibility = Visibility.Visible;
+            }
+
             if (_isMovingMode)
             {
-                if (lastInteractedConstruct != null)
+                if (movingConstruct != null)
                 {
-                    MoveElement(e, lastInteractedConstruct);
+                    MoveElement(e, movingConstruct);
                 }
             }
             else if (_isCraftingMode)
@@ -226,7 +240,7 @@ namespace Worldescape
                 _isPointerCaptured = false;
                 uielement.ReleasePointerCapture(e.Pointer);
 
-                lastInteractedConstruct = uielement;
+                interactiveConstruct = uielement;
                 ShowSelectedConstruct(uielement);
             }
         }
@@ -257,18 +271,30 @@ namespace Worldescape
         private void HistoryButton_Click(object sender, RoutedEventArgs e)
         {
             LastConstructHolder.Children.Clear();
-            lastInteractedConstruct = null;
+            interactiveConstruct = null;
         }
 
         private void MoveButton_Click(object sender, RoutedEventArgs e)
         {
-            _isMovingMode = !_isMovingMode;
-            MoveButton.Content = _isMovingMode ? "Moving" : "Move";
-
-            if (!_isMovingMode)
+            try
             {
-                LastConstructHolder.Children.Clear();
-                lastInteractedConstruct = null;
+                _isMovingMode = !_isMovingMode;
+                MoveButton.Content = _isMovingMode ? "Moving" : "Move";
+
+                if (!_isMovingMode)
+                {
+                    movingConstruct = null;
+                }
+                else
+                {
+                    UIElement uielement = interactiveConstruct;
+                    movingConstruct = uielement;
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
         }
 
@@ -357,7 +383,7 @@ namespace Worldescape
             stackpanel.Children.Add(new TextBox()
             {
                 Margin = new Thickness(10),
-                FontSize = 14,                
+                FontSize = 14,
                 Style = Application.Current.Resources["MaterialDesign_TextBox_Style"] as Style
             });
 
@@ -371,7 +397,7 @@ namespace Worldescape
             });
             stackpanel.Children.Add(new PasswordBox()
             {
-                Margin = new Thickness(10),                
+                Margin = new Thickness(10),
                 FontSize = 14,
                 Style = Application.Current.Resources["MaterialDesign_PasswordBox_Style"] as Style
             });
