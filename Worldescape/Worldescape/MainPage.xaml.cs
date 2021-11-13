@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Effects;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -36,6 +37,8 @@ namespace Worldescape
             EasingMode = EasingMode.EaseOut,
             Exponent = 5,
         };
+
+        Storyboard currentStoryboard = null;
 
         string[] _objects = new string[]
         {
@@ -113,6 +116,8 @@ namespace Worldescape
                 };
 
                 avatar.Content = img;
+
+                //avatar.Effect = new DropShadowEffect() { ShadowDepth = 3, Color = Colors.Black, BlurRadius = 10, Opacity = 0.3 };
 
                 Canvas.SetTop(avatar, new Random().Next(500));
                 Canvas.SetLeft(avatar, new Random().Next(500));
@@ -263,8 +268,6 @@ namespace Worldescape
 
         private void MoveElement(PointerRoutedEventArgs e, UIElement uIElement)
         {
-            //moveStory.Stop();
-
             var nowX = Canvas.GetLeft(uIElement);
             var nowY = Canvas.GetTop(uIElement);
 
@@ -306,6 +309,11 @@ namespace Worldescape
                 EasingFunction = easingFunction,
             };
 
+            setRight.Completed += (object sender, EventArgs e) =>
+            {
+                //TODO: set idle logic here
+            };
+
             Storyboard.SetTarget(setLeft, uIElement);
             Storyboard.SetTargetProperty(setLeft, new PropertyPath(Canvas.LeftProperty));
 
@@ -318,8 +326,11 @@ namespace Worldescape
             moveStory.Begin();
 
             #endregion
+        }
 
-            Console.WriteLine("uIElement moved.");
+        private void SetRight_Completed(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
