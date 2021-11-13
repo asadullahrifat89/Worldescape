@@ -387,9 +387,7 @@ namespace Worldescape.Pages
 
             childWindow.Show();
         }
-
-        int pageSize = 50;
-        int pageIndex = 0;
+            
 
         private void ConstructGalleryButton_Click(object sender, RoutedEventArgs e)
         {
