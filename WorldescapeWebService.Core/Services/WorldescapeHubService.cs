@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
-using Worldescape.Common.Entities;
-using Worldescape.Common.Requests;
+using Worldescape.Shared.Entities;
+using Worldescape.Shared.Requests;
 using WorldescapeWebService.Core.Contracts.Services;
 
 namespace WorldescapeWebService.Core.Services;

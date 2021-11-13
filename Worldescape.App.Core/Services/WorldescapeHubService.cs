@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using Worldescape.Core.Contracts.Services;
 using Worldescape.Core.ObjectElements;
-using Worldescape.Common.Entities;
-using Worldescape.Common.Requests;
+using Worldescape.Shared.Entities;
+using Worldescape.Shared.Requests;
 
 namespace Worldescape.Core.Services
 {

@@ -1,6 +1,6 @@
-﻿using Worldescape.Common.Entities;
+﻿using Worldescape.Shared.Entities;
 
-namespace Worldescape.Common.Requests
+namespace Worldescape.Shared.Requests
 {
     public class BroadcastAvatarActivityStatusRequest
     {

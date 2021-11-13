@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Worldescape.Common.Responses
+namespace Worldescape.Shared.Responses
 {
     public class ServiceResponse
     {

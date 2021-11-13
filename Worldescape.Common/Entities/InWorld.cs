@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Common.Entities
+﻿namespace Worldescape.Shared.Entities
 {
     /// <summary>
     /// Information of the world in which an avatar or a construct is.

@@ -1,3 +1,0 @@
-﻿namespace Worldescape.Skia.Gtk
-{
-}

@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Common.Entities
+﻿namespace Worldescape.Shared.Entities
 {
     public class ApiToken
     {

@@ -10,7 +10,7 @@ using System.Net.Http;
 using System.Linq;
 using System.Threading.Tasks;
 using Worldescape.Core.Contracts.Services;
-using Worldescape.Common.Responses;
+using Worldescape.Shared.Responses;
 
 namespace Worldescape.Core.Services
 {

@@ -1,4 +1,4 @@
-﻿using Worldescape.Common.Entities;
+﻿using Worldescape.Shared.Entities;
 using WorldescapeWebService.Core.Requests;
 
 namespace WorldescapeWebService.Core.Declarations.Commands;

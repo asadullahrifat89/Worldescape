@@ -1,5 +1,5 @@
 ﻿using LiteDB;
-using Worldescape.Common.Entities;
+using Worldescape.Shared.Entities;
 
 namespace WorldescapeWebService.Core.Helpers
 {

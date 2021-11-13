@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Common.Entities
+﻿namespace Worldescape.Shared.Entities
 {
     /// <summary>
     /// An image url bound to an activity status.

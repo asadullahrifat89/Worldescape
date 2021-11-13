@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Common.Entities
+﻿namespace Worldescape.Shared.Entities
 {
     /// <summary>
     /// Information of a user who created a construct or a world.

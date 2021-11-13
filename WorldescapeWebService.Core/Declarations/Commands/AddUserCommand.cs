@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Worldescape.Common.Entities;
-using Worldescape.Common.Responses;
+using Worldescape.Shared.Entities;
+using Worldescape.Shared.Responses;
 
 namespace WorldescapeWebService.Core.Declarations.Commands;
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Collections.ObjectModel;
-using Worldescape.Common.Entities;
+using Worldescape.Shared.Entities;
 
 namespace Worldescape.Core.ObjectElements
 {

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Worldescape.Common.Entities;
+using Worldescape.Shared.Entities;
 using WorldescapeWebService.Core.Declarations.Commands;
 
 namespace WorldescapeWebService.Core.Validators.Commands;

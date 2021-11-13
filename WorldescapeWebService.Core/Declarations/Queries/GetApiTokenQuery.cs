@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Worldescape.Common.Responses;
+using Worldescape.Shared.Responses;
 
 namespace WorldescapeWebService.Core.Declarations.Queries;
 

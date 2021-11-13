@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Worldescape.Common.Entities;
+using Worldescape.Shared.Entities;
 
 namespace WorldescapeWebService.Core.Responses.Queries
 {

@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Common.Entities
+﻿namespace Worldescape.Shared.Entities
 {
     /// <summary>
     /// An entity in a world representing a user with the user's character.

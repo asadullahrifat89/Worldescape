@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Worldescape.Common.Entities
+namespace Worldescape.Shared.Entities
 {
     /// <summary>
     /// A registered user in real world.

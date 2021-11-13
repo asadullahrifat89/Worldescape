@@ -2,8 +2,8 @@
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Worldescape.Core.ObjectElements;
-using Worldescape.Common.Entities;
-using Worldescape.Common.Requests;
+using Worldescape.Shared.Entities;
+using Worldescape.Shared.Requests;
 
 namespace Worldescape.Core.Contracts.Services
 {
