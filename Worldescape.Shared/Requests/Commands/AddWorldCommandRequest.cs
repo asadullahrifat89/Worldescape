@@ -1,6 +1,4 @@
-﻿using Worldescape.Shared.Entities;
-
-namespace Worldescape.Shared.Requests.Commands
+﻿namespace Worldescape.Shared.Requests.Commands
 {
     /// <summary>
     /// A command that inserts or updates a user.

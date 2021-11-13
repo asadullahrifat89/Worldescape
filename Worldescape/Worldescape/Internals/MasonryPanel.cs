@@ -1,8 +1,7 @@
-﻿
-using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml.Controls;
 
 
-namespace CSHTML5.Samples.Showcase
+namespace Worldescape.Internals
 {
     /// <summary>
     /// This class organizes its children in such a way that it takes the smallest space possible.
@@ -17,7 +16,7 @@ namespace CSHTML5.Samples.Showcase
         /// </summary>
         public MasonryPanel() : base()
         {
-            base.EnableProgressiveRendering = true;
+            EnableProgressiveRendering = true;
             Loaded += MasonryPanel_Loaded;
         }
 
@@ -48,7 +47,7 @@ namespace CSHTML5.Samples.Showcase
 
         void UpdateMasonryPanel()
         {
-            if (this.IsLoaded)
+            if (IsLoaded)
             {
                 object thisDiv = OpenSilver.Interop.GetDiv(this);
 

@@ -2,7 +2,7 @@
 using Windows.UI.Xaml.Controls;
 
 
-namespace Worldescape
+namespace Worldescape.Internals
 {
     /// <summary>
     /// This class organizes its children in such a way that it takes the smallest space possible.
@@ -17,7 +17,7 @@ namespace Worldescape
         /// </summary>
         public MasonryPanelWithProgressiveLoading() : base()
         {
-            base.EnableProgressiveRendering = true;
+            EnableProgressiveRendering = true;
         }
 
         void UpdateMasonryPanel()

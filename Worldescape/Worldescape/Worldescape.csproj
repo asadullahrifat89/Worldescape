@@ -7,6 +7,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="OpenSilver.UWPCompatible" Version="1.0.0" />
 	</ItemGroup>
 
@@ -80,14 +87,28 @@
 
 	<ItemGroup>
 		<Compile Include="App.xaml.cs" />
+		<Compile Include="Contracts\Services\IHttpService.cs" />
+		<Compile Include="Contracts\Services\IWorldescapeHubService.cs" />
+		<Compile Include="Extensions\HttpServiceExtensions.cs" />
 		<Compile Include="Internals\MasonryPanel.cs" />
 		<Compile Include="Internals\MasonryPanelWithProgressiveLoading.cs" />
 		<Compile Include="MainPage.xaml.cs" />
+		<Compile Include="ObjectElements\AvatarElement.cs" />
+		<Compile Include="ObjectElements\CategorizedConstructsElement.cs" />
+		<Compile Include="ObjectElements\ChatMessageElement.cs" />
 		<Compile Include="Pages\InsideWorldPage.xaml.cs" />
 		<Compile Include="Pages\SignupPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
 		<Compile Include="Pages\LoginPage.xaml.cs" />
+		<Compile Include="Properties\Resources.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Include="RangeObservableCollection.cs" />
+		<Compile Include="Services\HttpService.cs" />
+		<Compile Include="Services\WorldescapeHubService.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\AccentColorConverter.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\DoubleToCornerRadiusConverter.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\TextToPlaceholderTextVisibilityConverter.cs" />
@@ -3001,7 +3022,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Worldescape.Interaction\Worldescape.Interaction.csproj" />
+	  <EmbeddedResource Include="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Worldescape.Shared\Worldescape.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

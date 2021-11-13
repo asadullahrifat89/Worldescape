@@ -1,5 +1,4 @@
-﻿using MediatR;
-using WorldescapeWebService.Core.Requests;
+﻿using WorldescapeWebService.Core.Requests;
 using WorldescapeWebService.Core.Responses.Queries;
 
 namespace WorldescapeWebService.Core.Declarations.Queries;

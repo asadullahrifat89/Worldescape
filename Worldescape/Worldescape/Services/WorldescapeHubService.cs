@@ -3,13 +3,12 @@ using System.Collections.Concurrent;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.Configuration;
-using Worldescape.Interaction.Contracts.Services;
-using Worldescape.Interaction.ObjectElements;
+using Worldescape.Contracts.Services;
+using Worldescape.ObjectElements;
 using Worldescape.Shared.Entities;
 using Worldescape.Shared.Requests;
 
-namespace Worldescape.Interaction.Services
+namespace Worldescape.Services
 {
     public class WorldescapeHubService : IWorldescapeHubService
     {
@@ -55,7 +54,7 @@ namespace Worldescape.Interaction.Services
 
         public WorldescapeHubService()
         {
-            var url =  configuration["BaseUrls:HubService"];
+            var url = App.Current.Resources["HubService.dev"] as string; //configuration["BaseUrls:HubService"];
 
             connection = new HubConnectionBuilder().WithUrl(url).WithAutomaticReconnect().Build();
 

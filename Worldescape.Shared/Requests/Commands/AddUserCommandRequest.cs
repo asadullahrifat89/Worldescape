@@ -1,6 +1,5 @@
 ﻿using System;
 using Worldescape.Shared.Entities;
-using Worldescape.Shared.Responses;
 
 namespace Worldescape.Shared.Requests.Commands
 {

@@ -3,7 +3,7 @@ using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-namespace MaterialDesign_Styles_Kit
+namespace Worldescape.Styles.MaterialDesign_Styles_Kit
 {
     public class AccentColorConverter : IValueConverter
     {
@@ -12,9 +12,9 @@ namespace MaterialDesign_Styles_Kit
             if (value is SolidColorBrush)
             {
                 Color oldColor = ((SolidColorBrush)value).Color;
-                Byte newR = oldColor.R > 40 ? (Byte)(oldColor.R - 40) : (Byte)0;
-                Byte newG = oldColor.G > 40 ? (Byte)(oldColor.G - 40) : (Byte)0;
-                Byte newB = oldColor.B > 40 ? (Byte)(oldColor.B - 40) : (Byte)0;
+                byte newR = oldColor.R > 40 ? (byte)(oldColor.R - 40) : (byte)0;
+                byte newG = oldColor.G > 40 ? (byte)(oldColor.G - 40) : (byte)0;
+                byte newB = oldColor.B > 40 ? (byte)(oldColor.B - 40) : (byte)0;
                 Color newColor = Color.FromArgb(oldColor.A, newR, newG, newB);
                 return new SolidColorBrush(newColor);
             }
