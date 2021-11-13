@@ -8,74 +8,39 @@
     mc:Ignorable="d">
 
     <Grid>
+        <!--<ScrollViewer 
+            Grid.Row="1"
+            x:Name="FrameScrollViewer"
+			HorizontalScrollBarVisibility="Auto"			
+			IsTabStop="False"			
+			VerticalScrollBarVisibility="Auto">-->
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-
-        <StackPanel Orientation="Horizontal" x:Name="TopButtonHolder">
-
-            <Button  
-                Style="{StaticResource MaterialDesign_Button_Style}"
-                Content="Login" 
-                Margin="10"  
-                FontSize="20"
-                x:Name="ChildWindowButton"
-                Height="50"
-                MinWidth="100" 
-                Click="ChildWindowButton_Click">
-            </Button>
-
-            <Button   
-                Style="{StaticResource MaterialDesign_Button_Style}"
-                Content="Craft" 
-                Margin="10"  
-                FontSize="20"
-                x:Name="CraftButton"
-                Height="50"
-                MinWidth="100" 
-                Click="CraftButton_Click">
-            </Button>
-
-            <Button   
-                Style="{StaticResource MaterialDesign_Button_Style}"
-                Content="Move" 
-                Margin="10"  
-                FontSize="20"
-                x:Name="MoveButton"
-                Height="50"
-                MinWidth="100" 
-                Click="MoveButton_Click">
-            </Button>
-
-            <StackPanel x:Name="MovingConstructHolder"></StackPanel>
-
-            <TextBlock Text="Selected:" FontSize="20" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
-
-            <StackPanel x:Name="InteractiveConstructHolder"></StackPanel>
-
-        </StackPanel>
 
         <ScrollViewer 
             Grid.Row="1"
-            x:Name="ScrollViewer_World"
+            x:Name="FrameScrollViewer"
 			HorizontalScrollBarVisibility="Auto"			
 			IsTabStop="False"			
 			VerticalScrollBarVisibility="Auto">
 
-            <Canvas
-                x:Name="Canvas_root"  
-                Width="8000"
-			    Height="8000"
-                Background="Transparent"
-                PointerPressed="Canvas_root_PointerPressed"
-                AllowDrop="True">
-            </Canvas>
+            <Frame Grid.Row="1" x:Name="PageContainer" JournalOwnership="Automatic" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <Frame.UriMapper>
+                    <UriMapper>
+                        <UriMapping
+                        Uri="/{page_name}"
+                        MappedUri="/Pages/{page_name}.xaml"/>
+                    </UriMapper>
+                </Frame.UriMapper>
+                <Frame.RenderTransform>
+                    <TranslateTransform/>
+                </Frame.RenderTransform>
+            </Frame>
 
         </ScrollViewer>
-
 
     </Grid>
 

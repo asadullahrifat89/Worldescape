@@ -261,13 +261,16 @@
                                 </VisualState>
                                 <VisualState Name="PointerOver">
                                     <Storyboard>
+                                        
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Path=Foreground, Converter={StaticResource AccentColorConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                         </ObjectAnimationUsingKeyFrames>
+                                        
                                         <!--Problem below-->
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="TextDecorations" Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="Underline"/>
                                         </ObjectAnimationUsingKeyFrames>
+
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState Name="Pressed">
