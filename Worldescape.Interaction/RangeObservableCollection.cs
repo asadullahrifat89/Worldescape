@@ -17,22 +17,10 @@ namespace System.Collections.ObjectModel
 	/// </summary>
 	public class RangeObservableCollection<T> : ObservableCollection<T>
     {
-        //------------------------------------------------------
-        //
-        //  Private Fields
-        //
-        //------------------------------------------------------
-
         #region Private Fields    
         [NonSerialized]
         private DeferredEventsCollection? _deferredEvents;
         #endregion Private Fields
-
-        //------------------------------------------------------
-        //
-        //  Constructors
-        //
-        //------------------------------------------------------
 
         #region Constructors
         /// <summary>
@@ -67,12 +55,6 @@ namespace System.Collections.ObjectModel
 
         #endregion Constructors
 
-        //------------------------------------------------------
-        //
-        //  Public Properties
-        //
-        //------------------------------------------------------
-
         #region Public Properties
         EqualityComparer<T>? _Comparer;
         public EqualityComparer<T> Comparer
@@ -90,12 +72,6 @@ namespace System.Collections.ObjectModel
         public bool AllowDuplicates { get; set; } = true;
 
         #endregion Public Properties
-
-        //------------------------------------------------------
-        //
-        //  Public Methods
-        //
-        //------------------------------------------------------
 
         #region Public Methods
 
@@ -480,13 +456,6 @@ namespace System.Collections.ObjectModel
 
         #endregion Public Methods
 
-
-        //------------------------------------------------------
-        //
-        //  Protected Methods
-        //
-        //------------------------------------------------------
-
         #region Protected Methods
 
         /// <summary>
@@ -556,12 +525,6 @@ namespace System.Collections.ObjectModel
 
         #endregion Protected Methods
 
-        //------------------------------------------------------
-        //
-        //  Private Methods
-        //
-        //------------------------------------------------------
-
         #region Private Methods
 
         /// <summary>
@@ -620,12 +583,6 @@ namespace System.Collections.ObjectModel
 
         #endregion Private Methods
 
-        //------------------------------------------------------
-        //
-        //  Private Types
-        //
-        //------------------------------------------------------
-
         #region Private Types
         sealed class DeferredEventsCollection : List<NotifyCollectionChangedEventArgs>, IDisposable
         {
@@ -647,7 +604,6 @@ namespace System.Collections.ObjectModel
         }
 
         #endregion Private Types
-
     }
 
     /// <remarks>
