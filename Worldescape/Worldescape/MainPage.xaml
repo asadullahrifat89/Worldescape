@@ -20,7 +20,8 @@
             <Button  
                 Background="Transparent"
                 Content="Craft" 
-                Margin="10"  FontSize="20"
+                Margin="10"  
+                FontSize="20"
                 x:Name="CraftButton"
                 Height="50"
                 Width="100" 
@@ -30,7 +31,8 @@
             <Button  
                 Background="Transparent"
                 Content="Move" 
-                Margin="10"  FontSize="20"
+                Margin="10"  
+                FontSize="20"
                 x:Name="MoveButton"
                 Height="50"
                 Width="100" 

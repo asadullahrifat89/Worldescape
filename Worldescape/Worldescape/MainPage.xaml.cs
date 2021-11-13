@@ -53,13 +53,14 @@ namespace Worldescape
 
             MoveButton.Visibility = Visibility.Collapsed;
 
-            DrawObjectsOnCanvas();
-            AddCharacterOnCanvas();
-
+            DrawConstructsOnCanvas();
+            
+            DrawAvatarOnCanvas();
+            
             // Enter construction logic here...
         }
 
-        private void DrawObjectsOnCanvas()
+        private void DrawConstructsOnCanvas()
         {
             try
             {
@@ -97,7 +98,7 @@ namespace Worldescape
             }
         }
 
-        private void AddCharacterOnCanvas()
+        private void DrawAvatarOnCanvas()
         {
             try
             {
@@ -236,7 +237,7 @@ namespace Worldescape
                 var oriBitmap = ((Image)((HyperlinkButton)uielement).Content).Source as BitmapImage;
 
                 var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
-                var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 50 };
+                var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 150, Margin = new Thickness(10) };
 
                 var historyButton = new HyperlinkButton() { Content = img };
                 historyButton.Click += HistoryButton_Click;
@@ -262,6 +263,12 @@ namespace Worldescape
         {
             _isMovingMode = !_isMovingMode;
             MoveButton.Content = _isMovingMode ? "Moving" : "Move";
+
+            if (!_isMovingMode)
+            {
+                LastConstructHolder.Children.Clear();
+                lastInteractedConstruct = null; 
+            }
         }
 
         private void MoveElement(PointerRoutedEventArgs e, UIElement uIElement)
@@ -324,11 +331,6 @@ namespace Worldescape
             moveStory.Begin();
 
             #endregion
-        }
-
-        private void SetRight_Completed(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
         }
     }
 }
