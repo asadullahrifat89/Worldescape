@@ -54,9 +54,9 @@ namespace Worldescape
             MoveButton.Visibility = Visibility.Collapsed;
 
             DrawConstructsOnCanvas();
-            
+
             DrawAvatarOnCanvas();
-            
+
             // Enter construction logic here...
         }
 
@@ -267,7 +267,7 @@ namespace Worldescape
             if (!_isMovingMode)
             {
                 LastConstructHolder.Children.Clear();
-                lastInteractedConstruct = null; 
+                lastInteractedConstruct = null;
             }
         }
 
@@ -331,6 +331,20 @@ namespace Worldescape
             moveStory.Begin();
 
             #endregion
+        }
+
+        private void ChildWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChildWindow childWindow = new ChildWindow();
+
+            var stackpanel = new StackPanel();
+
+            stackpanel.Children.Add(new TextBox() { Margin = new Thickness(10), Height = 30 });
+            stackpanel.Children.Add(new PasswordBox() { Margin = new Thickness(10), Height = 30 });
+
+            childWindow.Content = stackpanel;
+
+            childWindow.Show();
         }
     }
 }

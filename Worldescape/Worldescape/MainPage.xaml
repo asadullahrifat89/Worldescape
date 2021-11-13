@@ -19,6 +19,17 @@
 
             <Button  
                 Background="Transparent"
+                Content="Login" 
+                Margin="10"  
+                FontSize="20"
+                x:Name="ChildWindowButton"
+                Height="50"
+                Width="100" 
+                Click="ChildWindowButton_Click">
+            </Button>
+
+            <Button  
+                Background="Transparent"
                 Content="Craft" 
                 Margin="10"  
                 FontSize="20"
