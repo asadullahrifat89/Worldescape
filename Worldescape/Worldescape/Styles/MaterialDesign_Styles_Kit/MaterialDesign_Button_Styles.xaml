@@ -339,20 +339,11 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Path=Foreground, Converter={StaticResource AccentColorConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                         </ObjectAnimationUsingKeyFrames>
-                                        
-                                        <!--Problem below-->
-                                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="TextDecorations" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Underline"/>
-                                        </ObjectAnimationUsingKeyFrames>-->
-
+                                       
                                         <!--Hover effect-->
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderThickness" Storyboard.TargetName="OuterBorder">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="2"/>
-                                        </ObjectAnimationUsingKeyFrames>
-
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="BorderBrush" Storyboard.TargetName="OuterBorder">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Trasparent"/>
-                                        </ObjectAnimationUsingKeyFrames>                                        
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="5"/>
+                                        </ObjectAnimationUsingKeyFrames>                                                                     
 
                                     </Storyboard>
                                 </VisualState>

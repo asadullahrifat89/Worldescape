@@ -81,6 +81,7 @@ namespace Worldescape.Pages
 
                         var obj = new Button()
                         {
+                            BorderBrush = new SolidColorBrush(Colors.DodgerBlue),
                             Style = Application.Current.Resources["MaterialDesign_ConstructButton_Style"] as Style
                         };
 
