@@ -9,6 +9,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
+using Worldescape.Shared.Entities;
+using Image = Windows.UI.Xaml.Controls.Image;
 
 namespace Worldescape.Pages
 {
@@ -45,6 +47,8 @@ namespace Worldescape.Pages
 
         string avatarUrl = "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png";
 
+        RangeObservableCollection<Construct> constructs = new RangeObservableCollection<Construct>();
+
         #endregion
 
         public InsideWorldPage()
@@ -52,6 +56,9 @@ namespace Worldescape.Pages
             this.InitializeComponent();
 
             MoveButton.Visibility = Visibility.Collapsed;
+            ConstructGalleryList.ItemsSource = constructs;
+
+            ConstructGalleryList.Visibility = Visibility.Collapsed;
 
             DrawConstructsOnCanvas();
             DrawAvatarOnCanvas();
@@ -380,5 +387,32 @@ namespace Worldescape.Pages
         }
 
         #endregion
+
+        private void ConstructGalleryButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ConstructGalleryList.Visibility = ConstructGalleryList.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+
+                if (ConstructGalleryList.Visibility == Visibility.Visible)
+                {
+                    if (!constructs.Any())
+                    {
+                        var host = "ms-appx:///Images/World_Objects";
+
+                       
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void ConstructGalleryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

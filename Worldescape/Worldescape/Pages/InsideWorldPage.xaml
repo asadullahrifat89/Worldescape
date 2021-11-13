@@ -17,16 +17,6 @@
 
         <StackPanel x:Name="TopButtonHolder" Orientation="Horizontal">
 
-            <!--<Button
-                x:Name="ChildWindowButton"
-                Height="50"
-                MinWidth="100"
-                Margin="10"
-                Click="ChildWindowButton_Click"
-                Content="Login"
-                FontSize="20"
-                Style="{StaticResource MaterialDesign_Button_Style}" />-->
-
             <Button
                 x:Name="CraftButton"
                 Height="50"
@@ -34,6 +24,16 @@
                 Margin="10"
                 Click="CraftButton_Click"
                 Content="Craft"
+                FontSize="20"
+                Style="{StaticResource MaterialDesign_Button_Style}" />
+
+            <Button
+                x:Name="ConstructGalleryButton"
+                Height="50"
+                MinWidth="100"
+                Margin="10"
+                Click="ConstructGalleryButton_Click"
+                Content="Gallery"
                 FontSize="20"
                 Style="{StaticResource MaterialDesign_Button_Style}" />
 
@@ -75,5 +75,11 @@
                 PointerPressed="Canvas_root_PointerPressed" />
 
         </ScrollViewer>
+
+        <ListBox
+            x:Name="ConstructGalleryList"
+            Grid.Row="2"
+            SelectionChanged="ConstructGalleryList_SelectionChanged"
+            SelectionMode="Single" />
     </Grid>
 </Page>
