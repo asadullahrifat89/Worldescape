@@ -50,7 +50,11 @@
                 Click="MoveButton_Click">
             </Button>
 
-            <StackPanel x:Name="LastConstructHolder"></StackPanel>
+            <StackPanel x:Name="MovingConstructHolder"></StackPanel>
+
+            <TextBlock Text="Selected:" FontSize="20" FontWeight="Bold" VerticalAlignment="Center"></TextBlock>
+
+            <StackPanel x:Name="InteractiveConstructHolder"></StackPanel>
 
         </StackPanel>
 

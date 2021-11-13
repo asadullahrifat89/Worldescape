@@ -106,7 +106,7 @@ namespace Worldescape
         {
             UIElement uielement = (UIElement)sender;
             interactiveConstruct = uielement;
-            ShowSelectedConstruct(uielement);
+            ShowInteractiveConstruct(uielement);
         }
 
         private void DrawAvatarOnCanvas()
@@ -148,7 +148,7 @@ namespace Worldescape
             _isMovingMode = false;
             this.MoveButton.Content = "Move";
 
-            LastConstructHolder.Children.Clear();
+            InteractiveConstructHolder.Children.Clear();
             interactiveConstruct = null;
 
             //if (_isCraftingMode)
@@ -241,24 +241,18 @@ namespace Worldescape
                 uielement.ReleasePointerCapture(e.Pointer);
 
                 interactiveConstruct = uielement;
-                ShowSelectedConstruct(uielement);
+                ShowInteractiveConstruct(uielement);
             }
         }
 
-        private void ShowSelectedConstruct(UIElement uielement)
+        private void ShowInteractiveConstruct(UIElement uielement)
         {
             try
             {
-                var oriBitmap = ((Image)((HyperlinkButton)uielement).Content).Source as BitmapImage;
+                HyperlinkButton historyButton = CopyConstructContent(uielement);
 
-                var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
-                var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 150, Margin = new Thickness(10) };
-
-                var historyButton = new HyperlinkButton() { Content = img };
-                historyButton.Click += HistoryButton_Click;
-
-                LastConstructHolder.Children.Clear();
-                LastConstructHolder.Children.Add(historyButton);
+                InteractiveConstructHolder.Children.Clear();
+                InteractiveConstructHolder.Children.Add(historyButton);
 
             }
             catch (Exception ex)
@@ -268,9 +262,20 @@ namespace Worldescape
             }
         }
 
+        private static HyperlinkButton CopyConstructContent(UIElement uielement)
+        {
+            var oriBitmap = ((Image)((HyperlinkButton)uielement).Content).Source as BitmapImage;
+
+            var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
+            var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 100, Margin = new Thickness(10) };
+
+            var historyButton = new HyperlinkButton() { Content = img };
+            return historyButton;
+        }
+
         private void HistoryButton_Click(object sender, RoutedEventArgs e)
         {
-            LastConstructHolder.Children.Clear();
+            InteractiveConstructHolder.Children.Clear();
             interactiveConstruct = null;
         }
 
@@ -284,12 +289,31 @@ namespace Worldescape
                 if (!_isMovingMode)
                 {
                     movingConstruct = null;
+                    MovingConstructHolder.Children.Clear();
                 }
                 else
                 {
                     UIElement uielement = interactiveConstruct;
                     movingConstruct = uielement;
+                    ShowMovingConstruct(movingConstruct);
                 }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        private void ShowMovingConstruct(UIElement uielement)
+        {
+            try
+            {
+                HyperlinkButton historyButton = CopyConstructContent(uielement);
+
+                MovingConstructHolder.Children.Clear();
+                MovingConstructHolder.Children.Add(historyButton);
+
             }
             catch (Exception ex)
             {
