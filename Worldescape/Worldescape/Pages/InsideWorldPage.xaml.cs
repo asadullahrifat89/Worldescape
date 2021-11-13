@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
@@ -51,7 +52,7 @@ namespace Worldescape.Pages
 
         string avatarUrl = "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png";
 
-        public ObservableCollection<ConstructAsset> ConstructAssets = new ObservableCollection<ConstructAsset>();
+        public List<ConstructAsset> ConstructAssets = new List<ConstructAsset>();
 
         ChildWindow childWindow = new ChildWindow();
 
@@ -391,6 +392,11 @@ namespace Worldescape.Pages
         {
             try
             {
+                if (!ConstructAssets.Any())
+                {
+                    ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).ToList();
+                }
+
                 childWindow = new ChildWindow()
                 {
                     Height = 500,
@@ -402,12 +408,16 @@ namespace Worldescape.Pages
                 ScrollViewer scrollViewer = new ScrollViewer()
                 {
                     HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
-                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
                 };
 
-                MasonryPanelWithProgressiveLoading wrapPanel = new MasonryPanelWithProgressiveLoading() { Margin = new Thickness(5) };
+                MasonryPanelWithProgressiveLoading wrapPanel = new MasonryPanelWithProgressiveLoading()
+                {
+                    Margin = new Thickness(5),
+                    Style = Application.Current.Resources["Panel_Style"] as Style
+                };
 
-                var constructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).Take(50);
+                var constructAssets = ConstructAssets.Take(50);
 
                 foreach (var item in constructAssets)
                 {
