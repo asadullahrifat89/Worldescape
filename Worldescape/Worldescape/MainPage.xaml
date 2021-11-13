@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    
+
     <Grid>
 
         <Grid.RowDefinitions>
@@ -18,35 +18,35 @@
         <StackPanel Orientation="Horizontal" x:Name="TopButtonHolder">
 
             <Button  
-                Background="Transparent"
+                Style="{StaticResource MaterialDesign_Button_Style}"
                 Content="Login" 
                 Margin="10"  
                 FontSize="20"
                 x:Name="ChildWindowButton"
                 Height="50"
-                Width="100" 
+                MinWidth="100" 
                 Click="ChildWindowButton_Click">
             </Button>
 
-            <Button  
-                Background="Transparent"
+            <Button   
+                Style="{StaticResource MaterialDesign_Button_Style}"
                 Content="Craft" 
                 Margin="10"  
                 FontSize="20"
                 x:Name="CraftButton"
                 Height="50"
-                Width="100" 
+                MinWidth="100" 
                 Click="CraftButton_Click">
             </Button>
 
-            <Button  
-                Background="Transparent"
+            <Button   
+                Style="{StaticResource MaterialDesign_Button_Style}"
                 Content="Move" 
                 Margin="10"  
                 FontSize="20"
                 x:Name="MoveButton"
                 Height="50"
-                Width="100" 
+                MinWidth="100" 
                 Click="MoveButton_Click">
             </Button>
 
@@ -74,5 +74,5 @@
 
 
     </Grid>
-    
+
 </Page>
