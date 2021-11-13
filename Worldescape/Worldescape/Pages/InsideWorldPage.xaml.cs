@@ -394,7 +394,7 @@ namespace Worldescape.Pages
                 childWindow = new ChildWindow()
                 {
                     Height = 500,
-                    Width = 460,
+                    Width = 470,
                     Title = "Select a Construct",
                     Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style
                 };
@@ -405,7 +405,7 @@ namespace Worldescape.Pages
                     VerticalScrollBarVisibility = ScrollBarVisibility.Auto
                 };
 
-                MasonryPanelWithProgressiveLoading wrapPanel = new MasonryPanelWithProgressiveLoading();
+                MasonryPanelWithProgressiveLoading wrapPanel = new MasonryPanelWithProgressiveLoading() { Margin = new Thickness(5) };
 
                 var constructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).Take(50);
 
