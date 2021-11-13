@@ -9,12 +9,24 @@
 
     <Grid>
 
-        <WrapPanel
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>-->
+
+        <!--<ScrollViewer
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Auto"
+            IsTabStop="False"
+            VerticalScrollBarVisibility="Auto">-->
+
+        <StackPanel
+            Margin="20"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
 
-            <StackPanel Margin="20">
+            <StackPanel Margin="20" VerticalAlignment="Top">
                 <TextBlock
                     Margin="20"
                     FontSize="100"
@@ -28,7 +40,7 @@
                     TextWrapping="Wrap" />
             </StackPanel>
 
-            <ContentControl Grid.Column="1" Style="{StaticResource MaterialDesign_Card_Style}">
+            <ContentControl VerticalAlignment="Top" Style="{StaticResource MaterialDesign_Card_Style}">
 
                 <StackPanel Width="350" Margin="10">
 
@@ -73,7 +85,10 @@
                 </StackPanel>
 
             </ContentControl>
-        </WrapPanel>
+
+        </StackPanel>
+
+        <!--</ScrollViewer>-->
 
     </Grid>
 </Page>
