@@ -12,7 +12,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="TopButtonHolder" Orientation="Horizontal">
@@ -45,7 +44,8 @@
                 Click="MoveButton_Click"
                 Content="Move"
                 FontSize="20"
-                Style="{StaticResource MaterialDesign_Button_Style}" />
+                Style="{StaticResource MaterialDesign_Button_Style}"
+                Visibility="Collapsed" />
 
             <StackPanel x:Name="MovingConstructHolder" />
 
@@ -76,10 +76,5 @@
 
         </ScrollViewer>
 
-        <ListBox
-            x:Name="ConstructGalleryList"
-            Grid.Row="2"
-            SelectionChanged="ConstructGalleryList_SelectionChanged"
-            SelectionMode="Single" />
     </Grid>
 </Page>

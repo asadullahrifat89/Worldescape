@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Worldescape.Shared.Entities;
-using Worldescape.Shared.Models;
 
-namespace Worldescape.ObjectElements
+namespace Worldescape.Shared.Models
 {
-    public class CategorizedConstructsElement : CoreBase
+    public class CategorizedConstructsHost : CoreBase
     {
         public List<ConstructAsset> ChildrenSource { get; set; } = new List<ConstructAsset>();
 

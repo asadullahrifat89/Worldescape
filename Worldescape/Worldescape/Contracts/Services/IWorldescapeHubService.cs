@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using Worldescape.ObjectElements;
 using Worldescape.Shared.Entities;
+using Worldescape.Shared.Models;
 using Worldescape.Shared.Requests;
 
 namespace Worldescape.Contracts.Services

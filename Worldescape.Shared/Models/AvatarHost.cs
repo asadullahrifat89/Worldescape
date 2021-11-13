@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using Worldescape.Shared.Entities;
 
-namespace Worldescape.ObjectElements
+namespace Worldescape.Shared.Models
 {
     public class AvatarElement : INotifyPropertyChanged
     {

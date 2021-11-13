@@ -93,9 +93,6 @@
 		<Compile Include="Internals\MasonryPanel.cs" />
 		<Compile Include="Internals\MasonryPanelWithProgressiveLoading.cs" />
 		<Compile Include="MainPage.xaml.cs" />
-		<Compile Include="ObjectElements\AvatarElement.cs" />
-		<Compile Include="ObjectElements\CategorizedConstructsElement.cs" />
-		<Compile Include="ObjectElements\ChatMessageElement.cs" />
 		<Compile Include="Pages\InsideWorldPage.xaml.cs" />
 		<Compile Include="Pages\SignupPage.xaml.cs">
 		  <SubType>Code</SubType>

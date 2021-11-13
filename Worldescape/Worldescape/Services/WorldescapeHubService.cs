@@ -4,8 +4,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Worldescape.Contracts.Services;
-using Worldescape.ObjectElements;
 using Worldescape.Shared.Entities;
+using Worldescape.Shared.Models;
 using Worldescape.Shared.Requests;
 
 namespace Worldescape.Services

@@ -50,18 +50,13 @@ namespace Worldescape.Pages
 
         string avatarUrl = "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png";
 
-        ObservableCollection<ConstructAsset> _constructAssets = new ObservableCollection<ConstructAsset>();
+        public ObservableCollection<ConstructAsset> ConstructAssets = new ObservableCollection<ConstructAsset>();
 
         #endregion
 
         public InsideWorldPage()
         {
             this.InitializeComponent();
-
-            MoveButton.Visibility = Visibility.Collapsed;
-            ConstructGalleryList.ItemsSource = _constructAssets;
-
-            ConstructGalleryList.Visibility = Visibility.Collapsed;
 
             DrawConstructsOnCanvas();
             DrawAvatarOnCanvas();
@@ -389,24 +384,51 @@ namespace Worldescape.Pages
             childWindow.Show();
         }
 
-        #endregion
-
         private void ConstructGalleryButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                ConstructGalleryList.Visibility = ConstructGalleryList.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
-
-                if (ConstructGalleryList.Visibility == Visibility.Visible)
+                ChildWindow childWindow = new ChildWindow()
                 {
-                    if (!_constructAssets.Any())
+                    Height = 500,
+                    Width = 500,
+                    Title = "Select a Construct",
+                    Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style
+                };
+
+                ScrollViewer scrollViewer = new ScrollViewer()
+                {
+                    HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto
+                };
+
+                WrapPanel wrapPanel = new WrapPanel();
+
+                var constructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).Take(50);
+
+                foreach (var item in constructAssets)
+                {
+                    var uri = item.ImageUrl;
+
+                    var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+                    var img = new Image() { Source = bitmap, Stretch = Stretch.None };
+
+                    var buttonConstructAsset = new Border()
                     {
-                        //var host = "ms-appx:///Images/World_Objects";
+                        BorderBrush = new SolidColorBrush(Colors.DodgerBlue),                        
+                    };
 
-                        _constructAssets = JsonSerializer.Deserialize<ObservableCollection<ConstructAsset>>(Properties.Resources.ConstructAssets);
-
-                    }
+                    buttonConstructAsset.Child = img;
+                    
+                    wrapPanel.Children.Add(buttonConstructAsset);
                 }
+
+                scrollViewer.Content = wrapPanel;
+
+                childWindow.Content = scrollViewer;
+
+                childWindow.Show();
             }
             catch (Exception ex)
             {
@@ -418,5 +440,12 @@ namespace Worldescape.Pages
         {
 
         }
+
+        private void SelectConstructAsset_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        #endregion
     }
 }
