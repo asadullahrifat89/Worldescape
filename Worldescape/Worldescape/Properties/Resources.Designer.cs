@@ -61,6 +61,32 @@ namespace Worldescape.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to [
+        ///  {
+        ///    &quot;Name&quot;: &quot;buildingTiles 000&quot;,
+        ///    &quot;ImageUrl&quot;: &quot;ms-appx:///Images/World_Objects/Buildings/buildingTiles_000.png&quot;,
+        ///    &quot;Category&quot;: &quot;Buildings&quot;
+        ///  },
+        ///  {
+        ///    &quot;Name&quot;: &quot;buildingTiles 001&quot;,
+        ///    &quot;ImageUrl&quot;: &quot;ms-appx:///Images/World_Objects/Buildings/buildingTiles_001.png&quot;,
+        ///    &quot;Category&quot;: &quot;Buildings&quot;
+        ///  },
+        ///  {
+        ///    &quot;Name&quot;: &quot;buildingTiles 002&quot;,
+        ///    &quot;ImageUrl&quot;: &quot;ms-appx:///Images/World_Objects/Buildings/buildingTiles_002.png&quot;,
+        ///    &quot;Category&quot;: &quot;Buildings&quot;
+        ///  },
+        ///  {
+        ///    &quot;Name&quot;: &quot;buildingTiles 003 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ConstructAssets {
+            get {
+                return ResourceManager.GetString("ConstructAssets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://localhost:7034/WorldescapeHub.
         /// </summary>
         internal static string HubService_dev {

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
+using System.Text.Json;
 using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -10,6 +12,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Shared.Entities;
+using Worldescape.Shared.Models;
 using Image = Windows.UI.Xaml.Controls.Image;
 
 namespace Worldescape.Pages
@@ -29,10 +32,10 @@ namespace Worldescape.Pages
 
         Button avatar = new Button() { Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style };
 
-        UIElement interactiveConstruct;
-        UIElement movingConstruct;
+        UIElement _interactiveConstruct;
+        UIElement _movingConstruct;
 
-        EasingFunctionBase easingFunction = new ExponentialEase()
+        EasingFunctionBase _easingFunction = new ExponentialEase()
         {
             EasingMode = EasingMode.EaseOut,
             Exponent = 5,
@@ -47,7 +50,7 @@ namespace Worldescape.Pages
 
         string avatarUrl = "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png";
 
-        RangeObservableCollection<Construct> constructs = new RangeObservableCollection<Construct>();
+        ObservableCollection<ConstructAsset> _constructAssets = new ObservableCollection<ConstructAsset>();
 
         #endregion
 
@@ -56,7 +59,7 @@ namespace Worldescape.Pages
             this.InitializeComponent();
 
             MoveButton.Visibility = Visibility.Collapsed;
-            ConstructGalleryList.ItemsSource = constructs;
+            ConstructGalleryList.ItemsSource = _constructAssets;
 
             ConstructGalleryList.Visibility = Visibility.Collapsed;
 
@@ -135,16 +138,16 @@ namespace Worldescape.Pages
             if (!_isCraftingMode)
             {
                 this.MoveButton.Visibility = Visibility.Collapsed;
-                movingConstruct = null;
+                _movingConstruct = null;
                 MovingConstructHolder.Children.Clear();
             }
         }
 
         private void Canvas_root_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (_isMovingMode && movingConstruct != null)
+            if (_isMovingMode && _movingConstruct != null)
             {
-                MoveElement(e, movingConstruct);
+                MoveElement(e, _movingConstruct);
             }
         }
 
@@ -152,14 +155,14 @@ namespace Worldescape.Pages
         {
 
             UIElement uielement = (UIElement)sender;
-            interactiveConstruct = uielement;
+            _interactiveConstruct = uielement;
             ShowInteractiveConstruct(uielement);
 
             if (_isMovingMode)
             {
-                if (movingConstruct != null)
+                if (_movingConstruct != null)
                 {
-                    MoveElement(e, movingConstruct);
+                    MoveElement(e, _movingConstruct);
                 }
             }
             else if (_isCraftingMode)
@@ -221,7 +224,7 @@ namespace Worldescape.Pages
                 _isPointerCaptured = false;
                 uielement.ReleasePointerCapture(e.Pointer);
 
-                interactiveConstruct = uielement;
+                _interactiveConstruct = uielement;
                 ShowInteractiveConstruct(uielement);
             }
         }
@@ -248,7 +251,7 @@ namespace Worldescape.Pages
         private void HistoryButton_Click(object sender, RoutedEventArgs e)
         {
             InteractiveConstructHolder.Children.Clear();
-            interactiveConstruct = null;
+            _interactiveConstruct = null;
         }
 
         private void MoveButton_Click(object sender, RoutedEventArgs e)
@@ -258,14 +261,14 @@ namespace Worldescape.Pages
 
             if (!_isMovingMode)
             {
-                movingConstruct = null;
+                _movingConstruct = null;
                 MovingConstructHolder.Children.Clear();
             }
             else
             {
-                UIElement uielement = interactiveConstruct;
-                movingConstruct = uielement;
-                ShowMovingConstruct(movingConstruct);
+                UIElement uielement = _interactiveConstruct;
+                _movingConstruct = uielement;
+                ShowMovingConstruct(_movingConstruct);
             }
         }
 
@@ -309,7 +312,7 @@ namespace Worldescape.Pages
                 From = nowX,
                 To = goToX,
                 Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                EasingFunction = easingFunction,
+                EasingFunction = _easingFunction,
             };
 
             DoubleAnimation setRight = new DoubleAnimation()
@@ -317,7 +320,7 @@ namespace Worldescape.Pages
                 From = nowY,
                 To = goToY,
                 Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                EasingFunction = easingFunction,
+                EasingFunction = _easingFunction,
             };
 
             setRight.Completed += (object sender, EventArgs e) =>
@@ -396,11 +399,12 @@ namespace Worldescape.Pages
 
                 if (ConstructGalleryList.Visibility == Visibility.Visible)
                 {
-                    if (!constructs.Any())
+                    if (!_constructAssets.Any())
                     {
-                        var host = "ms-appx:///Images/World_Objects";
+                        //var host = "ms-appx:///Images/World_Objects";
 
-                       
+                        _constructAssets = JsonSerializer.Deserialize<ObservableCollection<ConstructAsset>>(Properties.Resources.ConstructAssets);
+
                     }
                 }
             }

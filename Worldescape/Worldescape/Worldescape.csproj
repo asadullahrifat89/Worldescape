@@ -106,7 +106,6 @@
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
-		<Compile Include="RangeObservableCollection.cs" />
 		<Compile Include="Services\HttpService.cs" />
 		<Compile Include="Services\WorldescapeHubService.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\AccentColorConverter.cs" />
