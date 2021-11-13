@@ -6,8 +6,60 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Canvas>
-        <TextBlock Text="Hello World!" x:Name="TextBlock1" Canvas.Left="20" Canvas.Top="30"/>
-    </Canvas>
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" x:Name="TopButtonHolder">
+
+            <Button  
+                Background="Transparent"
+                Content="Craft" 
+                Margin="10"  FontSize="20"
+                x:Name="CraftButton"
+                Height="50"
+                Width="100" 
+                Click="CraftButton_Click">
+            </Button>
+
+            <Button  
+                Background="Transparent"
+                Content="Move" 
+                Margin="10"  FontSize="20"
+                x:Name="MoveButton"
+                Height="50"
+                Width="100" 
+                Click="MoveButton_Click">
+            </Button>
+
+            <StackPanel x:Name="LastConstructHolder"></StackPanel>
+
+        </StackPanel>
+
+        <ScrollViewer 
+            Grid.Row="1"
+            x:Name="ScrollViewer_World"
+			HorizontalScrollBarVisibility="Auto"			
+			IsTabStop="False"			
+			VerticalScrollBarVisibility="Auto">
+
+            <Canvas
+                x:Name="Canvas_root"  
+                Width="8000"
+			    Height="8000"
+                Background="Transparent"
+                PointerPressed="Canvas_root_PointerPressed"
+                AllowDrop="True">
+            </Canvas>
+
+        </ScrollViewer>
+
+
+    </Grid>
     
 </Page>
