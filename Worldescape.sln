@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebServices", "WebServices", "{2F265F2C-582E-4EFC-BF8D-CF525BFB55A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape.Interaction", "Worldescape.Core\Worldescape.Interaction.csproj", "{414C40D6-9FB2-4BF7-A6DF-FC6BEFB1202E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape.Interaction", "Worldescape.Interaction\Worldescape.Interaction.csproj", "{414C40D6-9FB2-4BF7-A6DF-FC6BEFB1202E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape.Shared", "Worldescape.Shared\Worldescape.Shared.csproj", "{70D12ACE-4398-4617-BEA8-3FB19D8173AE}"
 EndProject

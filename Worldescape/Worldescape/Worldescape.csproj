@@ -2931,7 +2931,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Worldescape.Core\Worldescape.Interaction.csproj" />
+    <ProjectReference Include="..\..\Worldescape.Interaction\Worldescape.Interaction.csproj" />
   </ItemGroup>
   
 </Project>
