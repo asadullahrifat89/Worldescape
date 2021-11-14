@@ -125,7 +125,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             if (!colAvatars.Exists(x => x.Id == avatar.Id))
             {
                 // Delete inactive avatars who have remained inactive for more than a minute
-                var concurrentAvatars = colAvatars.Find(x => x.World.Id == avatar.World.Id && x.Session != null && x.Session.DisconnectionTime != DateTime.MinValue);
+                var concurrentAvatars = colAvatars.Find(x => x.World.Id == avatar.World.Id && x.Session != null && x.Session.DisconnectionTime != null);
 
                 foreach (var inAvatar in concurrentAvatars)
                 {
