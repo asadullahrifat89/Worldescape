@@ -53,7 +53,9 @@ namespace Worldescape.Pages
 
         string avatarUrl = "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png";
 
-        public List<ConstructAsset> ConstructAssets = new List<ConstructAsset>();
+        List<ConstructAsset> ConstructAssets = new List<ConstructAsset>();
+
+        List<ConstructCategory> ConstructCategories = new List<ConstructCategory>();
 
         ChildWindow childWindow = new ChildWindow();
 
@@ -204,7 +206,7 @@ namespace Worldescape.Pages
             else if (_isCraftingMode)
             {
                 this.MoveButton.Visibility = Visibility.Visible;
-                                
+
                 _objectLeft = Canvas.GetLeft(uielement);
                 _objectTop = Canvas.GetTop(uielement);
 
@@ -422,13 +424,18 @@ namespace Worldescape.Pages
             if (!ConstructAssets.Any())
             {
                 ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).ToList();
+                ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
             }
 
-            var constructAssetPicker = new ConstructAssetPicker(ConstructAssets, (asset) =>
-            {
-                Button construct = GenerateConstruct(asset);
-                _addingConstruct = construct;
-            });
+            var constructAssetPicker = new ConstructAssetPicker(
+                constructAssets: ConstructAssets,
+                constructCategories: ConstructCategories,
+                assetSelected: (asset) =>
+                {
+                    Button construct = GenerateConstruct(asset);
+                    _addingConstruct = construct;
+                });
+
             constructAssetPicker.Show();
         }
 

@@ -16,7 +16,13 @@ namespace Worldescape.Internals
         int pageIndex = 0;
         int totalPageCount = 0;
 
+        bool _settingConstructAssets = false;
+        bool _settingConstructCategories = false;
+
+        string _pickedConstructCategory = string.Empty;
+
         List<ConstructAsset> _constructAssets = new List<ConstructAsset>();
+        List<ConstructCategory> _constructCategories = new List<ConstructCategory>();
 
         Action<ConstructAsset> _assetSelected;
 
@@ -33,16 +39,16 @@ namespace Worldescape.Internals
 
         public ConstructAssetPicker(
             List<ConstructAsset> constructAssets,
+            List<ConstructCategory> constructCategories,
             Action<ConstructAsset> assetSelected)
         {
             _constructAssets = constructAssets;
+            _constructCategories = constructCategories;
+
             _assetSelected = assetSelected;
 
-            totalPageCount = constructAssets.Count / pageSize;
-
             Height = 700;
-            Width = 470;
-            Title = "Select a Construct";
+            Width = 600;            
             Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style;
 
             _gridContent.RowDefinitions.Add(new RowDefinition());
@@ -52,10 +58,24 @@ namespace Worldescape.Internals
 
             _gridContent.Children.Add(_scrollViewer);
 
+            Button buttonShowCategories = new Button()
+            {
+                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Content = "Categories",
+                Width = 120,
+                Margin = new Thickness(5)
+            };
+
+            buttonShowCategories.Click += ButtonShowCategories_Click;
+            _stackPanelFooter.Children.Add(buttonShowCategories);
+
+
             Button buttonPreview = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                Content = "Back"
+                Content = "Previous",
+                Width = 120,
+                Margin = new Thickness(5)
             };
 
             buttonPreview.Click += ButtonPreview_Click;
@@ -64,7 +84,9 @@ namespace Worldescape.Internals
             Button buttonNext = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                Content = "Next"
+                Content = "Next",
+                Width = 120,
+                Margin = new Thickness(5)
             };
 
             buttonNext.Click += ButtonNext_Click;
@@ -75,46 +97,73 @@ namespace Worldescape.Internals
 
             Content = _gridContent;
 
-            SetDataSource();
+            ShowConstructCategories();
         }
 
-        private void ButtonNext_Click(object sender, RoutedEventArgs e)
+        private void ButtonShowCategories_Click(object sender, RoutedEventArgs e)
         {
-            pageIndex++;
-
-            if (pageIndex > totalPageCount)
-            {
-                pageIndex = totalPageCount;
-            }
-
-            SetDataSource();
-
+            ShowConstructCategories();
         }
 
-        private void ButtonPreview_Click(object sender, RoutedEventArgs e)
+        private void ShowConstructCategories()
         {
-            pageIndex--;
+            Title = "Select a Category";
 
-            if (pageIndex < 0)
-            {
-                pageIndex = 0;
-                return;
-            }
-
-            SetDataSource();
-        }
-
-        private void SetDataSource()
-        {
-            var pagedAssets = _constructAssets.Skip(pageIndex * pageSize).Take(pageSize);
+            var pagedData = _constructCategories;
 
             _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
-                Margin = new Thickness(5),                
-                Style = Application.Current.Resources["Panel_Style"] as Style
+                Margin = new Thickness(5),
+                Style = Application.Current.Resources["Panel_Style"] as Style,
+                Height = 600
             };
 
-            foreach (var item in pagedAssets)
+            foreach (var item in pagedData)
+            {
+                var buttonConstructAsset = new Button()
+                {
+                    Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                    Width = 150,
+                    Height = 150,
+                    Margin = new Thickness(3),
+                    Tag = item,
+                };
+
+                buttonConstructAsset.Click += ButtonConstructCategory_Click;
+                buttonConstructAsset.Content = item.Name;
+
+                _masonryPanel.Children.Add(buttonConstructAsset);
+            }
+
+            _scrollViewer.Content = _masonryPanel;
+        }
+
+        private void ButtonConstructCategory_Click(object sender, RoutedEventArgs e)
+        {
+            _pickedConstructCategory = (((Button)sender).Tag as ConstructCategory).Name;
+            ShowConstructAssets();
+        }
+
+        private void ShowConstructAssets()
+        {
+            Title = "Select a Construct";
+
+            _settingConstructAssets = true;
+
+            var filteredData = string.IsNullOrEmpty(_pickedConstructCategory) ? _constructAssets : _constructAssets.Where(x => x.Category == _pickedConstructCategory);
+
+            totalPageCount = filteredData.Count() / pageSize;
+
+            var pagedData = filteredData.Skip(pageIndex * pageSize).Take(pageSize);
+
+            _masonryPanel = new MasonryPanelWithProgressiveLoading()
+            {
+                Margin = new Thickness(5),
+                Style = Application.Current.Resources["Panel_Style"] as Style,
+                Height = 600
+            };
+
+            foreach (var item in pagedData)
             {
                 var uri = item.ImageUrl;
 
@@ -138,6 +187,39 @@ namespace Worldescape.Internals
             }
 
             _scrollViewer.Content = _masonryPanel;
+
+            _settingConstructAssets = false;
+        }
+
+        private void ButtonNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_settingConstructAssets)
+            {
+                pageIndex++;
+
+                if (pageIndex > totalPageCount)
+                {
+                    pageIndex = totalPageCount;
+                }
+
+                ShowConstructAssets();
+            }
+        }
+
+        private void ButtonPreview_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_settingConstructAssets)
+            {
+                pageIndex--;
+
+                if (pageIndex < 0)
+                {
+                    pageIndex = 0;
+                    return;
+                }
+
+                ShowConstructAssets();
+            }
         }
 
         private void ButtonConstructAsset_Click(object sender, RoutedEventArgs e)
