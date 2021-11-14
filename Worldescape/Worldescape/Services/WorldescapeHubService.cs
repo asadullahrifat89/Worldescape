@@ -14,8 +14,7 @@ namespace Worldescape.Services
     {
         #region Fields
 
-        private HubConnection connection;
-        //private string url = "https://localhost:7034/WorldescapeHub";
+        private HubConnection connection;        
 
         // Connection
         public event Action<int> AvatarDisconnected;
