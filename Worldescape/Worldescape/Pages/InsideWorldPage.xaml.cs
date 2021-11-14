@@ -129,6 +129,7 @@ namespace Worldescape.Pages
             obj.PointerPressed += Construct_PointerPressed;
             obj.PointerMoved += Construct_PointerMoved;
             obj.PointerReleased += Construct_PointerReleased;
+                        
             return obj;
         }
 
@@ -531,5 +532,21 @@ namespace Worldescape.Pages
         #endregion
 
         #endregion
+
+        private void ConstructScaleUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_interactiveConstruct != null)
+            {
+                
+            }
+        }
+
+        private void ConstructScaleDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_interactiveConstruct != null)
+            {
+
+            }
+        }
     }
 }

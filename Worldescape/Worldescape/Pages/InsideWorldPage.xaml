@@ -92,6 +92,28 @@
                 Style="{StaticResource MaterialDesign_Button_Style}"
                 Visibility="Collapsed" />
 
+            <Button
+                x:Name="ConstructScaleUpButton"
+                Height="50"
+                MinWidth="100"
+                Margin="10"
+                Click="ConstructScaleUpButton_Click"
+                Content="Scale Up"
+                FontSize="20"
+                Style="{StaticResource MaterialDesign_Button_Style}"
+                Visibility="Collapsed" />
+
+            <Button
+                x:Name="ConstructScaleDownButton"
+                Height="50"
+                MinWidth="100"
+                Margin="10"
+                Click="ConstructScaleDownButton_Click"
+                Content="Scale Down"
+                FontSize="20"
+                Style="{StaticResource MaterialDesign_Button_Style}"
+                Visibility="Collapsed" />
+
             <TextBlock
                 x:Name="OperationalConstructStatus"
                 VerticalAlignment="Center"
