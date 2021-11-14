@@ -155,12 +155,12 @@ namespace Worldescape.Pages
             this.CraftButton.Content = _isCraftingMode ? "Crafting" : "Craft";
 
             _isMovingMode = false;
-            this.MoveButton.Content = "Move";
+            this.ConstructMoveButton.Content = "Move";
 
             if (!_isCraftingMode)
             {
-                this.MoveButton.Visibility = Visibility.Collapsed;
-                this.ConstructGalleryButton.Visibility = Visibility.Collapsed;
+                this.ConstructMoveButton.Visibility = Visibility.Collapsed;
+                this.ConstructsAddButton.Visibility = Visibility.Collapsed;
 
                 _movingConstruct = null;
                 OperationalConstructHolder.Content = null;
@@ -168,7 +168,7 @@ namespace Worldescape.Pages
             }
             else
             {
-                this.ConstructGalleryButton.Visibility = Visibility.Visible;
+                this.ConstructsAddButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -205,7 +205,7 @@ namespace Worldescape.Pages
             }
             else if (_isCraftingMode)
             {
-                this.MoveButton.Visibility = Visibility.Visible;
+                this.ConstructMoveButton.Visibility = Visibility.Visible;
 
                 _objectLeft = Canvas.GetLeft(uielement);
                 _objectTop = Canvas.GetTop(uielement);
@@ -282,10 +282,10 @@ namespace Worldescape.Pages
             return img;
         }
 
-        private void MoveButton_Click(object sender, RoutedEventArgs e)
+        private void ConstructMoveButton_Click(object sender, RoutedEventArgs e)
         {
             _isMovingMode = !_isMovingMode;
-            MoveButton.Content = _isMovingMode ? "Moving" : "Move";
+            ConstructMoveButton.Content = _isMovingMode ? "Moving" : "Move";
 
             if (!_isMovingMode)
             {
@@ -419,7 +419,7 @@ namespace Worldescape.Pages
             childWindow.Show();
         }
 
-        private void ConstructGalleryButton_Click(object sender, RoutedEventArgs e)
+        private void ConstructsAddButton_Click(object sender, RoutedEventArgs e)
         {
             if (!ConstructAssets.Any())
             {

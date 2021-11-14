@@ -27,22 +27,22 @@
                 Style="{StaticResource MaterialDesign_Button_Style}" />
 
             <Button
-                x:Name="ConstructGalleryButton"
+                x:Name="ConstructsAddButton"
                 Height="50"
                 MinWidth="100"
                 Margin="10"
-                Click="ConstructGalleryButton_Click"
-                Content="Gallery"
+                Click="ConstructsAddButton_Click"
+                Content="Add"
                 FontSize="20"
                 Style="{StaticResource MaterialDesign_Button_Style}"
                 Visibility="Collapsed" />
 
             <Button
-                x:Name="MoveButton"
+                x:Name="ConstructMoveButton"
                 Height="50"
                 MinWidth="100"
                 Margin="10"
-                Click="MoveButton_Click"
+                Click="ConstructMoveButton_Click"
                 Content="Move"
                 FontSize="20"
                 Style="{StaticResource MaterialDesign_Button_Style}"
