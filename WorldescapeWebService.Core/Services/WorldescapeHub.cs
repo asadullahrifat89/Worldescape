@@ -137,7 +137,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
                     }
                 }
 
-                avatar.Session = new UserSession() { ReconnectionTime = DateTime.Now };
+                avatar.Session = new UserSession() { ReconnectionTime = DateTime.UtcNow };
 
                 // Save the new avatar
                 BsonValue? id = colAvatars.Insert(avatar);

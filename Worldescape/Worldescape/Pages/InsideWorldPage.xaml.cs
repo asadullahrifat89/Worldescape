@@ -19,6 +19,7 @@ using Worldescape.Internals;
 using Worldescape.Shared;
 using Worldescape.Shared.Entities;
 using Worldescape.Shared.Models;
+using Worldescape.Shared.Requests;
 using Image = Windows.UI.Xaml.Controls.Image;
 
 namespace Worldescape.Pages
@@ -33,9 +34,9 @@ namespace Worldescape.Pages
         double _objectLeft;
         double _objectTop;
 
-        bool _isCrafting;
-        bool _isMoving;
-        bool _isCloning;
+        bool _isCraftingConstruct;
+        bool _isMovingConstruct;
+        bool _isCloningConstruct;
         //bool _isDeleting;
 
         bool IsConnected;
@@ -93,7 +94,7 @@ namespace Worldescape.Pages
 
             //DrawRandomConstructsOnCanvas();
 
-            InWorld = new InWorld() { Id = UidGenerator.New(), Name = "Test World" };
+            InWorld = new InWorld() { Id = 1, Name = "Test World" };
             User = new User() { Id = UidGenerator.New(), Name = "Test User" };
             Avatar = new Avatar()
             {
@@ -115,7 +116,6 @@ namespace Worldescape.Pages
                     ImageUrl = Character.ImageUrl,
                 },
                 World = InWorld,
-                Session = new UserSession() { ReconnectionTime = DateTime.UtcNow },
                 Coordinate = new Coordinate(new Random().Next(500), new Random().Next(500), new Random().Next(500)),
                 ImageUrl = avatarUrl,
             };
@@ -131,6 +131,223 @@ namespace Worldescape.Pages
 
         #region Methods
 
+        #region Common
+
+        private void DrawAvatarOnCanvas(Avatar avatar)
+        {
+            var uri = avatar.ImageUrl;
+
+            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+            var img = new Image()
+            {
+                Source = bitmap,
+                Stretch = Stretch.Uniform,
+                Height = 100,
+                Width = 100,
+            };
+
+            avatarBtn.Content = img;
+            avatarBtn.Tag = avatar;
+
+            //avatar.Effect = new DropShadowEffect() { ShadowDepth = 3, Color = Colors.Black, BlurRadius = 10, Opacity = 0.3 };
+
+            Canvas.SetLeft(avatarBtn, avatar.Coordinate.X);
+            Canvas.SetTop(avatarBtn, avatar.Coordinate.Y);
+            Canvas.SetZIndex(avatarBtn, avatar.Coordinate.Z);
+
+            this.Canvas_root.Children.Add(avatarBtn);
+        }
+
+        /// <summary>
+        /// Adds a construct to the canvas.
+        /// </summary>
+        /// <param name="construct"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        private void DrawConstructOnCanvas(UIElement construct, double x, double y, int? z = null)
+        {
+            Canvas.SetLeft(construct, x);
+            Canvas.SetTop(construct, y);
+
+            if (z.HasValue)
+            {
+                Canvas.SetZIndex(construct, (int)z);
+            }
+
+            Canvas_root.Children.Add(construct);
+
+            var taggedConstruct = ((Button)construct).Tag as Construct;
+
+            taggedConstruct.Coordinate.X = x;
+            taggedConstruct.Coordinate.Y = y;
+
+            if (z.HasValue)
+            {
+                taggedConstruct.Coordinate.Z = (int)z;
+            }
+        }
+
+        /// <summary>
+        /// Generate a new button from the provided construct. If constructId is not provided then new id is generated.
+        /// </summary>
+        /// <param name="construct"></param>
+        /// <param name="constructId"></param>
+        /// <returns></returns>
+        private Button GenerateConstructButton(string name, string imageUrl, int? constructId = null)
+        {
+            var uri = imageUrl;
+
+            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+            var img = new Image() { Source = bitmap, Stretch = Stretch.None };
+
+            // This is broadcasted and saved in database
+            var id = constructId ?? UidGenerator.New();
+
+            //TODO: adding new construct, fill World, Creator details
+
+            var obj = new Button()
+            {
+                BorderBrush = new SolidColorBrush(Colors.DodgerBlue),
+                Style = Application.Current.Resources["MaterialDesign_ConstructButton_Style"] as Style,
+                Name = id.ToString(),
+                Tag = new Construct()
+                {
+                    Id = id,
+                    Name = name,
+                    ImageUrl = uri,
+                    Creator = new Creator() { },
+                    World = new InWorld() { }
+                }
+            };
+
+            obj.Content = img;
+
+            //obj.AllowScrollOnTouchMove = false;
+
+            obj.PointerPressed += Construct_PointerPressed;
+            obj.PointerMoved += Construct_PointerMoved;
+            obj.PointerReleased += Construct_PointerReleased;
+
+            return obj;
+        }
+
+        private static UIElement CopyConstructContent(UIElement uielement)
+        {
+            var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
+
+            var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
+            var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 100, Margin = new Thickness(10) };
+
+            return img;
+        }
+
+        private void ShowConstructOperationButtons()
+        {
+            this.ConstructMoveButton.Visibility = Visibility.Visible;
+            this.ConstructCloneButton.Visibility = Visibility.Visible;
+            this.ConstructDeleteButton.Visibility = Visibility.Visible;
+            this.ConstructBringForwardButton.Visibility = Visibility.Visible;
+            this.ConstructSendBackwardButton.Visibility = Visibility.Visible;
+        }
+
+        private void HideConstructOperationButtons()
+        {
+            this.ConstructMoveButton.Visibility = Visibility.Collapsed;
+            this.ConstructCloneButton.Visibility = Visibility.Collapsed;
+            this.ConstructDeleteButton.Visibility = Visibility.Collapsed;
+            this.ConstructBringForwardButton.Visibility = Visibility.Collapsed;
+            this.ConstructSendBackwardButton.Visibility = Visibility.Collapsed;
+        }
+
+        private void MoveElement(PointerRoutedEventArgs e, UIElement uIElement)
+        {
+            var goToX = e.GetCurrentPoint(this.Canvas_root).Position.X;
+            var goToY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
+
+            MoveElement(uIElement, goToX, goToY);
+        }
+
+        private void MoveElement(UIElement uIElement, double goToX, double goToY)
+        {
+            var nowX = Canvas.GetLeft(uIElement);
+            var nowY = Canvas.GetTop(uIElement);
+
+            float distance = Vector3.Distance(
+                new Vector3(
+                    (float)nowX,
+                    (float)nowY,
+                    0),
+                new Vector3(
+                    (float)goToX,
+                    (float)goToY,
+                    0));
+
+            float unitPixel = 200f;
+            float timeToTravelunitPixel = 0.5f;
+
+            float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
+
+            Storyboard moveStory = new Storyboard();
+
+            DoubleAnimation setLeft = new DoubleAnimation()
+            {
+                From = nowX,
+                To = goToX,
+                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                EasingFunction = _easingFunction,
+            };
+
+            DoubleAnimation setRight = new DoubleAnimation()
+            {
+                From = nowY,
+                To = goToY,
+                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                EasingFunction = _easingFunction,
+            };
+
+            setRight.Completed += (object sender, EventArgs e) =>
+            {
+                //TODO: set idle logic here
+            };
+
+            Storyboard.SetTarget(setLeft, uIElement);
+            Storyboard.SetTargetProperty(setLeft, new PropertyPath(Canvas.LeftProperty));
+
+            Storyboard.SetTarget(setRight, uIElement);
+            Storyboard.SetTargetProperty(setRight, new PropertyPath(Canvas.TopProperty));
+
+            moveStory.Children.Add(setLeft);
+            moveStory.Children.Add(setRight);
+
+            moveStory.Begin();
+        }
+
+
+        //private void DrawRandomConstructsOnCanvas()
+        //{
+        //    for (int j = 0; j < 5; j++)
+        //    {
+        //        for (int i = 0; i < 10; i++)
+        //        {
+        //            var uri = _objects[new Random().Next(_objects.Count())];
+
+        //            Button constructBtn = GenerateConstructButton(
+        //                name: Guid.NewGuid().ToString(),
+        //                imageUrl: uri);
+
+        //            var x = (i + j * 2) * 200;
+        //            var y = i * 200;
+
+        //            DrawConstructOnCanvas(constructBtn, x, y);
+        //        }
+        //    }
+        //}
+
+        #endregion
+
         #region Hub
 
         private void ListenOnHubService()
@@ -142,6 +359,114 @@ namespace Worldescape.Pages
             HubService.ConnectionClosed += HubService_ConnectionClosed;
 
             #endregion
+
+            #region Avatar
+
+            HubService.NewBroadcastAvatarMovement += HubService_NewBroadcastAvatarMovement;
+            HubService.NewBroadcastAvatarActivityStatus += HubService_NewBroadcastAvatarActivityStatus;
+
+            #endregion
+
+            #region Session
+
+            HubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
+            HubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
+            HubService.AvatarDisconnected += HubService_AvatarDisconnected;
+            HubService.AvatarReconnected += HubService_AvatarReconnected;
+
+            #endregion
+        }
+
+        private void HubService_AvatarReconnected(int obj)
+        {
+            if (obj > 0)
+            {
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj);
+
+                    if (avatarMessenger != null)
+                    {
+                        avatarMessenger.ActivityStatus = ActivityStatus.Online;
+                        avatarMessenger.IsLoggedIn = true;
+                    }
+                }
+            }
+        }
+
+        private void HubService_AvatarDisconnected(int obj)
+        {
+            if (obj > 0)
+            {
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj);
+
+                    if (avatarMessenger != null)
+                    {
+                        avatarMessenger.ActivityStatus = ActivityStatus.Offline;
+                        avatarMessenger.IsLoggedIn = false;
+                    }
+                }
+            }
+        }
+
+        private void HubService_AvatarLoggedOut(int obj)
+        {
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj) is UIElement iElement)
+            {
+                var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj);
+
+                if (avatarMessenger != null)
+                {
+                    AvatarMessengers.Remove(avatarMessenger);
+                }
+
+                Canvas_root.Children.Remove(iElement);
+            }
+
+        }
+
+        private void HubService_AvatarLoggedIn(Avatar obj)
+        {
+            // Check if the avatar already exists in current world
+            var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj.Id);
+
+            // If not then add a new avatar
+            if (avatarMessenger == null)
+            {
+                DrawAvatarOnCanvas(obj);
+
+                AvatarMessengers.Add(new AvatarMessenger() { Avatar = obj, ActivityStatus = ActivityStatus.Online, IsLoggedIn = true });
+            }
+        }
+
+        private void HubService_NewBroadcastAvatarActivityStatus(BroadcastAvatarActivityStatusRequest obj)
+        {
+            if (obj != null)
+            {
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.AvatarId) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj.AvatarId);
+                    if (avatarMessenger != null)
+                        avatarMessenger.ActivityStatus = obj.ActivityStatus;
+                }
+            }
+        }
+
+        private void HubService_NewBroadcastAvatarMovement(BroadcastAvatarMovementRequest obj)
+        {
+            if (obj != null)
+            {
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.AvatarId) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj.AvatarId);
+                    if (avatarMessenger != null)
+                        avatarMessenger.ActivityStatus = ActivityStatus.Online;
+
+                    MoveElement(uIElement: iElement, goToX: obj.Coordinate.X, goToY: obj.Coordinate.Y);
+                }
+            }
         }
 
         private async void HubService_ConnectionClosed()
@@ -251,6 +576,7 @@ namespace Worldescape.Pages
                             foreach (var avatar in avatars.Where(x => !AvatarMessengers.Select(z => z.Avatar.Id).Contains(x.Id)))
                             {
                                 AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
+                                DrawAvatarOnCanvas(avatar);
                             }
                         }
 
@@ -305,215 +631,6 @@ namespace Worldescape.Pages
 
         #endregion
 
-        #region Common
-
-        //private void DrawRandomConstructsOnCanvas()
-        //{
-        //    for (int j = 0; j < 5; j++)
-        //    {
-        //        for (int i = 0; i < 10; i++)
-        //        {
-        //            var uri = _objects[new Random().Next(_objects.Count())];
-
-        //            Button constructBtn = GenerateConstructButton(
-        //                name: Guid.NewGuid().ToString(),
-        //                imageUrl: uri);
-
-        //            var x = (i + j * 2) * 200;
-        //            var y = i * 200;
-
-        //            DrawConstructOnCanvas(constructBtn, x, y);
-        //        }
-        //    }
-        //}
-
-        private void DrawConstructOnCanvas(UIElement construct, double x, double y, int? z = null)
-        {
-            Canvas.SetLeft(construct, x);
-            Canvas.SetTop(construct, y);
-
-            if (z.HasValue)
-            {
-                Canvas.SetZIndex(construct, (int)z);
-            }
-
-            Canvas_root.Children.Add(construct);
-
-            var taggedConstruct = ((Button)construct).Tag as Construct;
-
-            taggedConstruct.Coordinate.X = x;
-            taggedConstruct.Coordinate.Y = y;
-
-            if (z.HasValue)
-            {
-                taggedConstruct.Coordinate.Z = (int)z;
-            }
-        }
-
-        /// <summary>
-        /// Generate a new button from the provided construct. If constructId is not provided then new id is generated.
-        /// </summary>
-        /// <param name="construct"></param>
-        /// <param name="constructId"></param>
-        /// <returns></returns>
-        private Button GenerateConstructButton(string name, string imageUrl, int? constructId = null)
-        {
-            var uri = imageUrl;
-
-            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
-
-            var img = new Image() { Source = bitmap, Stretch = Stretch.None };
-
-            // This is broadcasted and saved in database
-            var id = constructId ?? UidGenerator.New();
-
-            //TODO: adding new construct, fill World, Creator details
-
-            var obj = new Button()
-            {
-                BorderBrush = new SolidColorBrush(Colors.DodgerBlue),
-                Style = Application.Current.Resources["MaterialDesign_ConstructButton_Style"] as Style,
-                Name = id.ToString(),
-                Tag = new Construct()
-                {
-                    Id = id,
-                    Name = name,
-                    ImageUrl = uri,
-                    Creator = new Creator() { },
-                    World = new InWorld() { }
-                }
-            };
-
-            obj.Content = img;
-
-            //obj.AllowScrollOnTouchMove = false;
-
-            obj.PointerPressed += Construct_PointerPressed;
-            obj.PointerMoved += Construct_PointerMoved;
-            obj.PointerReleased += Construct_PointerReleased;
-
-            return obj;
-        }
-
-        private static UIElement CopyConstructContent(UIElement uielement)
-        {
-            var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
-
-            var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
-            var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 100, Margin = new Thickness(10) };
-
-            return img;
-        }
-
-        private void ShowConstructOperationButtons()
-        {
-            this.ConstructMoveButton.Visibility = Visibility.Visible;
-            this.ConstructCloneButton.Visibility = Visibility.Visible;
-            this.ConstructDeleteButton.Visibility = Visibility.Visible;
-            this.ConstructBringForwardButton.Visibility = Visibility.Visible;
-            this.ConstructSendBackwardButton.Visibility = Visibility.Visible;
-        }
-
-        private void HideConstructOperationButtons()
-        {
-            this.ConstructMoveButton.Visibility = Visibility.Collapsed;
-            this.ConstructCloneButton.Visibility = Visibility.Collapsed;
-            this.ConstructDeleteButton.Visibility = Visibility.Collapsed;
-            this.ConstructBringForwardButton.Visibility = Visibility.Collapsed;
-            this.ConstructSendBackwardButton.Visibility = Visibility.Collapsed;
-        }
-
-        private void DrawAvatarOnCanvas(Avatar avatar)
-        {
-            var uri = avatar.ImageUrl;
-
-            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
-
-            var img = new Image()
-            {
-                Source = bitmap,
-                Stretch = Stretch.Uniform,
-                Height = 100,
-                Width = 100,
-            };
-
-            avatarBtn.Content = img;
-            avatarBtn.Tag = avatar;
-
-            //avatar.Effect = new DropShadowEffect() { ShadowDepth = 3, Color = Colors.Black, BlurRadius = 10, Opacity = 0.3 };
-
-            Canvas.SetLeft(avatarBtn, avatar.Coordinate.X);
-            Canvas.SetTop(avatarBtn, avatar.Coordinate.Y);
-            Canvas.SetZIndex(avatarBtn, avatar.Coordinate.Z);
-
-            this.Canvas_root.Children.Add(avatarBtn);
-        }
-
-        private void MoveElement(PointerRoutedEventArgs e, UIElement uIElement)
-        {
-            var goToX = e.GetCurrentPoint(this.Canvas_root).Position.X;
-            var goToY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
-
-            MoveElement(uIElement, goToX, goToY);
-        }
-
-        private void MoveElement(UIElement uIElement, double goToX, double goToY)
-        {
-            var nowX = Canvas.GetLeft(uIElement);
-            var nowY = Canvas.GetTop(uIElement);
-
-            float distance = Vector3.Distance(
-                new Vector3(
-                    (float)nowX,
-                    (float)nowY,
-                    0),
-                new Vector3(
-                    (float)goToX,
-                    (float)goToY,
-                    0));
-
-            float unitPixel = 200f;
-            float timeToTravelunitPixel = 0.5f;
-
-            float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
-
-            Storyboard moveStory = new Storyboard();
-
-            DoubleAnimation setLeft = new DoubleAnimation()
-            {
-                From = nowX,
-                To = goToX,
-                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                EasingFunction = _easingFunction,
-            };
-
-            DoubleAnimation setRight = new DoubleAnimation()
-            {
-                From = nowY,
-                To = goToY,
-                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                EasingFunction = _easingFunction,
-            };
-
-            setRight.Completed += (object sender, EventArgs e) =>
-            {
-                //TODO: set idle logic here
-            };
-
-            Storyboard.SetTarget(setLeft, uIElement);
-            Storyboard.SetTargetProperty(setLeft, new PropertyPath(Canvas.LeftProperty));
-
-            Storyboard.SetTarget(setRight, uIElement);
-            Storyboard.SetTargetProperty(setRight, new PropertyPath(Canvas.TopProperty));
-
-            moveStory.Children.Add(setLeft);
-            moveStory.Children.Add(setRight);
-
-            moveStory.Begin();
-        }
-
-        #endregion
-
         #region Pointer
         private void Canvas_root_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
@@ -526,7 +643,7 @@ namespace Worldescape.Pages
 
                 _addingConstruct = null;
             }
-            else if (_isCloning && _cloningConstruct != null)
+            else if (_isCloningConstruct && _cloningConstruct != null)
             {
                 var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
 
@@ -542,7 +659,7 @@ namespace Worldescape.Pages
                         y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
                 }
             }
-            else if (_isMoving && _movingConstruct != null)
+            else if (_isMovingConstruct && _movingConstruct != null)
             {
                 MoveElement(e, _movingConstruct);
             }
@@ -570,7 +687,7 @@ namespace Worldescape.Pages
 
                 _addingConstruct = null;
             }
-            else if (_isCloning && _cloningConstruct != null)
+            else if (_isCloningConstruct && _cloningConstruct != null)
             {
                 var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
 
@@ -586,11 +703,11 @@ namespace Worldescape.Pages
                         y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
                 }
             }
-            else if (_isMoving && _movingConstruct != null)
+            else if (_isMovingConstruct && _movingConstruct != null)
             {
                 MoveElement(e, _movingConstruct);
             }
-            else if (_isCrafting)
+            else if (_isCraftingConstruct)
             {
                 ShowConstructOperationButtons();
 
@@ -611,7 +728,7 @@ namespace Worldescape.Pages
 
         private void Construct_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_isCrafting)
+            if (_isCraftingConstruct)
             {
                 UIElement uielement = (UIElement)sender;
 
@@ -637,12 +754,12 @@ namespace Worldescape.Pages
 
         private void Construct_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (_isMoving)
+            if (_isMovingConstruct)
             {
                 return;
             }
 
-            if (_isCrafting)
+            if (_isCraftingConstruct)
             {
                 UIElement uielement = (UIElement)sender;
                 _isPointerCaptured = false;
@@ -678,19 +795,19 @@ namespace Worldescape.Pages
 
         private void CraftButton_Click(object sender, RoutedEventArgs e)
         {
-            _isCrafting = !_isCrafting;
-            this.CraftButton.Content = _isCrafting ? "Crafting" : "Craft";
+            _isCraftingConstruct = !_isCraftingConstruct;
+            this.CraftButton.Content = _isCraftingConstruct ? "Crafting" : "Craft";
 
-            _isMoving = false;
+            _isMovingConstruct = false;
             this.ConstructMoveButton.Content = "Move";
 
-            _isCloning = false;
+            _isCloningConstruct = false;
             this.ConstructCloneButton.Content = "Clone";
 
             //_isDeleting = false;
             this.ConstructDeleteButton.Content = "Delete";
 
-            if (!_isCrafting)
+            if (!_isCraftingConstruct)
             {
                 this.ConstructsAddButton.Visibility = Visibility.Collapsed;
 
@@ -734,10 +851,10 @@ namespace Worldescape.Pages
 
         private void ConstructMoveButton_Click(object sender, RoutedEventArgs e)
         {
-            _isMoving = !_isMoving;
-            ConstructMoveButton.Content = _isMoving ? "Moving" : "Move";
+            _isMovingConstruct = !_isMovingConstruct;
+            ConstructMoveButton.Content = _isMovingConstruct ? "Moving" : "Move";
 
-            if (!_isMoving)
+            if (!_isMovingConstruct)
             {
                 _movingConstruct = null;
                 OperationalConstructHolder.Content = null;
@@ -753,10 +870,10 @@ namespace Worldescape.Pages
 
         private void ConstructCloneButton_Click(object sender, RoutedEventArgs e)
         {
-            _isCloning = !_isCloning;
-            ConstructCloneButton.Content = _isCloning ? "Cloning" : "Clone";
+            _isCloningConstruct = !_isCloningConstruct;
+            ConstructCloneButton.Content = _isCloningConstruct ? "Cloning" : "Clone";
 
-            if (!_isCloning)
+            if (!_isCloningConstruct)
             {
                 _cloningConstruct = null;
                 OperationalConstructHolder.Content = null;
