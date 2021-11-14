@@ -116,7 +116,7 @@ namespace Worldescape.Pages
                     ImageUrl = Character.ImageUrl,
                 },
                 World = InWorld,
-                Coordinate = new Coordinate(new Random().Next(500), new Random().Next(500), new Random().Next(500)),
+                Coordinate = new Coordinate(new Random().Next(1000), new Random().Next(1000), new Random().Next(1000)),
                 ImageUrl = avatarUrl,
             };
 

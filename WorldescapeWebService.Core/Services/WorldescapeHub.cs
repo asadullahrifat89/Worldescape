@@ -141,6 +141,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
                 }
 
                 avatar.Session = new UserSession() { ReconnectionTime = DateTime.UtcNow };
+                avatar.ConnectionId = Context.ConnectionId;
 
                 // Save the new avatar
                 BsonValue? id = colAvatars.Insert(avatar);
@@ -151,16 +152,13 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
                     return null;
                 }
 
-                // Get OnlineWorlds collection
-                var colOnlineWorlds = db.GetCollection<InWorld>("InWorlds");
-
                 // Check if a world exists or not in SignalR groups
-                if (!colOnlineWorlds.Exists(x => x.Id == avatar.World.Id))
+                if (!OnlineWorlds.ContainsKey(avatar.World.Id))
                 {
                     // If the group doesn't exist in hub add it
                     Groups.AddToGroupAsync(Context.ConnectionId, avatar.World.Id.ToString());
 
-                    colOnlineWorlds.Insert(avatar.World);
+                    OnlineWorlds.TryAdd(avatar.World.Id, avatar.World);
                 }
 
                 Clients.OthersInGroup(GetUsersGroup(avatar)).AvatarLogin(avatar);
