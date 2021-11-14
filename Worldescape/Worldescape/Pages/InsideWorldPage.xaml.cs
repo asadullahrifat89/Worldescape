@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -36,7 +38,10 @@ namespace Worldescape.Pages
         bool _isCloning;
         //bool _isDeleting;
 
-        Button avatar = new Button() { Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style };
+        bool IsConnected;
+        bool IsLoggedIn;
+
+        Button avatarBtn = new Button() { Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style };
 
         UIElement _interactiveConstruct;
         UIElement _addingConstruct;
@@ -62,11 +67,19 @@ namespace Worldescape.Pages
 
         List<ConstructCategory> ConstructCategories = new List<ConstructCategory>();
 
-        IWorldescapeHubService _hubService;
+        IWorldescapeHubService HubService;
 
-        InWorld _inWorld = new InWorld();
+        InWorld InWorld = new InWorld();
 
-        User _user = new User();
+        User User = new User();
+
+        Avatar Avatar = new Avatar();
+
+        Character Character = new Character();
+
+        SynchronizationContext synchronizationContext;
+
+        ObservableCollection<AvatarMessenger> AvatarMessengers = new ObservableCollection<AvatarMessenger>();
 
         #endregion
 
@@ -76,54 +89,265 @@ namespace Worldescape.Pages
         {
             this.InitializeComponent();
 
+            synchronizationContext = SynchronizationContext.Current;
+
             //DrawRandomConstructsOnCanvas();
 
-            _inWorld = new InWorld() { Id = UidGenerator.New(), Name = "Test World" };
-            _user = new User() { Id = UidGenerator.New(), Name = "Test User" };
+            InWorld = new InWorld() { Id = UidGenerator.New(), Name = "Test World" };
+            User = new User() { Id = UidGenerator.New(), Name = "Test User" };
+            Avatar = new Avatar()
+            {
+                Id = UidGenerator.New(),
+                ActivityStatus = ActivityStatus.Online,
+                User = new AvatarUser()
+                {
+                    Email = User.Email,
+                    Id = User.Id,
+                    ImageUrl = User.ImageUrl,
+                    Name = User.Name,
+                    Phone = User.Phone,
+                    ProfilePictureUrl = User.ImageUrl
+                },
+                Character = new AvatarCharacter()
+                {
+                    Id = Character.Id,
+                    Name = Character.Name,
+                    ImageUrl = Character.ImageUrl,
+                },
+                World = InWorld,
+                Session = new UserSession() { ReconnectionTime = DateTime.UtcNow },
+                Coordinate = new Coordinate(new Random().Next(500), new Random().Next(500), new Random().Next(500)),
+                ImageUrl = avatarUrl,
+            };
 
-            _hubService = App._serviceProvider.GetService(typeof(IWorldescapeHubService)) as IWorldescapeHubService;
+            HubService = App.ServiceProvider.GetService(typeof(IWorldescapeHubService)) as IWorldescapeHubService;
 
-            DrawAvatarOnCanvas();
+            ListenOnHubService();
+
+            TryConnectAndHubLogin();
         }
 
         #endregion
 
         #region Methods
 
-        #region Common
+        #region Hub
 
-        private void DrawRandomConstructsOnCanvas()
+        private void ListenOnHubService()
         {
-            for (int j = 0; j < 5; j++)
+            #region Connection
+
+            HubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
+            HubService.ConnectionReconnected += HubService_ConnectionReconnected;
+            HubService.ConnectionClosed += HubService_ConnectionClosed;
+
+            #endregion
+        }
+
+        private async void HubService_ConnectionClosed()
+        {
+            IsConnected = false;
+            IsLoggedIn = false;
+
+            if (await TryConnect())
             {
-                for (int i = 0; i < 10; i++)
-                {
-                    var uri = _objects[new Random().Next(_objects.Count())];
-
-                    Button constructBtn = GenerateConstructButton(
-                        name: Guid.NewGuid().ToString(),
-                        imageUrl: uri);
-
-                    var x = (i + j * 2) * 200;
-                    var y = i * 200;
-
-                    DrawConstructOnCanvas(constructBtn, x, y);
-                }
+                await TryHubLogin();
             }
         }
 
-        private void DrawConstructOnCanvas(UIElement construct, double x, double y)
+        private async void HubService_ConnectionReconnected()
+        {
+            _ = await HubService.LoginAsync(Avatar);
+
+            IsConnected = true;
+            IsLoggedIn = true;
+        }
+
+        private void HubService_ConnectionReconnecting()
+        {
+            IsConnected = false;
+            IsLoggedIn = false;
+        }
+
+        private bool CanHubLogin()
+        {
+            return Avatar != null && !Avatar.IsEmpty() && Avatar.User != null && IsConnected;
+        }
+
+        private bool CanPerformWorldEvents()
+        {
+            return IsConnected && IsLoggedIn;
+        }
+
+        public async Task TryConnectAndHubLogin()
+        {
+            if (await TryConnect())
+            {
+                await TryHubLogin();
+            }
+            else
+            {
+                //synchronizationContext.Post(async (_) =>
+                //{
+                //    ConsentContentDialog contentDialog = new("Connection failure", "Would you like to try again?");
+                //    contentDialog.Selected += async (sender, e) =>
+                //    {
+                //        await TryConnect_TryLoginToHubService();
+                //    };
+
+                //    _ = await contentDialog.ShowAsync();
+                //}, null);
+            }
+        }
+
+        private async Task<bool> TryConnect()
+        {
+            try
+            {
+                if (IsConnected)
+                {
+                    return true;
+                }
+
+                await HubService.ConnectAsync();
+                IsConnected = true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        private async Task TryHubLogin()
+        {
+            bool joined = await HubLogin();
+
+            if (joined)
+            {
+                DrawAvatarOnCanvas(Avatar);
+            }
+            else
+            {
+
+            }
+        }
+
+        private async Task<bool> HubLogin()
+        {
+            try
+            {
+                if (CanHubLogin())
+                {
+                    var result = await HubService.LoginAsync(Avatar);
+
+                    if (result != null)
+                    {
+                        var avatars = result.Item1;
+
+                        if (avatars != null && avatars.Any())
+                        {
+                            foreach (var avatar in avatars.Where(x => !AvatarMessengers.Select(z => z.Avatar.Id).Contains(x.Id)))
+                            {
+                                AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
+                            }
+                        }
+
+                        var constructs = result.Item2;
+
+                        if (constructs != null && constructs.Any())
+                        {
+                            foreach (var construct in constructs)
+                            {
+                                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == construct.Id) is UIElement iElement)
+                                {
+                                    Canvas.SetZIndex(iElement, construct.Coordinate.Z);
+                                    MoveElement(iElement, construct.Coordinate.X, construct.Coordinate.Y);
+
+                                    // TODO: set scale and rotation
+                                }
+                                else // insert new constructs
+                                {
+                                    Button constructBtn = GenerateConstructButton(
+                                      name: construct.Name,
+                                      imageUrl: construct.ImageUrl,
+                                      constructId: construct.Id);
+
+                                    DrawConstructOnCanvas(
+                                        construct: constructBtn,
+                                        x: construct.Coordinate.X,
+                                        y: construct.Coordinate.Y,
+                                        z: construct.Coordinate.Z);
+                                }
+                            }
+                        }
+
+                        IsLoggedIn = true;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        #endregion
+
+        #region Common
+
+        //private void DrawRandomConstructsOnCanvas()
+        //{
+        //    for (int j = 0; j < 5; j++)
+        //    {
+        //        for (int i = 0; i < 10; i++)
+        //        {
+        //            var uri = _objects[new Random().Next(_objects.Count())];
+
+        //            Button constructBtn = GenerateConstructButton(
+        //                name: Guid.NewGuid().ToString(),
+        //                imageUrl: uri);
+
+        //            var x = (i + j * 2) * 200;
+        //            var y = i * 200;
+
+        //            DrawConstructOnCanvas(constructBtn, x, y);
+        //        }
+        //    }
+        //}
+
+        private void DrawConstructOnCanvas(UIElement construct, double x, double y, int? z = null)
         {
             Canvas.SetLeft(construct, x);
             Canvas.SetTop(construct, y);
 
+            if (z.HasValue)
+            {
+                Canvas.SetZIndex(construct, (int)z);
+            }
+
             Canvas_root.Children.Add(construct);
 
-            var button = (Button)construct;
+            var taggedConstruct = ((Button)construct).Tag as Construct;
 
-            var taggedConstruct = button.Tag as Construct;
+            taggedConstruct.Coordinate.X = x;
+            taggedConstruct.Coordinate.Y = y;
 
-            taggedConstruct.Coordinate = new Coordinate(x, y);
+            if (z.HasValue)
+            {
+                taggedConstruct.Coordinate.Z = (int)z;
+            }
         }
 
         /// <summary>
@@ -199,9 +423,9 @@ namespace Worldescape.Pages
             this.ConstructSendBackwardButton.Visibility = Visibility.Collapsed;
         }
 
-        private void DrawAvatarOnCanvas()
+        private void DrawAvatarOnCanvas(Avatar avatar)
         {
-            var uri = avatarUrl;
+            var uri = avatar.ImageUrl;
 
             var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
 
@@ -213,23 +437,30 @@ namespace Worldescape.Pages
                 Width = 100,
             };
 
-            avatar.Content = img;
-            avatar.Tag = _user;
+            avatarBtn.Content = img;
+            avatarBtn.Tag = avatar;
 
             //avatar.Effect = new DropShadowEffect() { ShadowDepth = 3, Color = Colors.Black, BlurRadius = 10, Opacity = 0.3 };
 
-            Canvas.SetTop(avatar, new Random().Next(500));
-            Canvas.SetLeft(avatar, new Random().Next(500));
-            this.Canvas_root.Children.Add(avatar);
+            Canvas.SetLeft(avatarBtn, avatar.Coordinate.X);
+            Canvas.SetTop(avatarBtn, avatar.Coordinate.Y);
+            Canvas.SetZIndex(avatarBtn, avatar.Coordinate.Z);
+
+            this.Canvas_root.Children.Add(avatarBtn);
         }
 
         private void MoveElement(PointerRoutedEventArgs e, UIElement uIElement)
         {
-            var nowX = Canvas.GetLeft(uIElement);
-            var nowY = Canvas.GetTop(uIElement);
-
             var goToX = e.GetCurrentPoint(this.Canvas_root).Position.X;
             var goToY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
+
+            MoveElement(uIElement, goToX, goToY);
+        }
+
+        private void MoveElement(UIElement uIElement, double goToX, double goToY)
+        {
+            var nowX = Canvas.GetLeft(uIElement);
+            var nowY = Canvas.GetTop(uIElement);
 
             float distance = Vector3.Distance(
                 new Vector3(
@@ -374,7 +605,7 @@ namespace Worldescape.Pages
             }
             else
             {
-                MoveElement(e, avatar);
+                MoveElement(e, avatarBtn);
             }
         }
 

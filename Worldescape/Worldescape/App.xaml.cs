@@ -5,28 +5,30 @@ using Worldescape.Contracts.Services;
 using Worldescape.Extensions;
 using Worldescape.Pages;
 using Worldescape.Services;
+using Worldescape.Shared.Entities;
 
 namespace Worldescape
 {
     public sealed partial class App : Application
     {
-        public static IServiceProvider _serviceProvider;
+        public static IServiceProvider ServiceProvider;
+
+        public static User LoggedInUser = new User();
+
+        public static World InsideWorld = new World();
 
         public App()
         {
             this.InitializeComponent();
 
             this.Startup += App_Startup;
-
-            // Enter construction logic here...
-
+            
             ServiceCollection services = new ServiceCollection();
             ConfigureServices(services);
-            _serviceProvider = services.BuildServiceProvider();
-
-            var mainPage = App._serviceProvider.GetService(typeof(MainPage)) as MainPage;
+            ServiceProvider = services.BuildServiceProvider();
 
             //var mainPage = new MainPage();
+            var mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             Window.Current.Content = mainPage;
 
             mainPage.NavigateToPage("/LoginPage");

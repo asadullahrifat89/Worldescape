@@ -21,17 +21,17 @@ namespace Worldescape.Shared.Models
 
         #region SourceAvatar
 
-        public Avatar SourceAvatar { get; set; }
+        public Avatar Avatar { get; set; }
 
         #endregion
 
         #region ActivityStatus
         public ActivityStatus ActivityStatus
         {
-            get { return SourceAvatar.ActivityStatus; }
+            get { return Avatar.ActivityStatus; }
             set
             {
-                SourceAvatar.ActivityStatus = value; RaisePropertyChanged("ActivityStatus");
+                Avatar.ActivityStatus = value; RaisePropertyChanged("ActivityStatus");
             }
         }
         #endregion
