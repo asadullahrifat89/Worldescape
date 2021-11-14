@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Internals;
+using Worldescape.Shared;
 using Worldescape.Shared.Entities;
 using Worldescape.Shared.Models;
 using Image = Windows.UI.Xaml.Controls.Image;
@@ -88,7 +89,7 @@ namespace Worldescape.Pages
                 {
                     var uri = _objects[new Random().Next(_objects.Count())];
 
-                    Button construct = GenerateConstruct(new ConstructAsset() { ImageUrl = uri });
+                    Button construct = GenerateConstructButton(new Construct() { ImageUrl = uri });
 
                     var x = (i + j * 2) * 200;
                     var y = i * 200;
@@ -106,20 +107,36 @@ namespace Worldescape.Pages
             Canvas_root.Children.Add(construct);
         }
 
-        private Button GenerateConstruct(ConstructAsset constructAsset)
+        /// <summary>
+        /// Generate a new button from the provided construct. If constructId is provided then new id is not generated.
+        /// </summary>
+        /// <param name="construct"></param>
+        /// <param name="constructId"></param>
+        /// <returns></returns>
+        private Button GenerateConstructButton(Construct construct, int? constructId = null)
         {
-            var uri = constructAsset.ImageUrl;
+            var uri = construct.ImageUrl;
 
             var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
 
             var img = new Image() { Source = bitmap, Stretch = Stretch.None };
 
+            // This is broadcasted and saved in database
+            var id = constructId ?? UidGenerator.New();
+
             var obj = new Button()
             {
                 BorderBrush = new SolidColorBrush(Colors.DodgerBlue),
                 Style = Application.Current.Resources["MaterialDesign_ConstructButton_Style"] as Style,
-                Name = Guid.NewGuid().ToString(), // this is broadcasted and saved in database
-                Tag = constructAsset
+                Name = id.ToString(),
+                Tag = new Construct()
+                {
+                    Id = id,
+                    Name = construct.Name,
+                    ImageUrl = uri,
+                    Creator = new Creator() { },
+                    World = new InWorld() { }
+                }
             };
 
             obj.Content = img;
@@ -129,7 +146,7 @@ namespace Worldescape.Pages
             obj.PointerPressed += Construct_PointerPressed;
             obj.PointerMoved += Construct_PointerMoved;
             obj.PointerReleased += Construct_PointerReleased;
-                        
+
             return obj;
         }
 
@@ -258,11 +275,11 @@ namespace Worldescape.Pages
             }
             else if (_isCloning && _cloningConstruct != null)
             {
-                var constructAsset = ((Button)_cloningConstruct).Tag as ConstructAsset;
+                var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
 
                 if (constructAsset != null)
                 {
-                    Button construct = GenerateConstruct(constructAsset);
+                    Button construct = GenerateConstructButton(constructAsset);
 
                     DrawConstructOnCanvas(
                         construct: construct,
@@ -300,11 +317,11 @@ namespace Worldescape.Pages
             }
             else if (_isCloning && _cloningConstruct != null)
             {
-                var constructAsset = ((Button)_cloningConstruct).Tag as ConstructAsset;
+                var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
 
                 if (constructAsset != null)
                 {
-                    Button construct = GenerateConstruct(constructAsset);
+                    Button construct = GenerateConstructButton(constructAsset);
 
                     DrawConstructOnCanvas(
                         construct: construct,
@@ -446,10 +463,18 @@ namespace Worldescape.Pages
             var constructAssetPicker = new ConstructAssetPicker(
                 constructAssets: ConstructAssets,
                 constructCategories: ConstructCategories,
-                assetSelected: (asset) =>
+                assetSelected: (constructAsset) =>
                 {
-                    Button construct = GenerateConstruct(asset);
-                    _addingConstruct = construct;
+                    //TODO: adding new construct, fill World, Creator details
+                    var construct = new Construct()
+                    {
+                        Id = UidGenerator.New(),
+                        Name = constructAsset.Name,
+                        ImageUrl = constructAsset.ImageUrl,
+                    };
+
+                    Button constructButton = GenerateConstructButton(construct);
+                    _addingConstruct = constructButton;
                 });
 
             constructAssetPicker.Show();
@@ -529,15 +554,11 @@ namespace Worldescape.Pages
             }
         }
 
-        #endregion
-
-        #endregion
-
         private void ConstructScaleUpButton_Click(object sender, RoutedEventArgs e)
         {
             if (_interactiveConstruct != null)
             {
-                
+
             }
         }
 
@@ -548,5 +569,9 @@ namespace Worldescape.Pages
 
             }
         }
+
+        #endregion
+
+        #endregion
     }
 }

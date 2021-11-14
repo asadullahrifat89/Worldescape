@@ -1,12 +1,15 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using LiteDB;
 using System.Text.Json;
 using Worldescape.Shared.Entities;
 using Worldescape.Shared.Models;
 
-Console.WriteLine("Hello, World!");
+Console.WriteLine("Welcom to Worldescape Asset Generator!");
 
-#region Manual
+Console.ReadLine();
+
+// Generate assets
 var host = "ms-appx:///Images/World_Objects";
 var executingAssemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
 
@@ -39,6 +42,27 @@ if (parentDirectory.Exists)
         }
     }
 
-    string json = JsonSerializer.Serialize(constructs, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true });
+    string json = System.Text.Json.JsonSerializer.Serialize(constructs, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true });
+
+    Console.WriteLine("==========================");
+
+    Console.WriteLine(json);
+
+    Console.WriteLine("==========================");
 }
-#endregion
+
+// Test database
+
+using (var db = new LiteDatabase(@"Test.db"))
+{
+    // Get Avatars collection
+    var colAvatars = db.GetCollection<Avatar>("Avatars");
+
+    var avatar = new Avatar()
+    {
+        Id = 112,
+        Name = "Test"
+    };
+
+    BsonValue? id = colAvatars.Insert(avatar);
+}
