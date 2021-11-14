@@ -4,7 +4,7 @@ using Worldescape.Shared.Requests;
 
 namespace WorldescapeWebService.Core.Contracts.Services;
 
-public interface IWorldescapeHubService
+public interface IWorldescapeHub
 {
     #region Session
 
@@ -44,6 +44,7 @@ public interface IWorldescapeHubService
     Task BroadcastConstructRotations(ConcurrentDictionary<int, float> constructIds);
     Task BroadcastConstructScale(int constructId, float scale);
     Task BroadcastConstructScales(int[] constructIds, float scale);
+    Task BroadcastConstructMovement(int constructId, double x, double y, int z);
 
     #endregion
 }

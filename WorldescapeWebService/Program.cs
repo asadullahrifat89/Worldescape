@@ -89,7 +89,7 @@ app.MapPost("/api/Command/UpdateWorld", async (UpdateWorldCommand command, IMedi
 
 #region SignalRHub
 
-app.MapHub<WorldescapeHubService>("/WorldescapeHub"); 
+app.MapHub<WorldescapeHub>("/WorldescapeHub"); 
 
 #endregion
 

@@ -8,11 +8,11 @@ using WorldescapeWebService.Core.Contracts.Services;
 
 namespace WorldescapeWebService.Core.Services;
 
-public class WorldescapeHubService : Hub<IWorldescapeHubService>
+public class WorldescapeHub : Hub<IWorldescapeHub>
 {
     #region Fields
 
-    private readonly ILogger<WorldescapeHubService> _logger;
+    private readonly ILogger<WorldescapeHub> _logger;
 
     //<WorldId, InWorld> this is just for checking against signalR groups
     private static ConcurrentDictionary<int, InWorld> OnlineWorlds = new();
@@ -21,7 +21,7 @@ public class WorldescapeHubService : Hub<IWorldescapeHubService>
 
     #region Ctor
 
-    public WorldescapeHubService(ILogger<WorldescapeHubService> logger)
+    public WorldescapeHub(ILogger<WorldescapeHub> logger)
     {
         _logger = logger;
     }
@@ -346,6 +346,128 @@ public class WorldescapeHubService : Hub<IWorldescapeHubService>
 
     #endregion
 
+    #region Construct
+
+    public void BroadcastConstruct(Construct construct)
+    {
+        if (construct.Id > 0)
+        {
+            Clients.OthersInGroup(GetUsersGroup(GetCallingUser())).BroadcastConstruct(construct);
+            AddOrUpdateConstructInConstructs(construct);
+            _logger.LogInformation($"<> {construct.Id} BroadcastConstruct - {DateTime.Now}");
+        }
+    }
+
+    public void BroadcastConstructs(Construct[] constructs)
+    {
+        if (constructs != null && constructs.Any())
+        {
+            Clients.OthersInGroup(GetUsersGroup(GetCallingUser())).BroadcastConstructs(constructs);
+            foreach (var construct in constructs)
+            {
+                AddOrUpdateConstructInConstructs(construct);
+            }
+            _logger.LogInformation($"<> {constructs.Count()} BroadcastConstructs - {DateTime.Now}");
+        }
+    }
+
+    public void RemoveConstruct(int constructId)
+    {
+        if (constructId > 0)
+        {
+            Clients.OthersInGroup(GetUsersGroup(GetCallingUser())).RemoveConstruct(constructId);
+            RemoveConstructFromConstructs(constructId);
+            _logger.LogInformation($"<> {constructId} RemoveConstruct - {DateTime.Now}");
+        }
+    }
+
+    public void RemoveConstructs(int[] constructIds)
+    {
+        if (constructIds != null && constructIds.Any())
+        {
+            Clients.OthersInGroup(GetUsersGroup(GetCallingUser())).RemoveConstructs(constructIds);
+
+            foreach (var constructId in constructIds)
+            {
+                RemoveConstructFromConstructs(constructId);
+            }
+
+            _logger.LogInformation($"<> {constructIds.Count()} RemoveConstructs - {DateTime.Now}");
+        }
+    }
+
+    public void BroadcastConstructPlacement(int constructId, int z)
+    {
+        if (constructId > 0)
+        {
+            Clients.OthersInGroup(GetUsersGroup(GetCallingUser())).BroadcastConstructPlacement(constructId, z);
+            UpdateConstructPlacementInConstructs(constructId, z);
+            _logger.LogInformation($"<> {constructId} BroadcastConstructPlacement - {DateTime.Now}");
+        }
+    }
+
+    public void BroadcastConstructRotation(int constructId, float rotation)
+    {
+        if (constructId > 0)
+        {
+            Clients.OthersInGroup(GetUsersGroup(GetCallingUser())).BroadcastConstructRotation(constructId, rotation);
+            UpdateConstructRotationInConstructs(constructId, rotation);
+            _logger.LogInformation($"<> {constructId} BroadcastConstructRotation - {DateTime.Now}");
+        }
+    }
+
+    public void BroadcastConstructRotations(ConcurrentDictionary<int, float> constructIds)
+    {
+        if (constructIds != null)
+        {
+            Clients.OthersInGroup(GetUsersGroup(GetCallingUser())).BroadcastConstructRotations(constructIds);
+
+            foreach (var constructId in constructIds)
+            {
+                UpdateConstructRotationInConstructs(constructId.Key, constructId.Value);
+            }
+
+            _logger.LogInformation($"<> {constructIds.Count()} BroadcastConstructRotations - {DateTime.Now}");
+        }
+    }
+
+    public void BroadcastConstructScale(int constructId, float scale)
+    {
+        if (constructId > 0)
+        {
+            Clients.OthersInGroup(GetUsersGroup(GetCallingUser())).BroadcastConstructScale(constructId, scale);
+            UpdateConstructScaleInConstructs(constructId, scale);
+            _logger.LogInformation($"<> {constructId} BroadcastConstructScale - {DateTime.Now}");
+        }
+    }
+
+    public void BroadcastConstructScales(int[] constructIds, float scale)
+    {
+        if (constructIds != null && constructIds.Any())
+        {
+            Clients.OthersInGroup(GetUsersGroup(GetCallingUser())).BroadcastConstructScales(constructIds, scale);
+
+            foreach (var constructId in constructIds)
+            {
+                UpdateConstructScaleInConstructs(constructId, scale);
+            }
+
+            _logger.LogInformation($"<> {constructIds.Count()} BroadcastConstructScales - {DateTime.Now}");
+        }
+    }
+
+    public void BroadcastConstructMovement(int constructId, double x, double y, int z)
+    {
+        if (constructId > 0)
+        {
+            Clients.OthersInGroup(GetUsersGroup(GetCallingUser())).BroadcastConstructMovement(constructId, x, y, z);
+            UpdateConstructMovementInConstructs(constructId, x, y, z);
+            _logger.LogInformation($"<> {constructId} BroadcastConstructMovement - {DateTime.Now}");
+        }
+    }
+
+    #endregion
+
     #region Connected Avatars
 
     private void UpdateAvatarReconnectionTime(int avatarId, DateTime reconnectionTime)
@@ -527,6 +649,27 @@ public class WorldescapeHubService : Hub<IWorldescapeHubService>
             else
             {
                 col.Insert(construct);
+            }
+        }
+    }
+
+    private void UpdateConstructMovementInConstructs(int constructId, double x, double y, int z)
+    {
+        // Open database (or create if doesn't exist)
+        using (var db = new LiteDatabase(@"Worldescape.db"))
+        {
+            // Get Constructs collection
+            var col = db.GetCollection<Construct>("Constructs");
+
+            if (col.Exists(x => x.Id == constructId))
+            {
+                var result = col.FindOne(x => x.Id == constructId);
+
+                result.Coordinate.X = x;
+                result.Coordinate.Y = y;
+                result.Coordinate.Z = z;
+
+                col.Update(result);
             }
         }
     }

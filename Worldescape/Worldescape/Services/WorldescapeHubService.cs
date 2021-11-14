@@ -47,6 +47,7 @@ namespace Worldescape.Services
         public event Action<ConcurrentDictionary<int, float>> NewBroadcastConstructRotations;
         public event Action<int, float> NewBroadcastConstructScale;
         public event Action<int[], float> NewBroadcastConstructScales;
+        public event Action<int, double, double, int> NewBroadcastConstructMovement;
 
         #endregion
 
@@ -74,15 +75,16 @@ namespace Worldescape.Services
             connection.On<BroadcastAvatarActivityStatusRequest>("BroadcastAvatarActivityStatus", (n) => NewBroadcastAvatarActivityStatus?.Invoke(n));
 
             // construct
-            connection.On<Construct>("BroadcastConstruct", (n) => NewBroadcastConstruct?.Invoke(n));
-            connection.On<Construct[]>("BroadcastConstructs", (n) => NewBroadcastConstructs?.Invoke(n));
-            connection.On<int>("RemoveConstruct", (n) => NewRemoveConstruct?.Invoke(n));
-            connection.On<int[]>("RemoveConstructs", (n) => NewRemoveConstructs?.Invoke(n));
-            connection.On<int, int>("BroadcastConstructPlacement", (n, m) => NewBroadcastConstructPlacement?.Invoke(n, m));
-            connection.On<int, float>("BroadcastConstructRotation", (n, m) => NewBroadcastConstructRotation?.Invoke(n, m));
-            connection.On<ConcurrentDictionary<int, float>>("BroadcastConstructRotations", (n) => NewBroadcastConstructRotations?.Invoke(n));
-            connection.On<int, float>("BroadcastConstructScale", (n, m) => NewBroadcastConstructScale?.Invoke(n, m));
-            connection.On<int[], float>("BroadcastConstructScales", (n, m) => NewBroadcastConstructScales?.Invoke(n, m));
+            connection.On<Construct>("BroadcastConstruct", (construct) => NewBroadcastConstruct?.Invoke(construct));
+            connection.On<Construct[]>("BroadcastConstructs", (constructs) => NewBroadcastConstructs?.Invoke(constructs));
+            connection.On<int>("RemoveConstruct", (constructId) => NewRemoveConstruct?.Invoke(constructId));
+            connection.On<int[]>("RemoveConstructs", (constructIds) => NewRemoveConstructs?.Invoke(constructIds));
+            connection.On<int, int>("BroadcastConstructPlacement", (constructId, z) => NewBroadcastConstructPlacement?.Invoke(constructId, z));
+            connection.On<int, float>("BroadcastConstructRotation", (constructId, rotation) => NewBroadcastConstructRotation?.Invoke(constructId, rotation));
+            connection.On<ConcurrentDictionary<int, float>>("BroadcastConstructRotations", (constructIds) => NewBroadcastConstructRotations?.Invoke(constructIds));
+            connection.On<int, float>("BroadcastConstructScale", (constructId, scale) => NewBroadcastConstructScale?.Invoke(constructId, scale));
+            connection.On<int[], float>("BroadcastConstructScales", (constructIds, scale) => NewBroadcastConstructScales?.Invoke(constructIds, scale));
+            connection.On<int, double, double, int>("BroadcastConstructMovement", (constructId, x, y, z) => NewBroadcastConstructMovement?.Invoke(constructId, x, y, z));
 
             connection.Reconnecting += Connection_Reconnecting;
             connection.Reconnected += Connection_Reconnected;
@@ -231,6 +233,11 @@ namespace Worldescape.Services
         public async Task BroadcastConstructScalesAsync(int[] constructIds, float scale)
         {
             await connection.SendAsync("BroadcastConstructScales", constructIds, scale);
+        }
+
+        public async Task BroadcastConstructMovementAsync(int constructId, double x, double y, int z)
+        {
+            await connection.SendAsync("BroadcastConstructMovement", constructId, x, y, z);
         }
 
         #endregion

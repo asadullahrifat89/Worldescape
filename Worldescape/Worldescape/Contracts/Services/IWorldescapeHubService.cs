@@ -41,6 +41,7 @@ namespace Worldescape.Contracts.Services
         event Action<ConcurrentDictionary<int, float>> NewBroadcastConstructRotations;
         event Action<int, float> NewBroadcastConstructScale;
         event Action<int[], float> NewBroadcastConstructScales;
+        event Action<int, double, double, int> NewBroadcastConstructMovement;
 
         #endregion
 
@@ -103,6 +104,8 @@ namespace Worldescape.Contracts.Services
         Task BroadcastConstructScaleAsync(int constructId, float scale);
 
         Task BroadcastConstructScalesAsync(int[] constructIds, float scale);
+
+        Task BroadcastConstructMovementAsync(int constructId, double x, double y, int z);
 
         #endregion
     }
