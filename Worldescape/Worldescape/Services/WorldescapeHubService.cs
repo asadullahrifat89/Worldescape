@@ -55,8 +55,11 @@ namespace Worldescape.Services
 
         public WorldescapeHubService()
         {
-            var url = App.Current.Resources["HubService.dev"] as string; //configuration["BaseUrls:HubService"];
-
+#if DEBUG
+            var url = Properties.Resources.HubService_dev;
+#else
+            var url = Properties.Resources.HubService_prod; //configuration["BaseUrls:HubService"];
+#endif
             connection = new HubConnectionBuilder().WithUrl(url).WithAutomaticReconnect().Build();
 
             connection.On<Avatar>("AvatarLogin", (u) => AvatarLoggedIn?.Invoke(u));

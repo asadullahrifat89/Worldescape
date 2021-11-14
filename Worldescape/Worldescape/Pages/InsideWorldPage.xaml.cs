@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
+using Worldescape.Contracts.Services;
 using Worldescape.Internals;
 using Worldescape.Shared;
 using Worldescape.Shared.Entities;
@@ -33,7 +34,7 @@ namespace Worldescape.Pages
         bool _isCrafting;
         bool _isMoving;
         bool _isCloning;
-        bool _isDeleting;
+        //bool _isDeleting;
 
         Button avatar = new Button() { Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style };
 
@@ -61,7 +62,7 @@ namespace Worldescape.Pages
 
         List<ConstructCategory> ConstructCategories = new List<ConstructCategory>();
 
-        ChildWindow childWindow = new ChildWindow();
+        IWorldescapeHubService _hubService;
 
         #endregion
 
@@ -73,6 +74,8 @@ namespace Worldescape.Pages
 
             DrawRandomConstructsOnCanvas();
             DrawAvatarOnCanvas();
+
+            _hubService = App._serviceProvider.GetService(typeof(IWorldescapeHubService)) as IWorldescapeHubService;
         }
 
         #endregion
@@ -438,7 +441,7 @@ namespace Worldescape.Pages
             _isCloning = false;
             this.ConstructCloneButton.Content = "Clone";
 
-            _isDeleting = false;
+            //_isDeleting = false;
             this.ConstructDeleteButton.Content = "Delete";
 
             if (!_isCrafting)
