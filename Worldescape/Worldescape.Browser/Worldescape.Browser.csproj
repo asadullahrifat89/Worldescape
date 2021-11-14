@@ -6,7 +6,7 @@
 		<OpenSilverType>4</OpenSilverType>
 		<OpenSilverVersion>1.0.0</OpenSilverVersion>
 		<PublishTrimmed>true</PublishTrimmed>
-		<!-- Uncomment to enable AOT compilation when publishing -->
+		<!--Use .NET 6 to enable the commented options below-->
 		<!--<RunAOTCompilation Condition="'$(IsSecondPass)'!='True'">true</RunAOTCompilation>-->
 	</PropertyGroup>
 
@@ -14,6 +14,9 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0" PrivateAssets="all" />
 		<PackageReference Include="OpenSilver.UWPCompatible" Version="1.0.0" />
+		<!--<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.7" PrivateAssets="all" />
+		<PackageReference Include="OpenSilver.UWPCompatible" Version="1.0.0" />-->
 	</ItemGroup>
 
 	<PropertyGroup>
