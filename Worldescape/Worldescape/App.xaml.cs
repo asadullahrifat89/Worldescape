@@ -15,6 +15,8 @@ namespace Worldescape
         {
             this.InitializeComponent();
 
+            this.Startup += App_Startup;
+
             // Enter construction logic here...
 
             ServiceCollection services = new ServiceCollection();
@@ -29,6 +31,11 @@ namespace Worldescape
             mainPage.NavigateToPage("/LoginPage");
         }
 
+        private void App_Startup(object sender, StartupEventArgs e)
+        {
+            this.UnhandledException += App_UnhandledException;
+        }
+
         private void ConfigureServices(ServiceCollection services)
         {
             // Extensions
@@ -39,11 +46,6 @@ namespace Worldescape
 
 
             services.AddSingleton<MainPage>();
-        }
-
-        private void Application_Startup(object sender, StartupEventArgs e)
-        {
-            this.UnhandledException += App_UnhandledException;
         }
 
         private void App_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)

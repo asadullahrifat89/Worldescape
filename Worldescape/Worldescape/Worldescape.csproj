@@ -4,6 +4,8 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<LangVersion>9.0</LangVersion>
 		<EnableDefaultItems>false</EnableDefaultItems>
+		<OpenSilverVersion>1.0.0</OpenSilverVersion>
+		<IsOpenSilver>true</IsOpenSilver>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -3028,5 +3030,11 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Worldescape.Shared\Worldescape.Shared.csproj" />
 	</ItemGroup>
+
+	<!-- Removing bin\$(Configuration) and obj\$(Configuration) -->
+	<Target Name="FullClean" AfterTargets="Clean">
+		<RemoveDir Directories="$(ProjectDir)$(BaseOutputPath)$(Configuration)\" />
+		<RemoveDir Directories="$(ProjectDir)$(BaseIntermediateOutputPath)$(Configuration)\" />
+	</Target>
 
 </Project>
