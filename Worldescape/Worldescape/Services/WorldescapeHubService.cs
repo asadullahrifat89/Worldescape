@@ -56,9 +56,9 @@ namespace Worldescape.Services
         public WorldescapeHubService()
         {
 #if DEBUG
-            var url = Properties.Resources.HubService_dev;
+            var url = Properties.Resources.Dev_HubService;
 #else
-            var url = Properties.Resources.HubService_prod; //configuration["BaseUrls:HubService"];
+            var url = Properties.Resources.Prod_HubService;
 #endif
             connection = new HubConnectionBuilder().WithUrl(url).WithAutomaticReconnect().Build();
 

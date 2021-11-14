@@ -34,13 +34,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
 
+// Configure the HTTP request pipeline.
 app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 app.UseHsts();
@@ -97,7 +97,7 @@ app.MapPost("/api/Command/UpdateWorld", async (UpdateWorldCommand command, IMedi
 
 #region SignalRHub
 
-app.MapHub<WorldescapeHub>("/WorldescapeHub"); 
+app.MapHub<WorldescapeHub>("/WorldescapeHub");
 
 #endregion
 

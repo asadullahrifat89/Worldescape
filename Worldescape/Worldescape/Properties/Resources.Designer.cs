@@ -89,36 +89,36 @@ namespace Worldescape.Properties {
         /// <summary>
         ///   Looks up a localized string similar to https://localhost:7034/WorldescapeHub.
         /// </summary>
-        internal static string HubService_dev {
+        internal static string Dev_HubService {
             get {
-                return ResourceManager.GetString("HubService.dev", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to https://localhost:7034/WorldescapeHub.
-        /// </summary>
-        internal static string HubService_prod {
-            get {
-                return ResourceManager.GetString("HubService.prod", resourceCulture);
+                return ResourceManager.GetString("Dev.HubService", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to https://localhost:7034.
         /// </summary>
-        internal static string WebService_dev {
+        internal static string Dev_WebService {
             get {
-                return ResourceManager.GetString("WebService.dev", resourceCulture);
+                return ResourceManager.GetString("Dev.WebService", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://localhost:7034.
+        ///   Looks up a localized string similar to https://localhost:9899/WorldescapeHub.
         /// </summary>
-        internal static string WebService_prod {
+        internal static string Prod_HubService {
             get {
-                return ResourceManager.GetString("WebService.prod", resourceCulture);
+                return ResourceManager.GetString("Prod.HubService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://localhost:9899.
+        /// </summary>
+        internal static string Prod_WebService {
+            get {
+                return ResourceManager.GetString("Prod.WebService", resourceCulture);
             }
         }
     }
