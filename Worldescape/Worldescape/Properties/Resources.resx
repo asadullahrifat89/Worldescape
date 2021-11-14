@@ -12586,16 +12586,16 @@
   }
 ]</value>
   </data>
-  <data name="Dev.HubService" xml:space="preserve">
-    <value>https://localhost:7034/WorldescapeHub</value>
+  <data name="DevHubService" xml:space="preserve">
+    <value>http://localhost:5034/WorldescapeHub</value>
   </data>
-  <data name="Dev.WebService" xml:space="preserve">
-    <value>https://localhost:7034</value>
+  <data name="DevWebService" xml:space="preserve">
+    <value>http://localhost:5034</value>
   </data>
-  <data name="Prod.HubService" xml:space="preserve">
-    <value>https://localhost:9899/WorldescapeHub</value>
+  <data name="ProdHubService" xml:space="preserve">
+    <value>http://localhost:9899/WorldescapeHub</value>
   </data>
-  <data name="Prod.WebService" xml:space="preserve">
-    <value>https://localhost:9899</value>
+  <data name="ProdWebService" xml:space="preserve">
+    <value>http://localhost:9899</value>
   </data>
 </root>
