@@ -12587,13 +12587,13 @@
 ]</value>
   </data>
   <data name="HubService.dev" xml:space="preserve">
-    <value>https://localhost:7034/WorldescapeHub</value>
+    <value>http://localhost:5034/WorldescapeHub</value>
   </data>
   <data name="HubService.prod" xml:space="preserve">
     <value>https://localhost:7034/WorldescapeHub</value>
   </data>
   <data name="WebService.dev" xml:space="preserve">
-    <value>https://localhost:7034</value>
+    <value>http://localhost:5034</value>
   </data>
   <data name="WebService.prod" xml:space="preserve">
     <value>https://localhost:7034</value>
