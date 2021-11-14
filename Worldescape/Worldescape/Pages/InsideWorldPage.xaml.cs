@@ -78,8 +78,6 @@ namespace Worldescape.Pages
 
         Character Character = new Character();
 
-        SynchronizationContext synchronizationContext;
-
         ObservableCollection<AvatarMessenger> AvatarMessengers = new ObservableCollection<AvatarMessenger>();
 
         #endregion
@@ -89,8 +87,6 @@ namespace Worldescape.Pages
         public InsideWorldPage()
         {
             this.InitializeComponent();
-
-            synchronizationContext = SynchronizationContext.Current;
 
             //DrawRandomConstructsOnCanvas();
 
@@ -423,6 +419,7 @@ namespace Worldescape.Pages
                 if (avatarMessenger != null)
                 {
                     AvatarMessengers.Remove(avatarMessenger);
+                    ParticipantsCount.Text = AvatarMessengers.Count().ToString();
                 }
 
                 Canvas_root.Children.Remove(iElement);
@@ -441,6 +438,7 @@ namespace Worldescape.Pages
                 DrawAvatarOnCanvas(obj);
 
                 AvatarMessengers.Add(new AvatarMessenger() { Avatar = obj, ActivityStatus = ActivityStatus.Online, IsLoggedIn = true });
+                ParticipantsCount.Text = AvatarMessengers.Count().ToString();
             }
         }
 
@@ -581,6 +579,8 @@ namespace Worldescape.Pages
                                 AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
                                 DrawAvatarOnCanvas(avatar);
                             }
+
+                            ParticipantsCount.Text = AvatarMessengers.Count().ToString();
                         }
 
                         var constructs = result.Item2;
@@ -727,6 +727,11 @@ namespace Worldescape.Pages
             {
                 // Move avatar
                 MoveElement(e, _avatar);
+
+                var goToX = e.GetCurrentPoint(this.Canvas_root).Position.X;
+                var goToY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
+
+                HubService.BroadcastAvatarMovementAsync(new BroadcastAvatarMovementRequest() { AvatarId = Avatar.Id, Coordinate = new Coordinate() { X = goToX, Y = goToY } });
             }
         }
 
