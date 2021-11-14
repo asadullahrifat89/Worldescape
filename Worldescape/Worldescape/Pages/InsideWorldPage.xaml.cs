@@ -42,7 +42,7 @@ namespace Worldescape.Pages
         bool IsConnected;
         bool IsLoggedIn;
 
-        Button avatarBtn = new Button() { Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style };
+        UIElement _avatar;
 
         UIElement _interactiveConstruct;
         UIElement _addingConstruct;
@@ -147,6 +147,8 @@ namespace Worldescape.Pages
                 Width = 100,
             };
 
+            Button avatarBtn = new Button() { Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style };
+
             avatarBtn.Content = img;
             avatarBtn.Tag = avatar;
 
@@ -157,6 +159,7 @@ namespace Worldescape.Pages
             Canvas.SetZIndex(avatarBtn, avatar.Coordinate.Z);
 
             this.Canvas_root.Children.Add(avatarBtn);
+            _avatar = avatarBtn;
         }
 
         /// <summary>
@@ -722,7 +725,8 @@ namespace Worldescape.Pages
             }
             else
             {
-                MoveElement(e, avatarBtn);
+                // Move avatar
+                MoveElement(e, _avatar);
             }
         }
 

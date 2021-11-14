@@ -85,13 +85,13 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
     public override Task OnDisconnectedAsync(Exception? exception)
     {
-        Avatar user = GetCallingUser();
-        if (user != null)
+        Avatar avatar = GetCallingUser();
+        if (avatar != null)
         {
-            UpdateAvatarDisconnectionTime(user.Id, DateTime.Now);
+            UpdateAvatarDisconnectionTime(avatar.Id, DateTime.Now);
 
-            Clients.OthersInGroup(GetUsersGroup(user)).AvatarDisconnection(user.Id);
-            _logger.LogInformation($"<> {user.Id} OnDisconnectedAsync - {DateTime.Now}");
+            Clients.OthersInGroup(GetUsersGroup(avatar)).AvatarDisconnection(avatar.Id);
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} OnDisconnectedAsync - {DateTime.Now}");
         }
         return base.OnDisconnectedAsync(exception);
     }
@@ -104,7 +104,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             UpdateAvatarReconnectionTime(user.Id, DateTime.Now);
 
             Clients.OthersInGroup(GetUsersGroup(user)).AvatarReconnection(user.Id);
-            _logger.LogInformation($"<> {user.Id} OnConnectedAsync- {DateTime.Now}");
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {user.Id} OnConnectedAsync- {DateTime.Now}");
         }
         return base.OnConnectedAsync();
     }
@@ -163,7 +163,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
                 Clients.OthersInGroup(GetUsersGroup(avatar)).AvatarLogin(avatar);
 
-                _logger.LogInformation($"++ {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now}");
+                _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId:{avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now}");
 
                 // Get Constructs collection
                 var colConstructs = db.GetCollection<Construct>("Constructs");
@@ -200,7 +200,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
                     Clients.OthersInGroup(avatar.World.Id.ToString()).AvatarLogout(avatar.Id);
 
-                    _logger.LogInformation($"-- {avatar.Id} Logout-> World {avatar.World.Id} - {DateTime.Now}");
+                    _logger.LogInformation($"-- ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Logout-> WorldId {avatar.World.Id} - {DateTime.Now}");
                 }
             }
         }
@@ -217,7 +217,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
             Clients.OthersInGroup(GetUsersGroup(sender)).BroadcastTextMessage(sender.Id, message);
 
-            _logger.LogInformation($"<> {sender.Id} BroadcastTextMessage - {DateTime.Now}");
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastTextMessage - {DateTime.Now}");
         }
     }
 
@@ -229,7 +229,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
             Clients.OthersInGroup(GetUsersGroup(sender)).BroadcastPictureMessage(sender.Id, img);
 
-            _logger.LogInformation($"<> {sender.Id} BroadcastImageMessage - {DateTime.Now}");
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastImageMessage - {DateTime.Now}");
         }
     }
 
@@ -252,7 +252,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
                 {
                     Clients.Client(recipientConnectionId).UnicastTextMessage(sender.Id, message);
 
-                    _logger.LogInformation($"<> {sender.Id} UnicastTextMessage - {DateTime.Now}");
+                    _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastTextMessage - {DateTime.Now}");
                 }
             }
         }
@@ -277,7 +277,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
                 {
                     Clients.Client(recipientConnectionId).UnicastPictureMessage(sender.Id, img);
 
-                    _logger.LogInformation($"<> {sender.Id} UnicastImageMessage - {DateTime.Now}");
+                    _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastImageMessage - {DateTime.Now}");
                 }
             }
         }
@@ -303,7 +303,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             {
                 Clients.Client(recipientConnectionId).AvatarTyping(sender.Id);
 
-                _logger.LogInformation($"<> {sender.Id} Typing - {DateTime.Now}");
+                _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} Typing - {DateTime.Now}");
             }
         }
     }
@@ -313,7 +313,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
         Avatar sender = GetCallingUser();
 
         Clients.OthersInGroup(GetUsersGroup(sender)).AvatarBroadcastTyping(sender.Id);
-        _logger.LogInformation($"<> {sender.Id} BroadcastTyping - {DateTime.Now}");
+        _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastTyping - {DateTime.Now}");
     }
 
     #endregion
@@ -328,7 +328,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
             UpdateAvatarMovement(request.AvatarId, request.Coordinate);
 
-            _logger.LogInformation($"<> {request.AvatarId} BroadcastAvatarMovement - {DateTime.Now}");
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {request.AvatarId} BroadcastAvatarMovement - {DateTime.Now}");
         }
     }
 
@@ -340,7 +340,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
             UpdateAvatarActivityStatus(request.AvatarId, request.ActivityStatus);
 
-            _logger.LogInformation($"<> {request.AvatarId} BroadcastAvatarActivityStatus - {DateTime.Now}");
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {request.AvatarId} BroadcastAvatarActivityStatus - {DateTime.Now}");
         }
     }
 
