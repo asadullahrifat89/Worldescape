@@ -10,7 +10,8 @@ namespace Worldescape.Shared
 
         static public int New(int prefix = 1)
         {
-            return (int)((DateTime.UtcNow - DateSeed).TotalMilliseconds + (prefix * 100000000000));
+            var value = (long)((DateTime.UtcNow - DateSeed).TotalMilliseconds + (prefix * 100000000000));
+            return (int)value;
         }
     }
 }

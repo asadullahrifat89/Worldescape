@@ -89,7 +89,7 @@ namespace Worldescape.Pages
                 {
                     var uri = _objects[new Random().Next(_objects.Count())];
 
-                    Button construct = GenerateConstructButton(new Construct() { ImageUrl = uri });
+                    Button construct = GenerateConstructButton(name: Guid.NewGuid().ToString(), imageUrl: uri);
 
                     var x = (i + j * 2) * 200;
                     var y = i * 200;
@@ -105,17 +105,23 @@ namespace Worldescape.Pages
             Canvas.SetTop(construct, y);
 
             Canvas_root.Children.Add(construct);
+
+            var button = (Button)construct;
+
+            var taggedConstruct = button.Tag as Construct;
+
+            taggedConstruct.Coordinate = new Coordinate(x, y);
         }
 
         /// <summary>
-        /// Generate a new button from the provided construct. If constructId is provided then new id is not generated.
+        /// Generate a new button from the provided construct. If constructId is not provided then new id is generated.
         /// </summary>
         /// <param name="construct"></param>
         /// <param name="constructId"></param>
         /// <returns></returns>
-        private Button GenerateConstructButton(Construct construct, int? constructId = null)
+        private Button GenerateConstructButton(string name, string imageUrl, int? constructId = null)
         {
-            var uri = construct.ImageUrl;
+            var uri = imageUrl;
 
             var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
 
@@ -123,6 +129,8 @@ namespace Worldescape.Pages
 
             // This is broadcasted and saved in database
             var id = constructId ?? UidGenerator.New();
+
+            //TODO: adding new construct, fill World, Creator details
 
             var obj = new Button()
             {
@@ -132,7 +140,7 @@ namespace Worldescape.Pages
                 Tag = new Construct()
                 {
                     Id = id,
-                    Name = construct.Name,
+                    Name = name,
                     ImageUrl = uri,
                     Creator = new Creator() { },
                     World = new InWorld() { }
@@ -279,7 +287,7 @@ namespace Worldescape.Pages
 
                 if (constructAsset != null)
                 {
-                    Button construct = GenerateConstructButton(constructAsset);
+                    Button construct = GenerateConstructButton(name: constructAsset.Name, imageUrl: constructAsset.ImageUrl);
 
                     DrawConstructOnCanvas(
                         construct: construct,
@@ -321,7 +329,7 @@ namespace Worldescape.Pages
 
                 if (constructAsset != null)
                 {
-                    Button construct = GenerateConstructButton(constructAsset);
+                    Button construct = GenerateConstructButton(name: constructAsset.Name, imageUrl: constructAsset.ImageUrl);
 
                     DrawConstructOnCanvas(
                         construct: construct,
@@ -465,15 +473,7 @@ namespace Worldescape.Pages
                 constructCategories: ConstructCategories,
                 assetSelected: (constructAsset) =>
                 {
-                    //TODO: adding new construct, fill World, Creator details
-                    var construct = new Construct()
-                    {
-                        Id = UidGenerator.New(),
-                        Name = constructAsset.Name,
-                        ImageUrl = constructAsset.ImageUrl,
-                    };
-
-                    Button constructButton = GenerateConstructButton(construct);
+                    Button constructButton = GenerateConstructButton(name: constructAsset.Name, imageUrl: constructAsset.ImageUrl);
                     _addingConstruct = constructButton;
                 });
 
