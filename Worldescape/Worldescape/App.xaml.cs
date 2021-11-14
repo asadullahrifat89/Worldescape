@@ -50,7 +50,8 @@ namespace Worldescape
 
         private void App_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(e.ExceptionObject.Message + Environment.NewLine + e.ExceptionObject.StackTrace);
+            //MessageBox.Show(e.ExceptionObject.Message + Environment.NewLine + e.ExceptionObject.StackTrace);
+            Console.WriteLine(e.ExceptionObject.Message);
             e.Handled = true;
         }
     }
