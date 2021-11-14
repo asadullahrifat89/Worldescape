@@ -29,14 +29,17 @@ namespace Worldescape.Pages
         double _objectLeft;
         double _objectTop;
 
-        bool _isCraftingMode;
-        bool _isMovingMode;
+        bool _isCrafting;
+        bool _isMoving;
+        bool _isCloning;
+        bool _isDeleting;
 
         Button avatar = new Button() { Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style };
 
         UIElement _interactiveConstruct;
-        UIElement _movingConstruct;
         UIElement _addingConstruct;
+        UIElement _movingConstruct;
+        UIElement _cloningConstruct;
 
         EasingFunctionBase _easingFunction = new ExponentialEase()
         {
@@ -113,7 +116,8 @@ namespace Worldescape.Pages
             {
                 BorderBrush = new SolidColorBrush(Colors.DodgerBlue),
                 Style = Application.Current.Resources["MaterialDesign_ConstructButton_Style"] as Style,
-                Name = Guid.NewGuid().ToString() // this is broadcasted and saved in database
+                Name = Guid.NewGuid().ToString(), // this is broadcasted and saved in database
+                Tag = constructAsset
             };
 
             obj.Content = img;
@@ -124,6 +128,16 @@ namespace Worldescape.Pages
             obj.PointerMoved += Construct_PointerMoved;
             obj.PointerReleased += Construct_PointerReleased;
             return obj;
+        }
+
+        private static UIElement CopyConstructContent(UIElement uielement)
+        {
+            var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
+
+            var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
+            var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 100, Margin = new Thickness(10) };
+
+            return img;
         }
 
         private void DrawAvatarOnCanvas()
@@ -151,24 +165,35 @@ namespace Worldescape.Pages
 
         private void CraftButton_Click(object sender, RoutedEventArgs e)
         {
-            _isCraftingMode = !_isCraftingMode;
-            this.CraftButton.Content = _isCraftingMode ? "Crafting" : "Craft";
+            _isCrafting = !_isCrafting;
+            this.CraftButton.Content = _isCrafting ? "Crafting" : "Craft";
 
-            _isMovingMode = false;
+            _isMoving = false;
             this.ConstructMoveButton.Content = "Move";
 
-            if (!_isCraftingMode)
+            _isCloning = false;
+            this.ConstructCloneButton.Content = "Clone";
+
+            _isDeleting = false;
+            this.ConstructDeleteButton.Content = "Delete";
+
+            if (!_isCrafting)
             {
-                this.ConstructMoveButton.Visibility = Visibility.Collapsed;
                 this.ConstructsAddButton.Visibility = Visibility.Collapsed;
+                this.ConstructMoveButton.Visibility = Visibility.Collapsed;
+                this.ConstructCloneButton.Visibility = Visibility.Collapsed;
+                this.ConstructDeleteButton.Visibility = Visibility.Collapsed;
 
                 _movingConstruct = null;
+                _cloningConstruct = null;
+
                 OperationalConstructHolder.Content = null;
                 OperationalConstructStatus.Text = null;
             }
             else
             {
                 this.ConstructsAddButton.Visibility = Visibility.Visible;
+                //this.ConstructDeleteButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -176,12 +201,39 @@ namespace Worldescape.Pages
         {
             if (_addingConstruct != null)
             {
-                DrawConstructOnCanvas(_addingConstruct, e.GetCurrentPoint(this.Canvas_root).Position.X, e.GetCurrentPoint(this.Canvas_root).Position.Y);
+                DrawConstructOnCanvas(
+                    construct: _addingConstruct,
+                    x: e.GetCurrentPoint(this.Canvas_root).Position.X,
+                    y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
+
                 _addingConstruct = null;
             }
-            else if (_isMovingMode && _movingConstruct != null)
+            else if (_isCloning && _cloningConstruct != null)
+            {
+                var constructAsset = ((Button)_cloningConstruct).Tag as ConstructAsset;
+
+                if (constructAsset != null)
+                {
+                    Button construct = GenerateConstruct(constructAsset);
+
+                    DrawConstructOnCanvas(
+                        construct: construct,
+                        x: e.GetCurrentPoint(this.Canvas_root).Position.X,
+                        y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
+                }
+            }
+            else if (_isMoving && _movingConstruct != null)
             {
                 MoveElement(e, _movingConstruct);
+            }
+            else
+            {
+                _interactiveConstruct = null;
+                InteractiveConstructHolder.Content = null;
+
+                this.ConstructMoveButton.Visibility = Visibility.Collapsed;
+                this.ConstructCloneButton.Visibility = Visibility.Collapsed;
+                this.ConstructDeleteButton.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -193,19 +245,45 @@ namespace Worldescape.Pages
 
             if (_addingConstruct != null)
             {
-                DrawConstructOnCanvas(_addingConstruct, e.GetCurrentPoint(this.Canvas_root).Position.X, e.GetCurrentPoint(this.Canvas_root).Position.Y);
+                DrawConstructOnCanvas(
+                    construct: _addingConstruct,
+                    x: e.GetCurrentPoint(this.Canvas_root).Position.X,
+                    y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
+
                 _addingConstruct = null;
             }
-            else if (_isMovingMode)
+            else if (_isCloning && _cloningConstruct != null)
             {
-                if (_movingConstruct != null)
+                var constructAsset = ((Button)_cloningConstruct).Tag as ConstructAsset;
+
+                if (constructAsset != null)
                 {
-                    MoveElement(e, _movingConstruct);
+                    Button construct = GenerateConstruct(constructAsset);
+
+                    DrawConstructOnCanvas(
+                        construct: construct,
+                        x: e.GetCurrentPoint(this.Canvas_root).Position.X,
+                        y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
                 }
             }
-            else if (_isCraftingMode)
+            //else if (_isDeleting)
+            //{
+            //    var constructName = ((Button)uielement).Name;
+
+            //    var constructToDelete = Canvas_root.Children.Where(x => x is Button button && button.Name == constructName).FirstOrDefault();
+
+            //    if (constructToDelete != null)
+            //        Canvas_root.Children.Remove(constructToDelete);
+            //}
+            else if (_isMoving && _movingConstruct != null)
+            {
+                MoveElement(e, _movingConstruct);
+            }
+            else if (_isCrafting)
             {
                 this.ConstructMoveButton.Visibility = Visibility.Visible;
+                this.ConstructCloneButton.Visibility = Visibility.Visible;
+                this.ConstructDeleteButton.Visibility = Visibility.Visible;
 
                 _objectLeft = Canvas.GetLeft(uielement);
                 _objectTop = Canvas.GetTop(uielement);
@@ -224,7 +302,7 @@ namespace Worldescape.Pages
 
         private void Construct_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_isCraftingMode)
+            if (_isCrafting)
             {
                 UIElement uielement = (UIElement)sender;
 
@@ -250,12 +328,12 @@ namespace Worldescape.Pages
 
         private void Construct_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (_isMovingMode)
+            if (_isMoving)
             {
                 return;
             }
 
-            if (_isCraftingMode)
+            if (_isCrafting)
             {
                 UIElement uielement = (UIElement)sender;
                 _isPointerCaptured = false;
@@ -272,41 +350,12 @@ namespace Worldescape.Pages
             InteractiveConstructHolder.Content = construcButton;
         }
 
-        private static UIElement CopyConstructContent(UIElement uielement)
-        {
-            var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
-
-            var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
-            var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 100, Margin = new Thickness(10) };
-
-            return img;
-        }
-
-        private void ConstructMoveButton_Click(object sender, RoutedEventArgs e)
-        {
-            _isMovingMode = !_isMovingMode;
-            ConstructMoveButton.Content = _isMovingMode ? "Moving" : "Move";
-
-            if (!_isMovingMode)
-            {
-                _movingConstruct = null;
-                OperationalConstructHolder.Content = null;
-                OperationalConstructStatus.Text = null;
-            }
-            else
-            {
-                UIElement uielement = _interactiveConstruct;
-                _movingConstruct = uielement;
-                ShowMovingConstruct(_movingConstruct);
-            }
-        }
-
-        private void ShowMovingConstruct(UIElement uielement)
+        private void ShowOperationalConstruct(UIElement uielement, string operationStatus)
         {
             var historyButton = CopyConstructContent(uielement);
 
             OperationalConstructHolder.Content = historyButton;
-            OperationalConstructStatus.Text = "Moving:";
+            OperationalConstructStatus.Text = operationStatus;
 
         }
 
@@ -372,52 +421,52 @@ namespace Worldescape.Pages
             #endregion
         }
 
-        private void ChildWindowButton_Click(object sender, RoutedEventArgs e)
-        {
-            ChildWindow childWindow = new ChildWindow()
-            {
-                Height = 500,
-                Width = 500,
-                Title = "Login",
-                Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style
-            };
+        //private void ChildWindowButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ChildWindow childWindow = new ChildWindow()
+        //    {
+        //        Height = 500,
+        //        Width = 500,
+        //        Title = "Login",
+        //        Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style
+        //    };
 
-            var stackpanel = new StackPanel();
+        //    var stackpanel = new StackPanel();
 
-            stackpanel.Children.Add(new TextBlock()
-            {
-                Text = "Email",
-                FontSize = 14,
-                Margin = new Thickness(10, 0, 10, 0),
-                Foreground = new SolidColorBrush(Colors.DarkGray),
-                FontWeight = FontWeights.SemiBold
-            });
-            stackpanel.Children.Add(new TextBox()
-            {
-                Margin = new Thickness(10),
-                FontSize = 14,
-                Style = Application.Current.Resources["MaterialDesign_TextBox_Style"] as Style
-            });
+        //    stackpanel.Children.Add(new TextBlock()
+        //    {
+        //        Text = "Email",
+        //        FontSize = 14,
+        //        Margin = new Thickness(10, 0, 10, 0),
+        //        Foreground = new SolidColorBrush(Colors.DarkGray),
+        //        FontWeight = FontWeights.SemiBold
+        //    });
+        //    stackpanel.Children.Add(new TextBox()
+        //    {
+        //        Margin = new Thickness(10),
+        //        FontSize = 14,
+        //        Style = Application.Current.Resources["MaterialDesign_TextBox_Style"] as Style
+        //    });
 
-            stackpanel.Children.Add(new TextBlock()
-            {
-                Text = "Password",
-                FontSize = 14,
-                Margin = new Thickness(10, 0, 10, 0),
-                Foreground = new SolidColorBrush(Colors.DarkGray),
-                FontWeight = FontWeights.SemiBold
-            });
-            stackpanel.Children.Add(new PasswordBox()
-            {
-                Margin = new Thickness(10),
-                FontSize = 14,
-                Style = Application.Current.Resources["MaterialDesign_PasswordBox_Style"] as Style
-            });
+        //    stackpanel.Children.Add(new TextBlock()
+        //    {
+        //        Text = "Password",
+        //        FontSize = 14,
+        //        Margin = new Thickness(10, 0, 10, 0),
+        //        Foreground = new SolidColorBrush(Colors.DarkGray),
+        //        FontWeight = FontWeights.SemiBold
+        //    });
+        //    stackpanel.Children.Add(new PasswordBox()
+        //    {
+        //        Margin = new Thickness(10),
+        //        FontSize = 14,
+        //        Style = Application.Current.Resources["MaterialDesign_PasswordBox_Style"] as Style
+        //    });
 
-            childWindow.Content = stackpanel;
+        //    childWindow.Content = stackpanel;
 
-            childWindow.Show();
-        }
+        //    childWindow.Show();
+        //}
 
         private void ConstructsAddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -439,20 +488,58 @@ namespace Worldescape.Pages
             constructAssetPicker.Show();
         }
 
-        private void ButtonConstructAsset_Click(object sender, RoutedEventArgs e)
+        private void ConstructMoveButton_Click(object sender, RoutedEventArgs e)
         {
-            UIElement uielement = (UIElement)sender;
-            childWindow?.Close();
+            _isMoving = !_isMoving;
+            ConstructMoveButton.Content = _isMoving ? "Moving" : "Move";
+
+            if (!_isMoving)
+            {
+                _movingConstruct = null;
+                OperationalConstructHolder.Content = null;
+                OperationalConstructStatus.Text = null;
+            }
+            else
+            {
+                UIElement uielement = _interactiveConstruct;
+                _movingConstruct = uielement;
+                ShowOperationalConstruct(_movingConstruct, "Moving");
+            }
         }
 
-        private void ConstructGalleryList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ConstructCloneButton_Click(object sender, RoutedEventArgs e)
         {
+            _isCloning = !_isCloning;
+            ConstructCloneButton.Content = _isCloning ? "Cloning" : "Clone";
 
+            if (!_isCloning)
+            {
+                _cloningConstruct = null;
+                OperationalConstructHolder.Content = null;
+                OperationalConstructStatus.Text = null;
+            }
+            else
+            {
+                UIElement uielement = _interactiveConstruct;
+                _cloningConstruct = uielement;
+                ShowOperationalConstruct(_cloningConstruct, "Cloning");
+            }
         }
 
-        private void SelectConstructAsset_Click(object sender, RoutedEventArgs e)
+        private void ConstructDeleteButton_Click(object sender, RoutedEventArgs e)
         {
+            //_isDeleting = !_isDeleting;
+            //ConstructDeleteButton.Content = _isDeleting ? "Deleting" : "Delete";
 
+            //var constructName = ((Button)_interactiveConstruct).Name;
+
+            //var constructToDelete = Canvas_root.Children.Where(x => x is Button button && button.Name == constructName).FirstOrDefault();
+
+            if (_interactiveConstruct != null)
+            {
+                Canvas_root.Children.Remove(_interactiveConstruct);
+                InteractiveConstructHolder.Content = null;
+            }
         }
 
         #endregion

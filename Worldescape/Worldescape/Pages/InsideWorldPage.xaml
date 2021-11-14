@@ -48,6 +48,28 @@
                 Style="{StaticResource MaterialDesign_Button_Style}"
                 Visibility="Collapsed" />
 
+            <Button
+                x:Name="ConstructCloneButton"
+                Height="50"
+                MinWidth="100"
+                Margin="10"
+                Click="ConstructCloneButton_Click"
+                Content="Clone"
+                FontSize="20"
+                Style="{StaticResource MaterialDesign_Button_Style}"
+                Visibility="Collapsed" />
+
+            <Button
+                x:Name="ConstructDeleteButton"
+                Height="50"
+                MinWidth="100"
+                Margin="10"
+                Click="ConstructDeleteButton_Click"
+                Content="Delete"
+                FontSize="20"
+                Style="{StaticResource MaterialDesign_Button_Style}"
+                Visibility="Collapsed" />
+
             <TextBlock
                 x:Name="OperationalConstructStatus"
                 VerticalAlignment="Center"
@@ -56,11 +78,11 @@
 
             <ContentControl x:Name="OperationalConstructHolder" />
 
-            <TextBlock
+            <!--<TextBlock
+                x:Name="InteractiveConstructStatus"
                 VerticalAlignment="Center"
                 FontSize="20"
-                FontWeight="Bold"
-                Text="Towards:" />
+                FontWeight="Bold" />-->
 
             <ContentControl x:Name="InteractiveConstructHolder" />
         </StackPanel>
