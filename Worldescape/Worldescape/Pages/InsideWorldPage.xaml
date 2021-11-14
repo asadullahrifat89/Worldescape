@@ -34,7 +34,8 @@
                 Click="ConstructGalleryButton_Click"
                 Content="Gallery"
                 FontSize="20"
-                Style="{StaticResource MaterialDesign_Button_Style}" />
+                Style="{StaticResource MaterialDesign_Button_Style}"
+                Visibility="Collapsed" />
 
             <Button
                 x:Name="MoveButton"

@@ -158,8 +158,14 @@ namespace Worldescape.Pages
             if (!_isCraftingMode)
             {
                 this.MoveButton.Visibility = Visibility.Collapsed;
+                this.ConstructGalleryButton.Visibility = Visibility.Collapsed;
+
                 _movingConstruct = null;
                 MovingConstructHolder.Children.Clear();
+            }
+            else
+            {
+                this.ConstructGalleryButton.Visibility=Visibility.Visible;
             }
         }
 
