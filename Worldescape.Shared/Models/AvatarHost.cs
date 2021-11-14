@@ -4,7 +4,7 @@ using Worldescape.Shared.Entities;
 
 namespace Worldescape.Shared.Models
 {
-    public class AvatarElement : INotifyPropertyChanged
+    public class AvatarHost : INotifyPropertyChanged
     {
         #region PropertyChanged
 

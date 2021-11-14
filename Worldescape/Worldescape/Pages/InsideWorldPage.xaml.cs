@@ -36,6 +36,7 @@ namespace Worldescape.Pages
 
         UIElement _interactiveConstruct;
         UIElement _movingConstruct;
+        UIElement _addingConstruct;
 
         EasingFunctionBase _easingFunction = new ExponentialEase()
         {
@@ -58,17 +59,21 @@ namespace Worldescape.Pages
 
         #endregion
 
+        #region Ctor
+
         public InsideWorldPage()
         {
             this.InitializeComponent();
 
-            DrawConstructsOnCanvas();
+            DrawRandomConstructsOnCanvas();
             DrawAvatarOnCanvas();
         }
 
+        #endregion
+
         #region Methods
 
-        private void DrawConstructsOnCanvas()
+        private void DrawRandomConstructsOnCanvas()
         {
             for (int j = 0; j < 5; j++)
             {
@@ -76,31 +81,47 @@ namespace Worldescape.Pages
                 {
                     var uri = _objects[new Random().Next(_objects.Count())];
 
-                    var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+                    Button construct = GenerateConstruct(new ConstructAsset() { ImageUrl = uri });
 
-                    var img = new Image() { Source = bitmap, Stretch = Stretch.None };
+                    var x = (i + j * 2) * 200;
+                    var y = i * 200;
 
-                    var obj = new Button()
-                    {
-                        BorderBrush = new SolidColorBrush(Colors.DodgerBlue),
-                        Style = Application.Current.Resources["MaterialDesign_ConstructButton_Style"] as Style
-                    };
-
-                    obj.Content = img;
-
-                    //obj.AllowDrop = true;
-                    obj.AllowScrollOnTouchMove = false;
-
-                    obj.PointerPressed += Construct_PointerPressed;
-                    obj.PointerMoved += Construct_PointerMoved;
-                    obj.PointerReleased += Construct_PointerReleased;
-
-                    Canvas.SetTop(obj, i * 200);
-                    Canvas.SetLeft(obj, (i + j * 2) * 200);
-
-                    Canvas_root.Children.Add(obj);
+                    DrawConstructOnCanvas(construct, x, y);
                 }
             }
+        }
+
+        private void DrawConstructOnCanvas(UIElement construct, double x, double y)
+        {
+            Canvas.SetLeft(construct, x);
+            Canvas.SetTop(construct, y);
+
+            Canvas_root.Children.Add(construct);
+        }
+
+        private Button GenerateConstruct(ConstructAsset constructAsset)
+        {
+            var uri = constructAsset.ImageUrl;
+
+            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+            var img = new Image() { Source = bitmap, Stretch = Stretch.None };
+
+            var obj = new Button()
+            {
+                BorderBrush = new SolidColorBrush(Colors.DodgerBlue),
+                Style = Application.Current.Resources["MaterialDesign_ConstructButton_Style"] as Style,
+                Name = Guid.NewGuid().ToString() // this is broadcasted and saved in database
+            };
+
+            obj.Content = img;
+
+            obj.AllowScrollOnTouchMove = false;
+
+            obj.PointerPressed += Construct_PointerPressed;
+            obj.PointerMoved += Construct_PointerMoved;
+            obj.PointerReleased += Construct_PointerReleased;
+            return obj;
         }
 
         private void DrawAvatarOnCanvas()
@@ -144,7 +165,12 @@ namespace Worldescape.Pages
 
         private void Canvas_root_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (_isMovingMode && _movingConstruct != null)
+            if (_addingConstruct != null)
+            {
+                DrawConstructOnCanvas(_addingConstruct, e.GetCurrentPoint(this.Canvas_root).Position.X, e.GetCurrentPoint(this.Canvas_root).Position.Y);
+                _addingConstruct = null;
+            }
+            else if (_isMovingMode && _movingConstruct != null)
             {
                 MoveElement(e, _movingConstruct);
             }
@@ -152,12 +178,16 @@ namespace Worldescape.Pages
 
         private void Construct_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-
             UIElement uielement = (UIElement)sender;
             _interactiveConstruct = uielement;
             ShowInteractiveConstruct(uielement);
 
-            if (_isMovingMode)
+            if (_addingConstruct != null)
+            {
+                DrawConstructOnCanvas(_addingConstruct, e.GetCurrentPoint(this.Canvas_root).Position.X, e.GetCurrentPoint(this.Canvas_root).Position.Y);
+                _addingConstruct = null;
+            }
+            else if (_isMovingMode)
             {
                 if (_movingConstruct != null)
                 {
@@ -387,7 +417,6 @@ namespace Worldescape.Pages
 
             childWindow.Show();
         }
-            
 
         private void ConstructGalleryButton_Click(object sender, RoutedEventArgs e)
         {
@@ -398,7 +427,8 @@ namespace Worldescape.Pages
 
             var constructAssetPicker = new ConstructAssetPicker(ConstructAssets, (asset) =>
             {
-                MessageBox.Show(asset.Name);
+                Button construct = GenerateConstruct(asset);
+                _addingConstruct = construct;
             });
             constructAssetPicker.Show();
         }

@@ -12,7 +12,7 @@ namespace Worldescape.Internals
 {
     public class ConstructAssetPicker : ChildWindow
     {
-        int pageSize = 20;
+        int pageSize = 21;
         int pageIndex = 0;
         int totalPageCount = 0;
 
@@ -26,11 +26,7 @@ namespace Worldescape.Internals
             VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
         };
 
-        MasonryPanelWithProgressiveLoading _masonryPanel = new MasonryPanelWithProgressiveLoading()
-        {
-            Margin = new Thickness(5),
-            Style = Application.Current.Resources["Panel_Style"] as Style
-        };
+        MasonryPanelWithProgressiveLoading _masonryPanel;
 
         Grid _gridContent = new Grid();
         StackPanel _stackPanelFooter = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(5) };
@@ -49,8 +45,6 @@ namespace Worldescape.Internals
             Title = "Select a Construct";
             Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style;
 
-            //_scrollViewer.Content = _masonryPanel;
-
             _gridContent.RowDefinitions.Add(new RowDefinition());
             _gridContent.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto) });
 
@@ -61,7 +55,7 @@ namespace Worldescape.Internals
             Button buttonPreview = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                Content = "Previous"
+                Content = "Back"
             };
 
             buttonPreview.Click += ButtonPreview_Click;
@@ -104,6 +98,7 @@ namespace Worldescape.Internals
             if (pageIndex < 0)
             {
                 pageIndex = 0;
+                return;
             }
 
             SetDataSource();
@@ -112,11 +107,10 @@ namespace Worldescape.Internals
         private void SetDataSource()
         {
             var pagedAssets = _constructAssets.Skip(pageIndex * pageSize).Take(pageSize);
-            //_masonryPanel.Children.Clear();
 
             _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
-                Margin = new Thickness(5),
+                Margin = new Thickness(5),                
                 Style = Application.Current.Resources["Panel_Style"] as Style
             };
 
