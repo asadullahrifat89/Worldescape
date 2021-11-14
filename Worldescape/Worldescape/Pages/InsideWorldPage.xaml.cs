@@ -78,6 +78,8 @@ namespace Worldescape.Pages
 
         #region Methods
 
+        #region Common
+
         private void DrawRandomConstructsOnCanvas()
         {
             for (int j = 0; j < 5; j++)
@@ -140,6 +142,24 @@ namespace Worldescape.Pages
             return img;
         }
 
+        private void ShowConstructOperationButtons()
+        {
+            this.ConstructMoveButton.Visibility = Visibility.Visible;
+            this.ConstructCloneButton.Visibility = Visibility.Visible;
+            this.ConstructDeleteButton.Visibility = Visibility.Visible;
+            this.ConstructBringForwardButton.Visibility = Visibility.Visible;
+            this.ConstructSendBackwardButton.Visibility = Visibility.Visible;
+        }
+
+        private void HideConstructOperationButtons()
+        {
+            this.ConstructMoveButton.Visibility = Visibility.Collapsed;
+            this.ConstructCloneButton.Visibility = Visibility.Collapsed;
+            this.ConstructDeleteButton.Visibility = Visibility.Collapsed;
+            this.ConstructBringForwardButton.Visibility = Visibility.Collapsed;
+            this.ConstructSendBackwardButton.Visibility = Visibility.Collapsed;
+        }
+
         private void DrawAvatarOnCanvas()
         {
             var uri = avatarUrl;
@@ -163,40 +183,67 @@ namespace Worldescape.Pages
             this.Canvas_root.Children.Add(avatar);
         }
 
-        private void CraftButton_Click(object sender, RoutedEventArgs e)
+        private void MoveElement(PointerRoutedEventArgs e, UIElement uIElement)
         {
-            _isCrafting = !_isCrafting;
-            this.CraftButton.Content = _isCrafting ? "Crafting" : "Craft";
+            var nowX = Canvas.GetLeft(uIElement);
+            var nowY = Canvas.GetTop(uIElement);
 
-            _isMoving = false;
-            this.ConstructMoveButton.Content = "Move";
+            var goToX = e.GetCurrentPoint(this.Canvas_root).Position.X;
+            var goToY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
 
-            _isCloning = false;
-            this.ConstructCloneButton.Content = "Clone";
+            float distance = Vector3.Distance(
+                new Vector3(
+                    (float)nowX,
+                    (float)nowY,
+                    0),
+                new Vector3(
+                    (float)goToX,
+                    (float)goToY,
+                    0));
 
-            _isDeleting = false;
-            this.ConstructDeleteButton.Content = "Delete";
+            float unitPixel = 200f;
+            float timeToTravelunitPixel = 0.5f;
 
-            if (!_isCrafting)
+            float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
+
+            Storyboard moveStory = new Storyboard();
+
+            DoubleAnimation setLeft = new DoubleAnimation()
             {
-                this.ConstructsAddButton.Visibility = Visibility.Collapsed;
-                this.ConstructMoveButton.Visibility = Visibility.Collapsed;
-                this.ConstructCloneButton.Visibility = Visibility.Collapsed;
-                this.ConstructDeleteButton.Visibility = Visibility.Collapsed;
+                From = nowX,
+                To = goToX,
+                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                EasingFunction = _easingFunction,
+            };
 
-                _movingConstruct = null;
-                _cloningConstruct = null;
-
-                OperationalConstructHolder.Content = null;
-                OperationalConstructStatus.Text = null;
-            }
-            else
+            DoubleAnimation setRight = new DoubleAnimation()
             {
-                this.ConstructsAddButton.Visibility = Visibility.Visible;
-                //this.ConstructDeleteButton.Visibility = Visibility.Visible;
-            }
+                From = nowY,
+                To = goToY,
+                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                EasingFunction = _easingFunction,
+            };
+
+            setRight.Completed += (object sender, EventArgs e) =>
+            {
+                //TODO: set idle logic here
+            };
+
+            Storyboard.SetTarget(setLeft, uIElement);
+            Storyboard.SetTargetProperty(setLeft, new PropertyPath(Canvas.LeftProperty));
+
+            Storyboard.SetTarget(setRight, uIElement);
+            Storyboard.SetTargetProperty(setRight, new PropertyPath(Canvas.TopProperty));
+
+            moveStory.Children.Add(setLeft);
+            moveStory.Children.Add(setRight);
+
+            moveStory.Begin();
         }
 
+        #endregion
+
+        #region Pointer
         private void Canvas_root_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (_addingConstruct != null)
@@ -231,9 +278,7 @@ namespace Worldescape.Pages
                 _interactiveConstruct = null;
                 InteractiveConstructHolder.Content = null;
 
-                this.ConstructMoveButton.Visibility = Visibility.Collapsed;
-                this.ConstructCloneButton.Visibility = Visibility.Collapsed;
-                this.ConstructDeleteButton.Visibility = Visibility.Collapsed;
+                HideConstructOperationButtons();
             }
         }
 
@@ -266,24 +311,13 @@ namespace Worldescape.Pages
                         y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
                 }
             }
-            //else if (_isDeleting)
-            //{
-            //    var constructName = ((Button)uielement).Name;
-
-            //    var constructToDelete = Canvas_root.Children.Where(x => x is Button button && button.Name == constructName).FirstOrDefault();
-
-            //    if (constructToDelete != null)
-            //        Canvas_root.Children.Remove(constructToDelete);
-            //}
             else if (_isMoving && _movingConstruct != null)
             {
                 MoveElement(e, _movingConstruct);
             }
             else if (_isCrafting)
             {
-                this.ConstructMoveButton.Visibility = Visibility.Visible;
-                this.ConstructCloneButton.Visibility = Visibility.Visible;
-                this.ConstructDeleteButton.Visibility = Visibility.Visible;
+                ShowConstructOperationButtons();
 
                 _objectLeft = Canvas.GetLeft(uielement);
                 _objectTop = Canvas.GetTop(uielement);
@@ -344,6 +378,10 @@ namespace Worldescape.Pages
             }
         }
 
+        #endregion
+
+        #region Selection Status
+
         private void ShowInteractiveConstruct(UIElement uielement)
         {
             var construcButton = CopyConstructContent(uielement);
@@ -359,114 +397,42 @@ namespace Worldescape.Pages
 
         }
 
-        private void MoveElement(PointerRoutedEventArgs e, UIElement uIElement)
+        #endregion
+
+        #region Button Clicks
+
+        private void CraftButton_Click(object sender, RoutedEventArgs e)
         {
-            var nowX = Canvas.GetLeft(uIElement);
-            var nowY = Canvas.GetTop(uIElement);
+            _isCrafting = !_isCrafting;
+            this.CraftButton.Content = _isCrafting ? "Crafting" : "Craft";
 
-            var goToX = e.GetCurrentPoint(this.Canvas_root).Position.X;
-            var goToY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
+            _isMoving = false;
+            this.ConstructMoveButton.Content = "Move";
 
-            float distance = Vector3.Distance(
-                new Vector3(
-                    (float)nowX,
-                    (float)nowY,
-                    0),
-                new Vector3(
-                    (float)goToX,
-                    (float)goToY,
-                    0));
+            _isCloning = false;
+            this.ConstructCloneButton.Content = "Clone";
 
-            float unitPixel = 200f;
-            float timeToTravelunitPixel = 0.5f;
+            _isDeleting = false;
+            this.ConstructDeleteButton.Content = "Delete";
 
-            float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
-
-            #region Storyboard
-
-            Storyboard moveStory = new Storyboard();
-
-            DoubleAnimation setLeft = new DoubleAnimation()
+            if (!_isCrafting)
             {
-                From = nowX,
-                To = goToX,
-                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                EasingFunction = _easingFunction,
-            };
+                this.ConstructsAddButton.Visibility = Visibility.Collapsed;
 
-            DoubleAnimation setRight = new DoubleAnimation()
+                HideConstructOperationButtons();
+
+                _movingConstruct = null;
+                _cloningConstruct = null;
+
+                OperationalConstructHolder.Content = null;
+                OperationalConstructStatus.Text = null;
+            }
+            else
             {
-                From = nowY,
-                To = goToY,
-                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                EasingFunction = _easingFunction,
-            };
-
-            setRight.Completed += (object sender, EventArgs e) =>
-            {
-                //TODO: set idle logic here
-            };
-
-            Storyboard.SetTarget(setLeft, uIElement);
-            Storyboard.SetTargetProperty(setLeft, new PropertyPath(Canvas.LeftProperty));
-
-            Storyboard.SetTarget(setRight, uIElement);
-            Storyboard.SetTargetProperty(setRight, new PropertyPath(Canvas.TopProperty));
-
-            moveStory.Children.Add(setLeft);
-            moveStory.Children.Add(setRight);
-
-            moveStory.Begin();
-
-            #endregion
+                this.ConstructsAddButton.Visibility = Visibility.Visible;
+                //this.ConstructDeleteButton.Visibility = Visibility.Visible;
+            }
         }
-
-        //private void ChildWindowButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    ChildWindow childWindow = new ChildWindow()
-        //    {
-        //        Height = 500,
-        //        Width = 500,
-        //        Title = "Login",
-        //        Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style
-        //    };
-
-        //    var stackpanel = new StackPanel();
-
-        //    stackpanel.Children.Add(new TextBlock()
-        //    {
-        //        Text = "Email",
-        //        FontSize = 14,
-        //        Margin = new Thickness(10, 0, 10, 0),
-        //        Foreground = new SolidColorBrush(Colors.DarkGray),
-        //        FontWeight = FontWeights.SemiBold
-        //    });
-        //    stackpanel.Children.Add(new TextBox()
-        //    {
-        //        Margin = new Thickness(10),
-        //        FontSize = 14,
-        //        Style = Application.Current.Resources["MaterialDesign_TextBox_Style"] as Style
-        //    });
-
-        //    stackpanel.Children.Add(new TextBlock()
-        //    {
-        //        Text = "Password",
-        //        FontSize = 14,
-        //        Margin = new Thickness(10, 0, 10, 0),
-        //        Foreground = new SolidColorBrush(Colors.DarkGray),
-        //        FontWeight = FontWeights.SemiBold
-        //    });
-        //    stackpanel.Children.Add(new PasswordBox()
-        //    {
-        //        Margin = new Thickness(10),
-        //        FontSize = 14,
-        //        Style = Application.Current.Resources["MaterialDesign_PasswordBox_Style"] as Style
-        //    });
-
-        //    childWindow.Content = stackpanel;
-
-        //    childWindow.Show();
-        //}
 
         private void ConstructsAddButton_Click(object sender, RoutedEventArgs e)
         {
@@ -541,6 +507,28 @@ namespace Worldescape.Pages
                 InteractiveConstructHolder.Content = null;
             }
         }
+
+        private void ConstructBringForwardButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_interactiveConstruct != null)
+            {
+                var zIndex = Canvas.GetZIndex(_interactiveConstruct);
+                zIndex++;
+                Canvas.SetZIndex(_interactiveConstruct, zIndex);
+            }
+        }
+
+        private void ConstructSendBackwardButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_interactiveConstruct != null)
+            {
+                var zIndex = Canvas.GetZIndex(_interactiveConstruct);
+                zIndex--;
+                Canvas.SetZIndex(_interactiveConstruct, zIndex);
+            }
+        }
+
+        #endregion
 
         #endregion
     }

@@ -70,6 +70,28 @@
                 Style="{StaticResource MaterialDesign_Button_Style}"
                 Visibility="Collapsed" />
 
+            <Button
+                x:Name="ConstructSendBackwardButton"
+                Height="50"
+                MinWidth="100"
+                Margin="10"
+                Click="ConstructSendBackwardButton_Click"
+                Content="Send Backward"
+                FontSize="20"
+                Style="{StaticResource MaterialDesign_Button_Style}"
+                Visibility="Collapsed" />
+
+            <Button
+                x:Name="ConstructBringForwardButton"
+                Height="50"
+                MinWidth="100"
+                Margin="10"
+                Click="ConstructBringForwardButton_Click"
+                Content="Bring Forward"
+                FontSize="20"
+                Style="{StaticResource MaterialDesign_Button_Style}"
+                Visibility="Collapsed" />
+
             <TextBlock
                 x:Name="OperationalConstructStatus"
                 VerticalAlignment="Center"
