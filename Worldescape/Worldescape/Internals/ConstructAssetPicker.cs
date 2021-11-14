@@ -16,8 +16,7 @@ namespace Worldescape.Internals
         int pageIndex = 0;
         int totalPageCount = 0;
 
-        bool _settingConstructAssets = false;
-        bool _settingConstructCategories = false;
+        bool _settingConstructAssets = false;        
 
         string _pickedConstructCategory = string.Empty;
 
@@ -31,8 +30,6 @@ namespace Worldescape.Internals
             HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
             VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
         };
-
-        MasonryPanelWithProgressiveLoading _masonryPanel;
 
         Grid _gridContent = new Grid();
         StackPanel _stackPanelFooter = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(5) };
@@ -48,7 +45,7 @@ namespace Worldescape.Internals
             _assetSelected = assetSelected;
 
             Height = 700;
-            Width = 600;            
+            Width = 610;            
             Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style;
 
             _gridContent.RowDefinitions.Add(new RowDefinition());
@@ -68,7 +65,6 @@ namespace Worldescape.Internals
 
             buttonShowCategories.Click += ButtonShowCategories_Click;
             _stackPanelFooter.Children.Add(buttonShowCategories);
-
 
             Button buttonPreview = new Button()
             {
@@ -111,7 +107,7 @@ namespace Worldescape.Internals
 
             var pagedData = _constructCategories;
 
-            _masonryPanel = new MasonryPanelWithProgressiveLoading()
+            var _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
@@ -123,8 +119,8 @@ namespace Worldescape.Internals
                 var buttonConstructAsset = new Button()
                 {
                     Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                    Width = 150,
-                    Height = 150,
+                    Width = 140,
+                    Height = 120,
                     Margin = new Thickness(3),
                     Tag = item,
                 };
@@ -140,6 +136,7 @@ namespace Worldescape.Internals
 
         private void ButtonConstructCategory_Click(object sender, RoutedEventArgs e)
         {
+            pageIndex = 0;
             _pickedConstructCategory = (((Button)sender).Tag as ConstructCategory).Name;
             ShowConstructAssets();
         }
@@ -156,7 +153,7 @@ namespace Worldescape.Internals
 
             var pagedData = filteredData.Skip(pageIndex * pageSize).Take(pageSize);
 
-            _masonryPanel = new MasonryPanelWithProgressiveLoading()
+            var _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
