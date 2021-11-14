@@ -40,7 +40,7 @@ namespace Worldescape.Internals
 
             totalPageCount = constructAssets.Count / pageSize;
 
-            Height = 500;
+            Height = 700;
             Width = 470;
             Title = "Select a Construct";
             Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style;

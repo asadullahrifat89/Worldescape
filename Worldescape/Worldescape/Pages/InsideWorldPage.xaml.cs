@@ -116,7 +116,7 @@ namespace Worldescape.Pages
 
             obj.Content = img;
 
-            obj.AllowScrollOnTouchMove = false;
+            //obj.AllowScrollOnTouchMove = false;
 
             obj.PointerPressed += Construct_PointerPressed;
             obj.PointerMoved += Construct_PointerMoved;
@@ -161,11 +161,12 @@ namespace Worldescape.Pages
                 this.ConstructGalleryButton.Visibility = Visibility.Collapsed;
 
                 _movingConstruct = null;
-                MovingConstructHolder.Children.Clear();
+                OperationalConstructHolder.Content = null;
+                OperationalConstructStatus.Text = null;
             }
             else
             {
-                this.ConstructGalleryButton.Visibility=Visibility.Visible;
+                this.ConstructGalleryButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -203,8 +204,7 @@ namespace Worldescape.Pages
             else if (_isCraftingMode)
             {
                 this.MoveButton.Visibility = Visibility.Visible;
-
-                //UIElement uielement = (UIElement)sender;
+                                
                 _objectLeft = Canvas.GetLeft(uielement);
                 _objectTop = Canvas.GetTop(uielement);
 
@@ -266,27 +266,18 @@ namespace Worldescape.Pages
 
         private void ShowInteractiveConstruct(UIElement uielement)
         {
-            Button historyButton = CopyConstructContent(uielement);
-
-            InteractiveConstructHolder.Children.Clear();
-            InteractiveConstructHolder.Children.Add(historyButton);
+            var construcButton = CopyConstructContent(uielement);
+            InteractiveConstructHolder.Content = construcButton;
         }
 
-        private static Button CopyConstructContent(UIElement uielement)
+        private static UIElement CopyConstructContent(UIElement uielement)
         {
             var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
 
             var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
             var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 100, Margin = new Thickness(10) };
 
-            var historyButton = new Button() { Content = img, Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style };
-            return historyButton;
-        }
-
-        private void HistoryButton_Click(object sender, RoutedEventArgs e)
-        {
-            InteractiveConstructHolder.Children.Clear();
-            _interactiveConstruct = null;
+            return img;
         }
 
         private void MoveButton_Click(object sender, RoutedEventArgs e)
@@ -297,7 +288,8 @@ namespace Worldescape.Pages
             if (!_isMovingMode)
             {
                 _movingConstruct = null;
-                MovingConstructHolder.Children.Clear();
+                OperationalConstructHolder.Content = null;
+                OperationalConstructStatus.Text = null;
             }
             else
             {
@@ -309,10 +301,11 @@ namespace Worldescape.Pages
 
         private void ShowMovingConstruct(UIElement uielement)
         {
-            Button historyButton = CopyConstructContent(uielement);
+            var historyButton = CopyConstructContent(uielement);
 
-            MovingConstructHolder.Children.Clear();
-            MovingConstructHolder.Children.Add(historyButton);
+            OperationalConstructHolder.Content = historyButton;
+            OperationalConstructStatus.Text = "Moving:";
+
         }
 
         private void MoveElement(PointerRoutedEventArgs e, UIElement uIElement)

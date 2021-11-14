@@ -48,15 +48,21 @@
                 Style="{StaticResource MaterialDesign_Button_Style}"
                 Visibility="Collapsed" />
 
-            <StackPanel x:Name="MovingConstructHolder" />
+            <TextBlock
+                x:Name="OperationalConstructStatus"
+                VerticalAlignment="Center"
+                FontSize="20"
+                FontWeight="Bold" />
+
+            <ContentControl x:Name="OperationalConstructHolder" />
 
             <TextBlock
                 VerticalAlignment="Center"
                 FontSize="20"
                 FontWeight="Bold"
-                Text="Selected:" />
+                Text="Towards:" />
 
-            <StackPanel x:Name="InteractiveConstructHolder" />
+            <ContentControl x:Name="InteractiveConstructHolder" />
         </StackPanel>
 
         <ScrollViewer
