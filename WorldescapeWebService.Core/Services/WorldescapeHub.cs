@@ -124,13 +124,16 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             // If an existing avatar doesn't exist
             if (!colAvatars.Exists(x => x.Id == avatar.Id))
             {
+                var minValue = DateTime.MinValue;
+
                 // Delete inactive avatars who have remained inactive for more than a minute
-                var concurrentAvatars = colAvatars.Find(x => x.World.Id == avatar.World.Id && x.Session != null && x.Session.DisconnectionTime != null);
+                var concurrentAvatars = colAvatars.Find(x => x.World.Id == avatar.World.Id && x.Session != null && x.Session.DisconnectionTime != minValue);
 
                 foreach (var inAvatar in concurrentAvatars)
                 {
                     TimeSpan diff = DateTime.Now - inAvatar.Session.DisconnectionTime;
 
+                    // TODO: Must fix auto delete of avatar
                     if (diff.TotalMinutes >= TimeSpan.FromMinutes(1).TotalMinutes)
                     {
                         colAvatars.Delete(inAvatar.Id);
@@ -148,17 +151,16 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
                     return null;
                 }
 
-                // Get Worlds collection
-                var colWorlds = db.GetCollection<World>("Worlds");
+                // Get OnlineWorlds collection
+                var colOnlineWorlds = db.GetCollection<InWorld>("InWorlds");
 
                 // Check if a world exists or not in SignalR groups
-                if (!OnlineWorlds.ContainsKey(avatar.World.Id))
+                if (!colOnlineWorlds.Exists(x => x.Id == avatar.World.Id))
                 {
-                    if (OnlineWorlds.TryAdd(avatar.World.Id, avatar.World))
-                    {
-                        // If the group doesn't exist in hub add it
-                        Groups.AddToGroupAsync(Context.ConnectionId, avatar.World.Id.ToString());
-                    }
+                    // If the group doesn't exist in hub add it
+                    Groups.AddToGroupAsync(Context.ConnectionId, avatar.World.Id.ToString());
+
+                    colOnlineWorlds.Insert(avatar.World);
                 }
 
                 Clients.OthersInGroup(GetUsersGroup(avatar)).AvatarLogin(avatar);

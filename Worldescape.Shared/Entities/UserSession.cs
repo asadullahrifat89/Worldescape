@@ -7,8 +7,8 @@ namespace Worldescape.Shared.Entities
     /// </summary>
     public class UserSession
     {
-        public DateTime DisconnectionTime { get; set; } = DateTime.MinValue;
-
         public DateTime ReconnectionTime { get; set; }
+
+        public DateTime DisconnectionTime { get; set; } = DateTime.MinValue;
     }
 }

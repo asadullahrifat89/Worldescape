@@ -5,7 +5,7 @@ namespace Worldescape.Shared.Entities
     public class CoreBase
     {
         /// <summary>
-        /// Id of an entity, this is auto incremented.
+        /// Id of an entity.
         /// </summary>
         public int Id { get; set; }
 

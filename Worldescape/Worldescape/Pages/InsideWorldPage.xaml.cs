@@ -549,14 +549,14 @@ namespace Worldescape.Pages
         {
             bool joined = await HubLogin();
 
-            if (joined)
-            {
-                DrawAvatarOnCanvas(Avatar);
-            }
-            else
-            {
+            //if (joined)
+            //{
+            //    DrawAvatarOnCanvas(Avatar);
+            //}
+            //else
+            //{
 
-            }
+            //}
         }
 
         private async Task<bool> HubLogin()
