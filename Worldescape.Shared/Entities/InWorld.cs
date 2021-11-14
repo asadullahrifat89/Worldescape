@@ -15,9 +15,9 @@
         /// </summary>
         public string Name { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Image Url of the world.
-        /// </summary>
-        public string ImageUrl { get; set; } = string.Empty;
+        ///// <summary>
+        ///// Image Url of the world.
+        ///// </summary>
+        //public string ImageUrl { get; set; } = string.Empty;
     }
 }

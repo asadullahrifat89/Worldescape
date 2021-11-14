@@ -18,6 +18,12 @@ namespace Worldescape
 
         #region Methods
 
+        public void NavigateToPage(Page page)
+        {
+            // Set target to target page:            
+            PageContainer.Content = page;
+        }
+
         public void NavigateToPage(string targetUri)
         {
             // Navigate to the target page:

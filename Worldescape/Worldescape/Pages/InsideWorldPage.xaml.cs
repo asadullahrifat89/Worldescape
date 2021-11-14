@@ -64,6 +64,10 @@ namespace Worldescape.Pages
 
         IWorldescapeHubService _hubService;
 
+        InWorld _inWorld = new InWorld();
+
+        User _user = new User();
+
         #endregion
 
         #region Ctor
@@ -72,10 +76,14 @@ namespace Worldescape.Pages
         {
             this.InitializeComponent();
 
-            DrawRandomConstructsOnCanvas();
-            DrawAvatarOnCanvas();
+            //DrawRandomConstructsOnCanvas();
+
+            _inWorld = new InWorld() { Id = UidGenerator.New(), Name = "Test World" };
+            _user = new User() { Id = UidGenerator.New(), Name = "Test User" };
 
             _hubService = App._serviceProvider.GetService(typeof(IWorldescapeHubService)) as IWorldescapeHubService;
+
+            DrawAvatarOnCanvas();
         }
 
         #endregion
@@ -92,12 +100,14 @@ namespace Worldescape.Pages
                 {
                     var uri = _objects[new Random().Next(_objects.Count())];
 
-                    Button construct = GenerateConstructButton(name: Guid.NewGuid().ToString(), imageUrl: uri);
+                    Button constructBtn = GenerateConstructButton(
+                        name: Guid.NewGuid().ToString(),
+                        imageUrl: uri);
 
                     var x = (i + j * 2) * 200;
                     var y = i * 200;
 
-                    DrawConstructOnCanvas(construct, x, y);
+                    DrawConstructOnCanvas(constructBtn, x, y);
                 }
             }
         }
@@ -204,6 +214,7 @@ namespace Worldescape.Pages
             };
 
             avatar.Content = img;
+            avatar.Tag = _user;
 
             //avatar.Effect = new DropShadowEffect() { ShadowDepth = 3, Color = Colors.Black, BlurRadius = 10, Opacity = 0.3 };
 
@@ -290,10 +301,12 @@ namespace Worldescape.Pages
 
                 if (constructAsset != null)
                 {
-                    Button construct = GenerateConstructButton(name: constructAsset.Name, imageUrl: constructAsset.ImageUrl);
+                    Button constructBtn = GenerateConstructButton(
+                        name: constructAsset.Name,
+                        imageUrl: constructAsset.ImageUrl);
 
                     DrawConstructOnCanvas(
-                        construct: construct,
+                        construct: constructBtn,
                         x: e.GetCurrentPoint(this.Canvas_root).Position.X,
                         y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
                 }
@@ -332,10 +345,12 @@ namespace Worldescape.Pages
 
                 if (constructAsset != null)
                 {
-                    Button construct = GenerateConstructButton(name: constructAsset.Name, imageUrl: constructAsset.ImageUrl);
+                    Button constructBtn = GenerateConstructButton(
+                        name: constructAsset.Name,
+                        imageUrl: constructAsset.ImageUrl);
 
                     DrawConstructOnCanvas(
-                        construct: construct,
+                        construct: constructBtn,
                         x: e.GetCurrentPoint(this.Canvas_root).Position.X,
                         y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
                 }
@@ -476,8 +491,11 @@ namespace Worldescape.Pages
                 constructCategories: ConstructCategories,
                 assetSelected: (constructAsset) =>
                 {
-                    Button constructButton = GenerateConstructButton(name: constructAsset.Name, imageUrl: constructAsset.ImageUrl);
-                    _addingConstruct = constructButton;
+                    Button constructBtn = GenerateConstructButton(
+                        name: constructAsset.Name,
+                        imageUrl: constructAsset.ImageUrl);
+
+                    _addingConstruct = constructBtn;
                 });
 
             constructAssetPicker.Show();

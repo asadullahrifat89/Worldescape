@@ -3,6 +3,7 @@ using System;
 using Windows.UI.Xaml;
 using Worldescape.Contracts.Services;
 using Worldescape.Extensions;
+using Worldescape.Pages;
 using Worldescape.Services;
 
 namespace Worldescape
@@ -44,8 +45,9 @@ namespace Worldescape
             // Core Services
             services.AddSingleton<IWorldescapeHubService, WorldescapeHubService>();
 
-
+            // Pages
             services.AddSingleton<MainPage>();
+            services.AddSingleton<InsideWorldPage>();
         }
 
         private void App_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
