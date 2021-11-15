@@ -2,6 +2,7 @@ using MediatR;
 using System.Reflection;
 using FluentValidation.AspNetCore;
 using WorldescapeWebService.Core;
+using WorldescapeWebService;
 
 #region Service Registration
 
@@ -41,6 +42,8 @@ app.UseSwaggerUI();
 app.UseCors("CorsPolicy");
 //app.UseHttpsRedirection();
 //app.UseHsts();
+
+app.MapHub<WorldescapeHub>("/worldescapehub");
 
 #endregion
 
@@ -89,12 +92,6 @@ app.MapPost("/api/Command/UpdateWorld", async (UpdateWorldCommand command, IMedi
 .WithName("UpdateWorld");
 
 #endregion
-
-#endregion
-
-#region SignalRHub
-
-app.MapHub<WorldescapeHub>("/WorldescapeHub");
 
 #endregion
 

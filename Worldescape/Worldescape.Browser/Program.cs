@@ -14,11 +14,11 @@ namespace Worldescape.Browser
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddTransient(sp => new HttpClient
+            builder.Services.AddSingleton(sp => new HttpClient
             {
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress),
                 Timeout = new TimeSpan(1, 0, 0),
-            });            
+            }).AddHttpService(baseAddress: new Uri(builder.HostEnvironment.BaseAddress));
 
             var host = builder.Build();
             await host.RunAsync();

@@ -12587,13 +12587,13 @@
 ]</value>
   </data>
   <data name="DevHubService" xml:space="preserve">
-    <value>http://localhost:5034/WorldescapeHub</value>
+    <value>http://localhost:5034/worldescapehub</value>
   </data>
   <data name="DevWebService" xml:space="preserve">
     <value>http://localhost:5034</value>
   </data>
   <data name="ProdHubService" xml:space="preserve">
-    <value>http://localhost:9899/WorldescapeHub</value>
+    <value>http://localhost:9899/worldescapehub</value>
   </data>
   <data name="ProdWebService" xml:space="preserve">
     <value>http://localhost:9899</value>

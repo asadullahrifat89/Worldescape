@@ -87,7 +87,7 @@ namespace Worldescape.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://localhost:5034/WorldescapeHub.
+        ///   Looks up a localized string similar to http://localhost:5034/worldescapehub.
         /// </summary>
         internal static string DevHubService {
             get {
@@ -105,7 +105,7 @@ namespace Worldescape.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://localhost:9899/WorldescapeHub.
+        ///   Looks up a localized string similar to http://localhost:9899/worldescapehub.
         /// </summary>
         internal static string ProdHubService {
             get {

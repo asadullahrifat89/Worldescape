@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using Worldescape.Shared;
 
-namespace WorldescapeWebService.Core;
+namespace WorldescapeWebService;
 
 public class WorldescapeHub : Hub<IWorldescapeHub>
 {
