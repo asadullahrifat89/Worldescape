@@ -129,7 +129,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
             Clients.OthersInGroup(GetUsersGroup(avatar)).AvatarLogin(avatar);
 
-            _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId:{avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now}");
+            _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now}");
 
             // Find all constructs from the calling avatar's world
             var constructs = OnlineConstructs.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
