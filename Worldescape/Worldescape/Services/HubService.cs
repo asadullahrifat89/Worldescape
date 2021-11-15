@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using Worldescape.Contracts.Services;
 using Worldescape.Shared.Entities;
 using Worldescape.Shared.Models;
-using Worldescape.Shared.Requests;
 using Worldescape.Shared.Responses;
 
 namespace Worldescape.Services
@@ -56,8 +54,8 @@ namespace Worldescape.Services
         public HubService()
         {
 #if DEBUG
-            var url = Properties.Resources.DevHubService;
-            //var url = Properties.Resources.ProdHubService;
+            //var url = Properties.Resources.DevHubService;
+            var url = Properties.Resources.ProdHubService;
 #else
             var url = Properties.Resources.ProdHubService;
 #endif
@@ -98,7 +96,7 @@ namespace Worldescape.Services
             _connection.Reconnected += Connection_Reconnected;
             _connection.Closed += Connection_Closed;
 
-            ServicePointManager.DefaultConnectionLimit = 10;
+            //ServicePointManager.DefaultConnectionLimit = 10;
         }
 
         #endregion

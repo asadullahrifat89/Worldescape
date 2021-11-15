@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Worldescape.Shared.Entities;
 using Worldescape.Shared.Models;
-using Worldescape.Shared.Requests;
 using Worldescape.Shared.Responses;
 
 namespace Worldescape.Contracts.Services

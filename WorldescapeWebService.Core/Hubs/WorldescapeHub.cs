@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using Worldescape.Shared.Entities;
-using Worldescape.Shared.Requests;
 using Worldescape.Shared.Responses;
 using WorldescapeWebService.Core.Contracts.Services;
 

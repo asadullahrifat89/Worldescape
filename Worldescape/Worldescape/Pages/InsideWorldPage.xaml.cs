@@ -1,15 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI;
-using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -21,7 +18,6 @@ using Worldescape.Internals;
 using Worldescape.Shared;
 using Worldescape.Shared.Entities;
 using Worldescape.Shared.Models;
-using Worldescape.Shared.Requests;
 using Image = Windows.UI.Xaml.Controls.Image;
 
 namespace Worldescape.Pages
@@ -349,11 +345,11 @@ namespace Worldescape.Pages
                     if (avatarMessenger != null)
                         avatarMessenger.ActivityStatus = (ActivityStatus)activityStatus;
 
-                    Console.WriteLine("++ NewBroadcastAvatarActivityStatus");
+                    Console.WriteLine("<<NewBroadcastAvatarActivityStatus: OK");
                 }
                 else
                 {
-                    Console.WriteLine("++ NewBroadcastAvatarActivityStatus: Avatar doesn't exist.");
+                    Console.WriteLine("<<NewBroadcastAvatarActivityStatus: IGNORE");
                 }
             }
         }
@@ -370,11 +366,11 @@ namespace Worldescape.Pages
 
                     MoveElement(uIElement: iElement, goToX: x, goToY: y);
 
-                    Console.WriteLine("<<NewBroadcastAvatarMovement");
+                    Console.WriteLine("<<NewBroadcastAvatarMovement: OK");
                 }
                 else
                 {
-                    Console.WriteLine("<<NewBroadcastAvatarMovement: Avatar doesn't exist.");
+                    Console.WriteLine("<<NewBroadcastAvatarMovement: IGNORE");
                 }
             }
         }

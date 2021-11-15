@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Worldescape.Shared.Entities;
+﻿using Worldescape.Shared.Entities;
 
 namespace Worldescape.Shared.Responses
 {
