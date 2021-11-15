@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Worldescape.Shared\Worldescape.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Responses\Hubs\" />
+  </ItemGroup>
+
 </Project>

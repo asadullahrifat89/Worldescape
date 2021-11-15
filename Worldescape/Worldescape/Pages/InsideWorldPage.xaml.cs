@@ -675,7 +675,7 @@ namespace Worldescape.Pages
 
                     var z = Canvas.GetZIndex(iElement);
 
-                    await HubService.BroadcastAvatarMovementAsync(avatarId: movedAvatar.Id, x: movedAvatar.Coordinate.X, y: movedAvatar.Coordinate.Y, z: z);
+                    await HubService.BroadcastAvatarMovementAsync(avatarId: Avatar.Id, x: movedAvatar.Coordinate.X, y: movedAvatar.Coordinate.Y, z: z);
 
                     Console.WriteLine("Avatar moved.");
                 }

@@ -145,8 +145,8 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             // Find all constructs from the calling avatar's world
             var constructs = OnlineConstructs.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
-            // Find all avatars from the calling avatar's world except himself
-            var avatars = OnlineAvatars.Where(x => x.Value.Id != avatar.Id && x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+            // Find all avatars from the calling avatar's world
+            var avatars = OnlineAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
             // Return the curated avatars and constructs
             return new Tuple<Avatar[], Construct[]>(avatars ?? new Avatar[] { }, constructs ?? new Construct[] { });
