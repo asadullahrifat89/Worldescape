@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.JSInterop;
-using Worldescape.Browser.Interop;
 
-namespace Worldescape.Browser.Pages
+namespace Worldescape.Browser
 {
     [Route("/")]
     public class Index : ComponentBase

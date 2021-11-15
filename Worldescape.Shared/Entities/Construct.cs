@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Shared.Entities
+﻿namespace Worldescape.Shared
 {
     /// <summary>
     /// An object in a world.

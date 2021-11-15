@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
-using WorldescapeWebService.Core.Declarations.Queries;
-using WorldescapeWebService.Core.Helpers;
 
-namespace WorldescapeWebService.Core.Validators.Queries;
+namespace WorldescapeWebService.Core;
 
 public class GetWorldsQueryValidator : AbstractValidator<GetWorldsQuery>
 {

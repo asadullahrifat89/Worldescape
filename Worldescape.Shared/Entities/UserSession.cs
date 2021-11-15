@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Worldescape.Shared.Entities
+namespace Worldescape.Shared
 {
     /// <summary>
     /// Session information of a user in a world.

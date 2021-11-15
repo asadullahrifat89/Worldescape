@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
-using Worldescape.Shared.Entities;
-using WorldescapeWebService.Core.Declarations.Commands;
+using Worldescape.Shared;
 
-namespace WorldescapeWebService.Core.Validators.Commands;
+namespace WorldescapeWebService.Core;
 
 public class AddUserCommandValidator : AbstractValidator<AddUserCommand>
 {

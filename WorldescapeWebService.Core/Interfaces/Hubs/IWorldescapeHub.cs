@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using Worldescape.Shared.Entities;
+using Worldescape.Shared;
 
-namespace WorldescapeWebService.Core.Contracts.Services;
+namespace WorldescapeWebService.Core;
 
 public interface IWorldescapeHub
 {

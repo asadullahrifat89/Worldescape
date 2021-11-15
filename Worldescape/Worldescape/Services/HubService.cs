@@ -2,12 +2,9 @@
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
-using Worldescape.Contracts.Services;
-using Worldescape.Shared.Entities;
-using Worldescape.Shared.Models;
-using Worldescape.Shared.Responses;
+using Worldescape.Shared;
 
-namespace Worldescape.Services
+namespace Worldescape
 {
     public class HubService : IHubService
     {

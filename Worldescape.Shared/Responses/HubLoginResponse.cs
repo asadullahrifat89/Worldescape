@@ -1,6 +1,4 @@
-﻿using Worldescape.Shared.Entities;
-
-namespace Worldescape.Shared.Responses
+﻿namespace Worldescape.Shared
 {
     public class HubLoginResponse
     {

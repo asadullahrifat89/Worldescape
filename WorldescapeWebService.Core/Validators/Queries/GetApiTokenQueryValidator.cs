@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
-using WorldescapeWebService.Core.Declarations.Queries;
 
-namespace WorldescapeWebService.Core.Validators.Queries;
+namespace WorldescapeWebService.Core;
 
 public class GetApiTokenQueryValidator : AbstractValidator<GetApiTokenQuery>
 {

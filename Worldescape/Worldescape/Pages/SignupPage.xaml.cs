@@ -1,7 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Worldescape.Pages
+namespace Worldescape
 {
     public partial class SignupPage : Page
     {

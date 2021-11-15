@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Shared.Entities
+﻿namespace Worldescape.Shared
 {
     public class Coordinate
     {

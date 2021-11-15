@@ -2,7 +2,7 @@
 using Microsoft.JSInterop;
 using Microsoft.JSInterop.WebAssembly;
 
-namespace Worldescape.Browser.Interop
+namespace Worldescape.Browser
 {
     public class UnmarshalledJavaScriptExecutionHandler : IJavaScriptExecutionHandler
     {

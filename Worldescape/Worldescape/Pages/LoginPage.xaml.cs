@@ -1,9 +1,8 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Worldescape.Shared;
-using Worldescape.Shared.Entities;
 
-namespace Worldescape.Pages
+namespace Worldescape
 {
     public partial class LoginPage : Page
     {

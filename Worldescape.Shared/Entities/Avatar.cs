@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Shared.Entities
+﻿namespace Worldescape.Shared
 {
     /// <summary>
     /// Represents a user as an avatar in the world.

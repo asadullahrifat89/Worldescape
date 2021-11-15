@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using Worldescape.Shared.Entities;
-using Worldescape.Shared.Models;
-using Worldescape.Shared.Responses;
+using Worldescape.Shared;
 
-namespace Worldescape.Contracts.Services
+namespace Worldescape
 {
     public interface IHubService
     {

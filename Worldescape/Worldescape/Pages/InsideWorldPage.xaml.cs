@@ -13,14 +13,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
-using Worldescape.Contracts.Services;
-using Worldescape.Internals;
 using Worldescape.Shared;
-using Worldescape.Shared.Entities;
-using Worldescape.Shared.Models;
 using Image = Windows.UI.Xaml.Controls.Image;
 
-namespace Worldescape.Pages
+namespace Worldescape
 {
     public partial class InsideWorldPage : Page
     {

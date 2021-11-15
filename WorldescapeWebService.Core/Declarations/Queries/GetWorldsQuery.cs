@@ -1,7 +1,4 @@
-﻿using WorldescapeWebService.Core.Requests;
-using WorldescapeWebService.Core.Responses.Queries;
-
-namespace WorldescapeWebService.Core.Declarations.Queries;
+﻿namespace WorldescapeWebService.Core;
 
 /// <summary>
 /// A query that fetches worlds.

@@ -1,11 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using Windows.UI.Xaml;
-using Worldescape.Contracts.Services;
-using Worldescape.Extensions;
-using Worldescape.Pages;
-using Worldescape.Services;
-using Worldescape.Shared.Entities;
+using Worldescape.Shared;
 
 namespace Worldescape
 {

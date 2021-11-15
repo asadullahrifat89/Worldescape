@@ -1,7 +1,7 @@
 ﻿using LiteDB;
-using Worldescape.Shared.Entities;
+using Worldescape.Shared;
 
-namespace WorldescapeWebService.Core.Helpers
+namespace WorldescapeWebService.Core
 {
     public class ApiTokenHelper
     {

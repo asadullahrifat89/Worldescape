@@ -1,6 +1,6 @@
-﻿using Worldescape.Shared.Entities;
+﻿using Worldescape.Shared;
 
-namespace WorldescapeWebService.Core.Responses.Queries
+namespace WorldescapeWebService.Core
 {
     public class GetWorldsQueryResponse
     {

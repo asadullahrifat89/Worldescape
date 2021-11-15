@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Worldescape.Shared.Entities
+namespace Worldescape.Shared
 {
     /// <summary>
     /// A character for users to choose from when joining a world.

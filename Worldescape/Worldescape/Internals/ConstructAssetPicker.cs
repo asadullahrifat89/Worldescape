@@ -5,9 +5,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Worldescape.Shared.Models;
+using Worldescape.Shared;
 
-namespace Worldescape.Internals
+namespace Worldescape
 {
     public class ConstructAssetPicker : ChildWindow
     {

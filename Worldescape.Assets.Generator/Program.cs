@@ -1,8 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using LiteDB;
-using Worldescape.Shared.Entities;
-using Worldescape.Shared.Models;
+using Worldescape.Shared;
 
 Console.WriteLine("Welcom to Worldescape Asset Generator!");
 

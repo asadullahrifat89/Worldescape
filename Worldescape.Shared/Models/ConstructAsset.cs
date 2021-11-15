@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Worldescape.Shared.Models
+namespace Worldescape.Shared
 {
     /// <summary>
     /// Represents a construct asset.

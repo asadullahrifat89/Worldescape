@@ -1,7 +1,6 @@
-﻿using Worldescape.Shared.Entities;
-using WorldescapeWebService.Core.Requests;
+﻿using Worldescape.Shared;
 
-namespace WorldescapeWebService.Core.Declarations.Commands;
+namespace WorldescapeWebService.Core;
 
 /// <summary>
 /// A command that inserts or updates a user.

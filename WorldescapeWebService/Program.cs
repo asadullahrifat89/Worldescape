@@ -1,11 +1,7 @@
 using MediatR;
 using System.Reflection;
 using FluentValidation.AspNetCore;
-using WorldescapeWebService.Core.Declarations.Commands;
-using WorldescapeWebService.Core.Helpers;
-using WorldescapeWebService.Core.Services;
-using WorldescapeWebService.Core.Validators.Commands;
-using WorldescapeWebService.Core.Declarations.Queries;
+using WorldescapeWebService.Core;
 
 #region Service Registration
 

@@ -1,7 +1,7 @@
 ﻿using Windows.UI.Xaml.Controls;
 
 
-namespace Worldescape.Internals
+namespace Worldescape
 {
     /// <summary>
     /// This class organizes its children in such a way that it takes the smallest space possible.

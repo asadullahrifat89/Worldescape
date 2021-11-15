@@ -2,6 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
+		<!--<TargetFramework>net6.0</TargetFramework>-->
 		<LangVersion>9.0</LangVersion>
 		<EnableDefaultItems>false</EnableDefaultItems>
 		<OpenSilverVersion>1.0.0</OpenSilverVersion>
@@ -28,62 +29,62 @@
 		</Page>
 		<Content Include="appsettings.json" />
 		<Content Include="Pages\SignupPage.xaml">
-		  <SubType>Designer</SubType>
-		  <Generator>MSBuild:Compile</Generator>
+			<SubType>Designer</SubType>
+			<Generator>MSBuild:Compile</Generator>
 		</Content>
 		<Content Include="Pages\LoginPage.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Content>
 		<Content Include="Pages\InsideWorldPage.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Content>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_Button_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_Card_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_CheckBox_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_ChildWindow_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_ComboBox_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_CommonResources.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_ContextMenu_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_DataGrid_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_DatePicker_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_Expander_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_PasswordBox_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_Popup_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_RadioButton_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_TabControl_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\MaterialDesign_Styles_Kit\MaterialDesign_TextBox_Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Page Include="Styles\Styles.xaml">
-		  <Generator>MSBuild:Compile</Generator>
+			<Generator>MSBuild:Compile</Generator>
 		</Page>
 	</ItemGroup>
 
@@ -98,13 +99,13 @@
 		<Compile Include="MainPage.xaml.cs" />
 		<Compile Include="Pages\InsideWorldPage.xaml.cs" />
 		<Compile Include="Pages\SignupPage.xaml.cs">
-		  <SubType>Code</SubType>
+			<SubType>Code</SubType>
 		</Compile>
 		<Compile Include="Pages\LoginPage.xaml.cs" />
 		<Compile Include="Properties\Resources.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>Resources.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
 		<Compile Include="Services\HttpService.cs" />
 		<Compile Include="Services\HubService.cs" />
@@ -3021,14 +3022,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Properties\Resources.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
+		<EmbeddedResource Include="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Worldescape.Shared\Worldescape.Shared.csproj" />
+		<ProjectReference Include="..\..\Worldescape.Shared\Worldescape.Shared.csproj" />
 	</ItemGroup>
 
 	<!-- Removing bin\$(Configuration) and obj\$(Configuration) -->

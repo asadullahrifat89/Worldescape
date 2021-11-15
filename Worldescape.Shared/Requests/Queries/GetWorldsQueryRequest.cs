@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Shared.Requests.Queries 
+﻿namespace Worldescape.Shared 
 {
     /// <summary>
     /// A query that fetches worlds.

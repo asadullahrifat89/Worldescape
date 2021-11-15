@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace Worldescape.Styles.MaterialDesign_Styles_Kit
+namespace Worldescape
 {
     public class TextToPlaceholderTextVisibilityConverter : IValueConverter
     {

@@ -1,13 +1,9 @@
 ﻿using LiteDB;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Worldescape.Shared.Entities;
-using WorldescapeWebService.Core.Declarations.Commands;
-using WorldescapeWebService.Core.Extensions;
-using WorldescapeWebService.Core.Helpers;
-using WorldescapeWebService.Core.Validators.Commands;
+using Worldescape.Shared;
 
-namespace WorldescapeWebService.Core.Handlers.Commands;
+namespace WorldescapeWebService.Core;
 
 public class AddWorldCommandHandler : IRequestHandler<AddWorldCommand, World>
 {

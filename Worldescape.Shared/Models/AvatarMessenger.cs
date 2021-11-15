@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Collections.ObjectModel;
-using Worldescape.Shared.Entities;
 
-namespace Worldescape.Shared.Models
+namespace Worldescape.Shared
 {
     public class AvatarMessenger : INotifyPropertyChanged
     {

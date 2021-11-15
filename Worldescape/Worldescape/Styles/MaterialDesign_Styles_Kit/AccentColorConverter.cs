@@ -3,7 +3,7 @@ using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
-namespace Worldescape.Styles.MaterialDesign_Styles_Kit
+namespace Worldescape
 {
     public class AccentColorConverter : IValueConverter
     {

@@ -1,4 +1,4 @@
-﻿namespace Worldescape.Shared.Requests.Commands
+﻿namespace Worldescape.Shared
 {
     /// <summary>
     /// A command that updates a world.

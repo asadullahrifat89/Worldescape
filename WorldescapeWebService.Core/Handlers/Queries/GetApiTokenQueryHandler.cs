@@ -1,13 +1,9 @@
 ﻿using LiteDB;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Worldescape.Shared.Entities;
-using Worldescape.Shared.Responses;
-using WorldescapeWebService.Core.Declarations.Queries;
-using WorldescapeWebService.Core.Extensions;
-using WorldescapeWebService.Core.Validators.Queries;
+using Worldescape.Shared;
 
-namespace WorldescapeWebService.Core.Handlers.Queries;
+namespace WorldescapeWebService.Core;
 
 public class GetApiTokenQueryHandler : IRequestHandler<GetApiTokenQuery, StringResponse>
 {

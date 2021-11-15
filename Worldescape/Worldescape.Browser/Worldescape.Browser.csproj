@@ -20,12 +20,12 @@
 		<PackageReference Include="OpenSilver.UWPCompatible" Version="1.0.0" />-->
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Worldescape\Worldescape.csproj" />
+	</ItemGroup>
+
 	<PropertyGroup>
 		<DisableImplicitNamespaceImports>True</DisableImplicitNamespaceImports>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Worldescape\Worldescape.csproj" />
-	</ItemGroup>
 
 </Project>

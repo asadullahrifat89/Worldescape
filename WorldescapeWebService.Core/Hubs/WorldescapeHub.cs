@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
-using Worldescape.Shared.Entities;
-using Worldescape.Shared.Responses;
-using WorldescapeWebService.Core.Contracts.Services;
+using Worldescape.Shared;
 
-namespace WorldescapeWebService.Core.Services;
+namespace WorldescapeWebService.Core;
 
 public class WorldescapeHub : Hub<IWorldescapeHub>
 {
