@@ -45,7 +45,7 @@ namespace Worldescape.Pages
 
         UIElement _avatar;
 
-        UIElement _interactiveConstruct;
+        UIElement _selectedConstruct;
         UIElement _addingConstruct;
         UIElement _movingConstruct;
         UIElement _cloningConstruct;
@@ -89,8 +89,17 @@ namespace Worldescape.Pages
         {
             this.InitializeComponent();
 
-            //DrawRandomConstructsOnCanvas();
+            DemoWorld();
 
+            HubService = App.ServiceProvider.GetService(typeof(IWorldescapeHubService)) as IWorldescapeHubService;
+
+            ListenOnHubService();
+
+            TryConnectAndHubLogin();
+        }
+
+        private void DemoWorld()
+        {
             InWorld = new InWorld() { Id = 1, Name = "Test World" };
             User = new User() { Id = UidGenerator.New(), Name = "Test User" };
             Avatar = new Avatar()
@@ -116,17 +125,781 @@ namespace Worldescape.Pages
                 Coordinate = new Coordinate(new Random().Next(1000), new Random().Next(1000), new Random().Next(1000)),
                 ImageUrl = avatarUrl,
             };
-
-            HubService = App.ServiceProvider.GetService(typeof(IWorldescapeHubService)) as IWorldescapeHubService;
-
-            ListenOnHubService();
-
-            TryConnectAndHubLogin();
         }
 
         #endregion
 
         #region Methods
+
+        #region Hub Listener
+
+        private void ListenOnHubService()
+        {
+            #region Connection
+
+            HubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
+            HubService.ConnectionReconnected += HubService_ConnectionReconnected;
+            HubService.ConnectionClosed += HubService_ConnectionClosed;
+
+            #endregion
+
+            #region Avatar
+
+            HubService.NewBroadcastAvatarMovement += HubService_NewBroadcastAvatarMovement;
+            HubService.NewBroadcastAvatarActivityStatus += HubService_NewBroadcastAvatarActivityStatus;
+
+            #endregion
+
+            #region Session
+
+            HubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
+            HubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
+            HubService.AvatarDisconnected += HubService_AvatarDisconnected;
+            HubService.AvatarReconnected += HubService_AvatarReconnected;
+
+            #endregion
+
+            #region Construct
+
+            HubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
+            HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
+            HubService.NewRemoveConstruct += HubService_NewRemoveConstruct;
+            HubService.NewRemoveConstructs += HubService_NewRemoveConstructs;
+            HubService.NewBroadcastConstructPlacement += HubService_NewBroadcastConstructPlacement;
+            HubService.NewBroadcastConstructRotation += HubService_NewBroadcastConstructRotation;
+            HubService.NewBroadcastConstructRotations += HubService_NewBroadcastConstructRotations;
+            HubService.NewBroadcastConstructScale += HubService_NewBroadcastConstructScale;
+            HubService.NewBroadcastConstructScales += HubService_NewBroadcastConstructScales;
+            HubService.NewBroadcastConstructMovement += HubService_NewBroadcastConstructMovement;
+
+            #endregion
+        }
+
+        #region Construct
+        private void HubService_NewBroadcastConstructMovement(int arg1, double arg2, double arg3, int arg4)
+        {
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == arg1) is UIElement iElement)
+            {
+                MoveElement(iElement, arg2, arg3, arg4);
+            }
+        }
+
+        private void HubService_NewBroadcastConstructScales(int[] arg1, float arg2)
+        {
+
+        }
+
+        private void HubService_NewBroadcastConstructScale(int arg1, float arg2)
+        {
+
+        }
+
+        private void HubService_NewBroadcastConstructRotations(ConcurrentDictionary<int, float> obj)
+        {
+
+        }
+
+        private void HubService_NewBroadcastConstructRotation(int arg1, float arg2)
+        {
+
+        }
+
+        private void HubService_NewBroadcastConstructPlacement(int arg1, int arg2)
+        {
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == arg1) is UIElement iElement)
+            {
+                Canvas.SetZIndex(iElement, arg2);
+            }
+        }
+
+        private void HubService_NewRemoveConstructs(int[] obj)
+        {
+
+        }
+
+        private void HubService_NewRemoveConstruct(int obj)
+        {
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == obj) is UIElement iElement)
+            {
+                Canvas_root.Children.Remove(iElement);
+            }
+        }
+
+        private void HubService_NewBroadcastConstructs(Construct[] obj)
+        {
+
+        }
+
+        private void HubService_NewBroadcastConstruct(Construct obj)
+        {
+            var constructBtn = GenerateConstructButton(obj.Name, obj.ImageUrl, obj.Id);
+
+            AddConstructOnCanvas(
+                construct: constructBtn,
+                x: obj.Coordinate.X,
+                y: obj.Coordinate.Y,
+                z: obj.Coordinate.Z);
+
+            //if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == obj.Id) is UIElement iElement)
+            //{
+
+            //}
+        }
+        #endregion
+
+        #region Session
+        private void HubService_AvatarReconnected(int obj)
+        {
+            if (obj > 0)
+            {
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj);
+
+                    if (avatarMessenger != null)
+                    {
+                        avatarMessenger.ActivityStatus = ActivityStatus.Online;
+                        avatarMessenger.IsLoggedIn = true;
+                    }
+                }
+            }
+        }
+
+        private void HubService_AvatarDisconnected(int obj)
+        {
+            if (obj > 0)
+            {
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj);
+
+                    if (avatarMessenger != null)
+                    {
+                        avatarMessenger.ActivityStatus = ActivityStatus.Offline;
+                        avatarMessenger.IsLoggedIn = false;
+                    }
+                }
+            }
+        }
+
+        private void HubService_AvatarLoggedOut(int obj)
+        {
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj) is UIElement iElement)
+            {
+                var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj);
+
+                if (avatarMessenger != null)
+                {
+                    AvatarMessengers.Remove(avatarMessenger);
+                    ParticipantsCount.Text = AvatarMessengers.Count().ToString();
+                }
+
+                Canvas_root.Children.Remove(iElement);
+            }
+        }
+
+        private void HubService_AvatarLoggedIn(Avatar obj)
+        {
+            // Check if the avatar already exists in current world
+            var iElement = Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.Id);
+
+            // If not then add a new avatar
+            if (iElement == null)
+            {
+                AddAvatarOnCanvas(obj);
+                AvatarMessengers.Add(new AvatarMessenger() { Avatar = obj, ActivityStatus = ActivityStatus.Online, IsLoggedIn = true });
+                ParticipantsCount.Text = AvatarMessengers.Count().ToString();
+            }
+        }
+        #endregion
+
+        #region Avatar
+        private void HubService_NewBroadcastAvatarActivityStatus(BroadcastAvatarActivityStatusRequest obj)
+        {
+            if (obj != null)
+            {
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.AvatarId) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj.AvatarId);
+                    if (avatarMessenger != null)
+                        avatarMessenger.ActivityStatus = obj.ActivityStatus;
+                }
+            }
+        }
+
+        private void HubService_NewBroadcastAvatarMovement(BroadcastAvatarMovementRequest obj)
+        {
+            if (obj != null)
+            {
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.AvatarId) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj.AvatarId);
+                    if (avatarMessenger != null)
+                        avatarMessenger.ActivityStatus = ActivityStatus.Online;
+
+                    MoveElement(uIElement: iElement, goToX: obj.Coordinate.X, goToY: obj.Coordinate.Y);
+                }
+            }
+        }
+        #endregion
+
+        #region Connection
+        private async void HubService_ConnectionClosed()
+        {
+            IsConnected = false;
+            IsLoggedIn = false;
+
+            if (await TryConnect())
+            {
+                await TryHubLogin();
+            }
+        }
+
+        private async void HubService_ConnectionReconnected()
+        {
+            _ = await HubService.LoginAsync(Avatar);
+
+            IsConnected = true;
+            IsLoggedIn = true;
+        }
+
+        private void HubService_ConnectionReconnecting()
+        {
+            IsConnected = false;
+            IsLoggedIn = false;
+        }
+        #endregion
+
+        #region Hub Login
+        private bool CanPerformWorldEvents()
+        {
+            return IsConnected && IsLoggedIn;
+        }
+
+        private bool CanHubLogin()
+        {
+            return Avatar != null && !Avatar.IsEmpty() && Avatar.User != null && IsConnected;
+        }
+
+        public async Task TryConnectAndHubLogin()
+        {
+            if (await TryConnect())
+            {
+                await TryHubLogin();
+            }
+            else
+            {
+                //synchronizationContext.Post(async (_) =>
+                //{
+                //    ConsentContentDialog contentDialog = new("Connection failure", "Would you like to try again?");
+                //    contentDialog.Selected += async (sender, e) =>
+                //    {
+                //        await TryConnect_TryLoginToHubService();
+                //    };
+
+                //    _ = await contentDialog.ShowAsync();
+                //}, null);
+            }
+        }
+
+        private async Task<bool> TryConnect()
+        {
+            try
+            {
+                if (IsConnected)
+                {
+                    return true;
+                }
+
+                await HubService.ConnectAsync();
+                IsConnected = true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        private async Task TryHubLogin()
+        {
+            bool joined = await HubLogin();
+
+            //if (joined)
+            //{
+            //    DrawAvatarOnCanvas(Avatar);
+            //}
+            //else
+            //{
+
+            //}
+        }
+
+        private async Task<bool> HubLogin()
+        {
+            try
+            {
+                if (CanHubLogin())
+                {
+                    var result = await HubService.LoginAsync(Avatar);
+
+                    if (result != null)
+                    {
+                        var avatars = result.Item1;
+
+                        if (avatars != null && avatars.Any())
+                        {
+                            foreach (var avatar in avatars.Where(x => !AvatarMessengers.Select(z => z.Avatar.Id).Contains(x.Id)))
+                            {
+                                AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
+                                AddAvatarOnCanvas(avatar);
+                            }
+
+                            ParticipantsCount.Text = AvatarMessengers.Count().ToString();
+                        }
+
+                        var constructs = result.Item2;
+
+                        if (constructs != null && constructs.Any())
+                        {
+                            foreach (var construct in constructs)
+                            {
+                                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == construct.Id) is UIElement iElement)
+                                {
+                                    Canvas.SetZIndex(iElement, construct.Coordinate.Z);
+                                    MoveElement(iElement, construct.Coordinate.X, construct.Coordinate.Y);
+
+                                    // TODO: set scale and rotation
+                                }
+                                else // insert new constructs
+                                {
+                                    Button constructBtn = GenerateConstructButton(
+                                      name: construct.Name,
+                                      imageUrl: construct.ImageUrl,
+                                      constructId: construct.Id);
+
+                                    AddConstructOnCanvas(
+                                        construct: constructBtn,
+                                        x: construct.Coordinate.X,
+                                        y: construct.Coordinate.Y,
+                                        z: construct.Coordinate.Z);
+                                }
+                            }
+                        }
+
+                        IsLoggedIn = true;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Pointer Events
+
+        /// <summary>
+        /// Event fired on pointer press on canvas.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Canvas_root_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (_addingConstruct != null)
+            {
+                var construct = AddConstructOnCanvas(
+                    construct: _addingConstruct,
+                    x: e.GetCurrentPoint(this.Canvas_root).Position.X,
+                    y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
+
+                _addingConstruct = null;
+
+                await HubService.BroadcastConstructAsync(construct);
+            }
+            else if (_isCloningConstruct && _cloningConstruct != null)
+            {
+                var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
+
+                if (constructAsset != null)
+                {
+                    Button constructBtn = GenerateConstructButton(
+                        name: constructAsset.Name,
+                        imageUrl: constructAsset.ImageUrl);
+
+                    var construct = AddConstructOnCanvas(
+                        construct: constructBtn,
+                        x: e.GetCurrentPoint(this.Canvas_root).Position.X,
+                        y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
+
+                    await HubService.BroadcastConstructAsync(construct);
+                }
+            }
+            else if (_isMovingConstruct && _movingConstruct != null)
+            {
+                var taggedObject = MoveElement(_movingConstruct, e);
+
+                var construct = taggedObject as Construct;
+
+                await HubService.BroadcastConstructMovementAsync(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+            }
+            else
+            {
+                // Clear construct selection
+                _selectedConstruct = null;
+                SelectedConstructHolder.Content = null;
+
+                HideConstructOperationButtons();
+            }
+        }
+
+        /// <summary>
+        /// Event fired when pointer is pointer is pressed on a construct. The construct latches on to the pointer if press is not released.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Construct_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            UIElement uielement = (UIElement)sender;
+            _selectedConstruct = uielement;
+            ShowInteractiveConstruct(uielement);
+
+            if (_addingConstruct != null)
+            {
+                var construct = AddConstructOnCanvas(
+                    construct: _addingConstruct,
+                    x: e.GetCurrentPoint(this.Canvas_root).Position.X,
+                    y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
+
+                _addingConstruct = null;
+
+                await HubService.BroadcastConstructAsync(construct);
+            }
+            else if (_isCloningConstruct && _cloningConstruct != null)
+            {
+                var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
+
+                if (constructAsset != null)
+                {
+                    Button constructBtn = GenerateConstructButton(
+                        name: constructAsset.Name,
+                        imageUrl: constructAsset.ImageUrl);
+
+                    var construct = AddConstructOnCanvas(
+                        construct: constructBtn,
+                        x: e.GetCurrentPoint(this.Canvas_root).Position.X,
+                        y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
+
+                    await HubService.BroadcastConstructAsync(construct);
+                }
+            }
+            else if (_isMovingConstruct && _movingConstruct != null)
+            {
+                var taggedObject = MoveElement(_movingConstruct, e);
+
+                var construct = taggedObject as Construct;
+
+                await HubService.BroadcastConstructMovementAsync(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+            }
+            else if (_isCraftingConstruct)
+            {
+                ShowConstructOperationButtons();
+
+                // Drag start of a constuct
+                _objectLeft = Canvas.GetLeft(uielement);
+                _objectTop = Canvas.GetTop(uielement);
+
+                // Remember the pointer position:
+                _pointerX = e.GetCurrentPoint(this.Canvas_root).Position.X;
+                _pointerY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
+
+                uielement.CapturePointer(e.Pointer);
+
+                _isPointerCaptured = true;
+            }
+            else
+            {
+                // Move avatar
+                var taggedObject = MoveElement(_avatar, e);
+
+                var avatar = taggedObject as Avatar;
+
+                await HubService.BroadcastAvatarMovementAsync(new BroadcastAvatarMovementRequest() { AvatarId = avatar.Id, Coordinate = new Coordinate() { X = avatar.Coordinate.X, Y = avatar.Coordinate.Y } });
+            }
+        }
+
+        /// <summary>
+        /// Event fired when pointer is moved within a construct. The construct latches on to the pointer if press is not released.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Construct_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (_isCraftingConstruct)
+            {
+                UIElement uielement = (UIElement)sender;
+
+                if (_isPointerCaptured)
+                {
+                    // Calculate the new position of the object:
+                    double deltaH = e.GetCurrentPoint(this.Canvas_root).Position.X - _pointerX;
+                    double deltaV = e.GetCurrentPoint(this.Canvas_root).Position.Y - _pointerY;
+
+                    _objectLeft = deltaH + _objectLeft;
+                    _objectTop = deltaV + _objectTop;
+
+                    // Update the object position:
+                    Canvas.SetLeft(uielement, _objectLeft);
+                    Canvas.SetTop(uielement, _objectTop);
+
+                    // Remember the pointer position:
+                    _pointerX = e.GetCurrentPoint(this.Canvas_root).Position.X;
+                    _pointerY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event fired when pointer is released from a construct.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Construct_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (_isMovingConstruct)
+            {
+                return;
+            }
+
+            if (_isCraftingConstruct)
+            {
+                // Drag release of a construct
+                UIElement uielement = (UIElement)sender;
+                _isPointerCaptured = false;
+                uielement.ReleasePointerCapture(e.Pointer);
+
+                _selectedConstruct = uielement;
+                ShowInteractiveConstruct(uielement);
+
+                var x = Canvas.GetLeft(uielement);
+                var y = Canvas.GetTop(uielement);
+                var z = Canvas.GetZIndex(uielement);
+
+                var construct = ((Button)uielement).Tag as Construct;
+
+                construct.Coordinate.X = x;
+                construct.Coordinate.Y = y;
+                construct.Coordinate.Z = z;
+
+                await HubService.BroadcastConstructMovementAsync(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+            }
+        }
+
+        #endregion
+
+        #region Button Events
+
+        private void CraftButton_Click(object sender, RoutedEventArgs e)
+        {
+            _isCraftingConstruct = !_isCraftingConstruct;
+            this.CraftButton.Content = _isCraftingConstruct ? "Crafting" : "Craft";
+
+            _isMovingConstruct = false;
+            this.ConstructMoveButton.Content = "Move";
+
+            _isCloningConstruct = false;
+            this.ConstructCloneButton.Content = "Clone";
+
+            //_isDeleting = false;
+            this.ConstructDeleteButton.Content = "Delete";
+
+            if (!_isCraftingConstruct)
+            {
+                this.ConstructsAddButton.Visibility = Visibility.Collapsed;
+
+                HideConstructOperationButtons();
+
+                _movingConstruct = null;
+                _cloningConstruct = null;
+
+                OperationalConstructHolder.Content = null;
+                OperationalConstructStatus.Text = null;
+            }
+            else
+            {
+                this.ConstructsAddButton.Visibility = Visibility.Visible;
+                //this.ConstructDeleteButton.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void ConstructsAddButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!ConstructAssets.Any())
+            {
+                ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).ToList();
+                ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
+            }
+
+            var constructAssetPicker = new ConstructAssetPicker(
+                constructAssets: ConstructAssets,
+                constructCategories: ConstructCategories,
+                assetSelected: (constructAsset) =>
+                {
+                    Button constructBtn = GenerateConstructButton(
+                        name: constructAsset.Name,
+                        imageUrl: constructAsset.ImageUrl);
+
+                    _addingConstruct = constructBtn;
+                });
+
+            constructAssetPicker.Show();
+        }
+
+        private void ConstructMoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            _isMovingConstruct = !_isMovingConstruct;
+            ConstructMoveButton.Content = _isMovingConstruct ? "Moving" : "Move";
+
+            if (!_isMovingConstruct)
+            {
+                _movingConstruct = null;
+                OperationalConstructHolder.Content = null;
+                OperationalConstructStatus.Text = null;
+            }
+            else
+            {
+                UIElement uielement = _selectedConstruct;
+                _movingConstruct = uielement;
+                ShowOperationalConstruct(_movingConstruct, "Moving");
+            }
+        }
+
+        /// <summary>
+        /// Starts cloning a selected construct.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ConstructCloneButton_Click(object sender, RoutedEventArgs e)
+        {
+            _isCloningConstruct = !_isCloningConstruct;
+            ConstructCloneButton.Content = _isCloningConstruct ? "Cloning" : "Clone";
+
+            if (!_isCloningConstruct)
+            {
+                _cloningConstruct = null;
+                OperationalConstructHolder.Content = null;
+                OperationalConstructStatus.Text = null;
+            }
+            else
+            {
+                UIElement uielement = _selectedConstruct;
+                _cloningConstruct = uielement;
+                ShowOperationalConstruct(_cloningConstruct, "Cloning");
+            }
+        }
+
+
+        /// <summary>
+        /// Deletes a selected construct.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void ConstructDeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            //_isDeleting = !_isDeleting;
+            //ConstructDeleteButton.Content = _isDeleting ? "Deleting" : "Delete";
+
+            //var constructName = ((Button)_interactiveConstruct).Name;
+
+            //var constructToDelete = Canvas_root.Children.Where(x => x is Button button && button.Name == constructName).FirstOrDefault();
+
+            if (_selectedConstruct != null)
+            {
+                var construct = ((Button)_selectedConstruct).Tag as Construct;
+
+                Canvas_root.Children.Remove(_selectedConstruct);
+                SelectedConstructHolder.Content = null;
+
+                await HubService.RemoveConstructAsync(construct.Id);
+            }
+        }
+
+        private async void ConstructBringForwardButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedConstruct != null)
+            {
+                var zIndex = Canvas.GetZIndex(_selectedConstruct);
+                zIndex++;
+                Canvas.SetZIndex(_selectedConstruct, zIndex);
+
+                var construct = ((Button)_selectedConstruct).Tag as Construct;
+                await HubService.BroadcastConstructPlacementAsync(construct.Id, zIndex);
+            }
+        }
+
+        private async void ConstructSendBackwardButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedConstruct != null)
+            {
+                var zIndex = Canvas.GetZIndex(_selectedConstruct);
+                zIndex--;
+                Canvas.SetZIndex(_selectedConstruct, zIndex);
+
+                var construct = ((Button)_selectedConstruct).Tag as Construct;
+                await HubService.BroadcastConstructPlacementAsync(construct.Id, zIndex);
+            }
+        }
+
+        private void ConstructScaleUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedConstruct != null)
+            {
+
+            }
+        }
+
+        private void ConstructScaleDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedConstruct != null)
+            {
+
+            }
+        }
+
+        #endregion
+
+        #region Construct Labels
+
+        private void ShowInteractiveConstruct(UIElement uielement)
+        {
+            var construcButton = CopyConstructContent(uielement);
+            SelectedConstructHolder.Content = construcButton;
+        }
+
+        private void ShowOperationalConstruct(UIElement uielement, string operationStatus)
+        {
+            var historyButton = CopyConstructContent(uielement);
+
+            OperationalConstructHolder.Content = historyButton;
+            OperationalConstructStatus.Text = operationStatus;
+
+        }
+
+        #endregion
 
         #region Common
 
@@ -303,7 +1076,7 @@ namespace Worldescape.Pages
         /// <param name="goToX"></param>
         /// <param name="goToY"></param>
         /// <returns></returns>
-        private object MoveElement(UIElement uIElement, double goToX, double goToY)
+        private object MoveElement(UIElement uIElement, double goToX, double goToY, int? gotoZ = null)
         {
             var nowX = Canvas.GetLeft(uIElement);
             var nowY = Canvas.GetTop(uIElement);
@@ -364,12 +1137,24 @@ namespace Worldescape.Pages
                 taggedConstruct.Coordinate.X = goToX;
                 taggedConstruct.Coordinate.Y = goToY;
 
+                if (gotoZ.HasValue)
+                {
+                    taggedConstruct.Coordinate.Z = (int)gotoZ;
+                    Canvas.SetZIndex(uIElement, (int)gotoZ);
+                }
+
                 taggedObject = taggedConstruct;
             }
             else if (((Button)uIElement).Tag is Avatar taggedAvatar)
             {
                 taggedAvatar.Coordinate.X = goToX;
                 taggedAvatar.Coordinate.Y = goToY;
+
+                if (gotoZ.HasValue)
+                {
+                    taggedAvatar.Coordinate.Z = (int)gotoZ;
+                    Canvas.SetZIndex(uIElement, (int)gotoZ);
+                }
 
                 taggedObject = taggedAvatar;
             }
@@ -397,695 +1182,6 @@ namespace Worldescape.Pages
         //        }
         //    }
         //}
-
-        #endregion
-
-        #region Hub
-
-        private void ListenOnHubService()
-        {
-            #region Connection
-
-            HubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
-            HubService.ConnectionReconnected += HubService_ConnectionReconnected;
-            HubService.ConnectionClosed += HubService_ConnectionClosed;
-
-            #endregion
-
-            #region Avatar
-
-            HubService.NewBroadcastAvatarMovement += HubService_NewBroadcastAvatarMovement;
-            HubService.NewBroadcastAvatarActivityStatus += HubService_NewBroadcastAvatarActivityStatus;
-
-            #endregion
-
-            #region Session
-
-            HubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
-            HubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
-            HubService.AvatarDisconnected += HubService_AvatarDisconnected;
-            HubService.AvatarReconnected += HubService_AvatarReconnected;
-
-            #endregion
-
-            #region Construct
-
-            HubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
-            HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
-            HubService.NewRemoveConstruct += HubService_NewRemoveConstruct;
-            HubService.NewRemoveConstructs += HubService_NewRemoveConstructs;
-            HubService.NewBroadcastConstructPlacement += HubService_NewBroadcastConstructPlacement;
-            HubService.NewBroadcastConstructRotation += HubService_NewBroadcastConstructRotation;
-            HubService.NewBroadcastConstructRotations += HubService_NewBroadcastConstructRotations;
-            HubService.NewBroadcastConstructScale += HubService_NewBroadcastConstructScale;
-            HubService.NewBroadcastConstructScales += HubService_NewBroadcastConstructScales;
-            HubService.NewBroadcastConstructMovement += HubService_NewBroadcastConstructMovement;
-
-            #endregion
-        }
-
-        #region Construct
-        private void HubService_NewBroadcastConstructMovement(int arg1, double arg2, double arg3, int arg4)
-        {
-
-        }
-
-        private void HubService_NewBroadcastConstructScales(int[] arg1, float arg2)
-        {
-
-        }
-
-        private void HubService_NewBroadcastConstructScale(int arg1, float arg2)
-        {
-
-        }
-
-        private void HubService_NewBroadcastConstructRotations(ConcurrentDictionary<int, float> obj)
-        {
-
-        }
-
-        private void HubService_NewBroadcastConstructRotation(int arg1, float arg2)
-        {
-
-        }
-
-        private void HubService_NewBroadcastConstructPlacement(int arg1, int arg2)
-        {
-
-        }
-
-        private void HubService_NewRemoveConstructs(int[] obj)
-        {
-
-        }
-
-        private void HubService_NewRemoveConstruct(int obj)
-        {
-
-        }
-
-        private void HubService_NewBroadcastConstructs(Construct[] obj)
-        {
-
-        }
-
-        private void HubService_NewBroadcastConstruct(Construct obj)
-        {
-
-        }
-        #endregion
-
-        #region Session
-        private void HubService_AvatarReconnected(int obj)
-        {
-            if (obj > 0)
-            {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj) is UIElement iElement)
-                {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj);
-
-                    if (avatarMessenger != null)
-                    {
-                        avatarMessenger.ActivityStatus = ActivityStatus.Online;
-                        avatarMessenger.IsLoggedIn = true;
-                    }
-                }
-            }
-        }
-
-        private void HubService_AvatarDisconnected(int obj)
-        {
-            if (obj > 0)
-            {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj) is UIElement iElement)
-                {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj);
-
-                    if (avatarMessenger != null)
-                    {
-                        avatarMessenger.ActivityStatus = ActivityStatus.Offline;
-                        avatarMessenger.IsLoggedIn = false;
-                    }
-                }
-            }
-        }
-
-        private void HubService_AvatarLoggedOut(int obj)
-        {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj) is UIElement iElement)
-            {
-                var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj);
-
-                if (avatarMessenger != null)
-                {
-                    AvatarMessengers.Remove(avatarMessenger);
-                    ParticipantsCount.Text = AvatarMessengers.Count().ToString();
-                }
-
-                Canvas_root.Children.Remove(iElement);
-            }
-        }
-
-        private void HubService_AvatarLoggedIn(Avatar obj)
-        {
-            // Check if the avatar already exists in current world
-            var iElement = Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.Id);
-
-            // If not then add a new avatar
-            if (iElement == null)
-            {
-                AddAvatarOnCanvas(obj);
-                AvatarMessengers.Add(new AvatarMessenger() { Avatar = obj, ActivityStatus = ActivityStatus.Online, IsLoggedIn = true });
-                ParticipantsCount.Text = AvatarMessengers.Count().ToString();
-            }
-        }
-        #endregion
-
-        #region Avatar
-        private void HubService_NewBroadcastAvatarActivityStatus(BroadcastAvatarActivityStatusRequest obj)
-        {
-            if (obj != null)
-            {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.AvatarId) is UIElement iElement)
-                {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj.AvatarId);
-                    if (avatarMessenger != null)
-                        avatarMessenger.ActivityStatus = obj.ActivityStatus;
-                }
-            }
-        }
-
-        private void HubService_NewBroadcastAvatarMovement(BroadcastAvatarMovementRequest obj)
-        {
-            if (obj != null)
-            {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.AvatarId) is UIElement iElement)
-                {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj.AvatarId);
-                    if (avatarMessenger != null)
-                        avatarMessenger.ActivityStatus = ActivityStatus.Online;
-
-                    MoveElement(uIElement: iElement, goToX: obj.Coordinate.X, goToY: obj.Coordinate.Y);
-                }
-            }
-        }
-        #endregion
-
-        #region Connection
-        private async void HubService_ConnectionClosed()
-        {
-            IsConnected = false;
-            IsLoggedIn = false;
-
-            if (await TryConnect())
-            {
-                await TryHubLogin();
-            }
-        }
-
-        private async void HubService_ConnectionReconnected()
-        {
-            _ = await HubService.LoginAsync(Avatar);
-
-            IsConnected = true;
-            IsLoggedIn = true;
-        }
-
-        private void HubService_ConnectionReconnecting()
-        {
-            IsConnected = false;
-            IsLoggedIn = false;
-        }
-        #endregion
-
-        private bool CanPerformWorldEvents()
-        {
-            return IsConnected && IsLoggedIn;
-        }
-
-        private bool CanHubLogin()
-        {
-            return Avatar != null && !Avatar.IsEmpty() && Avatar.User != null && IsConnected;
-        }
-
-        public async Task TryConnectAndHubLogin()
-        {
-            if (await TryConnect())
-            {
-                await TryHubLogin();
-            }
-            else
-            {
-                //synchronizationContext.Post(async (_) =>
-                //{
-                //    ConsentContentDialog contentDialog = new("Connection failure", "Would you like to try again?");
-                //    contentDialog.Selected += async (sender, e) =>
-                //    {
-                //        await TryConnect_TryLoginToHubService();
-                //    };
-
-                //    _ = await contentDialog.ShowAsync();
-                //}, null);
-            }
-        }
-
-        private async Task<bool> TryConnect()
-        {
-            try
-            {
-                if (IsConnected)
-                {
-                    return true;
-                }
-
-                await HubService.ConnectAsync();
-                IsConnected = true;
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-        }
-
-        private async Task TryHubLogin()
-        {
-            bool joined = await HubLogin();
-
-            //if (joined)
-            //{
-            //    DrawAvatarOnCanvas(Avatar);
-            //}
-            //else
-            //{
-
-            //}
-        }
-
-        private async Task<bool> HubLogin()
-        {
-            try
-            {
-                if (CanHubLogin())
-                {
-                    var result = await HubService.LoginAsync(Avatar);
-
-                    if (result != null)
-                    {
-                        var avatars = result.Item1;
-
-                        if (avatars != null && avatars.Any())
-                        {
-                            foreach (var avatar in avatars.Where(x => !AvatarMessengers.Select(z => z.Avatar.Id).Contains(x.Id)))
-                            {
-                                AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
-                                AddAvatarOnCanvas(avatar);
-                            }
-
-                            ParticipantsCount.Text = AvatarMessengers.Count().ToString();
-                        }
-
-                        var constructs = result.Item2;
-
-                        if (constructs != null && constructs.Any())
-                        {
-                            foreach (var construct in constructs)
-                            {
-                                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == construct.Id) is UIElement iElement)
-                                {
-                                    Canvas.SetZIndex(iElement, construct.Coordinate.Z);
-                                    MoveElement(iElement, construct.Coordinate.X, construct.Coordinate.Y);
-
-                                    // TODO: set scale and rotation
-                                }
-                                else // insert new constructs
-                                {
-                                    Button constructBtn = GenerateConstructButton(
-                                      name: construct.Name,
-                                      imageUrl: construct.ImageUrl,
-                                      constructId: construct.Id);
-
-                                    AddConstructOnCanvas(
-                                        construct: constructBtn,
-                                        x: construct.Coordinate.X,
-                                        y: construct.Coordinate.Y,
-                                        z: construct.Coordinate.Z);
-                                }
-                            }
-                        }
-
-                        IsLoggedIn = true;
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-        }
-
-        #endregion
-
-        #region Pointer
-        private async void Canvas_root_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (_addingConstruct != null)
-            {
-                var construct = AddConstructOnCanvas(
-                    construct: _addingConstruct,
-                    x: e.GetCurrentPoint(this.Canvas_root).Position.X,
-                    y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
-
-                _addingConstruct = null;
-
-                await HubService.BroadcastConstructAsync(construct);
-            }
-            else if (_isCloningConstruct && _cloningConstruct != null)
-            {
-                var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
-
-                if (constructAsset != null)
-                {
-                    Button constructBtn = GenerateConstructButton(
-                        name: constructAsset.Name,
-                        imageUrl: constructAsset.ImageUrl);
-
-                    var construct = AddConstructOnCanvas(
-                        construct: constructBtn,
-                        x: e.GetCurrentPoint(this.Canvas_root).Position.X,
-                        y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
-
-                    await HubService.BroadcastConstructAsync(construct);
-                }
-            }
-            else if (_isMovingConstruct && _movingConstruct != null)
-            {
-                var taggedObject = MoveElement(_movingConstruct, e);
-
-                var construct = taggedObject as Construct;
-
-                await HubService.BroadcastConstructMovementAsync(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
-            }
-            else
-            {
-                _interactiveConstruct = null;
-                InteractiveConstructHolder.Content = null;
-
-                HideConstructOperationButtons();
-            }
-        }
-
-        private async void Construct_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            UIElement uielement = (UIElement)sender;
-            _interactiveConstruct = uielement;
-            ShowInteractiveConstruct(uielement);
-
-            if (_addingConstruct != null)
-            {
-                var construct = AddConstructOnCanvas(
-                    construct: _addingConstruct,
-                    x: e.GetCurrentPoint(this.Canvas_root).Position.X,
-                    y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
-
-                _addingConstruct = null;
-
-                await HubService.BroadcastConstructAsync(construct);
-            }
-            else if (_isCloningConstruct && _cloningConstruct != null)
-            {
-                var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
-
-                if (constructAsset != null)
-                {
-                    Button constructBtn = GenerateConstructButton(
-                        name: constructAsset.Name,
-                        imageUrl: constructAsset.ImageUrl);
-
-                    var construct = AddConstructOnCanvas(
-                        construct: constructBtn,
-                        x: e.GetCurrentPoint(this.Canvas_root).Position.X,
-                        y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
-
-                    await HubService.BroadcastConstructAsync(construct);
-                }
-            }
-            else if (_isMovingConstruct && _movingConstruct != null)
-            {
-                var taggedObject = MoveElement(_movingConstruct, e);
-
-                var construct = taggedObject as Construct;
-
-                await HubService.BroadcastConstructMovementAsync(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
-            }
-            else if (_isCraftingConstruct)
-            {
-                ShowConstructOperationButtons();
-
-                _objectLeft = Canvas.GetLeft(uielement);
-                _objectTop = Canvas.GetTop(uielement);
-
-                _pointerX = e.GetCurrentPoint(this.Canvas_root).Position.X;
-                _pointerY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
-                uielement.CapturePointer(e.Pointer);
-
-                _isPointerCaptured = true;
-            }
-            else
-            {
-                // Move avatar
-                var taggedObject = MoveElement(_avatar, e);
-
-                var avatar = taggedObject as Avatar;
-
-                await HubService.BroadcastAvatarMovementAsync(new BroadcastAvatarMovementRequest() { AvatarId = avatar.Id, Coordinate = new Coordinate() { X = avatar.Coordinate.X, Y = avatar.Coordinate.Y } });
-            }
-        }
-
-        private void Construct_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            if (_isCraftingConstruct)
-            {
-                UIElement uielement = (UIElement)sender;
-
-                if (_isPointerCaptured)
-                {
-                    // Calculate the new position of the object:
-                    double deltaH = e.GetCurrentPoint(this.Canvas_root).Position.X - _pointerX;
-                    double deltaV = e.GetCurrentPoint(this.Canvas_root).Position.Y - _pointerY;
-
-                    _objectLeft = deltaH + _objectLeft;
-                    _objectTop = deltaV + _objectTop;
-
-                    // Update the object position:
-                    Canvas.SetLeft(uielement, _objectLeft);
-                    Canvas.SetTop(uielement, _objectTop);
-
-                    // Remember the pointer position:
-                    _pointerX = e.GetCurrentPoint(this.Canvas_root).Position.X;
-                    _pointerY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
-                }
-            }
-        }
-
-        private void Construct_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            if (_isMovingConstruct)
-            {
-                return;
-            }
-
-            if (_isCraftingConstruct)
-            {
-                UIElement uielement = (UIElement)sender;
-                _isPointerCaptured = false;
-                uielement.ReleasePointerCapture(e.Pointer);
-
-                _interactiveConstruct = uielement;
-                ShowInteractiveConstruct(uielement);
-            }
-        }
-
-        #endregion
-
-        #region Selection Status
-
-        private void ShowInteractiveConstruct(UIElement uielement)
-        {
-            var construcButton = CopyConstructContent(uielement);
-            InteractiveConstructHolder.Content = construcButton;
-        }
-
-        private void ShowOperationalConstruct(UIElement uielement, string operationStatus)
-        {
-            var historyButton = CopyConstructContent(uielement);
-
-            OperationalConstructHolder.Content = historyButton;
-            OperationalConstructStatus.Text = operationStatus;
-
-        }
-
-        #endregion
-
-        #region Button Clicks
-
-        private void CraftButton_Click(object sender, RoutedEventArgs e)
-        {
-            _isCraftingConstruct = !_isCraftingConstruct;
-            this.CraftButton.Content = _isCraftingConstruct ? "Crafting" : "Craft";
-
-            _isMovingConstruct = false;
-            this.ConstructMoveButton.Content = "Move";
-
-            _isCloningConstruct = false;
-            this.ConstructCloneButton.Content = "Clone";
-
-            //_isDeleting = false;
-            this.ConstructDeleteButton.Content = "Delete";
-
-            if (!_isCraftingConstruct)
-            {
-                this.ConstructsAddButton.Visibility = Visibility.Collapsed;
-
-                HideConstructOperationButtons();
-
-                _movingConstruct = null;
-                _cloningConstruct = null;
-
-                OperationalConstructHolder.Content = null;
-                OperationalConstructStatus.Text = null;
-            }
-            else
-            {
-                this.ConstructsAddButton.Visibility = Visibility.Visible;
-                //this.ConstructDeleteButton.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void ConstructsAddButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!ConstructAssets.Any())
-            {
-                ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).ToList();
-                ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
-            }
-
-            var constructAssetPicker = new ConstructAssetPicker(
-                constructAssets: ConstructAssets,
-                constructCategories: ConstructCategories,
-                assetSelected: (constructAsset) =>
-                {
-                    Button constructBtn = GenerateConstructButton(
-                        name: constructAsset.Name,
-                        imageUrl: constructAsset.ImageUrl);
-
-                    _addingConstruct = constructBtn;
-                });
-
-            constructAssetPicker.Show();
-        }
-
-        private void ConstructMoveButton_Click(object sender, RoutedEventArgs e)
-        {
-            _isMovingConstruct = !_isMovingConstruct;
-            ConstructMoveButton.Content = _isMovingConstruct ? "Moving" : "Move";
-
-            if (!_isMovingConstruct)
-            {
-                _movingConstruct = null;
-                OperationalConstructHolder.Content = null;
-                OperationalConstructStatus.Text = null;
-            }
-            else
-            {
-                UIElement uielement = _interactiveConstruct;
-                _movingConstruct = uielement;
-                ShowOperationalConstruct(_movingConstruct, "Moving");
-            }
-        }
-
-        private void ConstructCloneButton_Click(object sender, RoutedEventArgs e)
-        {
-            _isCloningConstruct = !_isCloningConstruct;
-            ConstructCloneButton.Content = _isCloningConstruct ? "Cloning" : "Clone";
-
-            if (!_isCloningConstruct)
-            {
-                _cloningConstruct = null;
-                OperationalConstructHolder.Content = null;
-                OperationalConstructStatus.Text = null;
-            }
-            else
-            {
-                UIElement uielement = _interactiveConstruct;
-                _cloningConstruct = uielement;
-                ShowOperationalConstruct(_cloningConstruct, "Cloning");
-            }
-        }
-
-        private void ConstructDeleteButton_Click(object sender, RoutedEventArgs e)
-        {
-            //_isDeleting = !_isDeleting;
-            //ConstructDeleteButton.Content = _isDeleting ? "Deleting" : "Delete";
-
-            //var constructName = ((Button)_interactiveConstruct).Name;
-
-            //var constructToDelete = Canvas_root.Children.Where(x => x is Button button && button.Name == constructName).FirstOrDefault();
-
-            if (_interactiveConstruct != null)
-            {
-                Canvas_root.Children.Remove(_interactiveConstruct);
-                InteractiveConstructHolder.Content = null;
-            }
-        }
-
-        private void ConstructBringForwardButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_interactiveConstruct != null)
-            {
-                var zIndex = Canvas.GetZIndex(_interactiveConstruct);
-                zIndex++;
-                Canvas.SetZIndex(_interactiveConstruct, zIndex);
-            }
-        }
-
-        private void ConstructSendBackwardButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_interactiveConstruct != null)
-            {
-                var zIndex = Canvas.GetZIndex(_interactiveConstruct);
-                zIndex--;
-                Canvas.SetZIndex(_interactiveConstruct, zIndex);
-            }
-        }
-
-        private void ConstructScaleUpButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_interactiveConstruct != null)
-            {
-
-            }
-        }
-
-        private void ConstructScaleDownButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_interactiveConstruct != null)
-            {
-
-            }
-        }
 
         #endregion
 
