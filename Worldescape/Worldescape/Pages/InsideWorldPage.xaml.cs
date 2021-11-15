@@ -158,7 +158,7 @@ namespace Worldescape.Pages
 
             #endregion
 
-            #region Session
+            #region Avatar Session
 
             HubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
             HubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
@@ -269,6 +269,12 @@ namespace Worldescape.Pages
                         avatarMessenger.ActivityStatus = ActivityStatus.Online;
                         avatarMessenger.IsLoggedIn = true;
                     }
+
+                    Console.WriteLine("++AvatarReconnected");
+                }
+                else
+                {
+                    Console.WriteLine("++AvatarReconnected: Avatar doesn't exist.");
                 }
             }
         }
@@ -286,6 +292,12 @@ namespace Worldescape.Pages
                         avatarMessenger.ActivityStatus = ActivityStatus.Offline;
                         avatarMessenger.IsLoggedIn = false;
                     }
+
+                    Console.WriteLine("++AvatarDisconnected");
+                }
+                else
+                {
+                    Console.WriteLine("++AvatarDisconnected: Avatar doesn't exist.");
                 }
             }
         }
@@ -303,6 +315,12 @@ namespace Worldescape.Pages
                 }
 
                 Canvas_root.Children.Remove(iElement);
+
+                Console.WriteLine("++AvatarLoggedOut");
+            }
+            else
+            {
+                Console.WriteLine("++AvatarLoggedOut: Avatar doesn't exist.");
             }
         }
 
@@ -317,6 +335,12 @@ namespace Worldescape.Pages
                 AddAvatarOnCanvas(obj);
                 AvatarMessengers.Add(new AvatarMessenger() { Avatar = obj, ActivityStatus = ActivityStatus.Online, IsLoggedIn = true });
                 ParticipantsCount.Text = AvatarMessengers.Count().ToString();
+                               
+                Console.WriteLine("++AvatarLoggedIn");
+            }
+            else
+            {
+                Console.WriteLine("++AvatarLoggedIn: Avatar already exists.");
             }
         }
         #endregion
@@ -326,13 +350,17 @@ namespace Worldescape.Pages
         {
             if (avatarId > 0)
             {
-                Console.WriteLine("++ NewBroadcastAvatarActivityStatus");
-
                 if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
                     if (avatarMessenger != null)
                         avatarMessenger.ActivityStatus = (ActivityStatus)activityStatus;
+
+                    Console.WriteLine("++ NewBroadcastAvatarActivityStatus");
+                }
+                else
+                {
+                    Console.WriteLine("++ NewBroadcastAvatarActivityStatus: Avatar doesn't exist.");
                 }
             }
         }
@@ -341,8 +369,6 @@ namespace Worldescape.Pages
         {
             if (avatarId > 0)
             {
-                Console.WriteLine("++ NewBroadcastAvatarMovement");
-
                 if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
@@ -350,6 +376,12 @@ namespace Worldescape.Pages
                         avatarMessenger.ActivityStatus = ActivityStatus.Online;
 
                     MoveElement(uIElement: iElement, goToX: x, goToY: y);
+
+                    Console.WriteLine("++ NewBroadcastAvatarMovement");
+                }
+                else
+                {
+                    Console.WriteLine("++ NewBroadcastAvatarMovement: Avatar doesn't exist.");
                 }
             }
         }
