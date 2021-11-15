@@ -518,7 +518,7 @@ namespace Worldescape.Pages
                     {
                         Console.WriteLine("HubLogin: OK");
 
-                        var avatars = result.Item1;
+                        var avatars = result.Avatars;
 
                         // Clearing up canvas prior to login
                         AvatarMessengers.Clear();
@@ -537,7 +537,7 @@ namespace Worldescape.Pages
                             ParticipantsCount.Text = AvatarMessengers.Count().ToString();
                         }
 
-                        var constructs = result.Item2;
+                        var constructs = result.Constructs;
 
                         if (constructs != null && constructs.Any())
                         {

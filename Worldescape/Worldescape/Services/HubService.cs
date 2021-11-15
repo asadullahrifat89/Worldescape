@@ -7,6 +7,7 @@ using Worldescape.Contracts.Services;
 using Worldescape.Shared.Entities;
 using Worldescape.Shared.Models;
 using Worldescape.Shared.Requests;
+using Worldescape.Shared.Responses;
 
 namespace Worldescape.Services
 {
@@ -100,9 +101,10 @@ namespace Worldescape.Services
 
         #region Connection
 
-        public bool IsConnected() 
+        public bool IsConnected()
         {
-            return connection.State == HubConnectionState.Connected;
+            Console.WriteLine("IsConnected: " + connection.State);
+            return connection.State == HubConnectionState.Connected || connection.State == HubConnectionState.Connecting || connection.State == HubConnectionState.Reconnecting;
         }
 
         public async Task ConnectAsync()
@@ -141,10 +143,10 @@ namespace Worldescape.Services
 
         #region Session
 
-        public async Task<Tuple<Avatar[], Construct[]>> LoginAsync(Avatar newUser)
+        public async Task<HubLoginResponse> LoginAsync(Avatar newUser)
         {
             Console.WriteLine("HubService: LoginAsync");
-            return await connection.InvokeAsync<Tuple<Avatar[], Construct[]>>("Login", newUser);
+            return await connection.InvokeAsync<HubLoginResponse>("Login", newUser);
         }
 
         public async Task LogoutAsync()

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Worldescape.Shared.Entities;
 using Worldescape.Shared.Models;
 using Worldescape.Shared.Requests;
+using Worldescape.Shared.Responses;
 
 namespace Worldescape.Contracts.Services
 {
@@ -57,7 +58,7 @@ namespace Worldescape.Contracts.Services
 
         #region Session
 
-        Task<Tuple<Avatar[], Construct[]>> LoginAsync(Avatar avatar);
+        Task<HubLoginResponse> LoginAsync(Avatar avatar);
 
         Task LogoutAsync();
 

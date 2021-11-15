@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using Worldescape.Shared.Entities;
 using Worldescape.Shared.Requests;
+using Worldescape.Shared.Responses;
 using WorldescapeWebService.Core.Contracts.Services;
 
 namespace WorldescapeWebService.Core.Services;
@@ -91,7 +92,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
     #region Session
 
-    public Tuple<Avatar[], Construct[]> Login(Avatar avatar)
+    public HubLoginResponse Login(Avatar avatar)
     {
         // If an existing avatar doesn't exist
         if (!OnlineAvatars.Any(x => x.Value.Id == avatar.Id))
@@ -143,7 +144,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
 
             // Return the curated avatars and constructs
-            return new Tuple<Avatar[], Construct[]>(avatars ?? new Avatar[] { }, constructs ?? new Construct[] { });
+            return new HubLoginResponse() { Avatars = avatars ?? new Avatar[] { }, Constructs = constructs ?? new Construct[] { } };
         }
         else
         {
@@ -154,7 +155,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             var avatars = OnlineAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
             // Return the curated avatars and constructs
-            return new Tuple<Avatar[], Construct[]>(avatars ?? new Avatar[] { }, constructs ?? new Construct[] { });
+            return new HubLoginResponse() { Avatars = avatars ?? new Avatar[] { }, Constructs = constructs ?? new Construct[] { } };
         }
     }
 
