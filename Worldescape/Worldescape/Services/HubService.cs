@@ -100,6 +100,11 @@ namespace Worldescape.Services
 
         #region Connection
 
+        public bool IsConnected() 
+        {
+            return connection.State == HubConnectionState.Connected;
+        }
+
         public async Task ConnectAsync()
         {
             Console.WriteLine("HubService: ConnectAsync");

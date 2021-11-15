@@ -25,6 +25,16 @@
             <StackPanel x:Name="TopButtonHolder" Orientation="Horizontal">
 
                 <Button
+                    x:Name="ConnectButton"
+                    Height="50"
+                    MinWidth="100"
+                    Margin="10"
+                    Click="ConnectButton_Click"
+                    Content="Connect"
+                    FontSize="20"
+                    Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                <Button
                     x:Name="CraftButton"
                     Height="50"
                     MinWidth="100"
@@ -130,23 +140,21 @@
 
                 <ContentControl x:Name="OperationalConstructHolder" />
 
-                <!--<TextBlock
-                x:Name="InteractiveConstructStatus"
-                VerticalAlignment="Center"
-                FontSize="20"
-                FontWeight="Bold" />-->
-
                 <ContentControl x:Name="SelectedConstructHolder" />
+
             </StackPanel>
 
             <!--  Top bar statuses  -->
             <StackPanel Grid.Column="1">
 
+                <ContentControl x:Name="UserImageHolder" />
+
                 <TextBlock
+                    Margin="10"
                     VerticalAlignment="Center"
                     FontSize="20"
                     FontWeight="Bold">
-                    <Run Text="People: " />
+                    <Run Text="Avatars: " />
                     <Run x:Name="ParticipantsCount" />
                 </TextBlock>
 

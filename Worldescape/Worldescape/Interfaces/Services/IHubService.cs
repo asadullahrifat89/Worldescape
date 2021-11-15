@@ -47,6 +47,8 @@ namespace Worldescape.Contracts.Services
 
         #region Connection
 
+        bool IsConnected();
+
         Task ConnectAsync();
 
         Task DisconnectAsync();

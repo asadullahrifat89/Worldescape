@@ -42,7 +42,7 @@ namespace Worldescape.Pages
         bool _isCloningConstruct;
         //bool _isDeleting;
 
-        bool IsConnected;
+        //bool IsConnected;
         bool IsLoggedIn;
 
         //UIElement _avatar;
@@ -94,7 +94,7 @@ namespace Worldescape.Pages
 
         #region Ctor
 
-        public InsideWorldPage(/*IHubService hubService*/)
+        public InsideWorldPage()
         {
             InitializeComponent();
 
@@ -102,7 +102,7 @@ namespace Worldescape.Pages
 
             DemoWorld();
             ListenOnHubService();
-            TryConnectAndHubLogin();
+            //TryConnectAndHubLogin();
         }
 
         private void DemoWorld()
@@ -188,6 +188,8 @@ namespace Worldescape.Pages
         {
             if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == arg1) is UIElement iElement)
             {
+                Console.WriteLine("HubService_NewBroadcastConstructMovement");
+
                 MoveElement(iElement, arg2, arg3, arg4);
             }
         }
@@ -216,6 +218,8 @@ namespace Worldescape.Pages
         {
             if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == arg1) is UIElement iElement)
             {
+                Console.WriteLine("HubService_NewBroadcastConstructPlacement");
+
                 Canvas.SetZIndex(iElement, arg2);
             }
         }
@@ -229,6 +233,8 @@ namespace Worldescape.Pages
         {
             if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == obj) is UIElement iElement)
             {
+                Console.WriteLine("HubService_NewRemoveConstruct");
+
                 Canvas_root.Children.Remove(iElement);
             }
         }
@@ -240,6 +246,8 @@ namespace Worldescape.Pages
 
         private void HubService_NewBroadcastConstruct(Construct obj)
         {
+            Console.WriteLine("HubService_NewBroadcastConstruct");
+
             var constructBtn = GenerateConstructButton(
                 name: obj.Name,
                 imageUrl: obj.ImageUrl,
@@ -270,11 +278,11 @@ namespace Worldescape.Pages
                         avatarMessenger.IsLoggedIn = true;
                     }
 
-                    Console.WriteLine("++AvatarReconnected: OK");
+                    Console.WriteLine("++HubService_AvatarReconnected: OK");
                 }
                 else
                 {
-                    Console.WriteLine("++AvatarReconnected: IGNORE");
+                    Console.WriteLine("++HubService_AvatarReconnected: IGNORE");
                 }
             }
         }
@@ -293,11 +301,11 @@ namespace Worldescape.Pages
                         avatarMessenger.IsLoggedIn = false;
                     }
 
-                    Console.WriteLine("++AvatarDisconnected: OK");
+                    Console.WriteLine("++HubService_AvatarDisconnected: OK");
                 }
                 else
                 {
-                    Console.WriteLine("++AvatarDisconnected: IGNORE");
+                    Console.WriteLine("++HubService_AvatarDisconnected: IGNORE");
                 }
             }
         }
@@ -316,11 +324,11 @@ namespace Worldescape.Pages
 
                 Canvas_root.Children.Remove(iElement);
 
-                Console.WriteLine("++AvatarLoggedOut: OK");
+                Console.WriteLine("++HubService_AvatarLoggedOut: OK");
             }
             else
             {
-                Console.WriteLine("++AvatarLoggedOut: IGNORE");
+                Console.WriteLine("++HubService_AvatarLoggedOut: IGNORE");
             }
         }
 
@@ -336,11 +344,11 @@ namespace Worldescape.Pages
                 AvatarMessengers.Add(new AvatarMessenger() { Avatar = obj, ActivityStatus = ActivityStatus.Online, IsLoggedIn = true });
                 ParticipantsCount.Text = AvatarMessengers.Count().ToString();
 
-                Console.WriteLine("++AvatarLoggedIn: OK");
+                Console.WriteLine("++HubService_AvatarLoggedIn: OK");
             }
             else
             {
-                Console.WriteLine("++AvatarLoggedIn: IGNORE");
+                Console.WriteLine("++HubService_AvatarLoggedIn: IGNORE");
             }
         }
         #endregion
@@ -392,7 +400,7 @@ namespace Worldescape.Pages
         {
             Console.WriteLine("HubService_ConnectionClosed");
 
-            IsConnected = false;
+            //IsConnected = false;
             IsLoggedIn = false;
 
             if (await TryConnect())
@@ -405,7 +413,7 @@ namespace Worldescape.Pages
         {
             _ = await HubService.LoginAsync(Avatar);
 
-            IsConnected = true;
+            //IsConnected = true;
             IsLoggedIn = true;
 
             Console.WriteLine("HubService_ConnectionReconnected");
@@ -413,7 +421,7 @@ namespace Worldescape.Pages
 
         private void HubService_ConnectionReconnecting()
         {
-            IsConnected = false;
+            //IsConnected = false;
             IsLoggedIn = false;
 
             Console.WriteLine("HubService_ConnectionReconnecting");
@@ -423,12 +431,12 @@ namespace Worldescape.Pages
         #region Hub Login
         private bool CanPerformWorldEvents()
         {
-            return IsConnected && IsLoggedIn;
+            return HubService.IsConnected() && IsLoggedIn;
         }
 
         private bool CanHubLogin()
         {
-            var result = Avatar != null /*&& !Avatar.IsEmpty()*/ && Avatar.User != null && IsConnected;
+            var result = Avatar != null /*&& !Avatar.IsEmpty()*/ && Avatar.User != null && HubService.IsConnected();
 
             Console.WriteLine($"CanHubLogin: {result}");
 
@@ -456,13 +464,15 @@ namespace Worldescape.Pages
         {
             try
             {
-                if (IsConnected)
+                Console.WriteLine("TryConnect: ATTEMP");
+
+                if (HubService.IsConnected())
                 {
+                    Console.WriteLine("TryConnect: OK");
                     return true;
                 }
 
-                await HubService.ConnectAsync();
-                IsConnected = true;
+                await HubService.ConnectAsync();                
 
                 Console.WriteLine("TryConnect: OK.");
 
@@ -524,7 +534,7 @@ namespace Worldescape.Pages
                                 AddAvatarOnCanvas(avatar);
                             }
 
-                            ParticipantsCount.Text = AvatarMessengers.Count().ToString();                            
+                            ParticipantsCount.Text = AvatarMessengers.Count().ToString();
                         }
 
                         var constructs = result.Item2;
@@ -565,12 +575,18 @@ namespace Worldescape.Pages
                     }
                     else
                     {
-                        Console.WriteLine("HubLogin: FAILED");
                         return false;
                     }
                 }
                 else
                 {
+                    Console.WriteLine("HubLogin: FAILED");
+
+                    if (await TryConnect())
+                    {
+                        return await HubLogin();
+                    }
+
                     Console.WriteLine("HubLogin: FAILED");
                     return false;
                 }
@@ -935,7 +951,6 @@ namespace Worldescape.Pages
             }
         }
 
-
         /// <summary>
         /// Deletes a selected construct.
         /// </summary>
@@ -1001,6 +1016,12 @@ namespace Worldescape.Pages
             {
 
             }
+        }
+
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("ConnectButton_Click");
+            await TryConnectAndHubLogin();
         }
 
         #endregion
