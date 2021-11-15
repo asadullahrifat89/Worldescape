@@ -15,7 +15,7 @@ namespace Worldescape.Services
     {
         #region Fields
 
-        private HubConnection connection;
+        private readonly HubConnection _connection;
 
         // Connection
         public event Action<int> AvatarDisconnected;
@@ -61,40 +61,44 @@ namespace Worldescape.Services
 #else
             var url = Properties.Resources.ProdHubService;
 #endif
-            connection = new HubConnectionBuilder().WithUrl(url).WithAutomaticReconnect().Build();
+            _connection = new HubConnectionBuilder().WithUrl(url).WithAutomaticReconnect().Build();
 
-            connection.On<Avatar>("AvatarLogin", (u) => AvatarLoggedIn?.Invoke(u));
-            connection.On<int>("AvatarLogout", (n) => AvatarLoggedOut?.Invoke(n));
-            connection.On<int>("AvatarDisconnection", (n) => AvatarDisconnected?.Invoke(n));
-            connection.On<int>("AvatarReconnection", (n) => AvatarReconnected?.Invoke(n));
-            connection.On<int, string>("BroadcastTextMessage", (n, m) => NewTextMessage?.Invoke(n, m, MessageType.Broadcast));
-            connection.On<int, byte[]>("BroadcastPictureMessage", (n, m) => NewImageMessage?.Invoke(n, m, MessageType.Broadcast));
-            connection.On<int, string>("UnicastTextMessage", (n, m) => NewTextMessage?.Invoke(n, m, MessageType.Unicast));
-            connection.On<int, byte[]>("UnicastPictureMessage", (n, m) => NewImageMessage?.Invoke(n, m, MessageType.Unicast));
-            connection.On<int>("AvatarTyping", (p) => AvatarTyping?.Invoke(p, MessageType.Unicast));
-            connection.On<int>("AvatarBroadcastTyping", (p) => AvatarTyping?.Invoke(p, MessageType.Broadcast));
+            // Session
+            _connection.On<Avatar>("AvatarLogin", (avatar) => AvatarLoggedIn?.Invoke(avatar));
+            _connection.On<int>("AvatarLogout", (senderId) => AvatarLoggedOut?.Invoke(senderId));
+            _connection.On<int>("AvatarDisconnection", (senderId) => AvatarDisconnected?.Invoke(senderId));
+            _connection.On<int>("AvatarReconnection", (senderId) => AvatarReconnected?.Invoke(senderId));
+
+            // Texting
+            _connection.On<int, string>("BroadcastTextMessage", (senderId, message) => NewTextMessage?.Invoke(senderId, message, MessageType.Broadcast));
+            _connection.On<int, byte[]>("BroadcastPictureMessage", (senderId, img) => NewImageMessage?.Invoke(senderId, img, MessageType.Broadcast));
+            _connection.On<int, string>("UnicastTextMessage", (senderId, message) => NewTextMessage?.Invoke(senderId, message, MessageType.Unicast));
+            _connection.On<int, byte[]>("UnicastPictureMessage", (senderId, img) => NewImageMessage?.Invoke(senderId, img, MessageType.Unicast));
+            _connection.On<int>("AvatarTyping", (senderId) => AvatarTyping?.Invoke(senderId, MessageType.Unicast));
+            _connection.On<int>("AvatarBroadcastTyping", (senderId) => AvatarTyping?.Invoke(senderId, MessageType.Broadcast));
 
             // Avatar
-            connection.On<int, double, double, int>("BroadcastAvatarMovement", (avatarId, x, y, z) => NewBroadcastAvatarMovement?.Invoke(avatarId, x, y, z));
-            connection.On<int, int>("BroadcastAvatarActivityStatus", (avatarId, activityStatus) => NewBroadcastAvatarActivityStatus?.Invoke(avatarId, activityStatus));
+            _connection.On<int, double, double, int>("BroadcastAvatarMovement", (avatarId, x, y, z) => NewBroadcastAvatarMovement?.Invoke(avatarId, x, y, z));
+            _connection.On<int, int>("BroadcastAvatarActivityStatus", (avatarId, activityStatus) => NewBroadcastAvatarActivityStatus?.Invoke(avatarId, activityStatus));
 
-            // construct
-            connection.On<Construct>("BroadcastConstruct", (construct) => NewBroadcastConstruct?.Invoke(construct));
-            connection.On<Construct[]>("BroadcastConstructs", (constructs) => NewBroadcastConstructs?.Invoke(constructs));
-            connection.On<int>("RemoveConstruct", (constructId) => NewRemoveConstruct?.Invoke(constructId));
-            connection.On<int[]>("RemoveConstructs", (constructIds) => NewRemoveConstructs?.Invoke(constructIds));
-            connection.On<int, int>("BroadcastConstructPlacement", (constructId, z) => NewBroadcastConstructPlacement?.Invoke(constructId, z));
-            connection.On<int, float>("BroadcastConstructRotation", (constructId, rotation) => NewBroadcastConstructRotation?.Invoke(constructId, rotation));
-            connection.On<ConcurrentDictionary<int, float>>("BroadcastConstructRotations", (constructIds) => NewBroadcastConstructRotations?.Invoke(constructIds));
-            connection.On<int, float>("BroadcastConstructScale", (constructId, scale) => NewBroadcastConstructScale?.Invoke(constructId, scale));
-            connection.On<int[], float>("BroadcastConstructScales", (constructIds, scale) => NewBroadcastConstructScales?.Invoke(constructIds, scale));
-            connection.On<int, double, double, int>("BroadcastConstructMovement", (constructId, x, y, z) => NewBroadcastConstructMovement?.Invoke(constructId, x, y, z));
+            // Construct
+            _connection.On<Construct>("BroadcastConstruct", (construct) => NewBroadcastConstruct?.Invoke(construct));
+            _connection.On<Construct[]>("BroadcastConstructs", (constructs) => NewBroadcastConstructs?.Invoke(constructs));
+            _connection.On<int>("RemoveConstruct", (constructId) => NewRemoveConstruct?.Invoke(constructId));
+            _connection.On<int[]>("RemoveConstructs", (constructIds) => NewRemoveConstructs?.Invoke(constructIds));
+            _connection.On<int, int>("BroadcastConstructPlacement", (constructId, z) => NewBroadcastConstructPlacement?.Invoke(constructId, z));
+            _connection.On<int, float>("BroadcastConstructRotation", (constructId, rotation) => NewBroadcastConstructRotation?.Invoke(constructId, rotation));
+            _connection.On<ConcurrentDictionary<int, float>>("BroadcastConstructRotations", (constructIds) => NewBroadcastConstructRotations?.Invoke(constructIds));
+            _connection.On<int, float>("BroadcastConstructScale", (constructId, scale) => NewBroadcastConstructScale?.Invoke(constructId, scale));
+            _connection.On<int[], float>("BroadcastConstructScales", (constructIds, scale) => NewBroadcastConstructScales?.Invoke(constructIds, scale));
+            _connection.On<int, double, double, int>("BroadcastConstructMovement", (constructId, x, y, z) => NewBroadcastConstructMovement?.Invoke(constructId, x, y, z));
 
-            connection.Reconnecting += Connection_Reconnecting;
-            connection.Reconnected += Connection_Reconnected;
-            connection.Closed += Connection_Closed;
+            // Connection
+            _connection.Reconnecting += Connection_Reconnecting;
+            _connection.Reconnected += Connection_Reconnected;
+            _connection.Closed += Connection_Closed;
 
-            //ServicePointManager.DefaultConnectionLimit = 10;
+            ServicePointManager.DefaultConnectionLimit = 10;
         }
 
         #endregion
@@ -103,39 +107,39 @@ namespace Worldescape.Services
 
         public bool IsConnected()
         {
-            Console.WriteLine("IsConnected: " + connection.State);
-            return connection.State == HubConnectionState.Connected || connection.State == HubConnectionState.Connecting || connection.State == HubConnectionState.Reconnecting;
+            Console.WriteLine(">>IsConnected: " + _connection.State);
+            return _connection.State == HubConnectionState.Connected || _connection.State == HubConnectionState.Connecting || _connection.State == HubConnectionState.Reconnecting;
         }
 
         public async Task ConnectAsync()
         {
-            Console.WriteLine("HubService: ConnectAsync");
-            await connection.StartAsync();
+            Console.WriteLine(">>HubService: ConnectAsync");
+            await _connection.StartAsync();
         }
 
         public async Task DisconnectAsync()
         {
-            Console.WriteLine("HubService: DisconnectAsync");
-            await connection.StopAsync();
+            Console.WriteLine(">>HubService: DisconnectAsync");
+            await _connection.StopAsync();
         }
 
         private Task Connection_Closed(Exception arg)
         {
-            Console.WriteLine("HubService: Connection_Closed");
+            Console.WriteLine("<<HubService: Connection_Closed");
             ConnectionClosed?.Invoke();
             return Task.Delay(100);
         }
 
         private Task Connection_Reconnected(string arg)
         {
-            Console.WriteLine("HubService: Connection_Reconnected");
+            Console.WriteLine("<<HubService: Connection_Reconnected");
             ConnectionReconnected?.Invoke();
             return Task.Delay(100);
         }
 
         private Task Connection_Reconnecting(Exception arg)
         {
-            Console.WriteLine("HubService: Connection_Reconnecting");
+            Console.WriteLine("<<HubService: Connection_Reconnecting");
             ConnectionReconnecting?.Invoke();
             return Task.Delay(100);
         }
@@ -143,136 +147,136 @@ namespace Worldescape.Services
 
         #region Session
 
-        public async Task<HubLoginResponse> LoginAsync(Avatar newUser)
+        public async Task<HubLoginResponse> Login(Avatar newUser)
         {
-            Console.WriteLine("HubService: LoginAsync");
-            return await connection.InvokeAsync<HubLoginResponse>("Login", newUser);
+            Console.WriteLine(">>HubService: LoginAsync");
+            return await _connection.InvokeAsync<HubLoginResponse>("Login", newUser);
         }
 
-        public async Task LogoutAsync()
+        public async Task Logout()
         {
-            Console.WriteLine("HubService: LogoutAsync");
-            await connection.SendAsync("Logout");
+            Console.WriteLine(">>HubService: LogoutAsync");
+            await _connection.SendAsync("Logout");
         }
 
         #endregion
 
         #region Texting
 
-        public async Task SendBroadcastMessageAsync(string msg)
+        public async Task SendBroadcastMessage(string msg)
         {
-            Console.WriteLine("HubService: SendBroadcastMessageAsync");
-            await connection.SendAsync("BroadcastTextMessage", msg);
+            Console.WriteLine(">>HubService: SendBroadcastMessageAsync");
+            await _connection.SendAsync("BroadcastTextMessage", msg);
         }
 
-        public async Task SendBroadcastMessageAsync(byte[] img)
+        public async Task SendBroadcastMessage(byte[] img)
         {
-            Console.WriteLine("HubService: SendBroadcastMessageAsync");
-            await connection.SendAsync("BroadcastImageMessage", img);
+            Console.WriteLine(">>HubService: SendBroadcastMessageAsync");
+            await _connection.SendAsync("BroadcastImageMessage", img);
         }
 
-        public async Task SendUnicastMessageAsync(int recepientId, string msg)
+        public async Task SendUnicastMessage(int recepientId, string msg)
         {
-            Console.WriteLine("HubService: SendUnicastMessageAsync");
-            await connection.SendAsync("UnicastTextMessage", recepientId, msg);
+            Console.WriteLine(">>HubService: SendUnicastMessageAsync");
+            await _connection.SendAsync("UnicastTextMessage", recepientId, msg);
         }
 
-        public async Task SendUnicastMessageAsync(int recepientId, byte[] img)
+        public async Task SendUnicastMessage(int recepientId, byte[] img)
         {
-            Console.WriteLine("HubService: SendUnicastMessageAsync");
-            await connection.SendAsync("UnicastImageMessage", recepientId, img);
+            Console.WriteLine(">>HubService: SendUnicastMessageAsync");
+            await _connection.SendAsync("UnicastImageMessage", recepientId, img);
         }
 
-        public async Task TypingAsync(int recepientId)
+        public async Task Typing(int recepientId)
         {
-            Console.WriteLine("HubService: TypingAsync");
-            await connection.SendAsync("Typing", recepientId);
+            Console.WriteLine(">>HubService: TypingAsync");
+            await _connection.SendAsync("Typing", recepientId);
         }
 
-        public async Task BroadcastTypingAsync()
+        public async Task BroadcastTyping()
         {
-            Console.WriteLine("HubService: BroadcastTypingAsync");
-            await connection.SendAsync("BroadcastTyping");
+            Console.WriteLine(">>HubService: BroadcastTypingAsync");
+            await _connection.SendAsync("BroadcastTyping");
         }
 
         #endregion
 
         #region Avatar
 
-        public async Task BroadcastAvatarMovementAsync(int avatarId, double x, double y, int z)
+        public async Task BroadcastAvatarMovement(int avatarId, double x, double y, int z)
         {
-            Console.WriteLine("HubService: BroadcastAvatarMovementAsync");
-            await connection.SendAsync("BroadcastAvatarMovement", avatarId, x, y, z);
+            Console.WriteLine(">>HubService: BroadcastAvatarMovementAsync");
+            await _connection.SendAsync("BroadcastAvatarMovement", avatarId, x, y, z);
         }
 
-        public async Task BroadcastAvatarActivityStatusAsync(int avatarId, int activityStatus)
+        public async Task BroadcastAvatarActivityStatus(int avatarId, int activityStatus)
         {
-            Console.WriteLine("HubService: BroadcastAvatarActivityStatusAsync");
-            await connection.SendAsync("BroadcastAvatarActivityStatus", avatarId, activityStatus);
+            Console.WriteLine(">>HubService: BroadcastAvatarActivityStatusAsync");
+            await _connection.SendAsync("BroadcastAvatarActivityStatus", avatarId, activityStatus);
         }
 
         #endregion
 
         #region Construct
 
-        public async Task BroadcastConstructAsync(Construct construct)
+        public async Task BroadcastConstruct(Construct construct)
         {
-            Console.WriteLine("HubService: BroadcastConstructAsync");
-            await connection.SendAsync("BroadcastConstruct", construct);
+            Console.WriteLine(">>HubService: BroadcastConstructAsync");
+            await _connection.SendAsync("BroadcastConstruct", construct);
         }
 
-        public async Task BroadcastConstructsAsync(Construct[] constructs)
+        public async Task BroadcastConstructs(Construct[] constructs)
         {
-            Console.WriteLine("HubService: BroadcastConstructsAsync");
-            await connection.SendAsync("BroadcastConstructs", constructs);
+            Console.WriteLine(">>HubService: BroadcastConstructsAsync");
+            await _connection.SendAsync("BroadcastConstructs", constructs);
         }
 
-        public async Task RemoveConstructAsync(int constructId)
+        public async Task RemoveConstruct(int constructId)
         {
-            Console.WriteLine("HubService: RemoveConstructAsync");
-            await connection.SendAsync("RemoveConstruct", constructId);
+            Console.WriteLine(">>HubService: RemoveConstructAsync");
+            await _connection.SendAsync("RemoveConstruct", constructId);
         }
 
-        public async Task RemoveConstructsAsync(int[] constructIds)
+        public async Task RemoveConstructs(int[] constructIds)
         {
-            Console.WriteLine("HubService: RemoveConstructsAsync");
-            await connection.SendAsync("RemoveConstructs", constructIds);
+            Console.WriteLine(">>HubService: RemoveConstructsAsync");
+            await _connection.SendAsync("RemoveConstructs", constructIds);
         }
 
-        public async Task BroadcastConstructPlacementAsync(int constructId, int z)
+        public async Task BroadcastConstructPlacement(int constructId, int z)
         {
-            Console.WriteLine("HubService: BroadcastConstructPlacementAsync");
-            await connection.SendAsync("BroadcastConstructPlacement", constructId, z);
+            Console.WriteLine(">>HubService: BroadcastConstructPlacementAsync");
+            await _connection.SendAsync("BroadcastConstructPlacement", constructId, z);
         }
 
-        public async Task BroadcastConstructRotationAsync(int constructId, float rotation)
+        public async Task BroadcastConstructRotation(int constructId, float rotation)
         {
-            Console.WriteLine("HubService: BroadcastConstructRotationAsync");
-            await connection.SendAsync("BroadcastConstructRotation", constructId, rotation);
+            Console.WriteLine(">>HubService: BroadcastConstructRotationAsync");
+            await _connection.SendAsync("BroadcastConstructRotation", constructId, rotation);
         }
 
-        public async Task BroadcastConstructRotationsAsync(ConcurrentDictionary<int, float> constructIds)
+        public async Task BroadcastConstructRotations(ConcurrentDictionary<int, float> constructIds)
         {
-            Console.WriteLine("HubService: BroadcastConstructRotationsAsync");
-            await connection.SendAsync("BroadcastConstructRotations", constructIds);
+            Console.WriteLine(">>HubService: BroadcastConstructRotationsAsync");
+            await _connection.SendAsync("BroadcastConstructRotations", constructIds);
         }
 
-        public async Task BroadcastConstructScaleAsync(int constructId, float scale)
+        public async Task BroadcastConstructScale(int constructId, float scale)
         {
-            Console.WriteLine("HubService: BroadcastConstructScaleAsync");
-            await connection.SendAsync("BroadcastConstructScale", constructId, scale);
+            Console.WriteLine(">>HubService: BroadcastConstructScaleAsync");
+            await _connection.SendAsync("BroadcastConstructScale", constructId, scale);
         }
 
-        public async Task BroadcastConstructScalesAsync(int[] constructIds, float scale)
+        public async Task BroadcastConstructScales(int[] constructIds, float scale)
         {
-            Console.WriteLine("HubService: BroadcastConstructScalesAsync");
-            await connection.SendAsync("BroadcastConstructScales", constructIds, scale);
+            Console.WriteLine(">>HubService: BroadcastConstructScalesAsync");
+            await _connection.SendAsync("BroadcastConstructScales", constructIds, scale);
         }
 
-        public async Task BroadcastConstructMovementAsync(int constructId, double x, double y, int z)
+        public async Task BroadcastConstructMovement(int constructId, double x, double y, int z)
         {
-            Console.WriteLine("HubService: BroadcastConstructMovementAsync");
-            await connection.SendAsync("BroadcastConstructMovement", constructId, x, y, z);
+            Console.WriteLine(">>HubService: BroadcastConstructMovementAsync");
+            await _connection.SendAsync("BroadcastConstructMovement", constructId, x, y, z);
         }
 
         #endregion

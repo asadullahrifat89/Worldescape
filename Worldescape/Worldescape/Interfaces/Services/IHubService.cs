@@ -58,57 +58,57 @@ namespace Worldescape.Contracts.Services
 
         #region Session
 
-        Task<HubLoginResponse> LoginAsync(Avatar avatar);
+        Task<HubLoginResponse> Login(Avatar avatar);
 
-        Task LogoutAsync();
+        Task Logout();
 
         #endregion
 
         #region Texting
 
-        Task SendBroadcastMessageAsync(string msg);
+        Task SendBroadcastMessage(string msg);
 
-        Task SendBroadcastMessageAsync(byte[] img);
+        Task SendBroadcastMessage(byte[] img);
 
-        Task SendUnicastMessageAsync(int recepientId, string msg);
+        Task SendUnicastMessage(int recepientId, string msg);
 
-        Task SendUnicastMessageAsync(int recepientId, byte[] img);
+        Task SendUnicastMessage(int recepientId, byte[] img);
 
-        Task TypingAsync(int recepientId);
+        Task Typing(int recepientId);
 
-        Task BroadcastTypingAsync();
+        Task BroadcastTyping();
 
         #endregion
 
         #region Avatar
 
-        Task BroadcastAvatarMovementAsync(int avatarId, double x, double y, int z);
+        Task BroadcastAvatarMovement(int avatarId, double x, double y, int z);
 
-        Task BroadcastAvatarActivityStatusAsync(int avatarId, int activityStatus);
+        Task BroadcastAvatarActivityStatus(int avatarId, int activityStatus);
 
         #endregion
 
         #region Construct
 
-        Task BroadcastConstructAsync(Construct construct);
+        Task BroadcastConstruct(Construct construct);
 
-        Task BroadcastConstructsAsync(Construct[] constructs);
+        Task BroadcastConstructs(Construct[] constructs);
 
-        Task RemoveConstructAsync(int constructId);
+        Task RemoveConstruct(int constructId);
 
-        Task RemoveConstructsAsync(int[] constructIds);
+        Task RemoveConstructs(int[] constructIds);
 
-        Task BroadcastConstructPlacementAsync(int constructId, int z);
+        Task BroadcastConstructPlacement(int constructId, int z);
 
-        Task BroadcastConstructRotationAsync(int constructId, float rotation);
+        Task BroadcastConstructRotation(int constructId, float rotation);
 
-        Task BroadcastConstructRotationsAsync(ConcurrentDictionary<int, float> constructIds);
+        Task BroadcastConstructRotations(ConcurrentDictionary<int, float> constructIds);
 
-        Task BroadcastConstructScaleAsync(int constructId, float scale);
+        Task BroadcastConstructScale(int constructId, float scale);
 
-        Task BroadcastConstructScalesAsync(int[] constructIds, float scale);
+        Task BroadcastConstructScales(int[] constructIds, float scale);
 
-        Task BroadcastConstructMovementAsync(int constructId, double x, double y, int z);
+        Task BroadcastConstructMovement(int constructId, double x, double y, int z);
 
         #endregion
     }

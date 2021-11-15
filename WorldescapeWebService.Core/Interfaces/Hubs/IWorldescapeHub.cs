@@ -7,11 +7,12 @@ namespace WorldescapeWebService.Core.Contracts.Services;
 public interface IWorldescapeHub
 {
     #region Session
+       
+    Task AvatarLogin(Avatar avatar);
+    Task AvatarLogout(int senderId);
 
     Task AvatarDisconnection(int senderId);
     Task AvatarReconnection(int senderId);
-    Task AvatarLogin(Avatar client);
-    Task AvatarLogout(int senderId);
 
     #endregion
 

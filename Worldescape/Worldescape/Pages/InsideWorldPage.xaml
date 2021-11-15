@@ -24,6 +24,8 @@
             <!--  Top bar buttons  -->
             <StackPanel x:Name="TopButtonHolder" Orientation="Horizontal">
 
+                <ContentControl x:Name="AvatarImageHolder" />
+
                 <Button
                     x:Name="ConnectButton"
                     Height="50"
@@ -145,20 +147,11 @@
             </StackPanel>
 
             <!--  Top bar statuses  -->
-            <StackPanel Grid.Column="1">
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
 
-                <!--<ContentControl x:Name="UserImageHolder" />-->
 
-                <TextBlock x:Name="AvatarIdHolder" />
 
-                <TextBlock
-                    Margin="10"
-                    VerticalAlignment="Center"
-                    FontSize="20"
-                    FontWeight="Bold">
-                    <Run Text="Avatars: " />
-                    <Run x:Name="ParticipantsCount" />
-                </TextBlock>
+                <!--<TextBlock x:Name="AvatarIdHolder" />-->
 
             </StackPanel>
 
@@ -181,6 +174,17 @@
                 PointerPressed="Canvas_root_PointerPressed" />
 
         </ScrollViewer>
+
+        <TextBlock
+            Grid.Row="1"
+            Margin="20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            FontSize="20"
+            FontWeight="Bold">
+            <Run Text="Avatars: " />
+            <Run x:Name="ParticipantsCount" />
+        </TextBlock>
 
     </Grid>
 </Page>
