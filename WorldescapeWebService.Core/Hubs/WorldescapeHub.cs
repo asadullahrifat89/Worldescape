@@ -526,26 +526,25 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
     private void AddOrUpdateConstructInConstructs(Construct construct)
     {
-        if (!OnlineConstructs.ContainsKey(construct.Id))
+        if (OnlineConstructs.ContainsKey(construct.Id))
         {
-            OnlineConstructs.TryAdd(key: construct.Id, value: construct);
+            OnlineConstructs.TryRemove(new KeyValuePair<int, Construct>(key: construct.Id, value: construct));            
         }
-        else
-        {
-            OnlineConstructs.TryUpdate(key: construct.Id, newValue: construct, comparisonValue: OnlineConstructs[construct.Id]);
-        }
+
+        OnlineConstructs.TryAdd(key: construct.Id, value: construct);
     }
 
     private void UpdateConstructMovementInConstructs(int constructId, double x, double y, int z)
     {
         if (OnlineConstructs.ContainsKey(constructId))
         {
-            var conUpdated = OnlineConstructs[constructId];
-            conUpdated.Coordinate.X = x;
-            conUpdated.Coordinate.Y = y;
-            conUpdated.Coordinate.Z = z;
+            var construct = OnlineConstructs[constructId];
 
-            OnlineConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: OnlineConstructs[constructId]);
+            construct.Coordinate.X = x;
+            construct.Coordinate.Y = y;
+            construct.Coordinate.Z = z;
+
+            OnlineConstructs.TryUpdate(key: constructId, newValue: construct, comparisonValue: OnlineConstructs[constructId]);
         }
     }
 

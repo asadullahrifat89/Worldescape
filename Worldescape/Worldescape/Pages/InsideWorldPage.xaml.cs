@@ -1330,6 +1330,10 @@ namespace Worldescape
                     taggedConstruct.Coordinate.Z = (int)gotoZ;
                     Canvas.SetZIndex(uIElement, (int)gotoZ);
                 }
+                else
+                {
+                    taggedConstruct.Coordinate.Z = Canvas.GetZIndex(uIElement);
+                }
 
                 taggedObject = taggedConstruct;
             }
@@ -1342,6 +1346,10 @@ namespace Worldescape
                 {
                     taggedAvatar.Coordinate.Z = (int)gotoZ;
                     Canvas.SetZIndex(uIElement, (int)gotoZ);
+                }
+                else
+                {
+                    taggedAvatar.Coordinate.Z = Canvas.GetZIndex(uIElement);
                 }
 
                 taggedObject = taggedAvatar;
