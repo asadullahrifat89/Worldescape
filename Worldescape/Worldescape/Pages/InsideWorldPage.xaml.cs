@@ -109,6 +109,7 @@ namespace Worldescape.Pages
         {
             InWorld = new InWorld() { Id = 1, Name = "Test World" };
             User = new User() { Id = UidGenerator.New(), Name = "Test User" };
+
             Avatar = new Avatar()
             {
                 Id = UidGenerator.New(),
@@ -239,18 +240,18 @@ namespace Worldescape.Pages
 
         private void HubService_NewBroadcastConstruct(Construct obj)
         {
-            var constructBtn = GenerateConstructButton(obj.Name, obj.ImageUrl, obj.Id);
+            var constructBtn = GenerateConstructButton(
+                name: obj.Name,
+                imageUrl: obj.ImageUrl,
+                constructId: obj.Id,
+                inWorld: obj.World,
+                creator: obj.Creator);
 
             AddConstructOnCanvas(
                 construct: constructBtn,
                 x: obj.Coordinate.X,
                 y: obj.Coordinate.Y,
                 z: obj.Coordinate.Z);
-
-            //if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == obj.Id) is UIElement iElement)
-            //{
-
-            //}
         }
         #endregion
 
@@ -481,10 +482,12 @@ namespace Worldescape.Pages
                                 }
                                 else // insert new constructs
                                 {
-                                    Button constructBtn = GenerateConstructButton(
+                                    var constructBtn = GenerateConstructButton(
                                       name: construct.Name,
                                       imageUrl: construct.ImageUrl,
-                                      constructId: construct.Id);
+                                      constructId: construct.Id,
+                                      inWorld: construct.World,
+                                      creator:construct.Creator);
 
                                     AddConstructOnCanvas(
                                         construct: constructBtn,
@@ -544,7 +547,7 @@ namespace Worldescape.Pages
 
                 if (constructAsset != null)
                 {
-                    Button constructBtn = GenerateConstructButton(
+                    var constructBtn = GenerateConstructButton(
                         name: constructAsset.Name,
                         imageUrl: constructAsset.ImageUrl);
 
@@ -602,7 +605,7 @@ namespace Worldescape.Pages
 
                 if (constructAsset != null)
                 {
-                    Button constructBtn = GenerateConstructButton(
+                    var constructBtn = GenerateConstructButton(
                         name: constructAsset.Name,
                         imageUrl: constructAsset.ImageUrl);
 
@@ -641,7 +644,7 @@ namespace Worldescape.Pages
             else
             {
                 // Move avatar
-                if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x=> x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
+                if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
                 {
                     var taggedObject = MoveElement(iElement, e);
 
@@ -769,7 +772,7 @@ namespace Worldescape.Pages
                 constructCategories: ConstructCategories,
                 assetSelected: (constructAsset) =>
                 {
-                    Button constructBtn = GenerateConstructButton(
+                    var constructBtn = GenerateConstructButton(
                         name: constructAsset.Name,
                         imageUrl: constructAsset.ImageUrl);
 
@@ -979,12 +982,12 @@ namespace Worldescape.Pages
         }
 
         /// <summary>
-        /// Generate a new button from the provided construct. If constructId is not provided then new id is generated.
+        /// Generate a new button from the provided construct. If constructId is not provided then new id is generated. If inWorld, creator are not provided then current world and user are tagged.
         /// </summary>
         /// <param name="construct"></param>
         /// <param name="constructId"></param>
         /// <returns></returns>
-        private Button GenerateConstructButton(string name, string imageUrl, int? constructId = null)
+        private Button GenerateConstructButton(string name, string imageUrl, int? constructId = null, InWorld inWorld = null, Creator creator = null)
         {
             var uri = imageUrl;
 
@@ -1007,8 +1010,8 @@ namespace Worldescape.Pages
                     Id = id,
                     Name = name,
                     ImageUrl = uri,
-                    Creator = new Creator() { },
-                    World = new InWorld() { }
+                    Creator = creator ?? new Creator() { Id = User.Id, Name = User.Name },
+                    World = inWorld ?? new InWorld() { Id = InWorld.Id, Name = InWorld.Name }
                 }
             };
 
