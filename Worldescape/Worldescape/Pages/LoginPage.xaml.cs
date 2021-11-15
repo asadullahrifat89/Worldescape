@@ -8,7 +8,7 @@ namespace Worldescape.Pages
 
         public LoginPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void Button_Login_Click(object sender, RoutedEventArgs e)

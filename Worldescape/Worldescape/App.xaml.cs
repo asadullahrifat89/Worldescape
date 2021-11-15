@@ -19,9 +19,9 @@ namespace Worldescape
 
         public App()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.Startup += App_Startup;
+            Startup += App_Startup;
             
             ServiceCollection services = new ServiceCollection();
             ConfigureServices(services);
@@ -36,7 +36,7 @@ namespace Worldescape
 
         private void App_Startup(object sender, StartupEventArgs e)
         {
-            this.UnhandledException += App_UnhandledException;
+            UnhandledException += App_UnhandledException;
         }
 
         private void ConfigureServices(ServiceCollection services)

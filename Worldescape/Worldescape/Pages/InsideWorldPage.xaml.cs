@@ -63,7 +63,14 @@ namespace Worldescape.Pages
             "ms-appx:///Images/World_Objects/Prototype/block_W.png",
         };
 
-        string avatarUrl = "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png";
+        string[] avatarUrls = new string[]
+        {
+            "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png",
+            "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png",
+            "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_idle.png",
+            "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_idle.png",
+            "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femaleAdventurer_idle.png",
+        };
 
         List<ConstructAsset> ConstructAssets = new List<ConstructAsset>();
 
@@ -87,7 +94,7 @@ namespace Worldescape.Pages
 
         public InsideWorldPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             DemoWorld();
 
@@ -122,8 +129,8 @@ namespace Worldescape.Pages
                     ImageUrl = Character.ImageUrl,
                 },
                 World = InWorld,
-                Coordinate = new Coordinate(new Random().Next(1000), new Random().Next(1000), new Random().Next(1000)),
-                ImageUrl = avatarUrl,
+                Coordinate = new Coordinate(new Random().Next(500), new Random().Next(500), new Random().Next(500)),
+                ImageUrl = avatarUrls[new Random().Next(avatarUrls.Count())],
             };
         }
 
@@ -524,8 +531,8 @@ namespace Worldescape.Pages
             {
                 var construct = AddConstructOnCanvas(
                     construct: _addingConstruct,
-                    x: e.GetCurrentPoint(this.Canvas_root).Position.X,
-                    y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
+                    x: e.GetCurrentPoint(Canvas_root).Position.X,
+                    y: e.GetCurrentPoint(Canvas_root).Position.Y);
 
                 _addingConstruct = null;
 
@@ -543,8 +550,8 @@ namespace Worldescape.Pages
 
                     var construct = AddConstructOnCanvas(
                         construct: constructBtn,
-                        x: e.GetCurrentPoint(this.Canvas_root).Position.X,
-                        y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
+                        x: e.GetCurrentPoint(Canvas_root).Position.X,
+                        y: e.GetCurrentPoint(Canvas_root).Position.Y);
 
                     await HubService.BroadcastConstructAsync(construct);
                 }
@@ -582,8 +589,8 @@ namespace Worldescape.Pages
             {
                 var construct = AddConstructOnCanvas(
                     construct: _addingConstruct,
-                    x: e.GetCurrentPoint(this.Canvas_root).Position.X,
-                    y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
+                    x: e.GetCurrentPoint(Canvas_root).Position.X,
+                    y: e.GetCurrentPoint(Canvas_root).Position.Y);
 
                 _addingConstruct = null;
 
@@ -601,8 +608,8 @@ namespace Worldescape.Pages
 
                     var construct = AddConstructOnCanvas(
                         construct: constructBtn,
-                        x: e.GetCurrentPoint(this.Canvas_root).Position.X,
-                        y: e.GetCurrentPoint(this.Canvas_root).Position.Y);
+                        x: e.GetCurrentPoint(Canvas_root).Position.X,
+                        y: e.GetCurrentPoint(Canvas_root).Position.Y);
 
                     await HubService.BroadcastConstructAsync(construct);
                 }
@@ -624,8 +631,8 @@ namespace Worldescape.Pages
                 _objectTop = Canvas.GetTop(uielement);
 
                 // Remember the pointer position:
-                _pointerX = e.GetCurrentPoint(this.Canvas_root).Position.X;
-                _pointerY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
+                _pointerX = e.GetCurrentPoint(Canvas_root).Position.X;
+                _pointerY = e.GetCurrentPoint(Canvas_root).Position.Y;
 
                 uielement.CapturePointer(e.Pointer);
 
@@ -634,11 +641,14 @@ namespace Worldescape.Pages
             else
             {
                 // Move avatar
-                var taggedObject = MoveElement(_avatar, e);
+                if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x=> x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
+                {
+                    var taggedObject = MoveElement(iElement, e);
 
-                var avatar = taggedObject as Avatar;
+                    var movedAvatar = taggedObject as Avatar;
 
-                await HubService.BroadcastAvatarMovementAsync(new BroadcastAvatarMovementRequest() { AvatarId = avatar.Id, Coordinate = new Coordinate() { X = avatar.Coordinate.X, Y = avatar.Coordinate.Y } });
+                    await HubService.BroadcastAvatarMovementAsync(new BroadcastAvatarMovementRequest() { AvatarId = movedAvatar.Id, Coordinate = new Coordinate() { X = movedAvatar.Coordinate.X, Y = movedAvatar.Coordinate.Y } });
+                }
             }
         }
 
@@ -656,8 +666,8 @@ namespace Worldescape.Pages
                 if (_isPointerCaptured)
                 {
                     // Calculate the new position of the object:
-                    double deltaH = e.GetCurrentPoint(this.Canvas_root).Position.X - _pointerX;
-                    double deltaV = e.GetCurrentPoint(this.Canvas_root).Position.Y - _pointerY;
+                    double deltaH = e.GetCurrentPoint(Canvas_root).Position.X - _pointerX;
+                    double deltaV = e.GetCurrentPoint(Canvas_root).Position.Y - _pointerY;
 
                     _objectLeft = deltaH + _objectLeft;
                     _objectTop = deltaV + _objectTop;
@@ -667,8 +677,8 @@ namespace Worldescape.Pages
                     Canvas.SetTop(uielement, _objectTop);
 
                     // Remember the pointer position:
-                    _pointerX = e.GetCurrentPoint(this.Canvas_root).Position.X;
-                    _pointerY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
+                    _pointerX = e.GetCurrentPoint(Canvas_root).Position.X;
+                    _pointerY = e.GetCurrentPoint(Canvas_root).Position.Y;
                 }
             }
         }
@@ -716,20 +726,20 @@ namespace Worldescape.Pages
         private void CraftButton_Click(object sender, RoutedEventArgs e)
         {
             _isCraftingConstruct = !_isCraftingConstruct;
-            this.CraftButton.Content = _isCraftingConstruct ? "Crafting" : "Craft";
+            CraftButton.Content = _isCraftingConstruct ? "Crafting" : "Craft";
 
             _isMovingConstruct = false;
-            this.ConstructMoveButton.Content = "Move";
+            ConstructMoveButton.Content = "Move";
 
             _isCloningConstruct = false;
-            this.ConstructCloneButton.Content = "Clone";
+            ConstructCloneButton.Content = "Clone";
 
             //_isDeleting = false;
-            this.ConstructDeleteButton.Content = "Delete";
+            ConstructDeleteButton.Content = "Delete";
 
             if (!_isCraftingConstruct)
             {
-                this.ConstructsAddButton.Visibility = Visibility.Collapsed;
+                ConstructsAddButton.Visibility = Visibility.Collapsed;
 
                 HideConstructOperationButtons();
 
@@ -741,7 +751,7 @@ namespace Worldescape.Pages
             }
             else
             {
-                this.ConstructsAddButton.Visibility = Visibility.Visible;
+                ConstructsAddButton.Visibility = Visibility.Visible;
                 //this.ConstructDeleteButton.Visibility = Visibility.Visible;
             }
         }
@@ -932,7 +942,7 @@ namespace Worldescape.Pages
             Canvas.SetTop(avatarBtn, avatar.Coordinate.Y);
             Canvas.SetZIndex(avatarBtn, avatar.Coordinate.Z);
 
-            this.Canvas_root.Children.Add(avatarBtn);
+            Canvas_root.Children.Add(avatarBtn);
             _avatar = avatarBtn;
         }
 
@@ -1033,11 +1043,11 @@ namespace Worldescape.Pages
         /// </summary>
         private void ShowConstructOperationButtons()
         {
-            this.ConstructMoveButton.Visibility = Visibility.Visible;
-            this.ConstructCloneButton.Visibility = Visibility.Visible;
-            this.ConstructDeleteButton.Visibility = Visibility.Visible;
-            this.ConstructBringForwardButton.Visibility = Visibility.Visible;
-            this.ConstructSendBackwardButton.Visibility = Visibility.Visible;
+            ConstructMoveButton.Visibility = Visibility.Visible;
+            ConstructCloneButton.Visibility = Visibility.Visible;
+            ConstructDeleteButton.Visibility = Visibility.Visible;
+            ConstructBringForwardButton.Visibility = Visibility.Visible;
+            ConstructSendBackwardButton.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -1045,11 +1055,11 @@ namespace Worldescape.Pages
         /// </summary>
         private void HideConstructOperationButtons()
         {
-            this.ConstructMoveButton.Visibility = Visibility.Collapsed;
-            this.ConstructCloneButton.Visibility = Visibility.Collapsed;
-            this.ConstructDeleteButton.Visibility = Visibility.Collapsed;
-            this.ConstructBringForwardButton.Visibility = Visibility.Collapsed;
-            this.ConstructSendBackwardButton.Visibility = Visibility.Collapsed;
+            ConstructMoveButton.Visibility = Visibility.Collapsed;
+            ConstructCloneButton.Visibility = Visibility.Collapsed;
+            ConstructDeleteButton.Visibility = Visibility.Collapsed;
+            ConstructBringForwardButton.Visibility = Visibility.Collapsed;
+            ConstructSendBackwardButton.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -1061,8 +1071,8 @@ namespace Worldescape.Pages
         /// <returns></returns>
         private object MoveElement(UIElement uIElement, PointerRoutedEventArgs e)
         {
-            var goToX = e.GetCurrentPoint(this.Canvas_root).Position.X;
-            var goToY = e.GetCurrentPoint(this.Canvas_root).Position.Y;
+            var goToX = e.GetCurrentPoint(Canvas_root).Position.X;
+            var goToY = e.GetCurrentPoint(Canvas_root).Position.Y;
 
             var taggedObject = MoveElement(uIElement, goToX, goToY);
 

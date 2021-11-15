@@ -222,7 +222,7 @@ namespace Worldescape.Internals
         private void ButtonConstructAsset_Click(object sender, RoutedEventArgs e)
         {
             _assetSelected?.Invoke(((Button)sender).Tag as ConstructAsset);
-            this.Close();
+            Close();
         }
     }
 }

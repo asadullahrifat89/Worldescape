@@ -7,7 +7,7 @@ namespace Worldescape.Pages
     {
         public SignupPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void Button_Signup_Click(object sender, RoutedEventArgs e)

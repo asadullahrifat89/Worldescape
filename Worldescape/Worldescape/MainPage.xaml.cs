@@ -13,7 +13,7 @@ namespace Worldescape
 
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #region Methods
