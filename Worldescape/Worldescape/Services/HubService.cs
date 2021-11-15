@@ -10,7 +10,7 @@ using Worldescape.Shared.Requests;
 
 namespace Worldescape.Services
 {
-    public class WorldescapeHubService : IWorldescapeHubService
+    public class HubService : IHubService
     {
         #region Fields
 
@@ -52,7 +52,7 @@ namespace Worldescape.Services
 
         #region Ctor
 
-        public WorldescapeHubService()
+        public HubService()
         {
 #if DEBUG
             var url = Properties.Resources.DevHubService;

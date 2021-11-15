@@ -91,7 +91,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
     #region Session
 
-    public Tuple<Avatar[], Construct[]> Login(Avatar avatar) // Get a list of online avatars and constructs
+    public Tuple<Avatar[], Construct[]> Login(Avatar avatar)
     {
         // If an existing avatar doesn't exist
         if (!OnlineAvatars.Any(x => x.Value.Id == avatar.Id))

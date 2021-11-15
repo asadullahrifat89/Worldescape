@@ -45,7 +45,7 @@ namespace Worldescape
             services.AddHttpService();
 
             // Core Services
-            services.AddSingleton<IWorldescapeHubService, WorldescapeHubService>();
+            services.AddSingleton<IHubService, HubService>();
 
             // Pages
             services.AddSingleton<MainPage>();

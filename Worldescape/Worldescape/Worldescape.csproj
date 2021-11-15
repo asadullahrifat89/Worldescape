@@ -89,8 +89,8 @@
 
 	<ItemGroup>
 		<Compile Include="App.xaml.cs" />
-		<Compile Include="Contracts\Services\IHttpService.cs" />
-		<Compile Include="Contracts\Services\IWorldescapeHubService.cs" />
+		<Compile Include="Interfaces\Services\IHttpService.cs" />
+		<Compile Include="Interfaces\Services\IHubService.cs" />
 		<Compile Include="Extensions\HttpServiceExtensions.cs" />
 		<Compile Include="Internals\ConstructAssetPicker.cs" />
 		<Compile Include="Internals\MasonryPanel.cs" />
@@ -107,7 +107,7 @@
 		  <DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
 		<Compile Include="Services\HttpService.cs" />
-		<Compile Include="Services\WorldescapeHubService.cs" />
+		<Compile Include="Services\HubService.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\AccentColorConverter.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\DoubleToCornerRadiusConverter.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\TextToPlaceholderTextVisibilityConverter.cs" />

@@ -7,7 +7,7 @@ using Worldescape.Shared.Requests;
 
 namespace Worldescape.Contracts.Services
 {
-    public interface IWorldescapeHubService
+    public interface IHubService
     {
         #region Fields
 

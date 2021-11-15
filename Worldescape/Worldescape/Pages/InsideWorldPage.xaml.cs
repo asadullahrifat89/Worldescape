@@ -76,7 +76,7 @@ namespace Worldescape.Pages
 
         List<ConstructCategory> ConstructCategories = new List<ConstructCategory>();
 
-        IWorldescapeHubService HubService;
+        IHubService HubService;
 
         InWorld InWorld = new InWorld();
 
@@ -98,7 +98,7 @@ namespace Worldescape.Pages
 
             DemoWorld();
 
-            HubService = App.ServiceProvider.GetService(typeof(IWorldescapeHubService)) as IWorldescapeHubService;
+            HubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
 
             ListenOnHubService();
 
