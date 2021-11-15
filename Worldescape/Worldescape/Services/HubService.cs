@@ -56,6 +56,7 @@ namespace Worldescape.Services
         {
 #if DEBUG
             var url = Properties.Resources.DevHubService;
+            //var url = Properties.Resources.ProdHubService;
 #else
             var url = Properties.Resources.ProdHubService;
 #endif

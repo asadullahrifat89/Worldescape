@@ -101,16 +101,16 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             // Delete inactive avatars who have remained inactive for more than a minute
             var concurrentAvatars = OnlineAvatars.Values.Where(x => x.World.Id == avatar.World.Id && x.Session != null && x.Session.DisconnectionTime != minValue);
 
-            foreach (var inAvatar in concurrentAvatars)
-            {
-                TimeSpan diff = DateTime.Now - inAvatar.Session.DisconnectionTime;
+            //foreach (var inAvatar in concurrentAvatars)
+            //{
+            //    TimeSpan diff = DateTime.Now - inAvatar.Session.DisconnectionTime;
 
-                if (diff.TotalMinutes >= TimeSpan.FromMinutes(1).TotalMinutes)
-                {
-                    string connectionId = GetUserConnectionId(avatar.Id);
-                    OnlineAvatars.TryRemove(connectionId, out Avatar removed);
-                }
-            }
+            //    if (diff.TotalMinutes >= TimeSpan.FromMinutes(1).TotalMinutes)
+            //    {
+            //        string connectionId = GetUserConnectionId(avatar.Id);
+            //        OnlineAvatars.TryRemove(connectionId, out Avatar removed);
+            //    }
+            //}
 
             avatar.Session = new UserSession() { ReconnectionTime = DateTime.UtcNow };
             avatar.ConnectionId = Context.ConnectionId;
