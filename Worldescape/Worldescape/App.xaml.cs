@@ -50,6 +50,10 @@ namespace Worldescape
 
         private void App_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
+
+#if DEBUG
+            MessageBox.Show(e.ExceptionObject.ToString());
+#else
             Console.WriteLine(e.ExceptionObject.Message);
 
             var mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
@@ -58,6 +62,7 @@ namespace Worldescape
                 mainPage.LogError(e.ExceptionObject);
             }
             e.Handled = true;
+#endif
         }
     }
 }

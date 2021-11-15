@@ -12593,9 +12593,9 @@
     <value>http://localhost:5034</value>
   </data>
   <data name="ProdHubService" xml:space="preserve">
-    <value>https://localhost:9899/WorldescapeHub</value>
+    <value>http://localhost:9899/WorldescapeHub</value>
   </data>
   <data name="ProdWebService" xml:space="preserve">
-    <value>https://localhost:9899</value>
+    <value>http://localhost:9899</value>
   </data>
 </root>

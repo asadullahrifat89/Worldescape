@@ -1135,10 +1135,30 @@ namespace Worldescape
             Canvas.SetLeft(construct, x);
             Canvas.SetTop(construct, y);
 
+            int indexZ = 9;
+
             if (z.HasValue)
             {
-                Canvas.SetZIndex(construct, (int)z);
+                indexZ = z.Value;
             }
+            else
+            {
+                // If Z index is not proved then assign max Z index to this construct button
+                if (Canvas_root.Children != null && Canvas_root.Children.Any())
+                {
+                    if (Canvas_root.Children.Any(x => x is Button button && button.Tag is Construct))
+                    {
+                        var lastConstruct = ((Button)Canvas_root.Children.Where(x => x is Button button && button.Tag is Construct).LastOrDefault()).Tag as Construct;
+
+                        if (lastConstruct != null)
+                        {
+                            indexZ = lastConstruct.Coordinate.Z + 1;
+                        }
+                    }
+                }
+            }
+
+            Canvas.SetZIndex(construct, indexZ);
 
             Canvas_root.Children.Add(construct);
 
@@ -1146,11 +1166,7 @@ namespace Worldescape
 
             taggedConstruct.Coordinate.X = x;
             taggedConstruct.Coordinate.Y = y;
-
-            if (z.HasValue)
-            {
-                taggedConstruct.Coordinate.Z = (int)z;
-            }
+            taggedConstruct.Coordinate.Z = indexZ;
 
             return taggedConstruct;
         }
