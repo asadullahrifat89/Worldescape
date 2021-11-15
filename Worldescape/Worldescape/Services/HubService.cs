@@ -61,7 +61,7 @@ namespace Worldescape.Services
 #else
             var url = Properties.Resources.ProdHubService;
 #endif
-            connection = new HubConnectionBuilder().WithUrl(url)/*.WithAutomaticReconnect(new TimeSpan[] { new TimeSpan(0, 0, 2) })*/.Build();
+            connection = new HubConnectionBuilder().WithUrl(url).WithAutomaticReconnect().Build();
 
             connection.On<Avatar>("AvatarLogin", (u) => AvatarLoggedIn?.Invoke(u));
             connection.On<int>("AvatarLogout", (n) => AvatarLoggedOut?.Invoke(n));

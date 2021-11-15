@@ -399,8 +399,7 @@ namespace Worldescape.Pages
         private async void HubService_ConnectionClosed()
         {
             Console.WriteLine("HubService_ConnectionClosed");
-
-            //IsConnected = false;
+                        
             IsLoggedIn = false;
 
             if (await TryConnect())
