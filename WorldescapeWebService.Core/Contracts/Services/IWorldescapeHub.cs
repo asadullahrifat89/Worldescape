@@ -28,8 +28,8 @@ public interface IWorldescapeHub
 
     #region Avatar
 
-    Task BroadcastAvatarMovement(BroadcastAvatarMovementRequest @event);
-    Task BroadcastAvatarActivityStatus(BroadcastAvatarActivityStatusRequest @event);
+    Task BroadcastAvatarMovement(int avatarId, double x, double y, int z);
+    Task BroadcastAvatarActivityStatus(int avatarId, int activityStatus);
 
     #endregion
 

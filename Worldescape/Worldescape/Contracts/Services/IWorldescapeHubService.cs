@@ -28,8 +28,8 @@ namespace Worldescape.Contracts.Services
         event Action<int, MessageType> AvatarTyping;
 
         // Avatar
-        event Action<BroadcastAvatarMovementRequest> NewBroadcastAvatarMovement;
-        event Action<BroadcastAvatarActivityStatusRequest> NewBroadcastAvatarActivityStatus;
+        event Action<int, double, double, int> NewBroadcastAvatarMovement;
+        event Action<int, int> NewBroadcastAvatarActivityStatus;
 
         // Construct
         event Action<Construct> NewBroadcastConstruct;
@@ -79,9 +79,9 @@ namespace Worldescape.Contracts.Services
 
         #region Avatar
 
-        Task BroadcastAvatarMovementAsync(BroadcastAvatarMovementRequest @event);
+        Task BroadcastAvatarMovementAsync(int avatarId, double x, double y, int z);
 
-        Task BroadcastAvatarActivityStatusAsync(BroadcastAvatarActivityStatusRequest @event);
+        Task BroadcastAvatarActivityStatusAsync(int avatarId, int activityStatus);
 
         #endregion
 

@@ -14,7 +14,7 @@ namespace Worldescape.Services
     {
         #region Fields
 
-        private HubConnection connection;        
+        private HubConnection connection;
 
         // Connection
         public event Action<int> AvatarDisconnected;
@@ -33,8 +33,8 @@ namespace Worldescape.Services
         public event Action<int, MessageType> AvatarTyping;
 
         // Avatar
-        public event Action<BroadcastAvatarMovementRequest> NewBroadcastAvatarMovement;
-        public event Action<BroadcastAvatarActivityStatusRequest> NewBroadcastAvatarActivityStatus;
+        public event Action<int, double, double, int> NewBroadcastAvatarMovement;
+        public event Action<int, int> NewBroadcastAvatarActivityStatus;
 
         // Construct
         public event Action<Construct> NewBroadcastConstruct;
@@ -73,8 +73,8 @@ namespace Worldescape.Services
             connection.On<int>("AvatarBroadcastTyping", (p) => AvatarTyping?.Invoke(p, MessageType.Broadcast));
 
             // Avatar
-            connection.On<BroadcastAvatarMovementRequest>("BroadcastAvatarMovement", (n) => NewBroadcastAvatarMovement?.Invoke(n));
-            connection.On<BroadcastAvatarActivityStatusRequest>("BroadcastAvatarActivityStatus", (n) => NewBroadcastAvatarActivityStatus?.Invoke(n));
+            connection.On<int, double, double, int>("BroadcastAvatarMovement", (avatarId, x, y, z) => NewBroadcastAvatarMovement?.Invoke(avatarId, x, y, z));
+            connection.On<int, int>("BroadcastAvatarActivityStatus", (avatarId, activityStatus) => NewBroadcastAvatarActivityStatus?.Invoke(avatarId, activityStatus));
 
             // construct
             connection.On<Construct>("BroadcastConstruct", (construct) => NewBroadcastConstruct?.Invoke(construct));
@@ -178,14 +178,14 @@ namespace Worldescape.Services
 
         #region Avatar
 
-        public async Task BroadcastAvatarMovementAsync(BroadcastAvatarMovementRequest request)
+        public async Task BroadcastAvatarMovementAsync(int avatarId, double x, double y, int z)
         {
-            await connection.SendAsync("BroadcastAvatarMovement", request);
+            await connection.SendAsync("BroadcastAvatarMovement", avatarId, x, y, z);
         }
 
-        public async Task BroadcastAvatarActivityStatusAsync(BroadcastAvatarActivityStatusRequest request)
+        public async Task BroadcastAvatarActivityStatusAsync(int avatarId, int activityStatus)
         {
-            await connection.SendAsync("BroadcastAvatarActivityStatus", request);
+            await connection.SendAsync("BroadcastAvatarActivityStatus", avatarId, activityStatus);
         }
 
         #endregion

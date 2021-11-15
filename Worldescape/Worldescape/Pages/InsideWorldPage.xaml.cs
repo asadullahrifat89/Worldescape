@@ -322,30 +322,30 @@ namespace Worldescape.Pages
         #endregion
 
         #region Avatar
-        private void HubService_NewBroadcastAvatarActivityStatus(BroadcastAvatarActivityStatusRequest obj)
+        private void HubService_NewBroadcastAvatarActivityStatus(int avatarId, int activityStatus)
         {
-            if (obj != null)
+            if (avatarId > 0)
             {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.AvatarId) is UIElement iElement)
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
                 {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj.AvatarId);
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
                     if (avatarMessenger != null)
-                        avatarMessenger.ActivityStatus = obj.ActivityStatus;
+                        avatarMessenger.ActivityStatus = (ActivityStatus)activityStatus;
                 }
             }
         }
 
-        private void HubService_NewBroadcastAvatarMovement(BroadcastAvatarMovementRequest obj)
+        private void HubService_NewBroadcastAvatarMovement(int avatarId, double x, double y, int z)
         {
-            if (obj != null)
+            if (avatarId > 0)
             {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.AvatarId) is UIElement iElement)
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
                 {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj.AvatarId);
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
                     if (avatarMessenger != null)
                         avatarMessenger.ActivityStatus = ActivityStatus.Online;
 
-                    MoveElement(uIElement: iElement, goToX: obj.Coordinate.X, goToY: obj.Coordinate.Y);
+                    MoveElement(uIElement: iElement, goToX: x, goToY: y);
                 }
             }
         }
@@ -487,7 +487,7 @@ namespace Worldescape.Pages
                                       imageUrl: construct.ImageUrl,
                                       constructId: construct.Id,
                                       inWorld: construct.World,
-                                      creator:construct.Creator);
+                                      creator: construct.Creator);
 
                                     AddConstructOnCanvas(
                                         construct: constructBtn,
@@ -650,7 +650,9 @@ namespace Worldescape.Pages
 
                     var movedAvatar = taggedObject as Avatar;
 
-                    await HubService.BroadcastAvatarMovementAsync(new BroadcastAvatarMovementRequest() { AvatarId = movedAvatar.Id, Coordinate = new Coordinate() { X = movedAvatar.Coordinate.X, Y = movedAvatar.Coordinate.Y } });
+                    var z = Canvas.GetZIndex(iElement);
+
+                    await HubService.BroadcastAvatarMovementAsync(avatarId: movedAvatar.Id, x: movedAvatar.Coordinate.X, y: movedAvatar.Coordinate.Y, z: z);
                 }
             }
         }
@@ -1076,6 +1078,7 @@ namespace Worldescape.Pages
         {
             var goToX = e.GetCurrentPoint(Canvas_root).Position.X;
             var goToY = e.GetCurrentPoint(Canvas_root).Position.Y;
+            //var gotoZ = Canvas.GetZIndex(uIElement);
 
             var taggedObject = MoveElement(uIElement, goToX, goToY);
 

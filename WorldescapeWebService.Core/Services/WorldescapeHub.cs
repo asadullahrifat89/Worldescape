@@ -35,9 +35,9 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
     #region Common
 
-    private static string GetUsersGroup(Avatar newUser)
+    private static string GetUsersGroup(Avatar user)
     {
-        return newUser.World.Id.ToString();
+        return user.World.Id.ToString();
     }
 
     private Avatar GetCallingUser(int userId = 0)
@@ -265,27 +265,27 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
     #region Avatar
 
-    public void BroadcastAvatarMovement(BroadcastAvatarMovementRequest request)
+    public void BroadcastAvatarMovement(int avatarId, double x, double y, int z)
     {
-        if (request.AvatarId > 0 && request.Coordinate != null)
+        if (avatarId > 0)
         {
-            Clients.OthersInGroup(GetUsersGroup(GetCallingUser(request.AvatarId))).BroadcastAvatarMovement(request);
+            Clients.OthersInGroup(GetUsersGroup(GetCallingUser(avatarId))).BroadcastAvatarMovement(avatarId, x, y, z);
 
-            UpdateAvatarMovement(request.AvatarId, request.Coordinate);
+            UpdateAvatarMovement(avatarId, x, y, z);
 
-            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {request.AvatarId} BroadcastAvatarMovement - {DateTime.Now}");
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatarId} BroadcastAvatarMovement - {DateTime.Now}");
         }
     }
 
-    public void BroadcastAvatarActivityStatus(BroadcastAvatarActivityStatusRequest request)
+    public void BroadcastAvatarActivityStatus(int avatarId, int activityStatus)
     {
-        if (request.AvatarId > 0)
+        if (avatarId > 0)
         {
-            Clients.OthersInGroup(GetUsersGroup(GetCallingUser(request.AvatarId))).BroadcastAvatarActivityStatus(request);
+            Clients.OthersInGroup(GetUsersGroup(GetCallingUser(avatarId))).BroadcastAvatarActivityStatus(avatarId, activityStatus);
 
-            UpdateAvatarActivityStatus(request.AvatarId, request.ActivityStatus);
+            UpdateAvatarActivityStatus(avatarId, activityStatus);
 
-            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {request.AvatarId} BroadcastAvatarActivityStatus - {DateTime.Now}");
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatarId} BroadcastAvatarActivityStatus - {DateTime.Now}");
         }
     }
 
@@ -439,26 +439,29 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
         }
     }
 
-    private void UpdateAvatarActivityStatus(int avatarId, ActivityStatus activityStatus)
+    private void UpdateAvatarActivityStatus(int avatarId, int activityStatus)
     {
         var connectionId = GetUserConnectionId(avatarId);
 
         if (OnlineAvatars.ContainsKey(connectionId))
         {
             var conUpdated = OnlineAvatars[connectionId];
-            conUpdated.ActivityStatus = activityStatus;
+            conUpdated.ActivityStatus = (ActivityStatus)activityStatus;
             OnlineAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: OnlineAvatars[connectionId]);
         }
     }
 
-    private void UpdateAvatarMovement(int avatarId, Coordinate coordinate)
+    private void UpdateAvatarMovement(int avatarId, double x, double y, int z)
     {
         var connectionId = GetUserConnectionId(avatarId);
 
         if (OnlineAvatars.ContainsKey(connectionId))
         {
             var conUpdated = OnlineAvatars[connectionId];
-            conUpdated.Coordinate = coordinate;
+            conUpdated.Coordinate.X = x;
+            conUpdated.Coordinate.Y = y;
+            conUpdated.Coordinate.Z = z;
+
             OnlineAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: OnlineAvatars[connectionId]);
         }
     }
