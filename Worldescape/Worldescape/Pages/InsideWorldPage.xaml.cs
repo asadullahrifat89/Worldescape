@@ -42,10 +42,8 @@ namespace Worldescape.Pages
         bool _isCloningConstruct;
         //bool _isDeleting;
 
-        //bool IsConnected;
-        bool IsLoggedIn;
-
-        //UIElement _avatar;
+        bool _isLoggedIn;
+        bool _isHubSubscribed;
 
         UIElement _selectedConstruct;
         UIElement _addingConstruct;
@@ -100,40 +98,8 @@ namespace Worldescape.Pages
 
             HubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService; // hubService;
 
-            DemoWorld();
             ListenOnHubService();
-            //TryConnectAndHubLogin();
-        }
-
-        private void DemoWorld()
-        {
-            InWorld = new InWorld() { Id = 786, Name = "Test World" };
-            User = new User() { Id = UidGenerator.New(), Name = "Test User" };
-
-            Avatar = new Avatar()
-            {
-                Id = UidGenerator.New(),
-                ActivityStatus = ActivityStatus.Online,
-                User = new AvatarUser()
-                {
-                    Email = User.Email,
-                    Id = User.Id,
-                    ImageUrl = User.ImageUrl,
-                    Name = User.Name,
-                    Phone = User.Phone,
-                    ProfilePictureUrl = User.ImageUrl
-                },
-                Character = new AvatarCharacter()
-                {
-                    Id = Character.Id,
-                    Name = Character.Name,
-                    ImageUrl = Character.ImageUrl,
-                },
-                World = InWorld,
-                Coordinate = new Coordinate(new Random().Next(100), new Random().Next(100), new Random().Next(100)),
-                ImageUrl = avatarUrls[new Random().Next(avatarUrls.Count())],
-            };
-        }
+        }       
 
         #endregion
 
@@ -143,44 +109,55 @@ namespace Worldescape.Pages
 
         private void ListenOnHubService()
         {
-            #region Connection
+            if (!_isHubSubscribed)
+            {
+                #region Connection
 
-            HubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
-            HubService.ConnectionReconnected += HubService_ConnectionReconnected;
-            HubService.ConnectionClosed += HubService_ConnectionClosed;
+                HubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
+                HubService.ConnectionReconnected += HubService_ConnectionReconnected;
+                HubService.ConnectionClosed += HubService_ConnectionClosed;
 
-            #endregion
+                #endregion
 
-            #region Avatar
+                #region Avatar
 
-            HubService.NewBroadcastAvatarMovement += HubService_NewBroadcastAvatarMovement;
-            HubService.NewBroadcastAvatarActivityStatus += HubService_NewBroadcastAvatarActivityStatus;
+                HubService.NewBroadcastAvatarMovement += HubService_NewBroadcastAvatarMovement;
+                HubService.NewBroadcastAvatarActivityStatus += HubService_NewBroadcastAvatarActivityStatus;
 
-            #endregion
+                #endregion
 
-            #region Avatar Session
+                #region Avatar Session
 
-            HubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
-            HubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
-            HubService.AvatarDisconnected += HubService_AvatarDisconnected;
-            HubService.AvatarReconnected += HubService_AvatarReconnected;
+                HubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
+                HubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
+                HubService.AvatarDisconnected += HubService_AvatarDisconnected;
+                HubService.AvatarReconnected += HubService_AvatarReconnected;
 
-            #endregion
+                #endregion
 
-            #region Construct
+                #region Construct
 
-            HubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
-            HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
-            HubService.NewRemoveConstruct += HubService_NewRemoveConstruct;
-            HubService.NewRemoveConstructs += HubService_NewRemoveConstructs;
-            HubService.NewBroadcastConstructPlacement += HubService_NewBroadcastConstructPlacement;
-            HubService.NewBroadcastConstructRotation += HubService_NewBroadcastConstructRotation;
-            HubService.NewBroadcastConstructRotations += HubService_NewBroadcastConstructRotations;
-            HubService.NewBroadcastConstructScale += HubService_NewBroadcastConstructScale;
-            HubService.NewBroadcastConstructScales += HubService_NewBroadcastConstructScales;
-            HubService.NewBroadcastConstructMovement += HubService_NewBroadcastConstructMovement;
+                HubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
+                HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
+                HubService.NewRemoveConstruct += HubService_NewRemoveConstruct;
+                HubService.NewRemoveConstructs += HubService_NewRemoveConstructs;
+                HubService.NewBroadcastConstructPlacement += HubService_NewBroadcastConstructPlacement;
+                HubService.NewBroadcastConstructRotation += HubService_NewBroadcastConstructRotation;
+                HubService.NewBroadcastConstructRotations += HubService_NewBroadcastConstructRotations;
+                HubService.NewBroadcastConstructScale += HubService_NewBroadcastConstructScale;
+                HubService.NewBroadcastConstructScales += HubService_NewBroadcastConstructScales;
+                HubService.NewBroadcastConstructMovement += HubService_NewBroadcastConstructMovement;
 
-            #endregion
+                #endregion
+
+                _isHubSubscribed = true;
+
+                Console.WriteLine("++ListenOnHubService: OK");
+            }
+            else
+            {
+                Console.WriteLine("++ListenOnHubService: IGNORE");
+            }
         }
 
         #region Construct
@@ -399,8 +376,8 @@ namespace Worldescape.Pages
         private async void HubService_ConnectionClosed()
         {
             Console.WriteLine("HubService_ConnectionClosed");
-                        
-            IsLoggedIn = false;
+
+            _isLoggedIn = false;
 
             if (await TryConnect())
             {
@@ -413,7 +390,7 @@ namespace Worldescape.Pages
             _ = await HubService.LoginAsync(Avatar);
 
             //IsConnected = true;
-            IsLoggedIn = true;
+            _isLoggedIn = true;
 
             Console.WriteLine("HubService_ConnectionReconnected");
         }
@@ -421,17 +398,13 @@ namespace Worldescape.Pages
         private void HubService_ConnectionReconnecting()
         {
             //IsConnected = false;
-            IsLoggedIn = false;
+            _isLoggedIn = false;
 
             Console.WriteLine("HubService_ConnectionReconnecting");
         }
         #endregion
 
-        #region Hub Login
-        private bool CanPerformWorldEvents()
-        {
-            return HubService.IsConnected() && IsLoggedIn;
-        }
+        #region Hub Login      
 
         private bool CanHubLogin()
         {
@@ -471,7 +444,7 @@ namespace Worldescape.Pages
                     return true;
                 }
 
-                await HubService.ConnectAsync();                
+                await HubService.ConnectAsync();
 
                 Console.WriteLine("TryConnect: OK.");
 
@@ -569,7 +542,7 @@ namespace Worldescape.Pages
                             }
                         }
 
-                        IsLoggedIn = true;
+                        _isLoggedIn = true;
                         return true;
                     }
                     else
@@ -609,6 +582,9 @@ namespace Worldescape.Pages
         /// <param name="e"></param>
         private async void Canvas_root_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
+            if (!CanPerformWorldEvents())
+                return;
+
             if (_isAddingConstruct && _addingConstruct != null)
             {
                 var constructAsset = ((Button)_addingConstruct).Tag as Construct;
@@ -673,6 +649,9 @@ namespace Worldescape.Pages
         /// <param name="e"></param>
         private async void Construct_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
+            if (!CanPerformWorldEvents())
+                return;
+
             UIElement uielement = (UIElement)sender;
             _selectedConstruct = uielement;
             ShowInteractiveConstruct(uielement);
@@ -1023,6 +1002,7 @@ namespace Worldescape.Pages
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
+            RunDemoSession();
             Console.WriteLine("ConnectButton_Click");
             await TryConnectAndHubLogin();
         }
@@ -1049,6 +1029,45 @@ namespace Worldescape.Pages
         #endregion
 
         #region Common
+
+        private void RunDemoSession()
+        {
+            InWorld = App.InWorld;
+            User = App.User;
+
+            AvatarIdHolder.Text = App.User.Id.ToString();
+
+            Avatar = new Avatar()
+            {
+                Id = App.User.Id,
+                ActivityStatus = ActivityStatus.Online,
+                User = new AvatarUser()
+                {
+                    Email = User.Email,
+                    //Id = User.Id,
+                    ImageUrl = User.ImageUrl,
+                    Name = User.Name,
+                    Phone = User.Phone,
+                    ProfilePictureUrl = User.ImageUrl
+                },
+                Character = new AvatarCharacter()
+                {
+                    Id = Character.Id,
+                    Name = Character.Name,
+                    ImageUrl = Character.ImageUrl,
+                },
+                World = InWorld,
+                Coordinate = new Coordinate(new Random().Next(100), new Random().Next(100), new Random().Next(100)),
+                ImageUrl = avatarUrls[new Random().Next(avatarUrls.Count())],
+            };
+        }
+
+        private bool CanPerformWorldEvents()
+        {
+            var result = HubService.IsConnected() && _isLoggedIn;
+            Console.WriteLine("CanPerformWorldEvents: " + result);
+            return result;
+        }
 
         /// <summary>
         /// Adds an avatar on canvas.

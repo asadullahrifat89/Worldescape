@@ -13,9 +13,9 @@ namespace Worldescape
     {
         public static IServiceProvider ServiceProvider;
 
-        public static User LoggedInUser = new User();
+        public static User User = new User();
 
-        public static World InsideWorld = new World();
+        public static InWorld InWorld = new InWorld();
 
         public App()
         {
@@ -49,7 +49,7 @@ namespace Worldescape
 
             // Pages
             services.AddSingleton<MainPage>();
-            services.AddSingleton<InsideWorldPage>();
+            //services.AddSingleton<InsideWorldPage>();
         }
 
         private void App_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)

@@ -5,10 +5,10 @@
     /// </summary>
     public class AvatarUser
     {
-        /// <summary>
-        /// User's id.
-        /// </summary>
-        public int Id { get; set; }
+        ///// <summary>
+        ///// User's id.
+        ///// </summary>
+        //public int Id { get; set; }
 
         /// <summary>
         /// User's name.

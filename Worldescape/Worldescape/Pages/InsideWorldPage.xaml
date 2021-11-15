@@ -147,7 +147,9 @@
             <!--  Top bar statuses  -->
             <StackPanel Grid.Column="1">
 
-                <ContentControl x:Name="UserImageHolder" />
+                <!--<ContentControl x:Name="UserImageHolder" />-->
+
+                <TextBlock x:Name="AvatarIdHolder" />
 
                 <TextBlock
                     Margin="10"

@@ -38,7 +38,9 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
     private static string GetUsersGroup(Avatar user)
     {
-        return user.World.Id.ToString();
+        var result = user.World.Id.ToString();
+        Console.WriteLine("GetUsersGroup: " + result);
+        return result;
     }
 
     private Avatar GetCallingUser(int userId = 0)
@@ -132,7 +134,6 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             }
 
             Clients.OthersInGroup(GetUsersGroup(avatar)).AvatarLogin(avatar);
-
             _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now}");
 
 
@@ -148,6 +149,9 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
         }
         else
         {
+            Clients.OthersInGroup(GetUsersGroup(avatar)).AvatarLogin(avatar);
+            _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now}");
+
             // Find all constructs from the calling avatar's world
             var constructs = OnlineConstructs.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 

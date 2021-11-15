@@ -1,5 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Worldescape.Shared;
+using Worldescape.Shared.Entities;
 
 namespace Worldescape.Pages
 {
@@ -15,12 +17,13 @@ namespace Worldescape.Pages
         {
             var mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
 
-            var insideWorldPage = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;
+            App.User = new User() { Id = UidGenerator.New(), Name = TextBox_Email.Text };
+            App.InWorld = new InWorld() { Id = 786, Name = "Test World" };
 
-            mainPage.NavigateToPage(insideWorldPage);
+            //var insideWorldPage = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;
+            //mainPage.NavigateToPage(insideWorldPage);
 
-
-            //mainPage.NavigateToPage("/InsideWorldPage");
+            mainPage.NavigateToPage("/InsideWorldPage");
         }
 
         private void Button_SignUp_Click(object sender, RoutedEventArgs e)

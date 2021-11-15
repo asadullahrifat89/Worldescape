@@ -1,7 +1,7 @@
 ﻿namespace Worldescape.Shared.Entities
 {
     /// <summary>
-    /// An entity in a world representing a user with the user's character.
+    /// Represents a user as an avatar in the world.
     /// </summary>
     public class Avatar : CoreBase
     {
