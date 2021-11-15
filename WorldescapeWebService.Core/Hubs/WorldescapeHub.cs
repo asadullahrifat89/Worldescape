@@ -115,8 +115,11 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             avatar.Session = new UserSession() { ReconnectionTime = DateTime.UtcNow };
             avatar.ConnectionId = Context.ConnectionId;
 
-            // Save the new avatar           
-            OnlineAvatars.TryAdd(Context.ConnectionId, avatar);
+            // Save the new avatar
+            if (!OnlineAvatars.TryAdd(Context.ConnectionId, avatar))
+            {
+                return null;
+            }
 
             // Check if a world exists or not in SignalR groups
             if (!OnlineWorlds.ContainsKey(avatar.World.Id))
@@ -131,11 +134,13 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
             _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now}");
 
+
             // Find all constructs from the calling avatar's world
             var constructs = OnlineConstructs.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
             // Find all avatars from the calling avatar's world
             var avatars = OnlineAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+
 
             // Return the curated avatars and constructs
             return new Tuple<Avatar[], Construct[]>(avatars ?? new Avatar[] { }, constructs ?? new Construct[] { });

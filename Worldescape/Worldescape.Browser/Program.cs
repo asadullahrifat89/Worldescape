@@ -4,6 +4,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Worldescape.Extensions;
 
 namespace Worldescape.Browser
 {
@@ -14,7 +15,14 @@ namespace Worldescape.Browser
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            //builder.Services.AddTransient(sp => new HttpClient
+            //{
+            //    BaseAddress = new Uri(builder.HostEnvironment.BaseAddress),
+            //    Timeout = new TimeSpan(1, 0, 0),
+                
+            //});
+
+            builder.Services.AddHttpService();
 
             var host = builder.Build();
             await host.RunAsync();

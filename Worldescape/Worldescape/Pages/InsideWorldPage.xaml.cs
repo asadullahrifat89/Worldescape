@@ -68,7 +68,7 @@ namespace Worldescape.Pages
         string[] avatarUrls = new string[]
         {
             "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png",
-            "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png",            
+            "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png",
             "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_idle.png",
             "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_idle.png",
             "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_idle.png",
@@ -107,7 +107,7 @@ namespace Worldescape.Pages
 
         private void DemoWorld()
         {
-            InWorld = new InWorld() { Id = 1, Name = "Test World" };
+            InWorld = new InWorld() { Id = 786, Name = "Test World" };
             User = new User() { Id = UidGenerator.New(), Name = "Test User" };
 
             Avatar = new Avatar()
@@ -270,11 +270,11 @@ namespace Worldescape.Pages
                         avatarMessenger.IsLoggedIn = true;
                     }
 
-                    Console.WriteLine("++AvatarReconnected");
+                    Console.WriteLine("++AvatarReconnected: OK");
                 }
                 else
                 {
-                    Console.WriteLine("++AvatarReconnected: Avatar doesn't exist.");
+                    Console.WriteLine("++AvatarReconnected: IGNORE");
                 }
             }
         }
@@ -293,11 +293,11 @@ namespace Worldescape.Pages
                         avatarMessenger.IsLoggedIn = false;
                     }
 
-                    Console.WriteLine("++AvatarDisconnected");
+                    Console.WriteLine("++AvatarDisconnected: OK");
                 }
                 else
                 {
-                    Console.WriteLine("++AvatarDisconnected: Avatar doesn't exist.");
+                    Console.WriteLine("++AvatarDisconnected: IGNORE");
                 }
             }
         }
@@ -316,11 +316,11 @@ namespace Worldescape.Pages
 
                 Canvas_root.Children.Remove(iElement);
 
-                Console.WriteLine("++AvatarLoggedOut");
+                Console.WriteLine("++AvatarLoggedOut: OK");
             }
             else
             {
-                Console.WriteLine("++AvatarLoggedOut: Avatar doesn't exist.");
+                Console.WriteLine("++AvatarLoggedOut: IGNORE");
             }
         }
 
@@ -335,12 +335,12 @@ namespace Worldescape.Pages
                 AddAvatarOnCanvas(obj);
                 AvatarMessengers.Add(new AvatarMessenger() { Avatar = obj, ActivityStatus = ActivityStatus.Online, IsLoggedIn = true });
                 ParticipantsCount.Text = AvatarMessengers.Count().ToString();
-                               
-                Console.WriteLine("++AvatarLoggedIn");
+
+                Console.WriteLine("++AvatarLoggedIn: OK");
             }
             else
             {
-                Console.WriteLine("++AvatarLoggedIn: Avatar already exists.");
+                Console.WriteLine("++AvatarLoggedIn: IGNORE");
             }
         }
         #endregion
@@ -390,7 +390,7 @@ namespace Worldescape.Pages
         #region Connection
         private async void HubService_ConnectionClosed()
         {
-            Console.WriteLine("Hub connection closed.");
+            Console.WriteLine("HubService_ConnectionClosed");
 
             IsConnected = false;
             IsLoggedIn = false;
@@ -408,7 +408,7 @@ namespace Worldescape.Pages
             IsConnected = true;
             IsLoggedIn = true;
 
-            Console.WriteLine("Hub connection reconnected.");
+            Console.WriteLine("HubService_ConnectionReconnected");
         }
 
         private void HubService_ConnectionReconnecting()
@@ -416,7 +416,7 @@ namespace Worldescape.Pages
             IsConnected = false;
             IsLoggedIn = false;
 
-            Console.WriteLine("Hub connection reconnecting.");
+            Console.WriteLine("HubService_ConnectionReconnecting");
         }
         #endregion
 
@@ -428,7 +428,11 @@ namespace Worldescape.Pages
 
         private bool CanHubLogin()
         {
-            return Avatar != null && !Avatar.IsEmpty() && Avatar.User != null && IsConnected;
+            var result = Avatar != null /*&& !Avatar.IsEmpty()*/ && Avatar.User != null && IsConnected;
+
+            Console.WriteLine($"CanHubLogin: {result}");
+
+            return result;
         }
 
         public async Task TryConnectAndHubLogin()
@@ -460,13 +464,13 @@ namespace Worldescape.Pages
                 await HubService.ConnectAsync();
                 IsConnected = true;
 
-                Console.WriteLine("Hub connected.");
+                Console.WriteLine("TryConnect: OK.");
 
                 return true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("TryConnect: ERROR." + "\n" + ex.Message);
                 return false;
             }
         }
@@ -477,12 +481,18 @@ namespace Worldescape.Pages
 
             if (!loggedIn)
             {
+                Console.WriteLine("TryHubLogin: FAILED");
+
                 MessageBoxResult messageBoxResult = MessageBox.Show("Would you like to try again?", "Login failure", MessageBoxButton.OKCancel);
 
                 if (messageBoxResult == MessageBoxResult.OK)
                 {
                     await TryHubLogin();
                 }
+            }
+            else
+            {
+                Console.WriteLine("TryHubLogin: OK");
             }
         }
 
@@ -496,47 +506,57 @@ namespace Worldescape.Pages
 
                     if (result != null)
                     {
+                        Console.WriteLine("HubLogin: OK");
+
                         var avatars = result.Item1;
+
+                        // Clearing up canvas prior to login
+                        AvatarMessengers.Clear();
+                        Canvas_root.Children.Clear();
 
                         if (avatars != null && avatars.Any())
                         {
-                            foreach (var avatar in avatars.Where(x => !AvatarMessengers.Select(z => z.Avatar.Id).Contains(x.Id)))
+                            Console.WriteLine("HubLogin: avatars found: " + avatars.Count());
+
+                            foreach (var avatar in avatars/*.Where(x => !AvatarMessengers.Select(z => z.Avatar.Id).Contains(x.Id))*/)
                             {
                                 AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
                                 AddAvatarOnCanvas(avatar);
                             }
 
-                            ParticipantsCount.Text = AvatarMessengers.Count().ToString();
+                            ParticipantsCount.Text = AvatarMessengers.Count().ToString();                            
                         }
 
                         var constructs = result.Item2;
 
                         if (constructs != null && constructs.Any())
                         {
+                            Console.WriteLine("HubLogin: Constructs found: " + constructs.Count());
+
                             foreach (var construct in constructs)
                             {
-                                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == construct.Id) is UIElement iElement)
-                                {
-                                    Canvas.SetZIndex(iElement, construct.Coordinate.Z);
-                                    MoveElement(iElement, construct.Coordinate.X, construct.Coordinate.Y);
+                                //if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == construct.Id) is UIElement iElement)
+                                //{
+                                //    Canvas.SetZIndex(iElement, construct.Coordinate.Z);
+                                //    MoveElement(iElement, construct.Coordinate.X, construct.Coordinate.Y);
 
-                                    // TODO: set scale and rotation
-                                }
-                                else // insert new constructs
-                                {
-                                    var constructBtn = GenerateConstructButton(
-                                      name: construct.Name,
-                                      imageUrl: construct.ImageUrl,
-                                      constructId: construct.Id,
-                                      inWorld: construct.World,
-                                      creator: construct.Creator);
+                                //    // TODO: set scale and rotation
+                                //}
+                                //else // insert new constructs
+                                //{
+                                var constructBtn = GenerateConstructButton(
+                                  name: construct.Name,
+                                  imageUrl: construct.ImageUrl,
+                                  constructId: construct.Id,
+                                  inWorld: construct.World,
+                                  creator: construct.Creator);
 
-                                    AddConstructOnCanvas(
-                                        construct: constructBtn,
-                                        x: construct.Coordinate.X,
-                                        y: construct.Coordinate.Y,
-                                        z: construct.Coordinate.Z);
-                                }
+                                AddConstructOnCanvas(
+                                    construct: constructBtn,
+                                    x: construct.Coordinate.X,
+                                    y: construct.Coordinate.Y,
+                                    z: construct.Coordinate.Z);
+                                //}
                             }
                         }
 
@@ -545,11 +565,13 @@ namespace Worldescape.Pages
                     }
                     else
                     {
+                        Console.WriteLine("HubLogin: FAILED");
                         return false;
                     }
                 }
                 else
                 {
+                    Console.WriteLine("HubLogin: FAILED");
                     return false;
                 }
             }
@@ -583,7 +605,7 @@ namespace Worldescape.Pages
                 var construct = AddConstructOnCanvas(
                     construct: constructBtn,
                     x: e.GetCurrentPoint(Canvas_root).Position.X,
-                    y: e.GetCurrentPoint(Canvas_root).Position.Y);                
+                    y: e.GetCurrentPoint(Canvas_root).Position.Y);
 
                 await HubService.BroadcastConstructAsync(construct);
 
@@ -655,7 +677,7 @@ namespace Worldescape.Pages
 
                 await HubService.BroadcastConstructAsync(construct);
 
-                Console.WriteLine("Construct added.");               
+                Console.WriteLine("Construct added.");
             }
             else if (_isCloningConstruct && _cloningConstruct != null)
             {
