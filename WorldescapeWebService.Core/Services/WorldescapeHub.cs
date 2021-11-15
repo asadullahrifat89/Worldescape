@@ -17,6 +17,12 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
     //<WorldId, InWorld> this is just for checking against signalR groups
     private static ConcurrentDictionary<int, InWorld> OnlineWorlds = new();
 
+    //<ConnectionId, Avatar>
+    private static ConcurrentDictionary<string, Avatar> OnlineAvatars = new();
+
+    //<ConstructId, Construct>
+    private static ConcurrentDictionary<int, Construct> ConcurrentConstructs = new();
+
     #endregion
 
     #region Ctor
@@ -474,84 +480,112 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
     {
         var connectionId = GetUserConnectionId(avatarId);
 
-        // Open database (or create if doesn't exist)
-        using (var db = new LiteDatabase(@"Worldescape.db"))
+        if (OnlineAvatars.ContainsKey(connectionId))
         {
-            // Get Avatars collection
-            var col = db.GetCollection<Avatar>("Avatars");
-
-            if (col.Exists(x => x.Id == avatarId && x.ConnectionId == connectionId))
-            {
-                var result = col.FindOne(x => x.Id == avatarId && x.ConnectionId == connectionId);
-
-                result.Session.ReconnectionTime = reconnectionTime;
-
-                col.Update(result);
-            }
+            var conUpdated = OnlineAvatars[connectionId];
+            conUpdated.Session.ReconnectionTime = reconnectionTime;
+            OnlineAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: OnlineAvatars[connectionId]);
         }
+
+        //// Open database (or create if doesn't exist)
+        //using (var db = new LiteDatabase(@"Worldescape.db"))
+        //{
+        //    // Get Avatars collection
+        //    var col = db.GetCollection<Avatar>("Avatars");
+
+        //    if (col.Exists(x => x.Id == avatarId && x.ConnectionId == connectionId))
+        //    {
+        //        var result = col.FindOne(x => x.Id == avatarId && x.ConnectionId == connectionId);
+
+        //        result.Session.ReconnectionTime = reconnectionTime;
+
+        //        col.Update(result);
+        //    }
+        //}
     }
 
     private void UpdateAvatarDisconnectionTime(int avatarId, DateTime disconnectionTime)
     {
         var connectionId = GetUserConnectionId(avatarId);
 
-        // Open database (or create if doesn't exist)
-        using (var db = new LiteDatabase(@"Worldescape.db"))
+        if (OnlineAvatars.ContainsKey(connectionId))
         {
-            // Get Avatars collection
-            var col = db.GetCollection<Avatar>("Avatars");
-
-            if (col.Exists(x => x.Id == avatarId && x.ConnectionId == connectionId))
-            {
-                var result = col.FindOne(x => x.Id == avatarId && x.ConnectionId == connectionId);
-
-                result.Session.DisconnectionTime = disconnectionTime;
-
-                col.Update(result);
-            }
+            var conUpdated = OnlineAvatars[connectionId];
+            conUpdated.Session.DisconnectionTime = disconnectionTime;
+            OnlineAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: OnlineAvatars[connectionId]);
         }
+
+        //// Open database (or create if doesn't exist)
+        //using (var db = new LiteDatabase(@"Worldescape.db"))
+        //{
+        //    // Get Avatars collection
+        //    var col = db.GetCollection<Avatar>("Avatars");
+
+        //    if (col.Exists(x => x.Id == avatarId && x.ConnectionId == connectionId))
+        //    {
+        //        var result = col.FindOne(x => x.Id == avatarId && x.ConnectionId == connectionId);
+
+        //        result.Session.DisconnectionTime = disconnectionTime;
+
+        //        col.Update(result);
+        //    }
+        //}
     }
 
     private void UpdateAvatarActivityStatus(int avatarId, ActivityStatus activityStatus)
     {
         var connectionId = GetUserConnectionId(avatarId);
 
-        // Open database (or create if doesn't exist)
-        using (var db = new LiteDatabase(@"Worldescape.db"))
+        if (OnlineAvatars.ContainsKey(connectionId))
         {
-            // Get Avatars collection
-            var col = db.GetCollection<Avatar>("Avatars");
-
-            if (col.Exists(x => x.Id == avatarId && x.ConnectionId == connectionId))
-            {
-                var result = col.FindOne(x => x.Id == avatarId && x.ConnectionId == connectionId);
-
-                result.ActivityStatus = activityStatus;
-
-                col.Update(result);
-            }
+            var conUpdated = OnlineAvatars[connectionId];
+            conUpdated.ActivityStatus = activityStatus;
+            OnlineAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: OnlineAvatars[connectionId]);
         }
+
+        //// Open database (or create if doesn't exist)
+        //using (var db = new LiteDatabase(@"Worldescape.db"))
+        //{
+        //    // Get Avatars collection
+        //    var col = db.GetCollection<Avatar>("Avatars");
+
+        //    if (col.Exists(x => x.Id == avatarId && x.ConnectionId == connectionId))
+        //    {
+        //        var result = col.FindOne(x => x.Id == avatarId && x.ConnectionId == connectionId);
+
+        //        result.ActivityStatus = activityStatus;
+
+        //        col.Update(result);
+        //    }
+        //}
     }
 
     private void UpdateAvatarMovement(int avatarId, Coordinate coordinate)
     {
         var connectionId = GetUserConnectionId(avatarId);
 
-        // Open database (or create if doesn't exist)
-        using (var db = new LiteDatabase(@"Worldescape.db"))
+        if (OnlineAvatars.ContainsKey(connectionId))
         {
-            // Get Avatars collection
-            var col = db.GetCollection<Avatar>("Avatars");
-
-            if (col.Exists(x => x.Id == avatarId && x.ConnectionId == connectionId))
-            {
-                var result = col.FindOne(x => x.Id == avatarId && x.ConnectionId == connectionId);
-
-                result.Coordinate = coordinate;
-
-                col.Update(result);
-            }
+            var conUpdated = OnlineAvatars[connectionId];
+            conUpdated.Coordinate = coordinate;
+            OnlineAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: OnlineAvatars[connectionId]);
         }
+
+        //// Open database (or create if doesn't exist)
+        //using (var db = new LiteDatabase(@"Worldescape.db"))
+        //{
+        //    // Get Avatars collection
+        //    var col = db.GetCollection<Avatar>("Avatars");
+
+        //    if (col.Exists(x => x.Id == avatarId && x.ConnectionId == connectionId))
+        //    {
+        //        var result = col.FindOne(x => x.Id == avatarId && x.ConnectionId == connectionId);
+
+        //        result.Coordinate = coordinate;
+
+        //        col.Update(result);
+        //    }
+        //}
     }
 
     #endregion
@@ -560,118 +594,161 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
     private void UpdateConstructPlacementInConstructs(int constructId, int z)
     {
-        // Open database (or create if doesn't exist)
-        using (var db = new LiteDatabase(@"Worldescape.db"))
+        if (ConcurrentConstructs.ContainsKey(constructId))
         {
-            // Get Constructs collection
-            var col = db.GetCollection<Construct>("Constructs");
-
-            if (col.Exists(x => x.Id == constructId))
-            {
-                var result = col.FindOne(x => x.Id == constructId);
-
-                result.Coordinate.Z = z;
-
-                col.Update(result);
-            }
+            var conUpdated = ConcurrentConstructs[constructId];
+            conUpdated.Coordinate.Z = z;
+            ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
         }
+        //// Open database (or create if doesn't exist)
+        //using (var db = new LiteDatabase(@"Worldescape.db"))
+        //{
+        //    // Get Constructs collection
+        //    var col = db.GetCollection<Construct>("Constructs");
+
+        //    if (col.Exists(x => x.Id == constructId))
+        //    {
+        //        var result = col.FindOne(x => x.Id == constructId);
+
+        //        result.Coordinate.Z = z;
+
+        //        col.Update(result);
+        //    }
+        //}
     }
 
     private void UpdateConstructRotationInConstructs(int constructId, float rotation)
     {
-        // Open database (or create if doesn't exist)
-        using (var db = new LiteDatabase(@"Worldescape.db"))
+        if (ConcurrentConstructs.ContainsKey(constructId))
         {
-            // Get Constructs collection
-            var col = db.GetCollection<Construct>("Constructs");
-
-            if (col.Exists(x => x.Id == constructId))
-            {
-                var result = col.FindOne(x => x.Id == constructId);
-
-                result.Rotation = rotation;
-
-                col.Update(result);
-            }
+            var conUpdated = ConcurrentConstructs[constructId];
+            conUpdated.Rotation = rotation;
+            ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
         }
+
+        //// Open database (or create if doesn't exist)
+        //using (var db = new LiteDatabase(@"Worldescape.db"))
+        //{
+        //    // Get Constructs collection
+        //    var col = db.GetCollection<Construct>("Constructs");
+
+        //    if (col.Exists(x => x.Id == constructId))
+        //    {
+        //        var result = col.FindOne(x => x.Id == constructId);
+
+        //        result.Rotation = rotation;
+
+        //        col.Update(result);
+        //    }
+        //}
     }
 
     private void UpdateConstructScaleInConstructs(int constructId, float scale)
     {
-        // Open database (or create if doesn't exist)
-        using (var db = new LiteDatabase(@"Worldescape.db"))
+        if (ConcurrentConstructs.ContainsKey(constructId))
         {
-            // Get Constructs collection
-            var col = db.GetCollection<Construct>("Constructs");
-
-            if (col.Exists(x => x.Id == constructId))
-            {
-                var result = col.FindOne(x => x.Id == constructId);
-
-                result.Scale = scale;
-
-                col.Update(result);
-            }
+            var conUpdated = ConcurrentConstructs[constructId];
+            conUpdated.Scale = scale;
+            ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
         }
+
+        //// Open database (or create if doesn't exist)
+        //using (var db = new LiteDatabase(@"Worldescape.db"))
+        //{
+        //    // Get Constructs collection
+        //    var col = db.GetCollection<Construct>("Constructs");
+
+        //    if (col.Exists(x => x.Id == constructId))
+        //    {
+        //        var result = col.FindOne(x => x.Id == constructId);
+
+        //        result.Scale = scale;
+
+        //        col.Update(result);
+        //    }
+        //}
     }
 
     private void RemoveConstructFromConstructs(int constructId)
     {
-        // Open database (or create if doesn't exist)
-        using (var db = new LiteDatabase(@"Worldescape.db"))
+        if (ConcurrentConstructs.ContainsKey(constructId))
         {
-            // Get Constructs collection
-            var col = db.GetCollection<Construct>("Constructs");
-
-            if (col.Exists(x => x.Id == constructId))
-            {
-                col.Delete(constructId);
-            }
+            ConcurrentConstructs.TryRemove(constructId, out Construct c);
         }
+
+        //// Open database (or create if doesn't exist)
+        //using (var db = new LiteDatabase(@"Worldescape.db"))
+        //{
+        //    // Get Constructs collection
+        //    var col = db.GetCollection<Construct>("Constructs");
+
+        //    if (col.Exists(x => x.Id == constructId))
+        //    {
+        //        col.Delete(constructId);
+        //    }
+        //}
     }
 
     private void AddOrUpdateConstructInConstructs(Construct construct)
     {
-        // Open database (or create if doesn't exist)
-        using (var db = new LiteDatabase(@"Worldescape.db"))
+        //// Open database (or create if doesn't exist)
+        //using (var db = new LiteDatabase(@"Worldescape.db"))
+        //{
+        //    // Get Constructs collection
+        //    var col = db.GetCollection<Construct>("Constructs");
+
+        //    if (col.Exists(x => x.Id == construct.Id))
+        //    {
+        //        var result = col.FindOne(x => x.Id == construct.Id);
+
+        //        result = construct;
+
+        //        col.Update(result);
+        //    }
+        //    else
+        //    {
+        //        col.Insert(construct);
+        //    }
+        //}
+
+        if (!ConcurrentConstructs.ContainsKey(construct.Id))
         {
-            // Get Constructs collection
-            var col = db.GetCollection<Construct>("Constructs");
-
-            if (col.Exists(x => x.Id == construct.Id))
-            {
-                var result = col.FindOne(x => x.Id == construct.Id);
-
-                result = construct;
-
-                col.Update(result);
-            }
-            else
-            {
-                col.Insert(construct);
-            }
+            ConcurrentConstructs.TryAdd(key: construct.Id, value: construct);
+        }
+        else
+        {
+            ConcurrentConstructs.TryUpdate(key: construct.Id, newValue: construct, comparisonValue: ConcurrentConstructs[construct.Id]);
         }
     }
 
     private void UpdateConstructMovementInConstructs(int constructId, double x, double y, int z)
     {
-        // Open database (or create if doesn't exist)
-        using (var db = new LiteDatabase(@"Worldescape.db"))
+        if (ConcurrentConstructs.ContainsKey(constructId))
         {
-            // Get Constructs collection
-            var col = db.GetCollection<Construct>("Constructs");
-
-            if (col.Exists(x => x.Id == constructId))
-            {
-                var result = col.FindOne(x => x.Id == constructId);
-
-                result.Coordinate.X = x;
-                result.Coordinate.Y = y;
-                result.Coordinate.Z = z;
-
-                col.Update(result);
-            }
+            var conUpdated = ConcurrentConstructs[constructId];
+            conUpdated.Coordinate.X = x;
+            conUpdated.Coordinate.Y = y;
+            conUpdated.Coordinate.Z = z;
+            ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
         }
+
+        //// Open database (or create if doesn't exist)
+        //using (var db = new LiteDatabase(@"Worldescape.db"))
+        //{
+        //    // Get Constructs collection
+        //    var col = db.GetCollection<Construct>("Constructs");
+
+        //    if (col.Exists(x => x.Id == constructId))
+        //    {
+        //        var result = col.FindOne(x => x.Id == constructId);
+
+        //        result.Coordinate.X = x;
+        //        result.Coordinate.Y = y;
+        //        result.Coordinate.Z = z;
+
+        //        col.Update(result);
+        //    }
+        //}
     }
 
     #endregion
