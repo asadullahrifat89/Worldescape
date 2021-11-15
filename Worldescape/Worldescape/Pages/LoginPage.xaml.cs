@@ -20,7 +20,7 @@ namespace Worldescape.Pages
             App.User = new User() { Id = UidGenerator.New(), Name = TextBox_Email.Text };
             App.InWorld = new InWorld() { Id = 786, Name = "Test World" };
 
-            var insideWorldPage = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;
+            var insideWorldPage = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;            
             mainPage.NavigateToPage(insideWorldPage);
 
             //mainPage.NavigateToPage("/InsideWorldPage");

@@ -78,7 +78,7 @@ namespace Worldescape.Pages
 
         User User = new User();
 
-        Avatar Avatar = new Avatar();
+        Avatar Avatar = null;
 
         Character Character = new Character();
 
@@ -92,7 +92,7 @@ namespace Worldescape.Pages
         {
             InitializeComponent();
 
-            HubService = hubService;//App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
+            HubService = hubService;// App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
             SubscribeHub();
         }
 
@@ -504,6 +504,10 @@ namespace Worldescape.Pages
                         {
                             Console.WriteLine("HubLogin: avatars found: " + avatars.Count());
 
+                            // Find current user's avatar and update current Avatar instance
+                            var responseAvatar = avatars.FirstOrDefault(x => x.Id == Avatar.Id);
+                            this.Avatar = responseAvatar;
+
                             foreach (var avatar in avatars)
                             {
                                 //if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id) is UIElement iElement)
@@ -555,6 +559,7 @@ namespace Worldescape.Pages
 
                         _isLoggedIn = true;
 
+                        // Set connected user's avatar image
                         if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
                             AvatarImageHolder.Content = CopyUiElementContent(iElement);
 
@@ -1016,8 +1021,13 @@ namespace Worldescape.Pages
         }
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
-        {            
-            RunDemoSession();
+        {
+            if (HubService.IsConnected())
+            {
+                await HubService.DisconnectAsync();
+            }
+
+            SetDemoData();
             Console.WriteLine("ConnectButton_Click");
             await TryConnectAndHubLogin();
         }
@@ -1045,12 +1055,13 @@ namespace Worldescape.Pages
 
         #region Common
 
-        private void RunDemoSession()
+        private void SetDemoData()
         {
+            if (Avatar != null)
+                return;
+
             InWorld = App.InWorld;
             User = App.User;
-
-            //AvatarIdHolder.Text = App.User.Id.ToString();
 
             Avatar = new Avatar()
             {
@@ -1058,8 +1069,8 @@ namespace Worldescape.Pages
                 ActivityStatus = ActivityStatus.Online,
                 User = new AvatarUser()
                 {
-                    Email = User.Email,
                     //Id = User.Id,
+                    Email = User.Email,
                     ImageUrl = User.ImageUrl,
                     Name = User.Name,
                     Phone = User.Phone,

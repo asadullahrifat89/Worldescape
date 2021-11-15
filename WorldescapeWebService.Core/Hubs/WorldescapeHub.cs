@@ -148,6 +148,13 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
         }
         else
         {
+            avatar.Session = new UserSession() { ReconnectionTime = DateTime.UtcNow };
+            avatar.ConnectionId = Context.ConnectionId;
+
+            // Update old instance
+            var oldData = OnlineAvatars.FirstOrDefault(x => x.Value.Id == avatar.Id);
+            OnlineAvatars.TryUpdate(oldData.Key, avatar, oldData.Value);
+
             Clients.OthersInGroup(GetUsersGroup(avatar)).AvatarLogin(avatar);
             _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now}");
 

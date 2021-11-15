@@ -54,8 +54,8 @@ namespace Worldescape.Services
         public HubService()
         {
 #if DEBUG
-            //var url = Properties.Resources.DevHubService;
-            var url = Properties.Resources.ProdHubService;
+            var url = Properties.Resources.DevHubService;
+            //var url = Properties.Resources.ProdHubService;
 #else
             var url = Properties.Resources.ProdHubService;
 #endif
@@ -105,7 +105,7 @@ namespace Worldescape.Services
 
         public bool IsConnected()
         {
-            Console.WriteLine(">>IsConnected: " + _connection.State);
+            Console.WriteLine(">>IsConnected: " + _connection?.State);
             return _connection.State == HubConnectionState.Connected || _connection.State == HubConnectionState.Connecting || _connection.State == HubConnectionState.Reconnecting;
         }
 
