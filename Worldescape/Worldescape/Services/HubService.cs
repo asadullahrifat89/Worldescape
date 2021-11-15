@@ -63,34 +63,34 @@ namespace Worldescape
             _connection = new HubConnectionBuilder().WithUrl(url).WithAutomaticReconnect().Build();
 
             // Session
-            _connection.On<Avatar>("AvatarLoggedIn", (avatar) => AvatarLoggedIn?.Invoke(avatar));
-            _connection.On<int>("AvatarLoggedOut", (senderId) => AvatarLoggedOut?.Invoke(senderId));
-            _connection.On<int>("AvatarDisconnected", (senderId) => AvatarDisconnected?.Invoke(senderId));
-            _connection.On<int>("AvatarReconnected", (senderId) => AvatarReconnected?.Invoke(senderId));
+            _connection.On<Avatar>(Constants.AvatarLoggedIn, (avatar) => AvatarLoggedIn?.Invoke(avatar));
+            _connection.On<int>(Constants.AvatarLoggedOut, (senderId) => AvatarLoggedOut?.Invoke(senderId));
+            _connection.On<int>(Constants.AvatarDisconnected, (senderId) => AvatarDisconnected?.Invoke(senderId));
+            _connection.On<int>(Constants.AvatarReconnected, (senderId) => AvatarReconnected?.Invoke(senderId));
 
             // Texting
-            _connection.On<int, string>("BroadcastedTextMessage", (senderId, message) => NewTextMessage?.Invoke(senderId, message, MessageType.Broadcast));
-            _connection.On<int, byte[]>("BroadcastedPictureMessage", (senderId, img) => NewImageMessage?.Invoke(senderId, img, MessageType.Broadcast));
-            _connection.On<int, string>("UnicastedTextMessage", (senderId, message) => NewTextMessage?.Invoke(senderId, message, MessageType.Unicast));
-            _connection.On<int, byte[]>("UnicastedPictureMessage", (senderId, img) => NewImageMessage?.Invoke(senderId, img, MessageType.Unicast));
-            _connection.On<int>("AvatarTyped", (senderId) => AvatarTyping?.Invoke(senderId, MessageType.Unicast));
-            _connection.On<int>("AvatarBroadcastTyped", (senderId) => AvatarTyping?.Invoke(senderId, MessageType.Broadcast));
+            _connection.On<int, string>(Constants.BroadcastedTextMessage, (senderId, message) => NewTextMessage?.Invoke(senderId, message, MessageType.Broadcast));
+            _connection.On<int, byte[]>(Constants.BroadcastedPictureMessage, (senderId, img) => NewImageMessage?.Invoke(senderId, img, MessageType.Broadcast));
+            _connection.On<int, string>(Constants.UnicastedTextMessage, (senderId, message) => NewTextMessage?.Invoke(senderId, message, MessageType.Unicast));
+            _connection.On<int, byte[]>(Constants.UnicastedPictureMessage, (senderId, img) => NewImageMessage?.Invoke(senderId, img, MessageType.Unicast));
+            _connection.On<int>(Constants.AvatarTyped, (senderId) => AvatarTyping?.Invoke(senderId, MessageType.Unicast));
+            _connection.On<int>(Constants.AvatarBroadcastTyped, (senderId) => AvatarTyping?.Invoke(senderId, MessageType.Broadcast));
 
             // Avatar
-            _connection.On<int, double, double, int>("BroadcastedAvatarMovement", (avatarId, x, y, z) => NewBroadcastAvatarMovement?.Invoke(avatarId, x, y, z));
-            _connection.On<int, int>("BroadcastedAvatarActivityStatus", (avatarId, activityStatus) => NewBroadcastAvatarActivityStatus?.Invoke(avatarId, activityStatus));
+            _connection.On<int, double, double, int>(Constants.BroadcastedAvatarMovement, (avatarId, x, y, z) => NewBroadcastAvatarMovement?.Invoke(avatarId, x, y, z));
+            _connection.On<int, int>(Constants.BroadcastedAvatarActivityStatus, (avatarId, activityStatus) => NewBroadcastAvatarActivityStatus?.Invoke(avatarId, activityStatus));
 
             // Construct
-            _connection.On<Construct>("BroadcastedConstruct", (construct) => NewBroadcastConstruct?.Invoke(construct));
-            _connection.On<Construct[]>("BroadcastedConstructs", (constructs) => NewBroadcastConstructs?.Invoke(constructs));
-            _connection.On<int>("RemovedConstruct", (constructId) => NewRemoveConstruct?.Invoke(constructId));
-            _connection.On<int[]>("RemovedConstructs", (constructIds) => NewRemoveConstructs?.Invoke(constructIds));
-            _connection.On<int, int>("BroadcastedConstructPlacement", (constructId, z) => NewBroadcastConstructPlacement?.Invoke(constructId, z));
-            _connection.On<int, float>("BroadcastedConstructRotation", (constructId, rotation) => NewBroadcastConstructRotation?.Invoke(constructId, rotation));
-            _connection.On<ConcurrentDictionary<int, float>>("BroadcastedConstructRotations", (constructIds) => NewBroadcastConstructRotations?.Invoke(constructIds));
-            _connection.On<int, float>("BroadcastedConstructScale", (constructId, scale) => NewBroadcastConstructScale?.Invoke(constructId, scale));
-            _connection.On<int[], float>("BroadcastedConstructScales", (constructIds, scale) => NewBroadcastConstructScales?.Invoke(constructIds, scale));
-            _connection.On<int, double, double, int>("BroadcastedConstructMovement", (constructId, x, y, z) => NewBroadcastConstructMovement?.Invoke(constructId, x, y, z));
+            _connection.On<Construct>(Constants.BroadcastedConstruct, (construct) => NewBroadcastConstruct?.Invoke(construct));
+            _connection.On<Construct[]>(Constants.BroadcastedConstructs, (constructs) => NewBroadcastConstructs?.Invoke(constructs));
+            _connection.On<int>(Constants.RemovedConstruct, (constructId) => NewRemoveConstruct?.Invoke(constructId));
+            _connection.On<int[]>(Constants.RemovedConstructs, (constructIds) => NewRemoveConstructs?.Invoke(constructIds));
+            _connection.On<int, int>(Constants.BroadcastedConstructPlacement, (constructId, z) => NewBroadcastConstructPlacement?.Invoke(constructId, z));
+            _connection.On<int, float>(Constants.BroadcastedConstructRotation, (constructId, rotation) => NewBroadcastConstructRotation?.Invoke(constructId, rotation));
+            _connection.On<ConcurrentDictionary<int, float>>(Constants.BroadcastedConstructRotations, (constructIds) => NewBroadcastConstructRotations?.Invoke(constructIds));
+            _connection.On<int, float>(Constants.BroadcastedConstructScale, (constructId, scale) => NewBroadcastConstructScale?.Invoke(constructId, scale));
+            _connection.On<int[], float>(Constants.BroadcastedConstructScales, (constructIds, scale) => NewBroadcastConstructScales?.Invoke(constructIds, scale));
+            _connection.On<int, double, double, int>(Constants.BroadcastedConstructMovement, (constructId, x, y, z) => NewBroadcastConstructMovement?.Invoke(constructId, x, y, z));
 
             // Connection
             _connection.Reconnecting += Connection_Reconnecting;
