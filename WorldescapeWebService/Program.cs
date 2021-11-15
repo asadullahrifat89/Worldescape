@@ -3,13 +3,13 @@ using System.Reflection;
 using FluentValidation.AspNetCore;
 using WorldescapeWebService.Core;
 using WorldescapeWebService;
+using Microsoft.AspNetCore.ResponseCompression;
 
 #region Service Registration
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddCors(o => o.AddPolicy(
                    "CorsPolicy",
                    builder => builder
@@ -17,8 +17,6 @@ builder.Services.AddCors(o => o.AddPolicy(
                       .AllowAnyMethod()
                       .AllowAnyHeader()
                    ));
-
-builder.Services.AddSignalR();
 
 // Add validation and mediator
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(AddUserCommandValidator).GetTypeInfo().Assembly));
@@ -28,22 +26,15 @@ builder.Services.AddSingleton<ApiTokenHelper>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSignalR();
+
+builder.Services.AddResponseCompression(opts =>
+{
+    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+        new[] { "application/octet-stream" });
+});
 
 var app = builder.Build();
-
-//if (app.Environment.IsDevelopment())
-//{
-app.UseDeveloperExceptionPage();
-app.UseSwagger();
-app.UseSwaggerUI();
-//}
-
-// Configure the HTTP request pipeline.
-app.UseCors("CorsPolicy");
-//app.UseHttpsRedirection();
-//app.UseHsts();
-
-app.MapHub<WorldescapeHub>("/worldescapehub");
 
 #endregion
 
@@ -95,4 +86,23 @@ app.MapPost("/api/Command/UpdateWorld", async (UpdateWorldCommand command, IMedi
 
 #endregion
 
-app.Run();
+#region App Run
+
+// Configure the HTTP request pipeline.
+
+//if (app.Environment.IsDevelopment())
+//{
+app.UseDeveloperExceptionPage();
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
+
+app.UseResponseCompression();
+app.UseCors("CorsPolicy");
+//app.UseHttpsRedirection();
+//app.UseHsts();
+
+app.MapHub<WorldescapeHub>("/worldescapehub");
+app.Run(); 
+
+#endregion

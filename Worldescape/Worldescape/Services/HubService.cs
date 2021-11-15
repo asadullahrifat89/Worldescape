@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
 using Worldescape.Shared;
 
 namespace Worldescape
@@ -9,6 +11,8 @@ namespace Worldescape
     public class HubService : IHubService
     {
         #region Fields
+
+        private readonly ILogger<HubService> _logger;
 
         private readonly HubConnection _connection;
 
@@ -56,7 +60,7 @@ namespace Worldescape
 #else
             var url = Properties.Resources.ProdHubService;
 #endif
-            _connection = new HubConnectionBuilder().WithUrl(url).WithAutomaticReconnect().Build();
+            _connection = new HubConnectionBuilder().WithUrl(url).WithAutomaticReconnect().ConfigureLogging(logging => { logging.AddConsole(); }).Build();
 
             // Session
             _connection.On<Avatar>("AvatarLogin", (avatar) => AvatarLoggedIn?.Invoke(avatar));
@@ -93,7 +97,7 @@ namespace Worldescape
             _connection.Reconnected += Connection_Reconnected;
             _connection.Closed += Connection_Closed;
 
-            //ServicePointManager.DefaultConnectionLimit = 10;
+            ServicePointManager.DefaultConnectionLimit = 10;
         }
 
         #endregion
