@@ -36,7 +36,8 @@ namespace Worldescape.Pages
         double _objectLeft;
         double _objectTop;
 
-        bool _isCraftingConstruct;
+        bool _isAddingConstruct;
+        bool _isCraftingMode;
         bool _isMovingConstruct;
         bool _isCloningConstruct;
         //bool _isDeleting;
@@ -67,10 +68,10 @@ namespace Worldescape.Pages
         string[] avatarUrls = new string[]
         {
             "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png",
-            "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png",
-            "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_idle.png",
+            "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png",            
             "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_idle.png",
-            "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femaleAdventurer_idle.png",
+            "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_idle.png",
+            "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_idle.png",
         };
 
         List<ConstructAsset> ConstructAssets = new List<ConstructAsset>();
@@ -539,14 +540,18 @@ namespace Worldescape.Pages
         /// <param name="e"></param>
         private async void Canvas_root_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (_addingConstruct != null)
+            if (_isAddingConstruct && _addingConstruct != null)
             {
-                var construct = AddConstructOnCanvas(
-                    construct: _addingConstruct,
-                    x: e.GetCurrentPoint(Canvas_root).Position.X,
-                    y: e.GetCurrentPoint(Canvas_root).Position.Y);
+                var constructAsset = ((Button)_addingConstruct).Tag as Construct;
 
-                _addingConstruct = null;
+                var constructBtn = GenerateConstructButton(
+                       name: constructAsset.Name,
+                       imageUrl: constructAsset.ImageUrl);
+
+                var construct = AddConstructOnCanvas(
+                    construct: constructBtn,
+                    x: e.GetCurrentPoint(Canvas_root).Position.X,
+                    y: e.GetCurrentPoint(Canvas_root).Position.Y);                
 
                 await HubService.BroadcastConstructAsync(construct);
 
@@ -603,18 +608,22 @@ namespace Worldescape.Pages
             _selectedConstruct = uielement;
             ShowInteractiveConstruct(uielement);
 
-            if (_addingConstruct != null)
+            if (_isAddingConstruct && _addingConstruct != null)
             {
+                var constructAsset = ((Button)_addingConstruct).Tag as Construct;
+
+                var constructBtn = GenerateConstructButton(
+                       name: constructAsset.Name,
+                       imageUrl: constructAsset.ImageUrl);
+
                 var construct = AddConstructOnCanvas(
-                    construct: _addingConstruct,
+                    construct: constructBtn,
                     x: e.GetCurrentPoint(Canvas_root).Position.X,
                     y: e.GetCurrentPoint(Canvas_root).Position.Y);
 
-                _addingConstruct = null;
-
                 await HubService.BroadcastConstructAsync(construct);
 
-                Console.WriteLine("Construct added.");
+                Console.WriteLine("Construct added.");               
             }
             else if (_isCloningConstruct && _cloningConstruct != null)
             {
@@ -646,7 +655,7 @@ namespace Worldescape.Pages
 
                 Console.WriteLine("Construct moved.");
             }
-            else if (_isCraftingConstruct)
+            else if (_isCraftingMode)
             {
                 ShowConstructOperationButtons();
 
@@ -689,7 +698,7 @@ namespace Worldescape.Pages
         /// <param name="e"></param>
         private void Construct_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_isCraftingConstruct)
+            if (_isCraftingMode)
             {
                 UIElement uielement = (UIElement)sender;
 
@@ -725,7 +734,7 @@ namespace Worldescape.Pages
                 return;
             }
 
-            if (_isCraftingConstruct)
+            if (_isCraftingMode)
             {
                 // Drag drop selected construct
                 UIElement uielement = (UIElement)sender;
@@ -757,8 +766,8 @@ namespace Worldescape.Pages
 
         private void CraftButton_Click(object sender, RoutedEventArgs e)
         {
-            _isCraftingConstruct = !_isCraftingConstruct;
-            CraftButton.Content = _isCraftingConstruct ? "Crafting" : "Craft";
+            _isCraftingMode = !_isCraftingMode;
+            CraftButton.Content = _isCraftingMode ? "Crafting" : "Craft";
 
             _isMovingConstruct = false;
             ConstructMoveButton.Content = "Move";
@@ -769,9 +778,9 @@ namespace Worldescape.Pages
             //_isDeleting = false;
             ConstructDeleteButton.Content = "Delete";
 
-            if (!_isCraftingConstruct)
+            if (!_isCraftingMode)
             {
-                ConstructsAddButton.Visibility = Visibility.Collapsed;
+                ConstructAddButton.Visibility = Visibility.Collapsed;
 
                 HideConstructOperationButtons();
 
@@ -783,13 +792,26 @@ namespace Worldescape.Pages
             }
             else
             {
-                ConstructsAddButton.Visibility = Visibility.Visible;
+                ConstructAddButton.Visibility = Visibility.Visible;
                 //this.ConstructDeleteButton.Visibility = Visibility.Visible;
             }
         }
 
-        private void ConstructsAddButton_Click(object sender, RoutedEventArgs e)
+        private void ConstructAddButton_Click(object sender, RoutedEventArgs e)
         {
+            // Turn off add mode if previously triggered
+            if (_isAddingConstruct)
+            {
+                _isAddingConstruct = false;
+                _addingConstruct = null;
+                ConstructAddButton.Content = "Add";
+
+                OperationalConstructHolder.Content = null;
+                OperationalConstructStatus.Text = null;
+
+                return;
+            }
+
             if (!ConstructAssets.Any())
             {
                 ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).ToList();
@@ -806,6 +828,11 @@ namespace Worldescape.Pages
                         imageUrl: constructAsset.ImageUrl);
 
                     _addingConstruct = constructBtn;
+
+                    _isAddingConstruct = !_isAddingConstruct;
+                    ConstructAddButton.Content = _isAddingConstruct ? "Adding" : "Add";
+
+                    ShowOperationalConstruct(_addingConstruct, "Adding");
                 });
 
             constructAssetPicker.Show();

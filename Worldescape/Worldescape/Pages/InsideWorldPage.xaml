@@ -35,11 +35,11 @@
                     Style="{StaticResource MaterialDesign_Button_Style}" />
 
                 <Button
-                    x:Name="ConstructsAddButton"
+                    x:Name="ConstructAddButton"
                     Height="50"
                     MinWidth="100"
                     Margin="10"
-                    Click="ConstructsAddButton_Click"
+                    Click="ConstructAddButton_Click"
                     Content="Add"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_Button_Style}"
