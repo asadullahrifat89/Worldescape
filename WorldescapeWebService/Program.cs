@@ -39,8 +39,8 @@ app.UseSwaggerUI();
 
 // Configure the HTTP request pipeline.
 app.UseCors("CorsPolicy");
-app.UseHttpsRedirection();
-app.UseHsts();
+//app.UseHttpsRedirection();
+//app.UseHsts();
 
 #endregion
 
