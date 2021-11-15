@@ -43,7 +43,7 @@ namespace Worldescape
 
             _assetSelected = assetSelected;
 
-            Height = 700;
+            Height = 600;
             Width = 610;            
             Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style;
 
@@ -110,7 +110,7 @@ namespace Worldescape
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
-                Height = 600
+                Height = 500
             };
 
             foreach (var item in pagedData)
@@ -156,7 +156,7 @@ namespace Worldescape
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
-                Height = 600
+                Height = 500
             };
 
             foreach (var item in pagedData)
