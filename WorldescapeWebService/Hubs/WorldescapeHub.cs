@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using Worldescape.Shared;
 
