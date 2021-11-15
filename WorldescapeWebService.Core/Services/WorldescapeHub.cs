@@ -1,4 +1,4 @@
-﻿using LiteDB;
+﻿//using LiteDB;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
@@ -21,7 +21,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
     private static ConcurrentDictionary<string, Avatar> OnlineAvatars = new();
 
     //<ConstructId, Construct>
-    private static ConcurrentDictionary<int, Construct> ConcurrentConstructs = new();
+    private static ConcurrentDictionary<int, Construct> OnlineConstructs = new();
 
     #endregion
 
@@ -45,44 +45,50 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
     {
         if (userId > 0)
         {
-            // Open database (or create if doesn't exist)
-            using (var db = new LiteDatabase(@"Worldescape.db"))
-            {
-                // Get Avatars collection
-                var col = db.GetCollection<Avatar>("Avatars");
+            //// Open database (or create if doesn't exist)
+            //using (var db = new LiteDatabase(@"Worldescape.db"))
+            //{
+            //    // Get Avatars collection
+            //    var col = db.GetCollection<Avatar>("Avatars");
 
-                var result = col.FindOne(x => x.Id == userId);
+            //    var result = col.FindOne(x => x.Id == userId);
 
-                return result;
-            }
+            //    return result;
+            //}
+            return OnlineAvatars.SingleOrDefault(c => c.Value.Id == userId).Value;
+
         }
         else
         {
-            // Open database (or create if doesn't exist)
-            using (var db = new LiteDatabase(@"Worldescape.db"))
-            {
-                // Get Avatars collection
-                var col = db.GetCollection<Avatar>("Avatars");
+            //// Open database (or create if doesn't exist)
+            //using (var db = new LiteDatabase(@"Worldescape.db"))
+            //{
+            //    // Get Avatars collection
+            //    var col = db.GetCollection<Avatar>("Avatars");
 
-                var result = col.FindOne(x => x.ConnectionId == Context.ConnectionId);
+            //    var result = col.FindOne(x => x.ConnectionId == Context.ConnectionId);
 
-                return result;
-            }
+            //    return result;
+            //}
+
+            return OnlineAvatars.SingleOrDefault(c => c.Key == Context.ConnectionId).Value;
         }
     }
 
     private string GetUserConnectionId(int userId)
     {
-        // Open database (or create if doesn't exist)
-        using (var db = new LiteDatabase(@"Worldescape.db"))
-        {
-            // Get Avatars collection
-            var col = db.GetCollection<Avatar>("Avatars");
+        //// Open database (or create if doesn't exist)
+        //using (var db = new LiteDatabase(@"Worldescape.db"))
+        //{
+        //    // Get Avatars collection
+        //    var col = db.GetCollection<Avatar>("Avatars");
 
-            var result = col.FindOne(x => x.Id == userId);
+        //    var result = col.FindOne(x => x.Id == userId);
 
-            return result.ConnectionId;
-        }
+        //    return result.ConnectionId;
+        //}
+
+        return OnlineAvatars.SingleOrDefault(c => c.Value.Id == userId).Key;
     }
 
     #endregion
@@ -121,70 +127,63 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
     public Tuple<Avatar[], Construct[]> Login(Avatar avatar) // Get a list of online avatars and constructs
     {
-        // Open database (or create if doesn't exist)
-        using (var db = new LiteDatabase(@"Worldescape.db"))
+        // If an existing avatar doesn't exist
+        if (!OnlineAvatars.Any(x => x.Value.Id == avatar.Id))
         {
-            // Get Avatars collection
-            var colAvatars = db.GetCollection<Avatar>("Avatars");
+            var minValue = DateTime.MinValue;
 
-            // If an existing avatar doesn't exist
-            if (!colAvatars.Exists(x => x.Id == avatar.Id))
+            // Delete inactive avatars who have remained inactive for more than a minute
+            var concurrentAvatars = OnlineAvatars.Values.Where(x => x.World.Id == avatar.World.Id && x.Session != null && x.Session.DisconnectionTime != minValue);
+
+            foreach (var inAvatar in concurrentAvatars)
             {
-                var minValue = DateTime.MinValue;
+                TimeSpan diff = DateTime.Now - inAvatar.Session.DisconnectionTime;
 
-                // Delete inactive avatars who have remained inactive for more than a minute
-                var concurrentAvatars = colAvatars.Find(x => x.World.Id == avatar.World.Id && x.Session != null && x.Session.DisconnectionTime != minValue);
-
-                foreach (var inAvatar in concurrentAvatars)
+                if (diff.TotalMinutes >= TimeSpan.FromMinutes(1).TotalMinutes)
                 {
-                    TimeSpan diff = DateTime.Now - inAvatar.Session.DisconnectionTime;
-
-                    // TODO: Must fix auto delete of avatar
-                    if (diff.TotalMinutes >= TimeSpan.FromMinutes(1).TotalMinutes)
-                    {
-                        colAvatars.Delete(inAvatar.Id);
-                    }
+                    string connectionId = GetUserConnectionId(avatar.Id);
+                    OnlineAvatars.TryRemove(connectionId, out Avatar removed);
                 }
-
-                avatar.Session = new UserSession() { ReconnectionTime = DateTime.UtcNow };
-                avatar.ConnectionId = Context.ConnectionId;
-
-                // Save the new avatar
-                BsonValue? id = colAvatars.Insert(avatar);
-
-                // If not saved then return null
-                if (id.IsNull || id.AsInt32 <= 0)
-                {
-                    return null;
-                }
-
-                // Check if a world exists or not in SignalR groups
-                if (!OnlineWorlds.ContainsKey(avatar.World.Id))
-                {
-                    // If the group doesn't exist in hub add it
-                    Groups.AddToGroupAsync(Context.ConnectionId, avatar.World.Id.ToString());
-
-                    OnlineWorlds.TryAdd(avatar.World.Id, avatar.World);
-                }
-
-                Clients.OthersInGroup(GetUsersGroup(avatar)).AvatarLogin(avatar);
-
-                _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId:{avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now}");
-
-                // Get Constructs collection
-                var colConstructs = db.GetCollection<Construct>("Constructs");
-
-                // Find all constructs from the calling avatar's world
-                var constructs = colConstructs.Find(x => x.World.Id == avatar.World.Id)?.ToArray();
-
-                // Find all avatars from the calling avatar's world
-                var avatars = colAvatars.Find(x => x.World.Id == avatar.World.Id)?.ToArray();
-
-                // Return the curated avatars and constructs
-                return new Tuple<Avatar[], Construct[]>(avatars ?? new Avatar[] { }, constructs ?? new Construct[] { });
             }
 
-            return null;
+            avatar.Session = new UserSession() { ReconnectionTime = DateTime.UtcNow };
+            avatar.ConnectionId = Context.ConnectionId;
+
+            // Save the new avatar           
+            OnlineAvatars.TryAdd(Context.ConnectionId, avatar);
+
+            // Check if a world exists or not in SignalR groups
+            if (!OnlineWorlds.ContainsKey(avatar.World.Id))
+            {
+                // If the group doesn't exist in hub add it
+                Groups.AddToGroupAsync(Context.ConnectionId, avatar.World.Id.ToString());
+
+                OnlineWorlds.TryAdd(avatar.World.Id, avatar.World);
+            }
+
+            Clients.OthersInGroup(GetUsersGroup(avatar)).AvatarLogin(avatar);
+
+            _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId:{avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now}");
+
+            // Find all constructs from the calling avatar's world
+            var constructs = OnlineConstructs.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+
+            // Find all avatars from the calling avatar's world
+            var avatars = OnlineAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+
+            // Return the curated avatars and constructs
+            return new Tuple<Avatar[], Construct[]>(avatars ?? new Avatar[] { }, constructs ?? new Construct[] { });
+        }
+        else
+        {
+            // Find all constructs from the calling avatar's world
+            var constructs = OnlineConstructs.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+
+            // Find all avatars from the calling avatar's world except himself
+            var avatars = OnlineAvatars.Where(x => x.Value.Id != avatar.Id && x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+
+            // Return the curated avatars and constructs
+            return new Tuple<Avatar[], Construct[]>(avatars ?? new Avatar[] { }, constructs ?? new Construct[] { });
         }
     }
 
@@ -194,20 +193,15 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
         if (avatar != null && !avatar.IsEmpty())
         {
-            // Open database (or create if doesn't exist)
-            using (var db = new LiteDatabase(@"Worldescape.db"))
+            if (OnlineAvatars.Any(x => x.Value.Id == avatar.Id))
             {
-                // Get Avatars collection
-                var col = db.GetCollection<Avatar>("Avatars");
+                string connectionId = OnlineAvatars.SingleOrDefault((c) => c.Value.Id == avatar.Id).Key;
 
-                if (col.Exists(x => x.Id == avatar.Id))
-                {
-                    col.Delete(avatar.Id);
+                OnlineAvatars.TryRemove(connectionId, out Avatar a);
 
-                    Clients.OthersInGroup(avatar.World.Id.ToString()).AvatarLogout(avatar.Id);
+                Clients.OthersInGroup(avatar.World.Id.ToString()).AvatarLogout(avatar.Id);
 
-                    _logger.LogInformation($"-- ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Logout-> WorldId {avatar.World.Id} - {DateTime.Now}");
-                }
+                _logger.LogInformation($"-- ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Logout-> WorldId {avatar.World.Id} - {DateTime.Now}");
             }
         }
     }
@@ -248,18 +242,11 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             && recepientId != sender.Id
             && !string.IsNullOrEmpty(message))
         {
-            // Open database (or create if doesn't exist)
-            using (var db = new LiteDatabase(@"Worldescape.db"))
+            if (OnlineAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
             {
-                // Get Avatars collection
-                var col = db.GetCollection<Avatar>("Avatars");
+                Clients.Client(recipientConnectionId).UnicastTextMessage(sender.Id, message);
 
-                if (col.Exists(x => x.Id == recepientId && x.ConnectionId == recipientConnectionId))
-                {
-                    Clients.Client(recipientConnectionId).UnicastTextMessage(sender.Id, message);
-
-                    _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastTextMessage - {DateTime.Now}");
-                }
+                _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastTextMessage - {DateTime.Now}");
             }
         }
     }
@@ -273,18 +260,11 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             && recepientId != sender.Id
             && img != null)
         {
-            // Open database (or create if doesn't exist)
-            using (var db = new LiteDatabase(@"Worldescape.db"))
+            if (OnlineAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
             {
-                // Get Avatars collection
-                var col = db.GetCollection<Avatar>("Avatars");
+                Clients.Client(recipientConnectionId).UnicastPictureMessage(sender.Id, img);
 
-                if (col.Exists(x => x.Id == recepientId && x.ConnectionId == recipientConnectionId))
-                {
-                    Clients.Client(recipientConnectionId).UnicastPictureMessage(sender.Id, img);
-
-                    _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastImageMessage - {DateTime.Now}");
-                }
+                _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastImageMessage - {DateTime.Now}");
             }
         }
     }
@@ -299,18 +279,11 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
         Avatar sender = GetCallingUser();
         string recipientConnectionId = GetUserConnectionId(recepientId);
 
-        // Open database (or create if doesn't exist)
-        using (var db = new LiteDatabase(@"Worldescape.db"))
+        if (OnlineAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
         {
-            // Get Avatars collection
-            var col = db.GetCollection<Avatar>("Avatars");
+            Clients.Client(recipientConnectionId).AvatarTyping(sender.Id);
 
-            if (col.Exists(x => x.Id == recepientId && x.ConnectionId == recipientConnectionId))
-            {
-                Clients.Client(recipientConnectionId).AvatarTyping(sender.Id);
-
-                _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} Typing - {DateTime.Now}");
-            }
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} Typing - {DateTime.Now}");
         }
     }
 
@@ -594,11 +567,11 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
     private void UpdateConstructPlacementInConstructs(int constructId, int z)
     {
-        if (ConcurrentConstructs.ContainsKey(constructId))
+        if (OnlineConstructs.ContainsKey(constructId))
         {
-            var conUpdated = ConcurrentConstructs[constructId];
+            var conUpdated = OnlineConstructs[constructId];
             conUpdated.Coordinate.Z = z;
-            ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
+            OnlineConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: OnlineConstructs[constructId]);
         }
         //// Open database (or create if doesn't exist)
         //using (var db = new LiteDatabase(@"Worldescape.db"))
@@ -619,11 +592,11 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
     private void UpdateConstructRotationInConstructs(int constructId, float rotation)
     {
-        if (ConcurrentConstructs.ContainsKey(constructId))
+        if (OnlineConstructs.ContainsKey(constructId))
         {
-            var conUpdated = ConcurrentConstructs[constructId];
+            var conUpdated = OnlineConstructs[constructId];
             conUpdated.Rotation = rotation;
-            ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
+            OnlineConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: OnlineConstructs[constructId]);
         }
 
         //// Open database (or create if doesn't exist)
@@ -645,11 +618,11 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
     private void UpdateConstructScaleInConstructs(int constructId, float scale)
     {
-        if (ConcurrentConstructs.ContainsKey(constructId))
+        if (OnlineConstructs.ContainsKey(constructId))
         {
-            var conUpdated = ConcurrentConstructs[constructId];
+            var conUpdated = OnlineConstructs[constructId];
             conUpdated.Scale = scale;
-            ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
+            OnlineConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: OnlineConstructs[constructId]);
         }
 
         //// Open database (or create if doesn't exist)
@@ -671,9 +644,9 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
     private void RemoveConstructFromConstructs(int constructId)
     {
-        if (ConcurrentConstructs.ContainsKey(constructId))
+        if (OnlineConstructs.ContainsKey(constructId))
         {
-            ConcurrentConstructs.TryRemove(constructId, out Construct c);
+            OnlineConstructs.TryRemove(constructId, out Construct c);
         }
 
         //// Open database (or create if doesn't exist)
@@ -711,25 +684,25 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
         //    }
         //}
 
-        if (!ConcurrentConstructs.ContainsKey(construct.Id))
+        if (!OnlineConstructs.ContainsKey(construct.Id))
         {
-            ConcurrentConstructs.TryAdd(key: construct.Id, value: construct);
+            OnlineConstructs.TryAdd(key: construct.Id, value: construct);
         }
         else
         {
-            ConcurrentConstructs.TryUpdate(key: construct.Id, newValue: construct, comparisonValue: ConcurrentConstructs[construct.Id]);
+            OnlineConstructs.TryUpdate(key: construct.Id, newValue: construct, comparisonValue: OnlineConstructs[construct.Id]);
         }
     }
 
     private void UpdateConstructMovementInConstructs(int constructId, double x, double y, int z)
     {
-        if (ConcurrentConstructs.ContainsKey(constructId))
+        if (OnlineConstructs.ContainsKey(constructId))
         {
-            var conUpdated = ConcurrentConstructs[constructId];
+            var conUpdated = OnlineConstructs[constructId];
             conUpdated.Coordinate.X = x;
             conUpdated.Coordinate.Y = y;
             conUpdated.Coordinate.Z = z;
-            ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
+            OnlineConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: OnlineConstructs[constructId]);
         }
 
         //// Open database (or create if doesn't exist)
