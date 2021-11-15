@@ -30,8 +30,6 @@ namespace Worldescape.Pages
     {
         #region Fields
 
-        private readonly ILogger<InsideWorldPage> _logger;
-
         bool _isPointerCaptured;
         double _pointerX;
         double _pointerY;
@@ -46,7 +44,7 @@ namespace Worldescape.Pages
         bool IsConnected;
         bool IsLoggedIn;
 
-        UIElement _avatar;
+        //UIElement _avatar;
 
         UIElement _selectedConstruct;
         UIElement _addingConstruct;
@@ -95,12 +93,11 @@ namespace Worldescape.Pages
 
         #region Ctor
 
-        public InsideWorldPage(ILogger<InsideWorldPage> logger, IHubService hubService)
+        public InsideWorldPage(/*IHubService hubService*/)
         {
             InitializeComponent();
 
-            _logger = logger;
-            HubService = hubService;
+            HubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService; // hubService;
 
             DemoWorld();
             ListenOnHubService();
@@ -132,7 +129,7 @@ namespace Worldescape.Pages
                     ImageUrl = Character.ImageUrl,
                 },
                 World = InWorld,
-                Coordinate = new Coordinate(new Random().Next(500), new Random().Next(500), new Random().Next(500)),
+                Coordinate = new Coordinate(new Random().Next(100), new Random().Next(100), new Random().Next(100)),
                 ImageUrl = avatarUrls[new Random().Next(avatarUrls.Count())],
             };
         }
@@ -328,6 +325,8 @@ namespace Worldescape.Pages
         {
             if (avatarId > 0)
             {
+                Console.WriteLine("++ NewBroadcastAvatarActivityStatus");
+
                 if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
@@ -341,6 +340,8 @@ namespace Worldescape.Pages
         {
             if (avatarId > 0)
             {
+                Console.WriteLine("++ NewBroadcastAvatarMovement");
+
                 if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
@@ -356,6 +357,8 @@ namespace Worldescape.Pages
         #region Connection
         private async void HubService_ConnectionClosed()
         {
+            Console.WriteLine("Hub connection closed.");
+
             IsConnected = false;
             IsLoggedIn = false;
 
@@ -371,12 +374,16 @@ namespace Worldescape.Pages
 
             IsConnected = true;
             IsLoggedIn = true;
+
+            Console.WriteLine("Hub connection reconnected.");
         }
 
         private void HubService_ConnectionReconnecting()
         {
             IsConnected = false;
             IsLoggedIn = false;
+
+            Console.WriteLine("Hub connection reconnecting.");
         }
         #endregion
 
@@ -399,16 +406,12 @@ namespace Worldescape.Pages
             }
             else
             {
-                //synchronizationContext.Post(async (_) =>
-                //{
-                //    ConsentContentDialog contentDialog = new("Connection failure", "Would you like to try again?");
-                //    contentDialog.Selected += async (sender, e) =>
-                //    {
-                //        await TryConnect_TryLoginToHubService();
-                //    };
+                MessageBoxResult messageBoxResult = MessageBox.Show("Would you like to try again?", "Connection failure", MessageBoxButton.OKCancel);
 
-                //    _ = await contentDialog.ShowAsync();
-                //}, null);
+                if (messageBoxResult == MessageBoxResult.OK)
+                {
+                    await TryConnectAndHubLogin();
+                }
             }
         }
 
@@ -423,6 +426,9 @@ namespace Worldescape.Pages
 
                 await HubService.ConnectAsync();
                 IsConnected = true;
+
+                Console.WriteLine("Hub connected.");
+
                 return true;
             }
             catch (Exception ex)
@@ -434,16 +440,17 @@ namespace Worldescape.Pages
 
         private async Task TryHubLogin()
         {
-            bool joined = await HubLogin();
+            bool loggedIn = await HubLogin();
 
-            //if (joined)
-            //{
-            //    DrawAvatarOnCanvas(Avatar);
-            //}
-            //else
-            //{
+            if (!loggedIn)
+            {
+                MessageBoxResult messageBoxResult = MessageBox.Show("Would you like to try again?", "Login failure", MessageBoxButton.OKCancel);
 
-            //}
+                if (messageBoxResult == MessageBoxResult.OK)
+                {
+                    await TryHubLogin();
+                }
+            }
         }
 
         private async Task<bool> HubLogin()
@@ -542,6 +549,8 @@ namespace Worldescape.Pages
                 _addingConstruct = null;
 
                 await HubService.BroadcastConstructAsync(construct);
+
+                Console.WriteLine("Construct added.");
             }
             else if (_isCloningConstruct && _cloningConstruct != null)
             {
@@ -559,6 +568,8 @@ namespace Worldescape.Pages
                         y: e.GetCurrentPoint(Canvas_root).Position.Y);
 
                     await HubService.BroadcastConstructAsync(construct);
+
+                    Console.WriteLine("Construct cloned.");
                 }
             }
             else if (_isMovingConstruct && _movingConstruct != null)
@@ -568,6 +579,8 @@ namespace Worldescape.Pages
                 var construct = taggedObject as Construct;
 
                 await HubService.BroadcastConstructMovementAsync(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+
+                Console.WriteLine("Construct moved.");
             }
             else
             {
@@ -600,6 +613,8 @@ namespace Worldescape.Pages
                 _addingConstruct = null;
 
                 await HubService.BroadcastConstructAsync(construct);
+
+                Console.WriteLine("Construct added.");
             }
             else if (_isCloningConstruct && _cloningConstruct != null)
             {
@@ -617,6 +632,8 @@ namespace Worldescape.Pages
                         y: e.GetCurrentPoint(Canvas_root).Position.Y);
 
                     await HubService.BroadcastConstructAsync(construct);
+
+                    Console.WriteLine("Construct cloned.");
                 }
             }
             else if (_isMovingConstruct && _movingConstruct != null)
@@ -626,6 +643,8 @@ namespace Worldescape.Pages
                 var construct = taggedObject as Construct;
 
                 await HubService.BroadcastConstructMovementAsync(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+
+                Console.WriteLine("Construct moved.");
             }
             else if (_isCraftingConstruct)
             {
@@ -642,6 +661,8 @@ namespace Worldescape.Pages
                 uielement.CapturePointer(e.Pointer);
 
                 _isPointerCaptured = true;
+
+                Console.WriteLine("Construct drag started.");
             }
             else
             {
@@ -655,6 +676,8 @@ namespace Worldescape.Pages
                     var z = Canvas.GetZIndex(iElement);
 
                     await HubService.BroadcastAvatarMovementAsync(avatarId: movedAvatar.Id, x: movedAvatar.Coordinate.X, y: movedAvatar.Coordinate.Y, z: z);
+
+                    Console.WriteLine("Avatar moved.");
                 }
             }
         }
@@ -704,7 +727,7 @@ namespace Worldescape.Pages
 
             if (_isCraftingConstruct)
             {
-                // Drag release of a construct
+                // Drag drop selected construct
                 UIElement uielement = (UIElement)sender;
                 _isPointerCaptured = false;
                 uielement.ReleasePointerCapture(e.Pointer);
@@ -723,6 +746,8 @@ namespace Worldescape.Pages
                 construct.Coordinate.Z = z;
 
                 await HubService.BroadcastConstructMovementAsync(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+
+                Console.WriteLine("Construct dropped.");
             }
         }
 
@@ -950,7 +975,6 @@ namespace Worldescape.Pages
             Canvas.SetZIndex(avatarBtn, avatar.Coordinate.Z);
 
             Canvas_root.Children.Add(avatarBtn);
-            _avatar = avatarBtn;
         }
 
         /// <summary>

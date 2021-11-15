@@ -93,7 +93,7 @@ namespace Worldescape.Services
             connection.Reconnected += Connection_Reconnected;
             connection.Closed += Connection_Closed;
 
-            ServicePointManager.DefaultConnectionLimit = 10;
+            //ServicePointManager.DefaultConnectionLimit = 10;
         }
 
         #endregion
