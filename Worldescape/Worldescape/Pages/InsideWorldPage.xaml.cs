@@ -848,6 +848,9 @@ namespace Worldescape.Pages
             //_isDeleting = false;
             ConstructDeleteButton.Content = "Delete";
 
+            _isAddingConstruct = false;
+            ConstructAddButton.Content = "Add";
+
             if (!_isCraftingMode)
             {
                 ConstructAddButton.Visibility = Visibility.Collapsed;
@@ -856,6 +859,7 @@ namespace Worldescape.Pages
 
                 _movingConstruct = null;
                 _cloningConstruct = null;
+                _addingConstruct = null;
 
                 OperationalConstructHolder.Content = null;
                 OperationalConstructStatus.Text = null;
