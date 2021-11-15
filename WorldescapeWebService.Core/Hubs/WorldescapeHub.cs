@@ -69,9 +69,8 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             UpdateAvatarDisconnectionTime(avatar.Id, DateTime.Now);
 
             var group = GetUsersGroup(avatar);
-
             Clients.OthersInGroup(group).AvatarDisconnection(avatar.Id);
-            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} OnDisconnectedAsync - {DateTime.Now}");
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} OnDisconnectedAsync - {DateTime.Now} World: {group}");
         }
         return base.OnDisconnectedAsync(exception);
     }
@@ -83,8 +82,9 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
         {
             UpdateAvatarReconnectionTime(user.Id, DateTime.Now);
 
-            Clients.OthersInGroup(GetUsersGroup(user)).AvatarReconnection(user.Id);
-            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {user.Id} OnConnectedAsync- {DateTime.Now}");
+            var group = GetUsersGroup(user);
+            Clients.OthersInGroup(group).AvatarReconnection(user.Id);
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {user.Id} OnConnectedAsync- {DateTime.Now} World: {group}");
         }
         return base.OnConnectedAsync();
     }
@@ -134,7 +134,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
             var group = GetUsersGroup(avatar);
             Clients.OthersInGroup(group).AvatarLogin(avatar);
-            _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now}");
+            _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now} World: {group}");
 
 
             // Find all constructs from the calling avatar's world
@@ -160,7 +160,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
             var group = GetUsersGroup(avatar);
             Clients.OthersInGroup(group).AvatarLogin(avatar);
-            _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now}");
+            _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now} World: {group}");
 
             // Find all constructs from the calling avatar's world
             var constructs = OnlineConstructs.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
@@ -188,7 +188,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
                 var group = avatar.World.Id.ToString();
                 Clients.OthersInGroup(group).AvatarLogout(avatar.Id);
 
-                _logger.LogInformation($"-- ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Logout-> WorldId {avatar.World.Id} - {DateTime.Now}");
+                _logger.LogInformation($"-- ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Logout-> WorldId {avatar.World.Id} - {DateTime.Now} World: {group}");
             }
         }
     }
@@ -205,7 +205,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             var group = GetUsersGroup(sender);
             Clients.OthersInGroup(group).BroadcastTextMessage(sender.Id, message);
 
-            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastTextMessage - {DateTime.Now}");
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastTextMessage - {DateTime.Now} World: {group}");
         }
     }
 
@@ -218,7 +218,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             var group = GetUsersGroup(sender);
             Clients.OthersInGroup(group).BroadcastPictureMessage(sender.Id, img);
 
-            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastImageMessage - {DateTime.Now}");
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastImageMessage - {DateTime.Now} World: {group}");
         }
     }
 
@@ -235,7 +235,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             {
                 Clients.Client(recipientConnectionId).UnicastTextMessage(sender.Id, message);
 
-                _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastTextMessage - {DateTime.Now}");
+                _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastTextMessage - {DateTime.Now} World: {sender.World.Id}");
             }
         }
     }
@@ -253,7 +253,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             {
                 Clients.Client(recipientConnectionId).UnicastPictureMessage(sender.Id, img);
 
-                _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastImageMessage - {DateTime.Now}");
+                _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastImageMessage - {DateTime.Now} World: {sender.World.Id}");
             }
         }
     }
@@ -272,7 +272,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
         {
             Clients.Client(recipientConnectionId).AvatarTyping(sender.Id);
 
-            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} Typing - {DateTime.Now}");
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} Typing - {DateTime.Now} World: {sender.World.Id}");
         }
     }
 
@@ -282,7 +282,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
         var group = GetUsersGroup(sender);
         Clients.OthersInGroup(group).AvatarBroadcastTyping(sender.Id);
-        _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastTyping - {DateTime.Now}");
+        _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastTyping - {DateTime.Now} World: {group}");
     }
 
     #endregion
@@ -299,7 +299,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
             UpdateAvatarMovement(avatarId, x, y, z);
 
-            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatarId} BroadcastAvatarMovement - {DateTime.Now}");
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatarId} BroadcastAvatarMovement - {DateTime.Now} World: {group}");
         }
     }
 
@@ -312,7 +312,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
 
             UpdateAvatarActivityStatus(avatarId, activityStatus);
 
-            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatarId} BroadcastAvatarActivityStatus - {DateTime.Now}");
+            _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatarId} BroadcastAvatarActivityStatus - {DateTime.Now} World: {group}");
         }
     }
 
@@ -327,7 +327,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             var group = GetUsersGroup(GetCallingUser());
             Clients.OthersInGroup(group).BroadcastConstruct(construct);
             AddOrUpdateConstructInConstructs(construct);
-            _logger.LogInformation($"<> {construct.Id} BroadcastConstruct - {DateTime.Now}");
+            _logger.LogInformation($"<> {construct.Id} BroadcastConstruct - {DateTime.Now} World: {group}");
         }
     }
 
@@ -341,7 +341,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             {
                 AddOrUpdateConstructInConstructs(construct);
             }
-            _logger.LogInformation($"<> {constructs.Count()} BroadcastConstructs - {DateTime.Now}");
+            _logger.LogInformation($"<> {constructs.Count()} BroadcastConstructs - {DateTime.Now} World: {group}");
         }
     }
 
@@ -352,7 +352,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             var group = GetUsersGroup(GetCallingUser());
             Clients.OthersInGroup(group).RemoveConstruct(constructId);
             RemoveConstructFromConstructs(constructId);
-            _logger.LogInformation($"<> Construct: {constructId} RemoveConstruct - {DateTime.Now}");
+            _logger.LogInformation($"<> Construct: {constructId} RemoveConstruct - {DateTime.Now} World: {group}");
         }
     }
 
@@ -368,7 +368,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
                 RemoveConstructFromConstructs(constructId);
             }
 
-            _logger.LogInformation($"<> {constructIds.Count()} RemoveConstructs - {DateTime.Now}");
+            _logger.LogInformation($"<> {constructIds.Count()} RemoveConstructs - {DateTime.Now} World: {group}");
         }
     }
 
@@ -379,7 +379,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             var group = GetUsersGroup(GetCallingUser());
             Clients.OthersInGroup(group).BroadcastConstructPlacement(constructId, z);
             UpdateConstructPlacementInConstructs(constructId, z);
-            _logger.LogInformation($"<> Construct: {constructId} BroadcastConstructPlacement - {DateTime.Now}");
+            _logger.LogInformation($"<> Construct: {constructId} BroadcastConstructPlacement - {DateTime.Now} World: {group}");
         }
     }
 
@@ -390,7 +390,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             var group = GetUsersGroup(GetCallingUser());
             Clients.OthersInGroup(group).BroadcastConstructRotation(constructId, rotation);
             UpdateConstructRotationInConstructs(constructId, rotation);
-            _logger.LogInformation($"<> Construct: {constructId} BroadcastConstructRotation - {DateTime.Now}");
+            _logger.LogInformation($"<> Construct: {constructId} BroadcastConstructRotation - {DateTime.Now} World: {group}");
         }
     }
 
@@ -406,7 +406,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
                 UpdateConstructRotationInConstructs(constructId.Key, constructId.Value);
             }
 
-            _logger.LogInformation($"<> {constructIds.Count()} BroadcastConstructRotations - {DateTime.Now}");
+            _logger.LogInformation($"<> {constructIds.Count()} BroadcastConstructRotations - {DateTime.Now} World: {group}");
         }
     }
 
@@ -417,7 +417,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             var group = GetUsersGroup(GetCallingUser());
             Clients.OthersInGroup(group).BroadcastConstructScale(constructId, scale);
             UpdateConstructScaleInConstructs(constructId, scale);
-            _logger.LogInformation($"<> Construct: {constructId} BroadcastConstructScale - {DateTime.Now}");
+            _logger.LogInformation($"<> Construct: {constructId} BroadcastConstructScale - {DateTime.Now} World: {group}");
         }
     }
 
@@ -433,7 +433,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
                 UpdateConstructScaleInConstructs(constructId, scale);
             }
 
-            _logger.LogInformation($"<> {constructIds.Count()} BroadcastConstructScales - {DateTime.Now}");
+            _logger.LogInformation($"<> {constructIds.Count()} BroadcastConstructScales - {DateTime.Now} World: {group}");
         }
     }
 
@@ -444,7 +444,7 @@ public class WorldescapeHub : Hub<IWorldescapeHub>
             var group = GetUsersGroup(GetCallingUser());
             Clients.OthersInGroup(group).BroadcastConstructMovement(constructId, x, y, z);
             UpdateConstructMovementInConstructs(constructId, x, y, z);
-            _logger.LogInformation($"<> Construct: Construct: {constructId} BroadcastConstructMovement - {DateTime.Now}");
+            _logger.LogInformation($"<> Construct: Construct: {constructId} BroadcastConstructMovement - {DateTime.Now} World: {group}");
         }
     }
 
