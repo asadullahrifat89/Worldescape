@@ -22,7 +22,7 @@ namespace Worldescape
             InitializeComponent();
 
             Startup += App_Startup;
-            
+
             ServiceCollection services = new ServiceCollection();
             ConfigureServices(services);
             ServiceProvider = services.BuildServiceProvider();
@@ -54,8 +54,13 @@ namespace Worldescape
 
         private void App_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            //MessageBox.Show(e.ExceptionObject.Message + Environment.NewLine + e.ExceptionObject.StackTrace);
             Console.WriteLine(e.ExceptionObject.Message);
+
+            var mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+            if (mainPage != null)
+            {
+                mainPage.LogError(e.ExceptionObject);
+            }
             e.Handled = true;
         }
     }

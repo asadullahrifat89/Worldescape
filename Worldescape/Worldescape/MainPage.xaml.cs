@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using Windows.UI.Xaml.Controls;
 
 namespace Worldescape
@@ -7,16 +8,23 @@ namespace Worldescape
     {
         #region Fields
 
-
+        private readonly ILogger<MainPage> _logger;
 
         #endregion
 
-        public MainPage()
+        public MainPage(ILogger<MainPage> logger)
         {
             InitializeComponent();
+
+            _logger = logger;
         }
 
         #region Methods
+
+        public void LogError(Exception error)
+        {
+            _logger.LogError(error, error.Message);
+        }
 
         public void NavigateToPage(Page page)
         {

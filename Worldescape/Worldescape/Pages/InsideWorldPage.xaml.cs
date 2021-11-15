@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,6 +29,8 @@ namespace Worldescape.Pages
     public partial class InsideWorldPage : Page
     {
         #region Fields
+
+        private readonly ILogger<InsideWorldPage> _logger;
 
         bool _isPointerCaptured;
         double _pointerX;
@@ -92,16 +95,15 @@ namespace Worldescape.Pages
 
         #region Ctor
 
-        public InsideWorldPage()
+        public InsideWorldPage(ILogger<InsideWorldPage> logger, IHubService hubService)
         {
             InitializeComponent();
 
+            _logger = logger;
+            HubService = hubService;
+
             DemoWorld();
-
-            HubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
-
             ListenOnHubService();
-
             TryConnectAndHubLogin();
         }
 
