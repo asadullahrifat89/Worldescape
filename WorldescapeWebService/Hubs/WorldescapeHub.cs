@@ -4,14 +4,17 @@ using Worldescape.Shared;
 
 namespace WorldescapeWebService;
 
-public class WorldescapeHub : Hub/*Hub<IWorldescapeHub>*/
+/// <summary>
+/// A class comprising of all of the SignalR methods. For each user a new ConnectionId is generated.
+/// </summary>
+public class WorldescapeHub : Hub
 {
     #region Fields
 
     private readonly ILogger<WorldescapeHub> _logger;
 
     //<ConnectionId, InWorld> this is just for checking against signalR groups
-    private static ConcurrentDictionary<string, InWorld> OnlineWorlds = new();
+    private static ConcurrentDictionary<string, InWorld> OnlineConnections = new();
 
     //<ConnectionId, Avatar>
     private static ConcurrentDictionary<string, Avatar> OnlineAvatars = new();
@@ -129,15 +132,17 @@ public class WorldescapeHub : Hub/*Hub<IWorldescapeHub>*/
             }
 
             // Check if a world exists or not in SignalR groups
-            if (!OnlineWorlds.ContainsKey(Context.ConnectionId))
+            if (!OnlineConnections.ContainsKey(Context.ConnectionId))
             {
-                // If the group doesn't exist in hub add it
+                // If the avatar's connection doesn't exist in hub add it, the group will be automatically created
                 await Groups.AddToGroupAsync(Context.ConnectionId, avatar.World.Id.ToString());
 
-                OnlineWorlds.TryAdd(Context.ConnectionId, avatar.World);
+                OnlineConnections.TryAdd(Context.ConnectionId, avatar.World);
             }
 
-            var group = GetUsersGroup(avatar);
+            var group = avatar.World.Id.ToString();
+
+            await Groups.AddToGroupAsync(Context.ConnectionId, group);
 
             //Clients.OthersInGroup(group).AvatarLogin(avatar);
             await Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedIn, avatar);

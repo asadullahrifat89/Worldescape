@@ -20,4 +20,8 @@
 		<ProjectReference Include="..\WorldescapeWebService.Core\WorldescapeWebService.Core.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Interfaces\" />
+	</ItemGroup>
+
 </Project>
