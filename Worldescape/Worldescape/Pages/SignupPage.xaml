@@ -8,11 +8,12 @@
     mc:Ignorable="d">
 
     <StackPanel
+        Margin="0,50,0,0"
         HorizontalAlignment="Center"
-        VerticalAlignment="Center"
+        VerticalAlignment="Top"
         Orientation="Vertical">
 
-        <StackPanel Margin="20" VerticalAlignment="Center">
+        <StackPanel Margin="20" VerticalAlignment="Top">
 
             <TextBlock
                 Margin="20"
@@ -32,7 +33,7 @@
 
         <ContentControl
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
+            VerticalAlignment="Top"
             Style="{StaticResource MaterialDesign_Card_Style}">
 
             <StackPanel Width="350" Margin="10">
@@ -115,7 +116,6 @@
             </StackPanel>
 
         </ContentControl>
-
 
     </StackPanel>
 </Page>
