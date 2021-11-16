@@ -82,6 +82,8 @@ namespace Worldescape
             {
                 cfg.SkipNegotiation = true;
                 cfg.Transports = HttpTransportType.WebSockets;
+                cfg.CloseTimeout = TimeSpan.MaxValue;
+
             }).WithAutomaticReconnect().Build();
 
             // Session
