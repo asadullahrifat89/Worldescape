@@ -61,6 +61,8 @@ public class WorldescapeHub : Hub
 
     #endregion
 
+    #region Hub Methods
+    
     #region Hub Connectivity
 
     public override Task OnDisconnectedAsync(Exception? exception)
@@ -101,6 +103,7 @@ public class WorldescapeHub : Hub
 
     #region Avatar Connectivity
 
+    [HubMethodName(Constants.Login)]
     public async Task<HubLoginResponse> Login(Avatar avatar)
     {
         // If an existing avatar doesn't exist
@@ -189,6 +192,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.Logout)]
     public void Logout()
     {
         Avatar avatar = GetCallingUser();
@@ -213,6 +218,8 @@ public class WorldescapeHub : Hub
     #endregion
 
     #region Texting
+
+    [HubMethodName(Constants.BroadcastTextMessage)]
     public async void BroadcastTextMessage(string message)
     {
         if (!string.IsNullOrEmpty(message))
@@ -227,6 +234,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.BroadcastImageMessage)]
     public async void BroadcastImageMessage(byte[] img)
     {
         if (img != null)
@@ -241,7 +250,8 @@ public class WorldescapeHub : Hub
         }
     }
 
-    [HubMethodName("UnicastTextMessage")]
+
+    [HubMethodName(Constants.UnicastTextMessage)]
     public async void UnicastTextMessage(int recepientId, string message)
     {
         Avatar sender = GetCallingUser();
@@ -261,6 +271,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.UnicastImageMessage)]
     public async void UnicastImageMessage(int recepientId, byte[] img)
     {
         Avatar sender = GetCallingUser();
@@ -280,6 +292,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.Typing)]
     public async void Typing(int recepientId)
     {
         if (recepientId <= 0)
@@ -299,6 +313,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.BroadcastTyping)]
     public void BroadcastTyping()
     {
         Avatar sender = GetCallingUser();
@@ -314,6 +330,7 @@ public class WorldescapeHub : Hub
 
     #region Avatar World Events
 
+    [HubMethodName(Constants.BroadcastAvatarMovement)]
     public async void BroadcastAvatarMovement(int avatarId, double x, double y, int z)
     {
         if (avatarId > 0)
@@ -329,6 +346,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.BroadcastAvatarActivityStatus)]
     public async void BroadcastAvatarActivityStatus(int avatarId, int activityStatus)
     {
         if (avatarId > 0)
@@ -347,6 +366,7 @@ public class WorldescapeHub : Hub
 
     #region Construct World Events
 
+    [HubMethodName(Constants.BroadcastConstruct)]
     public async void BroadcastConstruct(Construct construct)
     {
         if (construct.Id > 0)
@@ -360,6 +380,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.BroadcastConstructs)]
     public async void BroadcastConstructs(Construct[] constructs)
     {
         if (constructs != null && constructs.Any())
@@ -377,6 +399,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.RemoveConstruct)]
     public async void RemoveConstruct(int constructId)
     {
         if (constructId > 0)
@@ -391,6 +415,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.RemoveConstructs)]
     public async void RemoveConstructs(int[] constructIds)
     {
         if (constructIds != null && constructIds.Any())
@@ -409,6 +435,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.BroadcastConstructPlacement)]
     public async void BroadcastConstructPlacement(int constructId, int z)
     {
         if (constructId > 0)
@@ -423,6 +451,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.BroadcastConstructRotation)]
     public async void BroadcastConstructRotation(int constructId, float rotation)
     {
         if (constructId > 0)
@@ -436,6 +466,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.BroadcastConstructRotations)]
     public async void BroadcastConstructRotations(ConcurrentDictionary<int, float> constructIds)
     {
         if (constructIds != null)
@@ -453,6 +485,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.BroadcastConstructScale)]
     public async void BroadcastConstructScale(int constructId, float scale)
     {
         if (constructId > 0)
@@ -467,6 +501,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.BroadcastConstructScales)]
     public async void BroadcastConstructScales(int[] constructIds, float scale)
     {
         if (constructIds != null && constructIds.Any())
@@ -485,6 +521,8 @@ public class WorldescapeHub : Hub
         }
     }
 
+
+    [HubMethodName(Constants.BroadcastConstructMovement)]
     public async void BroadcastConstructMovement(int constructId, double x, double y, int z)
     {
         if (constructId > 0)
@@ -498,6 +536,8 @@ public class WorldescapeHub : Hub
             _logger.LogInformation($"<> Construct: Construct: {constructId} BroadcastConstructMovement - {DateTime.Now} World: {group}");
         }
     }
+
+    #endregion 
 
     #endregion
 

@@ -34,8 +34,29 @@
 
         #region Methods Invoked From Client To Server
 
+        public const string Login = "Login";
+        public const string Logout = "Logout";
 
+        public const string BroadcastTextMessage = "BroadcastTextMessage";
+        public const string BroadcastImageMessage = "BroadcastImageMessage";
+        public const string UnicastTextMessage = "UnicastTextMessage";
+        public const string UnicastImageMessage = "UnicastImageMessage";
+        public const string Typing = "Typing";
+        public const string BroadcastTyping = "BroadcastTyping";
 
+        public const string BroadcastAvatarMovement = "BroadcastAvatarMovement";
+        public const string BroadcastAvatarActivityStatus = "BroadcastAvatarActivityStatus";
+
+        public const string BroadcastConstruct = "BroadcastConstruct";
+        public const string BroadcastConstructs = "BroadcastConstructs";
+        public const string RemoveConstruct = "RemoveConstruct";
+        public const string RemoveConstructs = "RemoveConstructs";
+        public const string BroadcastConstructPlacement = "BroadcastConstructPlacement";
+        public const string BroadcastConstructRotation = "BroadcastConstructRotation";
+        public const string BroadcastConstructRotations = "BroadcastConstructRotations";
+        public const string BroadcastConstructScale = "BroadcastConstructScale";
+        public const string BroadcastConstructScales = "BroadcastConstructScales";
+        public const string BroadcastConstructMovement = "BroadcastConstructMovement";
         #endregion
     }
 }
