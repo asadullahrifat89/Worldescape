@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Net;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Worldescape.Shared;
 
@@ -60,7 +63,26 @@ namespace Worldescape
 #else
             var url = Properties.Resources.ProdHubService;
 #endif
-            _connection = new HubConnectionBuilder().WithUrl(url).WithAutomaticReconnect().Build();
+            //_connection = new HubConnectionBuilder().WithUrl(url, cfg =>
+            //{
+            //    cfg.SkipNegotiation = true;
+            //    cfg.Transports = HttpTransportType.WebSockets;
+            //}).AddJsonProtocol(cfg =>
+            //{
+            //    var jsonOptions = new System.Text.Json.JsonSerializerOptions
+            //    {
+            //        PropertyNameCaseInsensitive = true,
+            //    };
+            //    jsonOptions.Converters.Add(new JsonStringEnumConverter());
+
+            //    cfg.PayloadSerializerOptions = jsonOptions;
+            //}).WithAutomaticReconnect().Build();
+
+            _connection = new HubConnectionBuilder().WithUrl(url, cfg =>
+            {
+                cfg.SkipNegotiation = true;
+                cfg.Transports = HttpTransportType.WebSockets;
+            }).WithAutomaticReconnect().Build();
 
             // Session
             _connection.On<Avatar>(Constants.AvatarLoggedIn, (avatar) => AvatarLoggedIn?.Invoke(avatar));
