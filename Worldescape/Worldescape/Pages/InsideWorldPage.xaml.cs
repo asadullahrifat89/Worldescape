@@ -99,9 +99,7 @@ namespace Worldescape
         #region Hub Listener
 
         private void SubscribeHub()
-        {
-            //if (!_isHubSubscribed)
-            //{
+        {            
             #region Connection
 
             HubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
@@ -141,14 +139,7 @@ namespace Worldescape
 
             #endregion
 
-            //_isHubSubscribed = true;
-
             Console.WriteLine("++ListenOnHubService: OK");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("++ListenOnHubService: IGNORE");
-            //}
         }
 
         #region Construct
