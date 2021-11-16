@@ -5,7 +5,7 @@ using Worldescape.Shared;
 namespace WorldescapeWebService;
 
 /// <summary>
-/// A class comprising of all of the SignalR methods, actively maintains connected avatars, constructs and worlds. For each new avatar login, a new ConnectionId is generated.
+/// Hosts server side signalR hub methods, online avatars, constructs world wise. New ConnectionId is generated per user login.
 /// </summary>
 public class WorldescapeHub : Hub
 {
@@ -62,7 +62,7 @@ public class WorldescapeHub : Hub
     #endregion
 
     #region Hub Methods
-    
+
     #region Hub Connectivity
 
     public override Task OnDisconnectedAsync(Exception? exception)

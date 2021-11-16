@@ -9,6 +9,9 @@ using Worldescape.Shared;
 
 namespace Worldescape
 {
+    /// <summary>
+    /// Prpvides access to all client side signalR hub methods.
+    /// </summary>
     public class HubService : IHubService
     {
         #region Fields
