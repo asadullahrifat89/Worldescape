@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Worldescape.Shared;
 
-namespace Worldescape
+namespace Worldescape.Service
 {
     internal class HttpService : IHttpService, IDisposable
     {

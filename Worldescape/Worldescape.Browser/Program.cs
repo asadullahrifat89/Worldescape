@@ -4,6 +4,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Worldescape.Service;
 
 namespace Worldescape.Browser
 {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using Windows.UI.Xaml;
+using Worldescape.Service;
 using Worldescape.Shared;
 
 namespace Worldescape

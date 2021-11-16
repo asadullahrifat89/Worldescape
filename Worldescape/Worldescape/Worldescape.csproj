@@ -9,14 +9,7 @@
 		<IsOpenSilver>true</IsOpenSilver>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	<ItemGroup>		
 		<PackageReference Include="OpenSilver.UWPCompatible" Version="1.0.0" />
 	</ItemGroup>
 
@@ -90,9 +83,6 @@
 
 	<ItemGroup>
 		<Compile Include="App.xaml.cs" />
-		<Compile Include="Interfaces\Services\IHttpService.cs" />
-		<Compile Include="Interfaces\Services\IHubService.cs" />
-		<Compile Include="Extensions\HttpServiceExtensions.cs" />
 		<Compile Include="Internals\ConstructAssetPicker.cs" />
 		<Compile Include="Internals\MasonryPanel.cs" />
 		<Compile Include="Internals\MasonryPanelWithProgressiveLoading.cs" />
@@ -107,8 +97,6 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
-		<Compile Include="Services\HttpService.cs" />
-		<Compile Include="Services\HubService.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\AccentColorConverter.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\DoubleToCornerRadiusConverter.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\TextToPlaceholderTextVisibilityConverter.cs" />
@@ -3029,7 +3017,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Worldescape.Shared\Worldescape.Shared.csproj" />
+	  <ProjectReference Include="..\..\Worldescape.Service\Worldescape.Service.csproj" />
 	</ItemGroup>
 
 	<!-- Removing bin\$(Configuration) and obj\$(Configuration) -->

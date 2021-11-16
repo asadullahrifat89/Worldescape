@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Shared;
 
-namespace Worldescape
+namespace Worldescape.Service
 {
     public class ConstructAssetPicker : ChildWindow
     {

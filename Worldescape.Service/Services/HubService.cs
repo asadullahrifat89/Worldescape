@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 using Worldescape.Shared;
 
-namespace Worldescape
+namespace Worldescape.Service
 {
     /// <summary>
     /// Prpvides access to all client side signalR hub methods.

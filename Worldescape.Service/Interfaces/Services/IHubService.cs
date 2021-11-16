@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Worldescape.Shared;
 
-namespace Worldescape
+namespace Worldescape.Service
 {
     public interface IHubService
     {
