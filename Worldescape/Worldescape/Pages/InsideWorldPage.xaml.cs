@@ -35,7 +35,7 @@ namespace Worldescape
         //bool _isDeleting;
 
         bool _isLoggedIn;
-        bool _isHubSubscribed;
+        //bool _isHubSubscribed;
 
         UIElement _selectedConstruct;
         UIElement _addingConstruct;
@@ -48,12 +48,12 @@ namespace Worldescape
             Exponent = 5,
         };
 
-        string[] _objects = new string[]
-        {
-            "ms-appx:///Images/World_Objects/Landscape/Grass.png",
-            "ms-appx:///Images/World_Objects/Landscape/Big_Tree.png",
-            "ms-appx:///Images/World_Objects/Prototype/block_W.png",
-        };
+        //string[] _objects = new string[]
+        //{
+        //    "ms-appx:///Images/World_Objects/Landscape/Grass.png",
+        //    "ms-appx:///Images/World_Objects/Landscape/Big_Tree.png",
+        //    "ms-appx:///Images/World_Objects/Prototype/block_W.png",
+        //};
 
         string[] avatarUrls = new string[]
         {
