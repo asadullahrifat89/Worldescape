@@ -78,11 +78,11 @@ namespace Worldescape
             //    cfg.PayloadSerializerOptions = jsonOptions;
             //}).WithAutomaticReconnect().Build();
 
-            _connection = new HubConnectionBuilder().WithUrl(url, cfg =>
+            _connection = new HubConnectionBuilder().WithUrl(url, options =>
             {
-                //cfg.SkipNegotiation = true;
-                //cfg.Transports = HttpTransportType.WebSockets;
-                cfg.CloseTimeout = TimeSpan.MaxValue;
+                options.SkipNegotiation = true;
+                options.Transports = HttpTransportType.WebSockets;
+                options.CloseTimeout = TimeSpan.MaxValue;
 
             }).WithAutomaticReconnect().Build();
 
@@ -179,7 +179,7 @@ namespace Worldescape
         public async Task Logout()
         {
             Console.WriteLine(">>HubService: LogoutAsync");
-            await _connection./*SendAsync*/InvokeAsync("Logout");
+            await _connection.SendAsync("Logout");
         }
 
         #endregion
@@ -189,37 +189,37 @@ namespace Worldescape
         public async Task SendBroadcastMessage(string msg)
         {
             Console.WriteLine(">>HubService: SendBroadcastMessageAsync");
-            await _connection./*SendAsync*/InvokeAsync("BroadcastTextMessage", msg);
+            await _connection.SendAsync("BroadcastTextMessage", msg);
         }
 
         public async Task SendBroadcastMessage(byte[] img)
         {
             Console.WriteLine(">>HubService: SendBroadcastMessageAsync");
-            await _connection./*SendAsync*/InvokeAsync("BroadcastImageMessage", img);
+            await _connection.SendAsync("BroadcastImageMessage", img);
         }
 
         public async Task SendUnicastMessage(int recepientId, string msg)
         {
             Console.WriteLine(">>HubService: SendUnicastMessageAsync");
-            await _connection./*SendAsync*/InvokeAsync("UnicastTextMessage", recepientId, msg);
+            await _connection.SendAsync("UnicastTextMessage", recepientId, msg);
         }
 
         public async Task SendUnicastMessage(int recepientId, byte[] img)
         {
             Console.WriteLine(">>HubService: SendUnicastMessageAsync");
-            await _connection./*SendAsync*/InvokeAsync("UnicastImageMessage", recepientId, img);
+            await _connection.SendAsync("UnicastImageMessage", recepientId, img);
         }
 
         public async Task Typing(int recepientId)
         {
             Console.WriteLine(">>HubService: TypingAsync");
-            await _connection./*SendAsync*/InvokeAsync("Typing", recepientId);
+            await _connection.SendAsync("Typing", recepientId);
         }
 
         public async Task BroadcastTyping()
         {
             Console.WriteLine(">>HubService: BroadcastTypingAsync");
-            await _connection./*SendAsync*/InvokeAsync("BroadcastTyping");
+            await _connection.SendAsync("BroadcastTyping");
         }
 
         #endregion
@@ -229,13 +229,13 @@ namespace Worldescape
         public async Task BroadcastAvatarMovement(int avatarId, double x, double y, int z)
         {
             Console.WriteLine(">>HubService: BroadcastAvatarMovementAsync");
-            await _connection./*SendAsync*/InvokeAsync("BroadcastAvatarMovement", avatarId, x, y, z);
+            await _connection.SendAsync("BroadcastAvatarMovement", avatarId, x, y, z);
         }
 
         public async Task BroadcastAvatarActivityStatus(int avatarId, int activityStatus)
         {
             Console.WriteLine(">>HubService: BroadcastAvatarActivityStatusAsync");
-            await _connection./*SendAsync*/InvokeAsync("BroadcastAvatarActivityStatus", avatarId, activityStatus);
+            await _connection.SendAsync("BroadcastAvatarActivityStatus", avatarId, activityStatus);
         }
 
         #endregion
@@ -245,61 +245,61 @@ namespace Worldescape
         public async Task BroadcastConstruct(Construct construct)
         {
             Console.WriteLine(">>HubService: BroadcastConstructAsync");
-            await _connection./*SendAsync*/InvokeAsync("BroadcastConstruct", construct);
+            await _connection.SendAsync("BroadcastConstruct", construct);
         }
 
         public async Task BroadcastConstructs(Construct[] constructs)
         {
             Console.WriteLine(">>HubService: BroadcastConstructsAsync");
-            await _connection./*SendAsync*/InvokeAsync("BroadcastConstructs", constructs);
+            await _connection.SendAsync("BroadcastConstructs", constructs);
         }
 
         public async Task RemoveConstruct(int constructId)
         {
             Console.WriteLine(">>HubService: RemoveConstructAsync");
-            await _connection./*SendAsync*/InvokeAsync("RemoveConstruct", constructId);
+            await _connection.SendAsync("RemoveConstruct", constructId);
         }
 
         public async Task RemoveConstructs(int[] constructIds)
         {
             Console.WriteLine(">>HubService: RemoveConstructsAsync");
-            await _connection./*SendAsync*/InvokeAsync("RemoveConstructs", constructIds);
+            await _connection.SendAsync("RemoveConstructs", constructIds);
         }
 
         public async Task BroadcastConstructPlacement(int constructId, int z)
         {
             Console.WriteLine(">>HubService: BroadcastConstructPlacementAsync");
-            await _connection./*SendAsync*/InvokeAsync("BroadcastConstructPlacement", constructId, z);
+            await _connection.SendAsync("BroadcastConstructPlacement", constructId, z);
         }
 
         public async Task BroadcastConstructRotation(int constructId, float rotation)
         {
             Console.WriteLine(">>HubService: BroadcastConstructRotationAsync");
-            await _connection./*SendAsync*/InvokeAsync("BroadcastConstructRotation", constructId, rotation);
+            await _connection.SendAsync("BroadcastConstructRotation", constructId, rotation);
         }
 
         public async Task BroadcastConstructRotations(ConcurrentDictionary<int, float> constructIds)
         {
             Console.WriteLine(">>HubService: BroadcastConstructRotationsAsync");
-            await _connection./*SendAsync*/InvokeAsync("BroadcastConstructRotations", constructIds);
+            await _connection.SendAsync("BroadcastConstructRotations", constructIds);
         }
 
         public async Task BroadcastConstructScale(int constructId, float scale)
         {
             Console.WriteLine(">>HubService: BroadcastConstructScaleAsync");
-            await _connection./*SendAsync*/InvokeAsync("BroadcastConstructScale", constructId, scale);
+            await _connection.SendAsync("BroadcastConstructScale", constructId, scale);
         }
 
         public async Task BroadcastConstructScales(int[] constructIds, float scale)
         {
             Console.WriteLine(">>HubService: BroadcastConstructScalesAsync");
-            await _connection./*SendAsync*/InvokeAsync("BroadcastConstructScales", constructIds, scale);
+            await _connection.SendAsync("BroadcastConstructScales", constructIds, scale);
         }
 
         public async Task BroadcastConstructMovement(int constructId, double x, double y, int z)
         {
             Console.WriteLine(">>HubService: BroadcastConstructMovementAsync");
-            await _connection./*SendAsync*/InvokeAsync("BroadcastConstructMovement", constructId, x, y, z);
+            await _connection.SendAsync("BroadcastConstructMovement", constructId, x, y, z);
         }
 
         #endregion

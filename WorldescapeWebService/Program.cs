@@ -4,6 +4,7 @@ using FluentValidation.AspNetCore;
 using WorldescapeWebService.Core;
 using WorldescapeWebService;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Http.Connections;
 
 #region Service Registration
 
@@ -102,7 +103,10 @@ app.UseCors("CorsPolicy");
 //app.UseHttpsRedirection();
 //app.UseHsts();
 
-app.MapHub<WorldescapeHub>("/worldescapehub");
-app.Run(); 
+app.MapHub<WorldescapeHub>("/worldescapehub", options =>
+{
+    options.Transports = HttpTransportType.WebSockets;
+});
+app.Run();
 
 #endregion
