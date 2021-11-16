@@ -99,8 +99,8 @@ namespace Worldescape
         #region Hub Listener
 
         private void SubscribeHub()
-        {            
-            #region Connection
+        {
+            #region Hub Connectivity
 
             HubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
             HubService.ConnectionReconnected += HubService_ConnectionReconnected;
@@ -108,14 +108,14 @@ namespace Worldescape
 
             #endregion
 
-            #region Avatar
+            #region Avatar World Events
 
             HubService.NewBroadcastAvatarMovement += HubService_NewBroadcastAvatarMovement;
             HubService.NewBroadcastAvatarActivityStatus += HubService_NewBroadcastAvatarActivityStatus;
 
             #endregion
 
-            #region Avatar Session
+            #region Avatar Connectivity
 
             HubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
             HubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
@@ -124,7 +124,7 @@ namespace Worldescape
 
             #endregion
 
-            #region Construct
+            #region Construct World Events
 
             HubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
             HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
@@ -303,7 +303,7 @@ namespace Worldescape
         private void HubService_AvatarLoggedIn(Avatar obj)
         {
             // If an avatar already exists, ignore
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.Id && taggedAvatar.ConnectionId == obj.ConnectionId) is UIElement iElement)
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.Id) is UIElement iElement)
             {
                 Console.WriteLine("<<HubService_AvatarLoggedIn: IGNORE");
             }
@@ -367,9 +367,9 @@ namespace Worldescape
 
             _isLoggedIn = false;
 
-            if (await TryConnect())
+            if (await ConnectWithHub())
             {
-                await TryHubLogin();
+                await TryLoginToHub();
             }
         }
 
@@ -396,18 +396,18 @@ namespace Worldescape
 
         private bool CanHubLogin()
         {
-            var result = Avatar != null /*&& !Avatar.IsEmpty()*/ && Avatar.User != null && HubService.IsConnected();
+            var result = Avatar != null && Avatar.User != null && HubService.IsConnected();
 
             Console.WriteLine($"CanHubLogin: {result}");
 
             return result;
         }
 
-        public async Task TryConnectAndHubLogin()
+        public async Task ConnectWithHubThenLogin()
         {
-            if (await TryConnect())
+            if (await ConnectWithHub())
             {
-                await TryHubLogin();
+                await TryLoginToHub();
             }
             else
             {
@@ -415,12 +415,12 @@ namespace Worldescape
 
                 if (messageBoxResult == MessageBoxResult.OK)
                 {
-                    await TryConnectAndHubLogin();
+                    await ConnectWithHubThenLogin();
                 }
             }
         }
 
-        private async Task<bool> TryConnect()
+        private async Task<bool> ConnectWithHub()
         {
             try
             {
@@ -445,9 +445,9 @@ namespace Worldescape
             }
         }
 
-        private async Task TryHubLogin()
+        private async Task TryLoginToHub()
         {
-            bool loggedIn = await HubLogin();
+            bool loggedIn = await LoginToHub();
 
             if (!loggedIn)
             {
@@ -457,7 +457,7 @@ namespace Worldescape
 
                 if (messageBoxResult == MessageBoxResult.OK)
                 {
-                    await TryHubLogin();
+                    await TryLoginToHub();
                 }
             }
             else
@@ -466,7 +466,7 @@ namespace Worldescape
             }
         }
 
-        private async Task<bool> HubLogin()
+        private async Task<bool> LoginToHub()
         {
             try
             {
@@ -558,9 +558,9 @@ namespace Worldescape
                 {
                     Console.WriteLine("HubLogin: FAILED");
 
-                    if (await TryConnect())
+                    if (await ConnectWithHub())
                     {
-                        return await HubLogin();
+                        return await LoginToHub();
                     }
 
                     Console.WriteLine("HubLogin: FAILED");
@@ -1006,14 +1006,20 @@ namespace Worldescape
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            //if (HubService.IsConnected())
-            //{
-            //    await HubService.DisconnectAsync();
-            //}
+            Console.WriteLine("ConnectButton_Click");
 
             SetDemoData();
-            Console.WriteLine("ConnectButton_Click");
-            await TryConnectAndHubLogin();
+            
+            // If a connection is already established simply login to hub
+            if (CanHubLogin())
+            {
+                await TryLoginToHub();
+            }
+            else
+            {
+                // Otherwise open a new connection then login
+                await ConnectWithHubThenLogin();
+            }
         }
 
         #endregion

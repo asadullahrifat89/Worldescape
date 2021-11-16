@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Worldescape.Shared
+﻿namespace Worldescape.Shared
 {
     public class Constants
     {
+        #region Methods Invoked On Client From Server
+
         public const string AvatarDisconnected = "AvatarDisconnected";
         public const string AvatarReconnected = "AvatarReconnected";
         public const string AvatarLoggedIn = "AvatarLoggedIn";
@@ -31,5 +29,13 @@ namespace Worldescape.Shared
         public const string BroadcastedConstructScale = "BroadcastedConstructScale";
         public const string BroadcastedConstructScales = "BroadcastedConstructScales";
         public const string BroadcastedConstructMovement = "BroadcastConstructMovement";
+
+        #endregion
+
+        #region Methods Invoked From Client To Server
+
+
+
+        #endregion
     }
 }

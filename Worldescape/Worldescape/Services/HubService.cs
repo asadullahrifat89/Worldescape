@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Net;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Worldescape.Shared;
 
@@ -19,14 +17,14 @@ namespace Worldescape
 
         private readonly HubConnection _connection;
 
-        // Connection
-        public event Action<int> AvatarDisconnected;
-        public event Action<int> AvatarReconnected;
+        // Hub Connectivity       
         public event Action ConnectionReconnecting;
         public event Action ConnectionReconnected;
         public event Action ConnectionClosed;
 
-        // Session        
+        // Avatar Connectivity        
+        public event Action<int> AvatarDisconnected;
+        public event Action<int> AvatarReconnected;
         public event Action<Avatar> AvatarLoggedIn;
         public event Action<int> AvatarLoggedOut;
 
@@ -35,11 +33,11 @@ namespace Worldescape
         public event Action<int, byte[], MessageType> NewImageMessage;
         public event Action<int, MessageType> AvatarTyping;
 
-        // Avatar
+        // Avatar World Events
         public event Action<int, double, double, int> NewBroadcastAvatarMovement;
         public event Action<int, int> NewBroadcastAvatarActivityStatus;
 
-        // Construct
+        // Construct World Events
         public event Action<Construct> NewBroadcastConstruct;
         public event Action<Construct[]> NewBroadcastConstructs;
         public event Action<int> NewRemoveConstruct;
@@ -166,6 +164,7 @@ namespace Worldescape
             ConnectionReconnecting?.Invoke();
             return Task.Delay(100);
         }
+        
         #endregion
 
         #region Session

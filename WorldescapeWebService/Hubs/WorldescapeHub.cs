@@ -5,7 +5,7 @@ using Worldescape.Shared;
 namespace WorldescapeWebService;
 
 /// <summary>
-/// A class comprising of all of the SignalR methods. For each user a new ConnectionId is generated.
+/// A class comprising of all of the SignalR methods, actively maintains connected avatars, constructs and worlds. For each new avatar login, a new ConnectionId is generated.
 /// </summary>
 public class WorldescapeHub : Hub
 {
@@ -13,7 +13,7 @@ public class WorldescapeHub : Hub
 
     private readonly ILogger<WorldescapeHub> _logger;
 
-    //<ConnectionId, InWorld> this is just for checking against signalR groups
+    //<ConnectionId, InWorld> save each new connection for an avatar connection in a group
     private static ConcurrentDictionary<string, InWorld> OnlineConnections = new();
 
     //<ConnectionId, Avatar>
@@ -61,7 +61,7 @@ public class WorldescapeHub : Hub
 
     #endregion
 
-    #region Connection
+    #region Hub Connectivity
 
     public override Task OnDisconnectedAsync(Exception? exception)
     {
@@ -99,7 +99,7 @@ public class WorldescapeHub : Hub
 
     #endregion
 
-    #region Session
+    #region Avatar Connectivity
 
     public async Task<HubLoginResponse> Login(Avatar avatar)
     {
@@ -241,6 +241,7 @@ public class WorldescapeHub : Hub
         }
     }
 
+    [HubMethodName("UnicastTextMessage")]
     public async void UnicastTextMessage(int recepientId, string message)
     {
         Avatar sender = GetCallingUser();
@@ -311,7 +312,7 @@ public class WorldescapeHub : Hub
 
     #endregion
 
-    #region Avatar
+    #region Avatar World Events
 
     public async void BroadcastAvatarMovement(int avatarId, double x, double y, int z)
     {
@@ -344,7 +345,7 @@ public class WorldescapeHub : Hub
 
     #endregion
 
-    #region Construct
+    #region Construct World Events
 
     public async void BroadcastConstruct(Construct construct)
     {
@@ -500,7 +501,7 @@ public class WorldescapeHub : Hub
 
     #endregion
 
-    #region Connected Avatars
+    #region Online Avatars
 
     private void UpdateAvatarReconnectionTime(int avatarId, DateTime reconnectionTime)
     {
@@ -555,7 +556,7 @@ public class WorldescapeHub : Hub
 
     #endregion
 
-    #region Connected Constructs
+    #region Online Constructs
 
     private void UpdateConstructPlacementInConstructs(int constructId, int z)
     {
