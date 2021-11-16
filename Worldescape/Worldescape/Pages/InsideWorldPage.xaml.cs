@@ -311,21 +311,18 @@ namespace Worldescape
 
         private void HubService_AvatarLoggedIn(Avatar obj)
         {
-            // Check if the avatar already exists in current world
-            var iElement = Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.Id);
-
-            // If not then add a new avatar
-            if (_isLoggedIn && iElement == null)
+            // If an avatar already exists, ignore
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.Id && taggedAvatar.ConnectionId == obj.ConnectionId) is UIElement iElement)
+            {
+                Console.WriteLine("<<HubService_AvatarLoggedIn: IGNORE");
+            }
+            else
             {
                 AddAvatarOnCanvas(obj);
                 AvatarMessengers.Add(new AvatarMessenger() { Avatar = obj, ActivityStatus = ActivityStatus.Online, IsLoggedIn = true });
                 ParticipantsCount.Text = AvatarMessengers.Count().ToString();
 
                 Console.WriteLine("<<HubService_AvatarLoggedIn: OK");
-            }
-            else
-            {
-                Console.WriteLine("<<HubService_AvatarLoggedIn: IGNORE");
             }
         }
         #endregion
@@ -1018,10 +1015,10 @@ namespace Worldescape
 
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            if (HubService.IsConnected())
-            {
-                await HubService.DisconnectAsync();
-            }
+            //if (HubService.IsConnected())
+            //{
+            //    await HubService.DisconnectAsync();
+            //}
 
             SetDemoData();
             Console.WriteLine("ConnectButton_Click");
@@ -1118,7 +1115,7 @@ namespace Worldescape
 
             Canvas.SetLeft(avatarBtn, avatar.Coordinate.X);
             Canvas.SetTop(avatarBtn, avatar.Coordinate.Y);
-            Canvas.SetZIndex(avatarBtn, avatar.Coordinate.Z);
+            Canvas.SetZIndex(avatarBtn, 999/*avatar.Coordinate.Z*/); //TODO: figure out Z index calculation later
 
             Canvas_root.Children.Add(avatarBtn);
         }

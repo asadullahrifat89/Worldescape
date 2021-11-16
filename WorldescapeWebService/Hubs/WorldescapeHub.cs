@@ -109,7 +109,7 @@ public class WorldescapeHub : Hub
             var minValue = DateTime.MinValue;
 
             // Delete inactive avatars who have remained inactive for more than a minute
-            var concurrentAvatars = OnlineAvatars.Values.Where(x => x.World.Id == avatar.World.Id && x.Session != null && x.Session.DisconnectionTime != minValue);
+            //var concurrentAvatars = OnlineAvatars.Values.Where(x => x.World.Id == avatar.World.Id && x.Session != null && x.Session.DisconnectionTime != minValue);
 
             //foreach (var inAvatar in concurrentAvatars)
             //{

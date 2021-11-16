@@ -80,8 +80,8 @@ namespace Worldescape
 
             _connection = new HubConnectionBuilder().WithUrl(url, cfg =>
             {
-                cfg.SkipNegotiation = true;
-                cfg.Transports = HttpTransportType.WebSockets;
+                //cfg.SkipNegotiation = true;
+                //cfg.Transports = HttpTransportType.WebSockets;
                 cfg.CloseTimeout = TimeSpan.MaxValue;
 
             }).WithAutomaticReconnect().Build();
