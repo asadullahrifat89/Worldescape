@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace WorldescapeWebService.Core;
 
@@ -32,7 +33,12 @@ public class GetAssetQueryHandler : IRequestHandler<GetAssetQuery, byte[]>
     {
         try
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "Assets", request.FileName);
+            var location = typeof(GetAssetQuery).Assembly.Location;
+
+            var newlocation = location.Replace("WorldescapeWebService\\bin\\Debug\\net6.0\\WorldescapeWebService.Core.dll", "Worldescape.Assets");
+
+            var path = Path.Combine(newlocation, "Assets", request.FileName);
+
             byte[] bytes = new byte[] { };
 
             if (File.Exists(path))
