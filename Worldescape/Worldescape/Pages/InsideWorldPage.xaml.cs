@@ -91,6 +91,8 @@ namespace Worldescape
 
             HubService = hubService;// App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
             SubscribeHub();
+
+            //DemoImage.Source = new BitmapImage() { UriSource = new Uri("http://localhost:5034/api/Query/GetAsset?fileName=World_Objects%5CLandscape%5CGrass.png") };
         }
 
         #endregion

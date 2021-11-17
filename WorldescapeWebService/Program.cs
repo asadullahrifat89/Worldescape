@@ -55,6 +55,16 @@ app.MapGet("/api/Query/GetWorlds", async (string token, int pageIndex, int pageS
 })
 .WithName("GetWorlds");
 
+app.MapGet("/api/Query/GetAsset", async (/*string token,*/ string fileName, IMediator mediator) =>
+{
+    byte[] file = await mediator.Send(new GetAssetQuery() { FileName = fileName });
+
+    string fileN = fileName.Replace('\\','_');
+
+    return Microsoft.AspNetCore.Http.Results.File(file, "text/plain", fileN);
+})
+.WithName("GetAsset");
+
 #endregion
 
 #region Commands
