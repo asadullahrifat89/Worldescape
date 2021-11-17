@@ -33,7 +33,11 @@ public class GetAssetQueryHandler : IRequestHandler<GetAssetQuery, byte[]>
         try
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(), "Assets", request.FileName);
-            var bytes = await System.IO.File.ReadAllBytesAsync(path);
+            byte[] bytes = new byte[] { };
+
+            if (File.Exists(path))
+                bytes = await System.IO.File.ReadAllBytesAsync(path);
+
             return bytes;
         }
         catch (Exception)
