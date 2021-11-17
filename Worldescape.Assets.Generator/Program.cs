@@ -4,7 +4,6 @@ using LiteDB;
 using Worldescape.Shared;
 
 var executingAssemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
-var newlocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape\\Worldescape.Assets\\Assets\\World_Objects");
 
 Console.WriteLine("Welcom to Worldescape Asset Generator!");
 Console.WriteLine("What would you like to do?");
@@ -20,9 +19,12 @@ switch (choice)
     case "1":
         {
             // Generate assets
-            var host = "ms-appx:///Images/World_Objects";           
+            var host = "ms-appx:///Images/World_Objects";
 
-            DirectoryInfo parentDirectory = new(executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape\\Worldescape\\Images\\World_Objects"));
+            var newlocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape.Assets\\Assets\\World_Objects");
+
+            //DirectoryInfo parentDirectory = new(executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape\\Worldescape\\Images\\World_Objects"));
+            DirectoryInfo parentDirectory = new(newlocation);
 
             List<ConstructAsset> constructs = new List<ConstructAsset>();
 
@@ -63,6 +65,8 @@ switch (choice)
         {
             // Generate assets
             var host = "World_Objects";
+
+            var newlocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape.Assets\\Assets\\World_Objects");
 
             DirectoryInfo parentDirectory = new(newlocation);
 
