@@ -231,10 +231,7 @@ namespace Worldescape.Service
             //var source = img.Source as BitmapImage;
             //var uri = source.UriSource as Uri;
 
-            var constructAsset = button.Tag as ConstructAsset;
-            //constructAsset.ImageUrl = uri.ToString();
-
-            //TODO: fix this, this is causing problems
+            var constructAsset = button.Tag as ConstructAsset;            
 
             _assetSelected?.Invoke(constructAsset);
             Close();
