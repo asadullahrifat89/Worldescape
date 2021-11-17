@@ -33,13 +33,13 @@ namespace Worldescape.Service
         Grid _gridContent = new Grid();
         StackPanel _stackPanelFooter = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(5) };
 
-        readonly AssetUriHelper _assetUriHelper;
+        readonly AssetUrlHelper _assetUriHelper;
 
         public ConstructAssetPicker(
             List<ConstructAsset> constructAssets,
             List<ConstructCategory> constructCategories,
             Action<ConstructAsset> assetSelected,
-            AssetUriHelper assetUriHelper)
+            AssetUrlHelper assetUriHelper)
         {
             _assetUriHelper = assetUriHelper;
             _constructAssets = constructAssets;
@@ -97,6 +97,37 @@ namespace Worldescape.Service
             Content = _gridContent;
 
             ShowConstructCategories();
+        }
+
+        private void ButtonNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_settingConstructAssets)
+            {
+                pageIndex++;
+
+                if (pageIndex > totalPageCount)
+                {
+                    pageIndex = totalPageCount;
+                }
+
+                ShowConstructAssets();
+            }
+        }
+
+        private void ButtonPreview_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_settingConstructAssets)
+            {
+                pageIndex--;
+
+                if (pageIndex < 0)
+                {
+                    pageIndex = 0;
+                    return;
+                }
+
+                ShowConstructAssets();
+            }
         }
 
         private void ButtonShowCategories_Click(object sender, RoutedEventArgs e)
@@ -165,7 +196,9 @@ namespace Worldescape.Service
 
             foreach (var item in pagedData)
             {
-                var uri = _assetUriHelper.BuildAssetUri(item.ImageUrl);
+                var uri = _assetUriHelper.BuildAssetUrl(item.ImageUrl);
+
+                item.ImageUrl = uri;
 
                 var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
 
@@ -177,7 +210,7 @@ namespace Worldescape.Service
                     Width = 100,
                     Height = 100,
                     Margin = new Thickness(3),
-                    Tag = item,                    
+                    Tag = item,
                 };
 
                 buttonConstructAsset.Click += ButtonConstructAsset_Click;
@@ -191,46 +224,17 @@ namespace Worldescape.Service
             _settingConstructAssets = false;
         }
 
-        private void ButtonNext_Click(object sender, RoutedEventArgs e)
-        {
-            if (!_settingConstructAssets)
-            {
-                pageIndex++;
-
-                if (pageIndex > totalPageCount)
-                {
-                    pageIndex = totalPageCount;
-                }
-
-                ShowConstructAssets();
-            }
-        }
-
-        private void ButtonPreview_Click(object sender, RoutedEventArgs e)
-        {
-            if (!_settingConstructAssets)
-            {
-                pageIndex--;
-
-                if (pageIndex < 0)
-                {
-                    pageIndex = 0;
-                    return;
-                }
-
-                ShowConstructAssets();
-            }
-        }
-
         private void ButtonConstructAsset_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
-            var img = button.Content as Image;
-            var source = img.Source as BitmapImage;
-            var uri = source.UriSource as Uri;
+            //var img = button.Content as Image;
+            //var source = img.Source as BitmapImage;
+            //var uri = source.UriSource as Uri;
 
             var constructAsset = button.Tag as ConstructAsset;
-            constructAsset.ImageUrl = uri.ToString();
+            //constructAsset.ImageUrl = uri.ToString();
+
+            //TODO: fix this, this is causing problems
 
             _assetSelected?.Invoke(constructAsset);
             Close();

@@ -45,7 +45,7 @@ namespace Worldescape
             services.AddSingleton<IHubService, HubService>();
 
             // Helpers
-            services.AddSingleton<AssetUriHelper>();
+            services.AddSingleton<AssetUrlHelper>();
 
             // Pages
             services.AddSingleton<MainPage>();

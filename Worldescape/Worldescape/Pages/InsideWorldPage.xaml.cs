@@ -81,13 +81,13 @@ namespace Worldescape
 
         ObservableCollection<AvatarMessenger> AvatarMessengers = new ObservableCollection<AvatarMessenger>();
 
-        readonly AssetUriHelper _assetUriHelper;
+        readonly AssetUrlHelper _assetUriHelper;
 
         #endregion
 
         #region Ctor
 
-        public InsideWorldPage(IHubService hubService, AssetUriHelper assetUriHelper)
+        public InsideWorldPage(IHubService hubService, AssetUrlHelper assetUriHelper)
         {
             InitializeComponent();
 
