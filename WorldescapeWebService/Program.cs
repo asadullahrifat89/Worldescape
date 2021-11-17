@@ -55,6 +55,7 @@ app.MapGet("/api/Query/GetWorlds", async (string token, int pageIndex, int pageS
 })
 .WithName("GetWorlds");
 
+//TODO: incorporate token later
 app.MapGet("/api/Query/GetAsset", async (/*string token,*/ string fileName, IMediator mediator) =>
 {
     byte[] file = await mediator.Send(new GetAssetQuery() { FileName = fileName });

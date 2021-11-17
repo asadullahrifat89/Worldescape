@@ -12,8 +12,6 @@ Console.WriteLine("2. Generate Assets (http)");
 
 var choice = Console.ReadLine();
 
-
-
 switch (choice)
 {
     case "1":
@@ -82,7 +80,7 @@ switch (choice)
 
                     foreach (FileInfo file in files)
                     {
-                        var url = $"{host}/{directory.Name}/{file.Name}";
+                        var url = $"{host}\\{directory.Name}\\{file.Name}";
 
                         var construct = new ConstructAsset()
                         {
@@ -109,6 +107,7 @@ switch (choice)
         break;
 }
 
+Console.ReadLine();
 
 
 // Test database

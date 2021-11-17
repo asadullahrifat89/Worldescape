@@ -81,15 +81,19 @@ namespace Worldescape
 
         ObservableCollection<AvatarMessenger> AvatarMessengers = new ObservableCollection<AvatarMessenger>();
 
+        readonly AssetUriHelper _assetUriHelper;
+
         #endregion
 
         #region Ctor
 
-        public InsideWorldPage(IHubService hubService)
+        public InsideWorldPage(IHubService hubService, AssetUriHelper assetUriHelper)
         {
             InitializeComponent();
 
             HubService = hubService;// App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
+            _assetUriHelper = assetUriHelper;
+
             SubscribeHub();
 
             //DemoImage.Source = new BitmapImage() { UriSource = new Uri("http://localhost:5034/api/Query/GetAsset?fileName=World_Objects%5CLandscape%5CGrass.png") };
@@ -880,6 +884,7 @@ namespace Worldescape
             var constructAssetPicker = new ConstructAssetPicker(
                 constructAssets: ConstructAssets,
                 constructCategories: ConstructCategories,
+                assetUriHelper: _assetUriHelper,
                 assetSelected: (constructAsset) =>
                 {
                     var constructBtn = GenerateConstructButton(

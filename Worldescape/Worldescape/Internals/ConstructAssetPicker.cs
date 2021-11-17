@@ -15,7 +15,7 @@ namespace Worldescape.Service
         int pageIndex = 0;
         int totalPageCount = 0;
 
-        bool _settingConstructAssets = false;        
+        bool _settingConstructAssets = false;
 
         string _pickedConstructCategory = string.Empty;
 
@@ -33,18 +33,22 @@ namespace Worldescape.Service
         Grid _gridContent = new Grid();
         StackPanel _stackPanelFooter = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(5) };
 
+        readonly AssetUriHelper _assetUriHelper;
+
         public ConstructAssetPicker(
             List<ConstructAsset> constructAssets,
             List<ConstructCategory> constructCategories,
-            Action<ConstructAsset> assetSelected)
+            Action<ConstructAsset> assetSelected,
+            AssetUriHelper assetUriHelper)
         {
+            _assetUriHelper = assetUriHelper;
             _constructAssets = constructAssets;
             _constructCategories = constructCategories;
 
             _assetSelected = assetSelected;
 
             Height = 600;
-            Width = 610;            
+            Width = 610;
             Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style;
 
             _gridContent.RowDefinitions.Add(new RowDefinition());
@@ -161,7 +165,7 @@ namespace Worldescape.Service
 
             foreach (var item in pagedData)
             {
-                var uri = item.ImageUrl;
+                var uri = _assetUriHelper.BuildAssetUri(item.ImageUrl);
 
                 var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
 
