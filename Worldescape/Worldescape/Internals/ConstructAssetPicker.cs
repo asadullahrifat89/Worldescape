@@ -177,7 +177,7 @@ namespace Worldescape.Service
                     Width = 100,
                     Height = 100,
                     Margin = new Thickness(3),
-                    Tag = item,
+                    Tag = item,                    
                 };
 
                 buttonConstructAsset.Click += ButtonConstructAsset_Click;
@@ -224,7 +224,15 @@ namespace Worldescape.Service
 
         private void ButtonConstructAsset_Click(object sender, RoutedEventArgs e)
         {
-            _assetSelected?.Invoke(((Button)sender).Tag as ConstructAsset);
+            var button = (Button)sender;
+            var img = button.Content as Image;
+            var source = img.Source as BitmapImage;
+            var uri = source.UriSource as Uri;
+
+            var constructAsset = button.Tag as ConstructAsset;
+            constructAsset.ImageUrl = uri.ToString();
+
+            _assetSelected?.Invoke(constructAsset);
             Close();
         }
     }
