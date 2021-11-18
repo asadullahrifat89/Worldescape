@@ -225,7 +225,7 @@ namespace Worldescape
         private void HubService_NewRemoveConstructs(int[] obj)
         {
 
-        }       
+        }
 
         private void HubService_NewBroadcastConstruct(Construct construct)
         {
@@ -881,7 +881,7 @@ namespace Worldescape
                     _addingConstruct = null;
 
                     OperationalConstructHolder.Content = null;
-                    OperationalConstructStatus.Text = null;
+                    ////OperationalConstructStatus.Text = null;
                 }
                 else
                 {
@@ -903,7 +903,7 @@ namespace Worldescape
                     ConstructAddButton.Content = "Add";
 
                     OperationalConstructHolder.Content = null;
-                    OperationalConstructStatus.Text = null;
+                    ////OperationalConstructStatus.Text = null;
 
                     return;
                 }
@@ -945,7 +945,7 @@ namespace Worldescape
             {
                 _movingConstruct = null;
                 OperationalConstructHolder.Content = null;
-                OperationalConstructStatus.Text = null;
+                //OperationalConstructStatus.Text = null;
             }
             else
             {
@@ -971,7 +971,7 @@ namespace Worldescape
                 {
                     _cloningConstruct = null;
                     OperationalConstructHolder.Content = null;
-                    OperationalConstructStatus.Text = null;
+                    //OperationalConstructStatus.Text = null;
                 }
                 else
                 {
@@ -1119,7 +1119,7 @@ namespace Worldescape
         {
             var button = CopyUiElementContent(uielement);
             OperationalConstructHolder.Content = button;
-            OperationalConstructStatus.Text = operationStatus;
+            //OperationalConstructStatus.Text = operationStatus;
         }
 
         #endregion

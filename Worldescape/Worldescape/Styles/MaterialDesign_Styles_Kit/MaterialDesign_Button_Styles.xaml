@@ -95,6 +95,7 @@
 
     <!--  Normal Button accent on Foreground  -->
     <Style x:Key="MaterialDesign_Button_Style" TargetType="Button">
+        <Setter Property="Height" Value="50" />
         <Setter Property="Background" Value="White" />
         <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="FontSize" Value="16" />
@@ -252,6 +253,7 @@
 
     <!--  Button for Hyperlinks  -->
     <Style x:Key="MaterialDesign_HyperlinkButton_Style" TargetType="Button">
+        <Setter Property="Height" Value="50" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="FontSize" Value="16" />
@@ -609,14 +611,13 @@
 
     <!--  Toggle buttons  -->
     <Style x:Key="MaterialDesign_ToggleButton_Style" TargetType="ToggleButton">
-        <!--<Setter Property="Background" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
-        <Setter Property="Foreground" Value="Black" />-->
+        <Setter Property="Height" Value="50" />
         <Setter Property="Background" Value="White" />
         <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="12,4,12,4" />
+        <Setter Property="Padding" Value="20,10" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />

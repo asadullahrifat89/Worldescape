@@ -12,24 +12,23 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <!--  Top bar buttons  -->
+        <StackPanel
+            x:Name="TopButtonHolder"
+            Grid.Row="0"
+            Orientation="Horizontal">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+            <!--  Avatar Image  -->
+            <ContentControl x:Name="AvatarImageHolder" />
 
-            <!--  Top bar buttons  -->
-            <StackPanel x:Name="TopButtonHolder" Orientation="Horizontal">
+            <WrapPanel Orientation="Horizontal">
 
-                <ContentControl x:Name="AvatarImageHolder" />
-
-                <!--  Constructs  -->
+                <!--  Connect  -->
                 <Button
                     x:Name="ConnectButton"
-                    Height="40"
                     MinWidth="100"
                     Margin="10"
                     Click="ConnectButton_Click"
@@ -37,131 +36,118 @@
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_Button_Style}" />
 
-                <!--  Constructs  -->
+                <!--  Construct  -->
                 <ToggleButton
                     x:Name="CraftButton"
-                    Height="40"
                     MinWidth="100"
                     Margin="10"
                     Click="CraftButton_Click"
                     Content="Construct"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_ToggleButton_Style}" />
+            </WrapPanel>
 
-                <WrapPanel Orientation="Horizontal" Visibility="{Binding ElementName=CraftButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <WrapPanel Orientation="Horizontal" Visibility="{Binding ElementName=CraftButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-                    <ToggleButton
-                        x:Name="ConstructAddButton"
-                        Height="40"
-                        MinWidth="100"
-                        Margin="10"
-                        Click="ConstructAddButton_Click"
-                        Content="Add"
-                        FontSize="20"
-                        Style="{StaticResource MaterialDesign_ToggleButton_Style}"
-                        Visibility="Collapsed" />
-
-                    <!--  Move  -->
-                    <ToggleButton
-                        x:Name="ConstructMoveButton"
-                        Height="40"
-                        MinWidth="100"
-                        Margin="10"
-                        Click="ConstructMoveButton_Click"
-                        Content="Move"
-                        FontSize="20"
-                        Style="{StaticResource MaterialDesign_ToggleButton_Style}"
-                        Visibility="Collapsed" />
-
-                    <!--  Clone  -->
-                    <ToggleButton
-                        x:Name="ConstructCloneButton"
-                        Height="40"
-                        MinWidth="100"
-                        Margin="10"
-                        Click="ConstructCloneButton_Click"
-                        Content="Clone"
-                        FontSize="20"
-                        Style="{StaticResource MaterialDesign_ToggleButton_Style}"
-                        Visibility="Collapsed" />
-
-                    <!--  Delete  -->
-                    <Button
-                        x:Name="ConstructDeleteButton"
-                        Height="40"
-                        MinWidth="100"
-                        Margin="10"
-                        Click="ConstructDeleteButton_Click"
-                        Content="Delete"
-                        FontSize="20"
-                        Style="{StaticResource MaterialDesign_Button_Style}"
-                        Visibility="Collapsed" />
-
-                    <!--  Upward  -->
-                    <Button
-                        x:Name="ConstructBringForwardButton"
-                        Height="40"
-                        MinWidth="100"
-                        Margin="10"
-                        Click="ConstructBringForwardButton_Click"
-                        Content="Upward"
-                        FontSize="20"
-                        Style="{StaticResource MaterialDesign_Button_Style}"
-                        Visibility="Collapsed" />
-
-                    <!--  Downward  -->
-                    <Button
-                        x:Name="ConstructSendBackwardButton"
-                        Height="40"
-                        MinWidth="100"
-                        Margin="10"
-                        Click="ConstructSendBackwardButton_Click"
-                        Content="Downward"
-                        FontSize="20"
-                        Style="{StaticResource MaterialDesign_Button_Style}"
-                        Visibility="Collapsed" />
-
-                    <!--  Enlarge  -->
-                    <Button
-                        x:Name="ConstructScaleUpButton"
-                        Height="40"
-                        MinWidth="100"
-                        Margin="10"
-                        Click="ConstructScaleUpButton_Click"
-                        Content="Enlarge"
-                        FontSize="20"
-                        Style="{StaticResource MaterialDesign_Button_Style}"
-                        Visibility="Collapsed" />
-
-                    <!--  Dwindle  -->
-                    <Button
-                        x:Name="ConstructScaleDownButton"
-                        Height="40"
-                        MinWidth="100"
-                        Margin="10"
-                        Click="ConstructScaleDownButton_Click"
-                        Content="Dwindle"
-                        FontSize="20"
-                        Style="{StaticResource MaterialDesign_Button_Style}"
-                        Visibility="Collapsed" />
-                </WrapPanel>
-
-                <TextBlock
-                    x:Name="OperationalConstructStatus"
-                    VerticalAlignment="Center"
+                <!--  Add  -->
+                <ToggleButton
+                    x:Name="ConstructAddButton"
+                    MinWidth="100"
+                    Margin="10"
+                    Click="ConstructAddButton_Click"
+                    Content="Add"
                     FontSize="20"
-                    FontWeight="Bold" />
+                    Style="{StaticResource MaterialDesign_ToggleButton_Style}"
+                    Visibility="Collapsed" />
 
-                <ContentControl x:Name="OperationalConstructHolder" />
+                <!--  Delete  -->
+                <Button
+                    x:Name="ConstructDeleteButton"
+                    MinWidth="100"
+                    Margin="10"
+                    Click="ConstructDeleteButton_Click"
+                    Content="Delete"
+                    FontSize="20"
+                    Style="{StaticResource MaterialDesign_Button_Style}"
+                    Visibility="Collapsed" />
 
                 <ContentControl x:Name="SelectedConstructHolder" />
 
-            </StackPanel>
+            </WrapPanel>
 
-            <!--  Top bar statuses  -->
-            <StackPanel Grid.Column="1" Orientation="Horizontal" />
+            <WrapPanel Orientation="Horizontal" Visibility="{Binding ElementName=CraftButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
 
-        </Grid>
+                <ContentControl x:Name="OperationalConstructHolder" />
+
+                <!--  Move  -->
+                <ToggleButton
+                    x:Name="ConstructMoveButton"
+                    MinWidth="100"
+                    Margin="10"
+                    Click="ConstructMoveButton_Click"
+                    Content="Move"
+                    FontSize="20"
+                    Style="{StaticResource MaterialDesign_ToggleButton_Style}"
+                    Visibility="Collapsed" />
+
+                <!--  Clone  -->
+                <ToggleButton
+                    x:Name="ConstructCloneButton"
+                    MinWidth="100"
+                    Margin="10"
+                    Click="ConstructCloneButton_Click"
+                    Content="Clone"
+                    FontSize="20"
+                    Style="{StaticResource MaterialDesign_ToggleButton_Style}"
+                    Visibility="Collapsed" />
+
+                <!--  Upward  -->
+                <Button
+                    x:Name="ConstructBringForwardButton"
+                    MinWidth="100"
+                    Margin="10"
+                    Click="ConstructBringForwardButton_Click"
+                    Content="Upward"
+                    FontSize="20"
+                    Style="{StaticResource MaterialDesign_Button_Style}"
+                    Visibility="Collapsed" />
+
+                <!--  Downward  -->
+                <Button
+                    x:Name="ConstructSendBackwardButton"
+                    MinWidth="100"
+                    Margin="10"
+                    Click="ConstructSendBackwardButton_Click"
+                    Content="Downward"
+                    FontSize="20"
+                    Style="{StaticResource MaterialDesign_Button_Style}"
+                    Visibility="Collapsed" />
+
+                <!--  Enlarge  -->
+                <Button
+                    x:Name="ConstructScaleUpButton"
+                    MinWidth="100"
+                    Margin="10"
+                    Click="ConstructScaleUpButton_Click"
+                    Content="Enlarge"
+                    FontSize="20"
+                    Style="{StaticResource MaterialDesign_Button_Style}"
+                    Visibility="Collapsed" />
+
+                <!--  Dwindle  -->
+                <Button
+                    x:Name="ConstructScaleDownButton"
+                    MinWidth="100"
+                    Margin="10"
+                    Click="ConstructScaleDownButton_Click"
+                    Content="Dwindle"
+                    FontSize="20"
+                    Style="{StaticResource MaterialDesign_Button_Style}"
+                    Visibility="Collapsed" />
+
+            </WrapPanel>
+
+        </StackPanel>
 
         <ScrollViewer
             x:Name="FrameScrollViewer"
