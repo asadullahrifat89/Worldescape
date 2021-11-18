@@ -101,6 +101,12 @@ namespace Worldescape
 
         #endregion
 
+        #region Properties
+
+
+
+        #endregion
+
         #region Methods
 
         #region Hub Listener
@@ -188,7 +194,15 @@ namespace Worldescape
 
         private void HubService_NewBroadcastConstructRotation(int constructId, float rotation)
         {
-
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            {
+                RotateElement(uIElement: iElement, rotation: rotation);
+                Console.WriteLine("<<HubService_NewBroadcastConstructRotation: OK");
+            }
+            else
+            {
+                Console.WriteLine("<<HubService_NewBroadcastConstructRotation: IGNORE");
+            }
         }
 
         private void HubService_NewBroadcastConstructRotations(ConcurrentDictionary<int, float> obj)
@@ -851,12 +865,17 @@ namespace Worldescape
 
         #region Button Events
 
-        private void CraftButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Actives crafting mode. This enables operations buttons for a construct.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ConstructButton_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
                 _isCraftingMode = !_isCraftingMode;
-                CraftButton.Content = _isCraftingMode ? "Constructing" : "Construct";
+                ConstructButton.Content = _isCraftingMode ? "Constructing" : "Construct";
 
                 _isMovingConstruct = false;
                 ConstructMoveButton.Content = "Move";
@@ -891,6 +910,11 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Activates adding a construct. Shows the asset picker for picking a construct and upon selection keeps adding the construct until untoggled.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ConstructAddButton_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
@@ -936,6 +960,11 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Moves the selected construct to the clicked point.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ConstructMoveButton_Click(object sender, RoutedEventArgs e)
         {
             _isMovingConstruct = !_isMovingConstruct;
@@ -956,7 +985,7 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Starts cloning a selected construct.
+        /// Activates cloning of a selected construct.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -983,7 +1012,7 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Deletes a selected construct.
+        /// Deletes _selectedConstruct.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1087,6 +1116,27 @@ namespace Worldescape
             }
         }
 
+        private async void ConstructRotateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (CanPerformWorldEvents())
+            {
+                if (_selectedConstruct != null)
+                {
+                    var button = (Button)_selectedConstruct;
+
+                    var construct = button.Tag as Construct;
+
+                    var newRotation = construct.Rotation + 5;
+
+                    construct = RotateElement(_selectedConstruct, newRotation) as Construct;
+
+                    await HubService.BroadcastConstructRotation(construct.Id, construct.Rotation);
+
+                    Console.WriteLine("Construct scaled.");
+                }
+            }
+        }
+
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("ConnectButton_Click");
@@ -1103,6 +1153,8 @@ namespace Worldescape
                 // Otherwise open a new connection then login
                 await ConnectWithHubThenLogin();
             }
+
+            ConstructButton.Visibility = CanPerformWorldEvents() ? Visibility.Visible : Visibility.Collapsed;
         }
 
         #endregion
@@ -1314,15 +1366,18 @@ namespace Worldescape
         /// </summary>
         private void ShowConstructOperationButtons()
         {
-            ConstructMoveButton.Visibility = Visibility.Visible;
-            ConstructCloneButton.Visibility = Visibility.Visible;
-            ConstructDeleteButton.Visibility = Visibility.Visible;
+            //ConstructMoveButton.Visibility = Visibility.Visible;
+            //ConstructCloneButton.Visibility = Visibility.Visible;
+            //ConstructDeleteButton.Visibility = Visibility.Visible;
 
-            ConstructBringForwardButton.Visibility = Visibility.Visible;
-            ConstructSendBackwardButton.Visibility = Visibility.Visible;
+            //ConstructBringForwardButton.Visibility = Visibility.Visible;
+            //ConstructSendBackwardButton.Visibility = Visibility.Visible;
 
-            ConstructScaleUpButton.Visibility = Visibility.Visible;
-            ConstructScaleDownButton.Visibility = Visibility.Visible;
+            //ConstructScaleUpButton.Visibility = Visibility.Visible;
+            //ConstructScaleDownButton.Visibility = Visibility.Visible;
+            //ConstructRotateButton.Visibility = Visibility.Visible;
+
+            ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -1330,15 +1385,18 @@ namespace Worldescape
         /// </summary>
         private void HideConstructOperationButtons()
         {
-            ConstructMoveButton.Visibility = Visibility.Collapsed;
-            ConstructCloneButton.Visibility = Visibility.Collapsed;
-            ConstructDeleteButton.Visibility = Visibility.Collapsed;
+            //ConstructMoveButton.Visibility = Visibility.Collapsed;
+            //ConstructCloneButton.Visibility = Visibility.Collapsed;
+            //ConstructDeleteButton.Visibility = Visibility.Collapsed;
 
-            ConstructBringForwardButton.Visibility = Visibility.Collapsed;
-            ConstructSendBackwardButton.Visibility = Visibility.Collapsed;
+            //ConstructBringForwardButton.Visibility = Visibility.Collapsed;
+            //ConstructSendBackwardButton.Visibility = Visibility.Collapsed;
 
-            ConstructScaleUpButton.Visibility = Visibility.Collapsed;
-            ConstructScaleDownButton.Visibility = Visibility.Collapsed;
+            //ConstructScaleUpButton.Visibility = Visibility.Collapsed;
+            //ConstructScaleDownButton.Visibility = Visibility.Collapsed;
+            //ConstructRotateButton.Visibility = Visibility.Collapsed;
+
+            ConstructOperationalCommandsHolder.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -1535,8 +1593,33 @@ namespace Worldescape
             }
         }
 
-        #endregion
+        private object RotateElement(UIElement uIElement, float rotation)
+        {
+            var button = (Button)uIElement;
+
+            if (button.Tag is Construct construct)
+            {
+                var scaling = new RotateTransform()
+                {
+                    CenterX = button.ActualWidth / 2,
+                    CenterY = button.ActualWidth / 2,
+                    Angle = rotation
+                };
+
+                button.RenderTransform = scaling;
+
+                construct.Rotation = rotation;
+
+                return construct;
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         #endregion
+
+        #endregion        
     }
 }
