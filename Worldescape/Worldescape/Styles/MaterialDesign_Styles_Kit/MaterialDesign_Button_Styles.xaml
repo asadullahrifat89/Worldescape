@@ -609,8 +609,12 @@
 
     <!--  Toggle buttons  -->
     <Style x:Key="MaterialDesign_ToggleButton_Style" TargetType="ToggleButton">
-        <Setter Property="Background" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
-        <Setter Property="Foreground" Value="Black" />
+        <!--<Setter Property="Background" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
+        <Setter Property="Foreground" Value="Black" />-->
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="12,4,12,4" />
         <Setter Property="Cursor" Value="Hand" />
@@ -624,11 +628,20 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="4">
+                        CornerRadius="5">
                         <Border
                             x:Name="InnerBorder"
                             Background="{TemplateBinding Background}"
-                            CornerRadius="4">
+                            CornerRadius="5">
+                            <Border.Effect>
+                                <DropShadowEffect
+                                    x:Name="DropShadowEffect"
+                                    BlurRadius="6"
+                                    Direction="-30"
+                                    Opacity="0.4"
+                                    ShadowDepth="0"
+                                    Color="Gray" />
+                            </Border.Effect>
                             <ContentControl
                                 x:Name="ContentPresenter"
                                 Margin="{TemplateBinding Padding}"
@@ -642,25 +655,26 @@
                         </Border>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup Name="CommonStates">
-                                <VisualState Name="Normal">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerBorder" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#FFE2E2E2" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
+                                <VisualState Name="Normal" />
                                 <VisualState Name="PointerOver">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerBorder" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{TemplateBinding Background}" />
-                                        </ObjectAnimationUsingKeyFrames>
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Path=Foreground, Converter={StaticResource AccentColorConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerBorder" Storyboard.TargetProperty="Effect.Opacity">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0.6" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerBorder" Storyboard.TargetProperty="Effect.BlurRadius">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="8" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerBorder" Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{TemplateBinding Background}" />
-                                            <!--<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />-->
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -674,7 +688,7 @@
                                 <VisualState Name="Checked">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerBorder" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding Path=Background, Converter={StaticResource AccentColorConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="White" />
@@ -758,11 +772,11 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="4">
+                        CornerRadius="5">
                         <Border
                             x:Name="InnerBorder"
                             Background="{TemplateBinding Background}"
-                            CornerRadius="4">
+                            CornerRadius="5">
                             <ContentControl
                                 x:Name="ContentPresenter"
                                 Margin="{TemplateBinding Padding}"

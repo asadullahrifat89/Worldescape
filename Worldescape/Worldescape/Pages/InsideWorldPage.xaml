@@ -161,13 +161,7 @@
             </StackPanel>
 
             <!--  Top bar statuses  -->
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-
-
-
-                <!--<TextBlock x:Name="AvatarIdHolder" />-->
-
-            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" />
 
         </Grid>
 
