@@ -701,10 +701,14 @@ namespace Worldescape
                     name: constructAsset.Name,
                     imageUrl: constructAsset.ImageUrl);
 
+                // Add the construct on pressed point
                 var construct = AddConstructOnCanvas(
                     construct: constructBtn,
                     x: e.GetCurrentPoint(Canvas_root).Position.X,
                     y: e.GetCurrentPoint(Canvas_root).Position.Y);
+
+                // Center the construct on pressed point
+                construct = MoveElement(constructBtn, e) as Construct;
 
                 await HubService.BroadcastConstruct(construct);
 
@@ -723,7 +727,7 @@ namespace Worldescape
                    name: constructAsset.Name,
                    imageUrl: constructAsset.ImageUrl);
 
-            // Add the construct on pressed poin
+            // Add the construct on pressed point
             var construct = AddConstructOnCanvas(
                 construct: constructBtn,
                 x: pressedPoint.Position.X,
@@ -812,81 +816,87 @@ namespace Worldescape
 
         private void CraftButton_Click(object sender, RoutedEventArgs e)
         {
-            _isCraftingMode = !_isCraftingMode;
-            CraftButton.Content = _isCraftingMode ? "Crafting" : "Craft";
-
-            _isMovingConstruct = false;
-            ConstructMoveButton.Content = "Move";
-
-            _isCloningConstruct = false;
-            ConstructCloneButton.Content = "Clone";
-
-            //_isDeleting = false;
-            ConstructDeleteButton.Content = "Delete";
-
-            _isAddingConstruct = false;
-            ConstructAddButton.Content = "Add";
-
-            if (!_isCraftingMode)
+            if (CanPerformWorldEvents())
             {
-                ConstructAddButton.Visibility = Visibility.Collapsed;
+                _isCraftingMode = !_isCraftingMode;
+                CraftButton.Content = _isCraftingMode ? "Crafting" : "Craft";
 
-                HideConstructOperationButtons();
+                _isMovingConstruct = false;
+                ConstructMoveButton.Content = "Move";
 
-                _movingConstruct = null;
-                _cloningConstruct = null;
-                _addingConstruct = null;
+                _isCloningConstruct = false;
+                ConstructCloneButton.Content = "Clone";
 
-                OperationalConstructHolder.Content = null;
-                OperationalConstructStatus.Text = null;
-            }
-            else
-            {
-                ConstructAddButton.Visibility = Visibility.Visible;
-                //this.ConstructDeleteButton.Visibility = Visibility.Visible;
+                //_isDeleting = false;
+                ConstructDeleteButton.Content = "Delete";
+
+                _isAddingConstruct = false;
+                ConstructAddButton.Content = "Add";
+
+                if (!_isCraftingMode)
+                {
+                    ConstructAddButton.Visibility = Visibility.Collapsed;
+
+                    HideConstructOperationButtons();
+
+                    _movingConstruct = null;
+                    _cloningConstruct = null;
+                    _addingConstruct = null;
+
+                    OperationalConstructHolder.Content = null;
+                    OperationalConstructStatus.Text = null;
+                }
+                else
+                {
+                    ConstructAddButton.Visibility = Visibility.Visible;
+                    //this.ConstructDeleteButton.Visibility = Visibility.Visible;
+                } 
             }
         }
 
         private void ConstructAddButton_Click(object sender, RoutedEventArgs e)
         {
-            // Turn off add mode if previously triggered
-            if (_isAddingConstruct)
+            if (CanPerformWorldEvents())
             {
-                _isAddingConstruct = false;
-                _addingConstruct = null;
-                ConstructAddButton.Content = "Add";
-
-                OperationalConstructHolder.Content = null;
-                OperationalConstructStatus.Text = null;
-
-                return;
-            }
-
-            if (!ConstructAssets.Any())
-            {
-                ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).ToList();
-                ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
-            }
-
-            var constructAssetPicker = new ConstructAssetPicker(
-                constructAssets: ConstructAssets,
-                constructCategories: ConstructCategories,
-                assetUriHelper: _assetUriHelper,
-                assetSelected: (constructAsset) =>
+                // Turn off add mode if previously triggered
+                if (_isAddingConstruct)
                 {
-                    var constructBtn = GenerateConstructButton(
-                        name: constructAsset.Name,
-                        imageUrl: constructAsset.ImageUrl);
+                    _isAddingConstruct = false;
+                    _addingConstruct = null;
+                    ConstructAddButton.Content = "Add";
 
-                    _addingConstruct = constructBtn;
+                    OperationalConstructHolder.Content = null;
+                    OperationalConstructStatus.Text = null;
 
-                    _isAddingConstruct = !_isAddingConstruct;
-                    ConstructAddButton.Content = _isAddingConstruct ? "Adding" : "Add";
+                    return;
+                }
 
-                    ShowOperationalConstruct(_addingConstruct, "Adding");
-                });
+                if (!ConstructAssets.Any())
+                {
+                    ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).ToList();
+                    ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
+                }
 
-            constructAssetPicker.Show();
+                var constructAssetPicker = new ConstructAssetPicker(
+                    constructAssets: ConstructAssets,
+                    constructCategories: ConstructCategories,
+                    assetUriHelper: _assetUriHelper,
+                    assetSelected: (constructAsset) =>
+                    {
+                        var constructBtn = GenerateConstructButton(
+                            name: constructAsset.Name,
+                            imageUrl: constructAsset.ImageUrl);
+
+                        _addingConstruct = constructBtn;
+
+                        _isAddingConstruct = !_isAddingConstruct;
+                        ConstructAddButton.Content = _isAddingConstruct ? "Adding" : "Add";
+
+                        ShowOperationalConstruct(_addingConstruct, "Adding");
+                    });
+
+                constructAssetPicker.Show(); 
+            }
         }
 
         private void ConstructMoveButton_Click(object sender, RoutedEventArgs e)
@@ -915,20 +925,23 @@ namespace Worldescape
         /// <param name="e"></param>
         private void ConstructCloneButton_Click(object sender, RoutedEventArgs e)
         {
-            _isCloningConstruct = !_isCloningConstruct;
-            ConstructCloneButton.Content = _isCloningConstruct ? "Cloning" : "Clone";
+            if (CanPerformWorldEvents())
+            {
+                _isCloningConstruct = !_isCloningConstruct;
+                ConstructCloneButton.Content = _isCloningConstruct ? "Cloning" : "Clone";
 
-            if (!_isCloningConstruct)
-            {
-                _cloningConstruct = null;
-                OperationalConstructHolder.Content = null;
-                OperationalConstructStatus.Text = null;
-            }
-            else
-            {
-                UIElement uielement = _selectedConstruct;
-                _cloningConstruct = uielement;
-                ShowOperationalConstruct(_cloningConstruct, "Cloning");
+                if (!_isCloningConstruct)
+                {
+                    _cloningConstruct = null;
+                    OperationalConstructHolder.Content = null;
+                    OperationalConstructStatus.Text = null;
+                }
+                else
+                {
+                    UIElement uielement = _selectedConstruct;
+                    _cloningConstruct = uielement;
+                    ShowOperationalConstruct(_cloningConstruct, "Cloning");
+                } 
             }
         }
 
@@ -939,63 +952,78 @@ namespace Worldescape
         /// <param name="e"></param>
         private async void ConstructDeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            //_isDeleting = !_isDeleting;
-            //ConstructDeleteButton.Content = _isDeleting ? "Deleting" : "Delete";
-
-            //var constructName = ((Button)_interactiveConstruct).Name;
-
-            //var constructToDelete = Canvas_root.Children.Where(x => x is Button button && button.Name == constructName).FirstOrDefault();
-
-            if (_selectedConstruct != null)
+            if (CanPerformWorldEvents())
             {
-                var construct = ((Button)_selectedConstruct).Tag as Construct;
+                //_isDeleting = !_isDeleting;
+                //ConstructDeleteButton.Content = _isDeleting ? "Deleting" : "Delete";
 
-                Canvas_root.Children.Remove(_selectedConstruct);
-                SelectedConstructHolder.Content = null;
+                //var constructName = ((Button)_interactiveConstruct).Name;
 
-                await HubService.RemoveConstruct(construct.Id);
+                //var constructToDelete = Canvas_root.Children.Where(x => x is Button button && button.Name == constructName).FirstOrDefault();
+
+                if (_selectedConstruct != null)
+                {
+                    var construct = ((Button)_selectedConstruct).Tag as Construct;
+
+                    Canvas_root.Children.Remove(_selectedConstruct);
+                    SelectedConstructHolder.Content = null;
+
+                    await HubService.RemoveConstruct(construct.Id);
+                } 
             }
         }
 
         private async void ConstructBringForwardButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_selectedConstruct != null)
+            if (CanPerformWorldEvents())
             {
-                var zIndex = Canvas.GetZIndex(_selectedConstruct);
-                zIndex++;
-                Canvas.SetZIndex(_selectedConstruct, zIndex);
+                if (_selectedConstruct != null)
+                {
+                    var zIndex = Canvas.GetZIndex(_selectedConstruct);
+                    zIndex++;
+                    Canvas.SetZIndex(_selectedConstruct, zIndex);
 
-                var construct = ((Button)_selectedConstruct).Tag as Construct;
-                await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
+                    var construct = ((Button)_selectedConstruct).Tag as Construct;
+                    await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
+                } 
             }
         }
 
         private async void ConstructSendBackwardButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_selectedConstruct != null)
+            if (CanPerformWorldEvents())
             {
-                var zIndex = Canvas.GetZIndex(_selectedConstruct);
-                zIndex--;
-                Canvas.SetZIndex(_selectedConstruct, zIndex);
+                if (_selectedConstruct != null)
+                {
+                    var zIndex = Canvas.GetZIndex(_selectedConstruct);
+                    zIndex--;
+                    Canvas.SetZIndex(_selectedConstruct, zIndex);
 
-                var construct = ((Button)_selectedConstruct).Tag as Construct;
-                await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
+                    var construct = ((Button)_selectedConstruct).Tag as Construct;
+                    await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
+                } 
             }
         }
 
         private void ConstructScaleUpButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_selectedConstruct != null)
+            if (CanPerformWorldEvents())
             {
+                if (_selectedConstruct != null)
+                {
 
+                } 
             }
         }
 
         private void ConstructScaleDownButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_selectedConstruct != null)
+            if (CanPerformWorldEvents())
             {
+                if (_selectedConstruct != null)
+                {
 
+                } 
             }
         }
 
