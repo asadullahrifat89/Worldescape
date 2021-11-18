@@ -39,6 +39,8 @@
                             Height="{TemplateBinding Height}"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            ClipToBounds="True"
+                            CornerRadius="10"
                             RenderTransformOrigin="0.5,0.5">
                             <Border
                                 x:Name="ContentContainer"
@@ -46,10 +48,13 @@
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}">
                                 <Grid>
+
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
+
+                                    <!--  Header  -->
                                     <ContentControl
                                         x:Name="Chrome"
                                         HorizontalAlignment="Stretch"
@@ -86,6 +91,8 @@
                                                 Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}" />
                                         </Grid>
                                     </ContentControl>
+
+                                    <!--  Body  -->
                                     <Border
                                         Grid.Row="1"
                                         HorizontalAlignment="Stretch"

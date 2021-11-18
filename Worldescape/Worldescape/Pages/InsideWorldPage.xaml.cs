@@ -1252,6 +1252,10 @@ namespace Worldescape
             };
         }
 
+        /// <summary>
+        /// Checks if world events can be performed or not. If HubService is connected to server and the user is logged in then returns true.
+        /// </summary>
+        /// <returns></returns>
         private bool CanPerformWorldEvents()
         {
             var result = HubService.IsConnected() && _isLoggedIn;
@@ -1483,6 +1487,8 @@ namespace Worldescape
             var button = (Button)uIElement;
 
             var goToX = pressedPoint.Position.X - button.ActualWidth / 2;
+
+            // If the UIElement is Avatar then move it to an Y coordinate so that it appears on top of the clicked point. 
             var goToY = pressedPoint.Position.Y - (button.Tag is Avatar ? button.ActualHeight * 2 : button.ActualHeight / 2);
 
             var taggedObject = MoveElement(uIElement, goToX, goToY);
