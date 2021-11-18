@@ -135,13 +135,18 @@ namespace Worldescape
 
             HubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
             HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
+
             HubService.NewRemoveConstruct += HubService_NewRemoveConstruct;
             HubService.NewRemoveConstructs += HubService_NewRemoveConstructs;
+
             HubService.NewBroadcastConstructPlacement += HubService_NewBroadcastConstructPlacement;
+
             HubService.NewBroadcastConstructRotation += HubService_NewBroadcastConstructRotation;
             HubService.NewBroadcastConstructRotations += HubService_NewBroadcastConstructRotations;
+
             HubService.NewBroadcastConstructScale += HubService_NewBroadcastConstructScale;
             HubService.NewBroadcastConstructScales += HubService_NewBroadcastConstructScales;
+
             HubService.NewBroadcastConstructMovement += HubService_NewBroadcastConstructMovement;
 
             #endregion
@@ -170,7 +175,15 @@ namespace Worldescape
 
         private void HubService_NewBroadcastConstructScale(int arg1, float arg2)
         {
-
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == arg1) is UIElement iElement)
+            {
+                ScaleElement(iElement, arg2);
+                Console.WriteLine("<<HubService_NewBroadcastConstructScale: OK");
+            }
+            else
+            {
+                Console.WriteLine("<<HubService_NewBroadcastConstructScale: IGNORE");
+            }
         }
 
         private void HubService_NewBroadcastConstructRotations(ConcurrentDictionary<int, float> obj)
@@ -233,6 +246,9 @@ namespace Worldescape
                 x: obj.Coordinate.X,
                 y: obj.Coordinate.Y,
                 z: obj.Coordinate.Z);
+
+            //TODO: set rotation and scale
+            ScaleElement(constructBtn, obj.Scale);
 
             Console.WriteLine("<<HubService_NewBroadcastConstruct: OK");
         }
@@ -523,12 +539,14 @@ namespace Worldescape
 
                             foreach (var construct in constructs)
                             {
+                                // TODO: set scale and rotation
+
                                 //if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == construct.Id) is UIElement iElement)
                                 //{
                                 //    Canvas.SetZIndex(iElement, construct.Coordinate.Z);
                                 //    MoveElement(iElement, construct.Coordinate.X, construct.Coordinate.Y);
 
-                                //    // TODO: set scale and rotation
+                                //    
                                 //}
                                 //else // insert new constructs
                                 //{
@@ -544,6 +562,10 @@ namespace Worldescape
                                     x: construct.Coordinate.X,
                                     y: construct.Coordinate.Y,
                                     z: construct.Coordinate.Z);
+
+                                ScaleElement(constructBtn, construct.Scale);
+
+
                                 //}
                             }
                         }
@@ -602,11 +624,11 @@ namespace Worldescape
             }
             else if (_isCloningConstruct && _cloningConstruct != null)
             {
-                await CloneConstructPointerPressed(e);
+                await CloneConstructOnPointerPressed(e);
             }
             else if (_isMovingConstruct && _movingConstruct != null)
             {
-                await MoveConstructPointerPressed(e);
+                await MoveConstructOnPointerPressed(e);
             }
             else
             {
@@ -638,11 +660,11 @@ namespace Worldescape
             }
             else if (_isCloningConstruct && _cloningConstruct != null)
             {
-                await CloneConstructPointerPressed(e);
+                await CloneConstructOnPointerPressed(e);
             }
             else if (_isMovingConstruct && _movingConstruct != null)
             {
-                await MoveConstructPointerPressed(e);
+                await MoveConstructOnPointerPressed(e);
             }
             else if (_isCraftingMode)
             {
@@ -754,7 +776,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private async Task MoveConstructPointerPressed(PointerRoutedEventArgs e)
+        private async Task MoveConstructOnPointerPressed(PointerRoutedEventArgs e)
         {
             var taggedObject = MoveElement(_movingConstruct, e);
 
@@ -770,7 +792,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private async Task CloneConstructPointerPressed(PointerRoutedEventArgs e)
+        private async Task CloneConstructOnPointerPressed(PointerRoutedEventArgs e)
         {
             var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
 
@@ -1019,7 +1041,7 @@ namespace Worldescape
             }
         }
 
-        private void ConstructScaleUpButton_Click(object sender, RoutedEventArgs e)
+        private async void ConstructScaleUpButton_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
@@ -1030,12 +1052,15 @@ namespace Worldescape
                     var construct = button.Tag as Construct;
 
                     var newScale = construct.Scale + 0.25f;
-                    ScaleScaleOnButtonPress(button, construct, newScale);
+
+                    construct = ScaleElement(_selectedConstruct, newScale) as Construct;
+
+                    await HubService.BroadcastConstructScale(construct.Id, construct.Scale);
                 }
             }
         }
 
-        private void ConstructScaleDownButton_Click(object sender, RoutedEventArgs e)
+        private async void ConstructScaleDownButton_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
@@ -1052,72 +1077,12 @@ namespace Worldescape
 
                     var newScale = construct.Scale - 0.25f;
 
-                    ScaleScaleOnButtonPress(button, construct, newScale);
+                    construct = ScaleElement(_selectedConstruct, newScale) as Construct;
+
+                    await HubService.BroadcastConstructScale(construct.Id, construct.Scale);
+
+                    Console.WriteLine("Construct scaled.");
                 }
-            }
-        }
-
-        private void ScaleScaleOnButtonPress(Button button, Construct construct, float newScale)
-        {
-            try
-            {
-                #region Storyboard
-                //var scaling = new ScaleTransform()
-                //{
-                //    CenterX = button.ActualWidth / 2,
-                //    CenterY = button.ActualWidth / 2,
-                //    ScaleX = construct.Scale,
-                //    ScaleY = construct.Scale
-                //};
-
-                //button.RenderTransform = scaling;
-
-                //Storyboard scaleStory = new Storyboard();
-                //DoubleAnimation setScaleX = new DoubleAnimation()
-                //{
-                //    From = construct.Scale,
-                //    To = newScale,
-                //    Duration = new Duration(TimeSpan.FromSeconds(5)),
-                //    EasingFunction = _easingFunction,
-                //};
-
-                //DoubleAnimation setScaleY = new DoubleAnimation()
-                //{
-                //    From = construct.Scale,
-                //    To = newScale,
-                //    Duration = new Duration(TimeSpan.FromSeconds(5)),
-                //    EasingFunction = _easingFunction,
-                //};
-
-                //Storyboard.SetTarget(setScaleX, (ScaleTransform)button.RenderTransform);
-                //Storyboard.SetTargetProperty(setScaleX, new PropertyPath(ScaleTransform.ScaleXProperty));
-
-                //Storyboard.SetTarget(setScaleY, (ScaleTransform)button.RenderTransform);
-                //Storyboard.SetTargetProperty(setScaleY, new PropertyPath(ScaleTransform.ScaleYProperty));
-
-                //scaleStory.Children.Add(setScaleX);
-                //scaleStory.Children.Add(setScaleY);
-
-                //scaleStory.Begin();
-
-                //construct.Scale = newScale; 
-                #endregion
-
-                var scaling = new ScaleTransform()
-                {
-                    CenterX = button.ActualWidth / 2,
-                    CenterY = button.ActualWidth / 2,
-                    ScaleX = newScale,
-                    ScaleY = newScale
-                };
-
-                button.RenderTransform = scaling;
-
-                construct.Scale = newScale;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
             }
         }
 
@@ -1501,6 +1466,74 @@ namespace Worldescape
             }
 
             return taggedObject;
+        }
+
+        private object ScaleElement(UIElement uIElement, float scale)
+        {
+            var button = (Button)uIElement;
+
+            if (button.Tag is Construct construct)
+            {
+                #region Storyboard
+                //var scaling = new ScaleTransform()
+                //{
+                //    CenterX = button.ActualWidth / 2,
+                //    CenterY = button.ActualWidth / 2,
+                //    ScaleX = construct.Scale,
+                //    ScaleY = construct.Scale
+                //};
+
+                //button.RenderTransform = scaling;
+
+                //Storyboard scaleStory = new Storyboard();
+                //DoubleAnimation setScaleX = new DoubleAnimation()
+                //{
+                //    From = construct.Scale,
+                //    To = newScale,
+                //    Duration = new Duration(TimeSpan.FromSeconds(5)),
+                //    EasingFunction = _easingFunction,
+                //};
+
+                //DoubleAnimation setScaleY = new DoubleAnimation()
+                //{
+                //    From = construct.Scale,
+                //    To = newScale,
+                //    Duration = new Duration(TimeSpan.FromSeconds(5)),
+                //    EasingFunction = _easingFunction,
+                //};
+
+                //Storyboard.SetTarget(setScaleX, (ScaleTransform)button.RenderTransform);
+                //Storyboard.SetTargetProperty(setScaleX, new PropertyPath(ScaleTransform.ScaleXProperty));
+
+                //Storyboard.SetTarget(setScaleY, (ScaleTransform)button.RenderTransform);
+                //Storyboard.SetTargetProperty(setScaleY, new PropertyPath(ScaleTransform.ScaleYProperty));
+
+                //scaleStory.Children.Add(setScaleX);
+                //scaleStory.Children.Add(setScaleY);
+
+                //scaleStory.Begin();
+
+                //construct.Scale = newScale; 
+                #endregion
+
+                var scaling = new ScaleTransform()
+                {
+                    CenterX = button.ActualWidth / 2,
+                    CenterY = button.ActualWidth / 2,
+                    ScaleX = scale,
+                    ScaleY = scale
+                };
+
+                button.RenderTransform = scaling;
+
+                construct.Scale = scale;
+
+                return construct;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         #endregion
