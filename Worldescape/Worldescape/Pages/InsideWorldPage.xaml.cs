@@ -1533,58 +1533,14 @@ namespace Worldescape
 
             if (button.Tag is Construct construct)
             {
-                #region Storyboard
-                //var scaling = new ScaleTransform()
-                //{
-                //    CenterX = button.ActualWidth / 2,
-                //    CenterY = button.ActualWidth / 2,
-                //    ScaleX = construct.Scale,
-                //    ScaleY = construct.Scale
-                //};
-
-                //button.RenderTransform = scaling;
-
-                //Storyboard scaleStory = new Storyboard();
-                //DoubleAnimation setScaleX = new DoubleAnimation()
-                //{
-                //    From = construct.Scale,
-                //    To = newScale,
-                //    Duration = new Duration(TimeSpan.FromSeconds(5)),
-                //    EasingFunction = _easingFunction,
-                //};
-
-                //DoubleAnimation setScaleY = new DoubleAnimation()
-                //{
-                //    From = construct.Scale,
-                //    To = newScale,
-                //    Duration = new Duration(TimeSpan.FromSeconds(5)),
-                //    EasingFunction = _easingFunction,
-                //};
-
-                //Storyboard.SetTarget(setScaleX, (ScaleTransform)button.RenderTransform);
-                //Storyboard.SetTargetProperty(setScaleX, new PropertyPath(ScaleTransform.ScaleXProperty));
-
-                //Storyboard.SetTarget(setScaleY, (ScaleTransform)button.RenderTransform);
-                //Storyboard.SetTargetProperty(setScaleY, new PropertyPath(ScaleTransform.ScaleYProperty));
-
-                //scaleStory.Children.Add(setScaleX);
-                //scaleStory.Children.Add(setScaleY);
-
-                //scaleStory.Begin();
-
-                //construct.Scale = newScale; 
-                #endregion
-
-                var scaling = new CompositeTransform()
+                var scaleTransform = new CompositeTransform()
                 {
-                    CenterX = button.ActualWidth / 2,
-                    CenterY = button.ActualHeight / 2,
                     ScaleX = scale,
                     ScaleY = scale,
                     Rotation = construct.Rotation,
                 };
 
-                button.RenderTransform = scaling;
+                button.RenderTransform = scaleTransform;
 
                 construct.Scale = scale;
 
@@ -1603,16 +1559,14 @@ namespace Worldescape
 
             if (button.Tag is Construct construct)
             {
-                var scaling = new CompositeTransform()
+                var rotateTransform = new CompositeTransform()
                 {
-                    CenterX = button.ActualWidth / 2,
-                    CenterY = button.ActualHeight / 2,
                     ScaleX = construct.Scale,
                     ScaleY = construct.Scale,
                     Rotation = rotation
                 };
 
-                button.RenderTransform = scaling;
+                button.RenderTransform = rotateTransform;
 
                 construct.Rotation = rotation;
 
