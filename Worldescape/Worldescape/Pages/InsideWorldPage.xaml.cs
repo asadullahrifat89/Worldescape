@@ -680,67 +680,6 @@ namespace Worldescape
             }
         }
 
-        private async Task MoveConstructPointerPressed(PointerRoutedEventArgs e)
-        {
-            var taggedObject = MoveElement(_movingConstruct, e);
-
-            var construct = taggedObject as Construct;
-
-            await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
-
-            Console.WriteLine("Construct moved.");
-        }
-
-        private async Task CloneConstructPointerPressed(PointerRoutedEventArgs e)
-        {
-            var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
-
-            if (constructAsset != null)
-            {
-                var constructBtn = GenerateConstructButton(
-                    name: constructAsset.Name,
-                    imageUrl: constructAsset.ImageUrl);
-
-                // Add the construct on pressed point
-                var construct = AddConstructOnCanvas(
-                    construct: constructBtn,
-                    x: e.GetCurrentPoint(Canvas_root).Position.X,
-                    y: e.GetCurrentPoint(Canvas_root).Position.Y);
-
-                // Center the construct on pressed point
-                construct = MoveElement(constructBtn, e) as Construct;
-
-                await HubService.BroadcastConstruct(construct);
-
-                Console.WriteLine("Construct cloned.");
-            }
-        }
-
-        private async Task AddConstructOnPointerPressed(PointerRoutedEventArgs e)
-        {
-            var pressedPoint = e.GetCurrentPoint(Canvas_root);
-            var button = (Button)_addingConstruct;
-
-            var constructAsset = button.Tag as Construct;
-
-            var constructBtn = GenerateConstructButton(
-                   name: constructAsset.Name,
-                   imageUrl: constructAsset.ImageUrl);
-
-            // Add the construct on pressed point
-            var construct = AddConstructOnCanvas(
-                construct: constructBtn,
-                x: pressedPoint.Position.X,
-                y: pressedPoint.Position.Y);
-
-            // Center the construct on pressed point
-            construct = MoveElement(constructBtn, e) as Construct;
-
-            await HubService.BroadcastConstruct(construct);
-
-            Console.WriteLine("Construct added.");
-        }
-
         /// <summary>
         /// Event fired when pointer is moved within a construct. The construct latches on to the pointer if press is not released.
         /// </summary>
@@ -810,6 +749,81 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Moves the _movingConstruct to the pressed point.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private async Task MoveConstructPointerPressed(PointerRoutedEventArgs e)
+        {
+            var taggedObject = MoveElement(_movingConstruct, e);
+
+            var construct = taggedObject as Construct;
+
+            await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+
+            Console.WriteLine("Construct moved.");
+        }
+
+        /// <summary>
+        /// Clones the _cloningConstruct to the pressed point.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private async Task CloneConstructPointerPressed(PointerRoutedEventArgs e)
+        {
+            var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
+
+            if (constructAsset != null)
+            {
+                var constructBtn = GenerateConstructButton(
+                    name: constructAsset.Name,
+                    imageUrl: constructAsset.ImageUrl);
+
+                // Add the construct on pressed point
+                var construct = AddConstructOnCanvas(
+                    construct: constructBtn,
+                    x: e.GetCurrentPoint(Canvas_root).Position.X,
+                    y: e.GetCurrentPoint(Canvas_root).Position.Y);
+
+                // Center the construct on pressed point
+                construct = MoveElement(constructBtn, e) as Construct;
+
+                await HubService.BroadcastConstruct(construct);
+
+                Console.WriteLine("Construct cloned.");
+            }
+        }
+
+        /// <summary>
+        /// Adds the _addingConstruct to the pressed point.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private async Task AddConstructOnPointerPressed(PointerRoutedEventArgs e)
+        {
+            var pressedPoint = e.GetCurrentPoint(Canvas_root);
+            var button = (Button)_addingConstruct;
+
+            var constructAsset = button.Tag as Construct;
+
+            var constructBtn = GenerateConstructButton(
+                   name: constructAsset.Name,
+                   imageUrl: constructAsset.ImageUrl);
+
+            // Add the construct on pressed point
+            var construct = AddConstructOnCanvas(
+                construct: constructBtn,
+                x: pressedPoint.Position.X,
+                y: pressedPoint.Position.Y);
+
+            // Center the construct on pressed point
+            construct = MoveElement(constructBtn, e) as Construct;
+
+            await HubService.BroadcastConstruct(construct);
+
+            Console.WriteLine("Construct added.");
+        }
         #endregion
 
         #region Button Events
