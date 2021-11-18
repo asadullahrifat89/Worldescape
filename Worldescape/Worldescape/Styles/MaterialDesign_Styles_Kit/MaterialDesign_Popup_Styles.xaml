@@ -64,4 +64,50 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="MaterialDesign_PopupContent_Style" TargetType="ContentControl">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="20,15" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentPresenter">
+                    <Border
+                        x:Name="InnerBorder"
+                        Padding="5"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="4">
+                        <Border.Effect>
+                            <DropShadowEffect
+                                x:Name="DropShadowEffect"
+                                BlurRadius="10"
+                                Direction="-30"
+                                Opacity="0.4"
+                                ShadowDepth="0"
+                                Color="Gray" />
+                        </Border.Effect>
+                        <Grid
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
+
+                            <ContentControl
+                                x:Name="ContentPresenter"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                FontSize="{TemplateBinding FontSize}"
+                                FontWeight="{TemplateBinding FontWeight}"
+                                Foreground="{TemplateBinding Foreground}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

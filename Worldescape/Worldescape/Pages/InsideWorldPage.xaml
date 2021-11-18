@@ -36,19 +36,19 @@
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_Button_Style}" />
 
-                <!--  Construct  -->
+                <!--  Craft  -->
                 <ToggleButton
-                    x:Name="ConstructButton"
+                    x:Name="CraftButton"
                     MinWidth="100"
                     Margin="10"
-                    Click="ConstructButton_Click"
-                    Content="Construct"
+                    Click="CraftButton_Click"
+                    Content="Craft"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_ToggleButton_Style}"
                     Visibility="Collapsed" />
             </WrapPanel>
 
-            <WrapPanel Orientation="Horizontal" Visibility="{Binding ElementName=ConstructButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <WrapPanel Orientation="Horizontal" Visibility="{Binding ElementName=CraftButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
 
                 <!--  Add  -->
                 <ToggleButton

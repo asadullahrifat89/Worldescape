@@ -230,7 +230,7 @@ namespace Worldescape
 
         private void HubService_NewBroadcastConstruct(Construct construct)
         {
-            var constructBtn = GenerateConstructButton(
+            var constructBtn = GenerateCraftButton(
                 name: construct.Name,
                 imageUrl: construct.ImageUrl,
                 constructId: construct.Id,
@@ -358,6 +358,7 @@ namespace Worldescape
 
                     var avatarButton = (Button)iElement;
 
+                    //avatarButton.SetAvatarActivityStatus((ActivityStatus)activityStatus);
                     SetAvatarActivityStatus(avatarButton, avatarButton.Tag as Avatar, (ActivityStatus)activityStatus);
 
                     Console.WriteLine("<<NewBroadcastAvatarActivityStatus: OK");
@@ -559,7 +560,7 @@ namespace Worldescape
                                 //}
                                 //else // insert new constructs
                                 //{
-                                var constructBtn = GenerateConstructButton(
+                                var constructBtn = GenerateCraftButton(
                                     name: construct.Name,
                                     imageUrl: construct.ImageUrl,
                                     constructId: construct.Id,
@@ -813,7 +814,7 @@ namespace Worldescape
 
             if (constructAsset != null)
             {
-                var constructBtn = GenerateConstructButton(
+                var constructBtn = GenerateCraftButton(
                     name: constructAsset.Name,
                     imageUrl: constructAsset.ImageUrl);
 
@@ -844,7 +845,7 @@ namespace Worldescape
 
             var constructAsset = button.Tag as Construct;
 
-            var constructBtn = GenerateConstructButton(
+            var constructBtn = GenerateCraftButton(
                    name: constructAsset.Name,
                    imageUrl: constructAsset.ImageUrl);
 
@@ -902,38 +903,16 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Connects the current user with server.
-        /// </summary>
-        /// <returns></returns>
-        private async Task Connect()
-        {
-            SetDemoData();
-
-            // If a connection is already established simply login to hub
-            if (CanHubLogin())
-            {
-                await TryLoginToHub();
-            }
-            else
-            {
-                // Otherwise open a new connection then login
-                await ConnectWithHubThenLogin();
-            }
-
-            ConstructButton.Visibility = CanPerformWorldEvents() ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        /// <summary>
         /// Actives crafting mode. This enables operations buttons for a construct.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ConstructButton_Click(object sender, RoutedEventArgs e)
+        private async void CraftButton_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
-                _isCraftingMode = !_isCraftingMode;
-                ConstructButton.Content = _isCraftingMode ? "Constructing" : "Construct";
+                _isCraftingMode = CraftButton.IsChecked.Value;
+                CraftButton.Content = _isCraftingMode ? "Crafting" : "Craft";
 
                 _isMovingConstruct = false;
                 ConstructMoveButton.Content = "Move";
@@ -1015,7 +994,7 @@ namespace Worldescape
                     assetUriHelper: _assetUriHelper,
                     assetSelected: (constructAsset) =>
                     {
-                        var constructBtn = GenerateConstructButton(
+                        var constructBtn = GenerateCraftButton(
                             name: constructAsset.Name,
                             imageUrl: constructAsset.ImageUrl);
 
@@ -1261,9 +1240,31 @@ namespace Worldescape
                 },
                 Character = Character,
                 World = InWorld,
-                Coordinate = new Coordinate(new Random().Next(100), new Random().Next(100), new Random().Next(100)),
+                Coordinate = new Coordinate(x: ((Window.Current.Bounds.Width / 2) - 50), y: ((Window.Current.Bounds.Height / 2) - 100), z: new Random().Next(100)),
                 ImageUrl = Character.ImageUrl,
             };
+        }
+
+        /// <summary>
+        /// Connects the current user with server.
+        /// </summary>
+        /// <returns></returns>
+        private async Task Connect()
+        {
+            SetDemoData();
+
+            // If a connection is already established simply login to hub
+            if (CanHubLogin())
+            {
+                await TryLoginToHub();
+            }
+            else
+            {
+                // Otherwise open a new connection then login
+                await ConnectWithHubThenLogin();
+            }
+
+            CraftButton.Visibility = CanPerformWorldEvents() ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>
@@ -1275,6 +1276,40 @@ namespace Worldescape
             var result = HubService.IsConnected() && _isLoggedIn;
             Console.WriteLine("CanPerformWorldEvents: " + result);
             return result;
+        }
+
+        /// <summary>
+        /// Adds an avatar on canvas.
+        /// </summary>
+        /// <param name="avatar"></param>
+        private void AddAvatarOnCanvas(Avatar avatar)
+        {
+            var uri = avatar.ImageUrl;
+
+            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+            var img = new Image()
+            {
+                Source = bitmap,
+                Stretch = Stretch.Uniform,
+                Height = 100,
+                Width = 100,
+            };
+
+            Button avatarBtn = new Button() { Style = Application.Current.Resources["MaterialDesign_PedestalButton_Style"] as Style, Height = 110 };
+
+            avatarBtn.Content = img;
+            avatarBtn.Tag = avatar;
+
+            //avatar.Effect = new DropShadowEffect() { ShadowDepth = 3, Color = Colors.Black, BlurRadius = 10, Opacity = 0.3 };
+
+            //var avatarBtn = new AvatarButton(avatar);
+
+            Canvas.SetLeft(avatarBtn, avatar.Coordinate.X);
+            Canvas.SetTop(avatarBtn, avatar.Coordinate.Y);
+            Canvas.SetZIndex(avatarBtn, 999/*avatar.Coordinate.Z*/); //TODO: figure out Z index calculation later
+
+            Canvas_root.Children.Add(avatarBtn);
         }
 
         /// <summary>
@@ -1307,92 +1342,12 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Adds an avatar on canvas.
-        /// </summary>
-        /// <param name="avatar"></param>
-        private void AddAvatarOnCanvas(Avatar avatar)
-        {
-            var uri = avatar.ImageUrl;
-
-            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
-
-            var img = new Image()
-            {
-                Source = bitmap,
-                Stretch = Stretch.Uniform,
-                Height = 100,
-                Width = 100,
-            };
-
-            Button avatarBtn = new Button() { Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style };
-
-            avatarBtn.Content = img;
-            avatarBtn.Tag = avatar;
-
-            //avatar.Effect = new DropShadowEffect() { ShadowDepth = 3, Color = Colors.Black, BlurRadius = 10, Opacity = 0.3 };
-
-            Canvas.SetLeft(avatarBtn, avatar.Coordinate.X);
-            Canvas.SetTop(avatarBtn, avatar.Coordinate.Y);
-            Canvas.SetZIndex(avatarBtn, 999/*avatar.Coordinate.Z*/); //TODO: figure out Z index calculation later
-
-            Canvas_root.Children.Add(avatarBtn);
-        }
-
-        /// <summary>
-        /// Adds a construct to the canvas.
-        /// </summary>
-        /// <param name="construct"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-        private Construct AddConstructOnCanvas(UIElement construct, double x, double y, int? z = null)
-        {
-            Canvas.SetLeft(construct, x);
-            Canvas.SetTop(construct, y);
-
-            int indexZ = 9;
-
-            if (z.HasValue)
-            {
-                indexZ = z.Value;
-            }
-            else
-            {
-                // If Z index is not proved then assign max Z index to this construct button
-                if (Canvas_root.Children != null && Canvas_root.Children.Any())
-                {
-                    if (Canvas_root.Children.Any(x => x is Button button && button.Tag is Construct))
-                    {
-                        var lastConstruct = ((Button)Canvas_root.Children.Where(x => x is Button button && button.Tag is Construct).LastOrDefault()).Tag as Construct;
-
-                        if (lastConstruct != null)
-                        {
-                            indexZ = lastConstruct.Coordinate.Z + 1;
-                        }
-                    }
-                }
-            }
-
-            Canvas.SetZIndex(construct, indexZ);
-
-            Canvas_root.Children.Add(construct);
-
-            var taggedConstruct = ((Button)construct).Tag as Construct;
-
-            taggedConstruct.Coordinate.X = x;
-            taggedConstruct.Coordinate.Y = y;
-            taggedConstruct.Coordinate.Z = indexZ;
-
-            return taggedConstruct;
-        }
-
-        /// <summary>
         /// Generate a new button from the provided construct. If constructId is not provided then new id is generated. If inWorld, creator are not provided then current world and user are tagged.
         /// </summary>
         /// <param name="construct"></param>
         /// <param name="constructId"></param>
         /// <returns></returns>
-        private Button GenerateConstructButton(string name, string imageUrl, int? constructId = null, InWorld inWorld = null, Creator creator = null)
+        private Button GenerateCraftButton(string name, string imageUrl, int? constructId = null, InWorld inWorld = null, Creator creator = null)
         {
             var uri = imageUrl;
 
@@ -1411,7 +1366,7 @@ namespace Worldescape
             var obj = new Button()
             {
                 BorderBrush = new SolidColorBrush(Colors.DodgerBlue),
-                Style = Application.Current.Resources["MaterialDesign_ConstructButton_Style"] as Style,
+                Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
                 Name = id.ToString(),
                 Tag = new Construct()
                 {
@@ -1488,6 +1443,54 @@ namespace Worldescape
         }
 
         /// <summary>
+        /// Adds a construct to the canvas.
+        /// </summary>
+        /// <param name="construct"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        private Construct AddConstructOnCanvas(UIElement construct, double x, double y, int? z = null)
+        {
+            Canvas.SetLeft(construct, x);
+            Canvas.SetTop(construct, y);
+
+            int indexZ = 9;
+
+            if (z.HasValue)
+            {
+                indexZ = z.Value;
+            }
+            else
+            {
+                // If Z index is not proved then assign max Z index to this construct button
+                if (Canvas_root.Children != null && Canvas_root.Children.Any())
+                {
+                    if (Canvas_root.Children.Any(x => x is Button button && button.Tag is Construct))
+                    {
+                        var lastConstruct = ((Button)Canvas_root.Children.Where(x => x is Button button && button.Tag is Construct).LastOrDefault()).Tag as Construct;
+
+                        if (lastConstruct != null)
+                        {
+                            indexZ = lastConstruct.Coordinate.Z + 1;
+                        }
+                    }
+                }
+            }
+
+            Canvas.SetZIndex(construct, indexZ);
+
+            Canvas_root.Children.Add(construct);
+
+            var taggedConstruct = ((Button)construct).Tag as Construct;
+
+            taggedConstruct.Coordinate.X = x;
+            taggedConstruct.Coordinate.Y = y;
+            taggedConstruct.Coordinate.Z = indexZ;
+
+            return taggedConstruct;
+        }
+
+        /// <summary>
         /// Moves an UIElement to a new coordinate with the provided PointerRoutedEventArgs in canvas. Returns the tagged object of the uIElement.
         /// </summary>
         /// <param name="uIElement"></param>
@@ -1503,7 +1506,7 @@ namespace Worldescape
             var goToX = pressedPoint.Position.X - button.ActualWidth / 2;
 
             // If the UIElement is Avatar then move it to an Y coordinate so that it appears on top of the clicked point. 
-            var goToY = pressedPoint.Position.Y - (button.Tag is Avatar ? button.ActualHeight * 2 : button.ActualHeight / 2);
+            var goToY = pressedPoint.Position.Y - (button.Tag is Avatar ? button.ActualHeight : button.ActualHeight / 2);
 
             var taggedObject = MoveElement(uIElement, goToX, goToY);
 
@@ -1528,6 +1531,7 @@ namespace Worldescape
 
             if (taggedObject is Avatar)
             {
+                //((AvatarButton)uIElement).SetAvatarActivityStatus(ActivityStatus.Moving);
                 SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Moving);
             }
 
@@ -1572,6 +1576,7 @@ namespace Worldescape
                 if (taggedObject is Avatar)
                 {
                     var taggedAvatar = taggedObject as Avatar;
+                    //((AvatarButton)uIElement).SetAvatarActivityStatus(ActivityStatus.Online);
                     SetAvatarActivityStatus(button, taggedAvatar, ActivityStatus.Online);
                 }
             };
