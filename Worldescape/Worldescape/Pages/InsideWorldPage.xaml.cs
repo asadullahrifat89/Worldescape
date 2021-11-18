@@ -864,7 +864,7 @@ namespace Worldescape
                 {
                     ConstructAddButton.Visibility = Visibility.Visible;
                     //this.ConstructDeleteButton.Visibility = Visibility.Visible;
-                } 
+                }
             }
         }
 
@@ -909,7 +909,7 @@ namespace Worldescape
                         ShowOperationalConstruct(_addingConstruct, "Adding");
                     });
 
-                constructAssetPicker.Show(); 
+                constructAssetPicker.Show();
             }
         }
 
@@ -955,7 +955,7 @@ namespace Worldescape
                     UIElement uielement = _selectedConstruct;
                     _cloningConstruct = uielement;
                     ShowOperationalConstruct(_cloningConstruct, "Cloning");
-                } 
+                }
             }
         }
 
@@ -983,7 +983,7 @@ namespace Worldescape
                     SelectedConstructHolder.Content = null;
 
                     await HubService.RemoveConstruct(construct.Id);
-                } 
+                }
             }
         }
 
@@ -999,7 +999,7 @@ namespace Worldescape
 
                     var construct = ((Button)_selectedConstruct).Tag as Construct;
                     await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
-                } 
+                }
             }
         }
 
@@ -1015,7 +1015,7 @@ namespace Worldescape
 
                     var construct = ((Button)_selectedConstruct).Tag as Construct;
                     await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
-                } 
+                }
             }
         }
 
@@ -1025,8 +1025,51 @@ namespace Worldescape
             {
                 if (_selectedConstruct != null)
                 {
+                    var button = (Button)_selectedConstruct;
 
-                } 
+                    var construct = button.Tag as Construct;
+
+                    var newScale = construct.Scale + 0.25f;
+
+                    var scaling = new ScaleTransform()
+                    {
+                        CenterX = button.ActualWidth / 2,
+                        CenterY = button.ActualWidth / 2,
+                        ScaleX = newScale,
+                        ScaleY = newScale
+                    };
+
+                    button.RenderTransform = scaling;                    
+
+                    //Storyboard scaleStory = new Storyboard();
+                    //DoubleAnimation setScaleX = new DoubleAnimation()
+                    //{
+                    //    From = construct.Scale,
+                    //    To = newScale,
+                    //    Duration = new Duration(TimeSpan.FromSeconds(1)),
+                    //    EasingFunction = _easingFunction,
+                    //};
+
+                    //DoubleAnimation setScaleY = new DoubleAnimation()
+                    //{
+                    //    From = construct.Scale,
+                    //    To = newScale,
+                    //    Duration = new Duration(TimeSpan.FromSeconds(1)),
+                    //    EasingFunction = _easingFunction,
+                    //};
+
+                    //Storyboard.SetTarget(setScaleX, scaling);
+                    //Storyboard.SetTargetProperty(setScaleX, new PropertyPath(ScaleTransform.ScaleXProperty));
+
+                    //Storyboard.SetTarget(setScaleY, scaling);
+                    //Storyboard.SetTargetProperty(setScaleY, new PropertyPath(ScaleTransform.ScaleYProperty));
+
+                    //scaleStory.Children.Add(setScaleX);
+                    //scaleStory.Children.Add(setScaleY);
+                    //scaleStory.Begin();
+
+                    construct.Scale = newScale;
+                }
             }
         }
 
@@ -1036,8 +1079,56 @@ namespace Worldescape
             {
                 if (_selectedConstruct != null)
                 {
+                    var button = (Button)_selectedConstruct;
 
-                } 
+                    var construct = button.Tag as Construct;
+
+                    if (construct.Scale == 0.25f)
+                    {
+                        return;
+                    }
+
+                    var newScale = construct.Scale - 0.25f;
+
+                    var scaling = new ScaleTransform()
+                    {
+                        CenterX = button.ActualWidth / 2,
+                        CenterY = button.ActualWidth / 2,
+                        ScaleX = newScale,
+                        ScaleY = newScale
+                    };
+
+                    button.RenderTransform = scaling;                   
+
+                    //Storyboard scaleStory = new Storyboard();
+                    //DoubleAnimation setScaleX = new DoubleAnimation()
+                    //{
+                    //    From = construct.Scale,
+                    //    To = newScale,
+                    //    Duration = new Duration(TimeSpan.FromSeconds(1)),
+                    //    EasingFunction = _easingFunction,
+                    //};
+
+                    //DoubleAnimation setScaleY = new DoubleAnimation()
+                    //{
+                    //    From = construct.Scale,
+                    //    To = newScale,
+                    //    Duration = new Duration(TimeSpan.FromSeconds(1)),
+                    //    EasingFunction = _easingFunction,
+                    //};
+
+                    //Storyboard.SetTarget(setScaleX, scaling);
+                    //Storyboard.SetTargetProperty(setScaleX, new PropertyPath(ScaleTransform.ScaleXProperty));
+
+                    //Storyboard.SetTarget(setScaleY, scaling);
+                    //Storyboard.SetTargetProperty(setScaleY, new PropertyPath(ScaleTransform.ScaleYProperty));
+
+                    //scaleStory.Children.Add(setScaleX);
+                    //scaleStory.Children.Add(setScaleY);
+                    //scaleStory.Begin();
+
+                    construct.Scale = newScale;
+                }
             }
         }
 
@@ -1273,8 +1364,12 @@ namespace Worldescape
             ConstructMoveButton.Visibility = Visibility.Visible;
             ConstructCloneButton.Visibility = Visibility.Visible;
             ConstructDeleteButton.Visibility = Visibility.Visible;
+
             ConstructBringForwardButton.Visibility = Visibility.Visible;
             ConstructSendBackwardButton.Visibility = Visibility.Visible;
+
+            ConstructScaleUpButton.Visibility = Visibility.Visible;
+            ConstructScaleDownButton.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -1285,8 +1380,12 @@ namespace Worldescape
             ConstructMoveButton.Visibility = Visibility.Collapsed;
             ConstructCloneButton.Visibility = Visibility.Collapsed;
             ConstructDeleteButton.Visibility = Visibility.Collapsed;
+
             ConstructBringForwardButton.Visibility = Visibility.Collapsed;
             ConstructSendBackwardButton.Visibility = Visibility.Collapsed;
+
+            ConstructScaleUpButton.Visibility = Visibility.Collapsed;
+            ConstructScaleDownButton.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -1414,27 +1513,6 @@ namespace Worldescape
 
             return taggedObject;
         }
-
-
-        //private void DrawRandomConstructsOnCanvas()
-        //{
-        //    for (int j = 0; j < 5; j++)
-        //    {
-        //        for (int i = 0; i < 10; i++)
-        //        {
-        //            var uri = _objects[new Random().Next(_objects.Count())];
-
-        //            Button constructBtn = GenerateConstructButton(
-        //                name: Guid.NewGuid().ToString(),
-        //                imageUrl: uri);
-
-        //            var x = (i + j * 2) * 200;
-        //            var y = i * 200;
-
-        //            DrawConstructOnCanvas(constructBtn, x, y);
-        //        }
-        //    }
-        //}
 
         #endregion
 
