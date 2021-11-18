@@ -96,7 +96,7 @@ namespace Worldescape
 
         #region Methods
 
-        #region Hub Listener
+        #region Hub Events
 
         private void SubscribeHub()
         {
@@ -354,6 +354,10 @@ namespace Worldescape
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
                     if (avatarMessenger != null)
                         avatarMessenger.ActivityStatus = (ActivityStatus)activityStatus;
+
+                    var avatarButton = (Button)iElement;
+
+                    SetAvatarActivityStatus(avatarButton, avatarButton.Tag as Avatar,(ActivityStatus)activityStatus);
 
                     Console.WriteLine("<<NewBroadcastAvatarActivityStatus: OK");
                 }
@@ -917,7 +921,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ConstructButton_Click(object sender, RoutedEventArgs e)
+        private async void ConstructButton_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
@@ -947,13 +951,27 @@ namespace Worldescape
                     _addingConstruct = null;
 
                     OperationalConstructHolder.Content = null;
-                    ////OperationalConstructStatus.Text = null;
+
+                    await BroadcastAvatarActivityStatus(ActivityStatus.Online);
                 }
                 else
                 {
                     ConstructAddButton.Visibility = Visibility.Visible;
-                    //this.ConstructDeleteButton.Visibility = Visibility.Visible;
+
+                    await BroadcastAvatarActivityStatus(ActivityStatus.Crafting);
                 }
+            }
+        }
+
+        private async Task BroadcastAvatarActivityStatus(ActivityStatus activityStatus)
+        {
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id) is UIElement iElement)
+            {
+                var avatarButton = (Button)iElement;
+                var taggedAvatar = avatarButton.Tag as Avatar;
+                SetAvatarActivityStatus(avatarButton, taggedAvatar, activityStatus);
+
+                await HubService.BroadcastAvatarActivityStatus(taggedAvatar.Id, (int)activityStatus);
             }
         }
 
@@ -1199,7 +1217,6 @@ namespace Worldescape
         {
             var button = CopyUiElementContent(uielement);
             OperationalConstructHolder.Content = button;
-            //OperationalConstructStatus.Text = operationStatus;
         }
 
         #endregion
@@ -1238,6 +1255,35 @@ namespace Worldescape
             var result = HubService.IsConnected() && _isLoggedIn;
             Console.WriteLine("CanPerformWorldEvents: " + result);
             return result;
+        }
+
+        /// <summary>
+        /// Sets the provided activityStatus to the avatar.
+        /// </summary>
+        /// <param name="avatarButton"></param>
+        /// <param name="avatar"></param>
+        /// <param name="activityStatus"></param>
+        public void SetAvatarActivityStatus(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
+        {
+            avatar.ActivityStatus = activityStatus;
+            SetStatusBoundImageUrl(avatarButton, avatar, activityStatus);
+        }
+
+        /// <summary>
+        /// Sets the StatusBoundImageUrl as content of the avatarButton according to the activityStatus.
+        /// </summary>
+        /// <param name="avatarButton"></param>
+        /// <param name="avatar"></param>
+        /// <param name="activityStatus"></param>
+        private void SetStatusBoundImageUrl(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
+        {
+            if (avatar.Character.StatusBoundImageUrls.FirstOrDefault(x => x.Status == activityStatus) is StatusBoundImageUrl statusBoundImageUrl)
+            {
+                if (avatarButton.Content is Image img && img.Source is BitmapImage bitmap)
+                {
+                    bitmap.UriSource = new Uri(statusBoundImageUrl.ImageUrl);
+                }
+            }
         }
 
         /// <summary>
@@ -1462,7 +1508,7 @@ namespace Worldescape
 
             if (taggedObject is Avatar)
             {
-                SetActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Moving);
+                SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Moving);
             }
 
             var nowX = Canvas.GetLeft(uIElement);
@@ -1506,7 +1552,7 @@ namespace Worldescape
                 if (taggedObject is Avatar)
                 {
                     var taggedAvatar = taggedObject as Avatar;
-                    SetActivityStatus(button, taggedAvatar, ActivityStatus.Online); 
+                    SetAvatarActivityStatus(button, taggedAvatar, ActivityStatus.Online);
                 }
             };
 
@@ -1561,23 +1607,6 @@ namespace Worldescape
             }
 
             return taggedObject;
-        }
-
-        public void SetActivityStatus(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
-        {
-            avatar.ActivityStatus = activityStatus;
-            SetStatusBoundButtonImageSource(avatarButton, avatar, activityStatus);
-        }
-
-        private void SetStatusBoundButtonImageSource(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
-        {
-            if (avatar.Character.StatusBoundImageUrls.FirstOrDefault(x => x.Status == activityStatus) is StatusBoundImageUrl statusBoundImageUrl)
-            {
-                if (avatarButton.Content is Image img && img.Source is BitmapImage bitmap)
-                {
-                    bitmap.UriSource = new Uri(statusBoundImageUrl.ImageUrl);
-                }
-            }
         }
 
         /// <summary>
