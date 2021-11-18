@@ -1030,45 +1030,7 @@ namespace Worldescape
                     var construct = button.Tag as Construct;
 
                     var newScale = construct.Scale + 0.25f;
-
-                    var scaling = new ScaleTransform()
-                    {
-                        CenterX = button.ActualWidth / 2,
-                        CenterY = button.ActualWidth / 2,
-                        ScaleX = newScale,
-                        ScaleY = newScale
-                    };
-
-                    button.RenderTransform = scaling;                    
-
-                    //Storyboard scaleStory = new Storyboard();
-                    //DoubleAnimation setScaleX = new DoubleAnimation()
-                    //{
-                    //    From = construct.Scale,
-                    //    To = newScale,
-                    //    Duration = new Duration(TimeSpan.FromSeconds(1)),
-                    //    EasingFunction = _easingFunction,
-                    //};
-
-                    //DoubleAnimation setScaleY = new DoubleAnimation()
-                    //{
-                    //    From = construct.Scale,
-                    //    To = newScale,
-                    //    Duration = new Duration(TimeSpan.FromSeconds(1)),
-                    //    EasingFunction = _easingFunction,
-                    //};
-
-                    //Storyboard.SetTarget(setScaleX, scaling);
-                    //Storyboard.SetTargetProperty(setScaleX, new PropertyPath(ScaleTransform.ScaleXProperty));
-
-                    //Storyboard.SetTarget(setScaleY, scaling);
-                    //Storyboard.SetTargetProperty(setScaleY, new PropertyPath(ScaleTransform.ScaleYProperty));
-
-                    //scaleStory.Children.Add(setScaleX);
-                    //scaleStory.Children.Add(setScaleY);
-                    //scaleStory.Begin();
-
-                    construct.Scale = newScale;
+                    ScaleScaleOnButtonPress(button, construct, newScale);
                 }
             }
         }
@@ -1090,45 +1052,72 @@ namespace Worldescape
 
                     var newScale = construct.Scale - 0.25f;
 
-                    var scaling = new ScaleTransform()
-                    {
-                        CenterX = button.ActualWidth / 2,
-                        CenterY = button.ActualWidth / 2,
-                        ScaleX = newScale,
-                        ScaleY = newScale
-                    };
-
-                    button.RenderTransform = scaling;                   
-
-                    //Storyboard scaleStory = new Storyboard();
-                    //DoubleAnimation setScaleX = new DoubleAnimation()
-                    //{
-                    //    From = construct.Scale,
-                    //    To = newScale,
-                    //    Duration = new Duration(TimeSpan.FromSeconds(1)),
-                    //    EasingFunction = _easingFunction,
-                    //};
-
-                    //DoubleAnimation setScaleY = new DoubleAnimation()
-                    //{
-                    //    From = construct.Scale,
-                    //    To = newScale,
-                    //    Duration = new Duration(TimeSpan.FromSeconds(1)),
-                    //    EasingFunction = _easingFunction,
-                    //};
-
-                    //Storyboard.SetTarget(setScaleX, scaling);
-                    //Storyboard.SetTargetProperty(setScaleX, new PropertyPath(ScaleTransform.ScaleXProperty));
-
-                    //Storyboard.SetTarget(setScaleY, scaling);
-                    //Storyboard.SetTargetProperty(setScaleY, new PropertyPath(ScaleTransform.ScaleYProperty));
-
-                    //scaleStory.Children.Add(setScaleX);
-                    //scaleStory.Children.Add(setScaleY);
-                    //scaleStory.Begin();
-
-                    construct.Scale = newScale;
+                    ScaleScaleOnButtonPress(button, construct, newScale);
                 }
+            }
+        }
+
+        private void ScaleScaleOnButtonPress(Button button, Construct construct, float newScale)
+        {
+            try
+            {
+                #region Storyboard
+                //var scaling = new ScaleTransform()
+                //{
+                //    CenterX = button.ActualWidth / 2,
+                //    CenterY = button.ActualWidth / 2,
+                //    ScaleX = construct.Scale,
+                //    ScaleY = construct.Scale
+                //};
+
+                //button.RenderTransform = scaling;
+
+                //Storyboard scaleStory = new Storyboard();
+                //DoubleAnimation setScaleX = new DoubleAnimation()
+                //{
+                //    From = construct.Scale,
+                //    To = newScale,
+                //    Duration = new Duration(TimeSpan.FromSeconds(5)),
+                //    EasingFunction = _easingFunction,
+                //};
+
+                //DoubleAnimation setScaleY = new DoubleAnimation()
+                //{
+                //    From = construct.Scale,
+                //    To = newScale,
+                //    Duration = new Duration(TimeSpan.FromSeconds(5)),
+                //    EasingFunction = _easingFunction,
+                //};
+
+                //Storyboard.SetTarget(setScaleX, (ScaleTransform)button.RenderTransform);
+                //Storyboard.SetTargetProperty(setScaleX, new PropertyPath(ScaleTransform.ScaleXProperty));
+
+                //Storyboard.SetTarget(setScaleY, (ScaleTransform)button.RenderTransform);
+                //Storyboard.SetTargetProperty(setScaleY, new PropertyPath(ScaleTransform.ScaleYProperty));
+
+                //scaleStory.Children.Add(setScaleX);
+                //scaleStory.Children.Add(setScaleY);
+
+                //scaleStory.Begin();
+
+                //construct.Scale = newScale; 
+                #endregion
+
+                var scaling = new ScaleTransform()
+                {
+                    CenterX = button.ActualWidth / 2,
+                    CenterY = button.ActualWidth / 2,
+                    ScaleX = newScale,
+                    ScaleY = newScale
+                };
+
+                button.RenderTransform = scaling;
+
+                construct.Scale = newScale;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
