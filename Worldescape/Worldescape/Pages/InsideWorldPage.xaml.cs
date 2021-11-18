@@ -181,7 +181,7 @@ namespace Worldescape
             }
         }
 
-        private void HubService_NewBroadcastConstructScales(int[] arg1, float arg2)
+        private void HubService_NewBroadcastConstructScales(int[] constructIds, float scale)
         {
 
         }
