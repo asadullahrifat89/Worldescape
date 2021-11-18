@@ -83,6 +83,7 @@
 
 	<ItemGroup>
 		<Compile Include="App.xaml.cs" />
+		<Compile Include="Converters\BooleanToVisibilityConverter.cs" />
 		<Compile Include="Internals\ConstructAssetPicker.cs" />
 		<Compile Include="Internals\MasonryPanel.cs" />
 		<Compile Include="Internals\MasonryPanelWithProgressiveLoading.cs" />
