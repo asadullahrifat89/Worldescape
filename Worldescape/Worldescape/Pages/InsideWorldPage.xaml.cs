@@ -352,12 +352,13 @@ namespace Worldescape
                 if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
+
                     if (avatarMessenger != null)
                         avatarMessenger.ActivityStatus = (ActivityStatus)activityStatus;
 
                     var avatarButton = (Button)iElement;
 
-                    SetAvatarActivityStatus(avatarButton, avatarButton.Tag as Avatar,(ActivityStatus)activityStatus);
+                    SetAvatarActivityStatus(avatarButton, avatarButton.Tag as Avatar, (ActivityStatus)activityStatus);
 
                     Console.WriteLine("<<NewBroadcastAvatarActivityStatus: OK");
                 }
@@ -375,6 +376,7 @@ namespace Worldescape
                 if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
+
                     if (avatarMessenger != null)
                         avatarMessenger.ActivityStatus = ActivityStatus.Online;
 
@@ -1481,9 +1483,7 @@ namespace Worldescape
             var button = (Button)uIElement;
 
             var goToX = pressedPoint.Position.X - button.ActualWidth / 2;
-            var goToY = pressedPoint.Position.Y - button.ActualHeight / 2;
-
-            //var gotoZ = Canvas.GetZIndex(uIElement);
+            var goToY = pressedPoint.Position.Y - (button.Tag is Avatar ? button.ActualHeight * 2 : button.ActualHeight / 2);
 
             var taggedObject = MoveElement(uIElement, goToX, goToY);
 
