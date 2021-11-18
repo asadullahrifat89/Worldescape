@@ -10,7 +10,7 @@ using Worldescape.Shared;
 namespace Worldescape.Service
 {
     public class CharacterPicker : ChildWindow
-    {   
+    {
 
         List<Character> _characters = new List<Character>();
 
@@ -71,7 +71,7 @@ namespace Worldescape.Service
                     Width = 100,
                     Height = 100,
                     Margin = new Thickness(3),
-                    Tag = item,
+                    Tag = item,         
                 };
 
                 buttonCharacter.Click += ButtonCharacter_Click;

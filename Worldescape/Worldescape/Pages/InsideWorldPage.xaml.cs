@@ -32,9 +32,9 @@ namespace Worldescape
         bool _isAddingConstruct;
         bool _isCraftingMode;
         bool _isMovingConstruct;
-        bool _isCloningConstruct;       
+        bool _isCloningConstruct;
 
-        bool _isLoggedIn;        
+        bool _isLoggedIn;
 
         UIElement _selectedConstruct;
         UIElement _addingConstruct;
@@ -64,7 +64,7 @@ namespace Worldescape
 
         List<ConstructCategory> ConstructCategories = new List<ConstructCategory>();
 
-        List<Character> Characters = new List<Character>();        
+        List<Character> Characters = new List<Character>();
 
         InWorld InWorld = new InWorld();
 
@@ -74,7 +74,7 @@ namespace Worldescape
 
         Character Character = new Character();
 
-        ObservableCollection<AvatarMessenger> AvatarMessengers = new ObservableCollection<AvatarMessenger>();       
+        ObservableCollection<AvatarMessenger> AvatarMessengers = new ObservableCollection<AvatarMessenger>();
 
         #endregion
 
@@ -867,7 +867,7 @@ namespace Worldescape
 
                 if (Character.IsEmpty())
                 {
-                    Characters = JsonSerializer.Deserialize<Character[]>(Properties.Resources.CharacterAssets).ToList();
+                    Characters = Characters.Any() ? Characters : JsonSerializer.Deserialize<Character[]>(Properties.Resources.CharacterAssets).ToList();
 
                     var constructAssetPicker = new CharacterPicker(
                         characters: Characters,
@@ -882,7 +882,7 @@ namespace Worldescape
                 else
                 {
                     await Connect();
-                }                
+                }
             }
             catch (Exception ex)
             {
@@ -890,6 +890,10 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Connects the current user with server.
+        /// </summary>
+        /// <returns></returns>
         private async Task Connect()
         {
             SetDemoData();
@@ -1449,7 +1453,17 @@ namespace Worldescape
         /// <returns></returns>
         private object MoveElement(UIElement uIElement, double goToX, double goToY, int? gotoZ = null)
         {
+            if (uIElement == null)
+                return null;
+
             var button = (Button)uIElement;
+
+            var taggedObject = button.Tag;
+
+            if (taggedObject is Avatar)
+            {
+                SetActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Moving);
+            }
 
             var nowX = Canvas.GetLeft(uIElement);
             var nowY = Canvas.GetTop(uIElement);
@@ -1489,7 +1503,11 @@ namespace Worldescape
 
             setRight.Completed += (object sender, EventArgs e) =>
             {
-                //TODO: set idle logic here
+                if (taggedObject is Avatar)
+                {
+                    var taggedAvatar = taggedObject as Avatar;
+                    SetActivityStatus(button, taggedAvatar, ActivityStatus.Online); 
+                }
             };
 
             Storyboard.SetTarget(setLeft, uIElement);
@@ -1503,10 +1521,10 @@ namespace Worldescape
 
             moveStory.Begin();
 
-            object taggedObject = null;
-
-            if (button.Tag is Construct taggedConstruct)
+            if (taggedObject is Construct)
             {
+                var taggedConstruct = taggedObject as Construct;
+
                 taggedConstruct.Coordinate.X = goToX;
                 taggedConstruct.Coordinate.Y = goToY;
 
@@ -1522,8 +1540,10 @@ namespace Worldescape
 
                 taggedObject = taggedConstruct;
             }
-            else if (button.Tag is Avatar taggedAvatar)
+            else if (button.Tag is Avatar)
             {
+                var taggedAvatar = taggedObject as Avatar;
+
                 taggedAvatar.Coordinate.X = goToX;
                 taggedAvatar.Coordinate.Y = goToY;
 
@@ -1541,6 +1561,23 @@ namespace Worldescape
             }
 
             return taggedObject;
+        }
+
+        public void SetActivityStatus(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
+        {
+            avatar.ActivityStatus = activityStatus;
+            SetStatusBoundButtonImageSource(avatarButton, avatar, activityStatus);
+        }
+
+        private void SetStatusBoundButtonImageSource(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
+        {
+            if (avatar.Character.StatusBoundImageUrls.FirstOrDefault(x => x.Status == activityStatus) is StatusBoundImageUrl statusBoundImageUrl)
+            {
+                if (avatarButton.Content is Image img && img.Source is BitmapImage bitmap)
+                {
+                    bitmap.UriSource = new Uri(statusBoundImageUrl.ImageUrl);
+                }
+            }
         }
 
         /// <summary>
