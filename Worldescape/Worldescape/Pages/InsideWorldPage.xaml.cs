@@ -155,11 +155,11 @@ namespace Worldescape
         }
 
         #region Construct
-        private void HubService_NewBroadcastConstructMovement(int arg1, double arg2, double arg3, int arg4)
+        private void HubService_NewBroadcastConstructMovement(int constructId, double x, double y, int z)
         {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == arg1) is UIElement iElement)
+            if (Canvas_root.Children.FirstOrDefault(c => c is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
             {
-                MoveElement(iElement, arg2, arg3, arg4);
+                MoveElement(uIElement: iElement, goToX: x, goToY: y, gotoZ: z);
                 Console.WriteLine("<<HubService_NewBroadcastConstructMovement: OK");
             }
             else
@@ -168,16 +168,11 @@ namespace Worldescape
             }
         }
 
-        private void HubService_NewBroadcastConstructScales(int[] arg1, float arg2)
+        private void HubService_NewBroadcastConstructScale(int constructId, float scale)
         {
-
-        }
-
-        private void HubService_NewBroadcastConstructScale(int arg1, float arg2)
-        {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == arg1) is UIElement iElement)
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
             {
-                ScaleElement(iElement, arg2);
+                ScaleElement(uIElement: iElement, scale: scale);
                 Console.WriteLine("<<HubService_NewBroadcastConstructScale: OK");
             }
             else
@@ -186,21 +181,26 @@ namespace Worldescape
             }
         }
 
+        private void HubService_NewBroadcastConstructScales(int[] arg1, float arg2)
+        {
+
+        }
+
+        private void HubService_NewBroadcastConstructRotation(int constructId, float rotation)
+        {
+
+        }
+
         private void HubService_NewBroadcastConstructRotations(ConcurrentDictionary<int, float> obj)
         {
 
         }
 
-        private void HubService_NewBroadcastConstructRotation(int arg1, float arg2)
+        private void HubService_NewBroadcastConstructPlacement(int constructId, int z)
         {
-
-        }
-
-        private void HubService_NewBroadcastConstructPlacement(int arg1, int arg2)
-        {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == arg1) is UIElement iElement)
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
             {
-                Canvas.SetZIndex(iElement, arg2);
+                Canvas.SetZIndex(iElement, z);
                 Console.WriteLine("<<HubService_NewBroadcastConstructPlacement: OK");
             }
             else
@@ -209,14 +209,9 @@ namespace Worldescape
             }
         }
 
-        private void HubService_NewRemoveConstructs(int[] obj)
+        private void HubService_NewRemoveConstruct(int constructId)
         {
-
-        }
-
-        private void HubService_NewRemoveConstruct(int obj)
-        {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == obj) is UIElement iElement)
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
             {
                 Canvas_root.Children.Remove(iElement);
                 Console.WriteLine("<<HubService_NewRemoveConstruct: OK");
@@ -227,31 +222,37 @@ namespace Worldescape
             }
         }
 
+        private void HubService_NewRemoveConstructs(int[] obj)
+        {
+
+        }       
+
+        private void HubService_NewBroadcastConstruct(Construct construct)
+        {
+            var constructBtn = GenerateConstructButton(
+                name: construct.Name,
+                imageUrl: construct.ImageUrl,
+                constructId: construct.Id,
+                inWorld: construct.World,
+                creator: construct.Creator);
+
+            AddConstructOnCanvas(
+                construct: constructBtn,
+                x: construct.Coordinate.X,
+                y: construct.Coordinate.Y,
+                z: construct.Coordinate.Z);
+
+            //TODO: set rotation
+            ScaleElement(constructBtn, construct.Scale);
+
+            Console.WriteLine("<<HubService_NewBroadcastConstruct: OK");
+        }
+
         private void HubService_NewBroadcastConstructs(Construct[] obj)
         {
 
         }
 
-        private void HubService_NewBroadcastConstruct(Construct obj)
-        {
-            var constructBtn = GenerateConstructButton(
-                name: obj.Name,
-                imageUrl: obj.ImageUrl,
-                constructId: obj.Id,
-                inWorld: obj.World,
-                creator: obj.Creator);
-
-            AddConstructOnCanvas(
-                construct: constructBtn,
-                x: obj.Coordinate.X,
-                y: obj.Coordinate.Y,
-                z: obj.Coordinate.Z);
-
-            //TODO: set rotation and scale
-            ScaleElement(constructBtn, obj.Scale);
-
-            Console.WriteLine("<<HubService_NewBroadcastConstruct: OK");
-        }
         #endregion
 
         #region Session
