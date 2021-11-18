@@ -598,52 +598,14 @@ namespace Worldescape
 
             if (_isAddingConstruct && _addingConstruct != null)
             {
-                //var constructAsset = ((Button)_addingConstruct).Tag as Construct;
-
-                //var constructBtn = GenerateConstructButton(
-                //       name: constructAsset.Name,
-                //       imageUrl: constructAsset.ImageUrl);
-
-                //var construct = AddConstructOnCanvas(
-                //    construct: constructBtn,
-                //    x: e.GetCurrentPoint(Canvas_root).Position.X,
-                //    y: e.GetCurrentPoint(Canvas_root).Position.Y);
-
-                //await HubService.BroadcastConstruct(construct);
-
-                //Console.WriteLine("Construct added.");
                 await AddConstructOnPointerPressed(e);
             }
             else if (_isCloningConstruct && _cloningConstruct != null)
             {
-                //var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
-
-                //if (constructAsset != null)
-                //{
-                //    var constructBtn = GenerateConstructButton(
-                //        name: constructAsset.Name,
-                //        imageUrl: constructAsset.ImageUrl);
-
-                //    var construct = AddConstructOnCanvas(
-                //        construct: constructBtn,
-                //        x: e.GetCurrentPoint(Canvas_root).Position.X,
-                //        y: e.GetCurrentPoint(Canvas_root).Position.Y);
-
-                //    await HubService.BroadcastConstruct(construct);
-
-                //    Console.WriteLine("Construct cloned.");
-                //}
                 await CloneConstructPointerPressed(e);
             }
             else if (_isMovingConstruct && _movingConstruct != null)
             {
-                //var taggedObject = MoveElement(_movingConstruct, e);
-
-                //var construct = taggedObject as Construct;
-
-                //await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
-
-                //Console.WriteLine("Construct moved.");
                 await MoveConstructPointerPressed(e);
             }
             else
@@ -752,16 +714,23 @@ namespace Worldescape
 
         private async Task AddConstructOnPointerPressed(PointerRoutedEventArgs e)
         {
-            var constructAsset = ((Button)_addingConstruct).Tag as Construct;
+            var pressedPoint = e.GetCurrentPoint(Canvas_root);
+            var button = (Button)_addingConstruct;
+
+            var constructAsset = button.Tag as Construct;
 
             var constructBtn = GenerateConstructButton(
                    name: constructAsset.Name,
                    imageUrl: constructAsset.ImageUrl);
 
+            // Add the construct on pressed poin
             var construct = AddConstructOnCanvas(
                 construct: constructBtn,
-                x: e.GetCurrentPoint(Canvas_root).Position.X,
-                y: e.GetCurrentPoint(Canvas_root).Position.Y);
+                x: pressedPoint.Position.X,
+                y: pressedPoint.Position.Y);
+
+            // Center the construct on pressed point
+            construct = MoveElement(constructBtn, e) as Construct;
 
             await HubService.BroadcastConstruct(construct);
 
@@ -1205,15 +1174,13 @@ namespace Worldescape
 
             var img = new Image() { Source = bitmap, Stretch = Stretch.None };
 
-            // This is broadcasted and saved in database
+            // Id is broadcasted
             var id = constructId ?? UidGenerator.New();
 
             if (id <= 0)
             {
                 throw new InvalidOperationException("Id can not be less than or equal to zero.");
             }
-
-            //TODO: adding new construct, fill World, Creator details
 
             var obj = new Button()
             {
