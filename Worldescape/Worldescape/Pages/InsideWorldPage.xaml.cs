@@ -861,8 +861,37 @@ namespace Worldescape
         /// <param name="e"></param>
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("ConnectButton_Click");
+            try
+            {
+                Console.WriteLine("ConnectButton_Click");
 
+                if (Character.IsEmpty())
+                {
+                    Characters = JsonSerializer.Deserialize<Character[]>(Properties.Resources.CharacterAssets).ToList();
+
+                    var constructAssetPicker = new CharacterPicker(
+                        characters: Characters,
+                        characterSelected: async (character) =>
+                        {
+                            Character = character;
+                            await Connect();
+                        });
+
+                    constructAssetPicker.Show();
+                }
+                else
+                {
+                    await Connect();
+                }                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private async Task Connect()
+        {
             SetDemoData();
 
             // If a connection is already established simply login to hub
@@ -1196,7 +1225,7 @@ namespace Worldescape
                 Character = Character,
                 World = InWorld,
                 Coordinate = new Coordinate(new Random().Next(100), new Random().Next(100), new Random().Next(100)),
-                ImageUrl = avatarUrls[new Random().Next(avatarUrls.Count())],
+                ImageUrl = Character.ImageUrl,
             };
         }
 

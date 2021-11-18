@@ -26,12 +26,12 @@ namespace Worldescape.Service
         StackPanel _stackPanelFooter = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(5) };
 
         public CharacterPicker(
-            List<Character> Characters,
-            Action<Character> assetSelected)
+            List<Character> characters,
+            Action<Character> characterSelected)
         {
-            _characters = Characters;
+            _characters = characters;
 
-            _assetSelected = assetSelected;
+            _assetSelected = characterSelected;
 
             Height = 600;
             Width = 610;

@@ -166,7 +166,7 @@
 				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_show.png"
 			}
 		],		
-		"Id": "1",
+		"Id": 1,
 		"Name": "Jenna_The_Adventurer",
 		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png"
 	},
@@ -217,7 +217,7 @@
 				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_show.png"
 			}
 		],		
-		"Id": "2",
+		"Id": 2,
 		"Name": "John_The_Seer",
 		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png"
 	},
@@ -268,7 +268,7 @@
 				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_show.png"
 			}
 		],		
-		"Id": "3",
+		"Id": 3,
 		"Name": "Rodney_The_Messenger",
 		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_idle.png"
 	},
@@ -319,7 +319,7 @@
 				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_show.png"
 			}
 		],		
-		"Id": "4",
+		"Id": 4,
 		"Name": "Robert_The_Guardian",
 		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_idle.png"
 	},
@@ -370,7 +370,7 @@
 				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_show.png"
 			}
 		],		
-		"Id": "5",
+		"Id": 5,
 		"Name": "Rob_The_Robot",
 		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_idle.png"
 	},
@@ -421,7 +421,7 @@
 				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_show.png"
 			}
 		],		
-		"Id": "6",
+		"Id": 6,
 		"Name": "Zack_The_Zombie",
 		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_idle.png"
 	},
@@ -472,7 +472,7 @@
 				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_hang.png"
 			}
 		],		
-		"Id": "7",
+		"Id": 7,
 		"Name": "Anna_The_Maiden",
 		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_idle.png"
 	},
@@ -523,7 +523,7 @@
 				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_hang.png"
 			}
 		],		
-		"Id": "8",
+		"Id": 8,
 		"Name": "Anthony_The_Scout",
 		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_idle.png"
 	},
@@ -574,7 +574,7 @@
 				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_hang.png"
 			}
 		],		
-		"Id": "9",
+		"Id": 9,
 		"Name": "Michel_The_Gamer",
 		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_idle.png"
 	},
@@ -625,7 +625,7 @@
 				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_hang.png"
 			}
 		],		
-		"Id": "10",
+		"Id": 10,
 		"Name": "Morag_The_Soldier",
 		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_idle.png"
 	},
@@ -676,7 +676,7 @@
 				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_hang.png"
 			}
 		],		
-		"Id": "11",
+		"Id": 11,
 		"Name": "Ubba_The_Undead",
 		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_idle.png"
 	}
