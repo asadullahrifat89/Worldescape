@@ -662,6 +662,7 @@ namespace Worldescape
 
             UIElement uielement = (UIElement)sender;
             _selectedConstruct = uielement;
+
             ShowInteractiveConstruct(uielement);
 
             if (_isAddingConstruct && _addingConstruct != null)
@@ -684,9 +685,11 @@ namespace Worldescape
                 _objectLeft = Canvas.GetLeft(uielement);
                 _objectTop = Canvas.GetTop(uielement);
 
+                var currentPoint = e.GetCurrentPoint(Canvas_root);
+
                 // Remember the pointer position:
-                _pointerX = e.GetCurrentPoint(Canvas_root).Position.X;
-                _pointerY = e.GetCurrentPoint(Canvas_root).Position.Y;
+                _pointerX = currentPoint.Position.X;
+                _pointerY = currentPoint.Position.Y;
 
                 uielement.CapturePointer(e.Pointer);
 
@@ -725,9 +728,11 @@ namespace Worldescape
 
                 if (_isPointerCaptured)
                 {
+                    var currentPoint = e.GetCurrentPoint(Canvas_root);
+
                     // Calculate the new position of the object:
-                    double deltaH = e.GetCurrentPoint(Canvas_root).Position.X - _pointerX;
-                    double deltaV = e.GetCurrentPoint(Canvas_root).Position.Y - _pointerY;
+                    double deltaH = currentPoint.Position.X - _pointerX;
+                    double deltaV = currentPoint.Position.Y - _pointerY;
 
                     _objectLeft = deltaH + _objectLeft;
                     _objectTop = deltaV + _objectTop;
@@ -737,8 +742,8 @@ namespace Worldescape
                     Canvas.SetTop(uielement, _objectTop);
 
                     // Remember the pointer position:
-                    _pointerX = e.GetCurrentPoint(Canvas_root).Position.X;
-                    _pointerY = e.GetCurrentPoint(Canvas_root).Position.Y;
+                    _pointerX = currentPoint.Position.X;
+                    _pointerY = currentPoint.Position.Y;
                 }
             }
         }
@@ -875,7 +880,7 @@ namespace Worldescape
                 {
                     Characters = Characters.Any() ? Characters : JsonSerializer.Deserialize<Character[]>(Properties.Resources.CharacterAssets).ToList();
 
-                    var constructAssetPicker = new CharacterPicker(
+                    var characterPicker = new CharacterPicker(
                         characters: Characters,
                         characterSelected: async (character) =>
                         {
@@ -883,7 +888,7 @@ namespace Worldescape
                             await Connect();
                         });
 
-                    constructAssetPicker.Show();
+                    characterPicker.Show();
                 }
                 else
                 {
@@ -1016,11 +1021,20 @@ namespace Worldescape
 
                         _addingConstruct = constructBtn;
 
-                        _isAddingConstruct = !_isAddingConstruct;
+                        _isAddingConstruct = true;
                         ConstructAddButton.Content = _isAddingConstruct ? "Adding" : "Add";
 
                         ShowOperationalConstruct(_addingConstruct, "Adding");
                     });
+
+                // If the picker was closed without a selection of an asset, set the ConstructAddButton to default
+                constructAssetPicker.Closed += (s, e) =>
+                {
+                    if (_addingConstruct == null)
+                    {
+                        ConstructAddButton.IsChecked = false;
+                    }
+                };
 
                 constructAssetPicker.Show();
             }
