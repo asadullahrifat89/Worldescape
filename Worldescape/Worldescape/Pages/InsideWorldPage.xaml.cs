@@ -598,50 +598,53 @@ namespace Worldescape
 
             if (_isAddingConstruct && _addingConstruct != null)
             {
-                var constructAsset = ((Button)_addingConstruct).Tag as Construct;
+                //var constructAsset = ((Button)_addingConstruct).Tag as Construct;
 
-                var constructBtn = GenerateConstructButton(
-                       name: constructAsset.Name,
-                       imageUrl: constructAsset.ImageUrl);
+                //var constructBtn = GenerateConstructButton(
+                //       name: constructAsset.Name,
+                //       imageUrl: constructAsset.ImageUrl);
 
-                var construct = AddConstructOnCanvas(
-                    construct: constructBtn,
-                    x: e.GetCurrentPoint(Canvas_root).Position.X,
-                    y: e.GetCurrentPoint(Canvas_root).Position.Y);
+                //var construct = AddConstructOnCanvas(
+                //    construct: constructBtn,
+                //    x: e.GetCurrentPoint(Canvas_root).Position.X,
+                //    y: e.GetCurrentPoint(Canvas_root).Position.Y);
 
-                await HubService.BroadcastConstruct(construct);
+                //await HubService.BroadcastConstruct(construct);
 
-                Console.WriteLine("Construct added.");
+                //Console.WriteLine("Construct added.");
+                await AddConstructOnPointerPressed(e);
             }
             else if (_isCloningConstruct && _cloningConstruct != null)
             {
-                var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
+                //var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
 
-                if (constructAsset != null)
-                {
-                    var constructBtn = GenerateConstructButton(
-                        name: constructAsset.Name,
-                        imageUrl: constructAsset.ImageUrl);
+                //if (constructAsset != null)
+                //{
+                //    var constructBtn = GenerateConstructButton(
+                //        name: constructAsset.Name,
+                //        imageUrl: constructAsset.ImageUrl);
 
-                    var construct = AddConstructOnCanvas(
-                        construct: constructBtn,
-                        x: e.GetCurrentPoint(Canvas_root).Position.X,
-                        y: e.GetCurrentPoint(Canvas_root).Position.Y);
+                //    var construct = AddConstructOnCanvas(
+                //        construct: constructBtn,
+                //        x: e.GetCurrentPoint(Canvas_root).Position.X,
+                //        y: e.GetCurrentPoint(Canvas_root).Position.Y);
 
-                    await HubService.BroadcastConstruct(construct);
+                //    await HubService.BroadcastConstruct(construct);
 
-                    Console.WriteLine("Construct cloned.");
-                }
+                //    Console.WriteLine("Construct cloned.");
+                //}
+                await CloneConstructPointerPressed(e);
             }
             else if (_isMovingConstruct && _movingConstruct != null)
             {
-                var taggedObject = MoveElement(_movingConstruct, e);
+                //var taggedObject = MoveElement(_movingConstruct, e);
 
-                var construct = taggedObject as Construct;
+                //var construct = taggedObject as Construct;
 
-                await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+                //await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
 
-                Console.WriteLine("Construct moved.");
+                //Console.WriteLine("Construct moved.");
+                await MoveConstructPointerPressed(e);
             }
             else
             {
@@ -669,50 +672,15 @@ namespace Worldescape
 
             if (_isAddingConstruct && _addingConstruct != null)
             {
-                var constructAsset = ((Button)_addingConstruct).Tag as Construct;
-
-                var constructBtn = GenerateConstructButton(
-                       name: constructAsset.Name,
-                       imageUrl: constructAsset.ImageUrl);
-
-                var construct = AddConstructOnCanvas(
-                    construct: constructBtn,
-                    x: e.GetCurrentPoint(Canvas_root).Position.X,
-                    y: e.GetCurrentPoint(Canvas_root).Position.Y);
-
-                await HubService.BroadcastConstruct(construct);
-
-                Console.WriteLine("Construct added.");
+                await AddConstructOnPointerPressed(e);
             }
             else if (_isCloningConstruct && _cloningConstruct != null)
             {
-                var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
-
-                if (constructAsset != null)
-                {
-                    var constructBtn = GenerateConstructButton(
-                        name: constructAsset.Name,
-                        imageUrl: constructAsset.ImageUrl);
-
-                    var construct = AddConstructOnCanvas(
-                        construct: constructBtn,
-                        x: e.GetCurrentPoint(Canvas_root).Position.X,
-                        y: e.GetCurrentPoint(Canvas_root).Position.Y);
-
-                    await HubService.BroadcastConstruct(construct);
-
-                    Console.WriteLine("Construct cloned.");
-                }
+                await CloneConstructPointerPressed(e);
             }
             else if (_isMovingConstruct && _movingConstruct != null)
             {
-                var taggedObject = MoveElement(_movingConstruct, e);
-
-                var construct = taggedObject as Construct;
-
-                await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
-
-                Console.WriteLine("Construct moved.");
+                await MoveConstructPointerPressed(e);
             }
             else if (_isCraftingMode)
             {
@@ -748,6 +716,56 @@ namespace Worldescape
                     Console.WriteLine("Avatar moved.");
                 }
             }
+        }
+
+        private async Task MoveConstructPointerPressed(PointerRoutedEventArgs e)
+        {
+            var taggedObject = MoveElement(_movingConstruct, e);
+
+            var construct = taggedObject as Construct;
+
+            await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+
+            Console.WriteLine("Construct moved.");
+        }
+
+        private async Task CloneConstructPointerPressed(PointerRoutedEventArgs e)
+        {
+            var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
+
+            if (constructAsset != null)
+            {
+                var constructBtn = GenerateConstructButton(
+                    name: constructAsset.Name,
+                    imageUrl: constructAsset.ImageUrl);
+
+                var construct = AddConstructOnCanvas(
+                    construct: constructBtn,
+                    x: e.GetCurrentPoint(Canvas_root).Position.X,
+                    y: e.GetCurrentPoint(Canvas_root).Position.Y);
+
+                await HubService.BroadcastConstruct(construct);
+
+                Console.WriteLine("Construct cloned.");
+            }
+        }
+
+        private async Task AddConstructOnPointerPressed(PointerRoutedEventArgs e)
+        {
+            var constructAsset = ((Button)_addingConstruct).Tag as Construct;
+
+            var constructBtn = GenerateConstructButton(
+                   name: constructAsset.Name,
+                   imageUrl: constructAsset.ImageUrl);
+
+            var construct = AddConstructOnCanvas(
+                construct: constructBtn,
+                x: e.GetCurrentPoint(Canvas_root).Position.X,
+                y: e.GetCurrentPoint(Canvas_root).Position.Y);
+
+            await HubService.BroadcastConstruct(construct);
+
+            Console.WriteLine("Construct added.");
         }
 
         /// <summary>
@@ -1017,7 +1035,7 @@ namespace Worldescape
             Console.WriteLine("ConnectButton_Click");
 
             SetDemoData();
-            
+
             // If a connection is already established simply login to hub
             if (CanHubLogin())
             {
@@ -1190,6 +1208,11 @@ namespace Worldescape
             // This is broadcasted and saved in database
             var id = constructId ?? UidGenerator.New();
 
+            if (id <= 0)
+            {
+                throw new InvalidOperationException("Id can not be less than or equal to zero.");
+            }
+
             //TODO: adding new construct, fill World, Creator details
 
             var obj = new Button()
@@ -1266,8 +1289,13 @@ namespace Worldescape
         /// <returns></returns>
         private object MoveElement(UIElement uIElement, PointerRoutedEventArgs e)
         {
-            var goToX = e.GetCurrentPoint(Canvas_root).Position.X;
-            var goToY = e.GetCurrentPoint(Canvas_root).Position.Y;
+            var pressedPoint = e.GetCurrentPoint(Canvas_root);
+
+            var button = (Button)uIElement;
+
+            var goToX = pressedPoint.Position.X - button.ActualWidth / 2;
+            var goToY = pressedPoint.Position.Y - button.ActualHeight / 2;
+
             //var gotoZ = Canvas.GetZIndex(uIElement);
 
             var taggedObject = MoveElement(uIElement, goToX, goToY);
@@ -1284,6 +1312,8 @@ namespace Worldescape
         /// <returns></returns>
         private object MoveElement(UIElement uIElement, double goToX, double goToY, int? gotoZ = null)
         {
+            var button = (Button)uIElement;
+
             var nowX = Canvas.GetLeft(uIElement);
             var nowY = Canvas.GetTop(uIElement);
 
@@ -1338,7 +1368,7 @@ namespace Worldescape
 
             object taggedObject = null;
 
-            if (((Button)uIElement).Tag is Construct taggedConstruct)
+            if (button.Tag is Construct taggedConstruct)
             {
                 taggedConstruct.Coordinate.X = goToX;
                 taggedConstruct.Coordinate.Y = goToY;
@@ -1355,7 +1385,7 @@ namespace Worldescape
 
                 taggedObject = taggedConstruct;
             }
-            else if (((Button)uIElement).Tag is Avatar taggedAvatar)
+            else if (button.Tag is Avatar taggedAvatar)
             {
                 taggedAvatar.Coordinate.X = goToX;
                 taggedAvatar.Coordinate.Y = goToY;
