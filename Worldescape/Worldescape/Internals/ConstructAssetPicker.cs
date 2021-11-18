@@ -227,11 +227,7 @@ namespace Worldescape.Service
         private void ButtonConstructAsset_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
-            //var img = button.Content as Image;
-            //var source = img.Source as BitmapImage;
-            //var uri = source.UriSource as Uri;
-
-            var constructAsset = button.Tag as ConstructAsset;            
+            var constructAsset = button.Tag as ConstructAsset;
 
             _assetSelected?.Invoke(constructAsset);
             Close();
