@@ -258,6 +258,7 @@ namespace Worldescape
 
             //TODO: set rotation
             ScaleElement(constructBtn, construct.Scale);
+            RotateElement(constructBtn, construct.Rotation);
 
             Console.WriteLine("<<HubService_NewBroadcastConstruct: OK");
         }
@@ -579,6 +580,7 @@ namespace Worldescape
                                     z: construct.Coordinate.Z);
 
                                 ScaleElement(constructBtn, construct.Scale);
+                                RotateElement(constructBtn, construct.Rotation);
 
 
                                 //}
@@ -927,7 +929,6 @@ namespace Worldescape
                     ConstructAddButton.Content = "Add";
 
                     OperationalConstructHolder.Content = null;
-                    ////OperationalConstructStatus.Text = null;
 
                     return;
                 }
@@ -1528,6 +1529,7 @@ namespace Worldescape
         private object ScaleElement(UIElement uIElement, float scale)
         {
             var button = (Button)uIElement;
+            button.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
 
             if (button.Tag is Construct construct)
             {
@@ -1573,12 +1575,13 @@ namespace Worldescape
                 //construct.Scale = newScale; 
                 #endregion
 
-                var scaling = new ScaleTransform()
+                var scaling = new CompositeTransform()
                 {
                     CenterX = button.ActualWidth / 2,
-                    CenterY = button.ActualWidth / 2,
+                    CenterY = button.ActualHeight / 2,
                     ScaleX = scale,
-                    ScaleY = scale
+                    ScaleY = scale,
+                    Rotation = construct.Rotation,
                 };
 
                 button.RenderTransform = scaling;
@@ -1596,14 +1599,17 @@ namespace Worldescape
         private object RotateElement(UIElement uIElement, float rotation)
         {
             var button = (Button)uIElement;
+            button.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
 
             if (button.Tag is Construct construct)
             {
-                var scaling = new RotateTransform()
+                var scaling = new CompositeTransform()
                 {
                     CenterX = button.ActualWidth / 2,
-                    CenterY = button.ActualWidth / 2,
-                    Angle = rotation
+                    CenterY = button.ActualHeight / 2,
+                    ScaleX = construct.Scale,
+                    ScaleY = construct.Scale,
+                    Rotation = rotation
                 };
 
                 button.RenderTransform = scaling;
