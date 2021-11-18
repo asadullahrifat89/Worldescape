@@ -6,6 +6,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Media.Effects;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -1296,12 +1297,12 @@ namespace Worldescape
                 Width = 100,
             };
 
-            Button avatarBtn = new Button() { Style = Application.Current.Resources["MaterialDesign_PedestalButton_Style"] as Style, Height = 110 };
+            Button avatarBtn = new Button() { Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style, Height = 110 };
 
             avatarBtn.Content = img;
             avatarBtn.Tag = avatar;
 
-            //avatar.Effect = new DropShadowEffect() { ShadowDepth = 3, Color = Colors.Black, BlurRadius = 10, Opacity = 0.3 };
+            //img.Effect = new DropShadowEffect() { ShadowDepth = 10, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5, Direction = -90 };
 
             //var avatarBtn = new AvatarButton(avatar);
 

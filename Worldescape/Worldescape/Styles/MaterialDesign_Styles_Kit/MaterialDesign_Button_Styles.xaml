@@ -5,7 +5,7 @@
          </ResourceDictionary.MergedDictionaries>-->
     <!--  Requires MaterialDesign_CommonResources  -->
 
-    <!--  Normal Button  -->
+    <!--#region Normal Buttons-->
     <Style x:Key="MaterialDesign_ColoredButton_Style" TargetType="Button">
         <Setter Property="Background" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="Foreground" Value="White" />
@@ -339,8 +339,9 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--#endregion-->
 
-    <!--  Button for Hyperlinks  -->
+    <!--#region Button for Hyperlinks-->
     <Style x:Key="MaterialDesign_HyperlinkButton_Style" TargetType="Button">
         <Setter Property="Height" Value="50" />
         <Setter Property="Background" Value="Transparent" />
@@ -497,90 +498,9 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--#endregion-->
 
-    <Style x:Key="MaterialDesign_PedestalButton_Style" TargetType="Button">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
-        <Setter Property="FontSize" Value="16" />
-        <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="3" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border
-                        x:Name="OuterBorder"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="5">
-                        <Border.Effect>
-                            <DropShadowEffect
-                                x:Name="DropShadowEffect"
-                                BlurRadius="10"
-                                Direction="270"
-                                Opacity="0"
-                                ShadowDepth="3"
-                                Color="Black" />
-                        </Border.Effect>
-                        <Border
-                            x:Name="InnerBorder"
-                            Background="{TemplateBinding Background}"
-                            CornerRadius="5">
-                            <ContentControl
-                                x:Name="ContentPresenter"
-                                Margin="{TemplateBinding Padding}"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Content="{TemplateBinding Content}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                FontSize="{TemplateBinding FontSize}"
-                                FontWeight="{TemplateBinding FontWeight}"
-                                Foreground="{TemplateBinding Foreground}" />
-                        </Border>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup Name="CommonStates">
-                                <VisualState Name="Normal" />
-                                <VisualState Name="PointerOver">
-                                    <Storyboard>
-                                        <!--  Dropshadow effect  -->
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DropShadowEffect" Storyboard.TargetProperty="Opacity">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="0.5" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState Name="Pressed">
-
-                                    <!--  Opacity effect  -->
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerBorder" Storyboard.TargetProperty="Opacity">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="0.6" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-
-                                </VisualState>
-                                <VisualState Name="Disabled">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="InnerBorder" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#FFE0E0E0" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="#FFA0A0A0" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!--  Round buttons  -->
+    <!--#region Round buttons-->
     <Style x:Key="MaterialDesign_RoundButton_Style" TargetType="Button">
         <Setter Property="Background" Value="White" />
         <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
@@ -755,8 +675,9 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--#endregion-->
 
-    <!--  Toggle buttons  -->
+    <!--#region Toggle buttons-->
     <Style x:Key="MaterialDesign_ToggleButton_Style" TargetType="ToggleButton">
         <Setter Property="Height" Value="50" />
         <Setter Property="Background" Value="White" />
@@ -1017,4 +938,6 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--#endregion-->
+
 </ResourceDictionary>
