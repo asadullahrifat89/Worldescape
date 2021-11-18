@@ -856,7 +856,7 @@ namespace Worldescape
             if (CanPerformWorldEvents())
             {
                 _isCraftingMode = !_isCraftingMode;
-                CraftButton.Content = _isCraftingMode ? "Crafting" : "Craft";
+                CraftButton.Content = _isCraftingMode ? "Constructing" : "Construct";
 
                 _isMovingConstruct = false;
                 ConstructMoveButton.Content = "Move";
@@ -1111,17 +1111,15 @@ namespace Worldescape
 
         private void ShowInteractiveConstruct(UIElement uielement)
         {
-            var construcButton = CopyUiElementContent(uielement);
-            SelectedConstructHolder.Content = construcButton;
+            var button = CopyUiElementContent(uielement);
+            SelectedConstructHolder.Content = button;
         }
 
         private void ShowOperationalConstruct(UIElement uielement, string operationStatus)
         {
-            var historyButton = CopyUiElementContent(uielement);
-
-            OperationalConstructHolder.Content = historyButton;
+            var button = CopyUiElementContent(uielement);
+            OperationalConstructHolder.Content = button;
             OperationalConstructStatus.Text = operationStatus;
-
         }
 
         #endregion
@@ -1306,7 +1304,7 @@ namespace Worldescape
             var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
 
             var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
-            var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 100, Margin = new Thickness(10) };
+            var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 50, Margin = new Thickness(10) };
 
             return img;
         }
