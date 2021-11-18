@@ -867,6 +867,26 @@ namespace Worldescape
 
         #region Button Events
 
+        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("ConnectButton_Click");
+
+            SetDemoData();
+
+            // If a connection is already established simply login to hub
+            if (CanHubLogin())
+            {
+                await TryLoginToHub();
+            }
+            else
+            {
+                // Otherwise open a new connection then login
+                await ConnectWithHubThenLogin();
+            }
+
+            ConstructButton.Visibility = CanPerformWorldEvents() ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         /// <summary>
         /// Actives crafting mode. This enables operations buttons for a construct.
         /// </summary>
@@ -1087,6 +1107,8 @@ namespace Worldescape
                     construct = ScaleElement(_selectedConstruct, newScale) as Construct;
 
                     await HubService.BroadcastConstructScale(construct.Id, construct.Scale);
+
+                    Console.WriteLine("Construct scaled up.");
                 }
             }
         }
@@ -1112,7 +1134,7 @@ namespace Worldescape
 
                     await HubService.BroadcastConstructScale(construct.Id, construct.Scale);
 
-                    Console.WriteLine("Construct scaled.");
+                    Console.WriteLine("Construct scaled down.");
                 }
             }
         }
@@ -1133,29 +1155,9 @@ namespace Worldescape
 
                     await HubService.BroadcastConstructRotation(construct.Id, construct.Rotation);
 
-                    Console.WriteLine("Construct scaled.");
+                    Console.WriteLine("Construct rotated.");
                 }
             }
-        }
-
-        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine("ConnectButton_Click");
-
-            SetDemoData();
-
-            // If a connection is already established simply login to hub
-            if (CanHubLogin())
-            {
-                await TryLoginToHub();
-            }
-            else
-            {
-                // Otherwise open a new connection then login
-                await ConnectWithHubThenLogin();
-            }
-
-            ConstructButton.Visibility = CanPerformWorldEvents() ? Visibility.Visible : Visibility.Collapsed;
         }
 
         #endregion
@@ -1526,6 +1528,12 @@ namespace Worldescape
             return taggedObject;
         }
 
+        /// <summary>
+        /// Scales an UIElement to the provided scale. Returns the tagged object of the uIElement.
+        /// </summary>
+        /// <param name="uIElement"></param>
+        /// <param name="scale"></param>
+        /// <returns></returns>
         private object ScaleElement(UIElement uIElement, float scale)
         {
             var button = (Button)uIElement;
@@ -1552,6 +1560,12 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Rotates an UIElement to the provided rotation. Returns the tagged object of the uIElement.
+        /// </summary>
+        /// <param name="uIElement"></param>
+        /// <param name="rotation"></param>
+        /// <returns></returns>
         private object RotateElement(UIElement uIElement, float rotation)
         {
             var button = (Button)uIElement;
@@ -1580,6 +1594,6 @@ namespace Worldescape
 
         #endregion
 
-        #endregion        
+        #endregion
     }
 }
