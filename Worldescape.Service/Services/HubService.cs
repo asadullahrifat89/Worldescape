@@ -16,8 +16,6 @@ namespace Worldescape.Service
     {
         #region Fields
 
-        private readonly ILogger<HubService> _logger;
-
         private readonly HubConnection _connection;
 
         // Hub Connectivity       

@@ -8,7 +8,7 @@
         /// <summary>
         /// The character of this avatar.
         /// </summary>
-        public AvatarCharacter Character { get; set; } = new AvatarCharacter();
+        public Character Character { get; set; } = new Character();
 
         /// <summary>
         /// The user which this avatar is representing.

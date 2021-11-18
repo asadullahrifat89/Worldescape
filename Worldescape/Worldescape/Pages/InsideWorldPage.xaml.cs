@@ -32,29 +32,24 @@ namespace Worldescape
         bool _isAddingConstruct;
         bool _isCraftingMode;
         bool _isMovingConstruct;
-        bool _isCloningConstruct;
-        //bool _isDeleting;
+        bool _isCloningConstruct;       
 
-        bool _isLoggedIn;
-        //bool _isHubSubscribed;
+        bool _isLoggedIn;        
 
         UIElement _selectedConstruct;
         UIElement _addingConstruct;
         UIElement _movingConstruct;
         UIElement _cloningConstruct;
 
+        readonly IHubService HubService;
+
+        readonly AssetUrlHelper _assetUriHelper;
+
         EasingFunctionBase _easingFunction = new ExponentialEase()
         {
             EasingMode = EasingMode.EaseOut,
             Exponent = 5,
         };
-
-        //string[] _objects = new string[]
-        //{
-        //    "ms-appx:///Images/World_Objects/Landscape/Grass.png",
-        //    "ms-appx:///Images/World_Objects/Landscape/Big_Tree.png",
-        //    "ms-appx:///Images/World_Objects/Prototype/block_W.png",
-        //};
 
         string[] avatarUrls = new string[]
         {
@@ -69,7 +64,7 @@ namespace Worldescape
 
         List<ConstructCategory> ConstructCategories = new List<ConstructCategory>();
 
-        private readonly IHubService HubService;
+        List<Character> Characters = new List<Character>();        
 
         InWorld InWorld = new InWorld();
 
@@ -79,15 +74,15 @@ namespace Worldescape
 
         Character Character = new Character();
 
-        ObservableCollection<AvatarMessenger> AvatarMessengers = new ObservableCollection<AvatarMessenger>();
-
-        readonly AssetUrlHelper _assetUriHelper;
+        ObservableCollection<AvatarMessenger> AvatarMessengers = new ObservableCollection<AvatarMessenger>();       
 
         #endregion
 
         #region Ctor
 
-        public InsideWorldPage(IHubService hubService, AssetUrlHelper assetUriHelper)
+        public InsideWorldPage(
+            IHubService hubService,
+            AssetUrlHelper assetUriHelper)
         {
             InitializeComponent();
 
@@ -95,15 +90,7 @@ namespace Worldescape
             _assetUriHelper = assetUriHelper;
 
             SubscribeHub();
-
-            //DemoImage.Source = new BitmapImage() { UriSource = new Uri("http://localhost:5034/api/Query/GetAsset?fileName=World_Objects%5CLandscape%5CGrass.png") };
         }
-
-        #endregion
-
-        #region Properties
-
-
 
         #endregion
 
@@ -867,6 +854,11 @@ namespace Worldescape
 
         #region Button Events
 
+        /// <summary>
+        /// ConnectButton click event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ConnectButton_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("ConnectButton_Click");
@@ -1195,19 +1187,13 @@ namespace Worldescape
                 ActivityStatus = ActivityStatus.Online,
                 User = new AvatarUser()
                 {
-                    //Id = User.Id,
                     Email = User.Email,
                     ImageUrl = User.ImageUrl,
                     Name = User.Name,
                     Phone = User.Phone,
                     ProfilePictureUrl = User.ImageUrl
                 },
-                Character = new AvatarCharacter()
-                {
-                    Id = Character.Id,
-                    Name = Character.Name,
-                    ImageUrl = Character.ImageUrl,
-                },
+                Character = Character,
                 World = InWorld,
                 Coordinate = new Coordinate(new Random().Next(100), new Random().Next(100), new Random().Next(100)),
                 ImageUrl = avatarUrls[new Random().Next(avatarUrls.Count())],

@@ -62,6 +62,32 @@ namespace Worldescape.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to [
+        ///	{
+        ///		&quot;StatusBoundImageUrls&quot;: [
+        ///			{
+        ///				&quot;Status&quot;: 0,
+        ///				&quot;ImageUrl&quot;: &quot;ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png&quot;
+        ///			},
+        ///			{
+        ///				&quot;Status&quot;: 1,
+        ///				&quot;ImageUrl&quot;: &quot;ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_attackKick.png&quot;
+        ///			},
+        ///			{
+        ///				&quot;Status&quot;: 2,
+        ///				&quot;ImageUrl&quot;: &quot;ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_drag.png&quot;
+        ///			},
+        ///			{
+        ///				&quot;Status&quot;: 3,
+        ///				&quot;ImageUrl&quot;: &quot;ms-app [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CharacterAssets {
+            get {
+                return ResourceManager.GetString("CharacterAssets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [
         ///  {
         ///    &quot;Name&quot;: &quot;buildingTiles 000&quot;,
         ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Buildings\\buildingTiles_000.png&quot;,
