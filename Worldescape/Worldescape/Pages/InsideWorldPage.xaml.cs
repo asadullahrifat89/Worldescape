@@ -640,7 +640,7 @@ namespace Worldescape
             UIElement uielement = (UIElement)sender;
             _selectedAvatar = uielement;
 
-            ShowInteractiveAvatar(uielement);
+            ShowSelectedAvatar(uielement);
 
         }
 
@@ -670,7 +670,7 @@ namespace Worldescape
             {
                 // Clear construct selection
                 _selectedConstruct = null;
-                SelectedConstructHolder.Content = null;
+                ShowSelectedConstruct(null);
 
                 HideConstructOperationButtons();
             }
@@ -689,7 +689,7 @@ namespace Worldescape
             UIElement uielement = (UIElement)sender;
             _selectedConstruct = uielement;
 
-            ShowInteractiveConstruct(uielement);
+            ShowSelectedConstruct(uielement);
 
             if (_isAddingConstruct && _addingConstruct != null)
             {
@@ -794,7 +794,7 @@ namespace Worldescape
                 uielement.ReleasePointerCapture(e.Pointer);
 
                 _selectedConstruct = uielement;
-                ShowInteractiveConstruct(uielement);
+                ShowSelectedConstruct(uielement);
 
                 var x = Canvas.GetLeft(uielement);
                 var y = Canvas.GetTop(uielement);
@@ -960,8 +960,8 @@ namespace Worldescape
                     _movingConstruct = null;
                     _cloningConstruct = null;
                     _addingConstruct = null;
-
-                    OperationalConstructHolder.Content = null;
+                                        
+                    ShowOperationalConstruct(null);
 
                     await BroadcastAvatarActivityStatus(ActivityStatus.Online);
                 }
@@ -971,18 +971,6 @@ namespace Worldescape
 
                     await BroadcastAvatarActivityStatus(ActivityStatus.Crafting);
                 }
-            }
-        }
-
-        private async Task BroadcastAvatarActivityStatus(ActivityStatus activityStatus)
-        {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id) is UIElement iElement)
-            {
-                var avatarButton = (Button)iElement;
-                var taggedAvatar = avatarButton.Tag as Avatar;
-                SetAvatarActivityStatus(avatarButton, taggedAvatar, activityStatus);
-
-                await HubService.BroadcastAvatarActivityStatus(taggedAvatar.Id, (int)activityStatus);
             }
         }
 
@@ -1001,11 +989,13 @@ namespace Worldescape
                     _isAddingConstruct = false;
                     _addingConstruct = null;
                     ConstructAddButton.Content = "Add";
-
-                    OperationalConstructHolder.Content = null;
+                                        
+                    ShowOperationalConstruct(null);
 
                     return;
                 }
+
+                ConstructAddButton.Content = "Adding";
 
                 if (!ConstructAssets.Any())
                 {
@@ -1026,7 +1016,6 @@ namespace Worldescape
                         _addingConstruct = constructBtn;
 
                         _isAddingConstruct = true;
-                        ConstructAddButton.Content = _isAddingConstruct ? "Adding" : "Add";
 
                         ShowOperationalConstruct(_addingConstruct);
                     });
@@ -1036,6 +1025,7 @@ namespace Worldescape
                 {
                     if (_addingConstruct == null)
                     {
+                        ConstructAddButton.Content = "Add";
                         ConstructAddButton.IsChecked = false;
                     }
                 };
@@ -1057,8 +1047,7 @@ namespace Worldescape
             if (!_isMovingConstruct)
             {
                 _movingConstruct = null;
-                OperationalConstructHolder.Content = null;
-                //OperationalConstructStatus.Text = null;
+                ShowOperationalConstruct(null);
             }
             else
             {
@@ -1083,8 +1072,7 @@ namespace Worldescape
                 if (!_isCloningConstruct)
                 {
                     _cloningConstruct = null;
-                    OperationalConstructHolder.Content = null;
-                    //OperationalConstructStatus.Text = null;
+                    ShowOperationalConstruct(null);
                 }
                 else
                 {
@@ -1116,7 +1104,7 @@ namespace Worldescape
                     var construct = ((Button)_selectedConstruct).Tag as Construct;
 
                     Canvas_root.Children.Remove(_selectedConstruct);
-                    SelectedConstructHolder.Content = null;
+                    ShowSelectedConstruct(null);
 
                     await HubService.RemoveConstruct(construct.Id);
                 }
@@ -1231,16 +1219,19 @@ namespace Worldescape
         /// Shows the selected construct on pointer press and release on a construct.
         /// </summary>
         /// <param name="uielement"></param>
-        private void ShowInteractiveConstruct(UIElement uielement)
+        private void ShowSelectedConstruct(UIElement uielement)
         {
-            var button = CopyUiElementContent(uielement);
-            SelectedConstructHolder.Content = button;
-        }
-
-        private void ShowInteractiveAvatar(UIElement uielement)
-        {
-            var button = CopyUiElementContent(uielement);
-            SelectedAvatarHolder.Content = button;
+            if (uielement == null)
+            {
+                SelectedConstructHolder.Content = null;
+                SelectedConstructHolder.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                var button = CopyUiElementContent(uielement);
+                SelectedConstructHolder.Content = button;
+                SelectedConstructHolder.Visibility = Visibility.Visible;
+            }
         }
 
         /// <summary>
@@ -1249,8 +1240,27 @@ namespace Worldescape
         /// <param name="uielement"></param>
         private void ShowOperationalConstruct(UIElement uielement)
         {
+            if (uielement == null)
+            {
+                OperationalConstructHolder.Content = null;
+                OperationalConstructHolder.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                var button = CopyUiElementContent(uielement);
+                OperationalConstructHolder.Content = button;
+                OperationalConstructHolder.Visibility = Visibility.Visible;
+            }
+        }
+
+        /// <summary>
+        /// Shows the selected avatar.
+        /// </summary>
+        /// <param name="uielement"></param>
+        private void ShowSelectedAvatar(UIElement uielement)
+        {
             var button = CopyUiElementContent(uielement);
-            OperationalConstructHolder.Content = button;
+            SelectedAvatarHolder.Content = button;
         }
 
         #endregion
@@ -1386,6 +1396,23 @@ namespace Worldescape
             taggedConstruct.Coordinate.Z = indexZ;
 
             return taggedConstruct;
+        }
+
+        /// <summary>
+        /// Broadcasts avatar activity status.
+        /// </summary>
+        /// <param name="activityStatus"></param>
+        /// <returns></returns>
+        private async Task BroadcastAvatarActivityStatus(ActivityStatus activityStatus)
+        {
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id) is UIElement iElement)
+            {
+                var avatarButton = (Button)iElement;
+                var taggedAvatar = avatarButton.Tag as Avatar;
+                SetAvatarActivityStatus(avatarButton, taggedAvatar, activityStatus);
+
+                await HubService.BroadcastAvatarActivityStatus(taggedAvatar.Id, (int)activityStatus);
+            }
         }
 
         /// <summary>

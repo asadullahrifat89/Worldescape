@@ -97,108 +97,115 @@
 
         <StackPanel
             Grid.Row="1"
-            Margin="20"
+            Margin="30"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
-            Visibility="{Binding ElementName=CraftButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+            Orientation="Horizontal">
 
-            <ContentControl x:Name="OperationalConstructHolder" HorizontalAlignment="Center" />
+            <!--  Shows clicked on construct  -->
+            <ContentControl
+                x:Name="SelectedConstructHolder"
+                HorizontalAlignment="Center"
+                Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                Visibility="Collapsed" />
+
+            <!--  Shows adding, cloning, moving construct  -->
+            <ContentControl
+                x:Name="OperationalConstructHolder"
+                HorizontalAlignment="Center"
+                Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                Visibility="Collapsed" />
 
             <ContentControl
                 x:Name="ConstructOperationalCommandsHolder"
                 Style="{StaticResource MaterialDesign_PopupContent_Style}"
                 Visibility="Collapsed">
 
-                <StackPanel>
+                <!--  Construct Operations  -->
+                <WrapPanel Orientation="Horizontal">
 
-                    <ContentControl x:Name="SelectedConstructHolder" HorizontalAlignment="Center" />
+                    <!--  Move  -->
+                    <ToggleButton
+                        x:Name="ConstructMoveButton"
+                        MinWidth="100"
+                        Margin="10"
+                        Click="ConstructMoveButton_Click"
+                        Content="Move"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesign_ToggleButton_Style}" />
 
-                    <!--  Construct Operations  -->
-                    <WrapPanel Orientation="Horizontal">
+                    <!--  Clone  -->
+                    <ToggleButton
+                        x:Name="ConstructCloneButton"
+                        MinWidth="100"
+                        Margin="10"
+                        Click="ConstructCloneButton_Click"
+                        Content="Clone"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesign_ToggleButton_Style}" />
 
-                        <!--  Move  -->
-                        <ToggleButton
-                            x:Name="ConstructMoveButton"
-                            MinWidth="100"
-                            Margin="10"
-                            Click="ConstructMoveButton_Click"
-                            Content="Move"
-                            FontSize="20"
-                            Style="{StaticResource MaterialDesign_ToggleButton_Style}" />
+                    <!--  Upward  -->
+                    <Button
+                        x:Name="ConstructBringForwardButton"
+                        MinWidth="100"
+                        Margin="10"
+                        Click="ConstructBringForwardButton_Click"
+                        Content="Upward"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesign_Button_Style}" />
 
-                        <!--  Clone  -->
-                        <ToggleButton
-                            x:Name="ConstructCloneButton"
-                            MinWidth="100"
-                            Margin="10"
-                            Click="ConstructCloneButton_Click"
-                            Content="Clone"
-                            FontSize="20"
-                            Style="{StaticResource MaterialDesign_ToggleButton_Style}" />
+                    <!--  Downward  -->
+                    <Button
+                        x:Name="ConstructSendBackwardButton"
+                        MinWidth="100"
+                        Margin="10"
+                        Click="ConstructSendBackwardButton_Click"
+                        Content="Downward"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesign_Button_Style}" />
 
-                        <!--  Upward  -->
-                        <Button
-                            x:Name="ConstructBringForwardButton"
-                            MinWidth="100"
-                            Margin="10"
-                            Click="ConstructBringForwardButton_Click"
-                            Content="Upward"
-                            FontSize="20"
-                            Style="{StaticResource MaterialDesign_Button_Style}" />
+                    <!--  Enlarge  -->
+                    <Button
+                        x:Name="ConstructScaleUpButton"
+                        MinWidth="100"
+                        Margin="10"
+                        Click="ConstructScaleUpButton_Click"
+                        Content="Enlarge"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesign_Button_Style}" />
 
-                        <!--  Downward  -->
-                        <Button
-                            x:Name="ConstructSendBackwardButton"
-                            MinWidth="100"
-                            Margin="10"
-                            Click="ConstructSendBackwardButton_Click"
-                            Content="Downward"
-                            FontSize="20"
-                            Style="{StaticResource MaterialDesign_Button_Style}" />
+                    <!--  Dwindle  -->
+                    <Button
+                        x:Name="ConstructScaleDownButton"
+                        MinWidth="100"
+                        Margin="10"
+                        Click="ConstructScaleDownButton_Click"
+                        Content="Dwindle"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesign_Button_Style}" />
 
-                        <!--  Enlarge  -->
-                        <Button
-                            x:Name="ConstructScaleUpButton"
-                            MinWidth="100"
-                            Margin="10"
-                            Click="ConstructScaleUpButton_Click"
-                            Content="Enlarge"
-                            FontSize="20"
-                            Style="{StaticResource MaterialDesign_Button_Style}" />
+                    <!--  Rotate  -->
+                    <Button
+                        x:Name="ConstructRotateButton"
+                        MinWidth="100"
+                        Margin="10"
+                        Click="ConstructRotateButton_Click"
+                        Content="Rotate"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesign_Button_Style}" />
 
-                        <!--  Dwindle  -->
-                        <Button
-                            x:Name="ConstructScaleDownButton"
-                            MinWidth="100"
-                            Margin="10"
-                            Click="ConstructScaleDownButton_Click"
-                            Content="Dwindle"
-                            FontSize="20"
-                            Style="{StaticResource MaterialDesign_Button_Style}" />
+                    <!--  Delete  -->
+                    <Button
+                        x:Name="ConstructDeleteButton"
+                        MinWidth="100"
+                        Margin="10"
+                        Click="ConstructDeleteButton_Click"
+                        Content="Delete"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesign_Button_Style}"
+                        Visibility="Collapsed" />
 
-                        <!--  Rotate  -->
-                        <Button
-                            x:Name="ConstructRotateButton"
-                            MinWidth="100"
-                            Margin="10"
-                            Click="ConstructRotateButton_Click"
-                            Content="Rotate"
-                            FontSize="20"
-                            Style="{StaticResource MaterialDesign_Button_Style}" />
-
-                        <!--  Delete  -->
-                        <Button
-                            x:Name="ConstructDeleteButton"
-                            MinWidth="100"
-                            Margin="10"
-                            Click="ConstructDeleteButton_Click"
-                            Content="Delete"
-                            FontSize="20"
-                            Style="{StaticResource MaterialDesign_Button_Style}"
-                            Visibility="Collapsed" />
-
-                    </WrapPanel>
-                </StackPanel>
+                </WrapPanel>
 
             </ContentControl>
         </StackPanel>
