@@ -59,7 +59,7 @@
 
         </ContentControl>
 
-        <!--  Bottom middle construct, messenging controls  -->
+        <!--  Bottom middle construct, Messaging controls  -->
         <StackPanel
             Margin="20"
             HorizontalAlignment="Center"
@@ -272,9 +272,9 @@
 
             </WrapPanel>
 
-            <!--  Bottom middle messenging controls  -->
+            <!--  Bottom middle Messaging controls  -->
             <StackPanel
-                x:Name="MessengingControlsHolder"
+                x:Name="MessagingControlsHolder"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
@@ -282,24 +282,24 @@
 
                 <!--  Message from avatar image  -->
                 <ContentControl
-                    x:Name="MessengingFromAvatarHolder"
+                    x:Name="MessagingFromAvatarHolder"
                     Margin="5,10"
                     VerticalAlignment="Center" />
 
                 <!--  Message box  -->
                 <TextBox
-                    x:Name="MessengingTextBox"
+                    x:Name="MessagingTextBox"
                     Width="500"
                     Margin="10"
                     VerticalAlignment="Center"
                     FontSize="16"
-                    KeyDown="MessengingTextBox_KeyDown"
+                    KeyDown="MessagingTextBox_KeyDown"
                     Style="{StaticResource MaterialDesign_TextBox_Style}"
                     TextWrapping="Wrap" />
 
                 <!--  Message to avatar image  -->
                 <ContentControl
-                    x:Name="MessengingToAvatarHolder"
+                    x:Name="MessagingToAvatarHolder"
                     Margin="5,10"
                     VerticalAlignment="Center" />
 

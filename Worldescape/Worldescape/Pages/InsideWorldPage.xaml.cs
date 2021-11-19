@@ -436,7 +436,7 @@ namespace Worldescape
 
             #endregion
 
-            #region Avatar Messenging
+            #region Avatar Messaging
 
             HubService.AvatarTyping += HubService_AvatarTyping;
             HubService.NewTextMessage += HubService_NewTextMessage;
@@ -687,11 +687,11 @@ namespace Worldescape
                 ShowSelectedAvatar(null);
 
                 _messageToAvatar = null;
-                ShowMessengingAvatar(null);
+                ShowMessagingAvatar(null);
 
                 HideConstructOperationButtons();
                 HideAvatarOperationButtons();
-                HideMessengingControls();
+                HideMessagingControls();
             }
         }
 
@@ -957,19 +957,19 @@ namespace Worldescape
         /// <param name="e"></param>
         private void ChatBubble_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            // reply to the selected message and show messenging controls
+            // reply to the selected message and show Messaging controls
             if (((Button)sender).Tag is Avatar avatar)
             {
                 _messageToAvatar = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id);
                 _selectedAvatar = _messageToAvatar;
 
-                ShowMessengingAvatar(_messageToAvatar);
-                ShowMessengingControls();
+                ShowMessagingAvatar(_messageToAvatar);
+                ShowMessagingControls();
 
                 ShowSelectedAvatar(_selectedAvatar);
                 OtherAvatarActionsHolder.Visibility = Visibility.Visible;
 
-                //MessengingTextBox.Focus();
+                //MessagingTextBox.Focus();
             }
         }
 
@@ -1324,7 +1324,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MessengingTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void MessagingTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
@@ -1333,7 +1333,7 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Activates messenging controls.
+        /// Activates Messaging controls.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1345,16 +1345,16 @@ namespace Worldescape
             if (_selectedAvatar == null)
                 return;
 
-            await BroadcastAvatarActivityStatus(ActivityStatus.Messenging);
+            await BroadcastAvatarActivityStatus(ActivityStatus.Messaging);
 
-            // show messenge from and to avatars and show messenging controls
+            // show messenge from and to avatars and show Messaging controls
             if (((Button)_selectedAvatar).Tag is Avatar avatar)
             {
                 _messageToAvatar = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id);
-                ShowMessengingAvatar(_messageToAvatar);
-                ShowMessengingControls();
+                ShowMessagingAvatar(_messageToAvatar);
+                ShowMessagingControls();
 
-                //MessengingTextBox.Focus();
+                //MessagingTextBox.Focus();
             }
         }
 
@@ -1371,23 +1371,23 @@ namespace Worldescape
             if (_messageToAvatar == null)
                 return;
 
-            if (((Button)_messageToAvatar).Tag is Avatar avatar && !string.IsNullOrEmpty(MessengingTextBox.Text) && !string.IsNullOrWhiteSpace(MessengingTextBox.Text))
+            if (((Button)_messageToAvatar).Tag is Avatar avatar && !string.IsNullOrEmpty(MessagingTextBox.Text) && !string.IsNullOrWhiteSpace(MessagingTextBox.Text))
             {
-                await HubService.SendUnicastMessage(avatar.Id, MessengingTextBox.Text);
+                await HubService.SendUnicastMessage(avatar.Id, MessagingTextBox.Text);
 
                 // Add message bubble to own avatar
                 if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id) is UIElement iElement)
                 {
-                    AddMessageBubbleToCanvas(MessengingTextBox.Text, iElement);
+                    AddMessageBubbleToCanvas(MessagingTextBox.Text, iElement);
 
-                    // If activity status is not messenging then update it
-                    if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Messenging)
+                    // If activity status is not Messaging then update it
+                    if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Messaging)
                     {
-                        await BroadcastAvatarActivityStatus(ActivityStatus.Messenging);
+                        await BroadcastAvatarActivityStatus(ActivityStatus.Messaging);
                     }
                 }
 
-                MessengingTextBox.Text = string.Empty;
+                MessagingTextBox.Text = string.Empty;
             }
         }
 
@@ -1472,30 +1472,30 @@ namespace Worldescape
 
         #region Avatar Images
 
-        private void ShowMessengingAvatar(UIElement uIElement)
+        private void ShowMessagingAvatar(UIElement uIElement)
         {
             if (uIElement == null)
             {
-                MessengingToAvatarHolder.Content = null;
-                MessengingFromAvatarHolder.Content = null;
-                //HideMessengingControls();
+                MessagingToAvatarHolder.Content = null;
+                MessagingFromAvatarHolder.Content = null;
+                //HideMessagingControls();
             }
             else
             {
-                MessengingFromAvatarHolder.Content = CopyUiElementImageContent(Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id));
-                MessengingToAvatarHolder.Content = CopyUiElementImageContent(uIElement);
-                //ShowMessengingControls();
+                MessagingFromAvatarHolder.Content = CopyUiElementImageContent(Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id));
+                MessagingToAvatarHolder.Content = CopyUiElementImageContent(uIElement);
+                //ShowMessagingControls();
             }
         }
 
-        private void ShowMessengingControls()
+        private void ShowMessagingControls()
         {
-            MessengingControlsHolder.Visibility = Visibility.Visible;
+            MessagingControlsHolder.Visibility = Visibility.Visible;
         }
 
-        private void HideMessengingControls()
+        private void HideMessagingControls()
         {
-            MessengingControlsHolder.Visibility = Visibility.Collapsed;
+            MessagingControlsHolder.Visibility = Visibility.Collapsed;
         }
 
         #endregion
