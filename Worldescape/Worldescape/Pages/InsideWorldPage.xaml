@@ -103,19 +103,19 @@
 
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
-                <!--  Shows clicked on construct  -->
+                <!--  Shows adding, cloning, moving construct  -->
                 <ContentControl
-                    x:Name="SelectedConstructHolder"
-                    Margin="5"
+                    x:Name="OperationalConstructHolder"
+                    Margin="10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Style="{StaticResource MaterialDesign_PopupContent_Style}"
                     Visibility="Collapsed" />
 
-                <!--  Shows adding, cloning, moving construct  -->
+                <!--  Shows clicked on construct  -->
                 <ContentControl
-                    x:Name="OperationalConstructHolder"
-                    Margin="5"
+                    x:Name="SelectedConstructHolder"
+                    Margin="10"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Style="{StaticResource MaterialDesign_PopupContent_Style}"

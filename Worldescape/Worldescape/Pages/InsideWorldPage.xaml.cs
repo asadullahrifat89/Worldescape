@@ -86,6 +86,9 @@ namespace Worldescape
 
         #region Hub Events
 
+        /// <summary>
+        /// Subscribe to hub and listen to hub events.
+        /// </summary>
         private void SubscribeHub()
         {
             #region Hub Connectivity
@@ -922,21 +925,17 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                //_isCraftingMode = CraftButton.IsChecked.Value;
                 ConstructCraftButton.Content = ConstructCraftButton.IsChecked.Value ? "Crafting" : "Craft";
 
                 ConstructMoveButton.IsChecked = false;
-                //_isMovingConstruct = false;
                 ConstructMoveButton.Content = "Move";
 
                 ConstructCloneButton.IsChecked = false;
-                //_isCloningConstruct = false;
                 ConstructCloneButton.Content = "Clone";
 
                 ConstructDeleteButton.Content = "Delete";
 
                 ConstructAddButton.IsChecked = false;
-                //_isAddingConstruct = false;
                 ConstructAddButton.Content = "Add";
 
                 if (!ConstructCraftButton.IsChecked.Value)
@@ -1000,9 +999,6 @@ namespace Worldescape
                             imageUrl: constructAsset.ImageUrl);
 
                         _addingConstruct = constructBtn;
-
-                        //_isAddingConstruct = true;
-
                         ShowOperationalConstruct(_addingConstruct);
                     });
 
@@ -1069,7 +1065,7 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Deletes _selectedConstruct.
+        /// Deletes the selected construct.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1089,6 +1085,11 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Brings the selected construct forward.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ConstructBringForwardButton_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
@@ -1105,6 +1106,11 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Sends the selected construct backwards.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ConstructSendBackwardButton_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
@@ -1121,6 +1127,11 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Scales up the selected construct.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ConstructScaleUpButton_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
@@ -1142,6 +1153,11 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Scales down the selected construct.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ConstructScaleDownButton_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
@@ -1168,6 +1184,11 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Rotates the selected construct.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ConstructRotateButton_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
