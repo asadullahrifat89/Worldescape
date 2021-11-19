@@ -903,9 +903,9 @@ namespace Worldescape
                 {
                     var CanvasExpPointerPoint = e.GetCurrentPoint(Canvas_root);
 
-                    var maxX = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct).Max(x => ((Construct)x.Tag).Coordinate.X);
+                    var maxX = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
 
-                    UIElement fe = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Coordinate.X >= maxX);
+                    UIElement fe = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).FirstOrDefault(x => ((Construct)x.Tag).Coordinate.X >= maxX);
                     List<Tuple<int, double, double>> distWrtFi = new();
 
                     var feConstruct = ((Button)fe).Tag as Construct;
@@ -954,7 +954,7 @@ namespace Worldescape
 
                 Console.WriteLine("Construct moved.");
             }
-        }      
+        }
 
         /// <summary>
         /// Clones the _cloningConstruct to the pressed point.
@@ -1107,7 +1107,7 @@ namespace Worldescape
             else
             {
                 HideConstructOperationButtons();
-            }            
+            }
         }
 
         /// <summary>
