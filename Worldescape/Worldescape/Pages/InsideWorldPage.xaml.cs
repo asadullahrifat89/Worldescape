@@ -2304,6 +2304,7 @@ namespace Worldescape
                 Stretch = Stretch.Uniform,
             };
 
+            // Textblock containing the message
             var textBlock = new TextBlock()
             {
                 Text = msg,
