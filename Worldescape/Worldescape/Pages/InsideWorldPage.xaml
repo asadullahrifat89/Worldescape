@@ -293,6 +293,7 @@
                     Margin="10"
                     VerticalAlignment="Center"
                     FontSize="16"
+                    KeyDown="MessengingTextBox_KeyDown"
                     Style="{StaticResource MaterialDesign_TextBox_Style}"
                     TextWrapping="Wrap" />
 
