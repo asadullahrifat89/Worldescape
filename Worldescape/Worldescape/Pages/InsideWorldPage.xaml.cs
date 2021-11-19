@@ -951,21 +951,22 @@ namespace Worldescape
         #region Message
 
         /// <summary>
-        /// Event fired on pointer press on a chat bubble. This starts a conversation with the message sender.
+        /// Event fired on pointer press on a chat bubble. This starts a replay conversation with the message sender.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ChatBubble_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            // show messenge from and to avatars and show messenging controls
+            // reply to the selected message and show messenging controls
             if (((Button)sender).Tag is Avatar avatar)
             {
                 _messageToAvatar = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id);
                 _selectedAvatar = _messageToAvatar;
 
                 ShowMessengingAvatar(_messageToAvatar);
-                ShowMessengingControls();                
-                ShowSelectedAvatar(_messageToAvatar);
+                ShowMessengingControls();
+
+                ShowSelectedAvatar(_selectedAvatar);
                 OtherAvatarActionsHolder.Visibility = Visibility.Visible;
             }
         }
@@ -2127,7 +2128,7 @@ namespace Worldescape
 
             fadeStoryBoard.Begin();
         }
-               
+
 
         #endregion
 
