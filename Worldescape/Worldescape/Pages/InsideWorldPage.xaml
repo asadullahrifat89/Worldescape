@@ -216,7 +216,7 @@
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_ToggleButton_Style}" />
 
-                <!--  Clone  -->
+                <!--  Clone, not available while multi selection  -->
                 <ToggleButton
                     x:Name="ConstructCloneButton"
                     MinWidth="100"
@@ -224,7 +224,8 @@
                     Click="ConstructCloneButton_Click"
                     Content="Clone"
                     FontSize="20"
-                    Style="{StaticResource MaterialDesign_ToggleButton_Style}" />
+                    Style="{StaticResource MaterialDesign_ToggleButton_Style}"
+                    Visibility="{Binding ElementName=ConstructMultiSelectButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}" />
 
                 <!--  Upward  -->
                 <Button

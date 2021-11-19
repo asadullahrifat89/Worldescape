@@ -705,6 +705,7 @@ namespace Worldescape
         private void ClearMultiselectedConstructs()
         {
             ConstructMultiSelectButton.IsChecked = false;
+            ConstructMultiSelectButton.Content = "Multiselect";
             MultiSelectedConstructsHolder.Children.Clear();
             MultiselectedConstructs.Clear();
         }
@@ -903,9 +904,14 @@ namespace Worldescape
                 {
                     var CanvasExpPointerPoint = e.GetCurrentPoint(Canvas_root);
 
-                    var maxX = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
+                    //var maxX = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
 
-                    UIElement fe = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).FirstOrDefault(x => ((Construct)x.Tag).Coordinate.X >= maxX);
+                    //UIElement fe = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).FirstOrDefault(x => ((Construct)x.Tag).Coordinate.X >= maxX);
+
+                    // var maxX = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
+
+                    UIElement fe = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && c.Id == MultiselectedConstructs.FirstOrDefault().Id).FirstOrDefault();
+
                     List<Tuple<int, double, double>> distWrtFi = new();
 
                     var feConstruct = ((Button)fe).Tag as Construct;
@@ -1138,11 +1144,7 @@ namespace Worldescape
                 if (ConstructCraftButton.IsChecked.Value)
                 {
                     ConstructAddButton.Visibility = Visibility.Visible;
-
-                    if (Canvas_root.Children.OfType<Button>().Any(x => x.Tag is Construct))
-                    {
-                        ConstructMultiSelectButton.Visibility = Visibility.Visible;
-                    }
+                    ConstructMultiSelectButton.Visibility = Visibility.Visible;
 
                     await BroadcastAvatarActivityStatus(ActivityStatus.Crafting);
                 }
@@ -1220,7 +1222,7 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Moves the selected construct to the clicked point.
+        /// Toggles moving mode for the selected construct.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1276,14 +1278,26 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                if (_selectedConstruct != null)
+                if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
                 {
-                    var construct = ((Button)_selectedConstruct).Tag as Construct;
+                    foreach (var element in MultiselectedConstructs)
+                    {
+                        _selectedConstruct = Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == element.Id).FirstOrDefault();
 
-                    Canvas_root.Children.Remove(_selectedConstruct);
-                    ShowSelectedConstruct(null);
+                        if (_selectedConstruct != null)
+                        {
+                            await BroadcastConstructDelete(_selectedConstruct);
+                        }
+                    }
 
-                    await HubService.RemoveConstruct(construct.Id);
+                    MultiselectedConstructs.Clear();
+                }
+                else
+                {
+                    if (_selectedConstruct != null)
+                    {
+                        await BroadcastConstructDelete(_selectedConstruct);
+                    }
                 }
             }
         }
@@ -1297,14 +1311,24 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                if (_selectedConstruct != null)
+                if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
                 {
-                    var zIndex = Canvas.GetZIndex(_selectedConstruct);
-                    zIndex++;
-                    Canvas.SetZIndex(_selectedConstruct, zIndex);
+                    foreach (var element in MultiselectedConstructs)
+                    {
+                        _selectedConstruct = Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == element.Id).FirstOrDefault();
 
-                    var construct = ((Button)_selectedConstruct).Tag as Construct;
-                    await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
+                        if (_selectedConstruct != null)
+                        {
+                            await BroadcastConstructBringForward(_selectedConstruct);
+                        }
+                    }
+                }
+                else
+                {
+                    if (_selectedConstruct != null)
+                    {
+                        await BroadcastConstructBringForward(_selectedConstruct);
+                    }
                 }
             }
         }
@@ -1318,14 +1342,24 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                if (_selectedConstruct != null)
+                if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
                 {
-                    var zIndex = Canvas.GetZIndex(_selectedConstruct);
-                    zIndex--;
-                    Canvas.SetZIndex(_selectedConstruct, zIndex);
+                    foreach (var element in MultiselectedConstructs)
+                    {
+                        _selectedConstruct = Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == element.Id).FirstOrDefault();
 
-                    var construct = ((Button)_selectedConstruct).Tag as Construct;
-                    await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
+                        if (_selectedConstruct != null)
+                        {
+                            await BroadcastConstructSendBackward(_selectedConstruct);
+                        }
+                    }
+                }
+                else
+                {
+                    if (_selectedConstruct != null)
+                    {
+                        await BroadcastConstructSendBackward(_selectedConstruct);
+                    }
                 }
             }
         }
@@ -1339,19 +1373,24 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                if (_selectedConstruct != null)
+                if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
                 {
-                    var button = (Button)_selectedConstruct;
+                    foreach (var element in MultiselectedConstructs)
+                    {
+                        _selectedConstruct = Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == element.Id).FirstOrDefault();
 
-                    var construct = button.Tag as Construct;
-
-                    var newScale = construct.Scale + 0.25f;
-
-                    construct = ScaleElement(_selectedConstruct, newScale) as Construct;
-
-                    await HubService.BroadcastConstructScale(construct.Id, construct.Scale);
-
-                    Console.WriteLine("Construct scaled up.");
+                        if (_selectedConstruct != null)
+                        {
+                            await BroadcastConstructScaleUp(_selectedConstruct);
+                        }
+                    }
+                }
+                else
+                {
+                    if (_selectedConstruct != null)
+                    {
+                        await BroadcastConstructScaleUp(_selectedConstruct);
+                    }
                 }
             }
         }
@@ -1365,24 +1404,24 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                if (_selectedConstruct != null)
+                if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
                 {
-                    var button = (Button)_selectedConstruct;
-
-                    var construct = button.Tag as Construct;
-
-                    if (construct.Scale == 0.25f)
+                    foreach (var element in MultiselectedConstructs)
                     {
-                        return;
+                        _selectedConstruct = Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == element.Id).FirstOrDefault();
+
+                        if (_selectedConstruct != null)
+                        {
+                            await BroadcastConstructScaleDown(_selectedConstruct);
+                        }
                     }
-
-                    var newScale = construct.Scale - 0.25f;
-
-                    construct = ScaleElement(_selectedConstruct, newScale) as Construct;
-
-                    await HubService.BroadcastConstructScale(construct.Id, construct.Scale);
-
-                    Console.WriteLine("Construct scaled down.");
+                }
+                else
+                {
+                    if (_selectedConstruct != null)
+                    {
+                        await BroadcastConstructScaleDown(_selectedConstruct);
+                    }
                 }
             }
         }
@@ -1396,19 +1435,24 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                if (_selectedConstruct != null)
+                if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
                 {
-                    var button = (Button)_selectedConstruct;
+                    foreach (var element in MultiselectedConstructs)
+                    {
+                        _selectedConstruct = Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == element.Id).FirstOrDefault();
 
-                    var construct = button.Tag as Construct;
-
-                    var newRotation = construct.Rotation + 5;
-
-                    construct = RotateElement(_selectedConstruct, newRotation) as Construct;
-
-                    await HubService.BroadcastConstructRotation(construct.Id, construct.Rotation);
-
-                    Console.WriteLine("Construct rotated.");
+                        if (_selectedConstruct != null)
+                        {
+                            await BroadcastConstructRotate(_selectedConstruct);
+                        }
+                    }
+                }
+                else
+                {
+                    if (_selectedConstruct != null)
+                    {
+                        await BroadcastConstructRotate(_selectedConstruct);
+                    }
                 }
             }
         }
@@ -1957,6 +2001,86 @@ namespace Worldescape
         #endregion
 
         #region Construct
+
+        private async Task BroadcastConstructRotate(UIElement _selectedConstruct)
+        {
+            var button = (Button)_selectedConstruct;
+
+            var construct = button.Tag as Construct;
+
+            var newRotation = construct.Rotation + 5;
+
+            construct = RotateElement(_selectedConstruct, newRotation) as Construct;
+
+            await HubService.BroadcastConstructRotation(construct.Id, construct.Rotation);
+
+            Console.WriteLine("Construct rotated.");
+        }
+
+        private async Task BroadcastConstructScaleDown(UIElement _selectedConstruct)
+        {
+            var button = (Button)_selectedConstruct;
+
+            var construct = button.Tag as Construct;
+
+            if (construct.Scale == 0.25f)
+            {
+                return;
+            }
+
+            var newScale = construct.Scale - 0.25f;
+
+            construct = ScaleElement(_selectedConstruct, newScale) as Construct;
+
+            await HubService.BroadcastConstructScale(construct.Id, construct.Scale);
+
+            Console.WriteLine("Construct scaled down.");
+        }
+
+        private async Task BroadcastConstructScaleUp(UIElement _selectedConstruct)
+        {
+            var button = (Button)_selectedConstruct;
+
+            var construct = button.Tag as Construct;
+
+            var newScale = construct.Scale + 0.25f;
+
+            construct = ScaleElement(_selectedConstruct, newScale) as Construct;
+
+            await HubService.BroadcastConstructScale(construct.Id, construct.Scale);
+
+            Console.WriteLine("Construct scaled up.");
+        }
+
+        private async Task BroadcastConstructSendBackward(UIElement _selectedConstruct)
+        {
+            var zIndex = Canvas.GetZIndex(_selectedConstruct);
+            zIndex--;
+            Canvas.SetZIndex(_selectedConstruct, zIndex);
+
+            var construct = ((Button)_selectedConstruct).Tag as Construct;
+            await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
+        }
+
+        private async Task BroadcastConstructBringForward(UIElement _selectedConstruct)
+        {
+            var zIndex = Canvas.GetZIndex(_selectedConstruct);
+            zIndex++;
+            Canvas.SetZIndex(_selectedConstruct, zIndex);
+
+            var construct = ((Button)_selectedConstruct).Tag as Construct;
+            await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
+        }
+
+        private async Task BroadcastConstructDelete(UIElement _selectedConstruct)
+        {
+            var construct = ((Button)_selectedConstruct).Tag as Construct;
+
+            Canvas_root.Children.Remove(_selectedConstruct);
+            ShowSelectedConstruct(null);
+
+            await HubService.RemoveConstruct(construct.Id);
+        }
 
         /// <summary>
         /// Adds a construct to the canvas.
