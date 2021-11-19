@@ -280,7 +280,7 @@
                 Orientation="Horizontal"
                 Visibility="Collapsed">
 
-                <!--  Message from avatar  -->
+                <!--  Message from avatar image  -->
                 <ContentControl
                     x:Name="MessengingFromAvatarHolder"
                     Margin="5,10"
@@ -296,7 +296,7 @@
                     Style="{StaticResource MaterialDesign_TextBox_Style}"
                     TextWrapping="Wrap" />
 
-                <!--  Message to avatar  -->
+                <!--  Message to avatar image  -->
                 <ContentControl
                     x:Name="MessengingToAvatarHolder"
                     Margin="5,10"
