@@ -231,7 +231,7 @@ namespace Worldescape
 
         private void HubService_NewBroadcastConstruct(Construct construct)
         {
-            var constructBtn = GenerateCraftButton(
+            var constructBtn = GenerateConstructButton(
                 name: construct.Name,
                 imageUrl: construct.ImageUrl,
                 constructId: construct.Id,
@@ -327,17 +327,19 @@ namespace Worldescape
             }
         }
 
-        private void HubService_AvatarLoggedIn(Avatar obj)
+        private void HubService_AvatarLoggedIn(Avatar avatar)
         {
             // If an avatar already exists, ignore
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj.Id) is UIElement iElement)
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id) is UIElement iElement)
             {
                 Console.WriteLine("<<HubService_AvatarLoggedIn: IGNORE");
             }
             else
             {
-                AddAvatarOnCanvas(obj);
-                AvatarMessengers.Add(new AvatarMessenger() { Avatar = obj, ActivityStatus = ActivityStatus.Online, IsLoggedIn = true });
+                var avatarButton = GenerateAvatarButton(avatar);
+                AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
+
+                AvatarMessengers.Add(new AvatarMessenger() { Avatar = avatar, ActivityStatus = ActivityStatus.Online, IsLoggedIn = true });
                 ParticipantsCount.Text = AvatarMessengers.Count().ToString();
 
                 Console.WriteLine("<<HubService_AvatarLoggedIn: OK");
@@ -534,8 +536,12 @@ namespace Worldescape
                                 //}
                                 //else
                                 //{
+
+                                var avatarButton = GenerateAvatarButton(avatar);
+                                AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
+
                                 AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
-                                AddAvatarOnCanvas(avatar);
+
                                 //}
                             }
 
@@ -561,7 +567,7 @@ namespace Worldescape
                                 //}
                                 //else // insert new constructs
                                 //{
-                                var constructBtn = GenerateCraftButton(
+                                var constructBtn = GenerateConstructButton(
                                     name: construct.Name,
                                     imageUrl: construct.ImageUrl,
                                     constructId: construct.Id,
@@ -815,7 +821,7 @@ namespace Worldescape
 
             if (constructAsset != null)
             {
-                var constructBtn = GenerateCraftButton(
+                var constructBtn = GenerateConstructButton(
                     name: constructAsset.Name,
                     imageUrl: constructAsset.ImageUrl);
 
@@ -846,7 +852,7 @@ namespace Worldescape
 
             var constructAsset = button.Tag as Construct;
 
-            var constructBtn = GenerateCraftButton(
+            var constructBtn = GenerateConstructButton(
                    name: constructAsset.Name,
                    imageUrl: constructAsset.ImageUrl);
 
@@ -995,7 +1001,7 @@ namespace Worldescape
                     assetUriHelper: _assetUriHelper,
                     assetSelected: (constructAsset) =>
                     {
-                        var constructBtn = GenerateCraftButton(
+                        var constructBtn = GenerateConstructButton(
                             name: constructAsset.Name,
                             imageUrl: constructAsset.ImageUrl);
 
@@ -1241,7 +1247,7 @@ namespace Worldescape
                 },
                 Character = Character,
                 World = InWorld,
-                Coordinate = new Coordinate(x: ((Window.Current.Bounds.Width / 2) - 50), y: ((Window.Current.Bounds.Height / 2) - 100), z: new Random().Next(100)),
+                Coordinate = new Coordinate(x: (Window.Current.Bounds.Width / 2) - 50, y: (Window.Current.Bounds.Height / 2) - 100, z: new Random().Next(100)),
                 ImageUrl = Character.ImageUrl,
             };
         }
@@ -1283,34 +1289,71 @@ namespace Worldescape
         /// Adds an avatar on canvas.
         /// </summary>
         /// <param name="avatar"></param>
-        private void AddAvatarOnCanvas(Avatar avatar)
+        private Avatar AddAvatarOnCanvas(UIElement avatar, double x, double y, int? z = null)
         {
-            var uri = avatar.ImageUrl;
+            Canvas.SetLeft(avatar, x);
+            Canvas.SetTop(avatar, y);
 
-            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
-
-            var img = new Image()
+            if (z.HasValue)
             {
-                Source = bitmap,
-                Stretch = Stretch.Uniform,
-                Height = 100,
-                Width = 100,
-            };
+                Canvas.SetZIndex(avatar, z.Value);
+            }
 
-            Button avatarBtn = new Button() { Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style, Height = 110 };
+            Canvas_root.Children.Add(avatar);
 
-            avatarBtn.Content = img;
-            avatarBtn.Tag = avatar;
+            var taggedAvatar = ((Button)avatar).Tag as Avatar;
+            taggedAvatar.Coordinate.X = x;
+            taggedAvatar.Coordinate.Y = y;
 
-            //img.Effect = new DropShadowEffect() { ShadowDepth = 10, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5, Direction = -90 };
+            return taggedAvatar;
+        }
 
-            //var avatarBtn = new AvatarButton(avatar);
+        /// <summary>
+        /// Adds a construct to the canvas.
+        /// </summary>
+        /// <param name="construct"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        private Construct AddConstructOnCanvas(UIElement construct, double x, double y, int? z = null)
+        {
+            Canvas.SetLeft(construct, x);
+            Canvas.SetTop(construct, y);
 
-            Canvas.SetLeft(avatarBtn, avatar.Coordinate.X);
-            Canvas.SetTop(avatarBtn, avatar.Coordinate.Y);
-            Canvas.SetZIndex(avatarBtn, 999/*avatar.Coordinate.Z*/); //TODO: figure out Z index calculation later
+            int indexZ = 9;
 
-            Canvas_root.Children.Add(avatarBtn);
+            if (z.HasValue)
+            {
+                indexZ = z.Value;
+            }
+            else
+            {
+                // If Z index is not proved then assign max Z index to this construct button
+                if (Canvas_root.Children != null && Canvas_root.Children.Any())
+                {
+                    if (Canvas_root.Children.Any(x => x is Button button && button.Tag is Construct))
+                    {
+                        var lastConstruct = ((Button)Canvas_root.Children.Where(x => x is Button button && button.Tag is Construct).LastOrDefault()).Tag as Construct;
+
+                        if (lastConstruct != null)
+                        {
+                            indexZ = lastConstruct.Coordinate.Z + 1;
+                        }
+                    }
+                }
+            }
+
+            Canvas.SetZIndex(construct, indexZ);
+
+            Canvas_root.Children.Add(construct);
+
+            var taggedConstruct = ((Button)construct).Tag as Construct;
+
+            taggedConstruct.Coordinate.X = x;
+            taggedConstruct.Coordinate.Y = y;
+            taggedConstruct.Coordinate.Z = indexZ;
+
+            return taggedConstruct;
         }
 
         /// <summary>
@@ -1348,7 +1391,7 @@ namespace Worldescape
         /// <param name="construct"></param>
         /// <param name="constructId"></param>
         /// <returns></returns>
-        private Button GenerateCraftButton(string name, string imageUrl, int? constructId = null, InWorld inWorld = null, Creator creator = null)
+        private Button GenerateConstructButton(string name, string imageUrl, int? constructId = null, InWorld inWorld = null, Creator creator = null)
         {
             var uri = imageUrl;
 
@@ -1388,6 +1431,47 @@ namespace Worldescape
             obj.PointerReleased += Construct_PointerReleased;
 
             return obj;
+        }
+
+        /// <summary>
+        /// Generates a new button from the provided avatar.
+        /// </summary>
+        /// <param name="avatar"></param>
+        /// <returns></returns>
+        private Button GenerateAvatarButton(Avatar avatar)
+        {
+            var uri = avatar.ImageUrl;
+
+            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+            var img = new Image()
+            {
+                Source = bitmap,
+                Stretch = Stretch.Uniform,
+                Height = 100,
+                Width = 100,
+            };
+
+            Button avatarBtn = new Button()
+            {
+                Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
+            };
+
+            avatarBtn.Content = img;
+            avatarBtn.Tag = avatar;
+
+            // if logged in user's avatar
+            if (avatar.Id == Avatar.Id)
+            {
+
+            }
+            else
+            {
+
+            }
+
+            //img.Effect = new DropShadowEffect() { ShadowDepth = 10, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5, Direction = -90 };
+            return avatarBtn;
         }
 
         /// <summary>
@@ -1441,54 +1525,6 @@ namespace Worldescape
             //ConstructRotateButton.Visibility = Visibility.Collapsed;
 
             ConstructOperationalCommandsHolder.Visibility = Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// Adds a construct to the canvas.
-        /// </summary>
-        /// <param name="construct"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-        private Construct AddConstructOnCanvas(UIElement construct, double x, double y, int? z = null)
-        {
-            Canvas.SetLeft(construct, x);
-            Canvas.SetTop(construct, y);
-
-            int indexZ = 9;
-
-            if (z.HasValue)
-            {
-                indexZ = z.Value;
-            }
-            else
-            {
-                // If Z index is not proved then assign max Z index to this construct button
-                if (Canvas_root.Children != null && Canvas_root.Children.Any())
-                {
-                    if (Canvas_root.Children.Any(x => x is Button button && button.Tag is Construct))
-                    {
-                        var lastConstruct = ((Button)Canvas_root.Children.Where(x => x is Button button && button.Tag is Construct).LastOrDefault()).Tag as Construct;
-
-                        if (lastConstruct != null)
-                        {
-                            indexZ = lastConstruct.Coordinate.Z + 1;
-                        }
-                    }
-                }
-            }
-
-            Canvas.SetZIndex(construct, indexZ);
-
-            Canvas_root.Children.Add(construct);
-
-            var taggedConstruct = ((Button)construct).Tag as Construct;
-
-            taggedConstruct.Coordinate.X = x;
-            taggedConstruct.Coordinate.Y = y;
-            taggedConstruct.Coordinate.Z = indexZ;
-
-            return taggedConstruct;
         }
 
         /// <summary>
