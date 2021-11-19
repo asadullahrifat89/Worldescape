@@ -903,56 +903,53 @@ namespace Worldescape
         /// <returns></returns>
         private async Task MoveConstructOnPointerPressed(PointerRoutedEventArgs e)
         {
-            if (ConstructMultiSelectButton.IsChecked.Value)
+            if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
             {
-                if (MultiselectedConstructs.Any())
+                var currrentPoint = e.GetCurrentPoint(Canvas_root);
+
+                //var maxX = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
+
+                //UIElement fe = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).FirstOrDefault(x => ((Construct)x.Tag).Coordinate.X >= maxX);
+
+                // var maxX = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
+
+                UIElement fe = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && c.Id == MultiselectedConstructs.FirstOrDefault().Id).FirstOrDefault();
+
+                List<Tuple<int, double, double>> distWrtFi = new();
+
+                var feConstruct = ((Button)fe).Tag as Construct;
+
+                var fex = feConstruct.Coordinate.X;
+                var fey = feConstruct.Coordinate.Y;
+
+                foreach (Construct element in MultiselectedConstructs)
                 {
-                    var CanvasExpPointerPoint = e.GetCurrentPoint(Canvas_root);
+                    var xDis = feConstruct.Coordinate.X - element.Coordinate.X;
+                    var yDis = feConstruct.Coordinate.Y - element.Coordinate.Y;
 
-                    //var maxX = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
+                    distWrtFi.Add(new Tuple<int, double, double>(element.Id, xDis, yDis));
+                }
 
-                    //UIElement fe = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).FirstOrDefault(x => ((Construct)x.Tag).Coordinate.X >= maxX);
+                foreach (Construct element in MultiselectedConstructs)
+                {
+                    var nowX = element.Coordinate.X;
+                    var nowY = element.Coordinate.Y;
 
-                    // var maxX = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
+                    _movingConstruct = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == element.Id);
 
-                    UIElement fe = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && c.Id == MultiselectedConstructs.FirstOrDefault().Id).FirstOrDefault();
+                    double goToX = currrentPoint.Position.X - ((Button)_movingConstruct).ActualWidth / 2;
+                    double goToY = currrentPoint.Position.Y - ((Button)_movingConstruct).ActualHeight / 2;
 
-                    List<Tuple<int, double, double>> distWrtFi = new();
+                    goToX += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item2;
+                    goToY += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item3;
 
-                    var feConstruct = ((Button)fe).Tag as Construct;
+                    var taggedObject = MoveElement(_movingConstruct, goToX, goToY);
 
-                    var fex = feConstruct.Coordinate.X;
-                    var fey = feConstruct.Coordinate.Y;
+                    var construct = taggedObject as Construct;
 
-                    foreach (Construct element in MultiselectedConstructs)
-                    {
-                        var xDis = feConstruct.Coordinate.X - element.Coordinate.X;
-                        var yDis = feConstruct.Coordinate.Y - element.Coordinate.Y;
+                    await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
 
-                        distWrtFi.Add(new Tuple<int, double, double>(element.Id, xDis, yDis));
-                    }
-
-                    foreach (Construct element in MultiselectedConstructs)
-                    {
-                        var nowX = element.Coordinate.X;
-                        var nowY = element.Coordinate.Y;
-
-                        _movingConstruct = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == element.Id);
-
-                        double goToX = CanvasExpPointerPoint.Position.X - ((Button)_movingConstruct).ActualWidth / 2;
-                        double goToY = CanvasExpPointerPoint.Position.Y - ((Button)_movingConstruct).ActualHeight / 2;
-
-                        goToX += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item2;
-                        goToY += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item3;
-
-                        var taggedObject = MoveElement(_movingConstruct, goToX, goToY);
-
-                        var construct = taggedObject as Construct;
-
-                        await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
-
-                        Console.WriteLine("Construct moved.");
-                    }
+                    Console.WriteLine("Construct moved.");
                 }
             }
             else
@@ -2289,7 +2286,12 @@ namespace Worldescape
                 Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
                 FontWeight = FontWeights.Regular,
                 FontFamily = new FontFamily("Segoe UI"),
+                MaxWidth = 800,
+                Height = double.PositiveInfinity,
             };
+
+            var x = taggedAvatar.Coordinate.X - (avatarButton.ActualWidth / 2);
+            var y = taggedAvatar.Coordinate.Y - (avatarButton.ActualHeight / 2);
 
             // Prepare content
             StackPanel chatContent = new StackPanel() { Orientation = Orientation.Horizontal };
@@ -2302,59 +2304,69 @@ namespace Worldescape
                 Stretch = Stretch.Uniform,
             };
 
+            var textBlock = new TextBlock()
+            {
+                Text = msg,
+                Margin = new Thickness(5, 0, 5, 0),
+                FontWeight = FontWeights.Regular,
+                FontFamily = new FontFamily("Segoe UI"),
+                TextWrapping = TextWrapping.Wrap
+            };
+
             // If own message then image on the left
             if (taggedAvatar.Id == Avatar.Id)
             {
                 chatContent.Children.Add(avatarImage);
-                chatContent.Children.Add(new Label()
-                {
-                    Content = msg,
-                    Margin = new Thickness(5, 0, 5, 0),
-                    FontWeight = FontWeights.Regular,
-                    FontFamily = new FontFamily("Segoe UI"),
-                });
+                chatContent.Children.Add(textBlock);                
             }
             else
             {
                 chatBubble.Tag = taggedAvatar;
                 chatBubble.PointerPressed += ChatBubble_PointerPressed;
 
-                chatContent.Children.Add(new Label()
-                {
-                    Content = msg,
-                    Margin = new Thickness(5, 0, 5, 0),
-                    FontWeight = FontWeights.Regular,
-                    FontFamily = new FontFamily("Segoe UI"),
-                });
+                chatContent.Children.Add(textBlock);
                 chatContent.Children.Add(avatarImage);
             }
 
             chatBubble.Content = chatContent;
 
             // Set opacity animation according to the length of the message
-            DoubleAnimation doubleAnimation = new DoubleAnimation()
+            DoubleAnimation opacityAnimation = new DoubleAnimation()
             {
                 From = 1,
                 To = 0,
                 Duration = TimeSpan.FromSeconds(msg.Length * 5),
             };
 
+            DoubleAnimation moveYAnimation = new DoubleAnimation()
+            {
+                From = y,
+                To = y - 400,
+                Duration = TimeSpan.FromSeconds(60),
+                EasingFunction = new ExponentialEase()
+                {
+                    EasingMode = EasingMode.EaseOut,
+                    Exponent = 10,
+                }
+            };
+
             // after opacity reaches zero delete this from canvas
-            doubleAnimation.Completed += (s, e) =>
+            opacityAnimation.Completed += (s, e) =>
             {
                 Canvas_root.Children.Remove(chatBubble);
             };
 
-            Storyboard.SetTarget(doubleAnimation, chatBubble);
-            Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath(OpacityProperty));
+            Storyboard.SetTarget(opacityAnimation, chatBubble);
+            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(OpacityProperty));
+
+            Storyboard.SetTarget(moveYAnimation, chatBubble);
+            Storyboard.SetTargetProperty(moveYAnimation, new PropertyPath(Canvas.TopProperty));
 
             Storyboard fadeStoryBoard = new Storyboard();
-            fadeStoryBoard.Children.Add(doubleAnimation);
+            fadeStoryBoard.Children.Add(opacityAnimation);
+            fadeStoryBoard.Children.Add(moveYAnimation);
 
             // Add to canvas
-            var x = taggedAvatar.Coordinate.X - (avatarButton.ActualWidth / 2);
-            var y = taggedAvatar.Coordinate.Y - (avatarButton.ActualHeight / 2);
-
             Canvas.SetLeft(chatBubble, x);
             Canvas.SetTop(chatBubble, y);
             Canvas.SetZIndex(chatBubble, 999);
