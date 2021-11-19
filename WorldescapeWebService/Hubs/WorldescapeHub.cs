@@ -227,7 +227,7 @@ public class WorldescapeHub : Hub
             Avatar sender = GetCallingUser();
 
             var group = GetUsersGroup(sender);
-            //Clients.OthersInGroup(group).BroadcastTextMessage(sender.Id, message);
+            
             await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedTextMessage, sender.Id, message);
 
             _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastTextMessage - {DateTime.Now} World: {group}");
@@ -262,8 +262,7 @@ public class WorldescapeHub : Hub
             && !string.IsNullOrEmpty(message))
         {
             if (OnlineAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
-            {
-                //Clients.Client(recipientConnectionId).UnicastTextMessage(sender.Id, message);
+            {                
                 await Clients.Client(recipientConnectionId).SendAsync(Constants.UnicastedTextMessage, sender.Id, message);
 
                 _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastTextMessage - {DateTime.Now} World: {sender.World.Id}");
@@ -283,8 +282,7 @@ public class WorldescapeHub : Hub
             && img != null)
         {
             if (OnlineAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
-            {
-                //Clients.Client(recipientConnectionId).UnicastPictureMessage(sender.Id, img);
+            {                
                 await Clients.Client(recipientConnectionId).SendAsync(Constants.UnicastedPictureMessage, sender.Id, img);
 
                 _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastImageMessage - {DateTime.Now} World: {sender.World.Id}");
@@ -305,8 +303,7 @@ public class WorldescapeHub : Hub
         string recipientConnectionId = GetUserConnectionId(recepientId);
 
         if (OnlineAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
-        {
-            //Clients.Client(recipientConnectionId).AvatarTyping(sender.Id);
+        {            
             await Clients.Client(recipientConnectionId).SendAsync(Constants.AvatarTyped, sender.Id);
 
             _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} Typing - {DateTime.Now} World: {sender.World.Id}");

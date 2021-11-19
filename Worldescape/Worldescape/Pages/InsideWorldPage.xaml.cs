@@ -38,6 +38,8 @@ namespace Worldescape
         UIElement _cloningConstruct;
         UIElement _selectedAvatar;
 
+        UIElement _messageToAvatar;
+
         readonly IHubService HubService;
 
         readonly AssetUrlHelper _assetUriHelper;
@@ -85,58 +87,6 @@ namespace Worldescape
         #region Methods
 
         #region Hub Events
-
-        /// <summary>
-        /// Subscribe to hub and listen to hub events.
-        /// </summary>
-        private void SubscribeHub()
-        {
-            #region Hub Connectivity
-
-            HubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
-            HubService.ConnectionReconnected += HubService_ConnectionReconnected;
-            HubService.ConnectionClosed += HubService_ConnectionClosed;
-
-            #endregion
-
-            #region Avatar World Events
-
-            HubService.NewBroadcastAvatarMovement += HubService_NewBroadcastAvatarMovement;
-            HubService.NewBroadcastAvatarActivityStatus += HubService_NewBroadcastAvatarActivityStatus;
-
-            #endregion
-
-            #region Avatar Connectivity
-
-            HubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
-            HubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
-            HubService.AvatarDisconnected += HubService_AvatarDisconnected;
-            HubService.AvatarReconnected += HubService_AvatarReconnected;
-
-            #endregion
-
-            #region Construct World Events
-
-            HubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
-            HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
-
-            HubService.NewRemoveConstruct += HubService_NewRemoveConstruct;
-            HubService.NewRemoveConstructs += HubService_NewRemoveConstructs;
-
-            HubService.NewBroadcastConstructPlacement += HubService_NewBroadcastConstructPlacement;
-
-            HubService.NewBroadcastConstructRotation += HubService_NewBroadcastConstructRotation;
-            HubService.NewBroadcastConstructRotations += HubService_NewBroadcastConstructRotations;
-
-            HubService.NewBroadcastConstructScale += HubService_NewBroadcastConstructScale;
-            HubService.NewBroadcastConstructScales += HubService_NewBroadcastConstructScales;
-
-            HubService.NewBroadcastConstructMovement += HubService_NewBroadcastConstructMovement;
-
-            #endregion
-
-            Console.WriteLine("++ListenOnHubService: OK");
-        }
 
         #region Construct
         private void HubService_NewBroadcastConstructMovement(int constructId, double x, double y, int z)
@@ -234,7 +184,6 @@ namespace Worldescape
                 y: construct.Coordinate.Y,
                 z: construct.Coordinate.Z);
 
-            //TODO: set rotation
             ScaleElement(constructBtn, construct.Scale);
             RotateElement(constructBtn, construct.Rotation);
 
@@ -387,6 +336,172 @@ namespace Worldescape
         #endregion
 
         #region Connection
+
+        /// <summary>
+        /// Subscribe to hub and listen to hub events.
+        /// </summary>
+        private void SubscribeHub()
+        {
+            #region Hub Connectivity
+
+            HubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
+            HubService.ConnectionReconnected += HubService_ConnectionReconnected;
+            HubService.ConnectionClosed += HubService_ConnectionClosed;
+
+            #endregion
+
+            #region Avatar World Events
+
+            HubService.NewBroadcastAvatarMovement += HubService_NewBroadcastAvatarMovement;
+            HubService.NewBroadcastAvatarActivityStatus += HubService_NewBroadcastAvatarActivityStatus;
+
+            #endregion
+
+            #region Avatar Connectivity
+
+            HubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
+            HubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
+            HubService.AvatarDisconnected += HubService_AvatarDisconnected;
+            HubService.AvatarReconnected += HubService_AvatarReconnected;
+
+            #endregion
+
+            #region Construct World Events
+
+            HubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
+            HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
+
+            HubService.NewRemoveConstruct += HubService_NewRemoveConstruct;
+            HubService.NewRemoveConstructs += HubService_NewRemoveConstructs;
+
+            HubService.NewBroadcastConstructPlacement += HubService_NewBroadcastConstructPlacement;
+
+            HubService.NewBroadcastConstructRotation += HubService_NewBroadcastConstructRotation;
+            HubService.NewBroadcastConstructRotations += HubService_NewBroadcastConstructRotations;
+
+            HubService.NewBroadcastConstructScale += HubService_NewBroadcastConstructScale;
+            HubService.NewBroadcastConstructScales += HubService_NewBroadcastConstructScales;
+
+            HubService.NewBroadcastConstructMovement += HubService_NewBroadcastConstructMovement;
+
+            #endregion
+
+            #region Avatar Messenging
+
+            HubService.AvatarTyping += HubService_AvatarTyping;
+            HubService.NewTextMessage += HubService_NewTextMessage;
+            HubService.NewImageMessage += HubService_NewImageMessage;
+
+            #endregion
+
+            Console.WriteLine("++ListenOnHubService: OK");
+        }
+
+        private void HubService_NewImageMessage(int avatarId, byte[] pic, MessageType mt)
+        {
+
+        }
+
+        private void HubService_NewTextMessage(int avatarId, string msg, MessageType mt)
+        {
+            if (avatarId > 0)
+            {
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
+
+                    if (avatarMessenger != null)
+                        avatarMessenger.ActivityStatus = ActivityStatus.Online;
+
+                    var avatarButton = (Button)iElement;
+
+                    switch (mt)
+                    {
+                        case MessageType.Broadcast:
+                            break;
+                        case MessageType.Unicast:
+                            {
+                                AddMessageBubbleToCanvas(msg, avatarButton);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                    Console.WriteLine("<<HubService_NewTextMessage: OK");
+                }
+                else
+                {
+                    Console.WriteLine("<<HubService_NewTextMessage: IGNORE");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds message bubble to canvas on top of the avatar who sent it.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="avatar"></param>
+        private void AddMessageBubbleToCanvas(string msg, UIElement avatar)
+        {
+            var avatarButton = avatar as Button;
+
+            ContentControl messageContent = new ContentControl()
+            {
+                Style = Application.Current.Resources["MaterialDesign_PopupContent_Style"] as Style
+            };
+
+            StackPanel chatBubble = new StackPanel() { Orientation = Orientation.Horizontal };
+
+            Image avatarImage = new Image()
+            {
+                Source = new BitmapImage(((BitmapImage)((Image)avatarButton.Content).Source).UriSource),
+                Height = 50,
+                Width = 50,
+                Stretch = Stretch.Uniform,
+            };
+            chatBubble.Children.Add(avatarImage);
+
+            messageContent.Content = new Label() { Content = msg };
+            chatBubble.Children.Add(messageContent);
+
+            var x = Canvas.GetLeft(avatarButton);
+            var y = Canvas.GetTop(avatarButton) - 50; //- ((Button)avatarButton).ActualHeight;
+
+
+            Canvas.SetLeft(chatBubble, x);
+            Canvas.SetTop(chatBubble, y);
+            Canvas.SetZIndex(chatBubble, 999);
+
+            DoubleAnimation doubleAnimation = new DoubleAnimation()
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(30),
+            };
+
+            doubleAnimation.Completed += (s, e) =>
+            {
+                Canvas_root.Children.Remove(chatBubble);
+            };
+
+            Storyboard.SetTarget(doubleAnimation, chatBubble);
+            Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath(ContentControl.OpacityProperty));
+
+            Storyboard fadeStoryBoard = new Storyboard();
+            fadeStoryBoard.Children.Add(doubleAnimation);
+
+          
+            Canvas_root.Children.Add(chatBubble);
+
+            fadeStoryBoard.Begin();
+        }
+
+        private void HubService_AvatarTyping(int avatarId, MessageType mt)
+        {
+
+        }
+
         private async void HubService_ConnectionClosed()
         {
             Console.WriteLine("<<HubService_ConnectionClosed");
@@ -516,23 +631,14 @@ namespace Worldescape
 
                             // Find current user's avatar and update current Avatar instance
                             var responseAvatar = avatars.FirstOrDefault(x => x.Id == Avatar.Id);
-                            this.Avatar = responseAvatar;
+                            Avatar = responseAvatar;
 
                             foreach (var avatar in avatars)
                             {
-                                //if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id) is UIElement iElement)
-                                //{
-                                //    MoveElement(iElement, avatar.Coordinate.X, avatar.Coordinate.Y);
-                                //}
-                                //else
-                                //{
-
                                 var avatarButton = GenerateAvatarButton(avatar);
                                 AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
 
                                 AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
-
-                                //}
                             }
 
                             ParticipantsCount.Text = AvatarMessengers.Count().ToString();
@@ -546,17 +652,6 @@ namespace Worldescape
 
                             foreach (var construct in constructs)
                             {
-                                // TODO: set scale and rotation
-
-                                //if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == construct.Id) is UIElement iElement)
-                                //{
-                                //    Canvas.SetZIndex(iElement, construct.Coordinate.Z);
-                                //    MoveElement(iElement, construct.Coordinate.X, construct.Coordinate.Y);
-
-                                //    
-                                //}
-                                //else // insert new constructs
-                                //{
                                 var constructBtn = GenerateConstructButton(
                                     name: construct.Name,
                                     imageUrl: construct.ImageUrl,
@@ -572,9 +667,6 @@ namespace Worldescape
 
                                 ScaleElement(constructBtn, construct.Scale);
                                 RotateElement(constructBtn, construct.Rotation);
-
-
-                                //}
                             }
                         }
 
@@ -616,22 +708,7 @@ namespace Worldescape
 
         #region Pointer Events
 
-        /// <summary>
-        ///  Event fired on pointer press on an avatar.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Avatar_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (!CanPerformWorldEvents())
-                return;
-
-            UIElement uielement = (UIElement)sender;
-            _selectedAvatar = uielement;
-
-            ShowSelectedAvatar(uielement);
-
-        }
+        #region Canvas
 
         /// <summary>
         /// Event fired on pointer press on canvas.
@@ -665,8 +742,48 @@ namespace Worldescape
                 ShowSelectedAvatar(null);
 
                 HideConstructOperationButtons();
+                HideAvatarOperationButtons();
             }
         }
+
+        #endregion
+
+        #region Avatar
+
+        /// <summary>
+        ///  Event fired on pointer press on an avatar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Avatar_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (!CanPerformWorldEvents())
+                return;
+
+            UIElement uielement = (UIElement)sender;
+            _selectedAvatar = uielement;
+
+            ShowSelectedAvatar(uielement);
+
+            if (((Button)uielement).Tag is Avatar avatar)
+            {
+                // If selected own avatar
+                if (avatar.Id == Avatar.Id)
+                {
+                    OwnAvatarActionsHolder.Visibility = Visibility.Visible;
+                    OtherAvatarActionsHolder.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    OwnAvatarActionsHolder.Visibility = Visibility.Collapsed;
+                    OtherAvatarActionsHolder.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Construct
 
         /// <summary>
         /// Event fired on pointer press on a construct. The construct latches on to the pointer if press is not released.
@@ -879,9 +996,14 @@ namespace Worldescape
 
             Console.WriteLine("Construct added.");
         }
+
+        #endregion
+
         #endregion
 
         #region Button Events
+
+        #region Connection
 
         /// <summary>
         /// ConnectButton click event.
@@ -918,6 +1040,10 @@ namespace Worldescape
                 throw ex;
             }
         }
+
+        #endregion
+
+        #region Construct
 
         /// <summary>
         /// Actives crafting mode. This enables operations buttons for a construct.
@@ -1215,6 +1341,79 @@ namespace Worldescape
 
         #endregion
 
+        #region Avatar
+
+        /// <summary>
+        /// Sends unicast message to the selected avatar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void SendUnicastMessageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!CanPerformWorldEvents())
+                return;
+
+            if (_messageToAvatar == null)
+                return;
+
+            if (((Button)_messageToAvatar).Tag is Avatar avatar && !string.IsNullOrEmpty(MessengingTextBox.Text) && !string.IsNullOrWhiteSpace(MessengingTextBox.Text))
+            {
+                await HubService.SendUnicastMessage(avatar.Id, MessengingTextBox.Text);
+
+                // Add message bubble to own avatar
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id) is UIElement iElement)
+                {
+                    AddMessageBubbleToCanvas(MessengingTextBox.Text, iElement);
+                }
+
+                MessengingTextBox.Text = String.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Activates messenging UI.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MessageAvatarButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!CanPerformWorldEvents())
+                return;
+
+            if (_selectedAvatar == null)
+                return;
+
+            var selectedAvatarImage = CopyUiElementContent(_selectedAvatar);
+            MessengingToAvatarHolder.Content = selectedAvatarImage;
+
+            MessengingControlsHolder.Visibility = Visibility.Visible;
+
+            await BroadcastAvatarActivityStatus(ActivityStatus.Texting);
+
+            if (((Button)_selectedAvatar).Tag is Avatar avatar)
+            {
+                _messageToAvatar = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id);
+            }
+        }
+
+        /// <summary>
+        /// Activates post creation window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CreatePostButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!CanPerformWorldEvents())
+                return;
+
+            if (_selectedAvatar == null)
+                return;
+        }
+
+        #endregion
+
+        #endregion
+
         #region Construct Labels
 
         /// <summary>
@@ -1261,13 +1460,24 @@ namespace Worldescape
         /// <param name="uielement"></param>
         private void ShowSelectedAvatar(UIElement uielement)
         {
-            var button = CopyUiElementContent(uielement);
-            SelectedAvatarHolder.Content = button;
+            if (uielement == null)
+            {
+                SelectedAvatarHolder.Content = null;
+                SelectedAvatarHolder.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                var button = CopyUiElementContent(uielement);
+                SelectedAvatarHolder.Content = button;
+                SelectedAvatarHolder.Visibility = Visibility.Visible;
+            }
         }
 
         #endregion
 
-        #region Common
+        #region Functionality
+
+        #region Connection
 
         private void SetDemoData()
         {
@@ -1329,6 +1539,10 @@ namespace Worldescape
             return result;
         }
 
+        #endregion
+
+        #region Avatar
+
         /// <summary>
         /// Adds an avatar on canvas.
         /// </summary>
@@ -1351,6 +1565,98 @@ namespace Worldescape
 
             return taggedAvatar;
         }
+
+        /// <summary>
+        /// Broadcasts avatar activity status.
+        /// </summary>
+        /// <param name="activityStatus"></param>
+        /// <returns></returns>
+        private async Task BroadcastAvatarActivityStatus(ActivityStatus activityStatus)
+        {
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id) is UIElement iElement)
+            {
+                var avatarButton = (Button)iElement;
+                var taggedAvatar = avatarButton.Tag as Avatar;
+                SetAvatarActivityStatus(avatarButton, taggedAvatar, activityStatus);
+
+                await HubService.BroadcastAvatarActivityStatus(taggedAvatar.Id, (int)activityStatus);
+            }
+        }
+
+        /// <summary>
+        /// Sets the provided activityStatus to the avatar.
+        /// </summary>
+        /// <param name="avatarButton"></param>
+        /// <param name="avatar"></param>
+        /// <param name="activityStatus"></param>
+        public void SetAvatarActivityStatus(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
+        {
+            avatar.ActivityStatus = activityStatus;
+            SetStatusBoundImageUrl(avatarButton, avatar, activityStatus);
+        }
+
+        /// <summary>
+        /// Sets the StatusBoundImageUrl as content of the avatarButton according to the activityStatus.
+        /// </summary>
+        /// <param name="avatarButton"></param>
+        /// <param name="avatar"></param>
+        /// <param name="activityStatus"></param>
+        private void SetStatusBoundImageUrl(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
+        {
+            if (avatar.Character.StatusBoundImageUrls.FirstOrDefault(x => x.Status == activityStatus) is StatusBoundImageUrl statusBoundImageUrl)
+            {
+                if (avatarButton.Content is Image img && img.Source is BitmapImage bitmap)
+                {
+                    bitmap.UriSource = new Uri(statusBoundImageUrl.ImageUrl);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Generates a new button from the provided avatar.
+        /// </summary>
+        /// <param name="avatar"></param>
+        /// <returns></returns>
+        private Button GenerateAvatarButton(Avatar avatar)
+        {
+            var uri = avatar.ImageUrl;
+
+            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+            var img = new Image()
+            {
+                Source = bitmap,
+                Stretch = Stretch.Uniform,
+                Height = 100,
+                Width = 100,
+            };
+
+            Button obj = new Button()
+            {
+                Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
+            };
+
+            obj.Content = img;
+            obj.Tag = avatar;
+
+            obj.PointerPressed += Avatar_PointerPressed;
+
+            //img.Effect = new DropShadowEffect() { ShadowDepth = 10, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5, Direction = -90 };
+            return obj;
+        }
+
+        /// <summary>
+        /// Hides avatar opearional buttons.
+        /// </summary>
+        private void HideAvatarOperationButtons()
+        {
+            OwnAvatarActionsHolder.Visibility = Visibility.Collapsed;
+            OtherAvatarActionsHolder.Visibility = Visibility.Collapsed;
+        }
+
+        #endregion
+
+        #region Construct
 
         /// <summary>
         /// Adds a construct to the canvas.
@@ -1398,52 +1704,6 @@ namespace Worldescape
             taggedConstruct.Coordinate.Z = indexZ;
 
             return taggedConstruct;
-        }
-
-        /// <summary>
-        /// Broadcasts avatar activity status.
-        /// </summary>
-        /// <param name="activityStatus"></param>
-        /// <returns></returns>
-        private async Task BroadcastAvatarActivityStatus(ActivityStatus activityStatus)
-        {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id) is UIElement iElement)
-            {
-                var avatarButton = (Button)iElement;
-                var taggedAvatar = avatarButton.Tag as Avatar;
-                SetAvatarActivityStatus(avatarButton, taggedAvatar, activityStatus);
-
-                await HubService.BroadcastAvatarActivityStatus(taggedAvatar.Id, (int)activityStatus);
-            }
-        }
-
-        /// <summary>
-        /// Sets the provided activityStatus to the avatar.
-        /// </summary>
-        /// <param name="avatarButton"></param>
-        /// <param name="avatar"></param>
-        /// <param name="activityStatus"></param>
-        public void SetAvatarActivityStatus(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
-        {
-            avatar.ActivityStatus = activityStatus;
-            SetStatusBoundImageUrl(avatarButton, avatar, activityStatus);
-        }
-
-        /// <summary>
-        /// Sets the StatusBoundImageUrl as content of the avatarButton according to the activityStatus.
-        /// </summary>
-        /// <param name="avatarButton"></param>
-        /// <param name="avatar"></param>
-        /// <param name="activityStatus"></param>
-        private void SetStatusBoundImageUrl(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
-        {
-            if (avatar.Character.StatusBoundImageUrls.FirstOrDefault(x => x.Status == activityStatus) is StatusBoundImageUrl statusBoundImageUrl)
-            {
-                if (avatarButton.Content is Image img && img.Source is BitmapImage bitmap)
-                {
-                    bitmap.UriSource = new Uri(statusBoundImageUrl.ImageUrl);
-                }
-            }
         }
 
         /// <summary>
@@ -1495,39 +1755,88 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Generates a new button from the provided avatar.
+        /// Shows construct operational buttons on the UI.
         /// </summary>
-        /// <param name="avatar"></param>
-        /// <returns></returns>
-        private Button GenerateAvatarButton(Avatar avatar)
+        private void ShowConstructOperationButtons()
         {
-            var uri = avatar.ImageUrl;
-
-            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
-
-            var img = new Image()
-            {
-                Source = bitmap,
-                Stretch = Stretch.Uniform,
-                Height = 100,
-                Width = 100,
-            };
-
-            Button obj = new Button()
-            {
-                Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
-            };
-
-            obj.Content = img;
-            obj.Tag = avatar;
-
-            // if logged in user's avatar
-
-            obj.PointerPressed += Avatar_PointerPressed;
-
-            //img.Effect = new DropShadowEffect() { ShadowDepth = 10, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5, Direction = -90 };
-            return obj;
+            ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
         }
+
+        /// <summary>
+        /// Hides construct operational buttons.
+        /// </summary>
+        private void HideConstructOperationButtons()
+        {
+            ConstructOperationalCommandsHolder.Visibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Scales an UIElement to the provided scale. Returns the tagged object of the uIElement.
+        /// </summary>
+        /// <param name="uIElement"></param>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        private object ScaleElement(UIElement uIElement, float scale)
+        {
+            var button = (Button)uIElement;
+            button.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
+
+            if (button.Tag is Construct construct)
+            {
+                var scaleTransform = new CompositeTransform()
+                {
+                    ScaleX = scale,
+                    ScaleY = scale,
+                    Rotation = construct.Rotation,
+                };
+
+                button.RenderTransform = scaleTransform;
+
+                construct.Scale = scale;
+
+                return construct;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Rotates an UIElement to the provided rotation. Returns the tagged object of the uIElement.
+        /// </summary>
+        /// <param name="uIElement"></param>
+        /// <param name="rotation"></param>
+        /// <returns></returns>
+        private object RotateElement(UIElement uIElement, float rotation)
+        {
+            var button = (Button)uIElement;
+            button.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
+
+            if (button.Tag is Construct construct)
+            {
+                var rotateTransform = new CompositeTransform()
+                {
+                    ScaleX = construct.Scale,
+                    ScaleY = construct.Scale,
+                    Rotation = rotation
+                };
+
+                button.RenderTransform = rotateTransform;
+
+                construct.Rotation = rotation;
+
+                return construct;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        #endregion
+
+        #region Element
 
         /// <summary>
         /// Copies the image content from an UIElement and returns it as an Image.
@@ -1542,22 +1851,6 @@ namespace Worldescape
             var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 50, Margin = new Thickness(10) };
 
             return img;
-        }
-
-        /// <summary>
-        /// Shows construct operational buttons on the UI.
-        /// </summary>
-        private void ShowConstructOperationButtons()
-        {
-            ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
-        }
-
-        /// <summary>
-        /// Hides construct operational buttons on the UI.
-        /// </summary>
-        private void HideConstructOperationButtons()
-        {
-            ConstructOperationalCommandsHolder.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -1628,7 +1921,7 @@ namespace Worldescape
 
             Storyboard moveStory = new Storyboard();
 
-            DoubleAnimation setLeft = new DoubleAnimation()
+            DoubleAnimation setXAnimation = new DoubleAnimation()
             {
                 From = nowX,
                 To = goToX,
@@ -1636,7 +1929,7 @@ namespace Worldescape
                 EasingFunction = _easingFunction,
             };
 
-            DoubleAnimation setRight = new DoubleAnimation()
+            DoubleAnimation setYAnimation = new DoubleAnimation()
             {
                 From = nowY,
                 To = goToY,
@@ -1644,7 +1937,7 @@ namespace Worldescape
                 EasingFunction = _easingFunction,
             };
 
-            setRight.Completed += (object sender, EventArgs e) =>
+            setYAnimation.Completed += (object sender, EventArgs e) =>
             {
                 if (taggedObject is Avatar)
                 {
@@ -1657,14 +1950,14 @@ namespace Worldescape
                 }
             };
 
-            Storyboard.SetTarget(setLeft, uIElement);
-            Storyboard.SetTargetProperty(setLeft, new PropertyPath(Canvas.LeftProperty));
+            Storyboard.SetTarget(setXAnimation, uIElement);
+            Storyboard.SetTargetProperty(setXAnimation, new PropertyPath(Canvas.LeftProperty));
 
-            Storyboard.SetTarget(setRight, uIElement);
-            Storyboard.SetTargetProperty(setRight, new PropertyPath(Canvas.TopProperty));
+            Storyboard.SetTarget(setYAnimation, uIElement);
+            Storyboard.SetTargetProperty(setYAnimation, new PropertyPath(Canvas.TopProperty));
 
-            moveStory.Children.Add(setLeft);
-            moveStory.Children.Add(setRight);
+            moveStory.Children.Add(setXAnimation);
+            moveStory.Children.Add(setYAnimation);
 
             moveStory.Begin();
 
@@ -1710,69 +2003,7 @@ namespace Worldescape
             return taggedObject;
         }
 
-        /// <summary>
-        /// Scales an UIElement to the provided scale. Returns the tagged object of the uIElement.
-        /// </summary>
-        /// <param name="uIElement"></param>
-        /// <param name="scale"></param>
-        /// <returns></returns>
-        private object ScaleElement(UIElement uIElement, float scale)
-        {
-            var button = (Button)uIElement;
-            button.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
-
-            if (button.Tag is Construct construct)
-            {
-                var scaleTransform = new CompositeTransform()
-                {
-                    ScaleX = scale,
-                    ScaleY = scale,
-                    Rotation = construct.Rotation,
-                };
-
-                button.RenderTransform = scaleTransform;
-
-                construct.Scale = scale;
-
-                return construct;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Rotates an UIElement to the provided rotation. Returns the tagged object of the uIElement.
-        /// </summary>
-        /// <param name="uIElement"></param>
-        /// <param name="rotation"></param>
-        /// <returns></returns>
-        private object RotateElement(UIElement uIElement, float rotation)
-        {
-            var button = (Button)uIElement;
-            button.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
-
-            if (button.Tag is Construct construct)
-            {
-                var rotateTransform = new CompositeTransform()
-                {
-                    ScaleX = construct.Scale,
-                    ScaleY = construct.Scale,
-                    Rotation = rotation
-                };
-
-                button.RenderTransform = rotateTransform;
-
-                construct.Rotation = rotation;
-
-                return construct;
-            }
-            else
-            {
-                return null;
-            }
-        }
+        #endregion
 
         #endregion
 

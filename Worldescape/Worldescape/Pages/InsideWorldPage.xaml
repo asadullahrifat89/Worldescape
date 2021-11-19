@@ -10,12 +10,7 @@
 
     <Grid>
 
-        <!--<Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>-->
-
+        <!--  Canvas host  -->
         <ScrollViewer
             x:Name="FrameScrollViewer"
             Grid.Row="1"
@@ -34,13 +29,7 @@
 
         </ScrollViewer>
 
-        <!--  Top bar buttons  -->
-        <!--<ContentControl
-            Margin="20"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesign_PopupContent_Style}">-->
-
+        <!--  Top middle avatar buttons  -->
         <StackPanel
             x:Name="TopButtonsHolder"
             Margin="20"
@@ -58,28 +47,61 @@
                 Style="{StaticResource MaterialDesign_Button_Style}" />
 
             <!--  Shows own or other avatar commands upon selection  -->
-            <StackPanel Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
                 <!--  Selected avatar image  -->
-                <ContentControl x:Name="SelectedAvatarHolder" />
-
-                <WrapPanel
-                    x:Name="OwnAvatarActionsHolder"
-                    Orientation="Horizontal"
+                <ContentControl
+                    x:Name="SelectedAvatarHolder"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource MaterialDesign_PopupContent_Style}"
                     Visibility="Collapsed" />
 
-                <WrapPanel
-                    x:Name="OtherAvatarActionsHolder"
-                    Orientation="Horizontal"
-                    Visibility="Collapsed" />
+                <!--  Selected avatar commands  -->
+                <StackPanel HorizontalAlignment="Center">
+
+                    <!--  Commands for own avatar  -->
+                    <WrapPanel
+                        x:Name="OwnAvatarActionsHolder"
+                        Margin="10,0"
+                        Orientation="Horizontal"
+                        Visibility="Collapsed">
+
+                        <!--  Create post, shows a child window to create a post  -->
+                        <Button
+                            x:Name="CreatePostButton"
+                            MinWidth="100"
+                            Click="CreatePostButton_Click"
+                            Content="Post"
+                            FontSize="20"
+                            Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                    </WrapPanel>
+
+                    <!--  Commands for other avatar  -->
+                    <WrapPanel
+                        x:Name="OtherAvatarActionsHolder"
+                        Margin="10,0"
+                        Orientation="Horizontal"
+                        Visibility="Collapsed">
+
+                        <!--  Message, activates messaging UI  -->
+                        <Button
+                            x:Name="MessageAvatarButton"
+                            MinWidth="100"
+                            Click="MessageAvatarButton_Click"
+                            Content="Message"
+                            FontSize="20"
+                            Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                    </WrapPanel>
+
+                </StackPanel>
 
             </StackPanel>
 
         </StackPanel>
 
-        <!--</ContentControl>-->
-
-        <!--  Top bar user buttons  -->
+        <!--  Top right user buttons  -->
         <ContentControl
             Margin="20"
             HorizontalAlignment="Right"
@@ -91,9 +113,8 @@
 
         </ContentControl>
 
-        <!--  Bottom bar buttons  -->
+        <!--  Bottom middle construct buttons  -->
         <StackPanel
-            Grid.Row="1"
             Margin="30"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom">
@@ -247,6 +268,53 @@
 
         </StackPanel>
 
+
+        <ContentControl
+            x:Name="MessengingControlsHolder"
+            Margin="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Style="{StaticResource MaterialDesign_PopupContent_Style}"
+            Visibility="Collapsed">
+
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--  Avatar conversation headers  -->
+                <Grid Grid.Row="0">
+                    <ContentControl x:Name="MessengingFromAvatarHolder" HorizontalAlignment="Left" />
+                    <ContentControl x:Name="MessengingToAvatarHolder" HorizontalAlignment="Right" />
+                </Grid>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                    <TextBox
+                        x:Name="MessengingTextBox"
+                        Width="500"
+                        Style="{StaticResource MaterialDesign_TextBox_Style}"
+                        TextWrapping="Wrap" />
+
+                    <!--  Send  -->
+                    <Button
+                        x:Name="SendUnicastMessageButton"
+                        MinWidth="100"
+                        Margin="10"
+                        Click="SendUnicastMessageButton_Click"
+                        Content="Send"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                </StackPanel>
+
+            </Grid>
+
+        </ContentControl>
+
+        <!--  Bottom right people counter  -->
         <TextBlock
             Margin="20"
             HorizontalAlignment="Right"
@@ -258,4 +326,5 @@
         </TextBlock>
 
     </Grid>
+
 </Page>
