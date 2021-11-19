@@ -13,7 +13,6 @@
         <!--  Canvas host  -->
         <ScrollViewer
             x:Name="FrameScrollViewer"
-            Grid.Row="1"
             HorizontalScrollBarVisibility="Auto"
             IsTabStop="False"
             VerticalScrollBarVisibility="Auto">
@@ -62,7 +61,7 @@
 
         <!--  Bottom middle construct, messenging controls  -->
         <StackPanel
-            Margin="30"
+            Margin="20"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom">
 
@@ -284,7 +283,7 @@
                 <!--  Message from avatar  -->
                 <ContentControl
                     x:Name="MessengingFromAvatarHolder"
-                    Margin="5,15"
+                    Margin="5,10"
                     VerticalAlignment="Center" />
 
                 <!--  Message box  -->
@@ -300,7 +299,7 @@
                 <!--  Message to avatar  -->
                 <ContentControl
                     x:Name="MessengingToAvatarHolder"
-                    Margin="5,15"
+                    Margin="5,10"
                     VerticalAlignment="Center" />
 
                 <!--  Send  -->
@@ -312,7 +311,6 @@
                     Content="Send"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_Button_Style}" />
-
 
             </StackPanel>
 
