@@ -969,7 +969,7 @@ namespace Worldescape
                 ShowSelectedAvatar(_selectedAvatar);
                 OtherAvatarActionsHolder.Visibility = Visibility.Visible;
 
-                MessengingTextBox.Focus();
+                //MessengingTextBox.Focus();
             }
         }
 
@@ -1354,7 +1354,7 @@ namespace Worldescape
                 ShowMessengingAvatar(_messageToAvatar);
                 ShowMessengingControls();
 
-                MessengingTextBox.Focus();
+                //MessengingTextBox.Focus();
             }
         }
 
