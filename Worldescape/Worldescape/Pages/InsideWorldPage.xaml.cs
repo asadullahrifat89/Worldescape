@@ -619,7 +619,7 @@ namespace Worldescape
 
                         // Set connected user's avatar image
                         if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
-                            AvatarImageHolder.Content = CopyUiElementContent(iElement);
+                            AvatarImageHolder.Content = CopyUiElementImageContent(iElement);
 
                         return true;
                     }
@@ -944,6 +944,30 @@ namespace Worldescape
             await HubService.BroadcastConstruct(construct);
 
             Console.WriteLine("Construct added.");
+        }
+
+        #endregion
+
+        #region Message
+
+        /// <summary>
+        /// Event fired on pointer press on a chat bubble. This starts a conversation with the message sender.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChatBubble_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            // show messenge from and to avatars and show messenging controls
+            if (((Button)sender).Tag is Avatar avatar)
+            {
+                _messageToAvatar = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id);
+                _selectedAvatar = _messageToAvatar;
+
+                ShowMessengingAvatar(_messageToAvatar);
+                ShowMessengingControls();                
+                ShowSelectedAvatar(_messageToAvatar);
+                OtherAvatarActionsHolder.Visibility = Visibility.Visible;
+            }
         }
 
         #endregion
@@ -1292,6 +1316,11 @@ namespace Worldescape
 
         #region Message
 
+        /// <summary>
+        /// Event fired upon key press inside the chat box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MessengingTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
@@ -1313,7 +1342,7 @@ namespace Worldescape
             if (_selectedAvatar == null)
                 return;
 
-            await BroadcastAvatarActivityStatus(ActivityStatus.Typing);
+            await BroadcastAvatarActivityStatus(ActivityStatus.Messenging);
 
             // show messenge from and to avatars and show messenging controls
             if (((Button)_selectedAvatar).Tag is Avatar avatar)
@@ -1346,10 +1375,10 @@ namespace Worldescape
                 {
                     AddMessageBubbleToCanvas(MessengingTextBox.Text, iElement);
 
-                    // If activity status is not messagin then update it
-                    if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Typing)
+                    // If activity status is not messenging then update it
+                    if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Messenging)
                     {
-                        await BroadcastAvatarActivityStatus(ActivityStatus.Typing);
+                        await BroadcastAvatarActivityStatus(ActivityStatus.Messenging);
                     }
                 }
 
@@ -1390,7 +1419,7 @@ namespace Worldescape
             }
             else
             {
-                var button = CopyUiElementContent(uielement);
+                var button = CopyUiElementImageContent(uielement);
                 SelectedConstructHolder.Content = button;
                 SelectedConstructHolder.Visibility = Visibility.Visible;
             }
@@ -1409,7 +1438,7 @@ namespace Worldescape
             }
             else
             {
-                var button = CopyUiElementContent(uielement);
+                var button = CopyUiElementImageContent(uielement);
                 OperationalConstructHolder.Content = button;
                 OperationalConstructHolder.Visibility = Visibility.Visible;
             }
@@ -1428,8 +1457,8 @@ namespace Worldescape
             }
             else
             {
-                var button = CopyUiElementContent(uielement);
-                SelectedAvatarHolder.Content = button;
+                var img = CopyUiElementImageContent(uielement);
+                SelectedAvatarHolder.Content = img;
                 SelectedAvatarHolder.Visibility = Visibility.Visible;
             }
         }
@@ -1448,8 +1477,8 @@ namespace Worldescape
             }
             else
             {
-                MessengingFromAvatarHolder.Content = CopyUiElementContent(Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id));
-                MessengingToAvatarHolder.Content = CopyUiElementContent(uIElement);
+                MessengingFromAvatarHolder.Content = CopyUiElementImageContent(Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id));
+                MessengingToAvatarHolder.Content = CopyUiElementImageContent(uIElement);
                 //ShowMessengingControls();
             }
         }
@@ -1475,7 +1504,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="uielement"></param>
         /// <returns></returns>
-        private static UIElement CopyUiElementContent(UIElement uielement)
+        private static Image CopyUiElementImageContent(UIElement uielement)
         {
             var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
 
@@ -2068,7 +2097,7 @@ namespace Worldescape
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromSeconds(msg.Length * 2),
+                Duration = TimeSpan.FromSeconds(msg.Length * 5),
             };
 
             // after opacity reaches zero delete this from canvas
@@ -2098,17 +2127,7 @@ namespace Worldescape
 
             fadeStoryBoard.Begin();
         }
-
-        private void ChatBubble_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            // show messenge from and to avatars and show messenging controls
-            if (((Button)sender).Tag is Avatar avatar)
-            {
-                _messageToAvatar = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id);
-                ShowMessengingAvatar(_messageToAvatar);
-                ShowMessengingControls();
-            }
-        }
+               
 
         #endregion
 

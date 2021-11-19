@@ -57,7 +57,7 @@
 
         Meeting,
 
-        Typing,
+        Messenging,
 
         Away,
 
