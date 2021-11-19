@@ -1455,7 +1455,15 @@ namespace Worldescape
             var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
 
             var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
-            var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 50, Margin = new Thickness(10) };
+
+            var img = new Image()
+            {
+                Source = bitmap,
+                Stretch = Stretch.Uniform,
+                Height = 50,
+                Width = 50,
+                Margin = new Thickness(5)
+            };
 
             return img;
         }
@@ -2029,6 +2037,9 @@ namespace Worldescape
             Canvas.SetLeft(chatBubble, x);
             Canvas.SetTop(chatBubble, y);
             Canvas.SetZIndex(chatBubble, 999);
+
+            chatBubble.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
+
             Canvas_root.Children.Add(chatBubble);
 
             fadeStoryBoard.Begin();
