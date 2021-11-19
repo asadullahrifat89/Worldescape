@@ -5,36 +5,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Worldescape"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="Segoe UI"
     mc:Ignorable="d">
 
     <Grid>
 
-        <Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <!--  Top bar buttons  -->
-        <StackPanel
-            x:Name="TopButtonsHolder"
-            Grid.Row="0"
-            Orientation="Horizontal">
-
-            <!--  Own Avatar Image  -->
-            <ContentControl x:Name="AvatarImageHolder" />
-
-            <!--  Connect  -->
-            <Button
-                x:Name="ConnectButton"
-                MinWidth="100"
-                Margin="10"
-                Click="ConnectButton_Click"
-                Content="Connect"
-                FontSize="20"
-                Style="{StaticResource MaterialDesign_Button_Style}" />
-
-        </StackPanel>
+        </Grid.RowDefinitions>-->
 
         <ScrollViewer
             x:Name="FrameScrollViewer"
@@ -54,32 +34,81 @@
 
         </ScrollViewer>
 
-        <TextBlock
-            Grid.Row="1"
+        <!--  Top bar buttons  -->
+        <!--<ContentControl
+            Margin="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Style="{StaticResource MaterialDesign_PopupContent_Style}">-->
+
+        <StackPanel
+            x:Name="TopButtonsHolder"
+            Margin="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top">
+
+            <!--  Connect  -->
+            <Button
+                x:Name="ConnectButton"
+                MinWidth="100"
+                Margin="10"
+                Click="ConnectButton_Click"
+                Content="Connect"
+                FontSize="20"
+                Style="{StaticResource MaterialDesign_Button_Style}" />
+
+            <!--  Shows own or other avatar commands upon selection  -->
+            <StackPanel Orientation="Horizontal">
+
+                <!--  Selected avatar image  -->
+                <ContentControl x:Name="SelectedAvatarHolder" />
+
+                <WrapPanel
+                    x:Name="OwnAvatarActionsHolder"
+                    Orientation="Horizontal"
+                    Visibility="Collapsed" />
+
+                <WrapPanel
+                    x:Name="OtherAvatarActionsHolder"
+                    Orientation="Horizontal"
+                    Visibility="Collapsed" />
+
+            </StackPanel>
+
+        </StackPanel>
+
+        <!--</ContentControl>-->
+
+        <!--  Top bar user buttons  -->
+        <ContentControl
             Margin="20"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            FontSize="20"
-            FontWeight="Bold">
-            <Run Text="Avatars: " />
-            <Run x:Name="ParticipantsCount" />
-        </TextBlock>
+            Style="{StaticResource MaterialDesign_PopupContent_Style}">
 
+            <!--  Own avatar image  -->
+            <ContentControl x:Name="AvatarImageHolder" />
+
+        </ContentControl>
+
+        <!--  Bottom bar buttons  -->
         <StackPanel
             Grid.Row="1"
             Margin="30"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom">
 
-            <ContentControl
+            <StackPanel
                 x:Name="ConstructCraftingButtonsHolder"
                 Margin="10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Style="{StaticResource MaterialDesign_PopupContent_Style}"
                 Visibility="Collapsed">
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
 
                     <!--  Craft  -->
                     <ToggleButton
@@ -103,7 +132,7 @@
                         Visibility="Collapsed" />
                 </StackPanel>
 
-            </ContentControl>
+            </StackPanel>
 
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
@@ -127,11 +156,8 @@
 
             </StackPanel>
 
-            <!--  Construct Operations  -->
-            <ContentControl
-                x:Name="ConstructOperationalCommandsHolder"
-                Style="{StaticResource MaterialDesign_PopupContent_Style}"
-                Visibility="Collapsed">
+            <!--  Construct operations  -->
+            <StackPanel x:Name="ConstructOperationalCommandsHolder" Visibility="Collapsed">
 
                 <WrapPanel Orientation="Horizontal">
 
@@ -217,28 +243,19 @@
 
                 </WrapPanel>
 
-            </ContentControl>
-        </StackPanel>
-
-        <!--  Bottom bar buttons  -->
-        <StackPanel
-            x:Name="BottomButtonsHolder"
-            Grid.Row="2"
-            Visibility="Collapsed">
-
-            <ContentControl x:Name="SelectedAvatarHolder" />
-
-            <WrapPanel
-                x:Name="OwnAvatarActionsHolder"
-                Orientation="Horizontal"
-                Visibility="Collapsed" />
-
-            <WrapPanel
-                x:Name="OtherAvatarActionsHolder"
-                Orientation="Horizontal"
-                Visibility="Collapsed" />
+            </StackPanel>
 
         </StackPanel>
+
+        <TextBlock
+            Margin="20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            FontSize="16"
+            FontWeight="Bold">
+            <Run x:Name="ParticipantsCount" />
+            <Run Text=" people joined" />
+        </TextBlock>
 
     </Grid>
 </Page>

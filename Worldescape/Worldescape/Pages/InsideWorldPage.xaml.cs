@@ -661,6 +661,9 @@ namespace Worldescape
                 _selectedConstruct = null;
                 ShowSelectedConstruct(null);
 
+                _selectedAvatar = null;
+                ShowSelectedAvatar(null);
+
                 HideConstructOperationButtons();
             }
         }
