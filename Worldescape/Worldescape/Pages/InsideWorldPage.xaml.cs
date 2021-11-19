@@ -968,6 +968,8 @@ namespace Worldescape
 
                 ShowSelectedAvatar(_selectedAvatar);
                 OtherAvatarActionsHolder.Visibility = Visibility.Visible;
+
+                MessengingTextBox.Focus();
             }
         }
 
@@ -1351,6 +1353,8 @@ namespace Worldescape
                 _messageToAvatar = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id);
                 ShowMessengingAvatar(_messageToAvatar);
                 ShowMessengingControls();
+
+                MessengingTextBox.Focus();
             }
         }
 
@@ -1705,6 +1709,17 @@ namespace Worldescape
         }
 
         /// <summary>
+        /// Checks if world events can be performed or not. If HubService is connected to server and the user is logged in then returns true.
+        /// </summary>
+        /// <returns></returns>
+        private bool CanPerformWorldEvents()
+        {
+            var result = HubService.IsConnected() && _isLoggedIn;
+            Console.WriteLine("CanPerformWorldEvents: " + result);
+            return result;
+        }
+
+        /// <summary>
         /// Connects the current user with server.
         /// </summary>
         /// <returns></returns>
@@ -1724,17 +1739,6 @@ namespace Worldescape
             }
 
             ConstructCraftingButtonsHolder.Visibility = CanPerformWorldEvents() ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// Checks if world events can be performed or not. If HubService is connected to server and the user is logged in then returns true.
-        /// </summary>
-        /// <returns></returns>
-        private bool CanPerformWorldEvents()
-        {
-            var result = HubService.IsConnected() && _isLoggedIn;
-            Console.WriteLine("CanPerformWorldEvents: " + result);
-            return result;
         }
 
         #endregion
