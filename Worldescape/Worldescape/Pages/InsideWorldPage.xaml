@@ -284,9 +284,8 @@
                 <!--  Message from avatar  -->
                 <ContentControl
                     x:Name="MessengingFromAvatarHolder"
-                    Margin="10"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource MaterialDesign_PopupContent_Style}" />
+                    Margin="5,15"
+                    VerticalAlignment="Center" />
 
                 <!--  Message box  -->
                 <TextBox
@@ -298,6 +297,12 @@
                     Style="{StaticResource MaterialDesign_TextBox_Style}"
                     TextWrapping="Wrap" />
 
+                <!--  Message to avatar  -->
+                <ContentControl
+                    x:Name="MessengingToAvatarHolder"
+                    Margin="5,15"
+                    VerticalAlignment="Center" />
+
                 <!--  Send  -->
                 <Button
                     x:Name="SendUnicastMessageButton"
@@ -308,12 +313,6 @@
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_Button_Style}" />
 
-                <!--  Message to avatar  -->
-                <ContentControl
-                    x:Name="MessengingToAvatarHolder"
-                    Margin="10"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource MaterialDesign_PopupContent_Style}" />
 
             </StackPanel>
 

@@ -1991,12 +1991,12 @@ namespace Worldescape
             var avatarButton = avatar as Button;
             var taggedAvatar = avatarButton.Tag as Avatar;
 
-            // Prepare content
             ContentControl chatBubble = new ContentControl()
             {
                 Style = Application.Current.Resources["MaterialDesign_PopupContent_Style"] as Style,
             };
 
+            // Prepare content
             StackPanel chatContent = new StackPanel() { Orientation = Orientation.Horizontal };
 
             Image avatarImage = new Image()
@@ -2005,23 +2005,34 @@ namespace Worldescape
                 Height = 30,
                 Width = 30,
                 Stretch = Stretch.Uniform,
-                Margin = new Thickness(5)
             };
-            chatContent.Children.Add(avatarImage);
-            chatContent.Children.Add(new Label() { Content = msg });
+
+            // If own message then image on the left
+            if (taggedAvatar.Id == Avatar.Id)
+            {
+                chatContent.Children.Add(avatarImage);
+                chatContent.Children.Add(new Label() { Content = msg, Margin = new Thickness(5, 0, 5, 0) });
+            }
+            else
+            {
+                chatContent.Children.Add(new Label() { Content = msg, Margin = new Thickness(5, 0, 5, 0) });
+                chatContent.Children.Add(avatarImage);
+            }
+
             chatBubble.Content = chatContent;
 
-            // Set animation
+            // Set opacity animation
             DoubleAnimation doubleAnimation = new DoubleAnimation()
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromSeconds(30),
+                Duration = TimeSpan.FromSeconds(60),
             };
 
+            // after opacity reaches zero delete this from canvas
             doubleAnimation.Completed += (s, e) =>
             {
-                Canvas_root.Children.Remove(chatContent);
+                Canvas_root.Children.Remove(chatBubble);
             };
 
             Storyboard.SetTarget(doubleAnimation, chatBubble);
@@ -2031,13 +2042,14 @@ namespace Worldescape
             fadeStoryBoard.Children.Add(doubleAnimation);
 
             // Add to canvas
-            var x = taggedAvatar.Coordinate.X; //Canvas.GetLeft(avatarButton);
-            var y = taggedAvatar.Coordinate.Y - avatarButton.ActualHeight; //Canvas.GetTop(avatarButton) - avatarButton.ActualHeight;
+            var x = taggedAvatar.Coordinate.X;
+            var y = taggedAvatar.Coordinate.Y - (avatarButton.ActualHeight / 2);
 
             Canvas.SetLeft(chatBubble, x);
             Canvas.SetTop(chatBubble, y);
             Canvas.SetZIndex(chatBubble, 999);
 
+            // Add a shadow effect to the chat bubble
             chatBubble.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
 
             Canvas_root.Children.Add(chatBubble);
