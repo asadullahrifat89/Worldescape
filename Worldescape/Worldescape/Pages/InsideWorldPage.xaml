@@ -24,45 +24,15 @@
             <!--  Own Avatar Image  -->
             <ContentControl x:Name="AvatarImageHolder" />
 
-            <WrapPanel Orientation="Horizontal">
-
-                <!--  Connect  -->
-                <Button
-                    x:Name="ConnectButton"
-                    MinWidth="100"
-                    Margin="10"
-                    Click="ConnectButton_Click"
-                    Content="Connect"
-                    FontSize="20"
-                    Style="{StaticResource MaterialDesign_Button_Style}" />
-
-                <!--  Craft  -->
-                <ToggleButton
-                    x:Name="ConstructCraftButton"
-                    MinWidth="100"
-                    Margin="10"
-                    Click="ConstructCraftButton_Click"
-                    Content="Craft"
-                    FontSize="20"
-                    Style="{StaticResource MaterialDesign_ToggleButton_Style}"
-                    Visibility="Collapsed" />
-
-            </WrapPanel>
-
-            <WrapPanel Orientation="Horizontal" Visibility="{Binding ElementName=ConstructCraftButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
-
-                <!--  Add  -->
-                <ToggleButton
-                    x:Name="ConstructAddButton"
-                    MinWidth="100"
-                    Margin="10"
-                    Click="ConstructAddButton_Click"
-                    Content="Add"
-                    FontSize="20"
-                    Style="{StaticResource MaterialDesign_ToggleButton_Style}"
-                    Visibility="Collapsed" />
-
-            </WrapPanel>
+            <!--  Connect  -->
+            <Button
+                x:Name="ConnectButton"
+                MinWidth="100"
+                Margin="10"
+                Click="ConnectButton_Click"
+                Content="Connect"
+                FontSize="20"
+                Style="{StaticResource MaterialDesign_Button_Style}" />
 
         </StackPanel>
 
@@ -100,6 +70,40 @@
             Margin="30"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom">
+
+            <ContentControl
+                x:Name="ConstructCraftingButtonsHolder"
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                Visibility="Collapsed">
+
+                <StackPanel Orientation="Horizontal">
+
+                    <!--  Craft  -->
+                    <ToggleButton
+                        x:Name="ConstructCraftButton"
+                        MinWidth="100"
+                        Margin="10"
+                        Click="ConstructCraftButton_Click"
+                        Content="Craft"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesign_ToggleButton_Style}" />
+
+                    <!--  Add  -->
+                    <ToggleButton
+                        x:Name="ConstructAddButton"
+                        MinWidth="100"
+                        Margin="10"
+                        Click="ConstructAddButton_Click"
+                        Content="Add"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesign_ToggleButton_Style}"
+                        Visibility="Collapsed" />
+                </StackPanel>
+
+            </ContentControl>
 
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
@@ -209,8 +213,7 @@
                         Click="ConstructDeleteButton_Click"
                         Content="Delete"
                         FontSize="20"
-                        Style="{StaticResource MaterialDesign_Button_Style}"
-                        Visibility="Collapsed" />
+                        Style="{StaticResource MaterialDesign_Button_Style}" />
 
                 </WrapPanel>
 

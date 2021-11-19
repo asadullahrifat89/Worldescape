@@ -1312,7 +1312,7 @@ namespace Worldescape
                 await ConnectWithHubThenLogin();
             }
 
-            ConstructCraftButton.Visibility = CanPerformWorldEvents() ? Visibility.Visible : Visibility.Collapsed;
+            ConstructCraftingButtonsHolder.Visibility = CanPerformWorldEvents() ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>
