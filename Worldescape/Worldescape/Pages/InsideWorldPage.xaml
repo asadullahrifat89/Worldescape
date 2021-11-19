@@ -46,59 +46,6 @@
                 FontSize="20"
                 Style="{StaticResource MaterialDesign_Button_Style}" />
 
-            <!--  Shows own or other avatar commands upon selection  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-
-                <!--  Selected avatar image  -->
-                <ContentControl
-                    x:Name="SelectedAvatarHolder"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource MaterialDesign_PopupContent_Style}"
-                    Visibility="Collapsed" />
-
-                <!--  Selected avatar commands  -->
-                <StackPanel HorizontalAlignment="Center">
-
-                    <!--  Commands for own avatar  -->
-                    <WrapPanel
-                        x:Name="OwnAvatarActionsHolder"
-                        Margin="10,0"
-                        Orientation="Horizontal"
-                        Visibility="Collapsed">
-
-                        <!--  Create post, shows a child window to create a post  -->
-                        <Button
-                            x:Name="CreatePostButton"
-                            MinWidth="100"
-                            Click="CreatePostButton_Click"
-                            Content="Post"
-                            FontSize="20"
-                            Style="{StaticResource MaterialDesign_Button_Style}" />
-
-                    </WrapPanel>
-
-                    <!--  Commands for other avatar  -->
-                    <WrapPanel
-                        x:Name="OtherAvatarActionsHolder"
-                        Margin="10,0"
-                        Orientation="Horizontal"
-                        Visibility="Collapsed">
-
-                        <!--  Message, activates messaging UI  -->
-                        <Button
-                            x:Name="MessageAvatarButton"
-                            MinWidth="100"
-                            Click="MessageAvatarButton_Click"
-                            Content="Message"
-                            FontSize="20"
-                            Style="{StaticResource MaterialDesign_Button_Style}" />
-
-                    </WrapPanel>
-
-                </StackPanel>
-
-            </StackPanel>
-
         </StackPanel>
 
         <!--  Top right user buttons  -->
@@ -113,7 +60,7 @@
 
         </ContentControl>
 
-        <!--  Bottom middle construct buttons  -->
+        <!--  Bottom middle construct, messenging controls  -->
         <StackPanel
             Margin="30"
             HorizontalAlignment="Center"
@@ -121,15 +68,11 @@
 
             <StackPanel
                 x:Name="ConstructCraftingButtonsHolder"
-                Margin="10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Visibility="Collapsed">
 
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">
 
                     <!--  Craft  -->
                     <ToggleButton
@@ -157,23 +100,86 @@
 
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
-                <!--  Shows adding, cloning, moving construct  -->
-                <ContentControl
-                    x:Name="OperationalConstructHolder"
-                    Margin="10"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource MaterialDesign_PopupContent_Style}"
-                    Visibility="Collapsed" />
+                <!--  Selected and operational construct images  -->
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
-                <!--  Shows clicked on construct  -->
-                <ContentControl
-                    x:Name="SelectedConstructHolder"
-                    Margin="10"
+                    <!--  Shows adding, cloning, moving construct  -->
+                    <ContentControl
+                        x:Name="OperationalConstructHolder"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                        Visibility="Collapsed" />
+
+                    <!--  Shows clicked on construct  -->
+                    <ContentControl
+                        x:Name="SelectedConstructHolder"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                        Visibility="Collapsed" />
+
+                </StackPanel>
+
+                <!--  Selected avatar image and commands  -->
+                <StackPanel
+                    Name="AvatarCommandsHolder"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource MaterialDesign_PopupContent_Style}"
-                    Visibility="Collapsed" />
+                    Orientation="Horizontal">
+
+                    <!--  Selected avatar image  -->
+                    <ContentControl
+                        x:Name="SelectedAvatarHolder"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                        Visibility="Collapsed" />
+
+                    <!--  Selected avatar commands  -->
+                    <StackPanel HorizontalAlignment="Center">
+
+                        <!--  Commands for own avatar  -->
+                        <WrapPanel
+                            x:Name="OwnAvatarActionsHolder"
+                            Orientation="Horizontal"
+                            Visibility="Collapsed">
+
+                            <!--  Create post, shows a child window to create a post  -->
+                            <Button
+                                x:Name="CreatePostButton"
+                                MinWidth="100"
+                                Margin="5,10"
+                                Click="CreatePostButton_Click"
+                                Content="Post"
+                                FontSize="20"
+                                Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                        </WrapPanel>
+
+                        <!--  Commands for other avatar  -->
+                        <WrapPanel
+                            x:Name="OtherAvatarActionsHolder"
+                            Margin="10,0"
+                            Orientation="Horizontal"
+                            Visibility="Collapsed">
+
+                            <!--  Message, activates messaging UI  -->
+                            <Button
+                                x:Name="MessageAvatarButton"
+                                MinWidth="100"
+                                Margin="5,10"
+                                Click="MessageAvatarButton_Click"
+                                Content="Message"
+                                FontSize="20"
+                                Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                        </WrapPanel>
+
+                    </StackPanel>
+
+                </StackPanel>
 
             </StackPanel>
 
@@ -266,52 +272,46 @@
 
             </StackPanel>
 
-        </StackPanel>
+            <!--  Bottom middle messenging controls  -->
+            <StackPanel
+                x:Name="MessengingControlsHolder"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Visibility="Collapsed">
 
-        <!--  Bottom middle messenging controls  -->
-        <StackPanel
-            x:Name="MessengingControlsHolder"
-            Margin="20,20,20,250"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Bottom"
-            Visibility="Collapsed">
+                <ContentControl
+                    x:Name="MessengingFromAvatarHolder"
+                    Width="50"
+                    Height="50"
+                    VerticalAlignment="Center" />
 
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <!--  Message box  -->
+                <TextBox
+                    x:Name="MessengingTextBox"
+                    Width="500"
+                    Margin="10"
+                    FontSize="16"
+                    Style="{StaticResource MaterialDesign_TextBox_Style}"
+                    TextWrapping="Wrap" />
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+                <ContentControl
+                    x:Name="MessengingToAvatarHolder"
+                    Width="50"
+                    Height="50"
+                    VerticalAlignment="Center" />
 
-                <!--  Avatar conversation headers  -->
-                <Grid Grid.Row="0">
-                    <ContentControl x:Name="MessengingFromAvatarHolder" HorizontalAlignment="Left" />
-                    <ContentControl x:Name="MessengingToAvatarHolder" HorizontalAlignment="Right" />
-                </Grid>
+                <!--  Send  -->
+                <Button
+                    x:Name="SendUnicastMessageButton"
+                    MinWidth="100"
+                    Margin="10"
+                    Click="SendUnicastMessageButton_Click"
+                    Content="Send"
+                    FontSize="20"
+                    Style="{StaticResource MaterialDesign_Button_Style}" />
 
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
-
-                    <!--  Message box  -->
-                    <TextBox
-                        x:Name="MessengingTextBox"
-                        Width="500"
-                        FontSize="16"
-                        Style="{StaticResource MaterialDesign_TextBox_Style}"
-                        TextWrapping="Wrap" />
-
-                    <!--  Send  -->
-                    <Button
-                        x:Name="SendUnicastMessageButton"
-                        MinWidth="100"
-                        Margin="10"
-                        Click="SendUnicastMessageButton_Click"
-                        Content="Send"
-                        FontSize="20"
-                        Style="{StaticResource MaterialDesign_Button_Style}" />
-
-                </StackPanel>
-
-            </Grid>
+            </StackPanel>
 
         </StackPanel>
 

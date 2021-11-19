@@ -685,6 +685,9 @@ namespace Worldescape
                 _selectedAvatar = null;
                 ShowSelectedAvatar(null);
 
+                _messageToAvatar = null;
+                ShowMessenginAvatar(null);
+
                 HideConstructOperationButtons();
                 HideAvatarOperationButtons();
             }
@@ -1285,10 +1288,49 @@ namespace Worldescape
 
         #endregion
 
-        #region Avatar
+        #region Message
 
         /// <summary>
-        /// Sends unicast message to the selected avatar
+        /// Activates messenging controls.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MessageAvatarButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!CanPerformWorldEvents())
+                return;
+
+            if (_selectedAvatar == null)
+                return;
+
+            await BroadcastAvatarActivityStatus(ActivityStatus.Messaging);
+
+            // show messenge from and to avatars and show messenging controls
+            if (((Button)_selectedAvatar).Tag is Avatar avatar)
+            {
+                _messageToAvatar = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id);
+                ShowMessenginAvatar(_messageToAvatar);
+            }
+        }
+
+        private void ShowMessenginAvatar(UIElement uIElement)
+        {
+            if (uIElement == null)
+            {
+                MessengingToAvatarHolder.Content = null;
+                MessengingFromAvatarHolder.Content = null;
+                MessengingControlsHolder.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MessengingFromAvatarHolder.Content = CopyUiElementContent(Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id));
+                MessengingToAvatarHolder.Content = CopyUiElementContent(uIElement);
+                MessengingControlsHolder.Visibility = Visibility.Visible;
+            }
+        }
+
+        /// <summary>
+        /// Sends unicast message to the selected avatar.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1317,32 +1359,6 @@ namespace Worldescape
                 }
 
                 MessengingTextBox.Text = String.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Activates messenging UI.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void MessageAvatarButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!CanPerformWorldEvents())
-                return;
-
-            if (_selectedAvatar == null)
-                return;
-
-            var selectedAvatarImage = CopyUiElementContent(_selectedAvatar);
-            MessengingToAvatarHolder.Content = selectedAvatarImage;
-
-            MessengingControlsHolder.Visibility = Visibility.Visible;
-
-            await BroadcastAvatarActivityStatus(ActivityStatus.Messaging);
-
-            if (((Button)_selectedAvatar).Tag is Avatar avatar)
-            {
-                _messageToAvatar = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id);
             }
         }
 
@@ -1620,7 +1636,7 @@ namespace Worldescape
                 },
                 Character = Character,
                 World = InWorld,
-                Coordinate = new Coordinate(x: (Window.Current.Bounds.Width / 2) - 50, y: (Window.Current.Bounds.Height / 2) - 100, z: new Random().Next(100)),
+                Coordinate = new Coordinate(x: (Window.Current.Bounds.Width / 2) - 50, y: (Window.Current.Bounds.Height / 2) - 100, z: new Random().Next(100, 999)),
                 ImageUrl = Character.ImageUrl,
             };
         }
@@ -1965,6 +1981,7 @@ namespace Worldescape
         private void AddMessageBubbleToCanvas(string msg, UIElement avatar)
         {
             var avatarButton = avatar as Button;
+            var taggedAvatar = avatarButton.Tag as Avatar;
 
             // Prepare content
             ContentControl chatBubble = new ContentControl()
@@ -1977,8 +1994,8 @@ namespace Worldescape
             Image avatarImage = new Image()
             {
                 Source = new BitmapImage(((BitmapImage)((Image)avatarButton.Content).Source).UriSource),
-                Height = 50,
-                Width = 50,
+                Height = 30,
+                Width = 30,
                 Stretch = Stretch.Uniform,
                 Margin = new Thickness(5)
             };
@@ -2006,8 +2023,8 @@ namespace Worldescape
             fadeStoryBoard.Children.Add(doubleAnimation);
 
             // Add to canvas
-            var x = Canvas.GetLeft(avatarButton);
-            var y = Canvas.GetTop(avatarButton) - avatarButton.ActualHeight;
+            var x = taggedAvatar.Coordinate.X; //Canvas.GetLeft(avatarButton);
+            var y = taggedAvatar.Coordinate.Y - avatarButton.ActualHeight; //Canvas.GetTop(avatarButton) - avatarButton.ActualHeight;
 
             Canvas.SetLeft(chatBubble, x);
             Canvas.SetTop(chatBubble, y);
