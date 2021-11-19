@@ -41,6 +41,7 @@ namespace Worldescape
         UIElement _addingConstruct;
         UIElement _movingConstruct;
         UIElement _cloningConstruct;
+        UIElement _selectedAvatar;
 
         readonly IHubService HubService;
 
@@ -52,14 +53,14 @@ namespace Worldescape
             Exponent = 5,
         };
 
-        string[] avatarUrls = new string[]
-        {
-            "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png",
-            "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png",
-            "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_idle.png",
-            "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_idle.png",
-            "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_idle.png",
-        };
+        //string[] avatarUrls = new string[]
+        //{
+        //    "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png",
+        //    "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png",
+        //    "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_idle.png",
+        //    "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_idle.png",
+        //    "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_idle.png",
+        //};
 
         List<ConstructAsset> ConstructAssets = new List<ConstructAsset>();
 
@@ -627,6 +628,23 @@ namespace Worldescape
         #region Pointer Events
 
         /// <summary>
+        ///  Event fired on pointer press on an avatar.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Avatar_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (!CanPerformWorldEvents())
+                return;
+
+            UIElement uielement = (UIElement)sender;
+            _selectedAvatar = uielement;
+
+            ShowInteractiveAvatar(uielement);
+
+        }
+
+        /// <summary>
         /// Event fired on pointer press on canvas.
         /// </summary>
         /// <param name="sender"></param>
@@ -659,7 +677,7 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Event fired when pointer is pointer is pressed on a construct. The construct latches on to the pointer if press is not released.
+        /// Event fired on pointer press on a construct. The construct latches on to the pointer if press is not released.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -857,13 +875,13 @@ namespace Worldescape
                    imageUrl: constructAsset.ImageUrl);
 
             // Add the construct on pressed point
-            var construct = AddConstructOnCanvas(
+            AddConstructOnCanvas(
                 construct: constructBtn,
                 x: pressedPoint.Position.X,
                 y: pressedPoint.Position.Y);
 
             // Center the construct on pressed point
-            construct = MoveElement(constructBtn, e) as Construct;
+            var construct = MoveElement(constructBtn, e) as Construct;
 
             await HubService.BroadcastConstruct(construct);
 
@@ -1010,7 +1028,7 @@ namespace Worldescape
                         _isAddingConstruct = true;
                         ConstructAddButton.Content = _isAddingConstruct ? "Adding" : "Add";
 
-                        ShowOperationalConstruct(_addingConstruct, "Adding");
+                        ShowOperationalConstruct(_addingConstruct);
                     });
 
                 // If the picker was closed without a selection of an asset, set the ConstructAddButton to default
@@ -1046,7 +1064,7 @@ namespace Worldescape
             {
                 UIElement uielement = _selectedConstruct;
                 _movingConstruct = uielement;
-                ShowOperationalConstruct(_movingConstruct, "Moving");
+                ShowOperationalConstruct(_movingConstruct);
             }
         }
 
@@ -1072,7 +1090,7 @@ namespace Worldescape
                 {
                     UIElement uielement = _selectedConstruct;
                     _cloningConstruct = uielement;
-                    ShowOperationalConstruct(_cloningConstruct, "Cloning");
+                    ShowOperationalConstruct(_cloningConstruct);
                 }
             }
         }
@@ -1209,13 +1227,27 @@ namespace Worldescape
 
         #region Construct Labels
 
+        /// <summary>
+        /// Shows the selected construct on pointer press and release on a construct.
+        /// </summary>
+        /// <param name="uielement"></param>
         private void ShowInteractiveConstruct(UIElement uielement)
         {
             var button = CopyUiElementContent(uielement);
             SelectedConstructHolder.Content = button;
         }
 
-        private void ShowOperationalConstruct(UIElement uielement, string operationStatus)
+        private void ShowInteractiveAvatar(UIElement uielement)
+        {
+            var button = CopyUiElementContent(uielement);
+            SelectedAvatarHolder.Content = button;
+        }
+
+        /// <summary>
+        /// Shows the operational construct when adding, moving, cloning.
+        /// </summary>
+        /// <param name="uielement"></param>
+        private void ShowOperationalConstruct(UIElement uielement)
         {
             var button = CopyUiElementContent(uielement);
             OperationalConstructHolder.Content = button;
@@ -1452,26 +1484,20 @@ namespace Worldescape
                 Width = 100,
             };
 
-            Button avatarBtn = new Button()
+            Button obj = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
             };
 
-            avatarBtn.Content = img;
-            avatarBtn.Tag = avatar;
+            obj.Content = img;
+            obj.Tag = avatar;
 
             // if logged in user's avatar
-            if (avatar.Id == Avatar.Id)
-            {
 
-            }
-            else
-            {
-
-            }
+            obj.PointerPressed += Avatar_PointerPressed;
 
             //img.Effect = new DropShadowEffect() { ShadowDepth = 10, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5, Direction = -90 };
-            return avatarBtn;
+            return obj;
         }
 
         /// <summary>
@@ -1494,17 +1520,6 @@ namespace Worldescape
         /// </summary>
         private void ShowConstructOperationButtons()
         {
-            //ConstructMoveButton.Visibility = Visibility.Visible;
-            //ConstructCloneButton.Visibility = Visibility.Visible;
-            //ConstructDeleteButton.Visibility = Visibility.Visible;
-
-            //ConstructBringForwardButton.Visibility = Visibility.Visible;
-            //ConstructSendBackwardButton.Visibility = Visibility.Visible;
-
-            //ConstructScaleUpButton.Visibility = Visibility.Visible;
-            //ConstructScaleDownButton.Visibility = Visibility.Visible;
-            //ConstructRotateButton.Visibility = Visibility.Visible;
-
             ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
         }
 
@@ -1513,17 +1528,6 @@ namespace Worldescape
         /// </summary>
         private void HideConstructOperationButtons()
         {
-            //ConstructMoveButton.Visibility = Visibility.Collapsed;
-            //ConstructCloneButton.Visibility = Visibility.Collapsed;
-            //ConstructDeleteButton.Visibility = Visibility.Collapsed;
-
-            //ConstructBringForwardButton.Visibility = Visibility.Collapsed;
-            //ConstructSendBackwardButton.Visibility = Visibility.Collapsed;
-
-            //ConstructScaleUpButton.Visibility = Visibility.Collapsed;
-            //ConstructScaleDownButton.Visibility = Visibility.Collapsed;
-            //ConstructRotateButton.Visibility = Visibility.Collapsed;
-
             ConstructOperationalCommandsHolder.Visibility = Visibility.Collapsed;
         }
 
@@ -1566,10 +1570,13 @@ namespace Worldescape
 
             var taggedObject = button.Tag;
 
+            // Set moving status on start
             if (taggedObject is Avatar)
             {
-                //((AvatarButton)uIElement).SetAvatarActivityStatus(ActivityStatus.Moving);
-                SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Moving);
+                if (_isCraftingMode)
+                    SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
+                else
+                    SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Moving);
             }
 
             var nowX = Canvas.GetLeft(uIElement);
@@ -1613,8 +1620,11 @@ namespace Worldescape
                 if (taggedObject is Avatar)
                 {
                     var taggedAvatar = taggedObject as Avatar;
-                    //((AvatarButton)uIElement).SetAvatarActivityStatus(ActivityStatus.Online);
-                    SetAvatarActivityStatus(button, taggedAvatar, ActivityStatus.Online);
+
+                    if (CraftButton.IsChecked.Value)
+                        SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
+                    else
+                        SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Online);
                 }
             };
 
