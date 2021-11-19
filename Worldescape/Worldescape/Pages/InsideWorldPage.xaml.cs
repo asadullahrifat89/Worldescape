@@ -2310,14 +2310,15 @@ namespace Worldescape
                 Margin = new Thickness(5, 0, 5, 0),
                 FontWeight = FontWeights.Regular,
                 FontFamily = new FontFamily("Segoe UI"),
-                TextWrapping = TextWrapping.Wrap
+                TextWrapping = TextWrapping.Wrap,
+                Foreground = new SolidColorBrush(Colors.Black),
             };
 
             // If own message then image on the left
             if (taggedAvatar.Id == Avatar.Id)
             {
                 chatContent.Children.Add(avatarImage);
-                chatContent.Children.Add(textBlock);                
+                chatContent.Children.Add(textBlock);
             }
             else
             {
@@ -2335,14 +2336,14 @@ namespace Worldescape
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromSeconds(msg.Length * 5),
+                Duration = TimeSpan.FromSeconds(100),
             };
 
             DoubleAnimation moveYAnimation = new DoubleAnimation()
             {
                 From = y,
-                To = y - 400,
-                Duration = TimeSpan.FromSeconds(60),
+                To = y - 300,
+                Duration = TimeSpan.FromSeconds(100),
                 EasingFunction = new ExponentialEase()
                 {
                     EasingMode = EasingMode.EaseOut,
