@@ -30,11 +30,6 @@ namespace Worldescape
         double _objectLeft;
         double _objectTop;
 
-        bool _isAddingConstruct;
-        bool _isCraftingMode;
-        bool _isMovingConstruct;
-        bool _isCloningConstruct;
-
         bool _isLoggedIn;
 
         UIElement _selectedConstruct;
@@ -52,15 +47,6 @@ namespace Worldescape
             EasingMode = EasingMode.EaseOut,
             Exponent = 5,
         };
-
-        //string[] avatarUrls = new string[]
-        //{
-        //    "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png",
-        //    "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png",
-        //    "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_idle.png",
-        //    "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_idle.png",
-        //    "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_idle.png",
-        //};
 
         List<ConstructAsset> ConstructAssets = new List<ConstructAsset>();
 
@@ -654,15 +640,15 @@ namespace Worldescape
             if (!CanPerformWorldEvents())
                 return;
 
-            if (_isAddingConstruct && _addingConstruct != null)
+            if (ConstructAddButton.IsChecked.Value && _addingConstruct != null)
             {
                 await AddConstructOnPointerPressed(e);
             }
-            else if (_isCloningConstruct && _cloningConstruct != null)
+            else if (ConstructCloneButton.IsChecked.Value && _cloningConstruct != null)
             {
                 await CloneConstructOnPointerPressed(e);
             }
-            else if (_isMovingConstruct && _movingConstruct != null)
+            else if (ConstructMoveButton.IsChecked.Value && _movingConstruct != null)
             {
                 await MoveConstructOnPointerPressed(e);
             }
@@ -691,19 +677,19 @@ namespace Worldescape
 
             ShowSelectedConstruct(uielement);
 
-            if (_isAddingConstruct && _addingConstruct != null)
+            if (ConstructAddButton.IsChecked.Value && _addingConstruct != null)
             {
                 await AddConstructOnPointerPressed(e);
             }
-            else if (_isCloningConstruct && _cloningConstruct != null)
+            else if (ConstructCloneButton.IsChecked.Value && _cloningConstruct != null)
             {
                 await CloneConstructOnPointerPressed(e);
             }
-            else if (_isMovingConstruct && _movingConstruct != null)
+            else if (ConstructMoveButton.IsChecked.Value && _movingConstruct != null)
             {
                 await MoveConstructOnPointerPressed(e);
             }
-            else if (_isCraftingMode)
+            else if (ConstructCraftButton.IsChecked.Value)
             {
                 ShowConstructOperationButtons();
 
@@ -748,7 +734,7 @@ namespace Worldescape
         /// <param name="e"></param>
         private void Construct_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_isCraftingMode)
+            if (ConstructCraftButton.IsChecked.Value)
             {
                 UIElement uielement = (UIElement)sender;
 
@@ -781,12 +767,12 @@ namespace Worldescape
         /// <param name="e"></param>
         private async void Construct_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (_isMovingConstruct)
+            if (ConstructMoveButton.IsChecked.Value)
             {
                 return;
             }
 
-            if (_isCraftingMode)
+            if (ConstructCraftButton.IsChecked.Value)
             {
                 // Drag drop selected construct
                 UIElement uielement = (UIElement)sender;
@@ -932,26 +918,28 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void CraftButton_Click(object sender, RoutedEventArgs e)
+        private async void ConstructCraftButton_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
-                _isCraftingMode = CraftButton.IsChecked.Value;
-                CraftButton.Content = _isCraftingMode ? "Crafting" : "Craft";
+                //_isCraftingMode = CraftButton.IsChecked.Value;
+                ConstructCraftButton.Content = ConstructCraftButton.IsChecked.Value ? "Crafting" : "Craft";
 
-                _isMovingConstruct = false;
+                ConstructMoveButton.IsChecked = false;
+                //_isMovingConstruct = false;
                 ConstructMoveButton.Content = "Move";
 
-                _isCloningConstruct = false;
+                ConstructCloneButton.IsChecked = false;
+                //_isCloningConstruct = false;
                 ConstructCloneButton.Content = "Clone";
 
-                //_isDeleting = false;
                 ConstructDeleteButton.Content = "Delete";
 
-                _isAddingConstruct = false;
+                ConstructAddButton.IsChecked = false;
+                //_isAddingConstruct = false;
                 ConstructAddButton.Content = "Add";
 
-                if (!_isCraftingMode)
+                if (!ConstructCraftButton.IsChecked.Value)
                 {
                     ConstructAddButton.Visibility = Visibility.Collapsed;
 
@@ -960,7 +948,7 @@ namespace Worldescape
                     _movingConstruct = null;
                     _cloningConstruct = null;
                     _addingConstruct = null;
-                                        
+
                     ShowOperationalConstruct(null);
 
                     await BroadcastAvatarActivityStatus(ActivityStatus.Online);
@@ -984,13 +972,11 @@ namespace Worldescape
             if (CanPerformWorldEvents())
             {
                 // Turn off add mode if previously triggered
-                if (_isAddingConstruct)
+                if (_addingConstruct != null)
                 {
-                    _isAddingConstruct = false;
                     _addingConstruct = null;
                     ConstructAddButton.Content = "Add";
-                                        
-                    ShowOperationalConstruct(null);
+                    ConstructAddButton.IsChecked = false;
 
                     return;
                 }
@@ -1015,7 +1001,7 @@ namespace Worldescape
 
                         _addingConstruct = constructBtn;
 
-                        _isAddingConstruct = true;
+                        //_isAddingConstruct = true;
 
                         ShowOperationalConstruct(_addingConstruct);
                     });
@@ -1041,10 +1027,9 @@ namespace Worldescape
         /// <param name="e"></param>
         private void ConstructMoveButton_Click(object sender, RoutedEventArgs e)
         {
-            _isMovingConstruct = !_isMovingConstruct;
-            ConstructMoveButton.Content = _isMovingConstruct ? "Moving" : "Move";
+            ConstructMoveButton.Content = ConstructMoveButton.IsChecked.Value ? "Moving" : "Move";
 
-            if (!_isMovingConstruct)
+            if (!ConstructMoveButton.IsChecked.Value)
             {
                 _movingConstruct = null;
                 ShowOperationalConstruct(null);
@@ -1066,10 +1051,10 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                _isCloningConstruct = !_isCloningConstruct;
-                ConstructCloneButton.Content = _isCloningConstruct ? "Cloning" : "Clone";
 
-                if (!_isCloningConstruct)
+                ConstructCloneButton.Content = ConstructCloneButton.IsChecked.Value ? "Cloning" : "Clone";
+
+                if (!ConstructCloneButton.IsChecked.Value)
                 {
                     _cloningConstruct = null;
                     ShowOperationalConstruct(null);
@@ -1092,13 +1077,6 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                //_isDeleting = !_isDeleting;
-                //ConstructDeleteButton.Content = _isDeleting ? "Deleting" : "Delete";
-
-                //var constructName = ((Button)_interactiveConstruct).Name;
-
-                //var constructToDelete = Canvas_root.Children.Where(x => x is Button button && button.Name == constructName).FirstOrDefault();
-
                 if (_selectedConstruct != null)
                 {
                     var construct = ((Button)_selectedConstruct).Tag as Construct;
@@ -1313,7 +1291,7 @@ namespace Worldescape
                 await ConnectWithHubThenLogin();
             }
 
-            CraftButton.Visibility = CanPerformWorldEvents() ? Visibility.Visible : Visibility.Collapsed;
+            ConstructCraftButton.Visibility = CanPerformWorldEvents() ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>
@@ -1600,7 +1578,7 @@ namespace Worldescape
             // Set moving status on start
             if (taggedObject is Avatar)
             {
-                if (_isCraftingMode)
+                if (ConstructCraftButton.IsChecked.Value)
                     SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
                 else
                     SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Moving);
@@ -1648,7 +1626,7 @@ namespace Worldescape
                 {
                     var taggedAvatar = taggedObject as Avatar;
 
-                    if (CraftButton.IsChecked.Value)
+                    if (ConstructCraftButton.IsChecked.Value)
                         SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
                     else
                         SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Online);
