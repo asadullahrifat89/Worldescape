@@ -67,6 +67,8 @@ namespace Worldescape
 
         ObservableCollection<AvatarMessenger> AvatarMessengers = new ObservableCollection<AvatarMessenger>();
 
+        List<Construct> MultiselectedConstructs = new List<Construct>();
+
         #endregion
 
         #region Ctor
@@ -683,6 +685,9 @@ namespace Worldescape
                 _selectedConstruct = null;
                 ShowSelectedConstruct(null);
 
+                _movingConstruct = null;
+                ShowOperationalConstruct(null);
+
                 _selectedAvatar = null;
                 ShowSelectedAvatar(null);
 
@@ -692,7 +697,16 @@ namespace Worldescape
                 HideConstructOperationButtons();
                 HideAvatarOperationButtons();
                 HideMessagingControls();
+
+                ClearMultiselectedConstructs();
             }
+        }
+
+        private void ClearMultiselectedConstructs()
+        {
+            ConstructMultiSelectButton.IsChecked = false;
+            MultiSelectedConstructsHolder.Children.Clear();
+            MultiselectedConstructs.Clear();
         }
 
         #endregion
@@ -760,6 +774,12 @@ namespace Worldescape
             else if (ConstructMoveButton.IsChecked.Value && _movingConstruct != null)
             {
                 await MoveConstructOnPointerPressed(e);
+            }
+            else if (ConstructMultiSelectButton.IsChecked.Value)
+            {
+                // Add the selected construct to multi selected list
+                MultiSelectedConstructsHolder.Children.Add(CopyUiElementImageContent(_selectedConstruct));
+                MultiselectedConstructs.Add(((Button)_selectedConstruct).Tag as Construct);
             }
             else if (ConstructCraftButton.IsChecked.Value)
             {
@@ -877,14 +897,64 @@ namespace Worldescape
         /// <returns></returns>
         private async Task MoveConstructOnPointerPressed(PointerRoutedEventArgs e)
         {
-            var taggedObject = MoveElement(_movingConstruct, e);
+            if (ConstructMultiSelectButton.IsChecked.Value)
+            {
+                if (MultiselectedConstructs.Any())
+                {
+                    var CanvasExpPointerPoint = e.GetCurrentPoint(Canvas_root);
 
-            var construct = taggedObject as Construct;
+                    var maxX = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct).Max(x => ((Construct)x.Tag).Coordinate.X);
 
-            await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+                    UIElement fe = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Coordinate.X >= maxX);
+                    List<Tuple<int, double, double>> distWrtFi = new();
 
-            Console.WriteLine("Construct moved.");
-        }
+                    var feConstruct = ((Button)fe).Tag as Construct;
+
+                    var fex = feConstruct.Coordinate.X;
+                    var fey = feConstruct.Coordinate.Y;
+
+                    foreach (Construct element in MultiselectedConstructs)
+                    {
+                        var xDis = feConstruct.Coordinate.X - element.Coordinate.X;
+                        var yDis = feConstruct.Coordinate.Y - element.Coordinate.Y;
+
+                        distWrtFi.Add(new Tuple<int, double, double>(element.Id, xDis, yDis));
+                    }
+
+                    foreach (Construct element in MultiselectedConstructs)
+                    {
+                        var nowX = element.Coordinate.X;
+                        var nowY = element.Coordinate.Y;
+
+                        _movingConstruct = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == element.Id);
+
+                        double goToX = CanvasExpPointerPoint.Position.X - ((Button)_movingConstruct).ActualWidth / 2;
+                        double goToY = CanvasExpPointerPoint.Position.Y - ((Button)_movingConstruct).ActualHeight / 2;
+
+                        goToX += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item2;
+                        goToY += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item3;
+
+                        var taggedObject = MoveElement(_movingConstruct, goToX, goToY);
+
+                        var construct = taggedObject as Construct;
+
+                        await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+
+                        Console.WriteLine("Construct moved.");
+                    }
+                }
+            }
+            else
+            {
+                var taggedObject = MoveElement(_movingConstruct, e);
+
+                var construct = taggedObject as Construct;
+
+                await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+
+                Console.WriteLine("Construct moved.");
+            }
+        }      
 
         /// <summary>
         /// Clones the _cloningConstruct to the pressed point.
@@ -1022,7 +1092,26 @@ namespace Worldescape
         #region Construct
 
         /// <summary>
-        /// Actives crafting mode. This enables operations buttons for a construct.
+        /// Activates multi selection of clicked constructs.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ConstructMultiSelectButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConstructMultiSelectButton.Content = ConstructMultiSelectButton.IsChecked.Value ? "Multiselecting" : "Multiselect";
+
+            if (ConstructMultiSelectButton.IsChecked.Value)
+            {
+                ShowConstructOperationButtons();
+            }
+            else
+            {
+                HideConstructOperationButtons();
+            }            
+        }
+
+        /// <summary>
+        /// Activates crafting mode. This enables operations buttons for a construct.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1043,9 +1132,24 @@ namespace Worldescape
                 ConstructAddButton.IsChecked = false;
                 ConstructAddButton.Content = "Add";
 
-                if (!ConstructCraftButton.IsChecked.Value)
+                ConstructMultiSelectButton.IsChecked = false;
+                ConstructMultiSelectButton.Content = "Multiselect";
+
+                if (ConstructCraftButton.IsChecked.Value)
+                {
+                    ConstructAddButton.Visibility = Visibility.Visible;
+
+                    if (Canvas_root.Children.OfType<Button>().Any(x => x.Tag is Construct))
+                    {
+                        ConstructMultiSelectButton.Visibility = Visibility.Visible;
+                    }
+
+                    await BroadcastAvatarActivityStatus(ActivityStatus.Crafting);
+                }
+                else
                 {
                     ConstructAddButton.Visibility = Visibility.Collapsed;
+                    ConstructMultiSelectButton.Visibility = Visibility.Collapsed;
 
                     HideConstructOperationButtons();
 
@@ -1056,12 +1160,6 @@ namespace Worldescape
                     ShowOperationalConstruct(null);
 
                     await BroadcastAvatarActivityStatus(ActivityStatus.Online);
-                }
-                else
-                {
-                    ConstructAddButton.Visibility = Visibility.Visible;
-
-                    await BroadcastAvatarActivityStatus(ActivityStatus.Crafting);
                 }
             }
         }

@@ -47,10 +47,10 @@
 
         </StackPanel>
 
-        <!--  Top right user buttons  -->
+        <!--  Top left user buttons  -->
         <ContentControl
             Margin="20"
-            HorizontalAlignment="Right"
+            HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Style="{StaticResource MaterialDesign_PopupContent_Style}">
 
@@ -94,7 +94,23 @@
                         FontSize="20"
                         Style="{StaticResource MaterialDesign_ToggleButton_Style}"
                         Visibility="Collapsed" />
+
+                    <!--  Multiselect  -->
+                    <ToggleButton
+                        x:Name="ConstructMultiSelectButton"
+                        MinWidth="100"
+                        Margin="10"
+                        Click="ConstructMultiSelectButton_Click"
+                        Content="Multiselect"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesign_ToggleButton_Style}"
+                        Visibility="Collapsed" />
+
                 </StackPanel>
+
+                <ContentControl Style="{StaticResource MaterialDesign_PopupContent_Style}" Visibility="{Binding ElementName=ConstructMultiSelectButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel x:Name="MultiSelectedConstructsHolder" Orientation="Horizontal" />
+                </ContentControl>
 
             </StackPanel>
 
