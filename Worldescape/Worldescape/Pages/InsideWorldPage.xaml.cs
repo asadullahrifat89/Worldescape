@@ -335,6 +335,55 @@ namespace Worldescape
         }
         #endregion
 
+        #region Message
+
+        private void HubService_AvatarTyping(int avatarId, MessageType mt)
+        {
+
+        }
+
+        private void HubService_NewImageMessage(int avatarId, byte[] pic, MessageType mt)
+        {
+
+        }
+
+        private void HubService_NewTextMessage(int avatarId, string msg, MessageType mt)
+        {
+            if (avatarId > 0)
+            {
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
+
+                    if (avatarMessenger != null)
+                        avatarMessenger.ActivityStatus = ActivityStatus.Online;
+
+                    var avatarButton = (Button)iElement;
+
+                    switch (mt)
+                    {
+                        case MessageType.Broadcast:
+                            break;
+                        case MessageType.Unicast:
+                            {
+                                AddMessageBubbleToCanvas(msg, avatarButton);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                    Console.WriteLine("<<HubService_NewTextMessage: OK");
+                }
+                else
+                {
+                    Console.WriteLine("<<HubService_NewTextMessage: IGNORE");
+                }
+            }
+        }
+
+        #endregion
+
         #region Connection
 
         /// <summary>
@@ -395,111 +444,6 @@ namespace Worldescape
             #endregion
 
             Console.WriteLine("++ListenOnHubService: OK");
-        }
-
-        private void HubService_NewImageMessage(int avatarId, byte[] pic, MessageType mt)
-        {
-
-        }
-
-        private void HubService_NewTextMessage(int avatarId, string msg, MessageType mt)
-        {
-            if (avatarId > 0)
-            {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
-                {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
-
-                    if (avatarMessenger != null)
-                        avatarMessenger.ActivityStatus = ActivityStatus.Online;
-
-                    var avatarButton = (Button)iElement;
-
-                    switch (mt)
-                    {
-                        case MessageType.Broadcast:
-                            break;
-                        case MessageType.Unicast:
-                            {
-                                AddMessageBubbleToCanvas(msg, avatarButton);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-
-                    Console.WriteLine("<<HubService_NewTextMessage: OK");
-                }
-                else
-                {
-                    Console.WriteLine("<<HubService_NewTextMessage: IGNORE");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Adds message bubble to canvas on top of the avatar who sent it.
-        /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="avatar"></param>
-        private void AddMessageBubbleToCanvas(string msg, UIElement avatar)
-        {
-            var avatarButton = avatar as Button;
-
-            ContentControl messageContent = new ContentControl()
-            {
-                Style = Application.Current.Resources["MaterialDesign_PopupContent_Style"] as Style
-            };
-
-            StackPanel chatBubble = new StackPanel() { Orientation = Orientation.Horizontal };
-
-            Image avatarImage = new Image()
-            {
-                Source = new BitmapImage(((BitmapImage)((Image)avatarButton.Content).Source).UriSource),
-                Height = 50,
-                Width = 50,
-                Stretch = Stretch.Uniform,
-            };
-            chatBubble.Children.Add(avatarImage);
-
-            messageContent.Content = new Label() { Content = msg };
-            chatBubble.Children.Add(messageContent);
-
-            var x = Canvas.GetLeft(avatarButton);
-            var y = Canvas.GetTop(avatarButton) - 50; //- ((Button)avatarButton).ActualHeight;
-
-
-            Canvas.SetLeft(chatBubble, x);
-            Canvas.SetTop(chatBubble, y);
-            Canvas.SetZIndex(chatBubble, 999);
-
-            DoubleAnimation doubleAnimation = new DoubleAnimation()
-            {
-                From = 1,
-                To = 0,
-                Duration = TimeSpan.FromSeconds(30),
-            };
-
-            doubleAnimation.Completed += (s, e) =>
-            {
-                Canvas_root.Children.Remove(chatBubble);
-            };
-
-            Storyboard.SetTarget(doubleAnimation, chatBubble);
-            Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath(ContentControl.OpacityProperty));
-
-            Storyboard fadeStoryBoard = new Storyboard();
-            fadeStoryBoard.Children.Add(doubleAnimation);
-
-          
-            Canvas_root.Children.Add(chatBubble);
-
-            fadeStoryBoard.Begin();
-        }
-
-        private void HubService_AvatarTyping(int avatarId, MessageType mt)
-        {
-
         }
 
         private async void HubService_ConnectionClosed()
@@ -1364,6 +1308,12 @@ namespace Worldescape
                 if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id) is UIElement iElement)
                 {
                     AddMessageBubbleToCanvas(MessengingTextBox.Text, iElement);
+
+                    // If activity status is not messagin then update it
+                    if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Messaging)
+                    {
+                        await BroadcastAvatarActivityStatus(ActivityStatus.Messaging);
+                    }
                 }
 
                 MessengingTextBox.Text = String.Empty;
@@ -1388,7 +1338,7 @@ namespace Worldescape
 
             MessengingControlsHolder.Visibility = Visibility.Visible;
 
-            await BroadcastAvatarActivityStatus(ActivityStatus.Texting);
+            await BroadcastAvatarActivityStatus(ActivityStatus.Messaging);
 
             if (((Button)_selectedAvatar).Tag is Avatar avatar)
             {
@@ -1476,6 +1426,175 @@ namespace Worldescape
         #endregion
 
         #region Functionality
+
+        #region Element
+
+        /// <summary>
+        /// Copies the image content from an UIElement and returns it as an Image.
+        /// </summary>
+        /// <param name="uielement"></param>
+        /// <returns></returns>
+        private static UIElement CopyUiElementContent(UIElement uielement)
+        {
+            var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
+
+            var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
+            var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 50, Margin = new Thickness(10) };
+
+            return img;
+        }
+
+        /// <summary>
+        /// Moves an UIElement to a new coordinate with the provided PointerRoutedEventArgs in canvas. Returns the tagged object of the uIElement.
+        /// </summary>
+        /// <param name="uIElement"></param>
+        /// <param name="goToX"></param>
+        /// <param name="goToY"></param>
+        /// <returns></returns>
+        private object MoveElement(UIElement uIElement, PointerRoutedEventArgs e)
+        {
+            var pressedPoint = e.GetCurrentPoint(Canvas_root);
+
+            var button = (Button)uIElement;
+
+            var goToX = pressedPoint.Position.X - button.ActualWidth / 2;
+
+            // If the UIElement is Avatar then move it to an Y coordinate so that it appears on top of the clicked point. 
+            var goToY = pressedPoint.Position.Y - (button.Tag is Avatar ? button.ActualHeight : button.ActualHeight / 2);
+
+            var taggedObject = MoveElement(uIElement, goToX, goToY);
+
+            return taggedObject;
+        }
+
+        /// <summary>
+        /// Moves an UIElement to the provided goToX and goToY coordinate in canvas. Returns the tagged object of the uIElement.
+        /// </summary>
+        /// <param name="uIElement"></param>
+        /// <param name="goToX"></param>
+        /// <param name="goToY"></param>
+        /// <returns></returns>
+        private object MoveElement(UIElement uIElement, double goToX, double goToY, int? gotoZ = null)
+        {
+            if (uIElement == null)
+                return null;
+
+            var button = (Button)uIElement;
+
+            var taggedObject = button.Tag;
+
+            // Set moving status on start
+            if (taggedObject is Avatar)
+            {
+                if (ConstructCraftButton.IsChecked.Value)
+                    SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
+                else
+                    SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Moving);
+            }
+
+            var nowX = Canvas.GetLeft(uIElement);
+            var nowY = Canvas.GetTop(uIElement);
+
+            float distance = Vector3.Distance(
+                new Vector3(
+                    (float)nowX,
+                    (float)nowY,
+                    0),
+                new Vector3(
+                    (float)goToX,
+                    (float)goToY,
+                    0));
+
+            float unitPixel = 200f;
+            float timeToTravelunitPixel = 0.5f;
+
+            float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
+
+            Storyboard moveStory = new Storyboard();
+
+            DoubleAnimation setXAnimation = new DoubleAnimation()
+            {
+                From = nowX,
+                To = goToX,
+                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                EasingFunction = _easingFunction,
+            };
+
+            DoubleAnimation setYAnimation = new DoubleAnimation()
+            {
+                From = nowY,
+                To = goToY,
+                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                EasingFunction = _easingFunction,
+            };
+
+            setYAnimation.Completed += (object sender, EventArgs e) =>
+            {
+                if (taggedObject is Avatar)
+                {
+                    var taggedAvatar = taggedObject as Avatar;
+
+                    if (ConstructCraftButton.IsChecked.Value)
+                        SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
+                    else
+                        SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Online);
+                }
+            };
+
+            Storyboard.SetTarget(setXAnimation, uIElement);
+            Storyboard.SetTargetProperty(setXAnimation, new PropertyPath(Canvas.LeftProperty));
+
+            Storyboard.SetTarget(setYAnimation, uIElement);
+            Storyboard.SetTargetProperty(setYAnimation, new PropertyPath(Canvas.TopProperty));
+
+            moveStory.Children.Add(setXAnimation);
+            moveStory.Children.Add(setYAnimation);
+
+            moveStory.Begin();
+
+            if (taggedObject is Construct)
+            {
+                var taggedConstruct = taggedObject as Construct;
+
+                taggedConstruct.Coordinate.X = goToX;
+                taggedConstruct.Coordinate.Y = goToY;
+
+                if (gotoZ.HasValue)
+                {
+                    taggedConstruct.Coordinate.Z = (int)gotoZ;
+                    Canvas.SetZIndex(uIElement, (int)gotoZ);
+                }
+                else
+                {
+                    taggedConstruct.Coordinate.Z = Canvas.GetZIndex(uIElement);
+                }
+
+                taggedObject = taggedConstruct;
+            }
+            else if (button.Tag is Avatar)
+            {
+                var taggedAvatar = taggedObject as Avatar;
+
+                taggedAvatar.Coordinate.X = goToX;
+                taggedAvatar.Coordinate.Y = goToY;
+
+                if (gotoZ.HasValue)
+                {
+                    taggedAvatar.Coordinate.Z = (int)gotoZ;
+                    Canvas.SetZIndex(uIElement, (int)gotoZ);
+                }
+                else
+                {
+                    taggedAvatar.Coordinate.Z = Canvas.GetZIndex(uIElement);
+                }
+
+                taggedObject = taggedAvatar;
+            }
+
+            return taggedObject;
+        }
+
+        #endregion
 
         #region Connection
 
@@ -1836,171 +1955,66 @@ namespace Worldescape
 
         #endregion
 
-        #region Element
+        #region Message
 
         /// <summary>
-        /// Copies the image content from an UIElement and returns it as an Image.
+        /// Adds message bubble to canvas on top of the avatar who sent it.
         /// </summary>
-        /// <param name="uielement"></param>
-        /// <returns></returns>
-        private static UIElement CopyUiElementContent(UIElement uielement)
+        /// <param name="msg"></param>
+        /// <param name="avatar"></param>
+        private void AddMessageBubbleToCanvas(string msg, UIElement avatar)
         {
-            var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
+            var avatarButton = avatar as Button;
 
-            var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
-            var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 50, Width = 50, Margin = new Thickness(10) };
-
-            return img;
-        }
-
-        /// <summary>
-        /// Moves an UIElement to a new coordinate with the provided PointerRoutedEventArgs in canvas. Returns the tagged object of the uIElement.
-        /// </summary>
-        /// <param name="uIElement"></param>
-        /// <param name="goToX"></param>
-        /// <param name="goToY"></param>
-        /// <returns></returns>
-        private object MoveElement(UIElement uIElement, PointerRoutedEventArgs e)
-        {
-            var pressedPoint = e.GetCurrentPoint(Canvas_root);
-
-            var button = (Button)uIElement;
-
-            var goToX = pressedPoint.Position.X - button.ActualWidth / 2;
-
-            // If the UIElement is Avatar then move it to an Y coordinate so that it appears on top of the clicked point. 
-            var goToY = pressedPoint.Position.Y - (button.Tag is Avatar ? button.ActualHeight : button.ActualHeight / 2);
-
-            var taggedObject = MoveElement(uIElement, goToX, goToY);
-
-            return taggedObject;
-        }
-
-        /// <summary>
-        /// Moves an UIElement to the provided goToX and goToY coordinate in canvas. Returns the tagged object of the uIElement.
-        /// </summary>
-        /// <param name="uIElement"></param>
-        /// <param name="goToX"></param>
-        /// <param name="goToY"></param>
-        /// <returns></returns>
-        private object MoveElement(UIElement uIElement, double goToX, double goToY, int? gotoZ = null)
-        {
-            if (uIElement == null)
-                return null;
-
-            var button = (Button)uIElement;
-
-            var taggedObject = button.Tag;
-
-            // Set moving status on start
-            if (taggedObject is Avatar)
+            // Prepare content
+            ContentControl chatBubble = new ContentControl()
             {
-                if (ConstructCraftButton.IsChecked.Value)
-                    SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
-                else
-                    SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Moving);
-            }
-
-            var nowX = Canvas.GetLeft(uIElement);
-            var nowY = Canvas.GetTop(uIElement);
-
-            float distance = Vector3.Distance(
-                new Vector3(
-                    (float)nowX,
-                    (float)nowY,
-                    0),
-                new Vector3(
-                    (float)goToX,
-                    (float)goToY,
-                    0));
-
-            float unitPixel = 200f;
-            float timeToTravelunitPixel = 0.5f;
-
-            float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
-
-            Storyboard moveStory = new Storyboard();
-
-            DoubleAnimation setXAnimation = new DoubleAnimation()
-            {
-                From = nowX,
-                To = goToX,
-                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                EasingFunction = _easingFunction,
+                Style = Application.Current.Resources["MaterialDesign_PopupContent_Style"] as Style,
             };
 
-            DoubleAnimation setYAnimation = new DoubleAnimation()
+            StackPanel chatContent = new StackPanel() { Orientation = Orientation.Horizontal };
+
+            Image avatarImage = new Image()
             {
-                From = nowY,
-                To = goToY,
-                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                EasingFunction = _easingFunction,
+                Source = new BitmapImage(((BitmapImage)((Image)avatarButton.Content).Source).UriSource),
+                Height = 50,
+                Width = 50,
+                Stretch = Stretch.Uniform,
+                Margin = new Thickness(5)
+            };
+            chatContent.Children.Add(avatarImage);
+            chatContent.Children.Add(new Label() { Content = msg });
+            chatBubble.Content = chatContent;
+
+            // Set animation
+            DoubleAnimation doubleAnimation = new DoubleAnimation()
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(30),
             };
 
-            setYAnimation.Completed += (object sender, EventArgs e) =>
+            doubleAnimation.Completed += (s, e) =>
             {
-                if (taggedObject is Avatar)
-                {
-                    var taggedAvatar = taggedObject as Avatar;
-
-                    if (ConstructCraftButton.IsChecked.Value)
-                        SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
-                    else
-                        SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Online);
-                }
+                Canvas_root.Children.Remove(chatContent);
             };
 
-            Storyboard.SetTarget(setXAnimation, uIElement);
-            Storyboard.SetTargetProperty(setXAnimation, new PropertyPath(Canvas.LeftProperty));
+            Storyboard.SetTarget(doubleAnimation, chatBubble);
+            Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath(OpacityProperty));
 
-            Storyboard.SetTarget(setYAnimation, uIElement);
-            Storyboard.SetTargetProperty(setYAnimation, new PropertyPath(Canvas.TopProperty));
+            Storyboard fadeStoryBoard = new Storyboard();
+            fadeStoryBoard.Children.Add(doubleAnimation);
 
-            moveStory.Children.Add(setXAnimation);
-            moveStory.Children.Add(setYAnimation);
+            // Add to canvas
+            var x = Canvas.GetLeft(avatarButton);
+            var y = Canvas.GetTop(avatarButton) - avatarButton.ActualHeight;
 
-            moveStory.Begin();
+            Canvas.SetLeft(chatBubble, x);
+            Canvas.SetTop(chatBubble, y);
+            Canvas.SetZIndex(chatBubble, 999);
+            Canvas_root.Children.Add(chatBubble);
 
-            if (taggedObject is Construct)
-            {
-                var taggedConstruct = taggedObject as Construct;
-
-                taggedConstruct.Coordinate.X = goToX;
-                taggedConstruct.Coordinate.Y = goToY;
-
-                if (gotoZ.HasValue)
-                {
-                    taggedConstruct.Coordinate.Z = (int)gotoZ;
-                    Canvas.SetZIndex(uIElement, (int)gotoZ);
-                }
-                else
-                {
-                    taggedConstruct.Coordinate.Z = Canvas.GetZIndex(uIElement);
-                }
-
-                taggedObject = taggedConstruct;
-            }
-            else if (button.Tag is Avatar)
-            {
-                var taggedAvatar = taggedObject as Avatar;
-
-                taggedAvatar.Coordinate.X = goToX;
-                taggedAvatar.Coordinate.Y = goToY;
-
-                if (gotoZ.HasValue)
-                {
-                    taggedAvatar.Coordinate.Z = (int)gotoZ;
-                    Canvas.SetZIndex(uIElement, (int)gotoZ);
-                }
-                else
-                {
-                    taggedAvatar.Coordinate.Z = Canvas.GetZIndex(uIElement);
-                }
-
-                taggedObject = taggedAvatar;
-            }
-
-            return taggedObject;
+            fadeStoryBoard.Begin();
         }
 
         #endregion

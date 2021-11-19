@@ -268,13 +268,12 @@
 
         </StackPanel>
 
-
-        <ContentControl
+        <!--  Bottom middle messenging controls  -->
+        <StackPanel
             x:Name="MessengingControlsHolder"
-            Margin="20"
+            Margin="20,20,20,250"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
-            Style="{StaticResource MaterialDesign_PopupContent_Style}"
             Visibility="Collapsed">
 
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
@@ -292,9 +291,11 @@
 
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
 
+                    <!--  Message box  -->
                     <TextBox
                         x:Name="MessengingTextBox"
                         Width="500"
+                        FontSize="16"
                         Style="{StaticResource MaterialDesign_TextBox_Style}"
                         TextWrapping="Wrap" />
 
@@ -312,7 +313,7 @@
 
             </Grid>
 
-        </ContentControl>
+        </StackPanel>
 
         <!--  Bottom right people counter  -->
         <TextBlock
