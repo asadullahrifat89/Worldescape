@@ -779,8 +779,13 @@ namespace Worldescape
             else if (ConstructMultiSelectButton.IsChecked.Value)
             {
                 // Add the selected construct to multi selected list
-                MultiSelectedConstructsHolder.Children.Add(CopyUiElementImageContent(_selectedConstruct));
-                MultiselectedConstructs.Add(((Button)_selectedConstruct).Tag as Construct);
+                var construct = ((Button)_selectedConstruct).Tag as Construct;
+
+                if (!MultiselectedConstructs.Contains(construct))
+                {
+                    MultiSelectedConstructsHolder.Children.Add(CopyUiElementImageContent(_selectedConstruct));
+                    MultiselectedConstructs.Add(construct);
+                }
             }
             else if (ConstructCraftButton.IsChecked.Value)
             {
