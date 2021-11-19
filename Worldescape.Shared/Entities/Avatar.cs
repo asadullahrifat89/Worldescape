@@ -57,7 +57,7 @@
 
         Meeting,
 
-        Messaging,
+        Typing,
 
         Away,
 

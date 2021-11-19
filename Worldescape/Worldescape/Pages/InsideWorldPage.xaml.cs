@@ -1303,7 +1303,7 @@ namespace Worldescape
             if (_selectedAvatar == null)
                 return;
 
-            await BroadcastAvatarActivityStatus(ActivityStatus.Messaging);
+            await BroadcastAvatarActivityStatus(ActivityStatus.Typing);
 
             // show messenge from and to avatars and show messenging controls
             if (((Button)_selectedAvatar).Tag is Avatar avatar)
@@ -1352,9 +1352,9 @@ namespace Worldescape
                     AddMessageBubbleToCanvas(MessengingTextBox.Text, iElement);
 
                     // If activity status is not messagin then update it
-                    if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Messaging)
+                    if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Typing)
                     {
-                        await BroadcastAvatarActivityStatus(ActivityStatus.Messaging);
+                        await BroadcastAvatarActivityStatus(ActivityStatus.Typing);
                     }
                 }
 
