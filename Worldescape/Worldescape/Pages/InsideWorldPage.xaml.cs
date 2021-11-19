@@ -957,6 +957,9 @@ namespace Worldescape
             }
             else
             {
+                if (_movingConstruct == null)
+                    return;
+
                 var taggedObject = MoveElement(_movingConstruct, e);
 
                 var construct = taggedObject as Construct;
@@ -974,10 +977,15 @@ namespace Worldescape
         /// <returns></returns>
         private async Task CloneConstructOnPointerPressed(PointerRoutedEventArgs e)
         {
+            if (_cloningConstruct == null)
+                return;
+
             var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
 
             if (constructAsset != null)
             {
+                var currrentPoint = e.GetCurrentPoint(Canvas_root);
+
                 var constructBtn = GenerateConstructButton(
                     name: constructAsset.Name,
                     imageUrl: constructAsset.ImageUrl);
@@ -985,8 +993,8 @@ namespace Worldescape
                 // Add the construct on pressed point
                 var construct = AddConstructOnCanvas(
                     construct: constructBtn,
-                    x: e.GetCurrentPoint(Canvas_root).Position.X,
-                    y: e.GetCurrentPoint(Canvas_root).Position.Y);
+                    x: currrentPoint.Position.X,
+                    y: currrentPoint.Position.Y);
 
                 // Center the construct on pressed point
                 construct = MoveElement(constructBtn, e) as Construct;
@@ -1249,7 +1257,7 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Activates cloning of a selected construct.
+        /// Activates cloning mode of a selected construct.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1257,7 +1265,6 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-
                 ConstructCloneButton.Content = ConstructCloneButton.IsChecked.Value ? "Cloning" : "Clone";
 
                 if (!ConstructCloneButton.IsChecked.Value)
