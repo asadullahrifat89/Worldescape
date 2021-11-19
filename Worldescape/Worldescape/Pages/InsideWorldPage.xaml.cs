@@ -2286,7 +2286,7 @@ namespace Worldescape
                 Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
                 FontWeight = FontWeights.Regular,
                 FontFamily = new FontFamily("Segoe UI"),
-                MaxWidth = 800,
+                MaxWidth = 600,
                 Height = double.PositiveInfinity,
             };
 
@@ -2380,7 +2380,6 @@ namespace Worldescape
 
             fadeStoryBoard.Begin();
         }
-
 
         #endregion
 
