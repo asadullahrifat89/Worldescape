@@ -1435,16 +1435,7 @@ namespace Worldescape
 
         #region Functionality
 
-        #region Hub Login      
-
-        private bool CanHubLogin()
-        {
-            var result = Avatar != null && Avatar.User != null && HubService.IsConnected();
-
-            Console.WriteLine($"CanHubLogin: {result}");
-
-            return result;
-        }
+        #region Hub Login
 
         public async Task ConnectWithHubThenLogin()
         {
@@ -1486,6 +1477,15 @@ namespace Worldescape
                 Console.WriteLine("TryConnect: ERROR." + "\n" + ex.Message);
                 return false;
             }
+        }
+
+        private bool CanHubLogin()
+        {
+            var result = Avatar != null && Avatar.User != null && HubService.IsConnected();
+
+            Console.WriteLine($"CanHubLogin: {result}");
+
+            return result;
         }
 
         private async Task TryLoginToHub()
@@ -1721,7 +1721,7 @@ namespace Worldescape
                     Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
                     EasingFunction = _easingFunction,
                 };
-                                
+
                 if (goToX < nowX) // If going backward
                 {
                     button.RenderTransform = new ScaleTransform() { ScaleX = -1 };
@@ -1735,8 +1735,9 @@ namespace Worldescape
 
                 gotoYAnimation = new DoubleAnimationUsingKeyFrames();
 
-                var gotoYAnimationKeyFrames = (DoubleAnimationUsingKeyFrames)gotoYAnimation;               
+                var gotoYAnimationKeyFrames = (DoubleAnimationUsingKeyFrames)gotoYAnimation;
 
+                // Do half time animation Y
                 if (nowY < goToY) // From higher ground to lower ground
                 {
                     gotoYAnimationKeyFrames.KeyFrames.Add(new EasingDoubleKeyFrame()
@@ -1766,7 +1767,17 @@ namespace Worldescape
                     });
                 }
 
-                gotoYAnimationKeyFrames.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime += halfTime)), Value = goToY });
+                // To final animation Y
+                gotoYAnimationKeyFrames.KeyFrames.Add(new EasingDoubleKeyFrame()
+                {
+                    KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime += halfTime)),
+                    Value = goToY,
+                    EasingFunction = new ExponentialEase()
+                    {
+                        EasingMode = EasingMode.EaseIn,
+                        Exponent = 5,
+                    },
+                });
 
                 Storyboard.SetTarget(gotoYAnimation, uIElement);
                 Storyboard.SetTargetProperty(gotoYAnimation, new PropertyPath(Canvas.TopProperty));
