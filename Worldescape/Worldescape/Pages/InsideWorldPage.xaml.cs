@@ -45,34 +45,15 @@ namespace Worldescape
 
         readonly AssetUrlHelper _assetUriHelper;
 
-        EasingFunctionBase _easingFunction = new ExponentialEase()
+        EasingFunctionBase _constructEaseOut = new ExponentialEase()
         {
             EasingMode = EasingMode.EaseOut,
             Exponent = 5,
         };
 
-        List<ConstructAsset> ConstructAssets = new List<ConstructAsset>();
-
-        List<ConstructCategory> ConstructCategories = new List<ConstructCategory>();
-
-        List<Character> Characters = new List<Character>();
-
-        InWorld InWorld = new InWorld();
-
-        User User = new User();
-
-        Avatar Avatar = null;
-
-        Character Character = new Character();
-
-        ObservableCollection<AvatarMessenger> AvatarMessengers = new ObservableCollection<AvatarMessenger>();
-
-        List<Construct> MultiselectedConstructs = new List<Construct>();
-
         #endregion
 
         #region Ctor
-
         public InsideWorldPage(
             IHubService hubService,
             AssetUrlHelper assetUriHelper)
@@ -84,6 +65,28 @@ namespace Worldescape
 
             SubscribeHub();
         }
+
+        #endregion
+
+        #region Properties
+
+        List<ConstructAsset> ConstructAssets { get; set; } = new List<ConstructAsset>();
+
+        List<ConstructCategory> ConstructCategories { get; set; } = new List<ConstructCategory>();
+
+        List<Character> Characters { get; set; } = new List<Character>();
+
+        InWorld InWorld { get; set; } = new InWorld();
+
+        User User { get; set; } = new User();
+
+        Avatar Avatar { get; set; } = null;
+
+        Character Character { get; set; } = new Character();
+
+        ObservableCollection<AvatarMessenger> AvatarMessengers { get; set; } = new ObservableCollection<AvatarMessenger>();
+
+        List<Construct> MultiselectedConstructs { get; set; } = new List<Construct>();
 
         #endregion
 
@@ -1719,7 +1722,7 @@ namespace Worldescape
                     From = nowX,
                     To = goToX,
                     Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                    EasingFunction = _easingFunction,
+                    EasingFunction = _constructEaseOut,
                 };
 
                 if (goToX < nowX) // If going backward
@@ -1737,6 +1740,18 @@ namespace Worldescape
 
                 var gotoYAnimationKeyFrames = (DoubleAnimationUsingKeyFrames)gotoYAnimation;
 
+                var easeOut = new ExponentialEase()
+                {
+                    EasingMode = EasingMode.EaseOut,
+                    Exponent = 5,
+                };
+
+                var easeIn = new ExponentialEase()
+                {
+                    EasingMode = EasingMode.EaseIn,
+                    Exponent = 5,
+                };
+
                 // Do half time animation Y
                 if (nowY < goToY) // From higher ground to lower ground
                 {
@@ -1744,11 +1759,7 @@ namespace Worldescape
                     {
                         KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime)),
                         Value = nowY - 100,
-                        EasingFunction = new ExponentialEase()
-                        {
-                            EasingMode = EasingMode.EaseOut,
-                            Exponent = 5,
-                        },
+                        EasingFunction = easeOut,
                     });
 
                 }
@@ -1759,11 +1770,7 @@ namespace Worldescape
                     {
                         KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime)),
                         Value = goToY - 100,
-                        EasingFunction = new ExponentialEase()
-                        {
-                            EasingMode = EasingMode.EaseOut,
-                            Exponent = 5,
-                        },
+                        EasingFunction = easeOut,
                     });
                 }
 
@@ -1772,11 +1779,7 @@ namespace Worldescape
                 {
                     KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime += halfTime)),
                     Value = goToY,
-                    EasingFunction = new ExponentialEase()
-                    {
-                        EasingMode = EasingMode.EaseIn,
-                        Exponent = 5,
-                    },
+                    EasingFunction = easeIn,
                 });
 
                 Storyboard.SetTarget(gotoYAnimation, uIElement);
@@ -1790,7 +1793,7 @@ namespace Worldescape
                     From = nowX,
                     To = goToX,
                     Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                    EasingFunction = _easingFunction,
+                    EasingFunction = _constructEaseOut,
                 };
 
                 gotoYAnimation = new DoubleAnimation()
@@ -1798,7 +1801,7 @@ namespace Worldescape
                     From = nowY,
                     To = goToY,
                     Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                    EasingFunction = _easingFunction,
+                    EasingFunction = _constructEaseOut,
                 };
             }
 
