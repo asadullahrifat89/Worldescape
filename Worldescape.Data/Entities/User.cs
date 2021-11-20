@@ -7,6 +7,10 @@ namespace Worldescape.Data
     /// </summary>
     public class User : CoreBase
     {
+        public string FirstName { get; set; } = string.Empty;
+
+        public string LastName { get; set; } = string.Empty;
+
         /// <summary>
         /// The email address of the user.
         /// </summary>

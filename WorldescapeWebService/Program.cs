@@ -6,6 +6,7 @@ using WorldescapeWebService;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Http.Connections;
 using Worldescape.Database;
+using Worldescape.Data;
 
 #region Service Registration
 
@@ -49,13 +50,23 @@ var app = builder.Build();
 
 app.MapGet("/api/Query/GetApiToken", async (string email, string password, IMediator mediator) =>
 {
-    return await mediator.Send(new GetApiTokenQuery() { Email = email, Password = password });
+    return await mediator.Send(new GetApiTokenQuery()
+    {
+        Email = email,
+        Password = password
+    });
 })
 .WithName("GetApiToken");
 
 app.MapGet("/api/Query/GetWorlds", async (string token, int pageIndex, int pageSize, string? searchString, IMediator mediator) =>
 {
-    return await mediator.Send(new GetWorldsQuery() { Token = token, PageIndex = pageIndex, PageSize = pageSize, SearchString = searchString });
+    return await mediator.Send(new GetWorldsQuery()
+    {
+        Token = token,
+        PageIndex = pageIndex,
+        PageSize = pageSize,
+        SearchString = searchString
+    });
 })
 .WithName("GetWorlds");
 
@@ -64,7 +75,7 @@ app.MapGet("/api/Query/GetAsset", async (/*string token,*/ string fileName, IMed
 {
     byte[] file = await mediator.Send(new GetAssetQuery() { FileName = fileName });
 
-    string fileN = fileName.Replace('\\','_');
+    string fileN = fileName.Replace('\\', '_');
 
     return Microsoft.AspNetCore.Http.Results.File(file, "text/plain", fileN);
 })
@@ -74,27 +85,66 @@ app.MapGet("/api/Query/GetAsset", async (/*string token,*/ string fileName, IMed
 
 #region Commands
 
-app.MapPost("/api/Command/AddUser", async (AddUserCommand command, IMediator mediator) =>
+app.MapPost("/api/Command/AddUser", async (AddUserCommandRequest command, IMediator mediator) =>
 {
-    return await mediator.Send(command);
+    return await mediator.Send(new AddUserCommand
+    {
+        FirstName = command.FirstName,
+        LastName = command.LastName,
+
+        Name = command.Name,
+        Email = command.Email,
+        Password = command.Password,
+        Phone = command.Phone,
+        DateOfBirth = command.DateOfBirth,
+        Gender = command.Gender,
+        ImageUrl = command.ImageUrl,
+    });
 })
 .WithName("AddUser");
 
-app.MapPost("/api/Command/UpdateUser", async (UpdateUserCommand command, IMediator mediator) =>
+app.MapPost("/api/Command/UpdateUser", async (UpdateUserCommandRequest command, IMediator mediator) =>
 {
-    return await mediator.Send(command);
+    return await mediator.Send(new UpdateUserCommand
+    {
+        Token = command.Token,
+        Id = command.Id,
+
+        FirstName = command.FirstName,
+        LastName= command.LastName,
+      
+        Name = command.Name,
+        ImageUrl = command.ImageUrl,
+        Gender = command.Gender,
+        DateOfBirth = command.DateOfBirth,
+        Phone = command.Phone,
+        Email = command.Email,
+        Password = command.Password,
+    });
 })
 .WithName("UpdateUser");
 
-app.MapPost("/api/Command/AddWorld", async (AddWorldCommand command, IMediator mediator) =>
+app.MapPost("/api/Command/AddWorld", async (AddWorldCommandRequest command, IMediator mediator) =>
 {
-    return await mediator.Send(command);
+    return await mediator.Send(new AddWorldCommand
+    {
+        Token = command.Token,
+        ImageUrl = command.ImageUrl,
+        Name = command.Name,
+    });
 })
 .WithName("AddWorld");
 
-app.MapPost("/api/Command/UpdateWorld", async (UpdateWorldCommand command, IMediator mediator) =>
+app.MapPost("/api/Command/UpdateWorld", async (UpdateWorldCommandRequest command, IMediator mediator) =>
 {
-    return await mediator.Send(command);
+    return await mediator.Send(new UpdateWorldCommand
+    {
+        Token = command.Token,
+        Id = command.Id,
+
+        ImageUrl = command.ImageUrl,
+        Name = command.Name,
+    });
 })
 .WithName("UpdateWorld");
 

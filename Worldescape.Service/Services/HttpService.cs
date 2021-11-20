@@ -12,7 +12,7 @@ using Worldescape.Data;
 
 namespace Worldescape.Service
 {
-    internal class HttpService : IHttpService, IDisposable
+    public class HttpService : IHttpService, IDisposable
     {
         #region Fields
 

@@ -52,6 +52,8 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ServiceResp
             // Create new user instance
             var user = new User
             {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
                 Name = request.Name,
                 ImageUrl = request.ImageUrl,
                 CreatedOn = DateTime.Now,

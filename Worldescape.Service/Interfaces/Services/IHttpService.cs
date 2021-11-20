@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Worldescape.Service
 {
-    internal interface IHttpService
+    public interface IHttpService
     {
         Task<HttpResponseMessage> SendAsync(HttpRequestMessage httpRequestMessage);
 

@@ -45,6 +45,8 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Servi
                 throw new Exception("User with Id: " + request.Id + "not found.");
 
             // update user instance
+            result.FirstName = request.FirstName;
+            result.LastName = request.LastName;
             result.Name = request.Name;
             result.ImageUrl = request.ImageUrl;
             result.UpdatedOn = DateTime.Now;

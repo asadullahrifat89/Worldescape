@@ -3,7 +3,7 @@
     /// <summary>
     /// A command that inserts or updates a user.
     /// </summary>
-    public class AddWorldCommandRequest
+    public class AddWorldCommandRequest: RequestBase
     {
         /// <summary>
         /// Name of the world.

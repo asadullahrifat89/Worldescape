@@ -5,8 +5,12 @@ namespace Worldescape.Data
     /// <summary>
     /// A command that inserts or updates a user.
     /// </summary>
-    public class AddUserCommandRequest
+    public class AddUserCommandRequest : RequestBase
     {
+        public string FirstName { get; set; } = string.Empty;
+
+        public string LastName { get; set; } = string.Empty;
+
         /// <summary>
         /// Name of the user.
         /// </summary>

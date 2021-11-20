@@ -25,7 +25,7 @@
                             x:Name="TextBox"
                             Grid.Column="0"
                             Background="White"
-                            BorderThickness="0"
+                            BorderThickness="2"
                             Style="{StaticResource MaterialDesign_TextBox_Style}" />
                         <Button
                             x:Name="Button"

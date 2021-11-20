@@ -3,7 +3,7 @@
     /// <summary>
     /// A query that fetches worlds.
     /// </summary>
-    public class GetWorldsQueryRequest
+    public class GetWorldsQueryRequest: RequestBase
     {
         /// <summary>
         /// The page index of the query.
