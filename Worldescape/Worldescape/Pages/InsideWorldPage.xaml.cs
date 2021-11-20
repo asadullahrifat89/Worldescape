@@ -1758,13 +1758,21 @@ namespace Worldescape
 
             if (taggedObject is Avatar)
             {
+                // if going backward
+                if (goToX < nowX)
+                {
+                    button.RenderTransform = new ScaleTransform() { ScaleX = -1 };
+                }
+                else
+                {
+                    button.RenderTransform = new ScaleTransform() { ScaleX = 1 };
+                }
+
                 var halfTime = timeToTravelDistance / 2;
 
                 gotoYAnimation = new DoubleAnimationUsingKeyFrames();
 
                 DoubleAnimationUsingKeyFrames castedAnimation = (DoubleAnimationUsingKeyFrames)gotoYAnimation;
-
-                //castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)), Value = nowY });
 
                 // If already on higher ground Y
                 //nowY=200  
@@ -1776,7 +1784,7 @@ namespace Worldescape
 
                 if (nowY < goToY) // From higher ground to lower ground
                 {
-                    var middleY = goToY - nowY;
+                    //var middleY = goToY - nowY;
                     castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame()
                     {
                         KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime)),
@@ -2048,6 +2056,8 @@ namespace Worldescape
                 Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
             };
 
+            obj.RenderTransformOrigin = new Windows.Foundation.Point(0.5f, 0.5f);            
+
             obj.Content = img;
             obj.Tag = avatar;
 
@@ -2311,7 +2321,7 @@ namespace Worldescape
                 {
                     ScaleX = construct.Scale,
                     ScaleY = construct.Scale,
-                    Rotation = rotation
+                    Rotation = rotation,
                 };
 
                 button.RenderTransform = rotateTransform;
