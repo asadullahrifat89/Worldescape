@@ -1774,25 +1774,33 @@ namespace Worldescape
                 //                   goToY=200
                 //nowY=400
 
-                if (nowY < goToY)
+                if (nowY < goToY) // From higher ground to lower ground
                 {
                     var middleY = goToY - nowY;
                     castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame()
                     {
                         KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime)),
-                        Value = nowY + middleY,
-                        EasingFunction = _easingFunction,
+                        Value = nowY - 100, //nowY + middleY,
+                        EasingFunction = new ExponentialEase()
+                        {
+                            EasingMode = EasingMode.EaseOut,
+                            Exponent = 5,
+                        },
                     });
 
                 }
-                else
+                else // From lower ground to higher ground
                 {
                     var middleY = nowY - goToY;
                     castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame()
                     {
                         KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime)),
-                        Value = nowY - middleY,
-                        EasingFunction = _easingFunction,
+                        Value = goToY - 100,//nowY - middleY,
+                        EasingFunction = new ExponentialEase()
+                        {
+                            EasingMode = EasingMode.EaseOut,
+                            Exponent = 5,
+                        },
                     });
                 }
 
