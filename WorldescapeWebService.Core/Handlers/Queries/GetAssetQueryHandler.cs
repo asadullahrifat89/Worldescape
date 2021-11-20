@@ -45,7 +45,7 @@ public class GetAssetQueryHandler : IRequestHandler<GetAssetQuery, byte[]>
             byte[] bytes = new byte[] { };
 
             if (File.Exists(path))
-                bytes = await System.IO.File.ReadAllBytesAsync(path);
+                bytes = await File.ReadAllBytesAsync(path);
 
             return bytes;
         }
