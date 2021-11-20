@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Worldescape.Shared;
+using Worldescape.Data;
 
 namespace Worldescape
 {

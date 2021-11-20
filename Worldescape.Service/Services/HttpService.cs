@@ -8,7 +8,7 @@ using System;
 using System.Net.Http;
 using System.Linq;
 using System.Threading.Tasks;
-using Worldescape.Shared;
+using Worldescape.Data;
 
 namespace Worldescape.Service
 {

@@ -2,7 +2,7 @@
 using System;
 using Windows.UI.Xaml;
 using Worldescape.Service;
-using Worldescape.Shared;
+using Worldescape.Data;
 
 namespace Worldescape
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
-using Worldescape.Shared;
+using Worldescape.Data;
 
 namespace WorldescapeWebService
 {

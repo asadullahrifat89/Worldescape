@@ -1,4 +1,4 @@
-﻿using Worldescape.Shared;
+﻿using Worldescape.Data;
 
 namespace WorldescapeWebService.Core
 {
