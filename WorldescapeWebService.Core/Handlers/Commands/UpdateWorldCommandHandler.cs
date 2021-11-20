@@ -40,28 +40,44 @@ public class UpdateWorldCommandHandler : IRequestHandler<UpdateWorldCommand, Wor
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             validationResult.EnsureValidResult();
 
-            // Open database (or create if doesn't exist)
-            using (var db = new LiteDatabase(@"Worldescape.db"))
-            {
-                // Get Worlds collection
-                var colWorlds = db.GetCollection<World>("Worlds");
+            var result = await _databaseService.FindById<World>(request.Id);
 
-                // Use LINQ to query documents (with no index)
-                var result = colWorlds.FindById(request.Id);
+            if (result == null || result.IsEmpty())
+                throw new Exception("World with Id: " + request.Id + "not found.");
 
-                if (result == null || result.IsEmpty())
-                    throw new Exception("World with Id: " + request.Id + "not found.");
+            // update world instance
+            result.Name = request.Name;
+            result.ImageUrl = request.ImageUrl;
+            result.UpdatedOn = DateTime.Now;
 
-                // update user instance
-                result.Name = request.Name;
-                result.ImageUrl = request.ImageUrl;
-                result.UpdatedOn = DateTime.Now;
-
-                // update user document (Id will be auto-incremented)
-                colWorlds.Update(result);
-
+            if (await _databaseService.ReplaceById(result, result.Id))
                 return result;
-            }
+
+            else
+                throw new Exception("World with Id: " + request.Id + "Update failed.");
+
+            //// Open database (or create if doesn't exist)
+            //using (var db = new LiteDatabase(@"Worldescape.db"))
+            //{
+            //    // Get Worlds collection
+            //    var colWorlds = db.GetCollection<World>("Worlds");
+
+            //    // Use LINQ to query documents (with no index)
+            //    var result = colWorlds.FindById(request.Id);
+
+            //    if (result == null || result.IsEmpty())
+            //        throw new Exception("World with Id: " + request.Id + "not found.");
+
+            //    // update user instance
+            //    result.Name = request.Name;
+            //    result.ImageUrl = request.ImageUrl;
+            //    result.UpdatedOn = DateTime.Now;
+
+            //    // update user document (Id will be auto-incremented)
+            //    colWorlds.Update(result);
+
+            //    return result;
+            //}
         }
         catch (Exception ex)
         {

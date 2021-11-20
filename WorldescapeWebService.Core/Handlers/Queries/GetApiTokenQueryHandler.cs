@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 using Worldescape.Data;
 using Worldescape.Database;
 
@@ -41,27 +42,42 @@ public class GetApiTokenQueryHandler : IRequestHandler<GetApiTokenQuery, StringR
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             validationResult.EnsureValidResult();
 
-            // Open database (or create if doesn't exist)
-            using (var db = new LiteDatabase(@"Worldescape.db"))
-            {
-                // Get Users collection
-                var colUsers = db.GetCollection<User>("Users");
+            var userfilter = Builders<User>.Filter.Eq(x => x.Email, request.Email);
 
-                var user = colUsers.FindOne(x => x.Email == request.Email);
+            var user = await _databaseService.FindOne(userfilter);
 
-                if (user == null || user.IsEmpty())
-                    throw new Exception("User not found");
+            if (user == null || user.IsEmpty())
+                throw new Exception("User not found");
 
-                if (user.Password != request.Password)
-                    throw new Exception("Invalid password");
+            if (user.Password != request.Password)
+                throw new Exception("Invalid password");
 
-                // Get AccessTokens collection
-                var colAccessTokens = db.GetCollection<ApiToken>("ApiTokens");
+            var tokenfilter = Builders<ApiToken>.Filter.Eq(x => x.UserId, user.Id);
+            var accessToken = await _databaseService.FindOne(tokenfilter);
 
-                var accessToken = colAccessTokens.FindOne(x => x.UserId == user.Id);
+            return new StringResponse() { Response = accessToken.Token };
 
-                return new StringResponse() { Response = accessToken.Token };
-            }
+            //// Open database (or create if doesn't exist)
+            //using (var db = new LiteDatabase(@"Worldescape.db"))
+            //{
+            //    // Get Users collection
+            //    var colUsers = db.GetCollection<User>("Users");
+
+            //    var user = colUsers.FindOne(x => x.Email == request.Email);
+
+            //    if (user == null || user.IsEmpty())
+            //        throw new Exception("User not found");
+
+            //    if (user.Password != request.Password)
+            //        throw new Exception("Invalid password");
+
+            //    // Get AccessTokens collection
+            //    var colAccessTokens = db.GetCollection<ApiToken>("ApiTokens");
+
+            //    var accessToken = colAccessTokens.FindOne(x => x.UserId == user.Id);
+
+            //    return new StringResponse() { Response = accessToken.Token };
+            //}
         }
         catch (Exception ex)
         {

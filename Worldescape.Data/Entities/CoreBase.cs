@@ -1,13 +1,15 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace Worldescape.Data
 {
     public class CoreBase
     {
         /// <summary>
-        /// Id of an entity.
+        /// Id of an entity. Auto generated upon instance declaration.
         /// </summary>
-        public int Id { get; set; }
+        [BsonId]
+        public int Id { get; set; } = UidGenerator.New();
 
         /// <summary>
         /// Name of an entity.
@@ -31,7 +33,7 @@ namespace Worldescape.Data
 
         public bool IsEmpty()
         {
-            return Id <= 0 && string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(ImageUrl);
+            return string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(ImageUrl);
         }
     }
 }

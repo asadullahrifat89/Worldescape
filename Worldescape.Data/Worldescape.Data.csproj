@@ -6,4 +6,8 @@
 		<LangVersion>9.0</LangVersion>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="MongoDB.Bson" Version="2.13.2" />
+	</ItemGroup>
+
 </Project>

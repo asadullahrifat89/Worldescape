@@ -43,58 +43,77 @@ namespace Worldescape.Database
 
         #region Document
 
-        public async Task<List<T>> GetDocuments<T>(FilterDefinition<T> filterDefinition)
+        public async Task<T> FindOne<T>(FilterDefinition<T> filter)
         {
             var collection = GetCollection<T>();
-            var result = await collection.Find(filterDefinition).ToListAsync();
+            var result = await collection.Find(filter).FirstOrDefaultAsync();
+            return result;
+        }
 
+        public async Task<T> FindById<T>(int id)
+        {
+            var filterDefinition = Builders<T>.Filter.Eq("Id", id);
+            var collection = GetCollection<T>();
+            var result = await collection.Find(filterDefinition).FirstOrDefaultAsync();
+            return result;
+        }
+
+        public async Task<List<T>> GetDocuments<T>(FilterDefinition<T> filter)
+        {
+            var collection = GetCollection<T>();
+            var result = await collection.Find(filter).ToListAsync();
+            return result;
+        }
+
+        public async Task<List<T>> GetDocuments<T>(FilterDefinition<T> filter, int skip, int limit)
+        {
+            var collection = GetCollection<T>();
+            var result = await collection.Find(filter).Skip(skip).Limit(limit).ToListAsync();
             return result;
         }
 
         public async Task<bool> InsertDocument<T>(T document)
         {
             var collection = GetCollection<T>();
-
             await collection.InsertOneAsync(document);
-
             return true;
         }
 
         public async Task<bool> InsertDocuments<T>(IEnumerable<T> documents)
         {
             var collection = GetCollection<T>();
-
             await collection.InsertManyAsync(documents);
-
             return true;
         }
 
-        public async Task<bool> ReplaceDocument<T>(T document, FilterDefinition<T> filterDefinition)
+        public async Task<bool> ReplaceDocument<T>(T document, FilterDefinition<T> filter)
         {
             var collection = GetCollection<T>();
+            var result = await collection.FindOneAndReplaceAsync(filter, document);
+            return result != null;
+        }
 
+        public async Task<bool> ReplaceById<T>(T document, int id)
+        {
+            var filterDefinition = Builders<T>.Filter.Eq("Id", id);
+            var collection = GetCollection<T>();
             var result = await collection.FindOneAndReplaceAsync(filterDefinition, document);
-
             return result != null;
         }
 
-        public async Task<bool> DeleteDocument<T>(FilterDefinition<T> filterDefinition)
+        public async Task<bool> DeleteDocument<T>(FilterDefinition<T> filter)
         {
             var collection = GetCollection<T>();
-
-            var result = await collection.FindOneAndDeleteAsync(filterDefinition);
-
+            var result = await collection.FindOneAndDeleteAsync(filter);
             return result != null;
         }
 
-        public async Task<bool> DeleteDocuments<T>(FilterDefinition<T> filterDefinition)
+        public async Task<bool> DeleteDocuments<T>(FilterDefinition<T> filter)
         {
             var collection = GetCollection<T>();
-
-            var result = await collection.DeleteManyAsync(filterDefinition);
-
+            var result = await collection.DeleteManyAsync(filter);
             return result != null;
-        }  
+        }
 
         #endregion
 

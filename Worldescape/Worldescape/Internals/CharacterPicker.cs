@@ -23,7 +23,6 @@ namespace Worldescape.Service
         };
 
         Grid _gridContent = new Grid();
-        StackPanel _stackPanelFooter = new StackPanel() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(5) };
 
         public CharacterPicker(
             List<Character> characters,
@@ -71,7 +70,7 @@ namespace Worldescape.Service
                     Width = 100,
                     Height = 100,
                     Margin = new Thickness(3),
-                    Tag = item,         
+                    Tag = item,
                 };
 
                 buttonCharacter.Click += ButtonCharacter_Click;
