@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Worldescape.Data;
+using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
@@ -11,6 +12,7 @@ public class GetApiTokenQueryHandler : IRequestHandler<GetApiTokenQuery, StringR
 
     private readonly ILogger<GetApiTokenQueryHandler> _logger;
     private readonly GetApiTokenQueryValidator _validator;
+    private readonly DatabaseService _databaseService;
 
     #endregion
 
@@ -18,10 +20,12 @@ public class GetApiTokenQueryHandler : IRequestHandler<GetApiTokenQuery, StringR
 
     public GetApiTokenQueryHandler(
         ILogger<GetApiTokenQueryHandler> logger,
-        GetApiTokenQueryValidator validator)
+        GetApiTokenQueryValidator validator,
+        DatabaseService databaseService)
     {
         _logger = logger;
         _validator = validator;
+        _databaseService = databaseService;
     }
 
     #endregion

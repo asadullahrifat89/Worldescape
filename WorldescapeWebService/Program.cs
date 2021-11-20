@@ -5,12 +5,13 @@ using WorldescapeWebService.Core;
 using WorldescapeWebService;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Http.Connections;
+using Worldescape.Database;
 
 #region Service Registration
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add cors policy
 builder.Services.AddCors(o => o.AddPolicy(
                    "CorsPolicy",
                    builder => builder
@@ -22,7 +23,10 @@ builder.Services.AddCors(o => o.AddPolicy(
 // Add validation and mediator
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(AddUserCommandValidator).GetTypeInfo().Assembly));
 builder.Services.AddMediatR(typeof(AddUserCommandValidator).GetTypeInfo().Assembly);
+
+// Add services to the DI container.
 builder.Services.AddSingleton<ApiTokenHelper>();
+builder.Services.AddDatabaseService();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

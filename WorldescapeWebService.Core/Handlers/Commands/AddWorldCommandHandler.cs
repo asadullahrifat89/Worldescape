@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Worldescape.Data;
+using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
@@ -12,6 +13,7 @@ public class AddWorldCommandHandler : IRequestHandler<AddWorldCommand, World>
     private readonly ILogger<AddWorldCommandHandler> _logger;
     private readonly AddWorldCommandValidator _validator;
     private readonly ApiTokenHelper _tokenHelper;
+    private readonly DatabaseService _databaseService;
 
     #endregion
 
@@ -20,11 +22,13 @@ public class AddWorldCommandHandler : IRequestHandler<AddWorldCommand, World>
     public AddWorldCommandHandler(
         ILogger<AddWorldCommandHandler> logger,
         AddWorldCommandValidator validator,
-        ApiTokenHelper tokenHelper)
+        ApiTokenHelper tokenHelper,
+        DatabaseService databaseService)
     {
         _logger = logger;
         _validator = validator;
         _tokenHelper = tokenHelper;
+        _databaseService = databaseService;
     }
 
     #endregion

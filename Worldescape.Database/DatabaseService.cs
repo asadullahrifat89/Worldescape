@@ -24,6 +24,8 @@ namespace Worldescape.Database
         }
         #endregion
 
+        #region Methods
+
         #region Common
 
         private IMongoCollection<T> GetCollection<T>()
@@ -38,6 +40,8 @@ namespace Worldescape.Database
         }
 
         #endregion
+
+        #region Document
 
         public async Task<List<T>> GetDocuments<T>(FilterDefinition<T> filterDefinition)
         {
@@ -90,6 +94,10 @@ namespace Worldescape.Database
             var result = await collection.DeleteManyAsync(filterDefinition);
 
             return result != null;
-        }
+        }  
+
+        #endregion
+
+        #endregion
     }
 }

@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Worldescape.Data;
+using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
@@ -11,6 +12,7 @@ public class UpdateWorldCommandHandler : IRequestHandler<UpdateWorldCommand, Wor
 
     private readonly ILogger<UpdateWorldCommandHandler> _logger;
     private readonly UpdateWorldCommandValidator _validator;
+    private readonly DatabaseService _databaseService;
 
     #endregion
 
@@ -18,10 +20,12 @@ public class UpdateWorldCommandHandler : IRequestHandler<UpdateWorldCommand, Wor
 
     public UpdateWorldCommandHandler(
         ILogger<UpdateWorldCommandHandler> logger,
-        UpdateWorldCommandValidator validator)
+        UpdateWorldCommandValidator validator,
+        DatabaseService databaseService)
     {
         _logger = logger;
         _validator = validator;
+        _databaseService = databaseService;
     }
 
     #endregion

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
+using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
@@ -10,6 +11,7 @@ public class GetAssetQueryHandler : IRequestHandler<GetAssetQuery, byte[]>
 
     private readonly ILogger<GetAssetQueryHandler> _logger;
     private readonly GetAssetQueryValidator _validator;
+    private readonly DatabaseService _databaseService;
 
     #endregion
 
@@ -17,10 +19,12 @@ public class GetAssetQueryHandler : IRequestHandler<GetAssetQuery, byte[]>
 
     public GetAssetQueryHandler(
         ILogger<GetAssetQueryHandler> logger,
-        GetAssetQueryValidator validator)
+        GetAssetQueryValidator validator,
+        DatabaseService databaseService)
     {
         _logger = logger;
         _validator = validator;
+        _databaseService = databaseService;
     }
 
     #endregion

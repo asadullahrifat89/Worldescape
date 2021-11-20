@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Worldescape.Data;
+using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
@@ -11,6 +12,7 @@ public class GetWorldsQueryHandler : IRequestHandler<GetWorldsQuery, GetWorldsQu
 
     private readonly ILogger<GetWorldsQueryHandler> _logger;
     private readonly GetWorldsQueryValidator _validator;
+    private readonly DatabaseService _databaseService;
 
     #endregion
 
@@ -18,10 +20,12 @@ public class GetWorldsQueryHandler : IRequestHandler<GetWorldsQuery, GetWorldsQu
 
     public GetWorldsQueryHandler(
         ILogger<GetWorldsQueryHandler> logger,
-        GetWorldsQueryValidator validator)
+        GetWorldsQueryValidator validator,
+        DatabaseService databaseService)
     {
         _logger = logger;
         _validator = validator;
+        _databaseService = databaseService;
     }
 
     #endregion
