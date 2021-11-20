@@ -70,8 +70,7 @@ namespace WorldescapeWebService
                 UpdateAvatarDisconnectionTime(avatar.Id, DateTime.Now);
 
                 var group = GetUsersGroup(avatar);
-
-                //Clients.OthersInGroup(group).AvatarDisconnection(avatar.Id);
+                                
                 Clients.OthersInGroup(group).SendAsync(Constants.AvatarDisconnected, avatar.Id);
 
                 _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} OnDisconnectedAsync - {DateTime.Now} World: {group}");
@@ -88,7 +87,6 @@ namespace WorldescapeWebService
 
                 var group = GetUsersGroup(avatar);
 
-                //Clients.OthersInGroup(group).AvatarReconnection(avatar.Id);
                 Clients.OthersInGroup(group).SendAsync(Constants.AvatarReconnected, avatar.Id);
 
                 _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} OnConnectedAsync- {DateTime.Now} World: {group}");
@@ -191,7 +189,6 @@ namespace WorldescapeWebService
                     ConcurrentAvatars.TryRemove(connectionId, out Avatar a);
 
                     var group = avatar.World.Id.ToString();
-                    //Clients.OthersInGroup(group).AvatarLogout(avatar.Id);
                     Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedOut, avatar.Id);
 
                     _logger.LogInformation($"-- ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Logout-> WorldId {avatar.World.Id} - {DateTime.Now} World: {group}");
@@ -211,7 +208,6 @@ namespace WorldescapeWebService
                 Avatar sender = GetCallingUser();
 
                 var group = GetUsersGroup(sender);
-
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedTextMessage, sender.Id, message);
 
                 _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastTextMessage - {DateTime.Now} World: {group}");
@@ -227,7 +223,6 @@ namespace WorldescapeWebService
                 Avatar sender = GetCallingUser();
 
                 var group = GetUsersGroup(sender);
-                //Clients.OthersInGroup(group).BroadcastPictureMessage(sender.Id, img);
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedPictureMessage, sender.Id, img);
 
                 _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastImageMessage - {DateTime.Now} World: {group}");
@@ -301,7 +296,7 @@ namespace WorldescapeWebService
             Avatar sender = GetCallingUser();
 
             var group = GetUsersGroup(sender);
-            //Clients.OthersInGroup(group).AvatarBroadcastTyping(sender.Id);
+            
             Clients.OthersInGroup(group).SendAsync(Constants.AvatarBroadcastTyped, sender.Id);
 
             _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastTyping - {DateTime.Now} World: {group}");
@@ -318,7 +313,6 @@ namespace WorldescapeWebService
             {
                 var group = GetUsersGroup(GetCallingUser(avatarId));
 
-                //Clients.OthersInGroup(group).BroadcastAvatarMovement(avatarId, x, y, z);
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedAvatarMovement, avatarId, x, y, z);
 
                 UpdateAvatarMovement(avatarId, x, y, z);
@@ -334,7 +328,6 @@ namespace WorldescapeWebService
             if (avatarId > 0)
             {
                 var group = GetCallingUser(avatarId);
-                //Clients.OthersInGroup(GetUsersGroup(group)).BroadcastAvatarActivityStatus(avatarId, activityStatus);
                 await Clients.OthersInGroup(GetUsersGroup(group)).SendAsync(Constants.BroadcastedAvatarActivityStatus, avatarId, activityStatus);
 
                 UpdateAvatarActivityStatus(avatarId, activityStatus);
@@ -353,7 +346,6 @@ namespace WorldescapeWebService
             if (construct.Id > 0)
             {
                 var group = GetUsersGroup(GetCallingUser());
-                //Clients.OthersInGroup(group).BroadcastConstruct(construct);
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstruct, construct);
 
                 AddOrUpdateConstructInConstructs(construct);
@@ -369,7 +361,6 @@ namespace WorldescapeWebService
             {
                 var group = GetUsersGroup(GetCallingUser());
 
-                //Clients.OthersInGroup(group).BroadcastConstructs(constructs);
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructs, constructs);
 
                 foreach (var construct in constructs)
@@ -388,7 +379,6 @@ namespace WorldescapeWebService
             {
                 var group = GetUsersGroup(GetCallingUser());
 
-                //Clients.OthersInGroup(group).RemoveConstruct(constructId);
                 await Clients.OthersInGroup(group).SendAsync(Constants.RemovedConstruct, constructId);
 
                 RemoveConstructFromConstructs(constructId);
@@ -404,7 +394,6 @@ namespace WorldescapeWebService
             {
                 var group = GetUsersGroup(GetCallingUser());
 
-                //Clients.OthersInGroup(group).RemoveConstructs(constructIds);
                 await Clients.OthersInGroup(group).SendAsync(Constants.RemovedConstructs, constructIds);
 
                 foreach (var constructId in constructIds)
@@ -424,7 +413,6 @@ namespace WorldescapeWebService
             {
                 var group = GetUsersGroup(GetCallingUser());
 
-                //Clients.OthersInGroup(group).BroadcastConstructPlacement(constructId, z);
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructPlacement, constructId, z);
 
                 UpdateConstructPlacementInConstructs(constructId, z);
@@ -439,7 +427,6 @@ namespace WorldescapeWebService
             if (constructId > 0)
             {
                 var group = GetUsersGroup(GetCallingUser());
-                //Clients.OthersInGroup(group).BroadcastConstructRotation(constructId, rotation);
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructRotation, constructId, rotation);
 
                 UpdateConstructRotationInConstructs(constructId, rotation);
@@ -454,7 +441,6 @@ namespace WorldescapeWebService
             if (constructIds != null)
             {
                 var group = GetUsersGroup(GetCallingUser());
-                //Clients.OthersInGroup(group).BroadcastConstructRotations(constructIds);
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructRotations, constructIds);
 
                 foreach (var constructId in constructIds)
@@ -474,7 +460,6 @@ namespace WorldescapeWebService
             {
                 var group = GetUsersGroup(GetCallingUser());
 
-                //Clients.OthersInGroup(group).BroadcastConstructScale(constructId, scale);
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructScale, constructId, scale);
 
                 UpdateConstructScaleInConstructs(constructId, scale);
@@ -490,7 +475,6 @@ namespace WorldescapeWebService
             {
                 var group = GetUsersGroup(GetCallingUser());
 
-                //Clients.OthersInGroup(group).BroadcastConstructScales(constructIds, scale);
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructScales, constructIds, scale);
 
                 foreach (var constructId in constructIds)
@@ -510,7 +494,6 @@ namespace WorldescapeWebService
             {
                 var group = GetUsersGroup(GetCallingUser());
 
-                //Clients.OthersInGroup(group).BroadcastConstructMovement(constructId, x, y, z);
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructMovement, constructId, x, y, z);
 
                 UpdateConstructMovementInConstructs(constructId, x, y, z);
