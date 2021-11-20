@@ -99,6 +99,7 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
+		<Compile Include="Services\HttpCommunicationService.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\AccentColorConverter.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\DoubleToCornerRadiusConverter.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\TextToPlaceholderTextVisibilityConverter.cs" />

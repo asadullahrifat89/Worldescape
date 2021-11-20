@@ -33,6 +33,7 @@
         </StackPanel>
 
         <ContentControl
+            x:Name="SignUpModelHolder"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Style="{StaticResource MaterialDesign_Card_Style}">
@@ -53,9 +54,12 @@
                             x:Name="TextBox_FirstName"
                             Width="170"
                             Margin="10,5,10,10"
+                            BindingValidationError="Control_BindingValidationError"
                             FontSize="16"
+                            LostFocus="Control_LostFocus"
                             PlaceholderText="Jhon"
                             Style="{StaticResource MaterialDesign_TextBox_Style}"
+                            Text="{Binding FirstName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
                             TextAlignment="Left" />
 
                     </StackPanel>
@@ -72,9 +76,12 @@
                             x:Name="TextBox_LastName"
                             Width="170"
                             Margin="10,5,10,10"
+                            BindingValidationError="Control_BindingValidationError"
                             FontSize="16"
+                            LostFocus="Control_LostFocus"
                             PlaceholderText="Doe"
                             Style="{StaticResource MaterialDesign_TextBox_Style}"
+                            Text="{Binding LastName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
                             TextAlignment="Left" />
 
                     </StackPanel>
@@ -90,9 +97,12 @@
                 <TextBox
                     x:Name="TextBox_Email"
                     Margin="10,5,10,10"
+                    BindingValidationError="Control_BindingValidationError"
                     FontSize="16"
+                    LostFocus="Control_LostFocus"
                     PlaceholderText="username@usermail.com"
                     Style="{StaticResource MaterialDesign_TextBox_Style}"
+                    Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
                     TextAlignment="Left" />
 
                 <TextBlock
@@ -104,7 +114,10 @@
                 <PasswordBox
                     x:Name="PasswordBox_Pasword"
                     Margin="10,5,10,10"
+                    BindingValidationError="Control_BindingValidationError"
                     FontSize="16"
+                    LostFocus="Control_LostFocus"
+                    Password="{Binding Password, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
                     Style="{StaticResource MaterialDesign_PasswordBox_Style}" />
 
                 <TextBlock
@@ -116,7 +129,10 @@
                 <DatePicker
                     x:Name="DatePicker_DateOfBirth"
                     Margin="10,5,10,10"
+                    BindingValidationError="Control_BindingValidationError"
                     FontSize="16"
+                    LostFocus="Control_LostFocus"
+                    SelectedDate="{Binding DateOfBirth, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
                     Style="{StaticResource MaterialDesign_DatePicker_Style}" />
 
                 <TextBlock
@@ -151,6 +167,7 @@
                     Click="Button_Signup_Click"
                     Content="Create Account"
                     FontSize="16"
+                    IsEnabled="{Binding Path=IsValid, Mode=OneWay}"
                     Style="{StaticResource MaterialDesign_Button_Style}" />
 
                 <Button

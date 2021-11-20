@@ -42,7 +42,8 @@ namespace Worldescape
             services.AddHttpService();
 
             // Core Services
-            services.AddSingleton<IHubService, HubService>();
+            services.AddSingleton<HttpCommunicationService>();
+            services.AddSingleton<IHubService, HubService>();            
 
             // Helpers
             services.AddSingleton<AssetUrlHelper>();

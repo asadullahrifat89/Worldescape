@@ -1,7 +1,12 @@
 ﻿namespace Worldescape.Data
 {
-    public class Constants
+    public static class Constants
     {
+        public static bool IsNullOrBlank(this string text)
+        {
+            return string.IsNullOrEmpty(text) || string.IsNullOrWhiteSpace(text);
+        }
+
         #region Methods Invoked On Client From Server
 
         public const string AvatarDisconnected = "AvatarDisconnected";
@@ -57,6 +62,19 @@
         public const string BroadcastConstructScale = "BroadcastConstructScale";
         public const string BroadcastConstructScales = "BroadcastConstructScales";
         public const string BroadcastConstructMovement = "BroadcastConstructMovement";
+        #endregion
+
+        #region WebService Endpoints
+
+        public const string Action_GetApiToken = "/api/Query/GetApiToken";
+        public const string Action_GetWorlds = "/api/Query/GetWorlds";
+        public const string Action_GetAsset = "/api/Query/GetAsset";
+
+        public const string Action_AddUser = "/api/Command/AddUser";
+        public const string Action_UpdateUser = "/api/Command/UpdateUser";
+        public const string Action_AddWorld = "/api/Command/AddWorld";
+        public const string Action_UpdateWorld = "/api/Command/UpdateWorld";
+
         #endregion
     }
 }

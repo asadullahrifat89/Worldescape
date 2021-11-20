@@ -55,12 +55,8 @@ namespace Worldescape.Service
 
         public HubService()
         {
-#if DEBUG
-            var url = Properties.Resources.DevHubService;
-            //var url = Properties.Resources.ProdHubService;
-#else
-            var url = Properties.Resources.ProdHubService;
-#endif
+            string url = GetHubServiceUrl();
+
             _connection = new HubConnectionBuilder().WithUrl(url, options =>
             {
                 options.SkipNegotiation = true;
@@ -107,6 +103,16 @@ namespace Worldescape.Service
             ServicePointManager.DefaultConnectionLimit = 10;
         }
 
+        private static string GetHubServiceUrl()
+        {
+#if DEBUG
+            return Properties.Resources.DevHubService;
+            //return Properties.Resources.ProdHubService;
+#else
+            return Properties.Resources.ProdHubService;
+#endif
+        }
+
         #endregion
 
         #region Connection
@@ -149,7 +155,7 @@ namespace Worldescape.Service
             ConnectionReconnecting?.Invoke();
             return Task.Delay(100);
         }
-        
+
         #endregion
 
         #region Session

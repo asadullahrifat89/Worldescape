@@ -48,7 +48,7 @@ var app = builder.Build();
 
 #region Queries
 
-app.MapGet("/api/Query/GetApiToken", async (string email, string password, IMediator mediator) =>
+app.MapGet(Constants.Action_GetApiToken, async (string email, string password, IMediator mediator) =>
 {
     return await mediator.Send(new GetApiTokenQuery()
     {
@@ -58,7 +58,7 @@ app.MapGet("/api/Query/GetApiToken", async (string email, string password, IMedi
 })
 .WithName("GetApiToken");
 
-app.MapGet("/api/Query/GetWorlds", async (string token, int pageIndex, int pageSize, string? searchString, IMediator mediator) =>
+app.MapGet(Constants.Action_GetWorlds, async (string token, int pageIndex, int pageSize, string? searchString, IMediator mediator) =>
 {
     return await mediator.Send(new GetWorldsQuery()
     {
@@ -71,7 +71,7 @@ app.MapGet("/api/Query/GetWorlds", async (string token, int pageIndex, int pageS
 .WithName("GetWorlds");
 
 //TODO: incorporate token later
-app.MapGet("/api/Query/GetAsset", async (/*string token,*/ string fileName, IMediator mediator) =>
+app.MapGet(Constants.Action_GetAsset, async (/*string token,*/ string fileName, IMediator mediator) =>
 {
     byte[] file = await mediator.Send(new GetAssetQuery() { FileName = fileName });
 
@@ -85,7 +85,7 @@ app.MapGet("/api/Query/GetAsset", async (/*string token,*/ string fileName, IMed
 
 #region Commands
 
-app.MapPost("/api/Command/AddUser", async (AddUserCommandRequest command, IMediator mediator) =>
+app.MapPost(Constants.Action_AddUser, async (AddUserCommandRequest command, IMediator mediator) =>
 {
     return await mediator.Send(new AddUserCommand
     {
@@ -103,7 +103,7 @@ app.MapPost("/api/Command/AddUser", async (AddUserCommandRequest command, IMedia
 })
 .WithName("AddUser");
 
-app.MapPost("/api/Command/UpdateUser", async (UpdateUserCommandRequest command, IMediator mediator) =>
+app.MapPost(Constants.Action_UpdateUser, async (UpdateUserCommandRequest command, IMediator mediator) =>
 {
     return await mediator.Send(new UpdateUserCommand
     {
@@ -124,7 +124,7 @@ app.MapPost("/api/Command/UpdateUser", async (UpdateUserCommandRequest command, 
 })
 .WithName("UpdateUser");
 
-app.MapPost("/api/Command/AddWorld", async (AddWorldCommandRequest command, IMediator mediator) =>
+app.MapPost(Constants.Action_AddWorld, async (AddWorldCommandRequest command, IMediator mediator) =>
 {
     return await mediator.Send(new AddWorldCommand
     {
@@ -135,7 +135,7 @@ app.MapPost("/api/Command/AddWorld", async (AddWorldCommandRequest command, IMed
 })
 .WithName("AddWorld");
 
-app.MapPost("/api/Command/UpdateWorld", async (UpdateWorldCommandRequest command, IMediator mediator) =>
+app.MapPost(Constants.Action_UpdateWorld, async (UpdateWorldCommandRequest command, IMediator mediator) =>
 {
     return await mediator.Send(new UpdateWorldCommand
     {
