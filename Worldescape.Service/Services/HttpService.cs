@@ -258,5 +258,3 @@ namespace Worldescape.Service
         #endregion
     }
 }
-
-
