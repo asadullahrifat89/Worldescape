@@ -201,7 +201,7 @@ namespace WorldescapeWebService
 
         #endregion
 
-        #region Texting
+        #region Messagin
 
         [HubMethodName(Constants.BroadcastTextMessage)]
         public async void BroadcastTextMessage(string message)
