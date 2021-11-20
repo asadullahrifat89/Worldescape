@@ -361,7 +361,7 @@ namespace Worldescape
                     if (avatarMessenger != null)
                         avatarMessenger.ActivityStatus = ActivityStatus.Online;
 
-                    var avatarButton = (Button)iElement;
+                    var senderAvatarUiElement = (Button)iElement;
 
                     switch (mt)
                     {
@@ -369,7 +369,7 @@ namespace Worldescape
                             break;
                         case MessageType.Unicast:
                             {
-                                AddMessageBubbleToCanvas(msg, avatarButton);
+                                AddMessageBubbleToCanvas(msg, senderAvatarUiElement);
                             }
                             break;
                         default:
@@ -1623,19 +1623,41 @@ namespace Worldescape
 
         #region Avatar Images
 
-        private void ShowMessagingAvatar(UIElement uIElement)
+        private void ShowMessagingAvatar(UIElement messageToAvatarUiElement)
         {
-            if (uIElement == null)
+            if (messageToAvatarUiElement == null)
             {
                 MessagingToAvatarHolder.Content = null;
                 MessagingFromAvatarHolder.Content = null;
-                //HideMessagingControls();
             }
             else
             {
+                Button messageFromAvatarUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id);
+
+                var messageToAvatar = ((Button)messageToAvatarUiElement).Tag as Avatar;
+                var messageFromAvatar = ((Button)messageFromAvatarUiElement).Tag as Avatar;
+
+                // if to avatar is forward from current avatar
+                if (messageToAvatar.Coordinate.X > messageFromAvatar.Coordinate.X)
+                {
+                    messageFromAvatarUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
+                }
+                else
+                {
+                    messageFromAvatarUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
+                }
+
+                if (messageFromAvatar.Coordinate.X > messageToAvatar.Coordinate.X)
+                {
+                    messageToAvatarUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
+                }
+                else
+                {
+                    messageToAvatarUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
+                }
+
                 MessagingFromAvatarHolder.Content = CopyUiElementImageContent(Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id));
-                MessagingToAvatarHolder.Content = CopyUiElementImageContent(uIElement);
-                //ShowMessagingControls();
+                MessagingToAvatarHolder.Content = CopyUiElementImageContent(messageToAvatarUiElement);
             }
         }
 
@@ -2056,7 +2078,8 @@ namespace Worldescape
                 Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
             };
 
-            obj.RenderTransformOrigin = new Windows.Foundation.Point(0.5f, 0.5f);            
+            obj.RenderTransformOrigin = new Windows.Foundation.Point(0.5f, 0.5f);
+            obj.RenderTransform = new ScaleTransform();
 
             obj.Content = img;
             obj.Tag = avatar;
