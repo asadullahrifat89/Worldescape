@@ -1758,18 +1758,17 @@ namespace Worldescape
 
             if (taggedObject is Avatar)
             {
-                var part = timeToTravelDistance / 2;
+                var halfTime = timeToTravelDistance / 2;
 
                 gotoYAnimation = new DoubleAnimationUsingKeyFrames();
 
                 DoubleAnimationUsingKeyFrames castedAnimation = (DoubleAnimationUsingKeyFrames)gotoYAnimation;
 
-                castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)), Value = nowY });
+                //castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)), Value = nowY });
 
                 // If already on higher ground Y
                 //nowY=200  
                 //                   goToY=400
-
 
                 // If already on lower ground Y
                 //                   goToY=200
@@ -1778,16 +1777,26 @@ namespace Worldescape
                 if (nowY < goToY)
                 {
                     var middleY = goToY - nowY;
-                    castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(part)), Value = nowY + middleY });
+                    castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame()
+                    {
+                        KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime)),
+                        Value = nowY + middleY,
+                        EasingFunction = _easingFunction,
+                    });
 
                 }
                 else
                 {
                     var middleY = nowY - goToY;
-                    castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(part)), Value = nowY - middleY });
+                    castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame()
+                    {
+                        KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime)),
+                        Value = nowY - middleY,
+                        EasingFunction = _easingFunction,
+                    });
                 }
 
-                castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(part += part)), Value = goToY });
+                castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime += halfTime)), Value = goToY });
 
                 Storyboard.SetTarget(gotoYAnimation, uIElement);
                 Storyboard.SetTargetProperty(gotoYAnimation, new PropertyPath(Canvas.TopProperty));
