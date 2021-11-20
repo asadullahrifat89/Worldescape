@@ -1746,7 +1746,7 @@ namespace Worldescape
 
             Storyboard moveStory = new Storyboard();
 
-            DoubleAnimation setXAnimation = new DoubleAnimation()
+            DoubleAnimation gotoXAnimation = new DoubleAnimation()
             {
                 From = nowX,
                 To = goToX,
@@ -1754,15 +1754,57 @@ namespace Worldescape
                 EasingFunction = _easingFunction,
             };
 
-            DoubleAnimation setYAnimation = new DoubleAnimation()
-            {
-                From = nowY,
-                To = goToY,
-                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                EasingFunction = _easingFunction,
-            };
+            AnimationTimeline gotoYAnimation = null;
 
-            setYAnimation.Completed += (object sender, EventArgs e) =>
+            if (taggedObject is Avatar)
+            {
+                var part = timeToTravelDistance / 2;
+
+                gotoYAnimation = new DoubleAnimationUsingKeyFrames();
+
+                DoubleAnimationUsingKeyFrames castedAnimation = (DoubleAnimationUsingKeyFrames)gotoYAnimation;
+
+                castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)), Value = nowY });
+
+                // If already on higher ground Y
+                //nowY=200  
+                //                   goToY=400
+
+
+                // If already on lower ground Y
+                //                   goToY=200
+                //nowY=400
+
+                if (nowY < goToY)
+                {
+                    var middleY = goToY - nowY;
+                    castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(part)), Value = nowY + middleY });
+
+                }
+                else
+                {
+                    var middleY = nowY - goToY;
+                    castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(part)), Value = nowY - middleY });
+                }
+
+                castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(part += part)), Value = goToY });
+
+                Storyboard.SetTarget(gotoYAnimation, uIElement);
+                Storyboard.SetTargetProperty(gotoYAnimation, new PropertyPath(Canvas.TopProperty));
+                moveStory.Children.Add(gotoYAnimation);
+            }
+            else
+            {
+                gotoYAnimation = new DoubleAnimation()
+                {
+                    From = nowY,
+                    To = goToY,
+                    Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                    EasingFunction = _easingFunction,
+                };
+            }
+
+            gotoYAnimation.Completed += (object sender, EventArgs e) =>
             {
                 if (taggedObject is Avatar)
                 {
@@ -1775,14 +1817,14 @@ namespace Worldescape
                 }
             };
 
-            Storyboard.SetTarget(setXAnimation, uIElement);
-            Storyboard.SetTargetProperty(setXAnimation, new PropertyPath(Canvas.LeftProperty));
+            Storyboard.SetTarget(gotoXAnimation, uIElement);
+            Storyboard.SetTargetProperty(gotoXAnimation, new PropertyPath(Canvas.LeftProperty));
 
-            Storyboard.SetTarget(setYAnimation, uIElement);
-            Storyboard.SetTargetProperty(setYAnimation, new PropertyPath(Canvas.TopProperty));
+            Storyboard.SetTarget(gotoYAnimation, uIElement);
+            Storyboard.SetTargetProperty(gotoYAnimation, new PropertyPath(Canvas.TopProperty));
 
-            moveStory.Children.Add(setXAnimation);
-            moveStory.Children.Add(setYAnimation);
+            moveStory.Children.Add(gotoXAnimation);
+            moveStory.Children.Add(gotoYAnimation);
 
             moveStory.Begin();
 
