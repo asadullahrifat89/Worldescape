@@ -369,7 +369,7 @@ namespace Worldescape
                             break;
                         case MessageType.Unicast:
                             {
-                                AddMessageBubbleToCanvas(msg, senderAvatarUiElement);
+                                AddMessageBubbleToCanvas(msg, senderAvatarUiElement); // receive message
                             }
                             break;
                         default:
@@ -1529,7 +1529,7 @@ namespace Worldescape
                 // Add message bubble to own avatar
                 if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id) is UIElement iElement)
                 {
-                    AddMessageBubbleToCanvas(MessagingTextBox.Text, iElement);
+                    AddMessageBubbleToCanvas(MessagingTextBox.Text, iElement); // send message
 
                     // If activity status is not Messaging then update it
                     if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Messaging)
@@ -1623,41 +1623,32 @@ namespace Worldescape
 
         #region Avatar Images
 
-        private void ShowMessagingAvatar(UIElement messageToAvatarUiElement)
+        private void ShowMessagingAvatar(UIElement receiverUiElement)
         {
-            if (messageToAvatarUiElement == null)
+            if (receiverUiElement == null)
             {
                 MessagingToAvatarHolder.Content = null;
                 MessagingFromAvatarHolder.Content = null;
             }
             else
             {
-                Button messageFromAvatarUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id);
+                Button senderUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id);
 
-                var messageToAvatar = ((Button)messageToAvatarUiElement).Tag as Avatar;
-                var messageFromAvatar = ((Button)messageFromAvatarUiElement).Tag as Avatar;
+                var receiver = ((Button)receiverUiElement).Tag as Avatar;
+                var sender = senderUiElement.Tag as Avatar;
 
-                // if to avatar is forward from current avatar
-                if (messageToAvatar.Coordinate.X > messageFromAvatar.Coordinate.X)
+                // If receiver avatar is forward from current avatar
+                if (receiver.Coordinate.X > sender.Coordinate.X)
                 {
-                    messageFromAvatarUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
+                    senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
                 }
                 else
                 {
-                    messageFromAvatarUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
-                }
-
-                if (messageFromAvatar.Coordinate.X > messageToAvatar.Coordinate.X)
-                {
-                    messageToAvatarUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
-                }
-                else
-                {
-                    messageToAvatarUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
+                    senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
                 }
 
                 MessagingFromAvatarHolder.Content = CopyUiElementImageContent(Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id));
-                MessagingToAvatarHolder.Content = CopyUiElementImageContent(messageToAvatarUiElement);
+                MessagingToAvatarHolder.Content = CopyUiElementImageContent(receiverUiElement);
             }
         }
 
@@ -2410,16 +2401,49 @@ namespace Worldescape
             // If own message then image on the left
             if (taggedAvatar.Id == Avatar.Id)
             {
+                Button meUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id);
+
+                var sender = taggedAvatar;
+                var receiver = ((Button)_messageToAvatar).Tag as Avatar;
+
+                // If receiver avatar is forward from current avatar
+                if (receiver.Coordinate.X > sender.Coordinate.X)
+                {
+                    meUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
+                }
+                else
+                {
+                    meUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
+                }
+
                 chatContent.Children.Add(avatarImage);
                 chatContent.Children.Add(textBlock);
             }
             else
             {
+                Button meUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == Avatar.Id);
+                Button senderUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar senderAvatar && senderAvatar.Id == taggedAvatar.Id);
+
+                var receiver = meUiElement.Tag as Avatar;
+                var sender = taggedAvatar;
+
+                // If sender avatar is forward from current avatar
+                if (sender.Coordinate.X > receiver.Coordinate.X)
+                {
+                    senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
+                }
+                else
+                {
+                    senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
+                }
+
                 chatBubble.Tag = taggedAvatar;
                 chatBubble.PointerPressed += ChatBubble_PointerPressed;
 
                 chatContent.Children.Add(textBlock);
                 chatContent.Children.Add(avatarImage);
+
+                // TODO: applyscale to other avatar
             }
 
             chatBubble.Content = chatContent;
