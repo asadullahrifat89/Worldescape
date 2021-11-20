@@ -9,18 +9,18 @@ public class GetAssetQueryHandler : IRequestHandler<GetAssetQuery, byte[]>
     #region Fields
 
     private readonly ILogger<GetAssetQueryHandler> _logger;
-    //private readonly GetFileQueryValidator _validator;
+    private readonly GetAssetQueryValidator _validator;
 
     #endregion
 
     #region Ctor
 
     public GetAssetQueryHandler(
-        ILogger<GetAssetQueryHandler> logger
-        /*GetFileQueryValidator validator*/)
+        ILogger<GetAssetQueryHandler> logger,
+        GetAssetQueryValidator validator)
     {
         _logger = logger;
-        //_validator = validator;
+        _validator = validator;
     }
 
     #endregion
@@ -33,6 +33,9 @@ public class GetAssetQueryHandler : IRequestHandler<GetAssetQuery, byte[]>
     {
         try
         {
+            var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+            validationResult.EnsureValidResult();
+
             var location = typeof(GetAssetQuery).Assembly.Location;
 
             var newlocation = location.Replace("WorldescapeWebService\\bin\\Debug\\net6.0\\WorldescapeWebService.Core.dll", "Worldescape.Assets");
