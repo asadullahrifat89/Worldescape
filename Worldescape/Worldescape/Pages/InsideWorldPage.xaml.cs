@@ -1700,34 +1700,12 @@ namespace Worldescape
 
             Storyboard moveStory = new Storyboard();
 
-            DoubleAnimation gotoXAnimation = new DoubleAnimation()
-            {
-                From = nowX,
-                To = goToX,
-                Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-                EasingFunction = _easingFunction,
-            };
-
+            AnimationTimeline gotoXAnimation = null;
             AnimationTimeline gotoYAnimation = null;
 
-            if (taggedObject is Avatar)
+            if (taggedObject is Avatar) // When avatar movement
             {
-                // if going backward
-                if (goToX < nowX)
-                {
-                    button.RenderTransform = new ScaleTransform() { ScaleX = -1 };
-                }
-                else
-                {
-                    button.RenderTransform = new ScaleTransform() { ScaleX = 1 };
-                }
-
-                var halfTime = timeToTravelDistance / 2;
-
-                gotoYAnimation = new DoubleAnimationUsingKeyFrames();
-
-                DoubleAnimationUsingKeyFrames castedAnimation = (DoubleAnimationUsingKeyFrames)gotoYAnimation;
-
+                //THROEY:
                 // If already on higher ground Y
                 //nowY=200  
                 //                   goToY=400
@@ -1736,13 +1714,35 @@ namespace Worldescape
                 //                   goToY=200
                 //nowY=400
 
+                gotoXAnimation = new DoubleAnimation()
+                {
+                    From = nowX,
+                    To = goToX,
+                    Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                    EasingFunction = _easingFunction,
+                };
+                                
+                if (goToX < nowX) // If going backward
+                {
+                    button.RenderTransform = new ScaleTransform() { ScaleX = -1 };
+                }
+                else // If going forward
+                {
+                    button.RenderTransform = new ScaleTransform() { ScaleX = 1 };
+                }
+
+                var halfTime = timeToTravelDistance / 2;
+
+                gotoYAnimation = new DoubleAnimationUsingKeyFrames();
+
+                var gotoYAnimationKeyFrames = (DoubleAnimationUsingKeyFrames)gotoYAnimation;               
+
                 if (nowY < goToY) // From higher ground to lower ground
                 {
-                    //var middleY = goToY - nowY;
-                    castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame()
+                    gotoYAnimationKeyFrames.KeyFrames.Add(new EasingDoubleKeyFrame()
                     {
                         KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime)),
-                        Value = nowY - 100, //nowY + middleY,
+                        Value = nowY - 100,
                         EasingFunction = new ExponentialEase()
                         {
                             EasingMode = EasingMode.EaseOut,
@@ -1754,10 +1754,10 @@ namespace Worldescape
                 else // From lower ground to higher ground
                 {
                     var middleY = nowY - goToY;
-                    castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame()
+                    gotoYAnimationKeyFrames.KeyFrames.Add(new EasingDoubleKeyFrame()
                     {
                         KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime)),
-                        Value = goToY - 100,//nowY - middleY,
+                        Value = goToY - 100,
                         EasingFunction = new ExponentialEase()
                         {
                             EasingMode = EasingMode.EaseOut,
@@ -1766,14 +1766,22 @@ namespace Worldescape
                     });
                 }
 
-                castedAnimation.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime += halfTime)), Value = goToY });
+                gotoYAnimationKeyFrames.KeyFrames.Add(new EasingDoubleKeyFrame() { KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime += halfTime)), Value = goToY });
 
                 Storyboard.SetTarget(gotoYAnimation, uIElement);
                 Storyboard.SetTargetProperty(gotoYAnimation, new PropertyPath(Canvas.TopProperty));
                 moveStory.Children.Add(gotoYAnimation);
             }
-            else
+            else // When avatar movement
             {
+                gotoXAnimation = new DoubleAnimation()
+                {
+                    From = nowX,
+                    To = goToX,
+                    Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                    EasingFunction = _easingFunction,
+                };
+
                 gotoYAnimation = new DoubleAnimation()
                 {
                     From = nowY,
@@ -2443,8 +2451,6 @@ namespace Worldescape
 
                 chatContent.Children.Add(textBlock);
                 chatContent.Children.Add(avatarImage);
-
-                // TODO: applyscale to other avatar
             }
 
             chatBubble.Content = chatContent;
