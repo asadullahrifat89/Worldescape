@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Worldescape.Assets
+﻿namespace Worldescape.Assets
 {
     public class AssetsAccessor
     {

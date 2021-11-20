@@ -1,7 +1,5 @@
-﻿using LiteDB;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using MongoDB.Driver;
 using Worldescape.Data;
 using Worldescape.Database;
 
@@ -46,7 +44,7 @@ public class AddWorldCommandHandler : IRequestHandler<AddWorldCommand, World>
             validationResult.EnsureValidResult();
 
             // Get the user from the token
-            var user = _tokenHelper.GetUserFromApiToken(request.Token);
+            var user = await _tokenHelper.GetUserFromApiToken(request.Token);
 
             // Create new user instance
             var world = new World

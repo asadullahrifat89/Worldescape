@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Worldescape.Service
+﻿namespace Worldescape.Service
 {
     public class AssetUrlHelper
     {

@@ -1,6 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using LiteDB;
 using Worldescape.Data;
 
 var executingAssemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;

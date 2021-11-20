@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
-namespace Worldescape.Data
+﻿namespace Worldescape.Data
 {
     /// <summary>
     /// Represents a construct asset.

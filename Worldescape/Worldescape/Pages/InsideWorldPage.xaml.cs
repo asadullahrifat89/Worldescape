@@ -2160,6 +2160,9 @@ namespace Worldescape
 
         #region Construct       
 
+        /// <summary>
+        /// Clears multi selected constructs.
+        /// </summary>
         private void ClearMultiselectedConstructs()
         {
             ConstructMultiSelectButton.IsChecked = false;
@@ -2168,6 +2171,11 @@ namespace Worldescape
             MultiselectedConstructs.Clear();
         }
 
+        /// <summary>
+        /// Broadcasts construct rotation operation.
+        /// </summary>
+        /// <param name="_selectedConstruct"></param>
+        /// <returns></returns>
         private async Task BroadcastConstructRotate(UIElement _selectedConstruct)
         {
             var button = (Button)_selectedConstruct;
@@ -2183,6 +2191,11 @@ namespace Worldescape
             Console.WriteLine("Construct rotated.");
         }
 
+        /// <summary>
+        /// Broadcasts construct sacle down operation.
+        /// </summary>
+        /// <param name="_selectedConstruct"></param>
+        /// <returns></returns>
         private async Task BroadcastConstructScaleDown(UIElement _selectedConstruct)
         {
             var button = (Button)_selectedConstruct;
@@ -2203,6 +2216,11 @@ namespace Worldescape
             Console.WriteLine("Construct scaled down.");
         }
 
+        /// <summary>
+        /// Broadcasts construct scale up operation.
+        /// </summary>
+        /// <param name="_selectedConstruct"></param>
+        /// <returns></returns>
         private async Task BroadcastConstructScaleUp(UIElement _selectedConstruct)
         {
             var button = (Button)_selectedConstruct;
@@ -2218,6 +2236,11 @@ namespace Worldescape
             Console.WriteLine("Construct scaled up.");
         }
 
+        /// <summary>
+        /// Broadcasts construct send back operation.
+        /// </summary>
+        /// <param name="_selectedConstruct"></param>
+        /// <returns></returns>
         private async Task BroadcastConstructSendBackward(UIElement _selectedConstruct)
         {
             var zIndex = Canvas.GetZIndex(_selectedConstruct);
@@ -2228,6 +2251,11 @@ namespace Worldescape
             await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
         }
 
+        /// <summary>
+        /// Broadcasts construct bring forward operation.
+        /// </summary>
+        /// <param name="_selectedConstruct"></param>
+        /// <returns></returns>
         private async Task BroadcastConstructBringForward(UIElement _selectedConstruct)
         {
             var zIndex = Canvas.GetZIndex(_selectedConstruct);
@@ -2238,6 +2266,11 @@ namespace Worldescape
             await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
         }
 
+        /// <summary>
+        /// Broadcasts construct delete operation.
+        /// </summary>
+        /// <param name="_selectedConstruct"></param>
+        /// <returns></returns>
         private async Task BroadcastConstructDelete(UIElement _selectedConstruct)
         {
             var construct = ((Button)_selectedConstruct).Tag as Construct;
@@ -2328,7 +2361,7 @@ namespace Worldescape
                     Id = id,
                     Name = name,
                     ImageUrl = uri,
-                    Creator = creator ?? new Creator() { Id = User.Id, Name = User.Name },
+                    Creator = creator ?? new Creator() { Id = User.Id, Name = User.Name, ImageUrl = User.ImageUrl },
                     World = inWorld ?? new InWorld() { Id = InWorld.Id, Name = InWorld.Name }
                 }
             };

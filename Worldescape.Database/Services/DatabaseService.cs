@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Worldescape.Database
@@ -42,6 +41,13 @@ namespace Worldescape.Database
         #endregion
 
         #region Document
+
+        public async Task<bool> Exists<T>(FilterDefinition<T> filter)
+        {
+            var collection = GetCollection<T>();
+            var result = await collection.Find(filter).FirstOrDefaultAsync();
+            return result != null;
+        }
 
         public async Task<T> FindOne<T>(FilterDefinition<T> filter)
         {
