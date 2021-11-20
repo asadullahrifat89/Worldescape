@@ -41,28 +41,42 @@
         public Coordinate Coordinate { get; set; } = new Coordinate();
     }
 
+    /// <summary>
+    /// Activity statuses for avatar
+    /// </summary>
     public enum ActivityStatus
     {
-        Online,
+        //0
+        Idle,
 
+        //1
         Moving,
 
+        //2
         Working,
 
+        //3
         Eating,
 
-        Sleeping,
+        //4
+        Resting,
 
-        Toilet,
+        //5
+        Greeting,
 
+        //6
         Meeting,
 
+        //7
         Messaging,
 
+        //8
         Away,
 
+        //9
         Offline,
 
+        //10
         Crafting,
     }
 }

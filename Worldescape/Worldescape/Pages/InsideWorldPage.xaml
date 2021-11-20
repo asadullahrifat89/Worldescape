@@ -55,11 +55,14 @@
             Style="{StaticResource MaterialDesign_PopupContent_Style}">
 
             <!--  Own avatar image  -->
-            <ContentControl x:Name="AvatarImageHolder" />
+            <ContentControl
+                x:Name="AvatarImageHolder"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
 
         </ContentControl>
 
-        <!--  Bottom middle construct, Messaging controls  -->
+        <!--  Bottom middle construct, messaging, status controls  -->
         <StackPanel
             Margin="20"
             HorizontalAlignment="Center"
@@ -151,6 +154,7 @@
                         x:Name="SelectedAvatarHolder"
                         Margin="10"
                         HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Style="{StaticResource MaterialDesign_PopupContent_Style}"
                         Visibility="Collapsed" />
 
@@ -160,7 +164,7 @@
                         <!--  Commands for own avatar  -->
                         <WrapPanel
                             x:Name="OwnAvatarActionsHolder"
-                            Orientation="Horizontal"
+                            Orientation="Vertical"
                             Visibility="Collapsed">
 
                             <!--  Create post, shows a child window to create a post  -->
@@ -172,6 +176,15 @@
                                 Content="Post"
                                 FontSize="20"
                                 Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                            <ToggleButton
+                                x:Name="SelectStatusButton"
+                                MinWidth="100"
+                                Margin="5,10"
+                                Click="SelectStatusButton_Click"
+                                Content="Status"
+                                FontSize="20"
+                                Style="{StaticResource MaterialDesign_ToggleButton_Style}" />
 
                         </WrapPanel>
 
@@ -195,6 +208,38 @@
                         </WrapPanel>
 
                     </StackPanel>
+
+                    <!--  Set own status commands  -->
+                    <ContentControl
+                        x:Name="AvatarActivityStatusHolder"
+                        Margin="5"
+                        Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                        Visibility="Collapsed">
+
+                        <StackPanel>
+                            <MenuItem
+                                Click="SetStatusMenuItem_Click"
+                                Content="Working"
+                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
+                            <MenuItem
+                                Click="SetStatusMenuItem_Click"
+                                Content="Eating"
+                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
+                            <MenuItem
+                                Click="SetStatusMenuItem_Click"
+                                Content="Resting"
+                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
+                            <MenuItem
+                                Click="SetStatusMenuItem_Click"
+                                Content="Greeting"
+                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
+                            <MenuItem
+                                Click="SetStatusMenuItem_Click"
+                                Content="Away"
+                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
+                        </StackPanel>
+
+                    </ContentControl>
 
                 </StackPanel>
 

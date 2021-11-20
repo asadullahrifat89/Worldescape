@@ -214,7 +214,7 @@ namespace Worldescape
 
                     if (avatarMessenger != null)
                     {
-                        avatarMessenger.ActivityStatus = ActivityStatus.Online;
+                        avatarMessenger.ActivityStatus = ActivityStatus.Idle;
                         avatarMessenger.IsLoggedIn = true;
                     }
 
@@ -284,7 +284,7 @@ namespace Worldescape
                 var avatarButton = GenerateAvatarButton(avatar);
                 AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
 
-                AvatarMessengers.Add(new AvatarMessenger() { Avatar = avatar, ActivityStatus = ActivityStatus.Online, IsLoggedIn = true });
+                AvatarMessengers.Add(new AvatarMessenger() { Avatar = avatar, ActivityStatus = ActivityStatus.Idle, IsLoggedIn = true });
                 ParticipantsCount.Text = AvatarMessengers.Count().ToString();
 
                 Console.WriteLine("<<HubService_AvatarLoggedIn: OK");
@@ -327,7 +327,7 @@ namespace Worldescape
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
                     if (avatarMessenger != null)
-                        avatarMessenger.ActivityStatus = ActivityStatus.Online;
+                        avatarMessenger.ActivityStatus = ActivityStatus.Idle;
 
                     MoveElement(uIElement: iElement, goToX: x, goToY: y);
 
@@ -362,7 +362,7 @@ namespace Worldescape
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
                     if (avatarMessenger != null)
-                        avatarMessenger.ActivityStatus = ActivityStatus.Online;
+                        avatarMessenger.ActivityStatus = ActivityStatus.Idle;
 
                     var senderAvatarUiElement = (Button)iElement;
 
@@ -471,15 +471,8 @@ namespace Worldescape
                 HideMessagingControls();
 
                 ClearMultiselectedConstructs();
+                HideAvatarActivityStatusHolder();
             }
-        }
-
-        private void ClearMultiselectedConstructs()
-        {
-            ConstructMultiSelectButton.IsChecked = false;
-            ConstructMultiSelectButton.Content = "Multiselect";
-            MultiSelectedConstructsHolder.Children.Clear();
-            MultiselectedConstructs.Clear();
         }
 
         #endregion
@@ -943,7 +936,7 @@ namespace Worldescape
 
                     ShowOperationalConstruct(null);
 
-                    await BroadcastAvatarActivityStatus(ActivityStatus.Online);
+                    await BroadcastAvatarActivityStatus(ActivityStatus.Idle);
                 }
             }
         }
@@ -1236,6 +1229,42 @@ namespace Worldescape
                     }
                 }
             }
+        }
+
+        #endregion
+
+        #region Avatar
+
+        /// <summary>
+        /// Activates status options.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SelectStatusButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectStatusButton.IsChecked.Value)
+            {
+                ShowAvatarActivityStatusHolder();
+            }
+            else
+            {
+                HideAvatarActivityStatusHolder();
+            }
+        }
+
+        /// <summary>
+        /// Set status of the current avatar. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void SetStatusMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var menuItem = (MenuItem)sender;
+
+            ActivityStatus[] values = Enum.GetValues(typeof(ActivityStatus)).Cast<ActivityStatus>().ToArray();
+            ActivityStatus enumMember = values.FirstOrDefault(x => x.ToString() == menuItem.Content.ToString());
+
+            await BroadcastAvatarActivityStatus(enumMember);
         }
 
         #endregion
@@ -1541,6 +1570,8 @@ namespace Worldescape
                             foreach (var avatar in avatars)
                             {
                                 var avatarButton = GenerateAvatarButton(avatar);
+                                SetAvatarActivityStatus(avatarButton, avatar, avatar.ActivityStatus);
+
                                 AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
 
                                 AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
@@ -1675,9 +1706,9 @@ namespace Worldescape
             var taggedObject = button.Tag;
 
             // Set moving status on start
-            if (taggedObject is Avatar)
+            if (taggedObject is Avatar avatar)
             {
-                if (ConstructCraftButton.IsChecked.Value)
+                if (ConstructCraftButton.IsChecked.Value && avatar.Id == Avatar.Id)
                     SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
                 else
                     SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Moving);
@@ -1807,14 +1838,12 @@ namespace Worldescape
 
             gotoYAnimation.Completed += (object sender, EventArgs e) =>
             {
-                if (taggedObject is Avatar)
+                if (taggedObject is Avatar taggedAvatar)
                 {
-                    var taggedAvatar = taggedObject as Avatar;
-
-                    if (ConstructCraftButton.IsChecked.Value)
+                    if (ConstructCraftButton.IsChecked.Value && taggedAvatar.Id == Avatar.Id)
                         SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
                     else
-                        SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Online);
+                        SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Idle);
                 }
             };
 
@@ -1946,7 +1975,7 @@ namespace Worldescape
             Avatar = new Avatar()
             {
                 Id = App.User.Id,
-                ActivityStatus = ActivityStatus.Online,
+                ActivityStatus = ActivityStatus.Idle,
                 User = new AvatarUser()
                 {
                     Email = User.Email,
@@ -1998,6 +2027,20 @@ namespace Worldescape
         #endregion
 
         #region Avatar
+
+        private void ShowAvatarActivityStatusHolder()
+        {
+            AvatarActivityStatusHolder.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Hides avatar activity status holder.
+        /// </summary>
+        private void HideAvatarActivityStatusHolder()
+        {
+            AvatarActivityStatusHolder.Visibility = Visibility.Collapsed;
+            SelectStatusButton.IsChecked = false;
+        }
 
         /// <summary>
         /// Adds an avatar on canvas.
@@ -2115,7 +2158,15 @@ namespace Worldescape
 
         #endregion
 
-        #region Construct
+        #region Construct       
+
+        private void ClearMultiselectedConstructs()
+        {
+            ConstructMultiSelectButton.IsChecked = false;
+            ConstructMultiSelectButton.Content = "Multiselect";
+            MultiSelectedConstructsHolder.Children.Clear();
+            MultiselectedConstructs.Clear();
+        }
 
         private async Task BroadcastConstructRotate(UIElement _selectedConstruct)
         {
@@ -2517,6 +2568,7 @@ namespace Worldescape
 
             fadeStoryBoard.Begin();
         }
+
 
         #endregion
 

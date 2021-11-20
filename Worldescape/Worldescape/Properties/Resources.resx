@@ -143,7 +143,7 @@
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_hurt.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_wide.png"
 			},
 			{
 				"Status": 6,
@@ -194,7 +194,7 @@
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_hurt.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_wide.png"
 			},
 			{
 				"Status": 6,
@@ -245,7 +245,7 @@
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_hurt.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_wide.png"
 			},
 			{
 				"Status": 6,
@@ -296,7 +296,7 @@
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_hurt.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_wide.png"
 			},
 			{
 				"Status": 6,
@@ -347,7 +347,7 @@
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_hurt.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_wide.png"
 			},
 			{
 				"Status": 6,
@@ -398,7 +398,7 @@
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_hurt.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_wide.png"
 			},
 			{
 				"Status": 6,
@@ -445,15 +445,15 @@
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_hurt.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_stand.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_skid.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_cheer1.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_cheer1.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_cheer2.png"
 			},
 			{
 				"Status": 7,
@@ -496,15 +496,15 @@
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_hurt.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_stand.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_skid.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_cheer1.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_cheer1.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_cheer2.png"
 			},
 			{
 				"Status": 7,
@@ -547,15 +547,15 @@
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_hurt.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_stand.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_skid.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_cheer1.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_cheer1.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_cheer2.png"
 			},
 			{
 				"Status": 7,
@@ -598,15 +598,15 @@
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_hurt.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_stand.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_skid.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_cheer1.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_cheer1.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_cheer2.png"
 			},
 			{
 				"Status": 7,
@@ -649,15 +649,15 @@
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_hurt.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_stand.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_skid.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_cheer1.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_cheer1.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_cheer2.png"
 			},
 			{
 				"Status": 7,
