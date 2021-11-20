@@ -223,12 +223,12 @@
                                 Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
                             <MenuItem
                                 Click="SetStatusMenuItem_Click"
-                                Content="Eating"
+                                Content="Inspecting"
                                 Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
-                            <MenuItem
+                            <!--<MenuItem
                                 Click="SetStatusMenuItem_Click"
                                 Content="Resting"
-                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
+                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />-->
                             <MenuItem
                                 Click="SetStatusMenuItem_Click"
                                 Content="Greeting"

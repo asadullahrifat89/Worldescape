@@ -56,7 +56,7 @@
         Working,
 
         //3
-        Eating,
+        Inspecting,
 
         //4
         Resting,

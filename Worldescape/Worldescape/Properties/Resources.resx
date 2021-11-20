@@ -135,7 +135,7 @@
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_think.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_duck.png"
 			},
 			{
 				"Status": 4,
@@ -186,7 +186,7 @@
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_think.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_duck.png"
 			},
 			{
 				"Status": 4,
@@ -237,7 +237,7 @@
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_think.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_duck.png"
 			},
 			{
 				"Status": 4,
@@ -288,7 +288,7 @@
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_think.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_duck.png"
 			},
 			{
 				"Status": 4,
@@ -339,7 +339,7 @@
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_think.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_duck.png"
 			},
 			{
 				"Status": 4,
@@ -390,7 +390,7 @@
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_think.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_duck.png"
 			},
 			{
 				"Status": 4,
@@ -441,7 +441,7 @@
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_hold1.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_duck.png"
 			},
 			{
 				"Status": 4,
@@ -492,7 +492,7 @@
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_hold1.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_duck.png"
 			},
 			{
 				"Status": 4,
@@ -543,7 +543,7 @@
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_hold1.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_duck.png"
 			},
 			{
 				"Status": 4,
@@ -594,7 +594,7 @@
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_hold1.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_duck.png"
 			},
 			{
 				"Status": 4,
@@ -645,7 +645,7 @@
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_hold1.png"
+				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_duck.png"
 			},
 			{
 				"Status": 4,
