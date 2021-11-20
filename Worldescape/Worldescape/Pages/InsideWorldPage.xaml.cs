@@ -89,7 +89,7 @@ namespace Worldescape
 
         #region Methods
 
-        #region Hub Events
+        #region Received Hub Events
 
         #region Construct
         private void HubService_NewBroadcastConstructMovement(int constructId, double x, double y, int z)
@@ -387,67 +387,7 @@ namespace Worldescape
 
         #endregion
 
-        #region Connection
-
-        /// <summary>
-        /// Subscribe to hub and listen to hub events.
-        /// </summary>
-        private void SubscribeHub()
-        {
-            #region Hub Connectivity
-
-            HubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
-            HubService.ConnectionReconnected += HubService_ConnectionReconnected;
-            HubService.ConnectionClosed += HubService_ConnectionClosed;
-
-            #endregion
-
-            #region Avatar World Events
-
-            HubService.NewBroadcastAvatarMovement += HubService_NewBroadcastAvatarMovement;
-            HubService.NewBroadcastAvatarActivityStatus += HubService_NewBroadcastAvatarActivityStatus;
-
-            #endregion
-
-            #region Avatar Connectivity
-
-            HubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
-            HubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
-            HubService.AvatarDisconnected += HubService_AvatarDisconnected;
-            HubService.AvatarReconnected += HubService_AvatarReconnected;
-
-            #endregion
-
-            #region Construct World Events
-
-            HubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
-            HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
-
-            HubService.NewRemoveConstruct += HubService_NewRemoveConstruct;
-            HubService.NewRemoveConstructs += HubService_NewRemoveConstructs;
-
-            HubService.NewBroadcastConstructPlacement += HubService_NewBroadcastConstructPlacement;
-
-            HubService.NewBroadcastConstructRotation += HubService_NewBroadcastConstructRotation;
-            HubService.NewBroadcastConstructRotations += HubService_NewBroadcastConstructRotations;
-
-            HubService.NewBroadcastConstructScale += HubService_NewBroadcastConstructScale;
-            HubService.NewBroadcastConstructScales += HubService_NewBroadcastConstructScales;
-
-            HubService.NewBroadcastConstructMovement += HubService_NewBroadcastConstructMovement;
-
-            #endregion
-
-            #region Avatar Messaging
-
-            HubService.AvatarTyping += HubService_AvatarTyping;
-            HubService.NewTextMessage += HubService_NewTextMessage;
-            HubService.NewImageMessage += HubService_NewImageMessage;
-
-            #endregion
-
-            Console.WriteLine("++ListenOnHubService: OK");
-        }
+        #region Connection       
 
         private async void HubService_ConnectionClosed()
         {
@@ -478,178 +418,7 @@ namespace Worldescape
 
             Console.WriteLine("<<HubService_ConnectionReconnecting");
         }
-        #endregion
-
-        #region Hub Login      
-
-        private bool CanHubLogin()
-        {
-            var result = Avatar != null && Avatar.User != null && HubService.IsConnected();
-
-            Console.WriteLine($"CanHubLogin: {result}");
-
-            return result;
-        }
-
-        public async Task ConnectWithHubThenLogin()
-        {
-            if (await ConnectWithHub())
-            {
-                await TryLoginToHub();
-            }
-            else
-            {
-                MessageBoxResult messageBoxResult = MessageBox.Show("Would you like to try again?", "Connection failure", MessageBoxButton.OKCancel);
-
-                if (messageBoxResult == MessageBoxResult.OK)
-                {
-                    await ConnectWithHubThenLogin();
-                }
-            }
-        }
-
-        private async Task<bool> ConnectWithHub()
-        {
-            try
-            {
-                Console.WriteLine("TryConnect: ATTEMP");
-
-                if (HubService.IsConnected())
-                {
-                    Console.WriteLine("TryConnect: OK");
-                    return true;
-                }
-
-                await HubService.ConnectAsync();
-
-                Console.WriteLine("TryConnect: OK.");
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("TryConnect: ERROR." + "\n" + ex.Message);
-                return false;
-            }
-        }
-
-        private async Task TryLoginToHub()
-        {
-            bool loggedIn = await LoginToHub();
-
-            if (!loggedIn)
-            {
-                Console.WriteLine("TryHubLogin: FAILED");
-
-                MessageBoxResult messageBoxResult = MessageBox.Show("Would you like to try again?", "Login failure", MessageBoxButton.OKCancel);
-
-                if (messageBoxResult == MessageBoxResult.OK)
-                {
-                    await TryLoginToHub();
-                }
-            }
-            else
-            {
-                Console.WriteLine("TryHubLogin: OK");
-            }
-        }
-
-        private async Task<bool> LoginToHub()
-        {
-            try
-            {
-                if (CanHubLogin())
-                {
-                    var result = await HubService.Login(Avatar);
-
-                    if (result != null)
-                    {
-                        Console.WriteLine("HubLogin: OK");
-
-                        var avatars = result.Avatars;
-
-                        // Clearing up canvas prior to login
-                        AvatarMessengers.Clear();
-                        Canvas_root.Children.Clear();
-
-                        if (avatars != null && avatars.Any())
-                        {
-                            Console.WriteLine("HubLogin: avatars found: " + avatars.Count());
-
-                            // Find current user's avatar and update current Avatar instance
-                            var responseAvatar = avatars.FirstOrDefault(x => x.Id == Avatar.Id);
-                            Avatar = responseAvatar;
-
-                            foreach (var avatar in avatars)
-                            {
-                                var avatarButton = GenerateAvatarButton(avatar);
-                                AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
-
-                                AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
-                            }
-
-                            ParticipantsCount.Text = AvatarMessengers.Count().ToString();
-                        }
-
-                        var constructs = result.Constructs;
-
-                        if (constructs != null && constructs.Any())
-                        {
-                            Console.WriteLine("HubLogin: Constructs found: " + constructs.Count());
-
-                            foreach (var construct in constructs)
-                            {
-                                var constructBtn = GenerateConstructButton(
-                                    name: construct.Name,
-                                    imageUrl: construct.ImageUrl,
-                                    constructId: construct.Id,
-                                    inWorld: construct.World,
-                                    creator: construct.Creator);
-
-                                AddConstructOnCanvas(
-                                    construct: constructBtn,
-                                    x: construct.Coordinate.X,
-                                    y: construct.Coordinate.Y,
-                                    z: construct.Coordinate.Z);
-
-                                ScaleElement(constructBtn, construct.Scale);
-                                RotateElement(constructBtn, construct.Rotation);
-                            }
-                        }
-
-                        _isLoggedIn = true;
-
-                        // Set connected user's avatar image
-                        if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
-                            AvatarImageHolder.Content = CopyUiElementImageContent(iElement);
-
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("HubLogin: FAILED");
-
-                    if (await ConnectWithHub())
-                    {
-                        return await LoginToHub();
-                    }
-
-                    Console.WriteLine("HubLogin: FAILED");
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("HubLogin: ERROR " + "\n" + ex.Message);
-                return false;
-            }
-        }
-        #endregion
+        #endregion        
 
         #endregion
 
@@ -1666,6 +1435,178 @@ namespace Worldescape
 
         #region Functionality
 
+        #region Hub Login      
+
+        private bool CanHubLogin()
+        {
+            var result = Avatar != null && Avatar.User != null && HubService.IsConnected();
+
+            Console.WriteLine($"CanHubLogin: {result}");
+
+            return result;
+        }
+
+        public async Task ConnectWithHubThenLogin()
+        {
+            if (await ConnectWithHub())
+            {
+                await TryLoginToHub();
+            }
+            else
+            {
+                MessageBoxResult messageBoxResult = MessageBox.Show("Would you like to try again?", "Connection failure", MessageBoxButton.OKCancel);
+
+                if (messageBoxResult == MessageBoxResult.OK)
+                {
+                    await ConnectWithHubThenLogin();
+                }
+            }
+        }
+
+        private async Task<bool> ConnectWithHub()
+        {
+            try
+            {
+                Console.WriteLine("TryConnect: ATTEMP");
+
+                if (HubService.IsConnected())
+                {
+                    Console.WriteLine("TryConnect: OK");
+                    return true;
+                }
+
+                await HubService.ConnectAsync();
+
+                Console.WriteLine("TryConnect: OK.");
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("TryConnect: ERROR." + "\n" + ex.Message);
+                return false;
+            }
+        }
+
+        private async Task TryLoginToHub()
+        {
+            bool loggedIn = await LoginToHub();
+
+            if (!loggedIn)
+            {
+                Console.WriteLine("TryHubLogin: FAILED");
+
+                MessageBoxResult messageBoxResult = MessageBox.Show("Would you like to try again?", "Login failure", MessageBoxButton.OKCancel);
+
+                if (messageBoxResult == MessageBoxResult.OK)
+                {
+                    await TryLoginToHub();
+                }
+            }
+            else
+            {
+                Console.WriteLine("TryHubLogin: OK");
+            }
+        }
+
+        private async Task<bool> LoginToHub()
+        {
+            try
+            {
+                if (CanHubLogin())
+                {
+                    var result = await HubService.Login(Avatar);
+
+                    if (result != null)
+                    {
+                        Console.WriteLine("HubLogin: OK");
+
+                        var avatars = result.Avatars;
+
+                        // Clearing up canvas prior to login
+                        AvatarMessengers.Clear();
+                        Canvas_root.Children.Clear();
+
+                        if (avatars != null && avatars.Any())
+                        {
+                            Console.WriteLine("HubLogin: avatars found: " + avatars.Count());
+
+                            // Find current user's avatar and update current Avatar instance
+                            var responseAvatar = avatars.FirstOrDefault(x => x.Id == Avatar.Id);
+                            Avatar = responseAvatar;
+
+                            foreach (var avatar in avatars)
+                            {
+                                var avatarButton = GenerateAvatarButton(avatar);
+                                AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
+
+                                AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
+                            }
+
+                            ParticipantsCount.Text = AvatarMessengers.Count().ToString();
+                        }
+
+                        var constructs = result.Constructs;
+
+                        if (constructs != null && constructs.Any())
+                        {
+                            Console.WriteLine("HubLogin: Constructs found: " + constructs.Count());
+
+                            foreach (var construct in constructs)
+                            {
+                                var constructBtn = GenerateConstructButton(
+                                    name: construct.Name,
+                                    imageUrl: construct.ImageUrl,
+                                    constructId: construct.Id,
+                                    inWorld: construct.World,
+                                    creator: construct.Creator);
+
+                                AddConstructOnCanvas(
+                                    construct: constructBtn,
+                                    x: construct.Coordinate.X,
+                                    y: construct.Coordinate.Y,
+                                    z: construct.Coordinate.Z);
+
+                                ScaleElement(constructBtn, construct.Scale);
+                                RotateElement(constructBtn, construct.Rotation);
+                            }
+                        }
+
+                        _isLoggedIn = true;
+
+                        // Set connected user's avatar image
+                        if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
+                            AvatarImageHolder.Content = CopyUiElementImageContent(iElement);
+
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("HubLogin: FAILED");
+
+                    if (await ConnectWithHub())
+                    {
+                        return await LoginToHub();
+                    }
+
+                    Console.WriteLine("HubLogin: FAILED");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("HubLogin: ERROR " + "\n" + ex.Message);
+                return false;
+            }
+        }
+
+        #endregion
+
         #region Element
 
         /// <summary>
@@ -1911,6 +1852,66 @@ namespace Worldescape
         #endregion
 
         #region Connection
+
+        /// <summary>
+        /// Subscribe to hub and listen to hub events.
+        /// </summary>
+        private void SubscribeHub()
+        {
+            #region Hub Connectivity
+
+            HubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
+            HubService.ConnectionReconnected += HubService_ConnectionReconnected;
+            HubService.ConnectionClosed += HubService_ConnectionClosed;
+
+            #endregion
+
+            #region Avatar World Events
+
+            HubService.NewBroadcastAvatarMovement += HubService_NewBroadcastAvatarMovement;
+            HubService.NewBroadcastAvatarActivityStatus += HubService_NewBroadcastAvatarActivityStatus;
+
+            #endregion
+
+            #region Avatar Connectivity
+
+            HubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
+            HubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
+            HubService.AvatarDisconnected += HubService_AvatarDisconnected;
+            HubService.AvatarReconnected += HubService_AvatarReconnected;
+
+            #endregion
+
+            #region Construct World Events
+
+            HubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
+            HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
+
+            HubService.NewRemoveConstruct += HubService_NewRemoveConstruct;
+            HubService.NewRemoveConstructs += HubService_NewRemoveConstructs;
+
+            HubService.NewBroadcastConstructPlacement += HubService_NewBroadcastConstructPlacement;
+
+            HubService.NewBroadcastConstructRotation += HubService_NewBroadcastConstructRotation;
+            HubService.NewBroadcastConstructRotations += HubService_NewBroadcastConstructRotations;
+
+            HubService.NewBroadcastConstructScale += HubService_NewBroadcastConstructScale;
+            HubService.NewBroadcastConstructScales += HubService_NewBroadcastConstructScales;
+
+            HubService.NewBroadcastConstructMovement += HubService_NewBroadcastConstructMovement;
+
+            #endregion
+
+            #region Avatar Messaging
+
+            HubService.AvatarTyping += HubService_AvatarTyping;
+            HubService.NewTextMessage += HubService_NewTextMessage;
+            HubService.NewImageMessage += HubService_NewImageMessage;
+
+            #endregion
+
+            Console.WriteLine("++ListenOnHubService: OK");
+        }
 
         private void SetDemoData()
         {
