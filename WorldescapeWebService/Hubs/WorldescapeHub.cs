@@ -5,7 +5,7 @@ using Worldescape.Shared;
 namespace WorldescapeWebService
 {
     /// <summary>
-    /// Provies acess tp server side signalR hub methods, hosts online avatars and constructs world wise. New ConnectionId is generated per user login.
+    /// Provies acess tp server side signalR hub methods, hosts concurrent avatars and constructs world wise. New ConnectionId is generated per user login.
     /// </summary>
     public class WorldescapeHub : Hub
     {
@@ -14,10 +14,10 @@ namespace WorldescapeWebService
         private readonly ILogger<WorldescapeHub> _logger;
 
         //<ConnectionId, Avatar>
-        private static ConcurrentDictionary<string, Avatar> OnlineAvatars = new();
+        private static ConcurrentDictionary<string, Avatar> ConcurrentAvatars = new();
 
         //<ConstructId, Construct>
-        private static ConcurrentDictionary<int, Construct> OnlineConstructs = new();
+        private static ConcurrentDictionary<int, Construct> ConcurrentConstructs = new();
 
         #endregion
 
@@ -43,17 +43,17 @@ namespace WorldescapeWebService
         {
             if (userId > 0)
             {
-                return OnlineAvatars.SingleOrDefault(c => c.Value.Id == userId).Value;
+                return ConcurrentAvatars.SingleOrDefault(c => c.Value.Id == userId).Value;
             }
             else
             {
-                return OnlineAvatars.SingleOrDefault(c => c.Key == Context.ConnectionId).Value;
+                return ConcurrentAvatars.SingleOrDefault(c => c.Key == Context.ConnectionId).Value;
             }
         }
 
         private string GetUserConnectionId(int userId)
         {
-            return OnlineAvatars.SingleOrDefault(c => c.Value.Id == userId).Key;
+            return ConcurrentAvatars.SingleOrDefault(c => c.Value.Id == userId).Key;
         }
 
         #endregion
@@ -104,7 +104,7 @@ namespace WorldescapeWebService
         public async Task<HubLoginResponse> Login(Avatar avatar)
         {
             // If an existing avatar doesn't exist
-            if (!OnlineAvatars.Any(x => x.Value.Id == avatar.Id))
+            if (!ConcurrentAvatars.Any(x => x.Value.Id == avatar.Id))
             {
                 var minValue = DateTime.MinValue;
 
@@ -126,25 +126,23 @@ namespace WorldescapeWebService
                 avatar.ConnectionId = Context.ConnectionId;
 
                 // Save the new avatar
-                if (!OnlineAvatars.TryAdd(Context.ConnectionId, avatar))
+                if (!ConcurrentAvatars.TryAdd(Context.ConnectionId, avatar))
                 {
                     return null;
                 }
 
                 var group = avatar.World.Id.ToString();
-
                 await Groups.AddToGroupAsync(Context.ConnectionId, group);
 
                 await Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedIn, avatar);
 
                 _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now} World: {group}");
 
-
                 // Find all constructs from the calling avatar's world
-                var constructs = OnlineConstructs.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+                var constructs = ConcurrentConstructs.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
                 // Find all avatars from the calling avatar's world
-                var avatars = OnlineAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+                var avatars = ConcurrentAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
                 // Return the curated avatars and constructs
                 return new HubLoginResponse() { Avatars = avatars ?? new Avatar[] { }, Constructs = constructs ?? new Construct[] { } };
@@ -152,25 +150,26 @@ namespace WorldescapeWebService
             else
             {
                 // Remove old instance
-                OnlineAvatars.TryRemove(OnlineAvatars.FirstOrDefault(x => x.Value.Id == avatar.Id));
+                ConcurrentAvatars.TryRemove(ConcurrentAvatars.FirstOrDefault(x => x.Value.Id == avatar.Id));
 
                 avatar.Session = new UserSession() { ReconnectionTime = DateTime.UtcNow };
                 avatar.ConnectionId = Context.ConnectionId;
 
                 // Add new instance            
-                OnlineAvatars.TryAdd(Context.ConnectionId, avatar);
+                ConcurrentAvatars.TryAdd(Context.ConnectionId, avatar);
 
                 var group = GetUsersGroup(avatar);
+                await Groups.AddToGroupAsync(Context.ConnectionId, group);
 
                 await Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedIn, avatar);
 
                 _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now} World: {group}");
 
                 // Find all constructs from the calling avatar's world
-                var constructs = OnlineConstructs.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+                var constructs = ConcurrentConstructs.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
                 // Find all avatars from the calling avatar's world
-                var avatars = OnlineAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+                var avatars = ConcurrentAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
                 // Return the curated avatars and constructs
                 return new HubLoginResponse() { Avatars = avatars ?? new Avatar[] { }, Constructs = constructs ?? new Construct[] { } };
@@ -185,11 +184,11 @@ namespace WorldescapeWebService
 
             if (avatar != null && !avatar.IsEmpty())
             {
-                if (OnlineAvatars.Any(x => x.Value.Id == avatar.Id))
+                if (ConcurrentAvatars.Any(x => x.Value.Id == avatar.Id))
                 {
-                    string connectionId = OnlineAvatars.SingleOrDefault((c) => c.Value.Id == avatar.Id).Key;
+                    string connectionId = ConcurrentAvatars.SingleOrDefault((c) => c.Value.Id == avatar.Id).Key;
 
-                    OnlineAvatars.TryRemove(connectionId, out Avatar a);
+                    ConcurrentAvatars.TryRemove(connectionId, out Avatar a);
 
                     var group = avatar.World.Id.ToString();
                     //Clients.OthersInGroup(group).AvatarLogout(avatar.Id);
@@ -246,7 +245,7 @@ namespace WorldescapeWebService
                 && recepientId != sender.Id
                 && !string.IsNullOrEmpty(message))
             {
-                if (OnlineAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
+                if (ConcurrentAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
                 {
                     await Clients.Client(recipientConnectionId).SendAsync(Constants.UnicastedTextMessage, sender.Id, message);
 
@@ -266,7 +265,7 @@ namespace WorldescapeWebService
                 && recepientId != sender.Id
                 && img != null)
             {
-                if (OnlineAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
+                if (ConcurrentAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
                 {
                     await Clients.Client(recipientConnectionId).SendAsync(Constants.UnicastedPictureMessage, sender.Id, img);
 
@@ -287,7 +286,7 @@ namespace WorldescapeWebService
             Avatar sender = GetCallingUser();
             string recipientConnectionId = GetUserConnectionId(recepientId);
 
-            if (OnlineAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
+            if (ConcurrentAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
             {
                 await Clients.Client(recipientConnectionId).SendAsync(Constants.AvatarTyped, sender.Id);
 
@@ -523,17 +522,17 @@ namespace WorldescapeWebService
 
         #endregion
 
-        #region Online Avatars
+        #region Concurrent Avatars
 
         private void UpdateAvatarReconnectionTime(int avatarId, DateTime reconnectionTime)
         {
             var connectionId = GetUserConnectionId(avatarId);
 
-            if (OnlineAvatars.ContainsKey(connectionId))
+            if (ConcurrentAvatars.ContainsKey(connectionId))
             {
-                var conUpdated = OnlineAvatars[connectionId];
+                var conUpdated = ConcurrentAvatars[connectionId];
                 conUpdated.Session.ReconnectionTime = reconnectionTime;
-                OnlineAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: OnlineAvatars[connectionId]);
+                ConcurrentAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: ConcurrentAvatars[connectionId]);
             }
         }
 
@@ -541,11 +540,11 @@ namespace WorldescapeWebService
         {
             var connectionId = GetUserConnectionId(avatarId);
 
-            if (OnlineAvatars.ContainsKey(connectionId))
+            if (ConcurrentAvatars.ContainsKey(connectionId))
             {
-                var conUpdated = OnlineAvatars[connectionId];
+                var conUpdated = ConcurrentAvatars[connectionId];
                 conUpdated.Session.DisconnectionTime = disconnectionTime;
-                OnlineAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: OnlineAvatars[connectionId]);
+                ConcurrentAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: ConcurrentAvatars[connectionId]);
             }
         }
 
@@ -553,11 +552,11 @@ namespace WorldescapeWebService
         {
             var connectionId = GetUserConnectionId(avatarId);
 
-            if (OnlineAvatars.ContainsKey(connectionId))
+            if (ConcurrentAvatars.ContainsKey(connectionId))
             {
-                var conUpdated = OnlineAvatars[connectionId];
+                var conUpdated = ConcurrentAvatars[connectionId];
                 conUpdated.ActivityStatus = (ActivityStatus)activityStatus;
-                OnlineAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: OnlineAvatars[connectionId]);
+                ConcurrentAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: ConcurrentAvatars[connectionId]);
             }
         }
 
@@ -565,80 +564,80 @@ namespace WorldescapeWebService
         {
             var connectionId = GetUserConnectionId(avatarId);
 
-            if (OnlineAvatars.ContainsKey(connectionId))
+            if (ConcurrentAvatars.ContainsKey(connectionId))
             {
-                var conUpdated = OnlineAvatars[connectionId];
+                var conUpdated = ConcurrentAvatars[connectionId];
                 conUpdated.Coordinate.X = x;
                 conUpdated.Coordinate.Y = y;
                 conUpdated.Coordinate.Z = z;
 
-                OnlineAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: OnlineAvatars[connectionId]);
+                ConcurrentAvatars.TryUpdate(key: connectionId, newValue: conUpdated, comparisonValue: ConcurrentAvatars[connectionId]);
             }
         }
 
         #endregion
 
-        #region Online Constructs
+        #region Concurrent Constructs
 
         private void UpdateConstructPlacementInConstructs(int constructId, int z)
         {
-            if (OnlineConstructs.ContainsKey(constructId))
+            if (ConcurrentConstructs.ContainsKey(constructId))
             {
-                var conUpdated = OnlineConstructs[constructId];
+                var conUpdated = ConcurrentConstructs[constructId];
                 conUpdated.Coordinate.Z = z;
-                OnlineConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: OnlineConstructs[constructId]);
+                ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
             }
         }
 
         private void UpdateConstructRotationInConstructs(int constructId, float rotation)
         {
-            if (OnlineConstructs.ContainsKey(constructId))
+            if (ConcurrentConstructs.ContainsKey(constructId))
             {
-                var conUpdated = OnlineConstructs[constructId];
+                var conUpdated = ConcurrentConstructs[constructId];
                 conUpdated.Rotation = rotation;
-                OnlineConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: OnlineConstructs[constructId]);
+                ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
             }
         }
 
         private void UpdateConstructScaleInConstructs(int constructId, float scale)
         {
-            if (OnlineConstructs.ContainsKey(constructId))
+            if (ConcurrentConstructs.ContainsKey(constructId))
             {
-                var conUpdated = OnlineConstructs[constructId];
+                var conUpdated = ConcurrentConstructs[constructId];
                 conUpdated.Scale = scale;
-                OnlineConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: OnlineConstructs[constructId]);
+                ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
             }
         }
 
         private void RemoveConstructFromConstructs(int constructId)
         {
-            if (OnlineConstructs.ContainsKey(constructId))
+            if (ConcurrentConstructs.ContainsKey(constructId))
             {
-                OnlineConstructs.TryRemove(constructId, out Construct c);
+                ConcurrentConstructs.TryRemove(constructId, out Construct c);
             }
         }
 
         private void AddOrUpdateConstructInConstructs(Construct construct)
         {
-            if (OnlineConstructs.ContainsKey(construct.Id))
+            if (ConcurrentConstructs.ContainsKey(construct.Id))
             {
-                OnlineConstructs.TryRemove(new KeyValuePair<int, Construct>(key: construct.Id, value: construct));
+                ConcurrentConstructs.TryRemove(new KeyValuePair<int, Construct>(key: construct.Id, value: construct));
             }
 
-            OnlineConstructs.TryAdd(key: construct.Id, value: construct);
+            ConcurrentConstructs.TryAdd(key: construct.Id, value: construct);
         }
 
         private void UpdateConstructMovementInConstructs(int constructId, double x, double y, int z)
         {
-            if (OnlineConstructs.ContainsKey(constructId))
+            if (ConcurrentConstructs.ContainsKey(constructId))
             {
-                var construct = OnlineConstructs[constructId];
+                var construct = ConcurrentConstructs[constructId];
 
                 construct.Coordinate.X = x;
                 construct.Coordinate.Y = y;
                 construct.Coordinate.Z = z;
 
-                OnlineConstructs.TryUpdate(key: constructId, newValue: construct, comparisonValue: OnlineConstructs[constructId]);
+                ConcurrentConstructs.TryUpdate(key: constructId, newValue: construct, comparisonValue: ConcurrentConstructs[constructId]);
             }
         }
 
