@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <StackPanel
-        Margin="0,50,0,0"
+        Margin="0,30,0,0"
         HorizontalAlignment="Center"
         VerticalAlignment="Top"
         Orientation="Vertical">
@@ -18,7 +18,7 @@
 
             <TextBlock
                 Margin="20"
-                FontSize="100"
+                FontSize="50"
                 Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
                 Text="Worldescape"
                 TextAlignment="Center" />
@@ -32,6 +32,7 @@
         </StackPanel>
 
         <ContentControl
+            x:Name="LoginModelHolder"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Style="{StaticResource MaterialDesign_Card_Style}">
@@ -43,11 +44,15 @@
                     FontSize="20"
                     Text="Email" />
 
+                <!--  Email  -->
                 <TextBox
                     x:Name="TextBox_Email"
                     Margin="10,5,10,10"
+                    BindingValidationError="Control_BindingValidationError"
                     FontSize="16"
+                    LostFocus="Control_LostFocus"
                     Style="{StaticResource MaterialDesign_TextBox_Style}"
+                    Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
                     TextAlignment="Left" />
 
                 <TextBlock
@@ -55,10 +60,14 @@
                     FontSize="20"
                     Text="Password" />
 
+                <!--  Password  -->
                 <PasswordBox
                     x:Name="PasswordBox_Pasword"
                     Margin="10,5,10,10"
+                    BindingValidationError="Control_BindingValidationError"
                     FontSize="16"
+                    LostFocus="Control_LostFocus"
+                    Password="{Binding Password, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
                     Style="{StaticResource MaterialDesign_PasswordBox_Style}" />
 
                 <Button

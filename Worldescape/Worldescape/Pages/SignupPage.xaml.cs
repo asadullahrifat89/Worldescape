@@ -9,21 +9,31 @@ namespace Worldescape
 {
     public partial class SignupPage : Page
     {
+        #region Fields
+
         private readonly HttpCommunicationService _httpCommunicationService;
 
-        public SignUpModel SignUpModel { get; set; } = new SignUpModel();
+        #endregion
+
+        #region Ctor
 
         public SignupPage()
         {
             InitializeComponent();
             SignUpModelHolder.DataContext = SignUpModel;
             _httpCommunicationService = App.ServiceProvider.GetService(typeof(HttpCommunicationService)) as HttpCommunicationService;
-        }
-
-        private void Control_BindingValidationError(object sender, ValidationErrorEventArgs e)
-        {
             CheckIfModelValid();
         }
+
+        #endregion
+
+        #region Properties
+
+        public SignupModel SignUpModel { get; set; } = new SignupModel();
+
+        #endregion
+
+        #region Methods
 
         private bool CheckIfModelValid()
         {
@@ -41,13 +51,20 @@ namespace Worldescape
             return Button_Signup.IsEnabled;
         }
 
+        private void Control_BindingValidationError(object sender, ValidationErrorEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
+        private void Control_LostFocus(object sender, RoutedEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
         private async void Button_Signup_Click(object sender, RoutedEventArgs e)
         {
             if (!CheckIfModelValid())
-            {
-                Control_BindingValidationError(sender, null);
                 return;
-            }
 
             var command = new AddUserCommandRequest
             {
@@ -60,11 +77,15 @@ namespace Worldescape
                 Name = SignUpModel.FirstName + " " + SignUpModel.LastName,
             };
 
-            var response = await _httpCommunicationService.SendToHttpAsync<ServiceResponse>(
-                httpMethod: HttpMethod.Post,
-                baseUri: _httpCommunicationService.GetWebServiceUrl(),
-                actionUri: Constants.Action_AddUser,
-                payload: command);
+            var response = await _httpCommunicationService.SendPostRequest<ServiceResponse>(
+               actionUri: Constants.Action_AddUser,
+               payload: command);
+
+            //var response = await _httpCommunicationService.SendToHttpAsync<ServiceResponse>(
+            //    httpMethod: HttpMethod.Post,
+            //    baseUri: _httpCommunicationService.GetWebServiceUrl(),
+            //    actionUri: Constants.Action_AddUser,
+            //    payload: command);
 
             if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -72,18 +93,26 @@ namespace Worldescape
                 {
                     MessageBox.Show(response.ExternalError.ToString());
                 }
+                else
+                {
+                    NavigateToLoginPage();
+                }
             }
         }
 
         private void Button_Login_Click(object sender, RoutedEventArgs e)
         {
+            NavigateToLoginPage();
+        }
+
+        private static void NavigateToLoginPage()
+        {
             var mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             mainPage.NavigateToPage("/LoginPage");
         }
 
-        private void Control_LostFocus(object sender, RoutedEventArgs e)
-        {
-            CheckIfModelValid();
-        }
+
+
+        #endregion
     }
 }

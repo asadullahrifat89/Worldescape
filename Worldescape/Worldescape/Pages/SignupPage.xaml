@@ -146,18 +146,21 @@
                         x:Name="RadioButton_Male"
                         Margin="10"
                         Content="Male"
+                        LostFocus="Control_LostFocus"
                         Style="{StaticResource MaterialDesign_RadioButton_Style}" />
 
                     <RadioButton
                         x:Name="RadioButton_Female"
                         Margin="10"
                         Content="Female"
+                        LostFocus="Control_LostFocus"
                         Style="{StaticResource MaterialDesign_RadioButton_Style}" />
 
                     <RadioButton
                         x:Name="RadioButton_Other"
                         Margin="10"
                         Content="Other"
+                        LostFocus="Control_LostFocus"
                         Style="{StaticResource MaterialDesign_RadioButton_Style}" />
                 </StackPanel>
 

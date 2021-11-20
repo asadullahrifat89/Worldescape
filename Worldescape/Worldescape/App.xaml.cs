@@ -51,6 +51,8 @@ namespace Worldescape
             // Pages
             services.AddSingleton<MainPage>();
             services.AddSingleton<InsideWorldPage>();
+            services.AddSingleton<LoginPage>();
+            services.AddSingleton<SignupPage>();
         }
 
         private void App_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)

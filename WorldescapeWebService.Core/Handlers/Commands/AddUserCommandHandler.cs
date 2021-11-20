@@ -47,7 +47,7 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ServiceResp
             var result = await _databaseService.FindOne(filter);
 
             if (result != null && !result.IsEmpty())
-                throw new Exception("User with Email: " + request.Email + "already exists.");
+                throw new Exception("User with Email: " + request.Email + " already exists.");
 
             // Create new user instance
             var user = new User

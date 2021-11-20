@@ -27,6 +27,62 @@ namespace Worldescape
             return await _httpService.SendAsync(httpRequestMessage);
         }
 
+        public async Task<Response> SendGetRequest<Response>(
+            string actionUri,
+            object payload,
+            string accessToken = null) where Response : class
+        {
+            var response = await SendToHttpAsync<Response>(
+                   httpMethod: HttpMethod.Get,
+                   baseUri: GetWebServiceUrl(),
+                   actionUri: actionUri,
+                   payload: payload);
+
+            return response;
+        }
+
+        public async Task<Response> SendPostRequest<Response>(
+            string actionUri,
+            object payload,
+            string accessToken = null) where Response : class
+        {
+            var response = await SendToHttpAsync<Response>(
+                   httpMethod: HttpMethod.Post,
+                   baseUri: GetWebServiceUrl(),
+                   actionUri: actionUri,
+                   payload: payload);
+
+            return response;
+        }
+
+        public async Task<Response> SendPutRequest<Response>(
+          string actionUri,
+          object payload,
+          string accessToken = null) where Response : class
+        {
+            var response = await SendToHttpAsync<Response>(
+                   httpMethod: HttpMethod.Put,
+                   baseUri: GetWebServiceUrl(),
+                   actionUri: actionUri,
+                   payload: payload);
+
+            return response;
+        }
+
+        public async Task<Response> SendDeleteRequest<Response>(
+           string actionUri,
+           object payload,
+           string accessToken = null) where Response : class
+        {
+            var response = await SendToHttpAsync<Response>(
+                   httpMethod: HttpMethod.Delete,
+                   baseUri: GetWebServiceUrl(),
+                   actionUri: actionUri,
+                   payload: payload);
+
+            return response;
+        }
+
         public async Task<Response> SendToHttpAsync<Response>(
             HttpMethod httpMethod,
             string baseUri,
