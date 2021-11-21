@@ -94,9 +94,9 @@
 			<SubType>Code</SubType>
 		</Compile>
 		<Compile Include="Pages\LoginPage.xaml.cs" />
-		<Compile Include="Styles\MaterialDesign_Styles_Kit\AccentColorConverter.cs" />
-		<Compile Include="Styles\MaterialDesign_Styles_Kit\DoubleToCornerRadiusConverter.cs" />
-		<Compile Include="Styles\MaterialDesign_Styles_Kit\TextToPlaceholderTextVisibilityConverter.cs" />
+		<Compile Include="Converters\AccentColorConverter.cs" />
+		<Compile Include="Converters\DoubleToCornerRadiusConverter.cs" />
+		<Compile Include="Converters\TextToPlaceholderTextVisibilityConverter.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
