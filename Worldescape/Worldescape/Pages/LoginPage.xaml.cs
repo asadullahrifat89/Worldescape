@@ -56,7 +56,7 @@ namespace Worldescape
                actionUri: Constants.Action_GetApiToken,
                payload: new GetApiTokenQueryRequest { Password = LoginModel.Password, Email = LoginModel.Email, });
 
-            if (!response.ExternalError.IsNullOrBlank())
+            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
             {
                 MessageBox.Show(response.ExternalError.ToString());
             }

@@ -81,7 +81,7 @@ namespace Worldescape
                actionUri: Constants.Action_AddUser,
                payload: command);
 
-            if (!response.ExternalError.IsNullOrBlank())
+            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
             {
                 MessageBox.Show(response.ExternalError.ToString());
             }

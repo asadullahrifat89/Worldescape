@@ -52,7 +52,7 @@
                         <!--  First name  -->
                         <TextBox
                             x:Name="TextBox_FirstName"
-                            Width="170"
+                            Width="200"
                             Margin="10,5,10,10"
                             BindingValidationError="Control_BindingValidationError"
                             FontSize="16"
@@ -74,7 +74,7 @@
                         <!--  Last name  -->
                         <TextBox
                             x:Name="TextBox_LastName"
-                            Width="170"
+                            Width="200"
                             Margin="10,5,10,10"
                             BindingValidationError="Control_BindingValidationError"
                             FontSize="16"
