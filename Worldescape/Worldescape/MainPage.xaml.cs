@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Data;
 
 namespace Worldescape
@@ -33,18 +34,38 @@ namespace Worldescape
 
         #region Methods
 
-        public void SetCurrentUserModel(string firstName, string profileImageUrl = null, string avatarImageUrl = null)
+        public void SetCurrentUserModel(string avatarImageUrl = null)
         {
-            CurrentUserModel.FirstName = firstName;
-            if (!profileImageUrl.IsNullOrBlank())
-            {
-                CurrentUserModel.ProfileImageUrl = profileImageUrl; 
-            }
-            if (!avatarImageUrl.IsNullOrBlank())
-            {
-                CurrentUserModel.AvatarImageUrl = avatarImageUrl; 
-            }
+            var firstName = App.User.FirstName;
+            var profileImageUrl = App.User.ImageUrl;
+
+            string defaultImageUrl = string.Empty;
+
             CurrentUserHolder.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            CurrentUserModel.FirstName = firstName;
+
+            // Gender wise default image
+            switch (App.User.Gender)
+            {
+                case Gender.Male:
+                    defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Male.png";
+                    break;
+                case Gender.Female:
+                    defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Female.png";
+                    break;
+                case Gender.Other:
+                    defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Other.png";
+                    break;
+                default:
+                    break;
+            }
+
+            // If no profile picture was set
+            CurrentUserModel.ProfileImageUrl = !profileImageUrl.IsNullOrBlank() ? profileImageUrl : defaultImageUrl;
+            CurrentUserModel.AvatarImageUrl = !avatarImageUrl.IsNullOrBlank() ? avatarImageUrl : defaultImageUrl;
+
+            AvatarImageUrlHolder.Source = new BitmapImage(new Uri(CurrentUserModel.AvatarImageUrl));
+            ProfileImageUrlHolder.Source = new BitmapImage(new Uri(CurrentUserModel.ProfileImageUrl));
         }
 
         public void LogError(Exception error)

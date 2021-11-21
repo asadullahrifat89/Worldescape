@@ -21,6 +21,9 @@
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
 		<Content Include="appsettings.json" />
+		<Content Include="Images\Defaults\ProfileImage_Female.png" />
+		<Content Include="Images\Defaults\ProfileImage_Male.png" />
+		<Content Include="Images\Defaults\ProfileImage_Other.png" />
 		<Content Include="Pages\SignupPage.xaml">
 			<SubType>Designer</SubType>
 			<Generator>MSBuild:Compile</Generator>

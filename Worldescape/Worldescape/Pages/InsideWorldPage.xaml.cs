@@ -876,9 +876,12 @@ namespace Worldescape
                         {
                             Character = character;
 
-                            var mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-                            mainPage.SetCurrentUserModel(App.User.FirstName, App.User.ImageUrl, Character.ImageUrl);
+                            PrepareAvatarData();
 
+                            var mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+                            mainPage.SetCurrentUserModel(Character.ImageUrl);
+
+                            
                             await Connect();
                         });
 
@@ -1985,10 +1988,10 @@ namespace Worldescape
             Console.WriteLine("++ListenOnHubService: OK");
         }
 
-        private void SetDemoData()
+        private void PrepareAvatarData()
         {
-            if (Avatar != null)
-                return;
+            //if (Avatar != null)
+            //    return;
 
             InWorld = App.InWorld;
             User = App.User;
@@ -2029,8 +2032,6 @@ namespace Worldescape
         /// <returns></returns>
         private async Task Connect()
         {
-            SetDemoData();
-
             // If a connection is already established simply login to hub
             if (CanHubLogin())
             {

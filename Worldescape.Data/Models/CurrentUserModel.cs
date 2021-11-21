@@ -20,7 +20,7 @@ namespace Worldescape.Data
             }
         }
 
-        private string _ProfileImageUrl = "ms-appx:///Images/StoreLogo.png";
+        private string _ProfileImageUrl;
         public string ProfileImageUrl
         {
             get { return _ProfileImageUrl; }
@@ -31,7 +31,7 @@ namespace Worldescape.Data
             }
         }
 
-        private string _AvatarImageUrl = "ms-appx:///Images/StoreLogo.png";
+        private string _AvatarImageUrl;
         public string AvatarImageUrl
         {
             get { return _AvatarImageUrl; }

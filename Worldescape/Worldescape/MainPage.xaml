@@ -21,52 +21,50 @@
             Height="50"
             Visibility="Collapsed">
 
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <StackPanel
+                Margin="10,0"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
 
+                <!--  ProfileImageUrl  -->
+                <Border
+                    Width="40"
+                    Height="40"
+                    ClipToBounds="True"
+                    CornerRadius="40">
+
+                    <Image
+                        x:Name="ProfileImageUrlHolder"
+                        Width="40"
+                        Height="40"
+                        Stretch="Uniform" />
+
+                </Border>
+
+                <!--  FirstName  -->
                 <Button
                     x:Name="MyAcountButton"
                     Margin="10,0"
+                    Content="{Binding FirstName}"
                     FontSize="15"
                     FontWeight="Semibold"
-                    Style="{StaticResource MaterialDesign_HyperlinkButton_Style}">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
+                    Style="{StaticResource MaterialDesign_HyperlinkButton_Style}" />
 
-                            <!--<Border
-                                Width="40"
-                                Height="40"
-                                Margin="10,0"
-                                ClipToBounds="True"
-                                CornerRadius="40">-->
-
-                            <Image
-                                Width="40"
-                                Height="40"
-                                Source="{Binding ProfileImageUrl, Mode=OneWay}"
-                                Stretch="Uniform" />
-
-                            <!--</Border>-->
-
-                            <TextBlock VerticalAlignment="Center" Text="{Binding FirstName, Mode=OneWay}" />
-
-                        </StackPanel>
-                    </Button.Content>
-                </Button>
-
-                <!--<Border
+                <!--  AvatarImageUrl  -->
+                <Border
                     Width="40"
                     Height="40"
-                    Margin="10,0"
                     ClipToBounds="True"
-                    CornerRadius="40">-->
+                    CornerRadius="40">
 
-                <Image
-                    Width="40"
-                    Height="40"
-                    Source="{Binding AvatarImageUrl, Mode=OneWay}"
-                    Stretch="Uniform" />
+                    <Image
+                        x:Name="AvatarImageUrlHolder"
+                        Width="40"
+                        Height="40"
+                        Stretch="Uniform" />
 
-                <!--</Border>-->
+                </Border>
+
             </StackPanel>
 
             <Grid.Effect>
@@ -78,6 +76,7 @@
                     ShadowDepth="0"
                     Color="Gray" />
             </Grid.Effect>
+
         </Grid>
 
         <!--  Frame that hosts pages  -->
