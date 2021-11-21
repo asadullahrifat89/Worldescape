@@ -546,7 +546,7 @@ namespace Worldescape
 
                 if (!MultiselectedConstructs.Contains(construct))
                 {
-                    MultiSelectedConstructsHolder.Children.Add(CopyUiElementImageContent(_selectedConstruct));
+                    MultiSelectedConstructsHolder.Children.Add(GetImageFromUiElement(_selectedConstruct));
                     MultiselectedConstructs.Add(construct);
                 }
             }
@@ -1414,7 +1414,7 @@ namespace Worldescape
             else
             {
                 var construct = ((Button)uielement).Tag as Construct;
-                var image = CopyUiElementImageContent(uielement);
+                var image = GetImageFromUiElement(uielement);
 
                 //StackPanel stackPanelContent = new StackPanel();
                 //stackPanelContent.Children.Add(image);
@@ -1442,7 +1442,7 @@ namespace Worldescape
             }
             else
             {
-                var image = CopyUiElementImageContent(uielement);
+                var image = GetImageFromUiElement(uielement);
                 OperationalConstructHolder.Content = image;
                 OperationalConstructHolder.Visibility = Visibility.Visible;
             }
@@ -1464,7 +1464,7 @@ namespace Worldescape
                 var taggedAvatar = ((Button)uielement).Tag as Avatar;
                 Border userImageHolder = GetAvatarUserPicture(taggedAvatar);
 
-                var avatarImage = CopyUiElementImageContent(uielement);
+                var avatarImage = GetImageFromUiElement(uielement);
 
                 StackPanel stackPanelContent = new StackPanel() { Orientation = Orientation.Horizontal };
                 stackPanelContent.Children.Add(userImageHolder);
@@ -1493,8 +1493,8 @@ namespace Worldescape
                 // If receiver avatar is forward from current avatar
                 AlignAvatarFaceDirection(receiver.Coordinate.X);
 
-                MessagingFromAvatarHolder.Content = CopyUiElementImageContent(Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id));
-                MessagingToAvatarHolder.Content = CopyUiElementImageContent(receiverUiElement);
+                MessagingFromAvatarHolder.Content = GetImageFromUiElement(Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id));
+                MessagingToAvatarHolder.Content = GetImageFromUiElement(receiverUiElement);
             }
         }
 
@@ -1687,11 +1687,11 @@ namespace Worldescape
         #region Element
 
         /// <summary>
-        /// Copies the image content from an UIElement and returns it as an Image.
+        /// Gets the image from the provided UiElement.
         /// </summary>
         /// <param name="uielement"></param>
         /// <returns></returns>
-        private static Image CopyUiElementImageContent(UIElement uielement)
+        private static Image GetImageFromUiElement(UIElement uielement)
         {
             var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
 
@@ -2081,7 +2081,7 @@ namespace Worldescape
         {
             var bitmapImage = new BitmapImage(new Uri(avatar.User.ImageUrl));////new BitmapImage(((BitmapImage)((Image)avatarButton.Content).Source).UriSource);
 
-            double round = 50;
+            double round = 40;
 
             var imageBorder = new Border()
             {
@@ -2688,6 +2688,7 @@ namespace Worldescape
                 FontFamily = new FontFamily("Segoe UI"),
                 TextWrapping = TextWrapping.Wrap,
                 Foreground = new SolidColorBrush(Colors.Black),
+                VerticalAlignment = VerticalAlignment.Center,
             };
 
             // If sent message then image on the left
