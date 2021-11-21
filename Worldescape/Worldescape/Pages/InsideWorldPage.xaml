@@ -12,7 +12,7 @@
 
         <!--  Canvas host  -->
         <ScrollViewer
-            x:Name="FrameScrollViewer"
+            x:Name="CanvasScrollViewer"
             HorizontalScrollBarVisibility="Auto"
             IsTabStop="False"
             VerticalScrollBarVisibility="Auto">
@@ -38,7 +38,7 @@
             <!--  Connect  -->
             <Button
                 x:Name="ConnectButton"
-                MinWidth="100"
+                MinWidth="110"
                 Margin="10"
                 Click="ConnectButton_Click"
                 Content="Connect"
@@ -50,8 +50,8 @@
         <!--  Logged in user's avatar button, scrolls to avatar, becomes visible after avatar hub login  -->
         <Button
             x:Name="MyAvatarButton"
-            Width="80"
-            Height="80"
+            Width="70"
+            Height="70"
             Margin="20"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
@@ -61,13 +61,20 @@
 
             <Button.Content>
 
-                <!--  AvatarImageUrl  -->
-                <Image
-                    x:Name="AvatarImageHolder"
-                    Width="80"
-                    Height="80"
-                    Stretch="UniformToFill" />
+                <Border
+                    Width="40"
+                    Height="40"
+                    ClipToBounds="True"
+                    CornerRadius="40">
 
+                    <!--  AvatarImageHolder  -->
+                    <Image
+                        x:Name="AvatarImageHolder"
+                        Width="40"
+                        Height="40"
+                        Stretch="UniformToFill" />
+
+                </Border>
 
             </Button.Content>
 
@@ -91,33 +98,33 @@
                     <!--  Craft  -->
                     <ToggleButton
                         x:Name="ConstructCraftButton"
-                        MinWidth="100"
+                        MinWidth="110"
                         Margin="10"
                         Click="ConstructCraftButton_Click"
                         Content="Craft"
                         FontSize="20"
-                        Style="{StaticResource MaterialDesign_ToggleButton_Style}" />
+                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
                     <!--  Add  -->
                     <ToggleButton
                         x:Name="ConstructAddButton"
-                        MinWidth="100"
+                        MinWidth="110"
                         Margin="10"
                         Click="ConstructAddButton_Click"
                         Content="Add"
                         FontSize="20"
-                        Style="{StaticResource MaterialDesign_ToggleButton_Style}"
+                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
                         Visibility="Collapsed" />
 
                     <!--  Multiselect  -->
                     <ToggleButton
                         x:Name="ConstructMultiSelectButton"
-                        MinWidth="100"
+                        MinWidth="110"
                         Margin="10"
                         Click="ConstructMultiSelectButton_Click"
                         Content="Multiselect"
                         FontSize="20"
-                        Style="{StaticResource MaterialDesign_ToggleButton_Style}"
+                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
                         Visibility="Collapsed" />
 
                 </StackPanel>
@@ -181,7 +188,7 @@
                             <!--  Create post, shows a child window to create a post  -->
                             <Button
                                 x:Name="CreatePostButton"
-                                MinWidth="100"
+                                MinWidth="110"
                                 Margin="5,10"
                                 Click="CreatePostButton_Click"
                                 Content="Post"
@@ -190,12 +197,12 @@
 
                             <ToggleButton
                                 x:Name="SelectStatusButton"
-                                MinWidth="100"
+                                MinWidth="110"
                                 Margin="5,10"
                                 Click="SelectStatusButton_Click"
                                 Content="Status"
                                 FontSize="20"
-                                Style="{StaticResource MaterialDesign_ToggleButton_Style}" />
+                                Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
                         </WrapPanel>
 
@@ -209,7 +216,7 @@
                             <!--  Message, activates messaging UI  -->
                             <Button
                                 x:Name="MessageAvatarButton"
-                                MinWidth="100"
+                                MinWidth="110"
                                 Margin="5,10"
                                 Click="MessageAvatarButton_Click"
                                 Content="Message"
@@ -265,28 +272,28 @@
                 <!--  Move  -->
                 <ToggleButton
                     x:Name="ConstructMoveButton"
-                    MinWidth="100"
+                    MinWidth="110"
                     Margin="10"
                     Click="ConstructMoveButton_Click"
                     Content="Move"
                     FontSize="20"
-                    Style="{StaticResource MaterialDesign_ToggleButton_Style}" />
+                    Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
                 <!--  Clone, not available while multi selection  -->
                 <ToggleButton
                     x:Name="ConstructCloneButton"
-                    MinWidth="100"
+                    MinWidth="110"
                     Margin="10"
                     Click="ConstructCloneButton_Click"
                     Content="Clone"
                     FontSize="20"
-                    Style="{StaticResource MaterialDesign_ToggleButton_Style}"
+                    Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
                     Visibility="{Binding ElementName=ConstructMultiSelectButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}" />
 
                 <!--  Upward  -->
                 <Button
                     x:Name="ConstructBringForwardButton"
-                    MinWidth="100"
+                    MinWidth="110"
                     Margin="10"
                     Click="ConstructBringForwardButton_Click"
                     Content="Upward"
@@ -296,7 +303,7 @@
                 <!--  Downward  -->
                 <Button
                     x:Name="ConstructSendBackwardButton"
-                    MinWidth="100"
+                    MinWidth="110"
                     Margin="10"
                     Click="ConstructSendBackwardButton_Click"
                     Content="Downward"
@@ -306,7 +313,7 @@
                 <!--  Enlarge  -->
                 <Button
                     x:Name="ConstructScaleUpButton"
-                    MinWidth="100"
+                    MinWidth="110"
                     Margin="10"
                     Click="ConstructScaleUpButton_Click"
                     Content="Enlarge"
@@ -316,7 +323,7 @@
                 <!--  Dwindle  -->
                 <Button
                     x:Name="ConstructScaleDownButton"
-                    MinWidth="100"
+                    MinWidth="110"
                     Margin="10"
                     Click="ConstructScaleDownButton_Click"
                     Content="Dwindle"
@@ -326,7 +333,7 @@
                 <!--  Rotate  -->
                 <Button
                     x:Name="ConstructRotateButton"
-                    MinWidth="100"
+                    MinWidth="110"
                     Margin="10"
                     Click="ConstructRotateButton_Click"
                     Content="Rotate"
@@ -336,7 +343,7 @@
                 <!--  Delete  -->
                 <Button
                     x:Name="ConstructDeleteButton"
-                    MinWidth="100"
+                    MinWidth="110"
                     Margin="10"
                     Click="ConstructDeleteButton_Click"
                     Content="Delete"
@@ -379,7 +386,7 @@
                 <!--  Send  -->
                 <Button
                     x:Name="SendUnicastMessageButton"
-                    MinWidth="100"
+                    MinWidth="110"
                     Margin="10"
                     Click="SendUnicastMessageButton_Click"
                     Content="Send"

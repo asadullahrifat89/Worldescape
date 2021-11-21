@@ -1266,7 +1266,10 @@ namespace Worldescape
 
         private void MyAvatarButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
+            {
+                CanvasScrollViewer.ScrollIntoView((Button)iElement);
+            }
         }
 
         /// <summary>

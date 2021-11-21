@@ -9,11 +9,6 @@
 
     <Grid>
 
-        <!--<Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>-->
-
         <!--  Frame that hosts pages  -->
         <Frame
             x:Name="PageContainer"
@@ -31,6 +26,7 @@
             </Frame.RenderTransform>
         </Frame>
 
+        <!--  Current user holder, becomes visible after login to server  -->
         <StackPanel
             x:Name="CurrentUserHolder"
             Grid.Row="1"
