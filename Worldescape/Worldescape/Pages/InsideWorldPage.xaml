@@ -164,6 +164,8 @@
                         Margin="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
+                        FontWeight="SemiBold"
+                        Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
                         Style="{StaticResource MaterialDesign_PopupContent_Style}"
                         Visibility="Collapsed" />
 
@@ -181,6 +183,8 @@
                         Margin="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
+                        FontWeight="SemiBold"
+                        Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
                         Style="{StaticResource MaterialDesign_PopupContent_Style}"
                         Visibility="Collapsed" />
 

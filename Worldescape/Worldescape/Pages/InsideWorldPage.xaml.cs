@@ -453,7 +453,7 @@ namespace Worldescape
             {
                 // Clear construct selection
                 _selectedConstruct = null;
-                ShowSelectedConstruct(null);
+                ShowSelectedConstruct(null); // Canvas
 
                 _movingConstruct = null;
                 ShowOperationalConstruct(null);
@@ -525,7 +525,7 @@ namespace Worldescape
             UIElement uielement = (UIElement)sender;
             _selectedConstruct = uielement;
 
-            ShowSelectedConstruct(uielement);
+            ShowSelectedConstruct(uielement); // Construct
 
             if (ConstructAddButton.IsChecked.Value && _addingConstruct != null)
             {
@@ -630,7 +630,7 @@ namespace Worldescape
                 uielement.ReleasePointerCapture(e.Pointer);
 
                 _selectedConstruct = uielement;
-                ShowSelectedConstruct(uielement);
+                ShowSelectedConstruct(uielement); // Construct
 
                 var x = Canvas.GetLeft(uielement);
                 var y = Canvas.GetTop(uielement);
@@ -1413,8 +1413,18 @@ namespace Worldescape
             }
             else
             {
-                var button = CopyUiElementImageContent(uielement);
-                SelectedConstructHolder.Content = button;
+                var construct = ((Button)uielement).Tag as Construct;
+                var image = CopyUiElementImageContent(uielement);
+
+                //StackPanel stackPanelContent = new StackPanel();
+                //stackPanelContent.Children.Add(image);
+                //stackPanelContent.Children.Add(new TextBlock()
+                //{
+                //    Text = $"{construct.Creator.Name}\n{construct.CreatedOn.ToString("dd-MM-yyyy hh:mm tt")}",
+                //    TextAlignment = TextAlignment.Center,
+                //});
+
+                SelectedConstructHolder.Content = image;
                 SelectedConstructHolder.Visibility = Visibility.Visible;
             }
         }
@@ -1432,8 +1442,8 @@ namespace Worldescape
             }
             else
             {
-                var button = CopyUiElementImageContent(uielement);
-                OperationalConstructHolder.Content = button;
+                var image = CopyUiElementImageContent(uielement);
+                OperationalConstructHolder.Content = image;
                 OperationalConstructHolder.Visibility = Visibility.Visible;
             }
         }
@@ -1451,8 +1461,18 @@ namespace Worldescape
             }
             else
             {
-                var img = CopyUiElementImageContent(uielement);
-                SelectedAvatarHolder.Content = img;
+                var avatar = ((Button)uielement).Tag as Avatar;
+                var image = CopyUiElementImageContent(uielement);
+
+                //StackPanel stackPanelContent = new StackPanel();
+                //stackPanelContent.Children.Add(image);
+                //stackPanelContent.Children.Add(new TextBlock()
+                //{
+                //    Text = $"{avatar.User.Name}\n{avatar.CreatedOn.ToString("dd-MM-yyyy hh:mm tt")}",
+                //    TextAlignment = TextAlignment.Center,
+                //});
+
+                SelectedAvatarHolder.Content = image;
                 SelectedAvatarHolder.Visibility = Visibility.Visible;
             }
         }
@@ -1685,7 +1705,7 @@ namespace Worldescape
                 Stretch = Stretch.Uniform,
                 Height = 50,
                 Width = 50,
-                Margin = new Thickness(5)
+                Margin = new Thickness(3)
             };
 
             return img;
@@ -2417,7 +2437,7 @@ namespace Worldescape
 
             RemoveConstructFromCanvas(_selectedConstruct);
 
-            ShowSelectedConstruct(null);
+            ShowSelectedConstruct(null); // Construct delete
 
             await HubService.RemoveConstruct(construct.Id);
         }
