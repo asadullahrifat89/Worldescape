@@ -8,6 +8,8 @@ namespace Worldescape
 {
     public sealed partial class App : Application
     {
+        private readonly MainPage _mainPage;
+
         #region Ctor
 
         public App()
@@ -21,10 +23,10 @@ namespace Worldescape
             ServiceProvider = services.BuildServiceProvider();
 
             //var mainPage = new MainPage();
-            var mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-            Window.Current.Content = mainPage;
+            _mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+            Window.Current.Content = _mainPage;
 
-            mainPage.NavigateToPage("/LoginPage");
+            _mainPage.NavigateToPage("/LoginPage");
         }
 
         private void App_Startup(object sender, StartupEventArgs e)
@@ -73,13 +75,7 @@ namespace Worldescape
 #if DEBUG
             MessageBox.Show(e.ExceptionObject.ToString());
 #else
-            Console.WriteLine(e.ExceptionObject.Message);
-
-            var mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-            if (mainPage != null)
-            {
-                mainPage.LogError(e.ExceptionObject);
-            }
+            Console.WriteLine(e.ExceptionObject.Message);            
             e.Handled = true;
 #endif
         } 

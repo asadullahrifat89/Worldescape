@@ -82,12 +82,12 @@
             Visibility="{Binding ElementName=Grid_root, Path=IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}">
 
             <TextBlock
+                x:Name="BusyMessageHolder"
                 Margin="20"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontSize="20"
-                FontWeight="SemiBold"
-                Text="Processing..." />
+                FontWeight="SemiBold" />
 
 
         </ContentControl>

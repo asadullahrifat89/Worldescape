@@ -63,11 +63,13 @@ namespace Worldescape
             ProfileImageUrlHolder.Source = new BitmapImage(new Uri(CurrentUserModel.ProfileImageUrl));
         }
 
-        public void SetIsBusy(bool isBusy)
+        public void SetIsBusy(bool isBusy, string busyMessage = null)
         {
             Grid_root.IsEnabled = !isBusy;
 
             Grid_root.Opacity = Grid_root.IsEnabled ? 1 : 0.5;
+
+            BusyMessageHolder.Text = Grid_root.IsEnabled ? "" : busyMessage ?? "Processing...";
         }
 
         public void NavigateToPage(string targetUri)

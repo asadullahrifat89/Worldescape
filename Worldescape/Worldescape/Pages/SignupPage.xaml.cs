@@ -68,7 +68,7 @@ namespace Worldescape
             if (!CheckIfModelValid())
                 return;
 
-            _mainPage.SetIsBusy(true);
+            _mainPage.SetIsBusy(true, "Creating your account...");
             var command = new AddUserCommandRequest
             {
                 Email = SignUpModel.Email,
