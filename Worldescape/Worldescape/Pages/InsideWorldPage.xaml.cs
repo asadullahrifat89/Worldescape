@@ -875,6 +875,10 @@ namespace Worldescape
                         characterSelected: async (character) =>
                         {
                             Character = character;
+
+                            var mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+                            mainPage.SetCurrentUserModel(App.User.FirstName, App.User.ImageUrl, Character.ImageUrl);
+
                             await Connect();
                         });
 

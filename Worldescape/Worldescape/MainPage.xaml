@@ -21,32 +21,53 @@
             Height="50"
             Visibility="Collapsed">
 
-            <Button
-                Margin="10,0"
-                HorizontalAlignment="Right"
-                FontSize="15"
-                FontWeight="Semibold"
-                Style="{StaticResource MaterialDesign_HyperlinkButton_Style}">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
-                        <Ellipse
-                            Width="40"
-                            Height="40"
-                            ClipToBounds="True">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="{Binding ImageUrl, Mode=OneWay, TargetNullValue='ms-appx:///Images/StoreLogo.png'}" Stretch="Uniform" />
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <!--<Image Margin="5,0">
-                            <Image.Source>
-                                <BitmapImage UriSource="{Binding ImageUrl, Mode=OneWay, TargetNullValue='ms-appx:///Images/StoreLogo.png'}" />
-                            </Image.Source>
-                        </Image>-->
-                        <TextBlock VerticalAlignment="Center" Text="{Binding FirstName, Mode=OneWay}" />
-                    </StackPanel>
-                </Button.Content>
-            </Button>
+                <Button
+                    x:Name="MyAcountButton"
+                    Margin="10,0"
+                    FontSize="15"
+                    FontWeight="Semibold"
+                    Style="{StaticResource MaterialDesign_HyperlinkButton_Style}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+
+                            <!--<Border
+                                Width="40"
+                                Height="40"
+                                Margin="10,0"
+                                ClipToBounds="True"
+                                CornerRadius="40">-->
+
+                            <Image
+                                Width="40"
+                                Height="40"
+                                Source="{Binding ProfileImageUrl, Mode=OneWay}"
+                                Stretch="Uniform" />
+
+                            <!--</Border>-->
+
+                            <TextBlock VerticalAlignment="Center" Text="{Binding FirstName, Mode=OneWay}" />
+
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+
+                <!--<Border
+                    Width="40"
+                    Height="40"
+                    Margin="10,0"
+                    ClipToBounds="True"
+                    CornerRadius="40">-->
+
+                <Image
+                    Width="40"
+                    Height="40"
+                    Source="{Binding AvatarImageUrl, Mode=OneWay}"
+                    Stretch="Uniform" />
+
+                <!--</Border>-->
+            </StackPanel>
 
             <Grid.Effect>
                 <DropShadowEffect

@@ -5,40 +5,6 @@ using Worldescape.Data;
 
 namespace Worldescape
 {
-    public class CurrentUserModel : BaseModel
-    {
-        private string _FirstName;
-        public string FirstName
-        {
-            get { return _FirstName; }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new Exception("FirstName cannot be empty.");
-                }
-                _FirstName = value;
-                RaisePropertyChanged("FirstName");
-            }
-        }
-
-        private string _ImageUrl = null;
-        public string ImageUrl
-        {
-            get { return _ImageUrl; }
-            set
-            {
-                //if (string.IsNullOrWhiteSpace(value))
-                //{
-                //    throw new Exception("ImageUrl cannot be empty.");
-                //}
-                _ImageUrl = value;
-                RaisePropertyChanged("ImageUrl");
-            }
-        }
-
-    }
-
     public partial class MainPage : Page
     {
         #region Fields
@@ -67,10 +33,17 @@ namespace Worldescape
 
         #region Methods
 
-        public void SetUser(User user)
+        public void SetCurrentUserModel(string firstName, string profileImageUrl = null, string avatarImageUrl = null)
         {
-            CurrentUserModel.FirstName = user.FirstName;
-            CurrentUserModel.ImageUrl = user.ImageUrl;
+            CurrentUserModel.FirstName = firstName;
+            if (!profileImageUrl.IsNullOrBlank())
+            {
+                CurrentUserModel.ProfileImageUrl = profileImageUrl; 
+            }
+            if (!avatarImageUrl.IsNullOrBlank())
+            {
+                CurrentUserModel.AvatarImageUrl = avatarImageUrl; 
+            }
             CurrentUserHolder.Visibility = Windows.UI.Xaml.Visibility.Visible;
         }
 
