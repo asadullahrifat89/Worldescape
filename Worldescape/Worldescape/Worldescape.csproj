@@ -94,12 +94,6 @@
 			<SubType>Code</SubType>
 		</Compile>
 		<Compile Include="Pages\LoginPage.xaml.cs" />
-		<Compile Include="Properties\Resources.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resources.resx</DependentUpon>
-		</Compile>
-		<Compile Include="Services\HttpCommunicationService.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\AccentColorConverter.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\DoubleToCornerRadiusConverter.cs" />
 		<Compile Include="Styles\MaterialDesign_Styles_Kit\TextToPlaceholderTextVisibilityConverter.cs" />
@@ -509,14 +503,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="Properties\Resources.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
+	  <ProjectReference Include="..\..\Worldescape.Service\Worldescape.Service.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Worldescape.Service\Worldescape.Service.csproj" />
+	  <Folder Include="Properties\" />
 	</ItemGroup>
 
 	<!-- Removing bin\$(Configuration) and obj\$(Configuration) -->

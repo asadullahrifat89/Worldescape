@@ -18,7 +18,7 @@ namespace Worldescape.Browser
             {
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress),
                 Timeout = new TimeSpan(1, 0, 0),
-            })/*.AddHttpService(baseAddress: new Uri(builder.HostEnvironment.BaseAddress))*/;
+            });
 
             var host = builder.Build();
             await host.RunAsync();

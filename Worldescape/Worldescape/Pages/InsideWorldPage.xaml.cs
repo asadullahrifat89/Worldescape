@@ -843,7 +843,7 @@ namespace Worldescape
 
                 if (Character.IsEmpty())
                 {
-                    Characters = Characters.Any() ? Characters : JsonSerializer.Deserialize<Character[]>(Properties.Resources.CharacterAssets).ToList();
+                    Characters = Characters.Any() ? Characters : JsonSerializer.Deserialize<Character[]>(Service.Properties.Resources.CharacterAssets).ToList();
 
                     var characterPicker = new CharacterPicker(
                         characters: Characters,
@@ -962,7 +962,7 @@ namespace Worldescape
 
                 if (!ConstructAssets.Any())
                 {
-                    ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Properties.Resources.ConstructAssets).ToList();
+                    ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Service.Properties.Resources.ConstructAssets).ToList();
                     ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
                 }
 

@@ -22,7 +22,7 @@ namespace Worldescape.Service.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Worldescape.Service.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Worldescape.Service.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Worldescape.Service.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -62,25 +62,52 @@ namespace Worldescape.Service.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to [
+        ///	{
+        ///		&quot;StatusBoundImageUrls&quot;: [
+        ///			{
+        ///				&quot;Status&quot;: 0,
+        ///				&quot;ImageUrl&quot;: &quot;ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png&quot;
+        ///			},
+        ///			{
+        ///				&quot;Status&quot;: 1,
+        ///				&quot;ImageUrl&quot;: &quot;ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_attackKick.png&quot;
+        ///			},
+        ///			{
+        ///				&quot;Status&quot;: 2,
+        ///				&quot;ImageUrl&quot;: &quot;ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_drag.png&quot;
+        ///			},
+        ///			{
+        ///				&quot;Status&quot;: 3,
+        ///				&quot;ImageUrl&quot;: &quot;ms-app [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string CharacterAssets {
+            get {
+                return ResourceManager.GetString("CharacterAssets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [
         ///  {
         ///    &quot;Name&quot;: &quot;buildingTiles 000&quot;,
-        ///    &quot;ImageUrl&quot;: &quot;ms-appx:///Images/World_Objects/Buildings/buildingTiles_000.png&quot;,
+        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Buildings\\buildingTiles_000.png&quot;,
         ///    &quot;Category&quot;: &quot;Buildings&quot;
         ///  },
         ///  {
         ///    &quot;Name&quot;: &quot;buildingTiles 001&quot;,
-        ///    &quot;ImageUrl&quot;: &quot;ms-appx:///Images/World_Objects/Buildings/buildingTiles_001.png&quot;,
+        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Buildings\\buildingTiles_001.png&quot;,
         ///    &quot;Category&quot;: &quot;Buildings&quot;
         ///  },
         ///  {
         ///    &quot;Name&quot;: &quot;buildingTiles 002&quot;,
-        ///    &quot;ImageUrl&quot;: &quot;ms-appx:///Images/World_Objects/Buildings/buildingTiles_002.png&quot;,
+        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Buildings\\buildingTiles_002.png&quot;,
         ///    &quot;Category&quot;: &quot;Buildings&quot;
         ///  },
         ///  {
-        ///    &quot;Name&quot;: &quot;buildingTiles 003 [rest of string was truncated]&quot;;.
+        ///    &quot;Name&quot;: &quot;buildingTiles 003&quot;,
+        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Buildings\\b [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string ConstructAssets {
+        public static string ConstructAssets {
             get {
                 return ResourceManager.GetString("ConstructAssets", resourceCulture);
             }
@@ -89,7 +116,7 @@ namespace Worldescape.Service.Properties {
         /// <summary>
         ///   Looks up a localized string similar to http://localhost:5034/worldescapehub.
         /// </summary>
-        internal static string DevHubService {
+        public static string DevHubService {
             get {
                 return ResourceManager.GetString("DevHubService", resourceCulture);
             }
@@ -98,7 +125,7 @@ namespace Worldescape.Service.Properties {
         /// <summary>
         ///   Looks up a localized string similar to http://localhost:5034.
         /// </summary>
-        internal static string DevWebService {
+        public static string DevWebService {
             get {
                 return ResourceManager.GetString("DevWebService", resourceCulture);
             }
@@ -107,7 +134,7 @@ namespace Worldescape.Service.Properties {
         /// <summary>
         ///   Looks up a localized string similar to http://192.168.31.186:9899/worldescapehub.
         /// </summary>
-        internal static string ProdHubService {
+        public static string ProdHubService {
             get {
                 return ResourceManager.GetString("ProdHubService", resourceCulture);
             }
@@ -116,7 +143,7 @@ namespace Worldescape.Service.Properties {
         /// <summary>
         ///   Looks up a localized string similar to http://192.168.31.186:9899.
         /// </summary>
-        internal static string ProdWebService {
+        public static string ProdWebService {
             get {
                 return ResourceManager.GetString("ProdWebService", resourceCulture);
             }
