@@ -573,18 +573,7 @@ namespace Worldescape
             else
             {
                 // Move avatar
-                if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
-                {
-                    var taggedObject = MoveElement(iElement, e);
-
-                    var movedAvatar = taggedObject as Avatar;
-
-                    var z = Canvas.GetZIndex(iElement);
-
-                    await HubService.BroadcastAvatarMovement(avatarId: Avatar.Id, x: movedAvatar.Coordinate.X, y: movedAvatar.Coordinate.Y, z: z);
-
-                    Console.WriteLine("Avatar moved.");
-                }
+                await BroadcastAvatarMovement(e);
             }
         }
 
@@ -750,20 +739,20 @@ namespace Worldescape
 
             if (constructAsset != null)
             {
-                var currrentPoint = e.GetCurrentPoint(Canvas_root);
+                var pressedPoint = e.GetCurrentPoint(Canvas_root);
 
-                var constructBtn = GenerateConstructButton(
+                var constructButton = GenerateConstructButton(
                     name: constructAsset.Name,
                     imageUrl: constructAsset.ImageUrl);
 
                 // Add the construct on pressed point
-                AddConstructOnCanvas(
-                    construct: constructBtn,
-                    x: currrentPoint.Position.X,
-                    y: currrentPoint.Position.Y);
+                var construct = AddConstructOnCanvas(
+                    construct: constructButton,
+                    x: pressedPoint.Position.X,
+                    y: pressedPoint.Position.Y);
 
                 // Center the construct on pressed point
-                var construct = MoveElement(constructBtn, e) as Construct;
+                construct = CenterAlignNewConstructButton(pressedPoint, constructButton, construct);
 
                 // Align avatar to construct point
                 AlignAvatarFaceDirection(construct.Coordinate.X);
@@ -781,30 +770,54 @@ namespace Worldescape
         /// <returns></returns>
         private async Task AddConstructOnPointerPressed(PointerRoutedEventArgs e)
         {
-            var pressedPoint = e.GetCurrentPoint(Canvas_root);
+            if (_addingConstruct == null)
+                return;
+
             var button = (Button)_addingConstruct;
 
             var constructAsset = button.Tag as Construct;
 
-            var constructBtn = GenerateConstructButton(
-                   name: constructAsset.Name,
-                   imageUrl: constructAsset.ImageUrl);
+            if (constructAsset != null)
+            {
+                var pressedPoint = e.GetCurrentPoint(Canvas_root);
 
-            // Add the construct on pressed point
-            AddConstructOnCanvas(
-                construct: constructBtn,
-                x: pressedPoint.Position.X,
-                y: pressedPoint.Position.Y);
+                var constructButton = GenerateConstructButton(
+                           name: constructAsset.Name,
+                           imageUrl: constructAsset.ImageUrl);
 
-            // Center the construct on pressed point
-            var construct = MoveElement(constructBtn, e) as Construct;
+                // Add the construct on pressed point
+                var construct = AddConstructOnCanvas(
+                    construct: constructButton,
+                    x: pressedPoint.Position.X,
+                    y: pressedPoint.Position.Y);
 
-            // Align avatar to construct point
-            AlignAvatarFaceDirection(construct.Coordinate.X);
+                // Center the construct on pressed point
+                construct = CenterAlignNewConstructButton(pressedPoint, constructButton, construct);
 
-            await HubService.BroadcastConstruct(construct);
+                // Align avatar to construct point
+                AlignAvatarFaceDirection(construct.Coordinate.X);
 
-            Console.WriteLine("Construct added.");
+                await HubService.BroadcastConstruct(construct);
+
+                Console.WriteLine("Construct added.");
+            }
+        }
+
+        private Construct CenterAlignNewConstructButton(Windows.UI.Input.PointerPoint pressedPoint, Button constructButton, Construct construct)
+        {
+            var offsetX = constructButton.ActualWidth / 2;
+            var offsetY = constructButton.ActualHeight / 2;
+
+            var goToX = pressedPoint.Position.X - offsetX;
+            var goToY = pressedPoint.Position.Y - offsetY;
+
+            Canvas.SetLeft(constructButton, goToX);
+            Canvas.SetTop(constructButton, goToY);
+
+            construct.Coordinate.X = goToX;
+            construct.Coordinate.Y = goToY;
+
+            return construct;
         }
 
         #endregion
@@ -1443,7 +1456,7 @@ namespace Worldescape
             }
             else
             {
-                var receiver = ((Button)receiverUiElement).Tag as Avatar;                
+                var receiver = ((Button)receiverUiElement).Tag as Avatar;
 
                 // If receiver avatar is forward from current avatar
                 AlignAvatarFaceDirection(receiver.Coordinate.X);
@@ -1679,10 +1692,14 @@ namespace Worldescape
 
             var button = (Button)uIElement;
 
-            var goToX = pressedPoint.Position.X - button.ActualWidth / 2;
+            var offsetX = button.ActualWidth / 2;
 
-            // If the UIElement is Avatar then move it to an Y coordinate so that it appears on top of the clicked point. 
-            var goToY = pressedPoint.Position.Y - (button.Tag is Avatar ? button.ActualHeight : button.ActualHeight / 2);
+            var goToX = pressedPoint.Position.X - offsetX;
+
+            // If the UIElement is Avatar then move it to an Y coordinate so that it appears on top of the clicked point, if it's a construct then move the construct to the middle point. 
+            var offsetY = button.Tag is Avatar ? button.ActualHeight : button.ActualHeight / 2;
+
+            var goToY = pressedPoint.Position.Y - offsetY;
 
             var taggedObject = MoveElement(uIElement, goToX, goToY);
 
@@ -2089,6 +2106,26 @@ namespace Worldescape
         }
 
         /// <summary>
+        /// Broadcast avatar movement.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private async Task BroadcastAvatarMovement(PointerRoutedEventArgs e)
+        {
+            if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
+            {
+                var taggedObject = MoveElement(iElement, e);
+                var movedAvatar = taggedObject as Avatar;
+
+                var z = Canvas.GetZIndex(iElement);
+
+                await HubService.BroadcastAvatarMovement(avatarId: Avatar.Id, x: movedAvatar.Coordinate.X, y: movedAvatar.Coordinate.Y, z: z);
+
+                Console.WriteLine("Avatar moved.");
+            }
+        }
+
+        /// <summary>
         /// Broadcasts avatar activity status.
         /// </summary>
         /// <param name="activityStatus"></param>
@@ -2102,6 +2139,8 @@ namespace Worldescape
                 SetAvatarActivityStatus(avatarButton, taggedAvatar, activityStatus);
 
                 await HubService.BroadcastAvatarActivityStatus(taggedAvatar.Id, (int)activityStatus);
+
+                Console.WriteLine("Avatar status updated.");
             }
         }
 
