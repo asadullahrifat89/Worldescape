@@ -178,14 +178,15 @@
                     Orientation="Horizontal">
 
                     <!--  Selected avatar image  -->
-                    <ContentControl
+                    <Button
                         x:Name="SelectedAvatarHolder"
+                        Height="100"
                         Margin="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontWeight="SemiBold"
                         Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                        Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                        Style="{StaticResource MaterialDesign_Button_Style}"
                         Visibility="Collapsed" />
 
                     <!--  Selected avatar commands  -->

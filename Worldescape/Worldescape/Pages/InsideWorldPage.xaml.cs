@@ -370,7 +370,7 @@ namespace Worldescape
                             break;
                         case MessageType.Unicast:
                             {
-                                AddMessageBubbleToCanvas(msg, senderAvatarUiElement); // receive message
+                                AddChatBubbleToCanvas(msg, senderAvatarUiElement); // receive message
                             }
                             break;
                         default:
@@ -1367,7 +1367,7 @@ namespace Worldescape
                 // Add message bubble to own avatar
                 if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id) is UIElement iElement)
                 {
-                    AddMessageBubbleToCanvas(MessagingTextBox.Text, iElement); // send message
+                    AddChatBubbleToCanvas(MessagingTextBox.Text, iElement); // send message
 
                     // If activity status is not Messaging then update it
                     if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Messaging)
@@ -1461,18 +1461,16 @@ namespace Worldescape
             }
             else
             {
-                var avatar = ((Button)uielement).Tag as Avatar;
-                var image = CopyUiElementImageContent(uielement);
+                var taggedAvatar = ((Button)uielement).Tag as Avatar;
+                Border userImageHolder = GetAvatarUserPicture(taggedAvatar);
 
-                //StackPanel stackPanelContent = new StackPanel();
-                //stackPanelContent.Children.Add(image);
-                //stackPanelContent.Children.Add(new TextBlock()
-                //{
-                //    Text = $"{avatar.User.Name}\n{avatar.CreatedOn.ToString("dd-MM-yyyy hh:mm tt")}",
-                //    TextAlignment = TextAlignment.Center,
-                //});
+                var avatarImage = CopyUiElementImageContent(uielement);
 
-                SelectedAvatarHolder.Content = image;
+                StackPanel stackPanelContent = new StackPanel() { Orientation = Orientation.Horizontal };
+                stackPanelContent.Children.Add(userImageHolder);
+                stackPanelContent.Children.Add(avatarImage);
+
+                SelectedAvatarHolder.Content = stackPanelContent;
                 SelectedAvatarHolder.Visibility = Visibility.Visible;
             }
         }
@@ -1705,7 +1703,7 @@ namespace Worldescape
                 Stretch = Stretch.Uniform,
                 Height = 50,
                 Width = 50,
-                Margin = new Thickness(3)
+                //Margin = new Thickness(3)
             };
 
             return img;
@@ -2073,6 +2071,37 @@ namespace Worldescape
         #endregion
 
         #region Avatar
+
+        /// <summary>
+        /// Gets the user image as a circular border from the provided avatar.
+        /// </summary>
+        /// <param name="avatar"></param>
+        /// <returns></returns>
+        private static Border GetAvatarUserPicture(Avatar avatar)
+        {
+            var bitmapImage = new BitmapImage(new Uri(avatar.User.ImageUrl));////new BitmapImage(((BitmapImage)((Image)avatarButton.Content).Source).UriSource);
+
+            double round = 50;
+
+            var imageBorder = new Border()
+            {
+                Height = round,
+                Width = round,
+                CornerRadius = new CornerRadius(30),
+                ClipToBounds = true,
+            };
+
+            Image userImage = new Image()
+            {
+                Source = bitmapImage,
+                Height = round,
+                Width = round,
+                Stretch = Stretch.UniformToFill,
+            };
+
+            imageBorder.Child = userImage;
+            return imageBorder;
+        }
 
         /// <summary>
         /// Shows user's selected avatar.
@@ -2625,11 +2654,11 @@ namespace Worldescape
         #region Message
 
         /// <summary>
-        /// Adds message bubble to canvas on top of the avatar who sent it.
+        /// Adds a chat bubble to canvas on top of the avatar who sent it.
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="avatar"></param>
-        private void AddMessageBubbleToCanvas(string msg, UIElement avatar)
+        private void AddChatBubbleToCanvas(string msg, UIElement avatar)
         {
             var avatarButton = avatar as Button;
             var taggedAvatar = avatarButton.Tag as Avatar;
@@ -2648,26 +2677,7 @@ namespace Worldescape
 
             // Prepare content            
             StackPanel chatContent = new StackPanel() { Orientation = Orientation.Horizontal };
-
-            var bitmapImage = new BitmapImage(new Uri(taggedAvatar.User.ImageUrl));////new BitmapImage(((BitmapImage)((Image)avatarButton.Content).Source).UriSource);
-
-            var userImageHolder = new Border()
-            {
-                Height = 30,
-                Width = 30,
-                CornerRadius = new CornerRadius(30),
-                ClipToBounds = true,
-            };
-
-            Image userImage = new Image()
-            {
-                Source = bitmapImage,
-                Height = 30,
-                Width = 30,
-                Stretch = Stretch.UniformToFill,
-            };
-
-            userImageHolder.Child = userImage;
+            Border userImageHolder = GetAvatarUserPicture(taggedAvatar);
 
             // Textblock containing the message
             var messageHolder = new TextBlock()
@@ -2767,11 +2777,10 @@ namespace Worldescape
             fadeStoryBoard.Begin();
         }
 
-
         #endregion
 
         #endregion
 
-        #endregion       
+        #endregion
     }
 }
