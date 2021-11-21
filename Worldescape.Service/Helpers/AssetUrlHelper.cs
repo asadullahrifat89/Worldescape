@@ -6,17 +6,16 @@ namespace Worldescape.Service
     {
         private readonly HttpServiceHelper _httpServiceHelper;
 
-        public AssetUrlHelper(HttpServiceHelper httpCommunicationService) 
+        public AssetUrlHelper(HttpServiceHelper httpCommunicationService)
         {
-            _httpServiceHelper = httpCommunicationService;        
+            _httpServiceHelper = httpCommunicationService;
         }
 
-        //TODO: AssetUrlHelper: incorporate token later
-        public string BuildAssetUrl(string imageUrl)
+        public string BuildAssetUrl(string token, string imageUrl)
         {
             string baseUrl = _httpServiceHelper.GetWebServiceUrl();
 
-            string assetUrl = imageUrl.Contains(baseUrl) ? imageUrl : @$"{baseUrl}{Constants.Action_GetAsset}?fileName={imageUrl}";
+            string assetUrl = imageUrl.Contains(baseUrl) ? imageUrl : @$"{baseUrl}{Constants.Action_GetAsset}?token={token}&fileName={imageUrl}";
 
             return assetUrl;
         }

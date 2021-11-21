@@ -196,7 +196,7 @@ namespace Worldescape.Service
 
             foreach (var item in pagedData)
             {
-                var uri = _assetUriHelper.BuildAssetUrl(item.ImageUrl);
+                var uri = _assetUriHelper.BuildAssetUrl(App.Token, item.ImageUrl);
 
                 item.ImageUrl = uri;
 

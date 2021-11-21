@@ -81,10 +81,13 @@ app.MapGet(Constants.Action_GetWorlds, async (string token, int pageIndex, int p
 })
 .WithName("GetWorlds");
 
-//TODO: incorporate token later
-app.MapGet(Constants.Action_GetAsset, async (/*string token,*/ string fileName, IMediator mediator) =>
+app.MapGet(Constants.Action_GetAsset, async (string token, string fileName, IMediator mediator) =>
 {
-    byte[] file = await mediator.Send(new GetAssetQuery() { FileName = fileName });
+    byte[] file = await mediator.Send(new GetAssetQuery()
+    {
+        Token = token,
+        FileName = fileName
+    });
 
     string fileN = fileName.Replace('\\', '_');
 
@@ -122,8 +125,8 @@ app.MapPost(Constants.Action_UpdateUser, async (UpdateUserCommandRequest command
         Id = command.Id,
 
         FirstName = command.FirstName,
-        LastName= command.LastName,
-      
+        LastName = command.LastName,
+
         Name = command.Name,
         ImageUrl = command.ImageUrl,
         Gender = command.Gender,
