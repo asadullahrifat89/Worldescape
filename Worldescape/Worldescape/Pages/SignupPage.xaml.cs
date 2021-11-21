@@ -11,7 +11,7 @@ namespace Worldescape
     {
         #region Fields
 
-        private readonly HttpCommunicationService _httpCommunicationService;
+        private readonly HttpServiceHelper _httpServiceHelper;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Worldescape
         {
             InitializeComponent();
             SignUpModelHolder.DataContext = SignUpModel;
-            _httpCommunicationService = App.ServiceProvider.GetService(typeof(HttpCommunicationService)) as HttpCommunicationService;
+            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             CheckIfModelValid();
         }
 
@@ -77,7 +77,7 @@ namespace Worldescape
                 Name = SignUpModel.FirstName + " " + SignUpModel.LastName,
             };
 
-            var response = await _httpCommunicationService.SendPostRequest<ServiceResponse>(
+            var response = await _httpServiceHelper.SendPostRequest<ServiceResponse>(
                actionUri: Constants.Action_AddUser,
                payload: command);
 

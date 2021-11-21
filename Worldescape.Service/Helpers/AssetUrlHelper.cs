@@ -4,17 +4,17 @@ namespace Worldescape.Service
 {
     public class AssetUrlHelper
     {
-        private readonly HttpCommunicationService _httpCommunicationService;
+        private readonly HttpServiceHelper _httpServiceHelper;
 
-        public AssetUrlHelper(HttpCommunicationService httpCommunicationService) 
+        public AssetUrlHelper(HttpServiceHelper httpCommunicationService) 
         {
-            _httpCommunicationService = httpCommunicationService;        
+            _httpServiceHelper = httpCommunicationService;        
         }
 
         //TODO: AssetUrlHelper: incorporate token later
         public string BuildAssetUrl(string imageUrl)
         {
-            string baseUrl = _httpCommunicationService.GetWebServiceUrl();
+            string baseUrl = _httpServiceHelper.GetWebServiceUrl();
 
             string assetUrl = imageUrl.Contains(baseUrl) ? imageUrl : @$"{baseUrl}{Constants.Action_GetAsset}?fileName={imageUrl}";
 

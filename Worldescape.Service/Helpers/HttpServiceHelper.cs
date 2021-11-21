@@ -4,10 +4,10 @@ using Worldescape.Service;
 
 namespace Worldescape.Service
 {
-    public class HttpCommunicationService
+    public class HttpServiceHelper
     {
         private readonly IHttpService _httpService;
-        public HttpCommunicationService(IHttpService httpService)
+        public HttpServiceHelper(IHttpService httpService)
         {
             _httpService = httpService;
         }

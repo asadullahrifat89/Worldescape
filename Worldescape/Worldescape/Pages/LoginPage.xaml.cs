@@ -10,7 +10,7 @@ namespace Worldescape
     {
         #region Fields
 
-        private readonly HttpCommunicationService _httpCommunicationService;
+        private readonly HttpServiceHelper _httpServiceHelper;
 
         #endregion
 
@@ -18,7 +18,7 @@ namespace Worldescape
         {
             InitializeComponent();
             LoginModelHolder.DataContext = LoginModel;
-            _httpCommunicationService = App.ServiceProvider.GetService(typeof(HttpCommunicationService)) as HttpCommunicationService;
+            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             CheckIfModelValid();
         }
 
@@ -53,7 +53,7 @@ namespace Worldescape
             if (!CheckIfModelValid())
                 return;
 
-            var response = await _httpCommunicationService.SendGetRequest<StringResponse>(
+            var response = await _httpServiceHelper.SendGetRequest<StringResponse>(
                actionUri: Constants.Action_GetApiToken,
                payload: new GetApiTokenQueryRequest { Password = LoginModel.Password, Email = LoginModel.Email, });
 
@@ -71,7 +71,7 @@ namespace Worldescape
                     return;
                 }
 
-                var user = await _httpCommunicationService.SendGetRequest<User>(
+                var user = await _httpServiceHelper.SendGetRequest<User>(
                    actionUri: Constants.Action_GetUser,
                    payload: new GetUserQueryRequest() { Token = token, Email = LoginModel.Email, Password = LoginModel.Password });
 
