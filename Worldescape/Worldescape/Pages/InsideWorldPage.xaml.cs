@@ -908,7 +908,7 @@ namespace Worldescape
         /// <param name="e"></param>
         private void ConstructMultiSelectButton_Click(object sender, RoutedEventArgs e)
         {
-            ConstructMultiSelectButton.Content = ConstructMultiSelectButton.IsChecked.Value ? "Multiselecting" : "Multiselect";
+            ConstructMultiSelectButton.Content = ConstructMultiSelectButton.IsChecked.Value ? "Selecting" : "Select";
 
             if (ConstructMultiSelectButton.IsChecked.Value)
             {
@@ -943,7 +943,7 @@ namespace Worldescape
                 ConstructAddButton.Content = "Add";
 
                 ConstructMultiSelectButton.IsChecked = false;
-                ConstructMultiSelectButton.Content = "Multiselect";
+                ConstructMultiSelectButton.Content = "Select";
 
                 if (ConstructCraftButton.IsChecked.Value)
                 {
@@ -2272,7 +2272,7 @@ namespace Worldescape
         private void ClearMultiselectedConstructs()
         {
             ConstructMultiSelectButton.IsChecked = false;
-            ConstructMultiSelectButton.Content = "Multiselect";
+            ConstructMultiSelectButton.Content = "Select";
             MultiSelectedConstructsHolder.Children.Clear();
             MultiselectedConstructs.Clear();
         }

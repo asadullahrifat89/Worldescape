@@ -116,13 +116,13 @@
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
                         Visibility="Collapsed" />
 
-                    <!--  Multiselect  -->
+                    <!--  Select  -->
                     <ToggleButton
                         x:Name="ConstructMultiSelectButton"
                         MinWidth="110"
                         Margin="10"
                         Click="ConstructMultiSelectButton_Click"
-                        Content="Multiselect"
+                        Content="Select"
                         FontSize="20"
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
                         Visibility="Collapsed" />
