@@ -19,6 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="Requests\" />
 		<Folder Include="Responses\Hubs\" />
 	</ItemGroup>
 
