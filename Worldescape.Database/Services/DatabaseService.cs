@@ -65,9 +65,9 @@ namespace Worldescape.Database
 
         public async Task<T> FindById<T>(int id)
         {
-            var filterDefinition = Builders<T>.Filter.Eq("Id", id);
+            var filter = Builders<T>.Filter.Eq("Id", id);
             var collection = GetCollection<T>();
-            var result = await collection.Find(filterDefinition).FirstOrDefaultAsync();
+            var result = await collection.Find(filter).FirstOrDefaultAsync();
             return result;
         }
 
@@ -108,9 +108,9 @@ namespace Worldescape.Database
 
         public async Task<bool> ReplaceById<T>(T document, int id)
         {
-            var filterDefinition = Builders<T>.Filter.Eq("Id", id);
+            var filter = Builders<T>.Filter.Eq("Id", id);
             var collection = GetCollection<T>();
-            var result = await collection.FindOneAndReplaceAsync(filterDefinition, document);
+            var result = await collection.FindOneAndReplaceAsync(filter, document);
             return result != null;
         }
 
