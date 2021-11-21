@@ -18,6 +18,7 @@ namespace Worldescape
             InitializeComponent();
             LoginModelHolder.DataContext = LoginModel;
             _httpCommunicationService = App.ServiceProvider.GetService(typeof(HttpCommunicationService)) as HttpCommunicationService;
+            CheckIfModelValid();
         }
 
         #region Properties
@@ -51,27 +52,40 @@ namespace Worldescape
             if (!CheckIfModelValid())
                 return;
 
-            var command = new GetApiTokenQueryRequest
+            var response = await _httpCommunicationService.SendGetRequest<StringResponse>(
+               actionUri: Constants.Action_GetApiToken,
+               payload: new GetApiTokenQueryRequest { Password = LoginModel.Password, Email = LoginModel.Email, });
+
+            if (!response.ExternalError.IsNullOrBlank())
             {
-                Password = LoginModel.Password,
-                Email = LoginModel.Email,
-            };
+                MessageBox.Show(response.ExternalError.ToString());
+            }
+            else
+            {
+                var token = response.Response;
 
-            var response = await _httpCommunicationService.SendToHttpAsync<ServiceResponse>(
-               httpMethod: HttpMethod.Post,
-               baseUri: _httpCommunicationService.GetWebServiceUrl(),
-               actionUri: Constants.Action_AddUser,
-               payload: command);
+                if (token.IsNullOrBlank())
+                {
+                    MessageBox.Show("Failed to login.");
+                    return;
+                }
 
-            //    var mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+                var user = await _httpCommunicationService.SendGetRequest<User>(
+                   actionUri: Constants.Action_GetUser,
+                   payload: new GetUserQueryRequest() { Token = token, Email = LoginModel.Email, Password = LoginModel.Password });
 
-            //    App.User = new User() { Id = UidGenerator.New(), Name = TextBox_Email.Text };
-            //    App.InWorld = new InWorld() { Id = 786, Name = "Test World" };
+                if (user == null || user.IsEmpty())
+                {
+                    MessageBox.Show("Failed to login.");
+                    return;
+                }
 
-            //    var insideWorldPage = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;            
-            //    mainPage.NavigateToPage(insideWorldPage);
+                App.User = user;
+                App.InWorld = new InWorld() { Id = 786, Name = "Test World" }; // TODO: for the time time being demo world
 
-            //    //mainPage.NavigateToPage("/InsideWorldPage");
+                var mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+                mainPage.NavigateToPage("/InsideWorldPage");
+            }
         }
 
         private void Button_SignUp_Click(object sender, RoutedEventArgs e)

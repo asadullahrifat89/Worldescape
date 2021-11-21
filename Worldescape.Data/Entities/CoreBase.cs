@@ -33,7 +33,7 @@ namespace Worldescape.Data
 
         public bool IsEmpty()
         {
-            return Name.IsNullOrBlank() && ImageUrl.IsNullOrBlank();
+            return Name.IsNullOrBlank();
         }
     }
 }

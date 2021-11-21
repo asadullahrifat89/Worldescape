@@ -132,20 +132,6 @@ namespace Worldescape.Service
 
             var jsonString = await httpResponseMessage.Content.ReadAsStringAsync();
 
-            // string response
-            if (typeof(Response).Equals(typeof(StringResponse)))
-            {
-                var stringResponse = new StringResponse
-                {
-                    Response = jsonString
-                };
-
-                return ReformedResponse(
-                    result: stringResponse as Response,
-                    statusCode: httpResponseMessage.StatusCode,
-                    requestUri: httpRequest.RequestUri.AbsoluteUri);
-            }
-
             var result = !string.IsNullOrWhiteSpace(jsonString) && !string.IsNullOrEmpty(jsonString) ? (Response)JsonConvert.DeserializeObject(
                     value: jsonString,
                     type: typeof(Response),

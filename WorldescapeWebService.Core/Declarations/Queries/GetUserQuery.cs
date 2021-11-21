@@ -1,12 +1,8 @@
-﻿using MediatR;
-using Worldescape.Data;
+﻿using Worldescape.Data;
 
 namespace WorldescapeWebService.Core;
 
-/// <summary>
-/// A command that inserts or updates a user.
-/// </summary>
-public class GetApiTokenQuery : IRequest<StringResponse>
+public class GetUserQuery : RequestBase<User>
 {
     /// <summary>
     /// The email address of the user.
@@ -18,3 +14,4 @@ public class GetApiTokenQuery : IRequest<StringResponse>
     /// </summary>
     public string Password { get; set; } = string.Empty;
 }
+

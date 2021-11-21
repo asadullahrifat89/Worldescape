@@ -54,14 +54,12 @@ namespace Worldescape
         #endregion
 
         #region Ctor
-        public InsideWorldPage(
-            IHubService hubService,
-            AssetUrlHelper assetUriHelper)
+        public InsideWorldPage()
         {
             InitializeComponent();
 
-            HubService = hubService;// App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
-            _assetUriHelper = assetUriHelper;
+            HubService = /*hubService;*/ App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
+            _assetUriHelper = App.ServiceProvider.GetService(typeof(AssetUrlHelper)) as AssetUrlHelper;//assetUriHelper;
 
             SubscribeHub();
         }

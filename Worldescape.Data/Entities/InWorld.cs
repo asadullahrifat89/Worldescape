@@ -1,4 +1,6 @@
-﻿namespace Worldescape.Data
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace Worldescape.Data
 {
     /// <summary>
     /// Information of the world in which an avatar or a construct is.
@@ -8,6 +10,7 @@
         /// <summary>
         /// World's id.
         /// </summary>
+        [BsonId] 
         public int Id { get; set; }
 
         /// <summary>

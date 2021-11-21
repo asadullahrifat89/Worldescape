@@ -1,4 +1,6 @@
-﻿namespace Worldescape.Data
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace Worldescape.Data
 {
     /// <summary>
     /// Information of an avatar's character.
@@ -8,6 +10,7 @@
         /// <summary>
         /// Characte's id.
         /// </summary>
+        [BsonId]
         public int Id { get; set; }
 
         /// <summary>

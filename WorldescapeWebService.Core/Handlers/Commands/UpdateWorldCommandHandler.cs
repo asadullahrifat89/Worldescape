@@ -81,7 +81,7 @@ public class UpdateWorldCommandHandler : IRequestHandler<UpdateWorldCommand, Wor
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return null;
+            return new World();
         }
     }
 

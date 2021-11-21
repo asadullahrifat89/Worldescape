@@ -1,4 +1,6 @@
-﻿namespace Worldescape.Data
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace Worldescape.Data
 {
     /// <summary>
     /// Information of a user who created a construct or a world.
@@ -8,6 +10,7 @@
         /// <summary>
         /// User's id.
         /// </summary>
+        [BsonId] 
         public int Id { get; set; }
 
         /// <summary>

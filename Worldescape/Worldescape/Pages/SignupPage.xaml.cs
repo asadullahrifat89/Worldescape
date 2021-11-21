@@ -81,22 +81,13 @@ namespace Worldescape
                actionUri: Constants.Action_AddUser,
                payload: command);
 
-            //var response = await _httpCommunicationService.SendToHttpAsync<ServiceResponse>(
-            //    httpMethod: HttpMethod.Post,
-            //    baseUri: _httpCommunicationService.GetWebServiceUrl(),
-            //    actionUri: Constants.Action_AddUser,
-            //    payload: command);
-
-            if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
+            if (!response.ExternalError.IsNullOrBlank())
             {
-                if (!response.ExternalError.IsNullOrBlank())
-                {
-                    MessageBox.Show(response.ExternalError.ToString());
-                }
-                else
-                {
-                    NavigateToLoginPage();
-                }
+                MessageBox.Show(response.ExternalError.ToString());
+            }
+            else
+            {
+                NavigateToLoginPage();
             }
         }
 

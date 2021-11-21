@@ -58,6 +58,17 @@ app.MapGet(Constants.Action_GetApiToken, async (string email, string password, I
 })
 .WithName("GetApiToken");
 
+app.MapGet(Constants.Action_GetUser, async (string token, string email, string password, IMediator mediator) =>
+{
+    return await mediator.Send(new GetUserQuery()
+    {
+        Token = token,
+        Email = email,
+        Password = password
+    });
+})
+.WithName("GetUser");
+
 app.MapGet(Constants.Action_GetWorlds, async (string token, int pageIndex, int pageSize, string? searchString, IMediator mediator) =>
 {
     return await mediator.Send(new GetWorldsQuery()
