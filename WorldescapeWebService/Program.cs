@@ -13,13 +13,10 @@ using Worldescape.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add cors policy
-builder.Services.AddCors(o => o.AddPolicy(
-                   "CorsPolicy",
-                   builder => builder
-                      .AllowAnyOrigin() // this is risky
-                      .AllowAnyMethod()
-                      .AllowAnyHeader()
-                   ));
+builder.Services.AddCors(o => o.AddPolicy("CorsPolicy", builder => builder
+.AllowAnyOrigin() // TODO: CorsPolicy: AllowAnyOrigin() -> this is risky, should fix this after real time host
+.AllowAnyMethod()
+.AllowAnyHeader()));
 
 // Add validation and mediator
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(typeof(AddUserCommandValidator).GetTypeInfo().Assembly));
@@ -55,8 +52,7 @@ app.MapGet(Constants.Action_GetApiToken, async (string email, string password, I
         Email = email,
         Password = password
     });
-}).
-WithName(Constants.GetActionName(Constants.Action_GetApiToken));
+}).WithName(Constants.GetActionName(Constants.Action_GetApiToken));
 
 app.MapGet(Constants.Action_GetUser, async (string token, string email, string password, IMediator mediator) =>
 {
@@ -66,8 +62,7 @@ app.MapGet(Constants.Action_GetUser, async (string token, string email, string p
         Email = email,
         Password = password
     });
-}).
-WithName(Constants.GetActionName(Constants.Action_GetUser));
+}).WithName(Constants.GetActionName(Constants.Action_GetUser));
 
 app.MapGet(Constants.Action_GetWorlds, async (string token, int pageIndex, int pageSize, string? searchString, IMediator mediator) =>
 {
@@ -78,8 +73,7 @@ app.MapGet(Constants.Action_GetWorlds, async (string token, int pageIndex, int p
         PageSize = pageSize,
         SearchString = searchString
     });
-}).
-WithName(Constants.GetActionName(Constants.Action_GetWorlds));
+}).WithName(Constants.GetActionName(Constants.Action_GetWorlds));
 
 app.MapGet(Constants.Action_GetAsset, async (string token, string fileName, IMediator mediator) =>
 {
@@ -92,8 +86,7 @@ app.MapGet(Constants.Action_GetAsset, async (string token, string fileName, IMed
     string fileN = fileName.Replace('\\', '_');
 
     return Microsoft.AspNetCore.Http.Results.File(file, "text/plain", fileN);
-}).
-WithName(Constants.GetActionName(Constants.Action_GetAsset));
+}).WithName(Constants.GetActionName(Constants.Action_GetAsset));
 
 #endregion
 
@@ -114,8 +107,7 @@ app.MapPost(Constants.Action_AddUser, async (AddUserCommandRequest command, IMed
         Gender = command.Gender,
         ImageUrl = command.ImageUrl,
     });
-}).
-WithName(Constants.GetActionName(Constants.Action_AddUser));
+}).WithName(Constants.GetActionName(Constants.Action_AddUser));
 
 app.MapPost(Constants.Action_UpdateUser, async (UpdateUserCommandRequest command, IMediator mediator) =>
 {
