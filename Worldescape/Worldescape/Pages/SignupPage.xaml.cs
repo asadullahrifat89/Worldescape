@@ -102,8 +102,6 @@ namespace Worldescape
             mainPage.NavigateToPage("/LoginPage");
         }
 
-
-
         #endregion
     }
 }
