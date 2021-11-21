@@ -157,9 +157,9 @@ namespace Worldescape
 
         private void HubService_NewRemoveConstruct(int constructId)
         {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement constructUiElement)
             {
-                Canvas_root.Children.Remove(iElement);
+                RemoveConstructFromCanvas(constructUiElement);
                 Console.WriteLine("<<HubService_NewRemoveConstruct: OK");
             }
             else
@@ -2231,7 +2231,40 @@ namespace Worldescape
 
         #endregion
 
-        #region Construct       
+        #region Construct     
+
+        private void RemoveConstructFromCanvas(UIElement construct)
+        {
+            PerformOpacityAnimationOnConstruct(construct, 1, 0, () =>
+            {
+                Canvas_root.Children.Remove(construct);
+
+                Console.WriteLine("Construct removed.");
+            });
+        }
+
+        private void PerformOpacityAnimationOnConstruct(UIElement construct, double from, double to, Action onCompleted = null)
+        {
+            DoubleAnimation opacityAnimation = new DoubleAnimation()
+            {
+                From = from,
+                To = to,
+                Duration = TimeSpan.FromMilliseconds(500),
+            };
+
+            opacityAnimation.Completed += (s, e) =>
+            {
+                onCompleted?.Invoke();
+            };
+
+            Storyboard.SetTarget(opacityAnimation, construct);
+            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(OpacityProperty));
+
+            Storyboard fadeStoryBoard = new Storyboard();
+            fadeStoryBoard.Children.Add(opacityAnimation);
+
+            fadeStoryBoard.Begin();
+        }
 
         /// <summary>
         /// Clears multi selected constructs.
@@ -2368,7 +2401,8 @@ namespace Worldescape
             // Align avatar to construct point
             AlignAvatarFaceDirection(construct.Coordinate.X);
 
-            Canvas_root.Children.Remove(_selectedConstruct);
+            RemoveConstructFromCanvas(_selectedConstruct);
+
             ShowSelectedConstruct(null);
 
             await HubService.RemoveConstruct(construct.Id);
@@ -2418,6 +2452,8 @@ namespace Worldescape
             taggedConstruct.Coordinate.X = x;
             taggedConstruct.Coordinate.Y = y;
             taggedConstruct.Coordinate.Z = indexZ;
+
+            PerformOpacityAnimationOnConstruct(construct, 0, 1); // Add
 
             return taggedConstruct;
         }
