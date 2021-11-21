@@ -137,7 +137,7 @@ namespace WorldescapeWebService
                 _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now} World: {group}");
 
                 // Find all constructs from the calling avatar's world
-                var constructs = ConcurrentConstructs.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+                var constructs = GetConstructs(avatar.World.Id);
 
                 // Find all avatars from the calling avatar's world
                 var avatars = ConcurrentAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
@@ -162,9 +162,7 @@ namespace WorldescapeWebService
                 await Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedIn, avatar);
 
                 _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now} World: {group}");
-
-                // Find all constructs from the calling avatar's world
-                var constructs = ConcurrentConstructs.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+                Construct[]? constructs = GetConstructs(avatar.World.Id);
 
                 // Find all avatars from the calling avatar's world
                 var avatars = ConcurrentAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
@@ -172,8 +170,7 @@ namespace WorldescapeWebService
                 // Return the curated avatars and constructs
                 return new HubLoginResponse() { Avatars = avatars ?? new Avatar[] { }, Constructs = constructs ?? new Construct[] { } };
             }
-        }
-
+        }      
 
         [HubMethodName(Constants.Logout)]
         public void Logout()
@@ -561,6 +558,12 @@ namespace WorldescapeWebService
         #endregion
 
         #region Concurrent Constructs
+
+        private Construct[]? GetConstructs(int worldId)
+        {
+            // Find all constructs from the calling avatar's world
+            return ConcurrentConstructs.Where(x => x.Value.World.Id == worldId)?.Select(z => z.Value).ToArray();
+        }
 
         private void UpdateConstructPlacementInConstructs(int constructId, int z)
         {

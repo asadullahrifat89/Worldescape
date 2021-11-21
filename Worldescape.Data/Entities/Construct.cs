@@ -25,16 +25,6 @@
         /// </summary>
         public Coordinate Coordinate { get; set; } = new Coordinate();
 
-        ///// <summary>
-        ///// The coordinate to be used when cloning this construct.
-        ///// </summary>
-        //public Coordinate CloneCoordinate { get; set; } = new Coordinate();
-
-        ///// <summary>
-        ///// The center point coordinate of this construct.
-        ///// </summary>
-        //public Coordinate CenterPoint { get; set; } = new Coordinate();
-
         /// <summary>
         /// The user who created this construct in a world.
         /// </summary>
