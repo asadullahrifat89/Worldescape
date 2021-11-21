@@ -2579,18 +2579,28 @@ namespace Worldescape
             // Prepare content            
             StackPanel chatContent = new StackPanel() { Orientation = Orientation.Horizontal };
 
-            var bitmapImage = new BitmapImage(new Uri(taggedAvatar.User.ImageUrl));
+            var bitmapImage = new BitmapImage(new Uri(taggedAvatar.User.ImageUrl));////new BitmapImage(((BitmapImage)((Image)avatarButton.Content).Source).UriSource);
 
-            Image avatarImage = new Image()
+            var userImageHolder = new Border()
             {
-                Source = bitmapImage,//new BitmapImage(((BitmapImage)((Image)avatarButton.Content).Source).UriSource),
                 Height = 30,
                 Width = 30,
-                Stretch = Stretch.Uniform,
+                CornerRadius = new CornerRadius(30),
+                ClipToBounds = true,
             };
 
+            Image userImage = new Image()
+            {
+                Source = bitmapImage,
+                Height = 30,
+                Width = 30,
+                Stretch = Stretch.UniformToFill,
+            };
+
+            userImageHolder.Child = userImage;
+
             // Textblock containing the message
-            var textBlock = new TextBlock()
+            var messageHolder = new TextBlock()
             {
                 Text = msg,
                 Margin = new Thickness(5, 0, 5, 0),
@@ -2600,28 +2610,18 @@ namespace Worldescape
                 Foreground = new SolidColorBrush(Colors.Black),
             };
 
-            // If own message then image on the left
+            // If sent message then image on the left
             if (taggedAvatar.Id == Avatar.Id)
             {
-                Button meUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id);
-
-                var sender = taggedAvatar;
                 var receiver = ((Button)_messageToAvatar).Tag as Avatar;
 
                 // If receiver avatar is forward from current avatar
-                if (receiver.Coordinate.X > sender.Coordinate.X)
-                {
-                    meUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
-                }
-                else
-                {
-                    meUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
-                }
+                AlignAvatarFaceDirection(receiver.Coordinate.X);
 
-                chatContent.Children.Add(avatarImage);
-                chatContent.Children.Add(textBlock);
+                chatContent.Children.Add(userImageHolder);
+                chatContent.Children.Add(messageHolder);
             }
-            else
+            else // If received message then image on the right
             {
                 Button meUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == Avatar.Id);
                 Button senderUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar senderAvatar && senderAvatar.Id == taggedAvatar.Id);
@@ -2642,8 +2642,8 @@ namespace Worldescape
                 chatBubble.Tag = taggedAvatar;
                 chatBubble.PointerPressed += ChatBubble_PointerPressed;
 
-                chatContent.Children.Add(textBlock);
-                chatContent.Children.Add(avatarImage);
+                chatContent.Children.Add(messageHolder);
+                chatContent.Children.Add(userImageHolder);
             }
 
             chatBubble.Content = chatContent;
