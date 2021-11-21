@@ -7,11 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <!--<ContentControl x:Name="RootBusyIndicator" Style="{StaticResource BusyIndicator_Style}">-->
+
+    <Grid x:Name="Grid_root">
 
         <!--  Frame that hosts pages  -->
         <Frame
-            x:Name="PageContainer"
+            x:Name="PageContainerFrame"
             Grid.Row="1"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
@@ -70,6 +72,10 @@
 
         </StackPanel>
 
+
+
     </Grid>
+
+    <!--</ContentControl>-->
 
 </Page>

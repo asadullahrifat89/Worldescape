@@ -51,6 +51,8 @@ namespace Worldescape
             Exponent = 5,
         };
 
+        private readonly MainPage _mainPage;
+
         #endregion
 
         #region Ctor
@@ -58,9 +60,9 @@ namespace Worldescape
         {
             InitializeComponent();
 
-            HubService = /*hubService;*/ App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
-            _assetUriHelper = App.ServiceProvider.GetService(typeof(AssetUrlHelper)) as AssetUrlHelper;//assetUriHelper;
-
+            HubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
+            _assetUriHelper = App.ServiceProvider.GetService(typeof(AssetUrlHelper)) as AssetUrlHelper;
+            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             SubscribeHub();
         }
 
@@ -878,8 +880,7 @@ namespace Worldescape
 
                             PrepareAvatarData();
 
-                            var mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-                            mainPage.SetCurrentUserModel();
+                            _mainPage.SetCurrentUserModel();
 
                             await Connect();
                         });

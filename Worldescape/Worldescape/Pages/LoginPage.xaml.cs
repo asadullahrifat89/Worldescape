@@ -11,6 +11,7 @@ namespace Worldescape
         #region Fields
 
         private readonly HttpServiceHelper _httpServiceHelper;
+        private readonly MainPage _mainPage;
 
         #endregion
 
@@ -19,6 +20,7 @@ namespace Worldescape
             InitializeComponent();
             LoginModelHolder.DataContext = LoginModel;
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
+            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             CheckIfModelValid();
         }
 
@@ -53,6 +55,8 @@ namespace Worldescape
             if (!CheckIfModelValid())
                 return;
 
+            _mainPage.SetIsBusy(true);
+
             var response = await _httpServiceHelper.SendGetRequest<StringResponse>(
                actionUri: Constants.Action_GetApiToken,
                payload: new GetApiTokenQueryRequest { Password = LoginModel.Password, Email = LoginModel.Email, });
@@ -60,6 +64,7 @@ namespace Worldescape
             if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
             {
                 MessageBox.Show(response.ExternalError.ToString());
+                _mainPage.SetIsBusy(false);
             }
             else
             {
@@ -68,6 +73,7 @@ namespace Worldescape
                 if (token.IsNullOrBlank())
                 {
                     MessageBox.Show("Failed to login.");
+                    _mainPage.SetIsBusy(false);
                     return;
                 }
 
@@ -80,22 +86,22 @@ namespace Worldescape
                 if (user == null || user.IsEmpty())
                 {
                     MessageBox.Show("Failed to login.");
+                    _mainPage.SetIsBusy(false);
                     return;
                 }
 
                 App.User = user;
                 App.InWorld = new InWorld() { Id = 786, Name = "Test World" }; // TODO: for the time time being demo world
-
-                var mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-                mainPage.SetCurrentUserModel();
-                mainPage.NavigateToPage("/InsideWorldPage");
+                                
+                _mainPage.SetCurrentUserModel();
+                _mainPage.NavigateToPage("/InsideWorldPage");
+                _mainPage.SetIsBusy(false);
             }
         }
 
         private void Button_SignUp_Click(object sender, RoutedEventArgs e)
         {
-            var mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-            mainPage.NavigateToPage("/SignupPage");
+            _mainPage.NavigateToPage("/SignupPage");
         }
     }
 }

@@ -61,19 +61,18 @@ namespace Worldescape
             // If no profile picture was set
             CurrentUserModel.ProfileImageUrl = App.User.ImageUrl;
             ProfileImageUrlHolder.Source = new BitmapImage(new Uri(CurrentUserModel.ProfileImageUrl));
-        }        
+        }
 
-        public void NavigateToPage(Page page)
+        public void SetIsBusy(bool isBusy)
         {
-            // Set target to target page:            
-            PageContainer.Content = page;
+            Grid_root.IsEnabled = !isBusy;            
         }
 
         public void NavigateToPage(string targetUri)
         {
             // Navigate to the target page:
             Uri uri = new Uri(targetUri, UriKind.Relative);
-            PageContainer.Source = uri;
+            PageContainerFrame.Source = uri;
         }
 
         #endregion

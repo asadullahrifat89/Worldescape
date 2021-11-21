@@ -12,6 +12,7 @@ namespace Worldescape
         #region Fields
 
         private readonly HttpServiceHelper _httpServiceHelper;
+        private readonly MainPage _mainPage;
 
         #endregion
 
@@ -22,6 +23,7 @@ namespace Worldescape
             InitializeComponent();
             SignUpModelHolder.DataContext = SignUpModel;
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
+            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             CheckIfModelValid();
         }
 
@@ -66,6 +68,7 @@ namespace Worldescape
             if (!CheckIfModelValid())
                 return;
 
+            _mainPage.SetIsBusy(true);
             var command = new AddUserCommandRequest
             {
                 Email = SignUpModel.Email,
@@ -84,10 +87,12 @@ namespace Worldescape
             if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
             {
                 MessageBox.Show(response.ExternalError.ToString());
+                _mainPage.SetIsBusy(false);
             }
             else
             {
                 NavigateToLoginPage();
+                _mainPage.SetIsBusy(false);
             }
         }
 
@@ -96,10 +101,9 @@ namespace Worldescape
             NavigateToLoginPage();
         }
 
-        private static void NavigateToLoginPage()
+        private void NavigateToLoginPage()
         {
-            var mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-            mainPage.NavigateToPage("/LoginPage");
+            _mainPage.NavigateToPage("/LoginPage");
         }
 
         #endregion
