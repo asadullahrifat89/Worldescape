@@ -47,38 +47,46 @@
 
         </StackPanel>
 
-        <!--  Logged in user's avatar button, scrolls to avatar, becomes visible after avatar hub login  -->
-        <Button
-            x:Name="MyAvatarButton"
-            Width="70"
-            Height="70"
-            Margin="20"
-            HorizontalAlignment="Left"
+        <!--  Current avatar button, scrolls to avatar, becomes visible after avatar hub login  -->
+        <StackPanel
+            x:Name="CurrentAvatarHolder"
+            Height="50"
+            Margin="20,20,130,20"
+            HorizontalAlignment="Right"
             VerticalAlignment="Top"
-            Click="MyAvatarButton_Click"
-            Style="{StaticResource MaterialDesign_RoundButton_Style}"
+            Orientation="Horizontal"
             Visibility="Collapsed">
-
-            <Button.Content>
-
-                <Border
-                    Width="40"
-                    Height="40"
-                    ClipToBounds="True"
-                    CornerRadius="40">
-
-                    <!--  AvatarImageHolder  -->
-                    <Image
-                        x:Name="AvatarImageHolder"
-                        Width="40"
-                        Height="40"
-                        Stretch="UniformToFill" />
-
-                </Border>
-
-            </Button.Content>
-
-        </Button>
+            <Button
+                x:Name="MyAvatarButton"
+                MinWidth="100"
+                Click="MyAvatarButton_Click"
+                FontSize="15"
+                FontWeight="Semibold"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <!--  AvatarImageHolder  -->
+                        <Border
+                            Width="40"
+                            Height="40"
+                            Margin="5,0"
+                            ClipToBounds="True"
+                            CornerRadius="40">
+                            <Image
+                                x:Name="AvatarImageHolder"
+                                Width="40"
+                                Height="40"
+                                Stretch="UniformToFill" />
+                        </Border>
+                        <!--  AvatarName  -->
+                        <TextBlock
+                            x:Name="AvatarNameHolder"
+                            Margin="5,0,10,0"
+                            VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+        </StackPanel>
 
         <!--  Bottom middle construct, messaging, status controls  -->
         <StackPanel

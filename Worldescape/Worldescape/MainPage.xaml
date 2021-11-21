@@ -44,9 +44,7 @@
                 FontWeight="Semibold"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}">
                 <Button.Content>
-
                     <StackPanel Orientation="Horizontal">
-
                         <!--  ProfileImageUrl  -->
                         <Border
                             Width="40"
@@ -54,21 +52,17 @@
                             Margin="5,0"
                             ClipToBounds="True"
                             CornerRadius="40">
-
                             <Image
                                 x:Name="ProfileImageUrlHolder"
                                 Width="40"
                                 Height="40"
                                 Stretch="Uniform" />
-
                         </Border>
-
                         <!--  FirstName  -->
                         <TextBlock
                             Margin="5,0,10,0"
                             VerticalAlignment="Center"
                             Text="{Binding FirstName, Mode=OneWay}" />
-
                     </StackPanel>
                 </Button.Content>
 

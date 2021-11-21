@@ -1636,17 +1636,7 @@ namespace Worldescape
                         _isLoggedIn = true;
 
                         // Set connected user's avatar image
-                        if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
-                        {
-                            var oriBitmap = ((Image)((Button)iElement).Content).Source as BitmapImage;
-
-                            var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
-
-                            MyAvatarButton.Tag = ((Button)iElement).Tag as Avatar;
-                            AvatarImageHolder.Source = bitmap;
-                            MyAvatarButton.Visibility = Visibility.Visible;
-                        }
-
+                        ShowCurrentAvatar();
                         return true;
                     }
                     else
@@ -2065,6 +2055,26 @@ namespace Worldescape
         #region Avatar
 
         /// <summary>
+        /// Shows user's selected avatar.
+        /// </summary>
+        private void ShowCurrentAvatar()
+        {
+            if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
+            {
+                var oriBitmap = ((Image)((Button)iElement).Content).Source as BitmapImage;
+
+                var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
+
+                var avatar = ((Button)iElement).Tag as Avatar;
+
+                MyAvatarButton.Tag = avatar;
+                AvatarImageHolder.Source = bitmap;
+                CurrentAvatarHolder.Visibility = Visibility.Visible;
+                AvatarNameHolder.Text = avatar.Character.Name.Replace("_", " ");
+            }
+        }
+
+        /// <summary>
         /// Aligns facing direction of current avatar wrt provided x.
         /// </summary>
         /// <param name="construct"></param>
@@ -2233,6 +2243,10 @@ namespace Worldescape
 
         #region Construct     
 
+        /// <summary>
+        /// Removes the provided construct from canvas.
+        /// </summary>
+        /// <param name="construct"></param>
         private void RemoveConstructFromCanvas(UIElement construct)
         {
             PerformOpacityAnimationOnConstruct(construct, 1, 0, () =>
