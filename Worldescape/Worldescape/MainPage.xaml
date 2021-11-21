@@ -70,7 +70,7 @@
 
                         <!--  FirstName  -->
                         <TextBlock
-                            Margin="5,0"
+                            Margin="5,0,10,0"
                             VerticalAlignment="Center"
                             Text="{Binding FirstName, Mode=OneWay}" />
 
