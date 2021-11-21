@@ -95,13 +95,13 @@
 
                 <StackPanel Orientation="Horizontal">
 
-                    <!--  Craft  -->
+                    <!--  Construct  -->
                     <ToggleButton
                         x:Name="ConstructCraftButton"
                         MinWidth="110"
                         Margin="10"
                         Click="ConstructCraftButton_Click"
-                        Content="Craft"
+                        Content="Construct"
                         FontSize="20"
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 

@@ -929,7 +929,7 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                ConstructCraftButton.Content = ConstructCraftButton.IsChecked.Value ? "Crafting" : "Craft";
+                ConstructCraftButton.Content = ConstructCraftButton.IsChecked.Value ? "Constructing" : "Construct";
 
                 ConstructMoveButton.IsChecked = false;
                 ConstructMoveButton.Content = "Move";
