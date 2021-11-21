@@ -13148,6 +13148,3066 @@
     "Name": "weapon rifle SW",
     "ImageUrl": "World_Objects\\Space\\weapon_rifle_SW.png",
     "Category": "Space"
+  },
+  {
+    "Name": "bannerGreen E",
+    "ImageUrl": "World_Objects\\Town\\bannerGreen_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "bannerGreen N",
+    "ImageUrl": "World_Objects\\Town\\bannerGreen_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "bannerGreen S",
+    "ImageUrl": "World_Objects\\Town\\bannerGreen_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "bannerGreen W",
+    "ImageUrl": "World_Objects\\Town\\bannerGreen_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "bannerRed E",
+    "ImageUrl": "World_Objects\\Town\\bannerRed_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "bannerRed N",
+    "ImageUrl": "World_Objects\\Town\\bannerRed_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "bannerRed S",
+    "ImageUrl": "World_Objects\\Town\\bannerRed_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "bannerRed W",
+    "ImageUrl": "World_Objects\\Town\\bannerRed_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "blade E",
+    "ImageUrl": "World_Objects\\Town\\blade_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "blade N",
+    "ImageUrl": "World_Objects\\Town\\blade_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "blade S",
+    "ImageUrl": "World_Objects\\Town\\blade_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "blade W",
+    "ImageUrl": "World_Objects\\Town\\blade_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "cartHigh E",
+    "ImageUrl": "World_Objects\\Town\\cartHigh_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "cartHigh N",
+    "ImageUrl": "World_Objects\\Town\\cartHigh_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "cartHigh S",
+    "ImageUrl": "World_Objects\\Town\\cartHigh_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "cartHigh W",
+    "ImageUrl": "World_Objects\\Town\\cartHigh_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "cart E",
+    "ImageUrl": "World_Objects\\Town\\cart_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "cart N",
+    "ImageUrl": "World_Objects\\Town\\cart_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "cart S",
+    "ImageUrl": "World_Objects\\Town\\cart_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "cart W",
+    "ImageUrl": "World_Objects\\Town\\cart_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "chimneyBase E",
+    "ImageUrl": "World_Objects\\Town\\chimneyBase_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "chimneyBase N",
+    "ImageUrl": "World_Objects\\Town\\chimneyBase_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "chimneyBase S",
+    "ImageUrl": "World_Objects\\Town\\chimneyBase_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "chimneyBase W",
+    "ImageUrl": "World_Objects\\Town\\chimneyBase_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "chimneyTop E",
+    "ImageUrl": "World_Objects\\Town\\chimneyTop_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "chimneyTop N",
+    "ImageUrl": "World_Objects\\Town\\chimneyTop_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "chimneyTop S",
+    "ImageUrl": "World_Objects\\Town\\chimneyTop_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "chimneyTop W",
+    "ImageUrl": "World_Objects\\Town\\chimneyTop_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "chimney E",
+    "ImageUrl": "World_Objects\\Town\\chimney_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "chimney N",
+    "ImageUrl": "World_Objects\\Town\\chimney_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "chimney S",
+    "ImageUrl": "World_Objects\\Town\\chimney_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "chimney W",
+    "ImageUrl": "World_Objects\\Town\\chimney_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fenceBroken E",
+    "ImageUrl": "World_Objects\\Town\\fenceBroken_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fenceBroken N",
+    "ImageUrl": "World_Objects\\Town\\fenceBroken_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fenceBroken S",
+    "ImageUrl": "World_Objects\\Town\\fenceBroken_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fenceBroken W",
+    "ImageUrl": "World_Objects\\Town\\fenceBroken_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fenceCurved E",
+    "ImageUrl": "World_Objects\\Town\\fenceCurved_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fenceCurved N",
+    "ImageUrl": "World_Objects\\Town\\fenceCurved_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fenceCurved S",
+    "ImageUrl": "World_Objects\\Town\\fenceCurved_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fenceCurved W",
+    "ImageUrl": "World_Objects\\Town\\fenceCurved_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fenceGate E",
+    "ImageUrl": "World_Objects\\Town\\fenceGate_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fenceGate N",
+    "ImageUrl": "World_Objects\\Town\\fenceGate_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fenceGate S",
+    "ImageUrl": "World_Objects\\Town\\fenceGate_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fenceGate W",
+    "ImageUrl": "World_Objects\\Town\\fenceGate_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fence E",
+    "ImageUrl": "World_Objects\\Town\\fence_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fence N",
+    "ImageUrl": "World_Objects\\Town\\fence_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fence S",
+    "ImageUrl": "World_Objects\\Town\\fence_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fence W",
+    "ImageUrl": "World_Objects\\Town\\fence_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCenter E",
+    "ImageUrl": "World_Objects\\Town\\fountainCenter_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCenter N",
+    "ImageUrl": "World_Objects\\Town\\fountainCenter_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCenter S",
+    "ImageUrl": "World_Objects\\Town\\fountainCenter_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCenter W",
+    "ImageUrl": "World_Objects\\Town\\fountainCenter_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCornerInnerSquare E",
+    "ImageUrl": "World_Objects\\Town\\fountainCornerInnerSquare_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCornerInnerSquare N",
+    "ImageUrl": "World_Objects\\Town\\fountainCornerInnerSquare_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCornerInnerSquare S",
+    "ImageUrl": "World_Objects\\Town\\fountainCornerInnerSquare_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCornerInnerSquare W",
+    "ImageUrl": "World_Objects\\Town\\fountainCornerInnerSquare_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCornerInner E",
+    "ImageUrl": "World_Objects\\Town\\fountainCornerInner_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCornerInner N",
+    "ImageUrl": "World_Objects\\Town\\fountainCornerInner_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCornerInner S",
+    "ImageUrl": "World_Objects\\Town\\fountainCornerInner_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCornerInner W",
+    "ImageUrl": "World_Objects\\Town\\fountainCornerInner_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCorner E",
+    "ImageUrl": "World_Objects\\Town\\fountainCorner_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCorner N",
+    "ImageUrl": "World_Objects\\Town\\fountainCorner_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCorner S",
+    "ImageUrl": "World_Objects\\Town\\fountainCorner_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCorner W",
+    "ImageUrl": "World_Objects\\Town\\fountainCorner_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCurved E",
+    "ImageUrl": "World_Objects\\Town\\fountainCurved_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCurved N",
+    "ImageUrl": "World_Objects\\Town\\fountainCurved_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCurved S",
+    "ImageUrl": "World_Objects\\Town\\fountainCurved_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainCurved W",
+    "ImageUrl": "World_Objects\\Town\\fountainCurved_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainEdge E",
+    "ImageUrl": "World_Objects\\Town\\fountainEdge_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainEdge N",
+    "ImageUrl": "World_Objects\\Town\\fountainEdge_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainEdge S",
+    "ImageUrl": "World_Objects\\Town\\fountainEdge_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainEdge W",
+    "ImageUrl": "World_Objects\\Town\\fountainEdge_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainRoundDetail E",
+    "ImageUrl": "World_Objects\\Town\\fountainRoundDetail_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainRoundDetail N",
+    "ImageUrl": "World_Objects\\Town\\fountainRoundDetail_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainRoundDetail S",
+    "ImageUrl": "World_Objects\\Town\\fountainRoundDetail_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainRoundDetail W",
+    "ImageUrl": "World_Objects\\Town\\fountainRoundDetail_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainRound E",
+    "ImageUrl": "World_Objects\\Town\\fountainRound_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainRound N",
+    "ImageUrl": "World_Objects\\Town\\fountainRound_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainRound S",
+    "ImageUrl": "World_Objects\\Town\\fountainRound_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainRound W",
+    "ImageUrl": "World_Objects\\Town\\fountainRound_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainSquareDetail E",
+    "ImageUrl": "World_Objects\\Town\\fountainSquareDetail_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainSquareDetail N",
+    "ImageUrl": "World_Objects\\Town\\fountainSquareDetail_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainSquareDetail S",
+    "ImageUrl": "World_Objects\\Town\\fountainSquareDetail_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainSquareDetail W",
+    "ImageUrl": "World_Objects\\Town\\fountainSquareDetail_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainSquare E",
+    "ImageUrl": "World_Objects\\Town\\fountainSquare_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainSquare N",
+    "ImageUrl": "World_Objects\\Town\\fountainSquare_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainSquare S",
+    "ImageUrl": "World_Objects\\Town\\fountainSquare_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "fountainSquare W",
+    "ImageUrl": "World_Objects\\Town\\fountainSquare_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "hedgeCurved E",
+    "ImageUrl": "World_Objects\\Town\\hedgeCurved_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "hedgeCurved N",
+    "ImageUrl": "World_Objects\\Town\\hedgeCurved_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "hedgeCurved S",
+    "ImageUrl": "World_Objects\\Town\\hedgeCurved_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "hedgeCurved W",
+    "ImageUrl": "World_Objects\\Town\\hedgeCurved_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "hedgeGate E",
+    "ImageUrl": "World_Objects\\Town\\hedgeGate_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "hedgeGate N",
+    "ImageUrl": "World_Objects\\Town\\hedgeGate_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "hedgeGate S",
+    "ImageUrl": "World_Objects\\Town\\hedgeGate_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "hedgeGate W",
+    "ImageUrl": "World_Objects\\Town\\hedgeGate_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "hedge E",
+    "ImageUrl": "World_Objects\\Town\\hedge_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "hedge N",
+    "ImageUrl": "World_Objects\\Town\\hedge_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "hedge S",
+    "ImageUrl": "World_Objects\\Town\\hedge_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "hedge W",
+    "ImageUrl": "World_Objects\\Town\\hedge_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "lantern E",
+    "ImageUrl": "World_Objects\\Town\\lantern_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "lantern N",
+    "ImageUrl": "World_Objects\\Town\\lantern_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "lantern S",
+    "ImageUrl": "World_Objects\\Town\\lantern_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "lantern W",
+    "ImageUrl": "World_Objects\\Town\\lantern_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "overhang E",
+    "ImageUrl": "World_Objects\\Town\\overhang_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "overhang N",
+    "ImageUrl": "World_Objects\\Town\\overhang_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "overhang S",
+    "ImageUrl": "World_Objects\\Town\\overhang_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "overhang W",
+    "ImageUrl": "World_Objects\\Town\\overhang_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "pillarStone E",
+    "ImageUrl": "World_Objects\\Town\\pillarStone_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "pillarStone N",
+    "ImageUrl": "World_Objects\\Town\\pillarStone_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "pillarStone S",
+    "ImageUrl": "World_Objects\\Town\\pillarStone_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "pillarStone W",
+    "ImageUrl": "World_Objects\\Town\\pillarStone_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "pillarWood E",
+    "ImageUrl": "World_Objects\\Town\\pillarWood_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "pillarWood N",
+    "ImageUrl": "World_Objects\\Town\\pillarWood_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "pillarWood S",
+    "ImageUrl": "World_Objects\\Town\\pillarWood_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "pillarWood W",
+    "ImageUrl": "World_Objects\\Town\\pillarWood_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "planksHalf E",
+    "ImageUrl": "World_Objects\\Town\\planksHalf_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "planksHalf N",
+    "ImageUrl": "World_Objects\\Town\\planksHalf_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "planksHalf S",
+    "ImageUrl": "World_Objects\\Town\\planksHalf_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "planksHalf W",
+    "ImageUrl": "World_Objects\\Town\\planksHalf_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "planksOpening E",
+    "ImageUrl": "World_Objects\\Town\\planksOpening_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "planksOpening N",
+    "ImageUrl": "World_Objects\\Town\\planksOpening_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "planksOpening S",
+    "ImageUrl": "World_Objects\\Town\\planksOpening_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "planksOpening W",
+    "ImageUrl": "World_Objects\\Town\\planksOpening_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "planks E",
+    "ImageUrl": "World_Objects\\Town\\planks_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "planks N",
+    "ImageUrl": "World_Objects\\Town\\planks_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "planks S",
+    "ImageUrl": "World_Objects\\Town\\planks_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "planks W",
+    "ImageUrl": "World_Objects\\Town\\planks_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "polesHorizontal E",
+    "ImageUrl": "World_Objects\\Town\\polesHorizontal_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "polesHorizontal N",
+    "ImageUrl": "World_Objects\\Town\\polesHorizontal_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "polesHorizontal S",
+    "ImageUrl": "World_Objects\\Town\\polesHorizontal_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "polesHorizontal W",
+    "ImageUrl": "World_Objects\\Town\\polesHorizontal_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "poles E",
+    "ImageUrl": "World_Objects\\Town\\poles_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "poles N",
+    "ImageUrl": "World_Objects\\Town\\poles_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "poles S",
+    "ImageUrl": "World_Objects\\Town\\poles_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "poles W",
+    "ImageUrl": "World_Objects\\Town\\poles_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadBend E",
+    "ImageUrl": "World_Objects\\Town\\roadBend_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadBend N",
+    "ImageUrl": "World_Objects\\Town\\roadBend_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadBend S",
+    "ImageUrl": "World_Objects\\Town\\roadBend_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadBend W",
+    "ImageUrl": "World_Objects\\Town\\roadBend_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadCornerInner E",
+    "ImageUrl": "World_Objects\\Town\\roadCornerInner_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadCornerInner N",
+    "ImageUrl": "World_Objects\\Town\\roadCornerInner_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadCornerInner S",
+    "ImageUrl": "World_Objects\\Town\\roadCornerInner_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadCornerInner W",
+    "ImageUrl": "World_Objects\\Town\\roadCornerInner_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadCorner E",
+    "ImageUrl": "World_Objects\\Town\\roadCorner_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadCorner N",
+    "ImageUrl": "World_Objects\\Town\\roadCorner_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadCorner S",
+    "ImageUrl": "World_Objects\\Town\\roadCorner_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadCorner W",
+    "ImageUrl": "World_Objects\\Town\\roadCorner_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadCurb E",
+    "ImageUrl": "World_Objects\\Town\\roadCurb_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadCurb N",
+    "ImageUrl": "World_Objects\\Town\\roadCurb_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadCurb S",
+    "ImageUrl": "World_Objects\\Town\\roadCurb_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadCurb W",
+    "ImageUrl": "World_Objects\\Town\\roadCurb_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadEdgeSlope E",
+    "ImageUrl": "World_Objects\\Town\\roadEdgeSlope_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadEdgeSlope N",
+    "ImageUrl": "World_Objects\\Town\\roadEdgeSlope_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadEdgeSlope S",
+    "ImageUrl": "World_Objects\\Town\\roadEdgeSlope_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadEdgeSlope W",
+    "ImageUrl": "World_Objects\\Town\\roadEdgeSlope_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadEdge E",
+    "ImageUrl": "World_Objects\\Town\\roadEdge_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadEdge N",
+    "ImageUrl": "World_Objects\\Town\\roadEdge_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadEdge S",
+    "ImageUrl": "World_Objects\\Town\\roadEdge_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadEdge W",
+    "ImageUrl": "World_Objects\\Town\\roadEdge_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadSlope E",
+    "ImageUrl": "World_Objects\\Town\\roadSlope_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadSlope N",
+    "ImageUrl": "World_Objects\\Town\\roadSlope_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadSlope S",
+    "ImageUrl": "World_Objects\\Town\\roadSlope_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roadSlope W",
+    "ImageUrl": "World_Objects\\Town\\roadSlope_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "road E",
+    "ImageUrl": "World_Objects\\Town\\road_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "road N",
+    "ImageUrl": "World_Objects\\Town\\road_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "road S",
+    "ImageUrl": "World_Objects\\Town\\road_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "road W",
+    "ImageUrl": "World_Objects\\Town\\road_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "rockLarge E",
+    "ImageUrl": "World_Objects\\Town\\rockLarge_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "rockLarge N",
+    "ImageUrl": "World_Objects\\Town\\rockLarge_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "rockLarge S",
+    "ImageUrl": "World_Objects\\Town\\rockLarge_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "rockLarge W",
+    "ImageUrl": "World_Objects\\Town\\rockLarge_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "rockSmall E",
+    "ImageUrl": "World_Objects\\Town\\rockSmall_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "rockSmall N",
+    "ImageUrl": "World_Objects\\Town\\rockSmall_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "rockSmall S",
+    "ImageUrl": "World_Objects\\Town\\rockSmall_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "rockSmall W",
+    "ImageUrl": "World_Objects\\Town\\rockSmall_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "rockWide E",
+    "ImageUrl": "World_Objects\\Town\\rockWide_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "rockWide N",
+    "ImageUrl": "World_Objects\\Town\\rockWide_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "rockWide S",
+    "ImageUrl": "World_Objects\\Town\\rockWide_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "rockWide W",
+    "ImageUrl": "World_Objects\\Town\\rockWide_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofCornerInner E",
+    "ImageUrl": "World_Objects\\Town\\roofCornerInner_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofCornerInner N",
+    "ImageUrl": "World_Objects\\Town\\roofCornerInner_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofCornerInner S",
+    "ImageUrl": "World_Objects\\Town\\roofCornerInner_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofCornerInner W",
+    "ImageUrl": "World_Objects\\Town\\roofCornerInner_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofCornerRound E",
+    "ImageUrl": "World_Objects\\Town\\roofCornerRound_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofCornerRound N",
+    "ImageUrl": "World_Objects\\Town\\roofCornerRound_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofCornerRound S",
+    "ImageUrl": "World_Objects\\Town\\roofCornerRound_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofCornerRound W",
+    "ImageUrl": "World_Objects\\Town\\roofCornerRound_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofCorner E",
+    "ImageUrl": "World_Objects\\Town\\roofCorner_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofCorner N",
+    "ImageUrl": "World_Objects\\Town\\roofCorner_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofCorner S",
+    "ImageUrl": "World_Objects\\Town\\roofCorner_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofCorner W",
+    "ImageUrl": "World_Objects\\Town\\roofCorner_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofFlat E",
+    "ImageUrl": "World_Objects\\Town\\roofFlat_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofFlat N",
+    "ImageUrl": "World_Objects\\Town\\roofFlat_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofFlat S",
+    "ImageUrl": "World_Objects\\Town\\roofFlat_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofFlat W",
+    "ImageUrl": "World_Objects\\Town\\roofFlat_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGableDetail E",
+    "ImageUrl": "World_Objects\\Town\\roofGableDetail_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGableDetail N",
+    "ImageUrl": "World_Objects\\Town\\roofGableDetail_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGableDetail S",
+    "ImageUrl": "World_Objects\\Town\\roofGableDetail_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGableDetail W",
+    "ImageUrl": "World_Objects\\Town\\roofGableDetail_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGableEnd E",
+    "ImageUrl": "World_Objects\\Town\\roofGableEnd_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGableEnd N",
+    "ImageUrl": "World_Objects\\Town\\roofGableEnd_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGableEnd S",
+    "ImageUrl": "World_Objects\\Town\\roofGableEnd_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGableEnd W",
+    "ImageUrl": "World_Objects\\Town\\roofGableEnd_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGableTop E",
+    "ImageUrl": "World_Objects\\Town\\roofGableTop_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGableTop N",
+    "ImageUrl": "World_Objects\\Town\\roofGableTop_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGableTop S",
+    "ImageUrl": "World_Objects\\Town\\roofGableTop_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGableTop W",
+    "ImageUrl": "World_Objects\\Town\\roofGableTop_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGable E",
+    "ImageUrl": "World_Objects\\Town\\roofGable_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGable N",
+    "ImageUrl": "World_Objects\\Town\\roofGable_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGable S",
+    "ImageUrl": "World_Objects\\Town\\roofGable_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofGable W",
+    "ImageUrl": "World_Objects\\Town\\roofGable_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighCornerInner E",
+    "ImageUrl": "World_Objects\\Town\\roofHighCornerInner_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighCornerInner N",
+    "ImageUrl": "World_Objects\\Town\\roofHighCornerInner_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighCornerInner S",
+    "ImageUrl": "World_Objects\\Town\\roofHighCornerInner_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighCornerInner W",
+    "ImageUrl": "World_Objects\\Town\\roofHighCornerInner_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighCornerRound E",
+    "ImageUrl": "World_Objects\\Town\\roofHighCornerRound_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighCornerRound N",
+    "ImageUrl": "World_Objects\\Town\\roofHighCornerRound_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighCornerRound S",
+    "ImageUrl": "World_Objects\\Town\\roofHighCornerRound_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighCornerRound W",
+    "ImageUrl": "World_Objects\\Town\\roofHighCornerRound_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighCorner E",
+    "ImageUrl": "World_Objects\\Town\\roofHighCorner_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighCorner N",
+    "ImageUrl": "World_Objects\\Town\\roofHighCorner_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighCorner S",
+    "ImageUrl": "World_Objects\\Town\\roofHighCorner_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighCorner W",
+    "ImageUrl": "World_Objects\\Town\\roofHighCorner_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighFlat E",
+    "ImageUrl": "World_Objects\\Town\\roofHighFlat_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighFlat N",
+    "ImageUrl": "World_Objects\\Town\\roofHighFlat_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighFlat S",
+    "ImageUrl": "World_Objects\\Town\\roofHighFlat_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighFlat W",
+    "ImageUrl": "World_Objects\\Town\\roofHighFlat_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGableDetail E",
+    "ImageUrl": "World_Objects\\Town\\roofHighGableDetail_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGableDetail N",
+    "ImageUrl": "World_Objects\\Town\\roofHighGableDetail_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGableDetail S",
+    "ImageUrl": "World_Objects\\Town\\roofHighGableDetail_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGableDetail W",
+    "ImageUrl": "World_Objects\\Town\\roofHighGableDetail_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGableEnd E",
+    "ImageUrl": "World_Objects\\Town\\roofHighGableEnd_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGableEnd N",
+    "ImageUrl": "World_Objects\\Town\\roofHighGableEnd_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGableEnd S",
+    "ImageUrl": "World_Objects\\Town\\roofHighGableEnd_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGableEnd W",
+    "ImageUrl": "World_Objects\\Town\\roofHighGableEnd_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGableTop E",
+    "ImageUrl": "World_Objects\\Town\\roofHighGableTop_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGableTop N",
+    "ImageUrl": "World_Objects\\Town\\roofHighGableTop_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGableTop S",
+    "ImageUrl": "World_Objects\\Town\\roofHighGableTop_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGableTop W",
+    "ImageUrl": "World_Objects\\Town\\roofHighGableTop_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGable E",
+    "ImageUrl": "World_Objects\\Town\\roofHighGable_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGable N",
+    "ImageUrl": "World_Objects\\Town\\roofHighGable_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGable S",
+    "ImageUrl": "World_Objects\\Town\\roofHighGable_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighGable W",
+    "ImageUrl": "World_Objects\\Town\\roofHighGable_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighLeft E",
+    "ImageUrl": "World_Objects\\Town\\roofHighLeft_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighLeft N",
+    "ImageUrl": "World_Objects\\Town\\roofHighLeft_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighLeft S",
+    "ImageUrl": "World_Objects\\Town\\roofHighLeft_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighLeft W",
+    "ImageUrl": "World_Objects\\Town\\roofHighLeft_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighPoint E",
+    "ImageUrl": "World_Objects\\Town\\roofHighPoint_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighPoint N",
+    "ImageUrl": "World_Objects\\Town\\roofHighPoint_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighPoint S",
+    "ImageUrl": "World_Objects\\Town\\roofHighPoint_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighPoint W",
+    "ImageUrl": "World_Objects\\Town\\roofHighPoint_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighRight E",
+    "ImageUrl": "World_Objects\\Town\\roofHighRight_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighRight N",
+    "ImageUrl": "World_Objects\\Town\\roofHighRight_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighRight S",
+    "ImageUrl": "World_Objects\\Town\\roofHighRight_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighRight W",
+    "ImageUrl": "World_Objects\\Town\\roofHighRight_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighWindow E",
+    "ImageUrl": "World_Objects\\Town\\roofHighWindow_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighWindow N",
+    "ImageUrl": "World_Objects\\Town\\roofHighWindow_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighWindow S",
+    "ImageUrl": "World_Objects\\Town\\roofHighWindow_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHighWindow W",
+    "ImageUrl": "World_Objects\\Town\\roofHighWindow_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHigh E",
+    "ImageUrl": "World_Objects\\Town\\roofHigh_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHigh N",
+    "ImageUrl": "World_Objects\\Town\\roofHigh_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHigh S",
+    "ImageUrl": "World_Objects\\Town\\roofHigh_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofHigh W",
+    "ImageUrl": "World_Objects\\Town\\roofHigh_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofLeft E",
+    "ImageUrl": "World_Objects\\Town\\roofLeft_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofLeft N",
+    "ImageUrl": "World_Objects\\Town\\roofLeft_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofLeft S",
+    "ImageUrl": "World_Objects\\Town\\roofLeft_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofLeft W",
+    "ImageUrl": "World_Objects\\Town\\roofLeft_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofPoint E",
+    "ImageUrl": "World_Objects\\Town\\roofPoint_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofPoint N",
+    "ImageUrl": "World_Objects\\Town\\roofPoint_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofPoint S",
+    "ImageUrl": "World_Objects\\Town\\roofPoint_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofPoint W",
+    "ImageUrl": "World_Objects\\Town\\roofPoint_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofRight E",
+    "ImageUrl": "World_Objects\\Town\\roofRight_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofRight N",
+    "ImageUrl": "World_Objects\\Town\\roofRight_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofRight S",
+    "ImageUrl": "World_Objects\\Town\\roofRight_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofRight W",
+    "ImageUrl": "World_Objects\\Town\\roofRight_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofWindow E",
+    "ImageUrl": "World_Objects\\Town\\roofWindow_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofWindow N",
+    "ImageUrl": "World_Objects\\Town\\roofWindow_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofWindow S",
+    "ImageUrl": "World_Objects\\Town\\roofWindow_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roofWindow W",
+    "ImageUrl": "World_Objects\\Town\\roofWindow_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roof E",
+    "ImageUrl": "World_Objects\\Town\\roof_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roof N",
+    "ImageUrl": "World_Objects\\Town\\roof_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roof S",
+    "ImageUrl": "World_Objects\\Town\\roof_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "roof W",
+    "ImageUrl": "World_Objects\\Town\\roof_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStoneCorner E",
+    "ImageUrl": "World_Objects\\Town\\stairsStoneCorner_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStoneCorner N",
+    "ImageUrl": "World_Objects\\Town\\stairsStoneCorner_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStoneCorner S",
+    "ImageUrl": "World_Objects\\Town\\stairsStoneCorner_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStoneCorner W",
+    "ImageUrl": "World_Objects\\Town\\stairsStoneCorner_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStoneHandrail E",
+    "ImageUrl": "World_Objects\\Town\\stairsStoneHandrail_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStoneHandrail N",
+    "ImageUrl": "World_Objects\\Town\\stairsStoneHandrail_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStoneHandrail S",
+    "ImageUrl": "World_Objects\\Town\\stairsStoneHandrail_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStoneHandrail W",
+    "ImageUrl": "World_Objects\\Town\\stairsStoneHandrail_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStoneRound E",
+    "ImageUrl": "World_Objects\\Town\\stairsStoneRound_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStoneRound N",
+    "ImageUrl": "World_Objects\\Town\\stairsStoneRound_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStoneRound S",
+    "ImageUrl": "World_Objects\\Town\\stairsStoneRound_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStoneRound W",
+    "ImageUrl": "World_Objects\\Town\\stairsStoneRound_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStone E",
+    "ImageUrl": "World_Objects\\Town\\stairsStone_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStone N",
+    "ImageUrl": "World_Objects\\Town\\stairsStone_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStone S",
+    "ImageUrl": "World_Objects\\Town\\stairsStone_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsStone W",
+    "ImageUrl": "World_Objects\\Town\\stairsStone_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsWoodHandrail E",
+    "ImageUrl": "World_Objects\\Town\\stairsWoodHandrail_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsWoodHandrail N",
+    "ImageUrl": "World_Objects\\Town\\stairsWoodHandrail_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsWoodHandrail S",
+    "ImageUrl": "World_Objects\\Town\\stairsWoodHandrail_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsWoodHandrail W",
+    "ImageUrl": "World_Objects\\Town\\stairsWoodHandrail_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsWood E",
+    "ImageUrl": "World_Objects\\Town\\stairsWood_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsWood N",
+    "ImageUrl": "World_Objects\\Town\\stairsWood_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsWood S",
+    "ImageUrl": "World_Objects\\Town\\stairsWood_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stairsWood W",
+    "ImageUrl": "World_Objects\\Town\\stairsWood_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallBench E",
+    "ImageUrl": "World_Objects\\Town\\stallBench_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallBench N",
+    "ImageUrl": "World_Objects\\Town\\stallBench_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallBench S",
+    "ImageUrl": "World_Objects\\Town\\stallBench_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallBench W",
+    "ImageUrl": "World_Objects\\Town\\stallBench_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallGreen E",
+    "ImageUrl": "World_Objects\\Town\\stallGreen_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallGreen N",
+    "ImageUrl": "World_Objects\\Town\\stallGreen_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallGreen S",
+    "ImageUrl": "World_Objects\\Town\\stallGreen_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallGreen W",
+    "ImageUrl": "World_Objects\\Town\\stallGreen_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallRed E",
+    "ImageUrl": "World_Objects\\Town\\stallRed_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallRed N",
+    "ImageUrl": "World_Objects\\Town\\stallRed_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallRed S",
+    "ImageUrl": "World_Objects\\Town\\stallRed_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallRed W",
+    "ImageUrl": "World_Objects\\Town\\stallRed_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallStool E",
+    "ImageUrl": "World_Objects\\Town\\stallStool_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallStool N",
+    "ImageUrl": "World_Objects\\Town\\stallStool_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallStool S",
+    "ImageUrl": "World_Objects\\Town\\stallStool_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stallStool W",
+    "ImageUrl": "World_Objects\\Town\\stallStool_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stall E",
+    "ImageUrl": "World_Objects\\Town\\stall_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stall N",
+    "ImageUrl": "World_Objects\\Town\\stall_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stall S",
+    "ImageUrl": "World_Objects\\Town\\stall_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "stall W",
+    "ImageUrl": "World_Objects\\Town\\stall_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeCrooked E",
+    "ImageUrl": "World_Objects\\Town\\treeCrooked_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeCrooked N",
+    "ImageUrl": "World_Objects\\Town\\treeCrooked_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeCrooked S",
+    "ImageUrl": "World_Objects\\Town\\treeCrooked_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeCrooked W",
+    "ImageUrl": "World_Objects\\Town\\treeCrooked_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeHighCrooked E",
+    "ImageUrl": "World_Objects\\Town\\treeHighCrooked_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeHighCrooked N",
+    "ImageUrl": "World_Objects\\Town\\treeHighCrooked_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeHighCrooked S",
+    "ImageUrl": "World_Objects\\Town\\treeHighCrooked_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeHighCrooked W",
+    "ImageUrl": "World_Objects\\Town\\treeHighCrooked_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeHighRound E",
+    "ImageUrl": "World_Objects\\Town\\treeHighRound_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeHighRound N",
+    "ImageUrl": "World_Objects\\Town\\treeHighRound_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeHighRound S",
+    "ImageUrl": "World_Objects\\Town\\treeHighRound_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeHighRound W",
+    "ImageUrl": "World_Objects\\Town\\treeHighRound_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeHigh E",
+    "ImageUrl": "World_Objects\\Town\\treeHigh_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeHigh N",
+    "ImageUrl": "World_Objects\\Town\\treeHigh_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeHigh S",
+    "ImageUrl": "World_Objects\\Town\\treeHigh_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "treeHigh W",
+    "ImageUrl": "World_Objects\\Town\\treeHigh_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "tree E",
+    "ImageUrl": "World_Objects\\Town\\tree_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "tree N",
+    "ImageUrl": "World_Objects\\Town\\tree_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "tree S",
+    "ImageUrl": "World_Objects\\Town\\tree_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "tree W",
+    "ImageUrl": "World_Objects\\Town\\tree_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallArchTopDetail E",
+    "ImageUrl": "World_Objects\\Town\\wallArchTopDetail_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallArchTopDetail N",
+    "ImageUrl": "World_Objects\\Town\\wallArchTopDetail_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallArchTopDetail S",
+    "ImageUrl": "World_Objects\\Town\\wallArchTopDetail_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallArchTopDetail W",
+    "ImageUrl": "World_Objects\\Town\\wallArchTopDetail_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallArchTop E",
+    "ImageUrl": "World_Objects\\Town\\wallArchTop_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallArchTop N",
+    "ImageUrl": "World_Objects\\Town\\wallArchTop_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallArchTop S",
+    "ImageUrl": "World_Objects\\Town\\wallArchTop_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallArchTop W",
+    "ImageUrl": "World_Objects\\Town\\wallArchTop_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallArch E",
+    "ImageUrl": "World_Objects\\Town\\wallArch_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallArch N",
+    "ImageUrl": "World_Objects\\Town\\wallArch_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallArch S",
+    "ImageUrl": "World_Objects\\Town\\wallArch_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallArch W",
+    "ImageUrl": "World_Objects\\Town\\wallArch_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallBlockHalf E",
+    "ImageUrl": "World_Objects\\Town\\wallBlockHalf_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallBlockHalf N",
+    "ImageUrl": "World_Objects\\Town\\wallBlockHalf_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallBlockHalf S",
+    "ImageUrl": "World_Objects\\Town\\wallBlockHalf_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallBlockHalf W",
+    "ImageUrl": "World_Objects\\Town\\wallBlockHalf_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallBlock E",
+    "ImageUrl": "World_Objects\\Town\\wallBlock_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallBlock N",
+    "ImageUrl": "World_Objects\\Town\\wallBlock_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallBlock S",
+    "ImageUrl": "World_Objects\\Town\\wallBlock_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallBlock W",
+    "ImageUrl": "World_Objects\\Town\\wallBlock_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallBroken E",
+    "ImageUrl": "World_Objects\\Town\\wallBroken_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallBroken N",
+    "ImageUrl": "World_Objects\\Town\\wallBroken_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallBroken S",
+    "ImageUrl": "World_Objects\\Town\\wallBroken_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallBroken W",
+    "ImageUrl": "World_Objects\\Town\\wallBroken_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerDetail E",
+    "ImageUrl": "World_Objects\\Town\\wallCornerDetail_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerDetail N",
+    "ImageUrl": "World_Objects\\Town\\wallCornerDetail_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerDetail S",
+    "ImageUrl": "World_Objects\\Town\\wallCornerDetail_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerDetail W",
+    "ImageUrl": "World_Objects\\Town\\wallCornerDetail_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerDiagonalHalf E",
+    "ImageUrl": "World_Objects\\Town\\wallCornerDiagonalHalf_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerDiagonalHalf N",
+    "ImageUrl": "World_Objects\\Town\\wallCornerDiagonalHalf_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerDiagonalHalf S",
+    "ImageUrl": "World_Objects\\Town\\wallCornerDiagonalHalf_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerDiagonalHalf W",
+    "ImageUrl": "World_Objects\\Town\\wallCornerDiagonalHalf_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerDiagonal E",
+    "ImageUrl": "World_Objects\\Town\\wallCornerDiagonal_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerDiagonal N",
+    "ImageUrl": "World_Objects\\Town\\wallCornerDiagonal_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerDiagonal S",
+    "ImageUrl": "World_Objects\\Town\\wallCornerDiagonal_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerDiagonal W",
+    "ImageUrl": "World_Objects\\Town\\wallCornerDiagonal_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerEdge E",
+    "ImageUrl": "World_Objects\\Town\\wallCornerEdge_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerEdge N",
+    "ImageUrl": "World_Objects\\Town\\wallCornerEdge_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerEdge S",
+    "ImageUrl": "World_Objects\\Town\\wallCornerEdge_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCornerEdge W",
+    "ImageUrl": "World_Objects\\Town\\wallCornerEdge_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCorner E",
+    "ImageUrl": "World_Objects\\Town\\wallCorner_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCorner N",
+    "ImageUrl": "World_Objects\\Town\\wallCorner_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCorner S",
+    "ImageUrl": "World_Objects\\Town\\wallCorner_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCorner W",
+    "ImageUrl": "World_Objects\\Town\\wallCorner_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCurved E",
+    "ImageUrl": "World_Objects\\Town\\wallCurved_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCurved N",
+    "ImageUrl": "World_Objects\\Town\\wallCurved_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCurved S",
+    "ImageUrl": "World_Objects\\Town\\wallCurved_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallCurved W",
+    "ImageUrl": "World_Objects\\Town\\wallCurved_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDetailCross E",
+    "ImageUrl": "World_Objects\\Town\\wallDetailCross_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDetailCross N",
+    "ImageUrl": "World_Objects\\Town\\wallDetailCross_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDetailCross S",
+    "ImageUrl": "World_Objects\\Town\\wallDetailCross_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDetailCross W",
+    "ImageUrl": "World_Objects\\Town\\wallDetailCross_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDetailDiagonal E",
+    "ImageUrl": "World_Objects\\Town\\wallDetailDiagonal_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDetailDiagonal N",
+    "ImageUrl": "World_Objects\\Town\\wallDetailDiagonal_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDetailDiagonal S",
+    "ImageUrl": "World_Objects\\Town\\wallDetailDiagonal_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDetailDiagonal W",
+    "ImageUrl": "World_Objects\\Town\\wallDetailDiagonal_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDetailHorizontal E",
+    "ImageUrl": "World_Objects\\Town\\wallDetailHorizontal_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDetailHorizontal N",
+    "ImageUrl": "World_Objects\\Town\\wallDetailHorizontal_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDetailHorizontal S",
+    "ImageUrl": "World_Objects\\Town\\wallDetailHorizontal_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDetailHorizontal W",
+    "ImageUrl": "World_Objects\\Town\\wallDetailHorizontal_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDiagonal E",
+    "ImageUrl": "World_Objects\\Town\\wallDiagonal_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDiagonal N",
+    "ImageUrl": "World_Objects\\Town\\wallDiagonal_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDiagonal S",
+    "ImageUrl": "World_Objects\\Town\\wallDiagonal_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDiagonal W",
+    "ImageUrl": "World_Objects\\Town\\wallDiagonal_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwayBase E",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwayBase_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwayBase N",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwayBase_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwayBase S",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwayBase_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwayBase W",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwayBase_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwayRound E",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwayRound_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwayRound N",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwayRound_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwayRound S",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwayRound_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwayRound W",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwayRound_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwaySquareWideCurved E",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwaySquareWideCurved_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwaySquareWideCurved N",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwaySquareWideCurved_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwaySquareWideCurved S",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwaySquareWideCurved_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwaySquareWideCurved W",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwaySquareWideCurved_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwaySquareWide E",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwaySquareWide_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwaySquareWide N",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwaySquareWide_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwaySquareWide S",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwaySquareWide_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwaySquareWide W",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwaySquareWide_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwaySquare E",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwaySquare_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwaySquare N",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwaySquare_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwaySquare S",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwaySquare_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoorwaySquare W",
+    "ImageUrl": "World_Objects\\Town\\wallDoorwaySquare_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoor E",
+    "ImageUrl": "World_Objects\\Town\\wallDoor_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoor N",
+    "ImageUrl": "World_Objects\\Town\\wallDoor_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoor S",
+    "ImageUrl": "World_Objects\\Town\\wallDoor_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallDoor W",
+    "ImageUrl": "World_Objects\\Town\\wallDoor_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallHalf E",
+    "ImageUrl": "World_Objects\\Town\\wallHalf_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallHalf N",
+    "ImageUrl": "World_Objects\\Town\\wallHalf_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallHalf S",
+    "ImageUrl": "World_Objects\\Town\\wallHalf_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallHalf W",
+    "ImageUrl": "World_Objects\\Town\\wallHalf_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallRounded E",
+    "ImageUrl": "World_Objects\\Town\\wallRounded_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallRounded N",
+    "ImageUrl": "World_Objects\\Town\\wallRounded_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallRounded S",
+    "ImageUrl": "World_Objects\\Town\\wallRounded_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallRounded W",
+    "ImageUrl": "World_Objects\\Town\\wallRounded_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallSide E",
+    "ImageUrl": "World_Objects\\Town\\wallSide_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallSide N",
+    "ImageUrl": "World_Objects\\Town\\wallSide_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallSide S",
+    "ImageUrl": "World_Objects\\Town\\wallSide_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallSide W",
+    "ImageUrl": "World_Objects\\Town\\wallSide_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallSlope E",
+    "ImageUrl": "World_Objects\\Town\\wallSlope_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallSlope N",
+    "ImageUrl": "World_Objects\\Town\\wallSlope_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallSlope S",
+    "ImageUrl": "World_Objects\\Town\\wallSlope_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallSlope W",
+    "ImageUrl": "World_Objects\\Town\\wallSlope_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowGlass E",
+    "ImageUrl": "World_Objects\\Town\\wallWindowGlass_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowGlass N",
+    "ImageUrl": "World_Objects\\Town\\wallWindowGlass_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowGlass S",
+    "ImageUrl": "World_Objects\\Town\\wallWindowGlass_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowGlass W",
+    "ImageUrl": "World_Objects\\Town\\wallWindowGlass_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowRound E",
+    "ImageUrl": "World_Objects\\Town\\wallWindowRound_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowRound N",
+    "ImageUrl": "World_Objects\\Town\\wallWindowRound_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowRound S",
+    "ImageUrl": "World_Objects\\Town\\wallWindowRound_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowRound W",
+    "ImageUrl": "World_Objects\\Town\\wallWindowRound_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowShutters E",
+    "ImageUrl": "World_Objects\\Town\\wallWindowShutters_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowShutters N",
+    "ImageUrl": "World_Objects\\Town\\wallWindowShutters_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowShutters S",
+    "ImageUrl": "World_Objects\\Town\\wallWindowShutters_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowShutters W",
+    "ImageUrl": "World_Objects\\Town\\wallWindowShutters_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowSmall E",
+    "ImageUrl": "World_Objects\\Town\\wallWindowSmall_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowSmall N",
+    "ImageUrl": "World_Objects\\Town\\wallWindowSmall_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowSmall S",
+    "ImageUrl": "World_Objects\\Town\\wallWindowSmall_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowSmall W",
+    "ImageUrl": "World_Objects\\Town\\wallWindowSmall_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowStone E",
+    "ImageUrl": "World_Objects\\Town\\wallWindowStone_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowStone N",
+    "ImageUrl": "World_Objects\\Town\\wallWindowStone_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowStone S",
+    "ImageUrl": "World_Objects\\Town\\wallWindowStone_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWindowStone W",
+    "ImageUrl": "World_Objects\\Town\\wallWindowStone_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodArchTopDetail E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodArchTopDetail_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodArchTopDetail N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodArchTopDetail_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodArchTopDetail S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodArchTopDetail_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodArchTopDetail W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodArchTopDetail_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodArchTop E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodArchTop_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodArchTop N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodArchTop_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodArchTop S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodArchTop_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodArchTop W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodArchTop_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodArch E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodArch_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodArch N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodArch_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodArch S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodArch_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodArch W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodArch_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodBlockHalf E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodBlockHalf_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodBlockHalf N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodBlockHalf_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodBlockHalf S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodBlockHalf_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodBlockHalf W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodBlockHalf_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodBlock E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodBlock_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodBlock N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodBlock_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodBlock S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodBlock_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodBlock W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodBlock_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodBroken E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodBroken_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodBroken N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodBroken_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodBroken S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodBroken_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodBroken W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodBroken_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCornerDiagonalHalf E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCornerDiagonalHalf_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCornerDiagonalHalf N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCornerDiagonalHalf_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCornerDiagonalHalf S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCornerDiagonalHalf_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCornerDiagonalHalf W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCornerDiagonalHalf_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCornerDiagonal E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCornerDiagonal_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCornerDiagonal N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCornerDiagonal_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCornerDiagonal S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCornerDiagonal_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCornerDiagonal W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCornerDiagonal_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCornerEdge E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCornerEdge_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCornerEdge N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCornerEdge_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCornerEdge S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCornerEdge_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCornerEdge W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCornerEdge_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCorner E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCorner_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCorner N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCorner_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCorner S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCorner_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCorner W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCorner_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCurved E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCurved_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCurved N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCurved_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCurved S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCurved_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodCurved W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodCurved_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDetailCross E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDetailCross_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDetailCross N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDetailCross_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDetailCross S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDetailCross_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDetailCross W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDetailCross_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDetailDiagonal E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDetailDiagonal_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDetailDiagonal N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDetailDiagonal_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDetailDiagonal S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDetailDiagonal_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDetailDiagonal W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDetailDiagonal_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDetailHorizontal E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDetailHorizontal_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDetailHorizontal N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDetailHorizontal_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDetailHorizontal S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDetailHorizontal_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDetailHorizontal W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDetailHorizontal_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDiagonal E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDiagonal_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDiagonal N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDiagonal_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDiagonal S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDiagonal_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDiagonal W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDiagonal_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwayBase E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwayBase_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwayBase N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwayBase_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwayBase S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwayBase_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwayBase W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwayBase_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwayRound E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwayRound_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwayRound N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwayRound_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwayRound S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwayRound_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwayRound W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwayRound_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwaySquareWideCurved E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwaySquareWideCurved_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwaySquareWideCurved N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwaySquareWideCurved_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwaySquareWideCurved S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwaySquareWideCurved_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwaySquareWideCurved W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwaySquareWideCurved_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwaySquareWide E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwaySquareWide_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwaySquareWide N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwaySquareWide_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwaySquareWide S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwaySquareWide_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwaySquareWide W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwaySquareWide_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwaySquare E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwaySquare_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwaySquare N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwaySquare_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwaySquare S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwaySquare_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoorwaySquare W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoorwaySquare_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoor E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoor_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoor N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoor_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoor S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoor_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodDoor W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodDoor_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodHalf E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodHalf_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodHalf N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodHalf_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodHalf S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodHalf_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodHalf W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodHalf_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodRounded E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodRounded_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodRounded N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodRounded_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodRounded S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodRounded_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodRounded W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodRounded_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodSide E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodSide_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodSide N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodSide_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodSide S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodSide_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodSide W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodSide_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodSlope E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodSlope_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodSlope N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodSlope_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodSlope S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodSlope_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodSlope W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodSlope_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowGlass E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowGlass_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowGlass N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowGlass_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowGlass S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowGlass_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowGlass W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowGlass_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowRound E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowRound_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowRound N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowRound_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowRound S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowRound_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowRound W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowRound_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowShutters E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowShutters_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowShutters N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowShutters_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowShutters S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowShutters_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowShutters W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowShutters_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowSmall E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowSmall_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowSmall N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowSmall_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowSmall S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowSmall_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowSmall W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowSmall_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowStone E",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowStone_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowStone N",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowStone_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowStone S",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowStone_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWoodWindowStone W",
+    "ImageUrl": "World_Objects\\Town\\wallWoodWindowStone_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWood E",
+    "ImageUrl": "World_Objects\\Town\\wallWood_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWood N",
+    "ImageUrl": "World_Objects\\Town\\wallWood_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWood S",
+    "ImageUrl": "World_Objects\\Town\\wallWood_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wallWood W",
+    "ImageUrl": "World_Objects\\Town\\wallWood_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wall E",
+    "ImageUrl": "World_Objects\\Town\\wall_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wall N",
+    "ImageUrl": "World_Objects\\Town\\wall_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wall S",
+    "ImageUrl": "World_Objects\\Town\\wall_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wall W",
+    "ImageUrl": "World_Objects\\Town\\wall_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "watermill E",
+    "ImageUrl": "World_Objects\\Town\\watermill_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "watermill N",
+    "ImageUrl": "World_Objects\\Town\\watermill_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "watermill S",
+    "ImageUrl": "World_Objects\\Town\\watermill_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "watermill W",
+    "ImageUrl": "World_Objects\\Town\\watermill_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wheel E",
+    "ImageUrl": "World_Objects\\Town\\wheel_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wheel N",
+    "ImageUrl": "World_Objects\\Town\\wheel_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wheel S",
+    "ImageUrl": "World_Objects\\Town\\wheel_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "wheel W",
+    "ImageUrl": "World_Objects\\Town\\wheel_W.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "windmill E",
+    "ImageUrl": "World_Objects\\Town\\windmill_E.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "windmill N",
+    "ImageUrl": "World_Objects\\Town\\windmill_N.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "windmill S",
+    "ImageUrl": "World_Objects\\Town\\windmill_S.png",
+    "Category": "Town"
+  },
+  {
+    "Name": "windmill W",
+    "ImageUrl": "World_Objects\\Town\\windmill_W.png",
+    "Category": "Town"
   }
 ]</value>
   </data>
