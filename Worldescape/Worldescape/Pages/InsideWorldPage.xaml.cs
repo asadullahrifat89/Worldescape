@@ -439,15 +439,15 @@ namespace Worldescape
 
             if (ConstructAddButton.IsChecked.Value && _addingConstruct != null)
             {
-                await AddConstructOnPointerPressed(e);
+                await AddConstructOnPointerPressed(e); // Canvas_root
             }
             else if (ConstructCloneButton.IsChecked.Value && _cloningConstruct != null)
             {
-                await CloneConstructOnPointerPressed(e);
+                await CloneConstructOnPointerPressed(e); // Canvas_root
             }
             else if (ConstructMoveButton.IsChecked.Value && _movingConstruct != null)
             {
-                await MoveConstructOnPointerPressed(e);
+                await MoveConstructOnPointerPressed(e); // Canvas_root
             }
             else
             {
@@ -529,15 +529,15 @@ namespace Worldescape
 
             if (ConstructAddButton.IsChecked.Value && _addingConstruct != null)
             {
-                await AddConstructOnPointerPressed(e);
+                await AddConstructOnPointerPressed(e); // Construct
             }
             else if (ConstructCloneButton.IsChecked.Value && _cloningConstruct != null)
             {
-                await CloneConstructOnPointerPressed(e);
+                await CloneConstructOnPointerPressed(e); // Construct
             }
             else if (ConstructMoveButton.IsChecked.Value && _movingConstruct != null)
             {
-                await MoveConstructOnPointerPressed(e);
+                await MoveConstructOnPointerPressed(e); // Construct
             }
             else if (ConstructMultiSelectButton.IsChecked.Value)
             {
@@ -670,6 +670,9 @@ namespace Worldescape
             {
                 var currrentPoint = e.GetCurrentPoint(Canvas_root);
 
+                // Align avatar to clicked point
+                AlignAvatarFaceDirection(currrentPoint.Position.X);
+
                 //var maxX = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
 
                 //UIElement fe = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).FirstOrDefault(x => ((Construct)x.Tag).Coordinate.X >= maxX);
@@ -724,6 +727,9 @@ namespace Worldescape
 
                 var construct = taggedObject as Construct;
 
+                // Align avatar to construct point
+                AlignAvatarFaceDirection(construct.Coordinate.X);
+
                 await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
 
                 Console.WriteLine("Construct moved.");
@@ -751,13 +757,16 @@ namespace Worldescape
                     imageUrl: constructAsset.ImageUrl);
 
                 // Add the construct on pressed point
-                var construct = AddConstructOnCanvas(
+                AddConstructOnCanvas(
                     construct: constructBtn,
                     x: currrentPoint.Position.X,
                     y: currrentPoint.Position.Y);
 
                 // Center the construct on pressed point
-                construct = MoveElement(constructBtn, e) as Construct;
+                var construct = MoveElement(constructBtn, e) as Construct;
+
+                // Align avatar to construct point
+                AlignAvatarFaceDirection(construct.Coordinate.X);
 
                 await HubService.BroadcastConstruct(construct);
 
@@ -789,6 +798,9 @@ namespace Worldescape
 
             // Center the construct on pressed point
             var construct = MoveElement(constructBtn, e) as Construct;
+
+            // Align avatar to construct point
+            AlignAvatarFaceDirection(construct.Coordinate.X);
 
             await HubService.BroadcastConstruct(construct);
 
@@ -1287,7 +1299,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void MessageAvatarButton_Click(object sender, RoutedEventArgs e)
+        private void MessageAvatarButton_Click(object sender, RoutedEventArgs e)
         {
             if (!CanPerformWorldEvents())
                 return;
@@ -1295,7 +1307,7 @@ namespace Worldescape
             if (_selectedAvatar == null)
                 return;
 
-            await BroadcastAvatarActivityStatus(ActivityStatus.Messaging);
+            //await BroadcastAvatarActivityStatus(ActivityStatus.Messaging);
 
             // show messenge from and to avatars and show Messaging controls
             if (((Button)_selectedAvatar).Tag is Avatar avatar)
@@ -1431,20 +1443,10 @@ namespace Worldescape
             }
             else
             {
-                Button senderUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id);
-
-                var receiver = ((Button)receiverUiElement).Tag as Avatar;
-                var sender = senderUiElement.Tag as Avatar;
+                var receiver = ((Button)receiverUiElement).Tag as Avatar;                
 
                 // If receiver avatar is forward from current avatar
-                if (receiver.Coordinate.X > sender.Coordinate.X)
-                {
-                    senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
-                }
-                else
-                {
-                    senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
-                }
+                AlignAvatarFaceDirection(receiver.Coordinate.X);
 
                 MessagingFromAvatarHolder.Content = CopyUiElementImageContent(Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id));
                 MessagingToAvatarHolder.Content = CopyUiElementImageContent(receiverUiElement);
@@ -2026,6 +2028,29 @@ namespace Worldescape
 
         #region Avatar
 
+        /// <summary>
+        /// Aligns facing direction of current avatar wrt provided x.
+        /// </summary>
+        /// <param name="construct"></param>
+        private void AlignAvatarFaceDirection(double x)
+        {
+            Button senderUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id);
+            var sender = senderUiElement.Tag as Avatar;
+
+            // If adding construct is forward from current avatar
+            if (x > sender.Coordinate.X)
+            {
+                senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
+            }
+            else
+            {
+                senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
+            }
+        }
+
+        /// <summary>
+        /// Shows avatar status activity options.
+        /// </summary>
         private void ShowAvatarActivityStatusHolder()
         {
             AvatarActivityStatusHolder.Visibility = Visibility.Visible;
@@ -2081,25 +2106,17 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Sets the provided activityStatus to the avatar.
+        /// Sets the provided activityStatus to the avatar. Updates image with StatusBoundImageUrl.
         /// </summary>
         /// <param name="avatarButton"></param>
         /// <param name="avatar"></param>
         /// <param name="activityStatus"></param>
         public void SetAvatarActivityStatus(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
         {
+            // Set avatar activity status
             avatar.ActivityStatus = activityStatus;
-            SetStatusBoundImageUrl(avatarButton, avatar, activityStatus);
-        }
 
-        /// <summary>
-        /// Sets the StatusBoundImageUrl as content of the avatarButton according to the activityStatus.
-        /// </summary>
-        /// <param name="avatarButton"></param>
-        /// <param name="avatar"></param>
-        /// <param name="activityStatus"></param>
-        private void SetStatusBoundImageUrl(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
-        {
+            // Update image according to status
             if (avatar.Character.StatusBoundImageUrls.FirstOrDefault(x => x.Status == activityStatus) is StatusBoundImageUrl statusBoundImageUrl)
             {
                 if (avatarButton.Content is Image img && img.Source is BitmapImage bitmap)
@@ -2184,6 +2201,9 @@ namespace Worldescape
 
             construct = RotateElement(_selectedConstruct, newRotation) as Construct;
 
+            // Align avatar to construct point
+            AlignAvatarFaceDirection(construct.Coordinate.X);
+
             await HubService.BroadcastConstructRotation(construct.Id, construct.Rotation);
 
             Console.WriteLine("Construct rotated.");
@@ -2209,6 +2229,9 @@ namespace Worldescape
 
             construct = ScaleElement(_selectedConstruct, newScale) as Construct;
 
+            // Align avatar to construct point
+            AlignAvatarFaceDirection(construct.Coordinate.X);
+
             await HubService.BroadcastConstructScale(construct.Id, construct.Scale);
 
             Console.WriteLine("Construct scaled down.");
@@ -2229,6 +2252,9 @@ namespace Worldescape
 
             construct = ScaleElement(_selectedConstruct, newScale) as Construct;
 
+            // Align avatar to construct point
+            AlignAvatarFaceDirection(construct.Coordinate.X);
+
             await HubService.BroadcastConstructScale(construct.Id, construct.Scale);
 
             Console.WriteLine("Construct scaled up.");
@@ -2246,6 +2272,10 @@ namespace Worldescape
             Canvas.SetZIndex(_selectedConstruct, zIndex);
 
             var construct = ((Button)_selectedConstruct).Tag as Construct;
+
+            // Align avatar to construct point
+            AlignAvatarFaceDirection(construct.Coordinate.X);
+
             await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
         }
 
@@ -2261,6 +2291,10 @@ namespace Worldescape
             Canvas.SetZIndex(_selectedConstruct, zIndex);
 
             var construct = ((Button)_selectedConstruct).Tag as Construct;
+
+            // Align avatar to construct point
+            AlignAvatarFaceDirection(construct.Coordinate.X);
+
             await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
         }
 
@@ -2272,6 +2306,9 @@ namespace Worldescape
         private async Task BroadcastConstructDelete(UIElement _selectedConstruct)
         {
             var construct = ((Button)_selectedConstruct).Tag as Construct;
+
+            // Align avatar to construct point
+            AlignAvatarFaceDirection(construct.Coordinate.X);
 
             Canvas_root.Children.Remove(_selectedConstruct);
             ShowSelectedConstruct(null);

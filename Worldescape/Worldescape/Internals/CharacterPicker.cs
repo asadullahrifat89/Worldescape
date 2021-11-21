@@ -11,6 +11,8 @@ namespace Worldescape.Service
     public class CharacterPicker : ChildWindow
     {
 
+        #region Fields
+
         List<Character> _characters = new List<Character>();
 
         Action<Character> _assetSelected;
@@ -23,9 +25,13 @@ namespace Worldescape.Service
 
         Grid _gridContent = new Grid();
 
+        #endregion
+
+        #region Ctor
+
         public CharacterPicker(
-            List<Character> characters,
-            Action<Character> characterSelected)
+          List<Character> characters,
+          Action<Character> characterSelected)
         {
             _characters = characters;
 
@@ -42,6 +48,10 @@ namespace Worldescape.Service
             ShowCharacters();
         }
 
+        #endregion
+
+        #region Methods
+        
         private void ShowCharacters()
         {
             Title = "Select a Character";
@@ -88,6 +98,8 @@ namespace Worldescape.Service
 
             _assetSelected?.Invoke(Character);
             Close();
-        }
+        } 
+
+        #endregion
     }
 }
