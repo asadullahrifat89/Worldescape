@@ -8,11 +8,7 @@ namespace Worldescape
 {
     public sealed partial class App : Application
     {
-        public static IServiceProvider ServiceProvider;
-
-        public static User User = new User();
-
-        public static InWorld InWorld = new InWorld();
+        #region Ctor
 
         public App()
         {
@@ -34,19 +30,35 @@ namespace Worldescape
         private void App_Startup(object sender, StartupEventArgs e)
         {
             UnhandledException += App_UnhandledException;
-        }
+        } 
+
+        #endregion
+
+        #region Properties
+
+        public static IServiceProvider ServiceProvider { get; set; }
+
+        public static User User { get; set; } = new User();
+
+        public static InWorld InWorld { get; set; } = new InWorld();
+
+        public static string Token { get; set; } = string.Empty;
+
+        #endregion
+
+        #region Methods
 
         private void ConfigureServices(ServiceCollection services)
         {
             // Extensions
             services.AddHttpService();
 
-            // Core Services
-            services.AddSingleton<HttpServiceHelper>();
-            services.AddSingleton<IHubService, HubService>();            
+            // Core Services            
+            services.AddSingleton<IHubService, HubService>();
 
             // Helpers
             services.AddSingleton<AssetUrlHelper>();
+            services.AddSingleton<HttpServiceHelper>();
 
             // Pages
             services.AddSingleton<MainPage>();
@@ -70,6 +82,8 @@ namespace Worldescape
             }
             e.Handled = true;
 #endif
-        }
+        } 
+
+        #endregion
     }
 }

@@ -71,6 +71,8 @@ namespace Worldescape
                     return;
                 }
 
+                App.Token = token;
+
                 var user = await _httpServiceHelper.SendGetRequest<User>(
                    actionUri: Constants.Action_GetUser,
                    payload: new GetUserQueryRequest() { Token = token, Email = LoginModel.Email, Password = LoginModel.Password });
