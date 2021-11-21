@@ -65,7 +65,9 @@ namespace Worldescape
 
         public void SetIsBusy(bool isBusy)
         {
-            Grid_root.IsEnabled = !isBusy;            
+            Grid_root.IsEnabled = !isBusy;
+
+            Grid_root.Opacity = Grid_root.IsEnabled ? 1 : 0.5;
         }
 
         public void NavigateToPage(string targetUri)

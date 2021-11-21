@@ -7,75 +7,91 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <!--<ContentControl x:Name="RootBusyIndicator" Style="{StaticResource BusyIndicator_Style}">-->
+    <Grid>
 
-    <Grid x:Name="Grid_root">
+        <Grid x:Name="Grid_root">
 
-        <!--  Frame that hosts pages  -->
-        <Frame
-            x:Name="PageContainerFrame"
-            Grid.Row="1"
-            HorizontalContentAlignment="Stretch"
-            VerticalContentAlignment="Stretch"
-            JournalOwnership="Automatic">
-            <Frame.UriMapper>
-                <UriMapper>
-                    <UriMapping MappedUri="/Pages/{page_name}.xaml" Uri="/{page_name}" />
-                </UriMapper>
-            </Frame.UriMapper>
-            <Frame.RenderTransform>
-                <TranslateTransform />
-            </Frame.RenderTransform>
-        </Frame>
+            <!--  Frame that hosts pages  -->
+            <Frame
+                x:Name="PageContainerFrame"
+                Grid.Row="1"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                JournalOwnership="Automatic">
+                <Frame.UriMapper>
+                    <UriMapper>
+                        <UriMapping MappedUri="/Pages/{page_name}.xaml" Uri="/{page_name}" />
+                    </UriMapper>
+                </Frame.UriMapper>
+                <Frame.RenderTransform>
+                    <TranslateTransform />
+                </Frame.RenderTransform>
+            </Frame>
 
-        <!--  Current user holder, becomes visible after login to server  -->
-        <StackPanel
-            x:Name="CurrentUserHolder"
-            Grid.Row="1"
-            Height="50"
-            Margin="20"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Orientation="Horizontal"
-            Visibility="Collapsed">
+            <!--  Current user holder, becomes visible after login to server  -->
+            <StackPanel
+                x:Name="CurrentUserHolder"
+                Grid.Row="1"
+                Height="50"
+                Margin="20"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Orientation="Horizontal"
+                Visibility="Collapsed">
 
-            <Button
-                x:Name="MyAcountButton"
-                MinWidth="100"
-                FontSize="15"
-                FontWeight="Semibold"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-                        <!--  ProfileImageUrl  -->
-                        <Border
-                            Width="40"
-                            Height="40"
-                            Margin="5,0"
-                            ClipToBounds="True"
-                            CornerRadius="40">
-                            <Image
-                                x:Name="ProfileImageUrlHolder"
+                <Button
+                    x:Name="MyAcountButton"
+                    MinWidth="100"
+                    FontSize="15"
+                    FontWeight="Semibold"
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <!--  ProfileImageUrl  -->
+                            <Border
                                 Width="40"
                                 Height="40"
-                                Stretch="Uniform" />
-                        </Border>
-                        <!--  FirstName  -->
-                        <TextBlock
-                            Margin="5,0,10,0"
-                            VerticalAlignment="Center"
-                            Text="{Binding FirstName, Mode=OneWay}" />
-                    </StackPanel>
-                </Button.Content>
+                                Margin="5,0"
+                                ClipToBounds="True"
+                                CornerRadius="40">
+                                <Image
+                                    x:Name="ProfileImageUrlHolder"
+                                    Width="40"
+                                    Height="40"
+                                    Stretch="Uniform" />
+                            </Border>
+                            <!--  FirstName  -->
+                            <TextBlock
+                                Margin="5,0,10,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding FirstName, Mode=OneWay}" />
+                        </StackPanel>
+                    </Button.Content>
 
-            </Button>
+                </Button>
 
-        </StackPanel>
+            </StackPanel>
+
+        </Grid>
+
+        <ContentControl
+            Width="200"
+            Height="100"
+            Background="White"
+            Style="{StaticResource Card_Style}"
+            Visibility="{Binding ElementName=Grid_root, Path=IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}">
+
+            <TextBlock
+                Margin="20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="20"
+                FontWeight="SemiBold"
+                Text="Processing..." />
 
 
+        </ContentControl>
 
     </Grid>
-
-    <!--</ContentControl>-->
 
 </Page>
