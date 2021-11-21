@@ -7,6 +7,18 @@
             return string.IsNullOrEmpty(text) || string.IsNullOrWhiteSpace(text);
         }
 
+        public static string GetActionName(string action)
+        {
+            if (action.Contains("/api/Command/"))            
+                action = action.Replace("/api/Command/", "");
+            
+
+            if (action.Contains("/api/Query/"))
+                action = action.Replace("/api/Query/", "");
+
+            return action;
+        }
+
         #region Methods Invoked On Client From Server
 
         public const string AvatarDisconnected = "AvatarDisconnected";
