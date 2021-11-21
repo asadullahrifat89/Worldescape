@@ -47,20 +47,44 @@
 
         </StackPanel>
 
+        <!--  Logged in user's avatar button, scrolls to avatar, becomes visible after avatar hub login  -->
+        <Button
+            x:Name="MyAvatarButton"
+            Width="80"
+            Height="80"
+            Margin="20"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="MyAvatarButton_Click"
+            Style="{StaticResource MaterialDesign_RoundButton_Style}"
+            Visibility="Collapsed">
+
+            <Button.Content>
+
+                <!--  AvatarImageUrl  -->
+                <Image x:Name="AvatarImageHolder" Stretch="UniformToFill" />
+
+
+            </Button.Content>
+
+        </Button>
+
         <!--  Top left user buttons  -->
-        <ContentControl
+        <!--<ContentControl
             Margin="20"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Style="{StaticResource MaterialDesign_PopupContent_Style}">
 
-            <!--  Own avatar image  -->
+        -->
+        <!--  Own avatar image  -->
+        <!--
             <ContentControl
                 x:Name="AvatarImageHolder"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center" />
 
-        </ContentControl>
+        </ContentControl>-->
 
         <!--  Bottom middle construct, messaging, status controls  -->
         <StackPanel
@@ -191,7 +215,7 @@
                         <!--  Commands for other avatar  -->
                         <WrapPanel
                             x:Name="OtherAvatarActionsHolder"
-                            Margin="10,0"
+                            Margin="5,0"
                             Orientation="Horizontal"
                             Visibility="Collapsed">
 
@@ -212,11 +236,15 @@
                     <!--  Set own status commands  -->
                     <ContentControl
                         x:Name="AvatarActivityStatusHolder"
-                        Margin="5"
+                        Margin="10"
                         Style="{StaticResource MaterialDesign_PopupContent_Style}"
                         Visibility="Collapsed">
 
                         <StackPanel>
+                            <MenuItem
+                                Click="SetStatusMenuItem_Click"
+                                Content="Idle"
+                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
                             <MenuItem
                                 Click="SetStatusMenuItem_Click"
                                 Content="Working"
@@ -225,10 +253,6 @@
                                 Click="SetStatusMenuItem_Click"
                                 Content="Inspecting"
                                 Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
-                            <!--<MenuItem
-                                Click="SetStatusMenuItem_Click"
-                                Content="Resting"
-                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />-->
                             <MenuItem
                                 Click="SetStatusMenuItem_Click"
                                 Content="Greeting"

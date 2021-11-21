@@ -9,75 +9,10 @@
 
     <Grid>
 
-        <Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
-        </Grid.RowDefinitions>
-
-        <!--  Current user holder, becomes visible after login  -->
-        <Grid
-            x:Name="CurrentUserHolder"
-            Grid.Row="0"
-            Height="50"
-            Visibility="Collapsed">
-
-            <StackPanel
-                Margin="10,0"
-                HorizontalAlignment="Right"
-                Orientation="Horizontal">
-
-                <!--  ProfileImageUrl  -->
-                <Border
-                    Width="40"
-                    Height="40"
-                    ClipToBounds="True"
-                    CornerRadius="40">
-
-                    <Image
-                        x:Name="ProfileImageUrlHolder"
-                        Width="40"
-                        Height="40"
-                        Stretch="Uniform" />
-
-                </Border>
-
-                <!--  FirstName  -->
-                <Button
-                    x:Name="MyAcountButton"
-                    Margin="10,0"
-                    Content="{Binding FirstName}"
-                    FontSize="15"
-                    FontWeight="Semibold"
-                    Style="{StaticResource MaterialDesign_HyperlinkButton_Style}" />
-
-                <!--  AvatarImageUrl  -->
-                <Border
-                    Width="40"
-                    Height="40"
-                    ClipToBounds="True"
-                    CornerRadius="40">
-
-                    <Image
-                        x:Name="AvatarImageUrlHolder"
-                        Width="40"
-                        Height="40"
-                        Stretch="Uniform" />
-
-                </Border>
-
-            </StackPanel>
-
-            <Grid.Effect>
-                <DropShadowEffect
-                    x:Name="DropShadowEffect"
-                    BlurRadius="6"
-                    Direction="-30"
-                    Opacity="0.4"
-                    ShadowDepth="0"
-                    Color="Gray" />
-            </Grid.Effect>
-
-        </Grid>
+        </Grid.RowDefinitions>-->
 
         <!--  Frame that hosts pages  -->
         <Frame
@@ -95,6 +30,56 @@
                 <TranslateTransform />
             </Frame.RenderTransform>
         </Frame>
+
+        <StackPanel
+            x:Name="CurrentUserHolder"
+            Grid.Row="1"
+            Height="50"
+            Margin="20"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Orientation="Horizontal"
+            Visibility="Collapsed">
+
+            <Button
+                x:Name="MyAcountButton"
+                Height="50"
+                MinWidth="100"
+                FontSize="15"
+                FontWeight="Semibold"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                <Button.Content>
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <!--  ProfileImageUrl  -->
+                        <Border
+                            Width="40"
+                            Height="40"
+                            Margin="5,0"
+                            ClipToBounds="True"
+                            CornerRadius="40">
+
+                            <Image
+                                x:Name="ProfileImageUrlHolder"
+                                Width="40"
+                                Height="40"
+                                Stretch="Uniform" />
+
+                        </Border>
+
+                        <!--  FirstName  -->
+                        <TextBlock
+                            Margin="5,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding FirstName, Mode=OneWay}" />
+
+                    </StackPanel>
+                </Button.Content>
+
+            </Button>
+
+        </StackPanel>
 
     </Grid>
 

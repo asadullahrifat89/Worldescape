@@ -31,15 +31,15 @@ namespace Worldescape.Data
             }
         }
 
-        private string _AvatarImageUrl;
-        public string AvatarImageUrl
-        {
-            get { return _AvatarImageUrl; }
-            set
-            {
-                _AvatarImageUrl = value;
-                RaisePropertyChanged("AvatarImageUrl");
-            }
-        }
+        //private string _AvatarImageUrl;
+        //public string AvatarImageUrl
+        //{
+        //    get { return _AvatarImageUrl; }
+        //    set
+        //    {
+        //        _AvatarImageUrl = value;
+        //        RaisePropertyChanged("AvatarImageUrl");
+        //    }
+        //}
     }
 }

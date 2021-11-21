@@ -10,17 +10,13 @@ namespace Worldescape
     {
         #region Fields
 
-        private readonly ILogger<MainPage> _logger;
-
         #endregion
 
         #region Ctor
 
-        public MainPage(ILogger<MainPage> logger)
+        public MainPage()
         {
             InitializeComponent();
-            _logger = logger;
-
             CurrentUserHolder.DataContext = CurrentUserModel;
         }
 
@@ -34,7 +30,7 @@ namespace Worldescape
 
         #region Methods
 
-        public void SetCurrentUserModel(string avatarImageUrl = null)
+        public void SetCurrentUserModel()
         {
             var firstName = App.User.FirstName;
             var profileImageUrl = App.User.ImageUrl;
@@ -62,16 +58,8 @@ namespace Worldescape
 
             // If no profile picture was set
             CurrentUserModel.ProfileImageUrl = !profileImageUrl.IsNullOrBlank() ? profileImageUrl : defaultImageUrl;
-            CurrentUserModel.AvatarImageUrl = !avatarImageUrl.IsNullOrBlank() ? avatarImageUrl : defaultImageUrl;
-
-            AvatarImageUrlHolder.Source = new BitmapImage(new Uri(CurrentUserModel.AvatarImageUrl));
             ProfileImageUrlHolder.Source = new BitmapImage(new Uri(CurrentUserModel.ProfileImageUrl));
-        }
-
-        public void LogError(Exception error)
-        {
-            _logger.LogError(error, error.Message);
-        }
+        }        
 
         public void NavigateToPage(Page page)
         {

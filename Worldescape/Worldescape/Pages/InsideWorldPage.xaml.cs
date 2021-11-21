@@ -879,9 +879,8 @@ namespace Worldescape
                             PrepareAvatarData();
 
                             var mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-                            mainPage.SetCurrentUserModel(Character.ImageUrl);
+                            mainPage.SetCurrentUserModel();
 
-                            
                             await Connect();
                         });
 
@@ -1265,6 +1264,11 @@ namespace Worldescape
 
         #region Avatar
 
+        private void MyAvatarButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         /// <summary>
         /// Activates status options.
         /// </summary>
@@ -1630,7 +1634,15 @@ namespace Worldescape
 
                         // Set connected user's avatar image
                         if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
-                            AvatarImageHolder.Content = CopyUiElementImageContent(iElement);
+                        {
+                            var oriBitmap = ((Image)((Button)iElement).Content).Source as BitmapImage;
+
+                            var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
+
+                            MyAvatarButton.Tag = ((Button)iElement).Tag as Avatar;
+                            AvatarImageHolder.Source = bitmap;
+                            MyAvatarButton.Visibility = Visibility.Visible;
+                        }
 
                         return true;
                     }
@@ -2686,6 +2698,6 @@ namespace Worldescape
 
         #endregion
 
-        #endregion
+        #endregion       
     }
 }
