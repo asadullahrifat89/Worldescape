@@ -2021,7 +2021,6 @@ namespace Worldescape
                     ImageUrl = User.ImageUrl,
                     Name = User.Name,
                     Phone = User.Phone,
-                    ProfilePictureUrl = User.ImageUrl
                 },
                 Character = Character,
                 World = InWorld,
@@ -2567,7 +2566,7 @@ namespace Worldescape
 
             Button chatBubble = new Button()
             {
-                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style, // TODO: set rounded button
+                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
                 FontWeight = FontWeights.Regular,
                 FontFamily = new FontFamily("Segoe UI"),
                 MaxWidth = 600,
@@ -2577,12 +2576,14 @@ namespace Worldescape
             var x = taggedAvatar.Coordinate.X - (avatarButton.ActualWidth / 2);
             var y = taggedAvatar.Coordinate.Y - (avatarButton.ActualHeight / 2);
 
-            // Prepare content
+            // Prepare content            
             StackPanel chatContent = new StackPanel() { Orientation = Orientation.Horizontal };
+
+            var bitmapImage = new BitmapImage(new Uri(taggedAvatar.User.ImageUrl));
 
             Image avatarImage = new Image()
             {
-                Source = new BitmapImage(((BitmapImage)((Image)avatarButton.Content).Source).UriSource),
+                Source = bitmapImage,//new BitmapImage(((BitmapImage)((Image)avatarButton.Content).Source).UriSource),
                 Height = 30,
                 Width = 30,
                 Stretch = Stretch.Uniform,

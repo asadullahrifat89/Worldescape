@@ -73,7 +73,7 @@
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Center"
                                                 Content="{TemplateBinding Title}"
-                                                FontWeight="Bold"
+                                                FontWeight="Semibold"
                                                 Foreground="Black" />
                                             <Button
                                                 x:Name="CloseButton"

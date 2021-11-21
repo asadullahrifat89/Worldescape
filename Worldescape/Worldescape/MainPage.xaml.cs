@@ -56,8 +56,10 @@ namespace Worldescape
                     break;
             }
 
+            App.User.ImageUrl = !profileImageUrl.IsNullOrBlank() ? profileImageUrl : defaultImageUrl;
+
             // If no profile picture was set
-            CurrentUserModel.ProfileImageUrl = !profileImageUrl.IsNullOrBlank() ? profileImageUrl : defaultImageUrl;
+            CurrentUserModel.ProfileImageUrl = App.User.ImageUrl;
             ProfileImageUrlHolder.Source = new BitmapImage(new Uri(CurrentUserModel.ProfileImageUrl));
         }        
 

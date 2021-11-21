@@ -16,7 +16,7 @@
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
-        /// Image Url of the user.
+        /// Image Url of the user. i.e the profile picture.
         /// </summary>
         public string ImageUrl { get; set; } = string.Empty;
 
@@ -29,11 +29,6 @@
         /// User's phone number.
         /// </summary>
         public string Phone { get; set; } = string.Empty;
-
-        /// <summary>
-        /// User's profile picture image url.
-        /// </summary>
-        public string ProfilePictureUrl { get; set; } = string.Empty;
     }
 }
 
