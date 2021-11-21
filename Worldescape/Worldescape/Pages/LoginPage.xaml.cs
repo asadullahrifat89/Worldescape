@@ -87,6 +87,7 @@ namespace Worldescape
                 App.InWorld = new InWorld() { Id = 786, Name = "Test World" }; // TODO: for the time time being demo world
 
                 var mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+                mainPage.SetUser(App.User);
                 mainPage.NavigateToPage("/InsideWorldPage");
             }
         }

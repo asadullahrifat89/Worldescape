@@ -343,7 +343,7 @@
 
     <!--#region Button for Hyperlinks-->
     <Style x:Key="MaterialDesign_HyperlinkButton_Style" TargetType="Button">
-        <Setter Property="Height" Value="50" />
+        <!--<Setter Property="Height" Value="50" />-->
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="FontSize" Value="16" />

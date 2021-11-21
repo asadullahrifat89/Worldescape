@@ -14,6 +14,52 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
+        <!--  Current user holder, becomes visible after login  -->
+        <Grid
+            x:Name="CurrentUserHolder"
+            Grid.Row="0"
+            Height="50"
+            Visibility="Collapsed">
+
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Right"
+                FontSize="15"
+                FontWeight="Semibold"
+                Style="{StaticResource MaterialDesign_HyperlinkButton_Style}">
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+
+                        <Ellipse
+                            Width="40"
+                            Height="40"
+                            ClipToBounds="True">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding ImageUrl, Mode=OneWay, TargetNullValue='ms-appx:///Images/StoreLogo.png'}" Stretch="Uniform" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <!--<Image Margin="5,0">
+                            <Image.Source>
+                                <BitmapImage UriSource="{Binding ImageUrl, Mode=OneWay, TargetNullValue='ms-appx:///Images/StoreLogo.png'}" />
+                            </Image.Source>
+                        </Image>-->
+                        <TextBlock VerticalAlignment="Center" Text="{Binding FirstName, Mode=OneWay}" />
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+
+            <Grid.Effect>
+                <DropShadowEffect
+                    x:Name="DropShadowEffect"
+                    BlurRadius="6"
+                    Direction="-30"
+                    Opacity="0.4"
+                    ShadowDepth="0"
+                    Color="Gray" />
+            </Grid.Effect>
+        </Grid>
+
+        <!--  Frame that hosts pages  -->
         <Frame
             x:Name="PageContainer"
             Grid.Row="1"
