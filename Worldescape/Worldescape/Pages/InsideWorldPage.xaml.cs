@@ -2564,7 +2564,7 @@ namespace Worldescape
 
             Button chatBubble = new Button()
             {
-                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style, // TODO: set rounded button
                 FontWeight = FontWeights.Regular,
                 FontFamily = new FontFamily("Segoe UI"),
                 MaxWidth = 600,

@@ -43,7 +43,7 @@
                 Click="ConnectButton_Click"
                 Content="Connect"
                 FontSize="20"
-                Style="{StaticResource MaterialDesign_Button_Style}" />
+                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
         </StackPanel>
 
@@ -62,29 +62,16 @@
             <Button.Content>
 
                 <!--  AvatarImageUrl  -->
-                <Image x:Name="AvatarImageHolder" Stretch="UniformToFill" />
+                <Image
+                    x:Name="AvatarImageHolder"
+                    Width="80"
+                    Height="80"
+                    Stretch="UniformToFill" />
 
 
             </Button.Content>
 
         </Button>
-
-        <!--  Top left user buttons  -->
-        <!--<ContentControl
-            Margin="20"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesign_PopupContent_Style}">
-
-        -->
-        <!--  Own avatar image  -->
-        <!--
-            <ContentControl
-                x:Name="AvatarImageHolder"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center" />
-
-        </ContentControl>-->
 
         <!--  Bottom middle construct, messaging, status controls  -->
         <StackPanel
@@ -199,7 +186,7 @@
                                 Click="CreatePostButton_Click"
                                 Content="Post"
                                 FontSize="20"
-                                Style="{StaticResource MaterialDesign_Button_Style}" />
+                                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                             <ToggleButton
                                 x:Name="SelectStatusButton"
@@ -227,7 +214,7 @@
                                 Click="MessageAvatarButton_Click"
                                 Content="Message"
                                 FontSize="20"
-                                Style="{StaticResource MaterialDesign_Button_Style}" />
+                                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                         </WrapPanel>
 
@@ -304,7 +291,7 @@
                     Click="ConstructBringForwardButton_Click"
                     Content="Upward"
                     FontSize="20"
-                    Style="{StaticResource MaterialDesign_Button_Style}" />
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Downward  -->
                 <Button
@@ -314,7 +301,7 @@
                     Click="ConstructSendBackwardButton_Click"
                     Content="Downward"
                     FontSize="20"
-                    Style="{StaticResource MaterialDesign_Button_Style}" />
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Enlarge  -->
                 <Button
@@ -324,7 +311,7 @@
                     Click="ConstructScaleUpButton_Click"
                     Content="Enlarge"
                     FontSize="20"
-                    Style="{StaticResource MaterialDesign_Button_Style}" />
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Dwindle  -->
                 <Button
@@ -334,7 +321,7 @@
                     Click="ConstructScaleDownButton_Click"
                     Content="Dwindle"
                     FontSize="20"
-                    Style="{StaticResource MaterialDesign_Button_Style}" />
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Rotate  -->
                 <Button
@@ -344,7 +331,7 @@
                     Click="ConstructRotateButton_Click"
                     Content="Rotate"
                     FontSize="20"
-                    Style="{StaticResource MaterialDesign_Button_Style}" />
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Delete  -->
                 <Button
@@ -354,7 +341,7 @@
                     Click="ConstructDeleteButton_Click"
                     Content="Delete"
                     FontSize="20"
-                    Style="{StaticResource MaterialDesign_Button_Style}" />
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
             </WrapPanel>
 
@@ -397,7 +384,7 @@
                     Click="SendUnicastMessageButton_Click"
                     Content="Send"
                     FontSize="20"
-                    Style="{StaticResource MaterialDesign_Button_Style}" />
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
             </StackPanel>
 
