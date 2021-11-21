@@ -43,7 +43,6 @@
 
             <Button
                 x:Name="MyAcountButton"
-                Height="50"
                 MinWidth="100"
                 FontSize="15"
                 FontWeight="Semibold"

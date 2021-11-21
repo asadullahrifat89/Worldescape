@@ -502,6 +502,7 @@
 
     <!--#region Round buttons-->
     <Style x:Key="MaterialDesign_RoundButton_Style" TargetType="Button">
+        <Setter Property="Height" Value="50" />
         <Setter Property="Background" Value="White" />
         <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="FontSize" Value="16" />
@@ -590,6 +591,7 @@
     </Style>
 
     <Style x:Key="MaterialDesign_ColoredRoundButton_Style" TargetType="Button">
+        <Setter Property="Height" Value="50" />
         <Setter Property="Background" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="FontSize" Value="16" />
