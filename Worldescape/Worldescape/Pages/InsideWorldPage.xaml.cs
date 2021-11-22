@@ -1326,7 +1326,7 @@ namespace Worldescape
             // show messenge from and to avatars and show Messaging controls
             if (((Button)_selectedAvatar).Tag is Avatar avatar)
             {
-                _messageToAvatar = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id);
+                _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatar.Id);
                 ShowMessagingAvatar(_messageToAvatar);
                 ShowMessagingControls();
 
@@ -1480,7 +1480,7 @@ namespace Worldescape
                 // If receiver avatar is forward from current avatar
                 AlignAvatarFaceDirection(receiver.Coordinate.X);
 
-                MessagingFromAvatarHolder.Content = GetImageFromUiElement(Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id));
+                MessagingFromAvatarHolder.Content = GetImageFromUiElement(_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root,Avatar.Id));
                 MessagingToAvatarHolder.Content = GetImageFromUiElement(receiverUiElement);
             }
         }
@@ -2000,12 +2000,6 @@ namespace Worldescape
 
         private void PrepareAvatarData()
         {
-            //if (Avatar != null)
-            //    return;
-
-            //InWorld = App.InWorld;
-            //User = App.User;
-
             Avatar = new Avatar()
             {
                 Id = App.User.Id,
