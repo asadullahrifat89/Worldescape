@@ -6,6 +6,7 @@
     Title="CharacterPickerWindow"
     Width="610"
     Height="600"
+    FontWeight="SemiBold"
     Style="{StaticResource MaterialDesign_ChildWindow_Style}">
 
     <Grid x:Name="LayoutRoot" Margin="2">
