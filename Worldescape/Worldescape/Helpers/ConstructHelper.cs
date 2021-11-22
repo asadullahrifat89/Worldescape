@@ -165,7 +165,9 @@ namespace Worldescape
         /// Removes the provided construct from canvas.
         /// </summary>
         /// <param name="construct"></param>
-        public void RemoveConstructFromCanvas(UIElement construct, Canvas canvas)
+        public void RemoveConstructFromCanvas(
+            UIElement construct,
+            Canvas canvas)
         {
             PerformOpacityAnimationOnConstruct(construct, 1, 0, () => // Remove
             {
@@ -175,7 +177,17 @@ namespace Worldescape
             });
         }
 
-        public Construct CenterAlignNewConstructButton(Windows.UI.Input.PointerPoint pressedPoint, Button constructButton, Construct construct)
+        /// <summary>
+        /// Align the provided construct button to the center of the provided point.
+        /// </summary>
+        /// <param name="pressedPoint"></param>
+        /// <param name="constructButton"></param>
+        /// <param name="construct"></param>
+        /// <returns></returns>
+        public Construct CenterAlignNewConstructButton(
+            Windows.UI.Input.PointerPoint pressedPoint,
+            Button constructButton,
+            Construct construct)
         {
             var offsetX = constructButton.ActualWidth / 2;
             var offsetY = constructButton.ActualHeight / 2;
@@ -192,7 +204,15 @@ namespace Worldescape
             return construct;
         }
 
-        public UIElement GetConstructButtonFromCanvas(Canvas canvas, int constructId)
+        /// <summary>
+        /// Returns the construct button from the provided canvas and constructId.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="constructId"></param>
+        /// <returns></returns>
+        public UIElement GetConstructButtonFromCanvas(
+            Canvas canvas,
+            int constructId)
         {
             if (canvas == null)
                 return null;
