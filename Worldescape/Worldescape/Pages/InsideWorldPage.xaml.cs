@@ -208,13 +208,13 @@ namespace Worldescape
         #endregion
 
         #region Session
-        private void HubService_AvatarReconnected(int obj)
+        private void HubService_AvatarReconnected(int avatarId)
         {
-            if (obj > 0)
+            if (avatarId > 0)
             {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj) is UIElement iElement)
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
                 {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj);
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
                     if (avatarMessenger != null)
                     {
@@ -231,13 +231,13 @@ namespace Worldescape
             }
         }
 
-        private void HubService_AvatarDisconnected(int obj)
+        private void HubService_AvatarDisconnected(int avatarId)
         {
-            if (obj > 0)
+            if (avatarId > 0)
             {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj) is UIElement iElement)
+                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
                 {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj);
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
                     if (avatarMessenger != null)
                     {
@@ -254,11 +254,11 @@ namespace Worldescape
             }
         }
 
-        private void HubService_AvatarLoggedOut(int obj)
+        private void HubService_AvatarLoggedOut(int avatarId)
         {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == obj) is UIElement iElement)
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
             {
-                var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == obj);
+                var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
                 if (avatarMessenger != null)
                 {
@@ -1269,7 +1269,7 @@ namespace Worldescape
 
         private void MyAvatarButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
             {
                 CanvasScrollViewer.ScrollIntoView((Button)iElement);
             }
@@ -1366,7 +1366,7 @@ namespace Worldescape
                 await HubService.SendUnicastMessage(avatar.Id, MessagingTextBox.Text);
 
                 // Add message bubble to own avatar
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
                 {
                     AddChatBubbleToCanvas(MessagingTextBox.Text, iElement); // send message
 
@@ -1692,7 +1692,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="uielement"></param>
         /// <returns></returns>
-        private static Image GetImageFromUiElement(UIElement uielement)
+        private Image GetImageFromUiElement(UIElement uielement)
         {
             var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
 
@@ -1753,7 +1753,7 @@ namespace Worldescape
 
             var taggedObject = button.Tag;
 
-            // Set moving status on start
+            // Set moving status on start, if own avatar and if crafting mode is set then set crafting status
             if (taggedObject is Avatar avatar)
             {
                 if (ConstructCraftButton.IsChecked.Value && avatar.Id == Avatar.Id)
@@ -2088,7 +2088,7 @@ namespace Worldescape
         /// </summary>
         private void ShowCurrentAvatar()
         {
-            if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
             {
                 var oriBitmap = ((Image)((Button)iElement).Content).Source as BitmapImage;
 
@@ -2145,7 +2145,7 @@ namespace Worldescape
         /// <returns></returns>
         private async Task BroadcastAvatarMovement(PointerRoutedEventArgs e)
         {
-            if (Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == Avatar.Id) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
             {
                 var taggedObject = MoveElement(iElement, e);
                 var movedAvatar = taggedObject as Avatar;
@@ -2165,7 +2165,7 @@ namespace Worldescape
         /// <returns></returns>
         private async Task BroadcastAvatarActivityStatus(ActivityStatus activityStatus)
         {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)            
             {
                 var avatarButton = (Button)iElement;
                 var taggedAvatar = avatarButton.Tag as Avatar;
@@ -2219,7 +2219,7 @@ namespace Worldescape
         /// <param name="construct"></param>
         private void RemoveConstructFromCanvas(UIElement construct)
         {
-            _constructHelper.RemoveConstructFromCanvas(construct,Canvas_root);
+            _constructHelper.RemoveConstructFromCanvas(construct, Canvas_root);
         }
 
         /// <summary>

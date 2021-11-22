@@ -166,5 +166,15 @@ namespace Worldescape
             //img.Effect = new DropShadowEffect() { ShadowDepth = 10, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5, Direction = -90 };
             return obj;
         }
+
+        public UIElement GetAvatarButtonFromCanvas(Canvas canvas, int avatarId) 
+        {
+            if (avatarId == 0)
+                return null;
+            if (canvas == null)
+                return null;
+
+            return canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == avatarId);
+        }
     }
 }
