@@ -138,17 +138,6 @@ namespace Worldescape
 
         #endregion
 
-        private void OKButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = true;
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = false;
-        }
-        #endregion
-
         #region Button Events
 
         private void ButtonNext_Click(object sender, RoutedEventArgs e)
@@ -200,9 +189,11 @@ namespace Worldescape
             var constructAsset = button.Tag as ConstructAsset;
 
             _assetSelected?.Invoke(constructAsset);
-            
+
             Close();
         }
+
+        #endregion
 
         #endregion
     }

@@ -17,12 +17,18 @@ namespace Worldescape
 {
     public partial class CharacterPickerWindow : ChildWindow
     {
+        #region Fields
+        
         List<Character> _characters = new List<Character>();
-        Action<Character> _characterSelected;
+        Action<Character> _characterSelected; 
+
+        #endregion
+
+        #region Ctor
 
         public CharacterPickerWindow(
-            List<Character> characters,
-            Action<Character> characterSelected)
+           List<Character> characters,
+           Action<Character> characterSelected)
         {
             InitializeComponent();
 
@@ -30,7 +36,9 @@ namespace Worldescape
             _characterSelected = characterSelected;
 
             ShowCharacters();
-        }
+        } 
+
+        #endregion
 
         #region Methods
 

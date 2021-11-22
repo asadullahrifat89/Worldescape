@@ -49,23 +49,5 @@
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
         </StackPanel>
 
-        <!--<Button
-            x:Name="CancelButton"
-            Grid.Row="1"
-            Width="75"
-            Height="23"
-            Margin="0,12,0,0"
-            HorizontalAlignment="Right"
-            Click="CancelButton_Click"
-            Content="Cancel" />
-        <Button
-            x:Name="OKButton"
-            Grid.Row="1"
-            Width="75"
-            Height="23"
-            Margin="0,12,79,0"
-            HorizontalAlignment="Right"
-            Click="OKButton_Click"
-            Content="OK" />-->
     </Grid>
 </ChildWindow>
