@@ -62,6 +62,9 @@ namespace Worldescape
             services.AddSingleton<AssetUrlHelper>();
             services.AddSingleton<HttpServiceHelper>();
 
+            // Renderers
+            services.AddSingleton<AvatarUIEngine>();
+
             // Pages
             services.AddSingleton<MainPage>();
             //services.AddSingleton<InsideWorldPage>();

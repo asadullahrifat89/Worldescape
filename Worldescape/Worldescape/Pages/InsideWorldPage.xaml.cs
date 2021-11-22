@@ -51,7 +51,8 @@ namespace Worldescape
             Exponent = 5,
         };
 
-        private readonly MainPage _mainPage;
+        readonly MainPage _mainPage;
+        readonly AvatarUIEngine _avatarUIEngine;
 
         #endregion
 
@@ -63,6 +64,7 @@ namespace Worldescape
             HubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
             _assetUriHelper = App.ServiceProvider.GetService(typeof(AssetUrlHelper)) as AssetUrlHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+            _avatarUIEngine = App.ServiceProvider.GetService(typeof(AvatarUIEngine)) as AvatarUIEngine;
             SubscribeHub();
         }
 
@@ -2076,30 +2078,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="avatar"></param>
         /// <returns></returns>
-        private static Border GetAvatarUserPicture(Avatar avatar)
+        private Border GetAvatarUserPicture(Avatar avatar)
         {
-            var bitmapImage = new BitmapImage(new Uri(avatar.User.ImageUrl));////new BitmapImage(((BitmapImage)((Image)avatarButton.Content).Source).UriSource);
-
-            double round = 40;
-
-            var imageBorder = new Border()
-            {
-                Height = round,
-                Width = round,
-                CornerRadius = new CornerRadius(30),
-                ClipToBounds = true,
-            };
-
-            Image userImage = new Image()
-            {
-                Source = bitmapImage,
-                Height = round,
-                Width = round,
-                Stretch = Stretch.UniformToFill,
-            };
-
-            imageBorder.Child = userImage;
-            return imageBorder;
+            return _avatarUIEngine.GetAvatarUserPicture(avatar);
         }
 
         /// <summary>
@@ -2113,7 +2094,7 @@ namespace Worldescape
 
                 var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
 
-                var avatar = ((Button)iElement).Tag as Avatar;
+                var avatar = _avatarUIEngine.GetTaggedAvatar(iElement);
 
                 MyAvatarButton.Tag = avatar;
                 AvatarImageHolder.Source = bitmap;
@@ -2128,18 +2109,7 @@ namespace Worldescape
         /// <param name="construct"></param>
         private void AlignAvatarFaceDirection(double x)
         {
-            Button senderUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == Avatar.Id);
-            var sender = senderUiElement.Tag as Avatar;
-
-            // If adding construct is forward from current avatar
-            if (x > sender.Coordinate.X)
-            {
-                senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
-            }
-            else
-            {
-                senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
-            }
+            _avatarUIEngine.AlignAvatarFaceDirection(x, Canvas_root, Avatar.Id);
         }
 
         /// <summary>
@@ -2165,21 +2135,7 @@ namespace Worldescape
         /// <param name="avatar"></param>
         private Avatar AddAvatarOnCanvas(UIElement avatar, double x, double y, int? z = null)
         {
-            Canvas.SetLeft(avatar, x);
-            Canvas.SetTop(avatar, y);
-
-            if (z.HasValue)
-            {
-                Canvas.SetZIndex(avatar, z.Value);
-            }
-
-            Canvas_root.Children.Add(avatar);
-
-            var taggedAvatar = ((Button)avatar).Tag as Avatar;
-            taggedAvatar.Coordinate.X = x;
-            taggedAvatar.Coordinate.Y = y;
-
-            return taggedAvatar;
+            return _avatarUIEngine.AddAvatarOnCanvas(avatar, Canvas_root, x, y, z);
         }
 
         /// <summary>
@@ -2229,17 +2185,7 @@ namespace Worldescape
         /// <param name="activityStatus"></param>
         public void SetAvatarActivityStatus(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
         {
-            // Set avatar activity status
-            avatar.ActivityStatus = activityStatus;
-
-            // Update image according to status
-            if (avatar.Character.StatusBoundImageUrls.FirstOrDefault(x => x.Status == activityStatus) is StatusBoundImageUrl statusBoundImageUrl)
-            {
-                if (avatarButton.Content is Image img && img.Source is BitmapImage bitmap)
-                {
-                    bitmap.UriSource = new Uri(statusBoundImageUrl.ImageUrl);
-                }
-            }
+            _avatarUIEngine.SetAvatarActivityStatus(avatarButton, avatar, activityStatus);            
         }
 
         /// <summary>
@@ -2249,32 +2195,8 @@ namespace Worldescape
         /// <returns></returns>
         private Button GenerateAvatarButton(Avatar avatar)
         {
-            var uri = avatar.ImageUrl;
-
-            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
-
-            var img = new Image()
-            {
-                Source = bitmap,
-                Stretch = Stretch.Uniform,
-                Height = 100,
-                Width = 100,
-            };
-
-            Button obj = new Button()
-            {
-                Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
-            };
-
-            obj.RenderTransformOrigin = new Windows.Foundation.Point(0.5f, 0.5f);
-            obj.RenderTransform = new ScaleTransform();
-
-            obj.Content = img;
-            obj.Tag = avatar;
-
+            var obj = _avatarUIEngine.GenerateAvatarButton(avatar);
             obj.PointerPressed += Avatar_PointerPressed;
-
-            //img.Effect = new DropShadowEffect() { ShadowDepth = 10, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5, Direction = -90 };
             return obj;
         }
 
