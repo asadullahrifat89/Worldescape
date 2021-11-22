@@ -998,7 +998,7 @@ namespace Worldescape
                     ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
                 }
 
-                var constructAssetPicker = new ConstructAssetPicker(
+                var constructAssetPicker = new ConstructAssetPickerWindow(
                     constructAssets: ConstructAssets,
                     constructCategories: ConstructCategories,
                     assetUriHelper: _assetUriHelper,
