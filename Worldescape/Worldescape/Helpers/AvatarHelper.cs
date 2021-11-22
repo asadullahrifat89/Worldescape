@@ -10,7 +10,7 @@ using Worldescape.Data;
 
 namespace Worldescape
 {
-    public class AvatarUIEngine
+    public class AvatarHelper
     {
         /// <summary>
         /// Gets the user image as a circular border from the provided avatar.
@@ -62,7 +62,10 @@ namespace Worldescape
         /// Aligns facing direction of current avatar wrt provided x.
         /// </summary>
         /// <param name="construct"></param>
-        public void AlignAvatarFaceDirection(double x, Canvas canvas, int avatarId)
+        public void AlignAvatarFaceDirection(
+            double x,
+            Canvas canvas,
+            int avatarId)
         {
             Button senderUiElement = canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId);
             var sender = senderUiElement.Tag as Avatar;
@@ -82,7 +85,12 @@ namespace Worldescape
         /// Adds an avatar on canvas.
         /// </summary>
         /// <param name="avatar"></param>
-        public Avatar AddAvatarOnCanvas(UIElement avatar, Canvas canvas, double x, double y, int? z = null)
+        public Avatar AddAvatarOnCanvas(
+            UIElement avatar,
+            Canvas canvas,
+            double x,
+            double y,
+            int? z = null)
         {
             Canvas.SetLeft(avatar, x);
             Canvas.SetTop(avatar, y);
@@ -107,7 +115,10 @@ namespace Worldescape
         /// <param name="avatarButton"></param>
         /// <param name="avatar"></param>
         /// <param name="activityStatus"></param>
-        public void SetAvatarActivityStatus(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
+        public void SetAvatarActivityStatus(
+            Button avatarButton,
+            Avatar avatar,
+            ActivityStatus activityStatus)
         {
             // Set avatar activity status
             avatar.ActivityStatus = activityStatus;

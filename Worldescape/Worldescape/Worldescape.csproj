@@ -93,7 +93,8 @@
 	<ItemGroup>
 		<Compile Include="App.xaml.cs" />
 		<Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-		<Compile Include="Internals\AvatarUIEngine.cs" />
+		<Compile Include="Helpers\AvatarHelper.cs" />
+		<Compile Include="Helpers\ConstructHelper.cs" />
 		<Compile Include="Windows\CharacterPickerWindow.xaml.cs" />
 		<Compile Include="Windows\ConstructAssetPickerWindow.xaml.cs" />
 		<Compile Include="Internals\MasonryPanel.cs" />

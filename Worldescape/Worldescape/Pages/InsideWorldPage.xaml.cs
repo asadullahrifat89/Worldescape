@@ -52,7 +52,8 @@ namespace Worldescape
         };
 
         readonly MainPage _mainPage;
-        readonly AvatarUIEngine _avatarUIEngine;
+        readonly AvatarHelper _avatarHelper;
+        readonly ConstructHelper _constructHelper;
 
         #endregion
 
@@ -64,7 +65,8 @@ namespace Worldescape
             HubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
             _assetUriHelper = App.ServiceProvider.GetService(typeof(AssetUrlHelper)) as AssetUrlHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-            _avatarUIEngine = App.ServiceProvider.GetService(typeof(AvatarUIEngine)) as AvatarUIEngine;
+            _avatarHelper = App.ServiceProvider.GetService(typeof(AvatarHelper)) as AvatarHelper;
+            _constructHelper = App.ServiceProvider.GetService(typeof(ConstructHelper)) as ConstructHelper;
             SubscribeHub();
         }
 
@@ -78,9 +80,9 @@ namespace Worldescape
 
         List<Character> Characters { get; set; } = new List<Character>();
 
-        InWorld InWorld { get; set; } = new InWorld();
+        //InWorld InWorld { get; set; } = new InWorld();
 
-        User User { get; set; } = new User();
+        //User User { get; set; } = new User();
 
         Avatar Avatar { get; set; } = null;
 
@@ -2017,8 +2019,8 @@ namespace Worldescape
             //if (Avatar != null)
             //    return;
 
-            InWorld = App.InWorld;
-            User = App.User;
+            //InWorld = App.InWorld;
+            //User = App.User;
 
             Avatar = new Avatar()
             {
@@ -2026,13 +2028,13 @@ namespace Worldescape
                 ActivityStatus = ActivityStatus.Idle,
                 User = new AvatarUser()
                 {
-                    Email = User.Email,
-                    ImageUrl = User.ImageUrl,
-                    Name = User.Name,
-                    Phone = User.Phone,
+                    Email = App.User.Email,
+                    ImageUrl = App.User.ImageUrl,
+                    Name = App.User.Name,
+                    Phone = App.User.Phone,
                 },
                 Character = Character,
-                World = InWorld,
+                World = App.InWorld,
                 Coordinate = new Coordinate(x: (Window.Current.Bounds.Width / 2) - 50, y: (Window.Current.Bounds.Height / 2) - 100, z: new Random().Next(100, 999)),
                 ImageUrl = Character.ImageUrl,
             };
@@ -2080,7 +2082,7 @@ namespace Worldescape
         /// <returns></returns>
         private Border GetAvatarUserPicture(Avatar avatar)
         {
-            return _avatarUIEngine.GetAvatarUserPicture(avatar);
+            return _avatarHelper.GetAvatarUserPicture(avatar);
         }
 
         /// <summary>
@@ -2094,7 +2096,7 @@ namespace Worldescape
 
                 var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
 
-                var avatar = _avatarUIEngine.GetTaggedAvatar(iElement);
+                var avatar = _avatarHelper.GetTaggedAvatar(iElement);
 
                 MyAvatarButton.Tag = avatar;
                 AvatarImageHolder.Source = bitmap;
@@ -2109,7 +2111,7 @@ namespace Worldescape
         /// <param name="construct"></param>
         private void AlignAvatarFaceDirection(double x)
         {
-            _avatarUIEngine.AlignAvatarFaceDirection(x, Canvas_root, Avatar.Id);
+            _avatarHelper.AlignAvatarFaceDirection(x, Canvas_root, Avatar.Id);
         }
 
         /// <summary>
@@ -2135,7 +2137,7 @@ namespace Worldescape
         /// <param name="avatar"></param>
         private Avatar AddAvatarOnCanvas(UIElement avatar, double x, double y, int? z = null)
         {
-            return _avatarUIEngine.AddAvatarOnCanvas(avatar, Canvas_root, x, y, z);
+            return _avatarHelper.AddAvatarOnCanvas(avatar, Canvas_root, x, y, z);
         }
 
         /// <summary>
@@ -2185,7 +2187,7 @@ namespace Worldescape
         /// <param name="activityStatus"></param>
         public void SetAvatarActivityStatus(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
         {
-            _avatarUIEngine.SetAvatarActivityStatus(avatarButton, avatar, activityStatus);            
+            _avatarHelper.SetAvatarActivityStatus(avatarButton, avatar, activityStatus);
         }
 
         /// <summary>
@@ -2195,7 +2197,7 @@ namespace Worldescape
         /// <returns></returns>
         private Button GenerateAvatarButton(Avatar avatar)
         {
-            var obj = _avatarUIEngine.GenerateAvatarButton(avatar);
+            var obj = _avatarHelper.GenerateAvatarButton(avatar);
             obj.PointerPressed += Avatar_PointerPressed;
             return obj;
         }
@@ -2219,35 +2221,7 @@ namespace Worldescape
         /// <param name="construct"></param>
         private void RemoveConstructFromCanvas(UIElement construct)
         {
-            PerformOpacityAnimationOnConstruct(construct, 1, 0, () =>
-            {
-                Canvas_root.Children.Remove(construct);
-
-                Console.WriteLine("Construct removed.");
-            });
-        }
-
-        private void PerformOpacityAnimationOnConstruct(UIElement construct, double from, double to, Action onCompleted = null)
-        {
-            DoubleAnimation opacityAnimation = new DoubleAnimation()
-            {
-                From = from,
-                To = to,
-                Duration = TimeSpan.FromMilliseconds(500),
-            };
-
-            opacityAnimation.Completed += (s, e) =>
-            {
-                onCompleted?.Invoke();
-            };
-
-            Storyboard.SetTarget(opacityAnimation, construct);
-            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(OpacityProperty));
-
-            Storyboard fadeStoryBoard = new Storyboard();
-            fadeStoryBoard.Children.Add(opacityAnimation);
-
-            fadeStoryBoard.Begin();
+            _constructHelper.RemoveConstructFromCanvas(construct,Canvas_root);
         }
 
         /// <summary>
@@ -2401,45 +2375,7 @@ namespace Worldescape
         /// <param name="z"></param>
         private Construct AddConstructOnCanvas(UIElement construct, double x, double y, int? z = null)
         {
-            Canvas.SetLeft(construct, x);
-            Canvas.SetTop(construct, y);
-
-            int indexZ = 9;
-
-            if (z.HasValue)
-            {
-                indexZ = z.Value;
-            }
-            else
-            {
-                // If Z index is not proved then assign max Z index to this construct button
-                if (Canvas_root.Children != null && Canvas_root.Children.Any())
-                {
-                    if (Canvas_root.Children.Any(x => x is Button button && button.Tag is Construct))
-                    {
-                        var lastConstruct = ((Button)Canvas_root.Children.Where(x => x is Button button && button.Tag is Construct).LastOrDefault()).Tag as Construct;
-
-                        if (lastConstruct != null)
-                        {
-                            indexZ = lastConstruct.Coordinate.Z + 1;
-                        }
-                    }
-                }
-            }
-
-            Canvas.SetZIndex(construct, indexZ);
-
-            Canvas_root.Children.Add(construct);
-
-            var taggedConstruct = ((Button)construct).Tag as Construct;
-
-            taggedConstruct.Coordinate.X = x;
-            taggedConstruct.Coordinate.Y = y;
-            taggedConstruct.Coordinate.Z = indexZ;
-
-            PerformOpacityAnimationOnConstruct(construct, 0, 1); // Add
-
-            return taggedConstruct;
+            return _constructHelper.AddConstructOnCanvas(construct, Canvas_root, x, y, z);
         }
 
         /// <summary>
@@ -2450,38 +2386,7 @@ namespace Worldescape
         /// <returns></returns>
         private Button GenerateConstructButton(string name, string imageUrl, int? constructId = null, InWorld inWorld = null, Creator creator = null)
         {
-            var uri = imageUrl;
-
-            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
-
-            var img = new Image() { Source = bitmap, Stretch = Stretch.None };
-
-            // Id is broadcasted
-            var id = constructId ?? UidGenerator.New();
-
-            if (id <= 0)
-            {
-                throw new InvalidOperationException("Id can not be less than or equal to zero.");
-            }
-
-            var obj = new Button()
-            {
-                BorderBrush = new SolidColorBrush(Colors.DodgerBlue),
-                Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
-                Name = id.ToString(),
-                Tag = new Construct()
-                {
-                    Id = id,
-                    Name = name,
-                    ImageUrl = uri,
-                    Creator = creator ?? new Creator() { Id = User.Id, Name = User.Name, ImageUrl = User.ImageUrl },
-                    World = inWorld ?? new InWorld() { Id = InWorld.Id, Name = InWorld.Name }
-                }
-            };
-
-            obj.Content = img;
-
-            //obj.AllowScrollOnTouchMove = false;
+            var obj = _constructHelper.GenerateConstructButton(name, imageUrl, constructId, inWorld, creator);
 
             obj.PointerPressed += Construct_PointerPressed;
             obj.PointerMoved += Construct_PointerMoved;

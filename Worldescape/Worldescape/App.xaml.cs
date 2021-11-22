@@ -32,7 +32,7 @@ namespace Worldescape
         private void App_Startup(object sender, StartupEventArgs e)
         {
             UnhandledException += App_UnhandledException;
-        } 
+        }
 
         #endregion
 
@@ -61,9 +61,8 @@ namespace Worldescape
             // Helpers
             services.AddSingleton<AssetUrlHelper>();
             services.AddSingleton<HttpServiceHelper>();
-
-            // Renderers
-            services.AddSingleton<AvatarUIEngine>();
+            services.AddSingleton<AvatarHelper>();
+            services.AddSingleton<ConstructHelper>();
 
             // Pages
             services.AddSingleton<MainPage>();
@@ -81,7 +80,7 @@ namespace Worldescape
             Console.WriteLine(e.ExceptionObject.Message);            
             e.Handled = true;
 #endif
-        } 
+        }
 
         #endregion
     }
