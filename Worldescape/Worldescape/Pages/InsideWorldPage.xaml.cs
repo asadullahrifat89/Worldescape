@@ -849,7 +849,7 @@ namespace Worldescape
                 ShowSelectedAvatar(_selectedAvatar);
                 OtherAvatarActionsHolder.Visibility = Visibility.Visible;
 
-                //MessagingTextBox.Focus();
+                MessagingTextBox.Focus();
             }
         }
 
@@ -1337,8 +1337,6 @@ namespace Worldescape
             if (_selectedAvatar == null)
                 return;
 
-            //await BroadcastAvatarActivityStatus(ActivityStatus.Messaging);
-
             // show messenge from and to avatars and show Messaging controls
             if (((Button)_selectedAvatar).Tag is Avatar avatar)
             {
@@ -1346,7 +1344,7 @@ namespace Worldescape
                 ShowMessagingAvatar(_messageToAvatar);
                 ShowMessagingControls();
 
-                //MessagingTextBox.Focus();
+                MessagingTextBox.Focus();
             }
         }
 
