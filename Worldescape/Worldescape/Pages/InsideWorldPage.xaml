@@ -47,7 +47,7 @@
 
         </StackPanel>
 
-        <!--  Current avatar button, scrolls to avatar, becomes visible after avatar hub login  -->
+        <!--  Top left current avatar button, scrolls to avatar, becomes visible after avatar hub login  -->
         <StackPanel
             x:Name="CurrentAvatarHolder"
             Height="50"
@@ -376,7 +376,7 @@
 
             </WrapPanel>
 
-            <!--  Bottom middle Messaging controls  -->
+            <!--  Bottom middle chat controls  -->
             <StackPanel
                 x:Name="MessagingControlsHolder"
                 HorizontalAlignment="Center"
@@ -434,19 +434,44 @@
 
         <!--  Right side detail view  -->
         <ContentControl
-            x:Name="DetailsPanel"
+            x:Name="SideCard"
             Margin="20,100,20,100"
             Padding="5"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
-            Style="{StaticResource MaterialDesign_PopupContent_Style}"
+            Style="{StaticResource MaterialDesign_Card_Style}"
             Visibility="Collapsed">
 
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid
+                Margin="20,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
 
-                <StackPanel>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Button
+                    x:Name="ButtonCloseSideCard"
+                    Grid.Row="0"
+                    Margin="0"
+                    Padding="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Background="Transparent"
+                    Click="ButtonCloseSideCard_Click"
+                    Content="&#215;"
+                    Effect="{x:Null}"
+                    FontSize="26"
+                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
+                    Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}" />
+
+                <StackPanel Grid.Row="1" MinWidth="180">
 
                     <!--  Selected avatar or constructs image holder  -->
                     <ContentControl
@@ -467,35 +492,23 @@
 
                     <TextBlock
                         FontSize="15"
+                        FontWeight="SemiBold"
                         Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                        Text="Appeared On"
+                        Text="Appeared on"
                         TextAlignment="Center" />
+
                     <!--  Selected avatar or constructs created on holder  -->
                     <TextBlock
                         x:Name="DetailsDateHolder"
                         Margin="20,2,20,20"
-                        FontSize="18"
+                        FontSize="15"
                         FontWeight="SemiBold"
                         Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
                         TextAlignment="Center" />
 
                 </StackPanel>
 
-                <Button
-                    x:Name="ButtonCloseDetailsPanel"
-                    Margin="0"
-                    Padding="0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Background="Transparent"
-                    Click="ButtonCloseDetailsPanel_Click"
-                    Content="&#215;"
-                    Effect="{x:Null}"
-                    FontSize="26"
-                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                    Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}" />
+
 
             </Grid>
 

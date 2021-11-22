@@ -1253,6 +1253,11 @@ namespace Worldescape
 
         #region Avatar
 
+        /// <summary>
+        /// Shows avatar details on the side card
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AvatarDetailsButton_Click(object sender, RoutedEventArgs e)
         {
             if (_selectedAvatar == null)
@@ -1263,7 +1268,7 @@ namespace Worldescape
                 DetailsImageHolder.Content = _avatarHelper.GetAvatarUserPicture(avatar, 100);
                 DetailsNameHolder.Text = avatar.Name;
                 DetailsDateHolder.Text = avatar.CreatedOn.ToShortTimeString();
-                DetailsPanel.Visibility = Visibility.Visible;
+                SideCard.Visibility = Visibility.Visible;
             }
         }
 
@@ -1404,12 +1409,17 @@ namespace Worldescape
 
         #region Details
 
-        private void ButtonCloseDetailsPanel_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Closes the side card.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonCloseSideCard_Click(object sender, RoutedEventArgs e)
         {
             DetailsImageHolder.Content = null;
             DetailsNameHolder.Text = null;
             DetailsDateHolder.Text = null;
-            DetailsPanel.Visibility = Visibility.Collapsed;
+            SideCard.Visibility = Visibility.Collapsed;
         }
 
         #endregion

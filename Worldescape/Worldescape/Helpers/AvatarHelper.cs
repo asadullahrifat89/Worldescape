@@ -16,6 +16,7 @@ namespace Worldescape
         /// Gets the user image in a circular border from the provided avatar.
         /// </summary>
         /// <param name="avatar"></param>
+        /// <param name="size"></param>
         /// <returns></returns>
         public Border GetAvatarUserPicture(Avatar avatar, double size = 40)
         {
