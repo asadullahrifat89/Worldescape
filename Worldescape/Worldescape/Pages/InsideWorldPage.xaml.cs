@@ -872,14 +872,12 @@ namespace Worldescape
                 {
                     Characters = Characters.Any() ? Characters : JsonSerializer.Deserialize<Character[]>(Service.Properties.Resources.CharacterAssets).ToList();
 
-                    var characterPicker = new CharacterPicker(
+                    var characterPicker = new CharacterPickerWindow(
                         characters: Characters,
                         characterSelected: async (character) =>
                         {
                             Character = character;
-
                             PrepareAvatarData();
-
                             _mainPage.SetCurrentUserModel();
 
                             await Connect();

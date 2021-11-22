@@ -1,57 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 using Worldescape.Data;
 
-namespace Worldescape.Service
+namespace Worldescape
 {
-    public class CharacterPicker : ChildWindow
+    public partial class CharacterPickerWindow : ChildWindow
     {
-
-        #region Fields
-
         List<Character> _characters = new List<Character>();
+        Action<Character> _characterSelected;
 
-        Action<Character> _assetSelected;
-
-        ScrollViewer _scrollViewer = new ScrollViewer()
+        public CharacterPickerWindow(
+            List<Character> characters,
+            Action<Character> characterSelected)
         {
-            HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
-            VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-        };
+            InitializeComponent();
 
-        Grid _gridContent = new Grid();
-
-        #endregion
-
-        #region Ctor
-
-        public CharacterPicker(
-          List<Character> characters,
-          Action<Character> characterSelected)
-        {
             _characters = characters;
-
-            _assetSelected = characterSelected;
-
-            Height = 600;
-            Width = 610;
-            Style = Application.Current.Resources["MaterialDesign_ChildWindow_Style"] as Style;
-
-            _gridContent.Children.Add(_scrollViewer);
-
-            Content = _gridContent;
+            _characterSelected = characterSelected;
 
             ShowCharacters();
         }
 
-        #endregion
-
         #region Methods
-        
+
         private void ShowCharacters()
         {
             Title = "Select a Character";
@@ -88,7 +70,7 @@ namespace Worldescape.Service
                 _masonryPanel.Children.Add(buttonCharacter);
             }
 
-            _scrollViewer.Content = _masonryPanel;
+            ContentScrollViewer.Content = _masonryPanel;
         }
 
         private void ButtonCharacter_Click(object sender, RoutedEventArgs e)
@@ -96,10 +78,11 @@ namespace Worldescape.Service
             var button = (Button)sender;
             var Character = button.Tag as Character;
 
-            _assetSelected?.Invoke(Character);
+            _characterSelected?.Invoke(Character);
             Close();
-        } 
+        }
 
         #endregion
     }
 }
+

@@ -20,6 +20,9 @@
 		<Content Include="Internals\ConstructAssetPickerWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
+		<Content Include="Internals\CharacterPickerWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</Content>
 		<Page Include="MainPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
@@ -90,8 +93,7 @@
 	<ItemGroup>
 		<Compile Include="App.xaml.cs" />
 		<Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-		<Compile Include="Internals\CharacterPicker.cs" />
-		<Compile Include="Internals\ConstructAssetPicker.cs" />
+		<Compile Include="Internals\CharacterPickerWindow.xaml.cs" />
 		<Compile Include="Internals\ConstructAssetPickerWindow.xaml.cs" />
 		<Compile Include="Internals\MasonryPanel.cs" />
 		<Compile Include="Internals\MasonryPanelWithProgressiveLoading.cs" />
