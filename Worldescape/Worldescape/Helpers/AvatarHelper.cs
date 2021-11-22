@@ -13,20 +13,18 @@ namespace Worldescape
     public class AvatarHelper
     {
         /// <summary>
-        /// Gets the user image as a circular border from the provided avatar.
+        /// Gets the user image in a circular border from the provided avatar.
         /// </summary>
         /// <param name="avatar"></param>
         /// <returns></returns>
-        public Border GetAvatarUserPicture(Avatar avatar)
+        public Border GetAvatarUserPicture(Avatar avatar, double size = 40)
         {
-            var bitmapImage = new BitmapImage(new Uri(avatar.User.ImageUrl));////new BitmapImage(((BitmapImage)((Image)avatarButton.Content).Source).UriSource);
-
-            double round = 40;
+            var bitmapImage = new BitmapImage(new Uri(avatar.User.ImageUrl));
 
             var imageBorder = new Border()
             {
-                Height = round,
-                Width = round,
+                Height = size,
+                Width = size,
                 CornerRadius = new CornerRadius(30),
                 ClipToBounds = true,
             };
@@ -34,8 +32,8 @@ namespace Worldescape
             Image userImage = new Image()
             {
                 Source = bitmapImage,
-                Height = round,
-                Width = round,
+                Height = size,
+                Width = size,
                 Stretch = Stretch.UniformToFill,
             };
 
@@ -48,11 +46,11 @@ namespace Worldescape
         /// </summary>
         /// <param name="uIElement"></param>
         /// <returns></returns>
-        public Avatar GetTaggedAvatar(UIElement uIElement) 
+        public Avatar GetTaggedAvatar(UIElement uIElement)
         {
             if (uIElement == null)
                 return null;
-            
+
             var avatar = ((Button)uIElement).Tag as Avatar;
 
             return avatar;
@@ -173,7 +171,7 @@ namespace Worldescape
         /// <param name="canvas"></param>
         /// <param name="avatarId"></param>
         /// <returns></returns>
-        public UIElement GetAvatarButtonFromCanvas(Canvas canvas, int avatarId) 
+        public UIElement GetAvatarButtonFromCanvas(Canvas canvas, int avatarId)
         {
             if (avatarId == 0)
                 return null;

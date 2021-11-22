@@ -1253,6 +1253,25 @@ namespace Worldescape
 
         #region Avatar
 
+        private void AvatarDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedAvatar == null)
+                return;
+
+            if (((Button)_selectedAvatar).Tag is Avatar avatar)
+            {
+                DetailsImageHolder.Content = _avatarHelper.GetAvatarUserPicture(avatar, 100);
+                DetailsNameHolder.Text = avatar.Name;
+                DetailsDateHolder.Text = avatar.CreatedOn.ToShortTimeString();
+                DetailsPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        /// <summary>
+        /// Scrolls current avatar into view.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MyAvatarButton_Click(object sender, RoutedEventArgs e)
         {
             if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
@@ -1383,6 +1402,18 @@ namespace Worldescape
 
         #endregion
 
+        #region Details
+
+        private void ButtonCloseDetailsPanel_Click(object sender, RoutedEventArgs e)
+        {
+            DetailsImageHolder.Content = null;
+            DetailsNameHolder.Text = null;
+            DetailsDateHolder.Text = null;
+            DetailsPanel.Visibility = Visibility.Collapsed;
+        }
+
+        #endregion
+
         #endregion
 
         #region Construct Images
@@ -1480,7 +1511,7 @@ namespace Worldescape
                 // If receiver avatar is forward from current avatar
                 AlignAvatarFaceDirection(receiver.Coordinate.X);
 
-                MessagingFromAvatarHolder.Content = GetImageFromUiElement(_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root,Avatar.Id));
+                MessagingFromAvatarHolder.Content = GetImageFromUiElement(_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id));
                 MessagingToAvatarHolder.Content = GetImageFromUiElement(receiverUiElement);
             }
         }
@@ -2003,6 +2034,7 @@ namespace Worldescape
             Avatar = new Avatar()
             {
                 Id = App.User.Id,
+                Name = App.User.Name,
                 ActivityStatus = ActivityStatus.Idle,
                 User = new AvatarUser()
                 {
