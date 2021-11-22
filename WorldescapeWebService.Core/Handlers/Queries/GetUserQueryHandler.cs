@@ -41,11 +41,6 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, User>
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             validationResult.EnsureValidResult();
 
-            //var user = await _databaseService.FindOne(Builders<User>.Filter.And(Builders<User>.Filter.Eq(x => x.Email, request.Email), Builders<User>.Filter.Eq(x => x.Password, request.Password)));
-
-            //if (user == null || user.IsEmpty())
-            //    throw new Exception("User not found");
-
             // Find the token
             var accessToken = await _databaseService.FindOne(Builders<ApiToken>.Filter.Eq(x => x.Token, request.Token));
 

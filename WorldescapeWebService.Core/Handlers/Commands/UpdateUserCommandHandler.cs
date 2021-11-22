@@ -57,33 +57,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Servi
             result.DateOfBirth = request.DateOfBirth;
 
             if (!await _databaseService.ReplaceById(result, request.Id))
-                throw new Exception("User with Id: " + request.Id + "Update failed.");
-
-            //// Open database (or create if doesn't exist)
-            //using (var db = new LiteDatabase(@"Worldescape.db"))
-            //{
-            //    // Get Users collection
-            //    var colUsers = db.GetCollection<User>("Users");
-
-            //    // Use LINQ to query documents (with no index)
-            //    var result = colUsers.FindById(request.Id);
-
-            //    if (result == null || result.IsEmpty())
-            //        throw new Exception("User with Id: " + request.Id + "not found.");
-
-            //    // update user instance
-            //    result.Name = request.Name;
-            //    result.ImageUrl = request.ImageUrl;
-            //    result.UpdatedOn = DateTime.Now;
-            //    result.Email = request.Email;
-            //    result.Password = request.Password;
-            //    result.Phone = request.Phone;
-            //    result.Gender = request.Gender;
-            //    result.DateOfBirth = request.DateOfBirth;
-
-            //    // update user document (Id will be auto-incremented)
-            //    colUsers.Update(result);
-            //}
+                throw new Exception("User with Id: " + request.Id + "Update failed.");            
 
             return new ServiceResponse() { HttpStatusCode = System.Net.HttpStatusCode.OK };
         }

@@ -43,26 +43,20 @@ public class GetWorldsQueryHandler : IRequestHandler<GetWorldsQuery, GetWorldsQu
 
             var filter = Builders<World>.Filter.Empty;
 
-            if (!string.IsNullOrEmpty(request.SearchString) && !string.IsNullOrWhiteSpace(request.SearchString))
+            if (!request.SearchString.IsNullOrBlank())
                 filter = Builders<World>.Filter.AnyIn(x => x.Name, request.SearchString);
 
+            // Count total number of documents for filter, front end will calculate max number of pages from it
+            var count = await _databaseService.CountDocuments(filter);
+
+            // Get paginated data
             var results = await _databaseService.GetDocuments(filter, skip: request.PageSize * request.PageIndex, limit: request.PageSize);
 
-            return new GetWorldsQueryResponse() { Count = results != null ? results.Count() : 0, Worlds = results ?? Enumerable.Empty<World>() };
-
-            //// Open database (or create if doesn't exist)
-            //using (var db = new LiteDatabase(@"Worldescape.db"))
-            //{
-            //    // Get Worlds collection
-            //    var colWorlds = db.GetCollection<World>("Worlds");
-
-            //    var results = colWorlds.Find(
-            //        predicate: string.IsNullOrEmpty(request.SearchString) || string.IsNullOrWhiteSpace(request.SearchString) ? x => x.Id > 0 : x => x.Name.ToLower().Contains(request.SearchString.ToLower()),
-            //        skip: request.PageSize * request.PageIndex,
-            //        limit: request.PageSize);
-
-            //    return new GetWorldsQueryResponse() { Count = results != null ? results.Count() : 0, Worlds = results ?? Enumerable.Empty<World>() };
-            //}
+            return new GetWorldsQueryResponse()
+            {
+                Count = count,
+                Worlds = results ?? Enumerable.Empty<World>()
+            };
         }
         catch (Exception ex)
         {

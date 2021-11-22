@@ -63,39 +63,7 @@ public class AddWorldCommandHandler : IRequestHandler<AddWorldCommand, World>
             else
             {
                 throw new Exception($"Failed to save world. Name={request.Name}");
-            }
-
-            //// Open database (or create if doesn't exist)
-            //using (var db = new LiteDatabase(@"Worldescape.db"))
-            //{
-            //    // Get World collection
-            //    var colWorlds = db.GetCollection<World>("Worlds");
-
-            //    // Get the user from the token
-            //    var user = _tokenHelper.GetUserFromApiToken(request.Token);
-
-            //    // Create new user instance
-            //    var world = new World
-            //    {
-            //        Name = request.Name,
-            //        ImageUrl = request.ImageUrl,
-            //        CreatedOn = DateTime.Now,
-            //        UpdatedOn = null,
-            //        Creator = new Creator() { Id = user.Id, ImageUrl = user.ImageUrl, Name = user.Name }
-            //    };
-
-            //    // Insert new user document (Id will be auto-incremented)
-            //    BsonValue? id = colWorlds.Insert(world);
-
-            //    if (!id.IsNull)
-            //    {
-            //        return colWorlds.FindById(id.AsInt32);
-            //    }
-            //    else
-            //    {
-            //        return new World();
-            //    }
-            //}
+            }            
         }
         catch (Exception ex)
         {

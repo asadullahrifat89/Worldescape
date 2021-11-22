@@ -7,7 +7,7 @@ namespace WorldescapeWebService.Core
         /// <summary>
         /// Count of the worlds returned.
         /// </summary>
-        public int? Count { get; set; }
+        public long? Count { get; set; }
 
         /// <summary>
         /// A collection of worlds returned.

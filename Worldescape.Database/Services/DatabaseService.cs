@@ -42,7 +42,7 @@ namespace Worldescape.Database
 
         #region Document
 
-        public async Task<long> Count<T>(FilterDefinition<T> filter)
+        public async Task<long> CountDocuments<T>(FilterDefinition<T> filter)
         {
             var collection = GetCollection<T>();
             var result = await collection.Find(filter).CountDocumentsAsync();

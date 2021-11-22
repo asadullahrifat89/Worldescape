@@ -93,50 +93,6 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ServiceResp
                 throw new Exception("User with Email: " + request.Email + "insert failed.");
             }
 
-
-            //// Open database (or create if doesn't exist)
-            //using (var db = new LiteDatabase(@"Worldescape.db"))
-            //{
-            //    // Get Users collection
-            //    var colUsers = db.GetCollection<User>("Users");
-
-            //    // Use LINQ to query documents (with no index)
-            //    var result = colUsers.FindOne(x => x.Email == request.Email);
-
-            //    if (result != null && !result.IsEmpty())
-            //        throw new Exception("User with Email: " + request.Email + "already exists.");
-
-            //    // Create new user instance
-            //    var user = new User
-            //    {
-            //        Name = request.Name,
-            //        ImageUrl = request.ImageUrl,
-            //        CreatedOn = DateTime.Now,
-            //        UpdatedOn = null,
-            //        Email = request.Email,
-            //        Password = request.Password,
-            //        Phone = request.Phone,
-            //        Gender = request.Gender,
-            //        DateOfBirth = request.DateOfBirth,
-            //    };
-
-            //    // Insert new user document (Id will be auto-incremented)
-            //    BsonValue? userId = colUsers.Insert(user);
-
-            //    // Get AccessTokens collection
-            //    var colAccessTokens = db.GetCollection<ApiToken>("ApiTokens");
-
-            //    // Create new api token instance for the saved user
-            //    var apiToken = new ApiToken()
-            //    {
-            //        UserId = userId.AsInt32,
-            //        Token = Guid.NewGuid().ToString()
-            //    };
-
-            //    // Insert new api token document
-            //    colAccessTokens.Insert(apiToken);
-            //}
-
             return new ServiceResponse() { HttpStatusCode = System.Net.HttpStatusCode.OK };
         }
         catch (Exception ex)
