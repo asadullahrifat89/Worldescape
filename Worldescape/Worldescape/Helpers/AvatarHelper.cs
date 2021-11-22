@@ -167,6 +167,12 @@ namespace Worldescape
             return obj;
         }
 
+        /// <summary>
+        /// Returns the avatar button from the provided canvas and avatarId.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="avatarId"></param>
+        /// <returns></returns>
         public UIElement GetAvatarButtonFromCanvas(Canvas canvas, int avatarId) 
         {
             if (avatarId == 0)

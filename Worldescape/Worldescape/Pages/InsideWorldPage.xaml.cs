@@ -212,7 +212,7 @@ namespace Worldescape
         {
             if (avatarId > 0)
             {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
@@ -235,7 +235,7 @@ namespace Worldescape
         {
             if (avatarId > 0)
             {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
@@ -256,7 +256,7 @@ namespace Worldescape
 
         private void HubService_AvatarLoggedOut(int avatarId)
         {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
             {
                 var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
@@ -279,7 +279,7 @@ namespace Worldescape
         private void HubService_AvatarLoggedIn(Avatar avatar)
         {
             // If an avatar already exists, ignore
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatar.Id) is UIElement iElement)
             {
                 Console.WriteLine("<<HubService_AvatarLoggedIn: IGNORE");
             }
@@ -301,7 +301,7 @@ namespace Worldescape
         {
             if (avatarId > 0)
             {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
@@ -326,7 +326,7 @@ namespace Worldescape
         {
             if (avatarId > 0)
             {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
@@ -361,7 +361,7 @@ namespace Worldescape
         {
             if (avatarId > 0)
             {
-                if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
@@ -412,7 +412,6 @@ namespace Worldescape
         {
             _ = await HubService.Login(Avatar);
 
-            //IsConnected = true;
             _isLoggedIn = true;
 
             Console.WriteLine("<<HubService_ConnectionReconnected");
@@ -420,7 +419,6 @@ namespace Worldescape
 
         private void HubService_ConnectionReconnecting()
         {
-            //IsConnected = false;
             _isLoggedIn = false;
 
             Console.WriteLine("<<HubService_ConnectionReconnecting");
@@ -811,19 +809,7 @@ namespace Worldescape
 
         private Construct CenterAlignNewConstructButton(Windows.UI.Input.PointerPoint pressedPoint, Button constructButton, Construct construct)
         {
-            var offsetX = constructButton.ActualWidth / 2;
-            var offsetY = constructButton.ActualHeight / 2;
-
-            var goToX = pressedPoint.Position.X - offsetX;
-            var goToY = pressedPoint.Position.Y - offsetY;
-
-            Canvas.SetLeft(constructButton, goToX);
-            Canvas.SetTop(constructButton, goToY);
-
-            construct.Coordinate.X = goToX;
-            construct.Coordinate.Y = goToY;
-
-            return construct;
+            return _constructHelper.CenterAlignNewConstructButton(pressedPoint, constructButton, construct);
         }
 
         #endregion
@@ -840,7 +826,7 @@ namespace Worldescape
             // reply to the selected message and show Messaging controls
             if (((Button)sender).Tag is Avatar avatar)
             {
-                _messageToAvatar = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatar.Id);
+                _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatar.Id);
                 _selectedAvatar = _messageToAvatar;
 
                 ShowMessagingAvatar(_messageToAvatar);
@@ -1088,7 +1074,7 @@ namespace Worldescape
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
-                        _selectedConstruct = Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == element.Id).FirstOrDefault();
+                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_root, element.Id);
 
                         if (_selectedConstruct != null)
                         {
@@ -1121,7 +1107,7 @@ namespace Worldescape
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
-                        _selectedConstruct = Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == element.Id).FirstOrDefault();
+                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_root, element.Id);
 
                         if (_selectedConstruct != null)
                         {
@@ -1152,7 +1138,7 @@ namespace Worldescape
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
-                        _selectedConstruct = Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == element.Id).FirstOrDefault();
+                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_root, element.Id);
 
                         if (_selectedConstruct != null)
                         {
@@ -1183,7 +1169,7 @@ namespace Worldescape
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
-                        _selectedConstruct = Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == element.Id).FirstOrDefault();
+                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_root, element.Id);
 
                         if (_selectedConstruct != null)
                         {
@@ -1214,7 +1200,7 @@ namespace Worldescape
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
-                        _selectedConstruct = Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == element.Id).FirstOrDefault();
+                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_root, element.Id);
 
                         if (_selectedConstruct != null)
                         {
@@ -1245,7 +1231,7 @@ namespace Worldescape
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
-                        _selectedConstruct = Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == element.Id).FirstOrDefault();
+                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_root, element.Id);
 
                         if (_selectedConstruct != null)
                         {
@@ -2165,7 +2151,7 @@ namespace Worldescape
         /// <returns></returns>
         private async Task BroadcastAvatarActivityStatus(ActivityStatus activityStatus)
         {
-            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)            
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
             {
                 var avatarButton = (Button)iElement;
                 var taggedAvatar = avatarButton.Tag as Avatar;

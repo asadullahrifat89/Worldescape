@@ -174,5 +174,32 @@ namespace Worldescape
                 Console.WriteLine("Construct removed.");
             });
         }
+
+        public Construct CenterAlignNewConstructButton(Windows.UI.Input.PointerPoint pressedPoint, Button constructButton, Construct construct)
+        {
+            var offsetX = constructButton.ActualWidth / 2;
+            var offsetY = constructButton.ActualHeight / 2;
+
+            var goToX = pressedPoint.Position.X - offsetX;
+            var goToY = pressedPoint.Position.Y - offsetY;
+
+            Canvas.SetLeft(constructButton, goToX);
+            Canvas.SetTop(constructButton, goToY);
+
+            construct.Coordinate.X = goToX;
+            construct.Coordinate.Y = goToY;
+
+            return construct;
+        }
+
+        public UIElement GetConstructButtonFromCanvas(Canvas canvas, int constructId)
+        {
+            if (canvas == null)
+                return null;
+            if (constructId <= 0)
+                return null;
+
+            return canvas.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == constructId).FirstOrDefault();
+        }
     }
 }
