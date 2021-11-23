@@ -114,9 +114,7 @@ namespace Worldescape
                 return;
 
             await SignUp();
-        }
-
-        
+        }        
 
         private void Button_Login_Click(object sender, RoutedEventArgs e)
         {

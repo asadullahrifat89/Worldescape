@@ -114,13 +114,19 @@ namespace Worldescape
 
                 var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
 
-                var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 100, Width = 100 };
+                var img = new Image()
+                {
+                    Source = bitmap,
+                    Stretch = Stretch.Uniform,
+                    Height = 100,
+                    Width = 100
+                };
 
                 var buttonConstructAsset = new Button()
                 {
-                    Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                    Width = 100,
+                    Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,                    
                     Height = 100,
+                    Width = 100,
                     Margin = new Thickness(3),
                     Tag = item,
                 };

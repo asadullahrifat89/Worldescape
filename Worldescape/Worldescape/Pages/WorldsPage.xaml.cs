@@ -89,7 +89,7 @@ namespace Worldescape
                 var img = new Image()
                 {
                     Source = bitmap,
-                    Stretch = Stretch.Uniform,
+                    Stretch = Stretch.UniformToFill,
                     Height = 200,
                     Width = 300
                 };
@@ -97,16 +97,21 @@ namespace Worldescape
                 var buttonWorld = new Button()
                 {
                     Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                    Height = 200,
-                    Width = 300,
+                    //Height = 200,
+                    //Width = 300,
                     Margin = new Thickness(5),
-                    ClipToBounds = true,
                     Tag = world,
                 };
 
                 StackPanel stackPanel = new StackPanel();
                 stackPanel.Children.Add(img);
-                stackPanel.Children.Add(new TextBlock() { FontSize = 16, FontWeight = FontWeights.SemiBold, Text = world.Name });
+                stackPanel.Children.Add(new TextBlock()
+                {
+                    FontSize = 18,
+                    FontWeight = FontWeights.SemiBold,
+                    Text = world.Name,
+                    Margin = new Thickness(5),
+                });
 
                 buttonWorld.Click += ButtonWorld_Click;
                 buttonWorld.Content = stackPanel;

@@ -54,9 +54,10 @@
         <local:MasonryPanelWithProgressiveLoading
             x:Name="WorldsHolder"
             Grid.Row="2"
+            MinHeight="600"
             Margin="20"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
+            VerticalAlignment="Top"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             Style="{StaticResource Panel_Style}" />
