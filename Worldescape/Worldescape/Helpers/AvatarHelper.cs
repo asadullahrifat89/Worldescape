@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -18,11 +19,11 @@ namespace Worldescape
         /// <param name="avatar"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public Border GetAvatarUserPicture(Avatar avatar, double size = 40)
+        public Border GetAvatarUserPicture(Avatar avatar, double size = 40, Color? background = null)
         {
             var bitmapImage = new BitmapImage(new Uri(avatar.User.ImageUrl));
-            return PrepareRoundImage(size, bitmapImage);
-        }       
+            return PrepareRoundImage(size, bitmapImage, background);
+        }
 
         /// <summary>
         /// Gets the character image in a circular border from the provided avatar.
@@ -30,10 +31,10 @@ namespace Worldescape
         /// <param name="avatar"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public Border GetAvatarCharacterPicture(Avatar avatar, double size = 40)
+        public Border GetAvatarCharacterPicture(Avatar avatar, double size = 40, Color? background = null)
         {
             var bitmapImage = new BitmapImage(new Uri(avatar.Character.ImageUrl));
-            return PrepareRoundImage(size, bitmapImage);
+            return PrepareRoundImage(size, bitmapImage, background);
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace Worldescape
         /// <param name="size"></param>
         /// <param name="bitmapImage"></param>
         /// <returns></returns>
-        private Border PrepareRoundImage(double size, BitmapImage bitmapImage)
+        private Border PrepareRoundImage(double size, BitmapImage bitmapImage, Color? background = null)
         {
             var imageBorder = new Border()
             {
@@ -50,6 +51,7 @@ namespace Worldescape
                 Width = size,
                 CornerRadius = new CornerRadius(40),
                 ClipToBounds = true,
+                Background = background != null ? new SolidColorBrush(background.Value) : new SolidColorBrush(Colors.Transparent),
             };
 
             Image userImage = new Image()

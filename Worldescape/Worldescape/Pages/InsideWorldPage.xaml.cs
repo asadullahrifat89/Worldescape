@@ -1284,7 +1284,18 @@ namespace Worldescape
 
             if (((Button)_selectedAvatar).Tag is Avatar avatar)
             {
-                DetailsImageHolder.Content = GetAvatarUserPicture(avatar, 100);
+                var twoImages = new Grid() { };
+
+                var characterPicture = GetAvatarCharacterPicture(avatar: avatar);
+                var userPicture = GetAvatarUserPicture(avatar, 100);
+
+                characterPicture.VerticalAlignment = VerticalAlignment.Bottom;
+                characterPicture.HorizontalAlignment = HorizontalAlignment.Right;
+
+                twoImages.Children.Add(userPicture);
+                twoImages.Children.Add(characterPicture);
+
+                DetailsImageHolder.Content = twoImages;
                 DetailsNameHolder.Text = avatar.Name;
                 DetailsDateHolder.Text = avatar.CreatedOn.ToShortTimeString();
             }
@@ -1448,10 +1459,7 @@ namespace Worldescape
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ButtonCloseSideCard_Click(object sender, RoutedEventArgs e)
-        {
-            DetailsImageHolder.Content = null;
-            DetailsNameHolder.Text = null;
-            DetailsDateHolder.Text = null;
+        {   
             SideCard.Visibility = Visibility.Collapsed;
         }
 
@@ -2146,7 +2154,7 @@ namespace Worldescape
         /// <returns></returns>
         private Border GetAvatarCharacterPicture(Avatar avatar, double size = 40)
         {
-            return _avatarHelper.GetAvatarCharacterPicture(avatar, size);
+            return _avatarHelper.GetAvatarCharacterPicture(avatar: avatar, size: size, background: Colors.BlanchedAlmond);
         }
 
         /// <summary>
