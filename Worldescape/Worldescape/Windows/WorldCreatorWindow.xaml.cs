@@ -40,7 +40,7 @@ namespace Worldescape
         private async void OKButton_Click(object sender, RoutedEventArgs e)
         {
             if (!WorldNameHolder.Text.IsNullOrBlank())
-            {                
+            {
                 if (_world.IsEmpty())
                 {
                     await AddWorld();
@@ -71,7 +71,7 @@ namespace Worldescape
             {
                 _mainPage.SetIsBusy(false);
 
-                _wordSaved?.Invoke(_world);
+                _wordSaved?.Invoke(world);
                 this.DialogResult = true;
             }
             else
@@ -85,10 +85,13 @@ namespace Worldescape
         {
             _mainPage.SetIsBusy(true, "Creating your world...");
 
+            var defaultWorldImageUrl = $"ms-appx:///Images/Defaults/World_{new Random().Next(0, 9)}.png";
+
             var command = new AddWorldCommandRequest
             {
                 Token = App.Token,
                 Name = WorldNameHolder.Text,
+                ImageUrl = defaultWorldImageUrl
             };
 
             var world = await _httpServiceHelper.SendPostRequest<World>(
@@ -99,7 +102,7 @@ namespace Worldescape
             {
                 _mainPage.SetIsBusy(false);
 
-                _wordSaved?.Invoke(_world);
+                _wordSaved?.Invoke(world);
                 this.DialogResult = true;
 
             }
