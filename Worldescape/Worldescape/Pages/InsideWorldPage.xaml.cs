@@ -886,12 +886,10 @@ namespace Worldescape
 
         #region Construct
 
-        private void ConstructDetailsButton_Click(object sender, RoutedEventArgs e)
-        {
-            ShowConstructDetailsOnSideCard();
-        }
-
-        private void ShowConstructDetailsOnSideCard()
+        /// <summary>
+        /// Sets selected construct details on side card.
+        /// </summary>
+        private void SetConstructDetailsOnSideCard()
         {
             if (_selectedConstruct == null)
                 return;
@@ -900,8 +898,7 @@ namespace Worldescape
             {
                 DetailsImageHolder.Content = GetImageFromUiElement(_selectedConstruct);
                 DetailsNameHolder.Text = construct.Name;
-                DetailsDateHolder.Text = construct.CreatedOn.ToShortTimeString();
-                SideCard.Visibility = Visibility.Visible;
+                DetailsDateHolder.Text = construct.CreatedOn.ToShortTimeString();                
             }
         }
 
@@ -1269,16 +1266,9 @@ namespace Worldescape
         #region Avatar
 
         /// <summary>
-        /// Shows avatar details on the side card
+        /// Sets selected avatar details on side card.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AvatarDetailsButton_Click(object sender, RoutedEventArgs e)
-        {
-            ShowAvatarDetailsOnSideCard();
-        }
-
-        private void ShowAvatarDetailsOnSideCard()
+        private void SetAvatarDetailsOnSideCard()
         {
             if (_selectedAvatar == null)
                 return;
@@ -1287,8 +1277,7 @@ namespace Worldescape
             {
                 DetailsImageHolder.Content = GetAvatarUserPicture(avatar, 100);
                 DetailsNameHolder.Text = avatar.Name;
-                DetailsDateHolder.Text = avatar.CreatedOn.ToShortTimeString();
-                SideCard.Visibility = Visibility.Visible;
+                DetailsDateHolder.Text = avatar.CreatedOn.ToShortTimeString();                
             }
         }
 
@@ -1430,7 +1419,17 @@ namespace Worldescape
         #region Details
 
         /// <summary>
-        /// Closes the side card.
+        /// Shows the side card.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ObjectDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            SideCard.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Hides the side card.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1458,21 +1457,18 @@ namespace Worldescape
             {
                 SelectedConstructHolder.Content = null;
                 SelectedConstructHolder.Visibility = Visibility.Collapsed;
-                ConstructDetailsButton.Visibility = Visibility.Collapsed;
+                ObjectDetailsButton.Visibility = Visibility.Collapsed;
             }
             else
             {
-                //var construct = ((Button)uielement).Tag as Construct;
+                ObjectDetailsButton.Visibility = Visibility.Visible;
+
                 var image = GetImageFromUiElement(uielement, 70);
 
                 SelectedConstructHolder.Content = image;
                 SelectedConstructHolder.Visibility = Visibility.Visible;
-                ConstructDetailsButton.Visibility = Visibility.Visible;
 
-                if (SideCard.Visibility == Visibility.Visible)
-                {
-                    ShowConstructDetailsOnSideCard();
-                }
+                SetConstructDetailsOnSideCard();
             }
         }
 
@@ -1505,9 +1501,12 @@ namespace Worldescape
             {
                 SelectedAvatarHolder.Content = null;
                 SelectedAvatarHolder.Visibility = Visibility.Collapsed;
+                ObjectDetailsButton.Visibility = Visibility.Collapsed;
             }
             else
             {
+                ObjectDetailsButton.Visibility = Visibility.Visible;
+
                 var taggedAvatar = ((Button)uielement).Tag as Avatar;
 
                 var userImage = GetAvatarUserPicture(taggedAvatar);
@@ -1518,22 +1517,10 @@ namespace Worldescape
                 stackPanelContent.Children.Add(userImage);
                 stackPanelContent.Children.Add(avatarImage);
 
-                //stackPanelContent.Children.Add(new TextBlock()
-                //{
-                //    FontSize = 18,
-                //    FontWeight = FontWeights.SemiBold,
-                //    TextAlignment = TextAlignment.Center,
-                //    Text = taggedAvatar.User.Name,
-                //    Margin = new Thickness(5)
-                //});
-
                 SelectedAvatarHolder.Content = stackPanelContent;
                 SelectedAvatarHolder.Visibility = Visibility.Visible;
 
-                if (SideCard.Visibility == Visibility.Visible)
-                {
-                    ShowAvatarDetailsOnSideCard();
-                }
+                SetAvatarDetailsOnSideCard();
             }
         }
 
@@ -2667,12 +2654,13 @@ namespace Worldescape
             fadeStoryBoard.Begin();
         }
 
-        #endregion
 
         #endregion
 
         #endregion
 
+        #endregion
 
+      
     }
 }

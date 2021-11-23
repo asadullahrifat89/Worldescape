@@ -33,7 +33,8 @@
             x:Name="TopButtonsHolder"
             Margin="20"
             HorizontalAlignment="Center"
-            VerticalAlignment="Top">
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
 
             <!--  Connect  -->
             <Button
@@ -65,20 +66,8 @@
                 Style="{StaticResource MaterialDesign_RoundButton_Style}">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <!--  AvatarImageHolder  -->
-                        <!--<Border
-                            Width="40"
-                            Height="40"
-                            Margin="5,0"
-                            ClipToBounds="True"
-                            CornerRadius="40">
-                            <Image
-                                x:Name="AvatarImageHolder"
-                                Width="40"
-                                Height="40"
-                                Stretch="UniformToFill" />
-                        </Border>-->
 
+                        <!--  AvatarImageHolder  -->
                         <ContentControl
                             x:Name="AvatarImageHolder"
                             Margin="5,0"
@@ -107,6 +96,7 @@
                 VerticalAlignment="Center"
                 Visibility="Collapsed">
 
+                <!--  COnstruct, Add, Select buttons  -->
                 <StackPanel Orientation="Horizontal">
 
                     <!--  Construct  -->
@@ -143,6 +133,7 @@
 
                 </StackPanel>
 
+                <!--  Multi selected constructs  -->
                 <ContentControl Style="{StaticResource MaterialDesign_PopupContent_Style}" Visibility="{Binding ElementName=ConstructMultiSelectButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel x:Name="MultiSelectedConstructsHolder" Orientation="Horizontal" />
                 </ContentControl>
@@ -173,17 +164,6 @@
                         FontWeight="SemiBold"
                         Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
                         Style="{StaticResource MaterialDesign_PopupContent_Style}"
-                        Visibility="Collapsed" />
-
-                    <!--  Show details  -->
-                    <Button
-                        x:Name="ConstructDetailsButton"
-                        MinWidth="110"
-                        Margin="5,10"
-                        Click="ConstructDetailsButton_Click"
-                        Content="Details"
-                        FontSize="20"
-                        Style="{StaticResource MaterialDesign_RoundButton_Style}"
                         Visibility="Collapsed" />
 
                 </StackPanel>
@@ -253,16 +233,6 @@
                                 FontSize="20"
                                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
-                            <!--  Show details  -->
-                            <Button
-                                x:Name="AvatarDetailsButton"
-                                MinWidth="110"
-                                Margin="5,10"
-                                Click="AvatarDetailsButton_Click"
-                                Content="Details"
-                                FontSize="20"
-                                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
                         </WrapPanel>
 
                     </StackPanel>
@@ -300,6 +270,17 @@
                     </ContentControl>
 
                 </StackPanel>
+
+                <!--  Show details  -->
+                <Button
+                    x:Name="ObjectDetailsButton"
+                    MinWidth="110"
+                    Margin="5,10"
+                    Click="ObjectDetailsButton_Click"
+                    Content="Details"
+                    FontSize="20"
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}"
+                    Visibility="Collapsed" />
 
                 <!--  Side card detail  -->
                 <ContentControl
