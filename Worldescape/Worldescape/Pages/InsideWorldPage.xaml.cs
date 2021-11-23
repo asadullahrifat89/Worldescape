@@ -541,6 +541,9 @@ namespace Worldescape
             }
             else if (ConstructMultiSelectButton.IsChecked.Value)
             {
+                if (!CanManipulateConstruct())
+                    return;
+
                 // Add the selected construct to multi selected list
                 var construct = ((Button)_selectedConstruct).Tag as Construct;
 
@@ -552,6 +555,9 @@ namespace Worldescape
             }
             else if (ConstructCraftButton.IsChecked.Value)
             {
+                if (!CanManipulateConstruct())
+                    return;
+
                 ShowConstructOperationButtons();
 
                 // Drag start of a constuct
@@ -586,6 +592,9 @@ namespace Worldescape
         {
             if (ConstructCraftButton.IsChecked.Value)
             {
+                if (!CanManipulateConstruct())
+                    return;
+
                 UIElement uielement = (UIElement)sender;
 
                 if (_isPointerCaptured)
@@ -624,6 +633,9 @@ namespace Worldescape
 
             if (ConstructCraftButton.IsChecked.Value)
             {
+                if (!CanManipulateConstruct())
+                    return;
+
                 // Drag drop selected construct
                 UIElement uielement = (UIElement)sender;
                 _isPointerCaptured = false;
@@ -898,7 +910,7 @@ namespace Worldescape
             {
                 DetailsImageHolder.Content = GetImageFromUiElement(_selectedConstruct);
                 DetailsNameHolder.Text = construct.Name;
-                DetailsDateHolder.Text = construct.CreatedOn.ToShortTimeString();                
+                DetailsDateHolder.Text = construct.CreatedOn.ToShortTimeString();
             }
         }
 
@@ -1277,7 +1289,7 @@ namespace Worldescape
             {
                 DetailsImageHolder.Content = GetAvatarUserPicture(avatar, 100);
                 DetailsNameHolder.Text = avatar.Name;
-                DetailsDateHolder.Text = avatar.CreatedOn.ToShortTimeString();                
+                DetailsDateHolder.Text = avatar.CreatedOn.ToShortTimeString();
             }
         }
 
@@ -1425,6 +1437,10 @@ namespace Worldescape
         /// <param name="e"></param>
         private void ObjectDetailsButton_Click(object sender, RoutedEventArgs e)
         {
+            // If nothing is selected then no point in showing the side card.
+            if (_selectedAvatar == null && _selectedConstruct == null)
+                return;
+
             SideCard.Visibility = Visibility.Visible;
         }
 
@@ -2265,6 +2281,11 @@ namespace Worldescape
 
         #region Construct     
 
+        private bool CanManipulateConstruct()
+        {
+            return _constructHelper.CanManipulateConstruct(_selectedConstruct);
+        }
+
         /// <summary>
         /// Removes the provided construct from canvas.
         /// </summary>
@@ -2659,8 +2680,6 @@ namespace Worldescape
 
         #endregion
 
-        #endregion
-
-      
+        #endregion      
     }
 }

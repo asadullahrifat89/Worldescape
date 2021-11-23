@@ -23,6 +23,14 @@ namespace Worldescape
 {
     public class ConstructHelper
     {
+        public bool CanManipulateConstruct(UIElement uIElement)
+        {
+            if (uIElement != null && ((Button)uIElement).Tag is Construct c && c.Creator.Id == App.User.Id)
+                return true;
+            else
+                return false;
+        }
+
         /// <summary>
         /// Performs opacity animation on the provided construct. Returns the callback onCompleted upon animation completion.
         /// </summary>
