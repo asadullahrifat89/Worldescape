@@ -163,7 +163,7 @@ namespace Worldescape
         private void ButtonWorld_Click(object sender, RoutedEventArgs e)
         {
             var world = ((Button)sender).Tag as World;
-            var result = MessageBox.Show("Would you like to teleport to this world?", $"Join {world.Name}", MessageBoxButton.OKCancel);
+            var result = MessageBox.Show("Would you like to go to this world?", $"Go to {world.Name}", MessageBoxButton.OKCancel);
 
             if (result == MessageBoxResult.OK)
             {
