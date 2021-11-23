@@ -45,7 +45,7 @@ namespace Worldescape
         private void ShowCharacters()
         {
             Title = "Select a Character";
-
+            
             var _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
                 Margin = new Thickness(5),

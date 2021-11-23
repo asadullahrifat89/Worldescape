@@ -61,4 +61,64 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--  Round TextBoxes  -->
+    <Style x:Key="MaterialDesign_RoundTextBox_Style" TargetType="TextBox">
+        <Setter Property="Height" Value="50" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="BorderBrush" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border>
+                        <Border
+                            x:Name="OuterBorder"
+                            Padding="12,7"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="LightGray"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding Path=Height, Converter={StaticResource DoubleToCornerRadiusConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter
+                                    Grid.Column="0"
+                                    Margin="2"
+                                    Content="{TemplateBinding Tag}" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Foreground="DarkGray"
+                                    Text="{TemplateBinding PlaceholderText}"
+                                    Visibility="{Binding Path=Text, Converter={StaticResource TextToPlaceholderTextVisibilityConverter}, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                <ContentPresenter
+                                    x:Name="ContentElement"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="OuterBorder" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{TemplateBinding BorderBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unfocused" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

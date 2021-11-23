@@ -15,6 +15,8 @@ namespace Worldescape
 
         #endregion
 
+        #region Ctor
+        
         public LoginPage()
         {
             InitializeComponent();
@@ -22,13 +24,19 @@ namespace Worldescape
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             CheckIfModelValid();
-        }
+        } 
+
+        #endregion
 
         #region Properties
 
         public LoginModel LoginModel { get; set; } = new LoginModel();
 
         #endregion
+
+        #region Methods
+        
+        #region Functionality
 
         private bool CheckIfModelValid()
         {
@@ -38,21 +46,6 @@ namespace Worldescape
                 Button_Login.IsEnabled = false;
 
             return Button_Login.IsEnabled;
-        }
-
-        private void Control_BindingValidationError(object sender, ValidationErrorEventArgs e)
-        {
-            CheckIfModelValid();
-        }
-
-        private void Control_LostFocus(object sender, RoutedEventArgs e)
-        {
-            CheckIfModelValid();
-        }
-
-        private async void Button_Login_Click(object sender, RoutedEventArgs e)
-        {
-            await Login();
         }
 
         private async Task Login()
@@ -96,17 +89,41 @@ namespace Worldescape
                 }
 
                 App.User = user;
-                App.InWorld = new InWorld() { Id = 786, Name = "Test World" }; // TODO: for the time time being demo world
+                //App.InWorld = new InWorld() { Id = 786, Name = "Test World" }; // TODO: for the time time being demo world
 
                 _mainPage.SetCurrentUserModel();
-                _mainPage.NavigateToPage("/InsideWorldPage");
+                //_mainPage.NavigateToPage("/InsideWorldPage");
+                _mainPage.NavigateToPage("/WorldsPage");
                 _mainPage.SetIsBusy(false);
             }
+        }
+
+        #endregion
+
+        #region Button Events
+
+        private async void Button_Login_Click(object sender, RoutedEventArgs e)
+        {
+            await Login();
         }
 
         private void Button_SignUp_Click(object sender, RoutedEventArgs e)
         {
             _mainPage.NavigateToPage("/SignupPage");
+        }
+
+        #endregion
+
+        #region UX Events
+
+        private void Control_BindingValidationError(object sender, ValidationErrorEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
+        private void Control_LostFocus(object sender, RoutedEventArgs e)
+        {
+            CheckIfModelValid();
         }
 
         private async void PasswordBox_Pasword_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
@@ -118,5 +135,9 @@ namespace Worldescape
                 await Login();
             }
         }
+
+        #endregion 
+
+        #endregion
     }
 }

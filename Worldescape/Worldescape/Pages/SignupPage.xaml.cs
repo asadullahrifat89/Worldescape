@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Worldescape.Data;
@@ -36,6 +37,8 @@ namespace Worldescape
 
         #region Methods
 
+        #region Functionality
+
         private bool CheckIfModelValid()
         {
             if (!SignUpModel.FirstName.IsNullOrBlank()
@@ -52,21 +55,13 @@ namespace Worldescape
             return Button_Signup.IsEnabled;
         }
 
-        private void Control_BindingValidationError(object sender, ValidationErrorEventArgs e)
+        private void NavigateToLoginPage()
         {
-            CheckIfModelValid();
+            _mainPage.NavigateToPage("/LoginPage");
         }
 
-        private void Control_LostFocus(object sender, RoutedEventArgs e)
+        private async Task SignUp()
         {
-            CheckIfModelValid();
-        }
-
-        private async void Button_Signup_Click(object sender, RoutedEventArgs e)
-        {
-            if (!CheckIfModelValid())
-                return;
-
             _mainPage.SetIsBusy(true, "Creating your account...");
             var command = new AddUserCommandRequest
             {
@@ -95,15 +90,40 @@ namespace Worldescape
             }
         }
 
+        #endregion
+
+        #region UX Events
+
+        private void Control_BindingValidationError(object sender, ValidationErrorEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
+        private void Control_LostFocus(object sender, RoutedEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
+        #endregion
+
+        #region Button Events
+        
+        private async void Button_Signup_Click(object sender, RoutedEventArgs e)
+        {
+            if (!CheckIfModelValid())
+                return;
+
+            await SignUp();
+        }
+
+        
+
         private void Button_Login_Click(object sender, RoutedEventArgs e)
         {
             NavigateToLoginPage();
-        }
+        } 
 
-        private void NavigateToLoginPage()
-        {
-            _mainPage.NavigateToPage("/LoginPage");
-        }
+        #endregion
 
         #endregion
     }

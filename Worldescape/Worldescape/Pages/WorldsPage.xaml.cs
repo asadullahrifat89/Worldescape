@@ -15,9 +15,42 @@ namespace Worldescape
 {
     public partial class WorldsPage : Page
     {
+        #region Ctor
+        
         public WorldsPage()
         {
             this.InitializeComponent();
         }
+
+        #endregion
+
+        #region Methods
+
+        #region Functionality
+
+
+
+        #endregion
+
+        #region Button Events
+
+        private void ButtonPreview_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonNext_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonCreateWorld_Click(object sender, RoutedEventArgs e)
+        {
+
+        } 
+
+        #endregion
+
+        #endregion
     }
 }
