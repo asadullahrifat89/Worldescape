@@ -339,8 +339,10 @@
                                 FontSize="18"
                                 FontWeight="SemiBold"
                                 Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                                TextAlignment="Center" />
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
 
+                            <!--  Appeared on  -->
                             <TextBlock
                                 FontSize="15"
                                 FontWeight="SemiBold"
@@ -355,7 +357,8 @@
                                 FontSize="15"
                                 FontWeight="SemiBold"
                                 Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                                TextAlignment="Center" />
+                                TextAlignment="Center"
+                                TextWrapping="Wrap" />
 
                         </StackPanel>
 

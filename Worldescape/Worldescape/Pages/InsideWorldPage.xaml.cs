@@ -907,7 +907,7 @@ namespace Worldescape
             {
                 DetailsImageHolder.Content = GetImageFromUiElement(_selectedConstruct);
                 DetailsNameHolder.Text = construct.Name;
-                DetailsDateHolder.Text = construct.CreatedOn.ToShortTimeString();
+                DetailsDateHolder.Text = $"{construct.CreatedOn.ToShortTimeString()} by {construct.Creator.Name}";
             }
         }
 
@@ -1459,7 +1459,7 @@ namespace Worldescape
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ButtonCloseSideCard_Click(object sender, RoutedEventArgs e)
-        {   
+        {
             SideCard.Visibility = Visibility.Collapsed;
         }
 
