@@ -78,12 +78,12 @@ namespace Worldescape
 
             var _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
-                Margin = new Thickness(20,5,20,5),
+                Margin = new Thickness(20,0,20,0),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
                 MinHeight = 600
             };
 
-            var size = 230;
+            var size = 220;
 
             foreach (var world in worlds)
             {
