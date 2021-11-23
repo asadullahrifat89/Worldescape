@@ -868,7 +868,7 @@ namespace Worldescape
         #region Connection
 
         /// <summary>
-        /// ConnectButton click event.
+        /// Initiates connection with Hub and login of the user into the Hub.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -906,10 +906,16 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Logs out and disconnects the current user from Hub.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void LeaveButton_Click(object sender, RoutedEventArgs e)
         {
             await HubService.Logout();
             await HubService.DisconnectAsync();
+            App.World = new World();
 
             _mainPage.NavigateToPage(Constants.Page_WorldsPage);
         }

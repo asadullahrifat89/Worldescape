@@ -76,7 +76,12 @@ namespace Worldescape
 
             var worlds = response.Worlds;
 
-            WorldsHolder.Children.Clear();
+            var _masonryPanel = new MasonryPanelWithProgressiveLoading()
+            {
+                Margin = new Thickness(5),
+                Style = Application.Current.Resources["Panel_Style"] as Style,
+                MinHeight = 600
+            };
 
             foreach (var world in worlds)
             {
@@ -107,8 +112,10 @@ namespace Worldescape
                 buttonWorld.Click += ButtonWorld_Click;
                 buttonWorld.Content = stackPanel;
 
-                WorldsHolder.Children.Add(buttonWorld);
+                _masonryPanel.Children.Add(buttonWorld);
             }
+
+            ContentScrollViewer.Content = _masonryPanel;
         }
 
         private async Task<GetWorldsCountQueryResponse> GetWorldsCount()
@@ -188,10 +195,19 @@ namespace Worldescape
 
         private void ButtonCreateWorld_Click(object sender, RoutedEventArgs e)
         {
-            WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow((world) =>
+            WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow(async (world) =>
             {
-                App.World = world;
-                _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
+                var result =  MessageBox.Show("Would you like to teleport to your created world now?", "Teleport", MessageBoxButton.OKCancel);
+
+                if (result == MessageBoxResult.OK)
+                {
+                    App.World = world;
+                    _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
+                }
+                else
+                {
+                    await ShowWorlds();
+                }
             });
             worldCreatorWindow.Show();
         }

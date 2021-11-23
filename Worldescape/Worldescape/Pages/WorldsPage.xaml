@@ -8,12 +8,15 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Margin="20" Orientation="Horizontal">
+        <StackPanel
+            Grid.Row="0"
+            Margin="20"
+            Orientation="Horizontal">
 
             <!--  Srach box for worlds  -->
             <TextBox
@@ -62,13 +65,12 @@
         </StackPanel>
 
         <!--  Loaded worlds  -->
-        <local:MasonryPanelWithProgressiveLoading
-            x:Name="WorldsHolder"
+        <ScrollViewer
+            x:Name="ContentScrollViewer"
             Grid.Row="2"
-            MinHeight="600"
-            Margin="20"
-            VerticalAlignment="Top"
-            Style="{StaticResource Panel_Style}" />
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto" />
+
 
         <StackPanel
             Grid.Row="3"
