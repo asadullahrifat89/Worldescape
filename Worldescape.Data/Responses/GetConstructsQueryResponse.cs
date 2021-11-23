@@ -4,7 +4,7 @@ using Worldescape.Data;
 
 namespace Worldescape.Data
 {
-    public class GetConstructsQueryResponse
+    public class GetConstructsQueryResponse : ServiceResponse
     {
         /// <summary>
         /// Count of total Constructs returned.

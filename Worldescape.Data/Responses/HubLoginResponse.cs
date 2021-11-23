@@ -4,6 +4,6 @@
     {
         public Avatar[] Avatars { get; set; }
 
-        public Construct[] Constructs { get; set; }
+        //public Construct[] Constructs { get; set; }
     }
 }

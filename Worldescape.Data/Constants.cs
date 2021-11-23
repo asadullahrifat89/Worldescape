@@ -82,6 +82,7 @@
         public const string Action_GetUser = "/api/Query/GetUser";
         public const string Action_GetWorlds = "/api/Query/GetWorlds";
         public const string Action_GetConstructs = "/api/Query/GetConstructs";
+        public const string Action_GetConstructsCount = "/api/Query/GetConstructsCount";
         public const string Action_GetAsset = "/api/Query/GetAsset";
 
         public const string Action_AddUser = "/api/Command/AddUser";

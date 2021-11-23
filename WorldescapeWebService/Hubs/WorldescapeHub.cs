@@ -75,7 +75,7 @@ namespace WorldescapeWebService
                 UpdateAvatarDisconnectionTime(avatar.Id, DateTime.Now);
 
                 var group = GetUsersGroup(avatar);
-                                
+
                 Clients.OthersInGroup(group).SendAsync(Constants.AvatarDisconnected, avatar.Id);
 
                 _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} OnDisconnectedAsync - {DateTime.Now} World: {group}");
@@ -142,13 +142,17 @@ namespace WorldescapeWebService
                 _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now} World: {group}");
 
                 // Find all constructs from the calling avatar's world
-                var constructs = GetConstructs(avatar.World.Id);
+                // var constructs = GetConstructs(avatar.World.Id);
 
                 // Find all avatars from the calling avatar's world
                 var avatars = ConcurrentAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
                 // Return the curated avatars and constructs
-                return new HubLoginResponse() { Avatars = avatars ?? new Avatar[] { }, Constructs = constructs ?? new Construct[] { } };
+                return new HubLoginResponse()
+                {
+                    Avatars = avatars ?? new Avatar[] { },
+                    //Constructs = constructs ?? new Construct[] { }
+                };
             }
             else
             {
@@ -167,15 +171,19 @@ namespace WorldescapeWebService
                 await Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedIn, avatar);
 
                 _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now} World: {group}");
-                Construct[]? constructs = GetConstructs(avatar.World.Id);
+                // Construct[]? constructs = GetConstructs(avatar.World.Id);
 
                 // Find all avatars from the calling avatar's world
                 var avatars = ConcurrentAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
                 // Return the curated avatars and constructs
-                return new HubLoginResponse() { Avatars = avatars ?? new Avatar[] { }, Constructs = constructs ?? new Construct[] { } };
+                return new HubLoginResponse()
+                {
+                    Avatars = avatars ?? new Avatar[] { },
+                    //Constructs = constructs ?? new Construct[] { }
+                };
             }
-        }      
+        }
 
         [HubMethodName(Constants.Logout)]
         public void Logout()
@@ -298,7 +306,7 @@ namespace WorldescapeWebService
             Avatar sender = GetCallingUser();
 
             var group = GetUsersGroup(sender);
-            
+
             Clients.OthersInGroup(group).SendAsync(Constants.AvatarBroadcastTyped, sender.Id);
 
             _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastTyping - {DateTime.Now} World: {group}");

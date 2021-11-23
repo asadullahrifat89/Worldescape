@@ -6,21 +6,21 @@ using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
-public class GetConstructsQueryHandler : IRequestHandler<GetConstructsQuery, GetConstructsQueryResponse>
+public class GetConstructsCountQueryHandler : IRequestHandler<GetConstructsCountQuery, GetConstructsCountQueryResponse>
 {
     #region Fields
 
-    private readonly ILogger<GetConstructsQueryHandler> _logger;
-    private readonly GetConstructsQueryValidator _validator;
+    private readonly ILogger<GetConstructsCountQueryHandler> _logger;
+    private readonly GetConstructsCountQueryValidator _validator;
     private readonly DatabaseService _databaseService;
 
     #endregion
 
     #region Ctor
 
-    public GetConstructsQueryHandler(
-        ILogger<GetConstructsQueryHandler> logger,
-        GetConstructsQueryValidator validator,
+    public GetConstructsCountQueryHandler(
+        ILogger<GetConstructsCountQueryHandler> logger,
+        GetConstructsCountQueryValidator validator,
         DatabaseService databaseService)
     {
         _logger = logger;
@@ -32,8 +32,8 @@ public class GetConstructsQueryHandler : IRequestHandler<GetConstructsQuery, Get
 
     #region Methods
 
-    public async Task<GetConstructsQueryResponse> Handle(
-        GetConstructsQuery request,
+    public async Task<GetConstructsCountQueryResponse> Handle(
+        GetConstructsCountQuery request,
         CancellationToken cancellationToken)
     {
         try
@@ -48,20 +48,12 @@ public class GetConstructsQueryHandler : IRequestHandler<GetConstructsQuery, Get
             // Count total number of documents for filter, front end will calculate max number of pages from it
             var count = await _databaseService.CountDocuments(filter);
 
-            // Get paginated data
-            var results = await _databaseService.GetDocuments(filter, skip: request.PageSize * request.PageIndex, limit: request.PageSize);
-
-            return new GetConstructsQueryResponse()
-            {
-                Count = count,
-                Constructs = results ?? Enumerable.Empty<Construct>(),
-                HttpStatusCode = System.Net.HttpStatusCode.OK,
-            };
+            return new GetConstructsCountQueryResponse() { Count = count, HttpStatusCode = System.Net.HttpStatusCode.OK };
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new GetConstructsQueryResponse() { HttpStatusCode = System.Net.HttpStatusCode.InternalServerError, Count = 0, Constructs = null, ExternalError = ex.Message };
+            return new GetConstructsCountQueryResponse() { Count = 0, HttpStatusCode = System.Net.HttpStatusCode.InternalServerError, ExternalError = ex.Message }; ;
         }
     }
 
