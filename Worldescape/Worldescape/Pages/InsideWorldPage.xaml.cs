@@ -1261,7 +1261,7 @@ namespace Worldescape
 
             if (((Button)_selectedAvatar).Tag is Avatar avatar)
             {
-                DetailsImageHolder.Content = _avatarHelper.GetAvatarUserPicture(avatar, 100);
+                DetailsImageHolder.Content = GetAvatarUserPicture(avatar, 100);
                 DetailsNameHolder.Text = avatar.Name;
                 DetailsDateHolder.Text = avatar.CreatedOn.ToShortTimeString();
                 SideCard.Visibility = Visibility.Visible;
@@ -1473,7 +1473,7 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Shows the selected avatar.
+        /// Shows the selected avatar with character and user images.
         /// </summary>
         /// <param name="uielement"></param>
         private void ShowSelectedAvatar(UIElement uielement)
@@ -1486,13 +1486,22 @@ namespace Worldescape
             else
             {
                 var taggedAvatar = ((Button)uielement).Tag as Avatar;
-                Border userImageHolder = GetAvatarUserPicture(taggedAvatar);
 
-                var avatarImage = GetImageFromUiElement(uielement);
+                var userImage = GetAvatarUserPicture(taggedAvatar);
+                var avatarImage = GetAvatarCharacterPicture(taggedAvatar);
 
-                StackPanel stackPanelContent = new StackPanel() { Orientation = Orientation.Horizontal };
-                stackPanelContent.Children.Add(userImageHolder);
+                StackPanel stackPanelContent = new StackPanel() { Orientation = Orientation.Vertical };
+
+                stackPanelContent.Children.Add(userImage);
                 stackPanelContent.Children.Add(avatarImage);
+                stackPanelContent.Children.Add(new TextBlock()
+                {
+                    FontSize = 18,
+                    FontWeight = FontWeights.SemiBold,
+                    TextAlignment = TextAlignment.Center,
+                    Text = taggedAvatar.User.Name,
+                    Margin = new Thickness(5)
+                });
 
                 SelectedAvatarHolder.Content = stackPanelContent;
                 SelectedAvatarHolder.Visibility = Visibility.Visible;
@@ -2096,9 +2105,19 @@ namespace Worldescape
         /// </summary>
         /// <param name="avatar"></param>
         /// <returns></returns>
-        private Border GetAvatarUserPicture(Avatar avatar)
+        private Border GetAvatarUserPicture(Avatar avatar, double size = 40)
         {
-            return _avatarHelper.GetAvatarUserPicture(avatar);
+            return _avatarHelper.GetAvatarUserPicture(avatar, size);
+        }
+
+        /// <summary>
+        /// Gets the character image as a circular border from the provided avatar.
+        /// </summary>
+        /// <param name="avatar"></param>
+        /// <returns></returns>
+        private Border GetAvatarCharacterPicture(Avatar avatar, double size = 40)
+        {
+            return _avatarHelper.GetAvatarCharacterPicture(avatar, size);
         }
 
         /// <summary>
@@ -2108,14 +2127,14 @@ namespace Worldescape
         {
             if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
             {
-                var oriBitmap = ((Image)((Button)iElement).Content).Source as BitmapImage;
+                //var oriBitmap = ((Image)((Button)iElement).Content).Source as BitmapImage;
 
-                var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
+                //var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
 
                 var avatar = _avatarHelper.GetTaggedAvatar(iElement);
 
                 MyAvatarButton.Tag = avatar;
-                AvatarImageHolder.Source = bitmap;
+                AvatarImageHolder.Content = GetAvatarCharacterPicture(avatar);
                 CurrentAvatarHolder.Visibility = Visibility.Visible;
                 AvatarNameHolder.Text = avatar.Character.Name.Replace("_", " ");
             }

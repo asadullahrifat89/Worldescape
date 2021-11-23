@@ -26,7 +26,37 @@ namespace Worldescape
             {
                 Height = size,
                 Width = size,
-                CornerRadius = new CornerRadius(30),
+                CornerRadius = new CornerRadius(40),
+                ClipToBounds = true,
+            };
+
+            Image userImage = new Image()
+            {
+                Source = bitmapImage,
+                Height = size,
+                Width = size,
+                Stretch = Stretch.UniformToFill,
+            };
+
+            imageBorder.Child = userImage;
+            return imageBorder;
+        }
+
+        /// <summary>
+        /// Gets the character image in a circular border from the provided avatar.
+        /// </summary>
+        /// <param name="avatar"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public Border GetAvatarCharacterPicture(Avatar avatar, double size = 40)
+        {
+            var bitmapImage = new BitmapImage(new Uri(avatar.Character.ImageUrl));
+
+            var imageBorder = new Border()
+            {
+                Height = size,
+                Width = size,
+                CornerRadius = new CornerRadius(40),
                 ClipToBounds = true,
             };
 

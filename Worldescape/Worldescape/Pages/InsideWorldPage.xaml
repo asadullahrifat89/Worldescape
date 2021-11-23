@@ -66,7 +66,7 @@
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <!--  AvatarImageHolder  -->
-                        <Border
+                        <!--<Border
                             Width="40"
                             Height="40"
                             Margin="5,0"
@@ -77,7 +77,13 @@
                                 Width="40"
                                 Height="40"
                                 Stretch="UniformToFill" />
-                        </Border>
+                        </Border>-->
+
+                        <ContentControl
+                            x:Name="AvatarImageHolder"
+                            Margin="5,0"
+                            FontWeight="SemiBold" />
+
                         <!--  AvatarName  -->
                         <TextBlock
                             x:Name="AvatarNameHolder"
@@ -180,7 +186,7 @@
                     <!--  Selected avatar image, shows the selected avatar's profile picture and character picture  -->
                     <Button
                         x:Name="SelectedAvatarHolder"
-                        Height="100"
+                        Height="140"
                         Margin="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
