@@ -17,6 +17,14 @@
 		<ApplicationDefinition Include="App.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</ApplicationDefinition>
+		<Content Include="Images\Defaults\World_1.jpeg" />
+		<Content Include="Images\Defaults\World_2.jpeg" />
+		<Content Include="Images\Defaults\World_3.jpeg" />
+		<Content Include="Images\Defaults\World_4.jpeg" />
+		<Content Include="Images\Defaults\World_5.jpeg" />
+		<Content Include="Images\Defaults\World_6.jpeg" />
+		<Content Include="Images\Defaults\World_7.jpeg" />
+		<Content Include="Images\Defaults\World_8.jpeg" />
 		<Content Include="Windows\ConstructAssetPickerWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
