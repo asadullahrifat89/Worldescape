@@ -1,6 +1,6 @@
 ﻿namespace Worldescape.Data
 {
-    public class GetConstructsCountQueryResponse: ServiceResponse
+    public class GetWorldsCountQueryResponse: ServiceResponse
     {
         /// <summary>
         /// Count of total Constructs returned.

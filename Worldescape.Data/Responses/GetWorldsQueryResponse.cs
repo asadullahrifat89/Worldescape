@@ -4,7 +4,7 @@ using Worldescape.Data;
 
 namespace Worldescape.Data
 {
-    public class GetWorldsQueryResponse
+    public class GetWorldsQueryResponse : ServiceResponse
     {
         /// <summary>
         /// Count of total worlds returned.

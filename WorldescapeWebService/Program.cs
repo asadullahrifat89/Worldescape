@@ -95,6 +95,15 @@ app.MapGet(Constants.Action_GetConstructsCount, async (string token, int worldId
     });
 }).WithName(Constants.GetActionName(Constants.Action_GetConstructsCount));
 
+app.MapGet(Constants.Action_GetWorldsCount, async (string token, string searchString, IMediator mediator) =>
+{
+    return await mediator.Send(new GetWorldsCountQuery()
+    {
+        Token = token,
+        SearchString = searchString
+    });
+}).WithName(Constants.GetActionName(Constants.Action_GetWorldsCount));
+
 app.MapGet(Constants.Action_GetAsset, async (string token, string fileName, IMediator mediator) =>
 {
     byte[] file = await mediator.Send(new GetAssetQuery()

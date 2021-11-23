@@ -6,21 +6,21 @@ using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
-public class GetWorldsQueryHandler : IRequestHandler<GetWorldsQuery, GetWorldsQueryResponse>
+public class GetWorldsCountQueryHandler : IRequestHandler<GetWorldsCountQuery, GetWorldsCountQueryResponse>
 {
     #region Fields
 
-    private readonly ILogger<GetWorldsQueryHandler> _logger;
-    private readonly GetWorldsQueryValidator _validator;
+    private readonly ILogger<GetWorldsCountQueryHandler> _logger;
+    private readonly GetWorldsCountQueryValidator _validator;
     private readonly DatabaseService _databaseService;
 
     #endregion
 
     #region Ctor
 
-    public GetWorldsQueryHandler(
-        ILogger<GetWorldsQueryHandler> logger,
-        GetWorldsQueryValidator validator,
+    public GetWorldsCountQueryHandler(
+        ILogger<GetWorldsCountQueryHandler> logger,
+        GetWorldsCountQueryValidator validator,
         DatabaseService databaseService)
     {
         _logger = logger;
@@ -32,8 +32,8 @@ public class GetWorldsQueryHandler : IRequestHandler<GetWorldsQuery, GetWorldsQu
 
     #region Methods
 
-    public async Task<GetWorldsQueryResponse> Handle(
-        GetWorldsQuery request,
+    public async Task<GetWorldsCountQueryResponse> Handle(
+        GetWorldsCountQuery request,
         CancellationToken cancellationToken)
     {
         try
@@ -49,20 +49,16 @@ public class GetWorldsQueryHandler : IRequestHandler<GetWorldsQuery, GetWorldsQu
             // Count total number of documents for filter, front end will calculate max number of pages from it
             var count = await _databaseService.CountDocuments(filter);
 
-            // Get paginated data
-            var results = await _databaseService.GetDocuments(filter, skip: request.PageSize * request.PageIndex, limit: request.PageSize);
-
-            return new GetWorldsQueryResponse()
+            return new GetWorldsCountQueryResponse()
             {
                 Count = count,
-                Worlds = results ?? Enumerable.Empty<World>(),
                 HttpStatusCode = System.Net.HttpStatusCode.OK,
             };
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new GetWorldsQueryResponse() { HttpStatusCode = System.Net.HttpStatusCode.InternalServerError, ExternalError = ex.Message };
+            return new GetWorldsCountQueryResponse() { Count = 0, HttpStatusCode = System.Net.HttpStatusCode.InternalServerError, ExternalError = ex.Message };
         }
     }
 

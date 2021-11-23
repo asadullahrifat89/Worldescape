@@ -19,7 +19,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Requests\" />
 		<Folder Include="Responses\Hubs\" />
 		<Folder Include="Responses\Queries\" />
 	</ItemGroup>
