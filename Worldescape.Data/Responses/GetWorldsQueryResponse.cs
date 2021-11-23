@@ -1,11 +1,13 @@
-﻿using Worldescape.Data;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Worldescape.Data;
 
-namespace WorldescapeWebService.Core
+namespace Worldescape.Data
 {
     public class GetWorldsQueryResponse
     {
         /// <summary>
-        /// Count of the worlds returned.
+        /// Count of total worlds returned.
         /// </summary>
         public long? Count { get; set; }
 
