@@ -128,6 +128,14 @@ namespace Worldescape.Database
             return result != null;
         }
 
+        public async Task<bool> UpsertById<T>(T document, int id)
+        {
+            var filter = Builders<T>.Filter.Eq("Id", id);
+            var collection = GetCollection<T>();
+            var result = await collection.ReplaceOneAsync(filter, document, new ReplaceOptions() { IsUpsert = true });
+            return result != null && result.IsAcknowledged;
+        }
+
         #endregion
 
         #endregion

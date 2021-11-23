@@ -40,7 +40,7 @@ public class AddConstructCommandHandler : IRequestHandler<AddConstructCommand, C
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             validationResult.EnsureValidResult();
 
-            if (await _databaseService.InsertDocument(request.Construct))
+            if (await _databaseService.UpsertById(request.Construct, request.Construct.Id))
             {
                 return await _databaseService.FindById<Construct>(request.Construct.Id);
             }
