@@ -886,6 +886,20 @@ namespace Worldescape
 
         #region Construct
 
+        private void ConstructDetailsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedConstruct == null)
+                return;
+
+            if (((Button)_selectedConstruct).Tag is Construct construct)
+            {
+                DetailsImageHolder.Content = GetImageFromUiElement(_selectedConstruct);
+                DetailsNameHolder.Text = construct.Name;
+                DetailsDateHolder.Text = construct.CreatedOn.ToShortTimeString();
+                SideCard.Visibility = Visibility.Visible;
+            }
+        }
+
         /// <summary>
         /// Activates multi selection of clicked constructs.
         /// </summary>
@@ -1434,22 +1448,16 @@ namespace Worldescape
             {
                 SelectedConstructHolder.Content = null;
                 SelectedConstructHolder.Visibility = Visibility.Collapsed;
+                ConstructDetailsButton.Visibility = Visibility.Collapsed;
             }
             else
             {
                 var construct = ((Button)uielement).Tag as Construct;
-                var image = GetImageFromUiElement(uielement);
-
-                //StackPanel stackPanelContent = new StackPanel();
-                //stackPanelContent.Children.Add(image);
-                //stackPanelContent.Children.Add(new TextBlock()
-                //{
-                //    Text = $"{construct.Creator.Name}\n{construct.CreatedOn.ToString("dd-MM-yyyy hh:mm tt")}",
-                //    TextAlignment = TextAlignment.Center,
-                //});
+                var image = GetImageFromUiElement(uielement);               
 
                 SelectedConstructHolder.Content = image;
                 SelectedConstructHolder.Visibility = Visibility.Visible;
+                ConstructDetailsButton.Visibility= Visibility.Visible;
             }
         }
 
@@ -1724,7 +1732,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="uielement"></param>
         /// <returns></returns>
-        private Image GetImageFromUiElement(UIElement uielement)
+        private Image GetImageFromUiElement(UIElement uielement, double size = 50)
         {
             var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
 
@@ -1734,9 +1742,8 @@ namespace Worldescape
             {
                 Source = bitmap,
                 Stretch = Stretch.Uniform,
-                Height = 50,
-                Width = 50,
-                //Margin = new Thickness(3)
+                Height = size,
+                Width = size,
             };
 
             return img;
@@ -2644,5 +2651,7 @@ namespace Worldescape
         #endregion
 
         #endregion
+
+
     }
 }
