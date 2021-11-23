@@ -80,10 +80,6 @@ namespace Worldescape
 
         List<Character> Characters { get; set; } = new List<Character>();
 
-        //InWorld InWorld { get; set; } = new InWorld();
-
-        //User User { get; set; } = new User();
-
         Avatar Avatar { get; set; } = null;
 
         Character Character { get; set; } = new Character();
