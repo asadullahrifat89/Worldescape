@@ -35,6 +35,8 @@ namespace Worldescape
 
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+
+            ShowWorlds();
         }
 
         #endregion
@@ -96,19 +98,6 @@ namespace Worldescape
             }
         }
 
-        private void ButtonWorld_Click(object sender, RoutedEventArgs e)
-        {
-            var world = ((Button)sender).Tag as World;
-            var result = MessageBox.Show("Would you like to teleport to this world?", $"Join {world.Name}", MessageBoxButton.OKCancel);
-
-            if (result == MessageBoxResult.OK)
-            {
-                App.InWorld = new InWorld { Id = world.Id, Name = world.Name };
-
-                _mainPage.NavigateToPage("/InsideWorldPage");
-            }
-        }
-
         private async Task<GetWorldsCountQueryResponse> GetWorldsCount()
         {
 
@@ -135,6 +124,19 @@ namespace Worldescape
         #endregion
 
         #region Button Events
+
+        private void ButtonWorld_Click(object sender, RoutedEventArgs e)
+        {
+            var world = ((Button)sender).Tag as World;
+            var result = MessageBox.Show("Would you like to teleport to this world?", $"Join {world.Name}", MessageBoxButton.OKCancel);
+
+            if (result == MessageBoxResult.OK)
+            {
+                App.InWorld = new InWorld { Id = world.Id, Name = world.Name };
+
+                _mainPage.NavigateToPage("/InsideWorldPage");
+            }
+        }
 
         private async void ButtonPreview_Click(object sender, RoutedEventArgs e)
         {

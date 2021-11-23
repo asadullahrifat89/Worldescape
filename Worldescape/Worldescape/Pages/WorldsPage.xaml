@@ -39,7 +39,7 @@
 
         </StackPanel>
 
-        <StackPanel Grid.Row="1">
+        <StackPanel Grid.Row="1" Margin="20,0">
 
             <TextBlock
                 x:Name="FoundWorldsCountHolder"
@@ -59,7 +59,7 @@
             VerticalAlignment="Stretch"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
-            Style="{StaticResource MaterialDesign_Card_Style}" />
+            Style="{StaticResource Panel_Style}" />
 
         <StackPanel
             Grid.Row="3"
