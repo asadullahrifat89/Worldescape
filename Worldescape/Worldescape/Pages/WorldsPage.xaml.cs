@@ -30,7 +30,7 @@ namespace Worldescape
 
         readonly MainPage _mainPage;
         readonly HttpServiceHelper _httpServiceHelper;
-
+        readonly WorldHelper _worldHelper;
         #endregion
 
         #region Ctor
@@ -41,7 +41,7 @@ namespace Worldescape
 
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-
+            _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
             ShowWorlds();
         }
 
@@ -80,38 +80,29 @@ namespace Worldescape
 
             foreach (var world in worlds)
             {
-                var uri = world.ImageUrl;
+                var img = _worldHelper.GetWorldPicture(world: world, size: 300);
 
-                //world.ImageUrl = uri;
+                img.Margin = new Thickness(10,15,10,10);
 
-                var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
-
-                var img = new Image()
+                var stackPanel = new StackPanel() { Margin = new Thickness(10) };
+                stackPanel.Children.Add(img);
+                stackPanel.Children.Add(new TextBlock()
                 {
-                    Source = bitmap,
-                    Stretch = Stretch.UniformToFill,
-                    Height = 200,
-                    Width = 300
-                };
+                    FontSize = 20,
+                    FontWeight = FontWeights.SemiBold,
+                    TextAlignment = TextAlignment.Center,
+                    Text = world.Name,
+                    Margin = new Thickness(5,5,5,0),
+                });
 
                 var buttonWorld = new Button()
                 {
                     Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                    //Height = 200,
-                    //Width = 300,
+                    Height = 300,
+                    Width = 300,
                     Margin = new Thickness(5),
                     Tag = world,
-                };
-
-                StackPanel stackPanel = new StackPanel();
-                stackPanel.Children.Add(img);
-                stackPanel.Children.Add(new TextBlock()
-                {
-                    FontSize = 18,
-                    FontWeight = FontWeights.SemiBold,
-                    Text = world.Name,
-                    Margin = new Thickness(5),
-                });
+                };               
 
                 buttonWorld.Click += ButtonWorld_Click;
                 buttonWorld.Content = stackPanel;
@@ -146,6 +137,11 @@ namespace Worldescape
         #endregion
 
         #region Button Events
+
+        private async void ButtonSearchWorld_Click(object sender, RoutedEventArgs e)
+        {
+            await ShowWorlds();
+        }
 
         private void ButtonWorld_Click(object sender, RoutedEventArgs e)
         {

@@ -27,7 +27,7 @@ namespace Worldescape
 
         Action<ConstructAsset> _assetSelected;
 
-        readonly AssetUrlHelper _assetUriHelper;
+        readonly AssetUrlHelper _assetUriHelper;        
 
         #endregion
 
@@ -47,6 +47,7 @@ namespace Worldescape
             _assetSelected = assetSelected;
 
             ShowConstructCategories();
+
         }
         #endregion
 
@@ -124,7 +125,7 @@ namespace Worldescape
 
                 var buttonConstructAsset = new Button()
                 {
-                    Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,                    
+                    Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
                     Height = 100,
                     Width = 100,
                     Margin = new Thickness(3),

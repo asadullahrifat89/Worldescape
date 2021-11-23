@@ -26,6 +26,17 @@
                 Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
                 TextAlignment="Left" />
 
+            <!--  Search worlds  -->
+            <Button
+                x:Name="ButtonSearchWorld"
+                Grid.Column="1"
+                Width="120"
+                Margin="10,0"
+                Click="ButtonSearchWorld_Click"
+                Content="Search"
+                FontSize="16"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
             <!--  Create world  -->
             <Button
                 x:Name="ButtonCreateWorld"
@@ -56,10 +67,7 @@
             Grid.Row="2"
             MinHeight="600"
             Margin="20"
-            HorizontalAlignment="Stretch"
             VerticalAlignment="Top"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            ScrollViewer.VerticalScrollBarVisibility="Auto"
             Style="{StaticResource Panel_Style}" />
 
         <StackPanel
