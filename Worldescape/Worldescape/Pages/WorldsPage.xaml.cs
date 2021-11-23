@@ -132,7 +132,7 @@ namespace Worldescape
 
             if (result == MessageBoxResult.OK)
             {
-                App.InWorld = new InWorld { Id = world.Id, Name = world.Name };
+                App.World = world;
                 _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
             }
         }
@@ -172,7 +172,7 @@ namespace Worldescape
         {
             WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow((world) =>
             {
-                App.InWorld = new InWorld { Id = world.Id, Name = world.Name };
+                App.World = world;
                 _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
             });
             worldCreatorWindow.Show();

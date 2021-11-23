@@ -158,7 +158,7 @@ namespace Worldescape
                     Name = name,
                     ImageUrl = uri,
                     Creator = creator ?? new Creator() { Id = App.User.Id, Name = App.User.Name, ImageUrl = App.User.ImageUrl },
-                    World = inWorld ?? new InWorld() { Id = App.InWorld.Id, Name = App.InWorld.Name }
+                    World = inWorld ?? new InWorld() { Id = App.World.Id, Name = App.World.Name }
                 }
             };
 

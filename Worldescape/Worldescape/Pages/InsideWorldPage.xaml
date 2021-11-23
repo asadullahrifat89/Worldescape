@@ -46,6 +46,37 @@
                 FontSize="20"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
+            <!--  World  -->
+            <Button
+                x:Name="WorldButton"
+                MinWidth="100"
+                Click="WorldButton_Click"
+                FontSize="15"
+                FontWeight="Semibold"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}"
+                Visibility="Collapsed">
+
+                <Button.Content>
+                    <StackPanel Orientation="Horizontal">
+
+                        <!--  WorldImage  -->
+                        <ContentControl
+                            x:Name="WorldImageHolder"
+                            Margin="5,0"
+                            FontWeight="SemiBold" />
+
+                        <!--  WorldName  -->
+                        <TextBlock
+                            x:Name="WorldNameHolder"
+                            Margin="5,0,10,0"
+                            VerticalAlignment="Center" />
+
+                    </StackPanel>
+                </Button.Content>
+
+            </Button>
+
+            <!--  Leave  -->
             <Button
                 x:Name="LeaveButton"
                 MinWidth="110"
@@ -53,7 +84,9 @@
                 Click="LeaveButton_Click"
                 Content="Leave"
                 FontSize="20"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                Style="{StaticResource MaterialDesign_RoundButton_Style}"
+                Visibility="Collapsed" />
+
 
         </StackPanel>
 

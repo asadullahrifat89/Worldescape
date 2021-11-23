@@ -55,6 +55,7 @@ namespace Worldescape
         readonly MainPage _mainPage;
         readonly AvatarHelper _avatarHelper;
         readonly ConstructHelper _constructHelper;
+        readonly WorldHelper _worldHelper;
         readonly HttpServiceHelper _httpServiceHelper;
 
         #endregion
@@ -69,6 +70,7 @@ namespace Worldescape
             _assetUriHelper = App.ServiceProvider.GetService(typeof(AssetUrlHelper)) as AssetUrlHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             _avatarHelper = App.ServiceProvider.GetService(typeof(AvatarHelper)) as AvatarHelper;
+            _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
             _constructHelper = App.ServiceProvider.GetService(typeof(ConstructHelper)) as ConstructHelper;
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
 
@@ -854,6 +856,15 @@ namespace Worldescape
 
         #region Button Events
 
+        #region World
+
+        private void WorldButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        #endregion
+
         #region Connection
 
         /// <summary>
@@ -1595,6 +1606,22 @@ namespace Worldescape
 
         #region Functionality
 
+        #region World
+
+        private void ShowCurrentWorld()
+        {
+            if (!App.World.IsEmpty())
+            {
+                WorldButton.Tag = App.World;
+                WorldButton.Visibility = Visibility.Visible;
+                WorldImageHolder.Content = GetWorldPicture(App.World);                
+                WorldNameHolder.Text = App.World.Name;
+                LeaveButton.Visibility = Visibility.Visible;
+            }
+        }
+
+        #endregion
+
         #region Hub Login
 
         public async Task ConnectWithHubThenLogin()
@@ -1698,6 +1725,7 @@ namespace Worldescape
 
                         // Set connected user's avatar image
                         ShowCurrentUserAvatar();
+                        ShowCurrentWorld();
                         return true;
                     }
                     else
@@ -1731,7 +1759,7 @@ namespace Worldescape
             // Get constructs count for this world
             var countResponse = await _httpServiceHelper.SendGetRequest<GetConstructsCountQueryResponse>(
                 actionUri: Constants.Action_GetConstructsCount,
-                payload: new GetConstructsCountQueryRequest() { Token = App.Token, WorldId = App.InWorld.Id });
+                payload: new GetConstructsCountQueryRequest() { Token = App.Token, WorldId = App.World.Id });
 
             if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
             {
@@ -1750,7 +1778,7 @@ namespace Worldescape
                     // Get constructs in small packets
                     var response = await _httpServiceHelper.SendGetRequest<GetConstructsQueryResponse>(
                         actionUri: Constants.Action_GetConstructs,
-                        payload: new GetConstructsQueryRequest() { Token = App.Token, PageIndex = i, PageSize = pageSize, WorldId = App.InWorld.Id });
+                        payload: new GetConstructsQueryRequest() { Token = App.Token, PageIndex = i, PageSize = pageSize, WorldId = App.World.Id });
 
                     if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
                     {
@@ -2173,7 +2201,7 @@ namespace Worldescape
                     Phone = App.User.Phone,
                 },
                 Character = Character,
-                World = App.InWorld,
+                World = new InWorld { Id = App.World.Id, Name = App.World.Name },
                 Coordinate = new Coordinate(x: (Window.Current.Bounds.Width / 2) - 50, y: (Window.Current.Bounds.Height / 2) - 100, z: new Random().Next(100, 999)),
                 ImageUrl = Character.ImageUrl,
             };
@@ -2208,6 +2236,14 @@ namespace Worldescape
             }
 
             ConstructCraftingButtonsHolder.Visibility = CanPerformWorldEvents() ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        #endregion
+
+        #region World
+        private Border GetWorldPicture(World world, double size = 40)
+        {
+            return _worldHelper.GetWorldPicture(world: world, size: size);
         }
 
         #endregion
@@ -2769,5 +2805,7 @@ namespace Worldescape
         #endregion
 
         #endregion
+
+       
     }
 }

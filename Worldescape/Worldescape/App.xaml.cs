@@ -21,8 +21,7 @@ namespace Worldescape
             ServiceCollection services = new ServiceCollection();
             ConfigureServices(services);
             ServiceProvider = services.BuildServiceProvider();
-
-            //var mainPage = new MainPage();
+                        
             _mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             Window.Current.Content = _mainPage;
 
@@ -42,7 +41,7 @@ namespace Worldescape
 
         public static User User { get; set; } = new User();
 
-        public static InWorld InWorld { get; set; } = new InWorld();
+        public static World World { get; set; } = new World();
 
         public static string Token { get; set; } = string.Empty;
 
@@ -63,12 +62,10 @@ namespace Worldescape
             services.AddSingleton<HttpServiceHelper>();
             services.AddSingleton<AvatarHelper>();
             services.AddSingleton<ConstructHelper>();
+            services.AddSingleton<WorldHelper>();
 
             // Pages
             services.AddSingleton<MainPage>();
-            //services.AddSingleton<InsideWorldPage>();
-            //services.AddSingleton<LoginPage>();
-            //services.AddSingleton<SignupPage>();
         }
 
         private void App_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
