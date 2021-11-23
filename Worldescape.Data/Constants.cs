@@ -92,5 +92,14 @@
         public const string Action_UpdateWorld = "/api/Command/UpdateWorld";
 
         #endregion
+
+        #region Pages
+
+        public const string Page_InsideWorldPage = "/InsideWorldPage";
+        public const string Page_LoginPage = "/LoginPage";
+        public const string Page_SignupPage = "/SignupPage";
+        public const string Page_WorldsPage = "/WorldsPage";
+
+        #endregion
     }
 }

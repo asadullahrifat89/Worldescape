@@ -26,7 +26,7 @@ namespace Worldescape
             _mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             Window.Current.Content = _mainPage;
 
-            _mainPage.NavigateToPage("/LoginPage");
+            _mainPage.NavigateToPage(Constants.Page_LoginPage);
         }
 
         private void App_Startup(object sender, StartupEventArgs e)

@@ -895,6 +895,14 @@ namespace Worldescape
             }
         }
 
+        private async void LeaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            await HubService.Logout();
+            await HubService.DisconnectAsync();
+
+            _mainPage.NavigateToPage(Constants.Page_WorldsPage);
+        }
+
         #endregion
 
         #region Construct
@@ -2760,6 +2768,6 @@ namespace Worldescape
 
         #endregion
 
-        #endregion      
+        #endregion
     }
 }

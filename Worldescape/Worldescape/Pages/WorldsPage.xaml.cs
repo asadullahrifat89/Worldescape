@@ -85,9 +85,9 @@ namespace Worldescape
                 var buttonWorld = new Button()
                 {
                     Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                    Width = 100,
-                    Height = 100,
-                    Margin = new Thickness(3),
+                    Width = 300,
+                    Height = 200,
+                    Margin = new Thickness(5),
                     Tag = item,
                 };
 
@@ -133,8 +133,7 @@ namespace Worldescape
             if (result == MessageBoxResult.OK)
             {
                 App.InWorld = new InWorld { Id = world.Id, Name = world.Name };
-
-                _mainPage.NavigateToPage("/InsideWorldPage");
+                _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
             }
         }
 
@@ -171,7 +170,12 @@ namespace Worldescape
 
         private void ButtonCreateWorld_Click(object sender, RoutedEventArgs e)
         {
-
+            WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow((world) =>
+            {
+                App.InWorld = new InWorld { Id = world.Id, Name = world.Name };
+                _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
+            });
+            worldCreatorWindow.Show();
         }
 
         #endregion

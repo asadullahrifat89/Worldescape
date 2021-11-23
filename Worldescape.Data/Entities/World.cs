@@ -9,5 +9,10 @@
         /// The User who created this world.
         /// </summary>
         public Creator Creator { get; set; } = new Creator();
+
+        public new bool IsEmpty()
+        {
+            return Name.IsNullOrBlank() && (Creator == null || Creator.Id <= 0);
+        }
     }
 }

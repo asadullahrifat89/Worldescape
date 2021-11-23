@@ -14,7 +14,6 @@ public class AddWorldCommandValidator : AbstractValidator<AddWorldCommand>
         RuleFor(x => x.Token).MustAsync(BeValidApiToken);
 
         RuleFor(x => x.Name).NotNull().NotEmpty();
-        RuleFor(x => x.ImageUrl).NotNull().NotEmpty();
     }
 
     private Task<bool> BeValidApiToken(string token, CancellationToken arg2)

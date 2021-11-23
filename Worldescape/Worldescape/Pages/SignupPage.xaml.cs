@@ -57,7 +57,7 @@ namespace Worldescape
 
         private void NavigateToLoginPage()
         {
-            _mainPage.NavigateToPage("/LoginPage");
+            _mainPage.NavigateToPage(Constants.Page_LoginPage);
         }
 
         private async Task SignUp()

@@ -16,7 +16,7 @@ namespace Worldescape
         #endregion
 
         #region Ctor
-        
+
         public LoginPage()
         {
             InitializeComponent();
@@ -24,7 +24,7 @@ namespace Worldescape
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             CheckIfModelValid();
-        } 
+        }
 
         #endregion
 
@@ -35,7 +35,7 @@ namespace Worldescape
         #endregion
 
         #region Methods
-        
+
         #region Functionality
 
         private bool CheckIfModelValid()
@@ -89,11 +89,9 @@ namespace Worldescape
                 }
 
                 App.User = user;
-                //App.InWorld = new InWorld() { Id = 786, Name = "Test World" }; // TODO: for the time time being demo world
 
                 _mainPage.SetCurrentUserModel();
-                //_mainPage.NavigateToPage("/InsideWorldPage");
-                _mainPage.NavigateToPage("/WorldsPage");
+                _mainPage.NavigateToPage(Constants.Page_WorldsPage);
                 _mainPage.SetIsBusy(false);
             }
         }
@@ -109,7 +107,7 @@ namespace Worldescape
 
         private void Button_SignUp_Click(object sender, RoutedEventArgs e)
         {
-            _mainPage.NavigateToPage("/SignupPage");
+            _mainPage.NavigateToPage(Constants.Page_SignupPage);
         }
 
         #endregion

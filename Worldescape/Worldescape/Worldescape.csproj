@@ -91,6 +91,9 @@
 		<Page Include="Styles\Styles.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
+		<Content Include="Windows\WorldCreatorWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -112,6 +115,7 @@
 		<Compile Include="Converters\AccentColorConverter.cs" />
 		<Compile Include="Converters\DoubleToCornerRadiusConverter.cs" />
 		<Compile Include="Converters\TextToPlaceholderTextVisibilityConverter.cs" />
+		<Compile Include="Windows\WorldCreatorWindow.xaml.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
