@@ -66,10 +66,12 @@
                     Margin="10,5,10,10"
                     BindingValidationError="Control_BindingValidationError"
                     FontSize="16"
+                    KeyDown="PasswordBox_Pasword_KeyDown"
                     LostFocus="Control_LostFocus"
                     Password="{Binding Password, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
                     Style="{StaticResource MaterialDesign_PasswordBox_Style}" />
 
+                <!--  Login  -->
                 <Button
                     x:Name="Button_Login"
                     Margin="10"
@@ -78,6 +80,7 @@
                     FontSize="16"
                     Style="{StaticResource MaterialDesign_Button_Style}" />
 
+                <!--  Signup  -->
                 <Button
                     x:Name="Button_SignUp"
                     Margin="10"

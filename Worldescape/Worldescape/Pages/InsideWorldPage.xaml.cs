@@ -888,6 +888,11 @@ namespace Worldescape
 
         private void ConstructDetailsButton_Click(object sender, RoutedEventArgs e)
         {
+            ShowConstructDetailsOnSideCard();
+        }
+
+        private void ShowConstructDetailsOnSideCard()
+        {
             if (_selectedConstruct == null)
                 return;
 
@@ -1270,6 +1275,11 @@ namespace Worldescape
         /// <param name="e"></param>
         private void AvatarDetailsButton_Click(object sender, RoutedEventArgs e)
         {
+            ShowAvatarDetailsOnSideCard();
+        }
+
+        private void ShowAvatarDetailsOnSideCard()
+        {
             if (_selectedAvatar == null)
                 return;
 
@@ -1452,12 +1462,17 @@ namespace Worldescape
             }
             else
             {
-                var construct = ((Button)uielement).Tag as Construct;
-                var image = GetImageFromUiElement(uielement);               
+                //var construct = ((Button)uielement).Tag as Construct;
+                var image = GetImageFromUiElement(uielement, 70);
 
                 SelectedConstructHolder.Content = image;
                 SelectedConstructHolder.Visibility = Visibility.Visible;
-                ConstructDetailsButton.Visibility= Visibility.Visible;
+                ConstructDetailsButton.Visibility = Visibility.Visible;
+
+                if (SideCard.Visibility == Visibility.Visible)
+                {
+                    ShowConstructDetailsOnSideCard();
+                }
             }
         }
 
@@ -1502,17 +1517,23 @@ namespace Worldescape
 
                 stackPanelContent.Children.Add(userImage);
                 stackPanelContent.Children.Add(avatarImage);
-                stackPanelContent.Children.Add(new TextBlock()
-                {
-                    FontSize = 18,
-                    FontWeight = FontWeights.SemiBold,
-                    TextAlignment = TextAlignment.Center,
-                    Text = taggedAvatar.User.Name,
-                    Margin = new Thickness(5)
-                });
+
+                //stackPanelContent.Children.Add(new TextBlock()
+                //{
+                //    FontSize = 18,
+                //    FontWeight = FontWeights.SemiBold,
+                //    TextAlignment = TextAlignment.Center,
+                //    Text = taggedAvatar.User.Name,
+                //    Margin = new Thickness(5)
+                //});
 
                 SelectedAvatarHolder.Content = stackPanelContent;
                 SelectedAvatarHolder.Visibility = Visibility.Visible;
+
+                if (SideCard.Visibility == Visibility.Visible)
+                {
+                    ShowAvatarDetailsOnSideCard();
+                }
             }
         }
 
@@ -1732,7 +1753,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="uielement"></param>
         /// <returns></returns>
-        private Image GetImageFromUiElement(UIElement uielement, double size = 50)
+        private Image GetImageFromUiElement(UIElement uielement, double size = 50, Stretch stretch = Stretch.Uniform)
         {
             var oriBitmap = ((Image)((Button)uielement).Content).Source as BitmapImage;
 
@@ -1741,7 +1762,7 @@ namespace Worldescape
             var img = new Image()
             {
                 Source = bitmap,
-                Stretch = Stretch.Uniform,
+                Stretch = stretch,
                 Height = size,
                 Width = size,
             };

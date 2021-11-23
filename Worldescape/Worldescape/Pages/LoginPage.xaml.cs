@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Worldescape.Data;
 using Worldescape.Service;
@@ -51,6 +52,11 @@ namespace Worldescape
 
         private async void Button_Login_Click(object sender, RoutedEventArgs e)
         {
+            await Login();
+        }
+
+        private async Task Login()
+        {
             if (!CheckIfModelValid())
                 return;
 
@@ -91,7 +97,7 @@ namespace Worldescape
 
                 App.User = user;
                 App.InWorld = new InWorld() { Id = 786, Name = "Test World" }; // TODO: for the time time being demo world
-                                
+
                 _mainPage.SetCurrentUserModel();
                 _mainPage.NavigateToPage("/InsideWorldPage");
                 _mainPage.SetIsBusy(false);
@@ -101,6 +107,16 @@ namespace Worldescape
         private void Button_SignUp_Click(object sender, RoutedEventArgs e)
         {
             _mainPage.NavigateToPage("/SignupPage");
+        }
+
+        private async void PasswordBox_Pasword_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            CheckIfModelValid();
+
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                await Login();
+            }
         }
     }
 }

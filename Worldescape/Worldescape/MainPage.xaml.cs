@@ -31,13 +31,13 @@ namespace Worldescape
 
         public void SetCurrentUserModel()
         {
-            var firstName = App.User.FirstName;
+            var userName = App.User.Name;
             var profileImageUrl = App.User.ImageUrl;
 
             string defaultImageUrl = string.Empty;
 
             CurrentUserHolder.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            CurrentUserModel.FirstName = firstName;
+            CurrentUserModel.FirstName = userName;
 
             // Gender wise default image
             switch (App.User.Gender)
