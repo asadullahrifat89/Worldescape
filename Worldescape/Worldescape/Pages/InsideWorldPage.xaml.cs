@@ -837,6 +837,7 @@ namespace Worldescape
                 ShowMessagingControls();
 
                 ShowSelectedAvatar(_selectedAvatar);
+                SetAvatarDetailsOnSideCard();
                 OtherAvatarActionsHolder.Visibility = Visibility.Visible;
 
                 MessagingTextBox.Focus();
@@ -1389,7 +1390,7 @@ namespace Worldescape
             if (_messageToAvatar == null)
                 return;
 
-            if (((Button)_messageToAvatar).Tag is Avatar avatar && !string.IsNullOrEmpty(MessagingTextBox.Text) && !string.IsNullOrWhiteSpace(MessagingTextBox.Text))
+            if (((Button)_messageToAvatar).Tag is Avatar avatar && !MessagingTextBox.Text.IsNullOrBlank())
             {
                 await HubService.SendUnicastMessage(avatar.Id, MessagingTextBox.Text);
 
