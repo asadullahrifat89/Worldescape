@@ -142,17 +142,13 @@ namespace WorldescapeWebService
 
                 _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now} World: {group}");
 
-                // Find all constructs from the calling avatar's world
-                // var constructs = GetConstructs(avatar.World.Id);
-
                 // Find all avatars from the calling avatar's world
                 var avatars = ConcurrentAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
                 // Return the curated avatars and constructs
                 return new HubLoginResponse()
                 {
-                    Avatars = avatars ?? new Avatar[] { },
-                    //Constructs = constructs ?? new Construct[] { }
+                    Avatars = avatars ?? new Avatar[] { }
                 };
             }
             else
@@ -172,16 +168,14 @@ namespace WorldescapeWebService
                 await Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedIn, avatar);
 
                 _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now} World: {group}");
-                // Construct[]? constructs = GetConstructs(avatar.World.Id);
-
+               
                 // Find all avatars from the calling avatar's world
                 var avatars = ConcurrentAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
                 // Return the curated avatars and constructs
                 return new HubLoginResponse()
                 {
-                    Avatars = avatars ?? new Avatar[] { },
-                    //Constructs = constructs ?? new Construct[] { }
+                    Avatars = avatars ?? new Avatar[] { }
                 };
             }
         }

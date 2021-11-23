@@ -10,16 +10,23 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Worldescape.Service;
 
 namespace Worldescape
 {
     public partial class WorldsPage : Page
     {
+        readonly MainPage _mainPage;
+        readonly HttpServiceHelper _httpServiceHelper;
+
         #region Ctor
-        
+
         public WorldsPage()
         {
             this.InitializeComponent();
+
+            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
+            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
         }
 
         #endregion
