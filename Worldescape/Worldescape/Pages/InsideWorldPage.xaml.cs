@@ -1680,105 +1680,11 @@ namespace Worldescape
                         AvatarMessengers.Clear();
                         Canvas_root.Children.Clear();
 
-                        if (avatars != null && avatars.Any())
-                        {
-                            Console.WriteLine("LoginToHub: avatars found: " + avatars.Count());
-
-                            // Find current user's avatar and update current Avatar instance
-                            var responseAvatar = avatars.FirstOrDefault(x => x.Id == Avatar.Id);
-                            Avatar = responseAvatar;
-
-                            foreach (var avatar in avatars)
-                            {
-                                var avatarButton = GenerateAvatarButton(avatar);
-                                SetAvatarActivityStatus(avatarButton, avatar, avatar.ActivityStatus);
-
-                                AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
-
-                                AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
-                            }
-
-                            ParticipantsCount.Text = AvatarMessengers.Count().ToString();
-                        }
+                        AddAvatarsToCanvasAfterHubLogin(avatars);
 
                         _mainPage.SetIsBusy(false);
 
-                        // Get constructs count for this world
-                        var countResponse = await _httpServiceHelper.SendGetRequest<GetConstructsCountQueryResponse>(
-                            actionUri: Constants.Action_GetConstructsCount,
-                            payload: new GetConstructsCountQueryRequest() { Token = App.Token, WorldId = App.InWorld.Id });
-
-                        if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
-                        {
-                            MessageBox.Show(countResponse.ExternalError.ToString());
-                            _mainPage.SetIsBusy(false);
-                        }
-
-                        // If any constructs exist for this world start fetching asynchronously
-                        if (countResponse.Count > 0)
-                        {
-                            var pageSize = 20;
-                            var NumberOfPages = countResponse.Count < pageSize ? 1 : countResponse.Count / pageSize;
-
-                            for (int i = 0; i < NumberOfPages; i++)
-                            {
-                                // Get constructs in small packets
-                                var response = await _httpServiceHelper.SendGetRequest<GetConstructsQueryResponse>(
-                                    actionUri: Constants.Action_GetConstructs,
-                                    payload: new GetConstructsQueryRequest() { Token = App.Token, PageIndex = i, PageSize = pageSize, WorldId = App.InWorld.Id });
-
-                                if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
-                                {
-                                    MessageBox.Show(response.ExternalError.ToString());
-                                    _mainPage.SetIsBusy(false);
-                                }
-
-                                var constructs = response.Constructs;
-
-                                if (constructs != null && constructs.Any())
-                                {
-                                    foreach (var construct in constructs)
-                                    {
-                                        // If a construct already exists then update that, this can happen as after avatar login, new constructs can start appearing thru HubService
-                                        if (Canvas_root.Children.OfType<Button>().Count(x => x.Tag is Construct) > 0
-                                            && Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct).Any(x => ((Construct)x.Tag).Id == construct.Id))
-                                        {
-                                            if (Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == construct.Id) is Button constructBtn)
-                                            {
-                                                constructBtn.Tag = construct;
-
-                                                Canvas.SetLeft(constructBtn, construct.Coordinate.X);
-                                                Canvas.SetTop(constructBtn, construct.Coordinate.Y);
-                                                Canvas.SetZIndex(constructBtn, construct.Coordinate.Z);
-
-                                                ScaleElement(constructBtn, construct.Scale);
-                                                RotateElement(constructBtn, construct.Rotation);
-                                            }
-                                        }
-                                        else // If construct doesn't exist then add that
-                                        {
-                                            var constructBtn = GenerateConstructButton(
-                                               name: construct.Name,
-                                               imageUrl: construct.ImageUrl,
-                                               constructId: construct.Id,
-                                               inWorld: construct.World,
-                                               creator: construct.Creator);
-
-                                            AddConstructOnCanvas(
-                                                construct: constructBtn,
-                                                x: construct.Coordinate.X,
-                                                y: construct.Coordinate.Y,
-                                                z: construct.Coordinate.Z);
-
-                                            ScaleElement(constructBtn, construct.Scale);
-                                            RotateElement(constructBtn, construct.Rotation);
-                                        }
-                                    }
-                                }
-                            }
-
-                            Console.WriteLine("LoginToHub: Completed fetching constructs.");
-                        }
+                        await AddConstructsToCanvasAfterHubLogin();
 
                         _isLoggedIn = true;
 
@@ -1809,6 +1715,110 @@ namespace Worldescape
             {
                 Console.WriteLine("HubLogin: ERROR " + "\n" + ex.Message);
                 return false;
+            }
+        }
+
+        private async Task AddConstructsToCanvasAfterHubLogin()
+        {
+            // Get constructs count for this world
+            var countResponse = await _httpServiceHelper.SendGetRequest<GetConstructsCountQueryResponse>(
+                actionUri: Constants.Action_GetConstructsCount,
+                payload: new GetConstructsCountQueryRequest() { Token = App.Token, WorldId = App.InWorld.Id });
+
+            if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
+            {
+                MessageBox.Show(countResponse.ExternalError.ToString());
+                _mainPage.SetIsBusy(false);
+            }
+
+            // If any constructs exist for this world start fetching asynchronously
+            if (countResponse.Count > 0)
+            {
+                var pageSize = 20;
+                var NumberOfPages = countResponse.Count < pageSize ? 1 : countResponse.Count / pageSize;
+
+                for (int i = 0; i < NumberOfPages; i++)
+                {
+                    // Get constructs in small packets
+                    var response = await _httpServiceHelper.SendGetRequest<GetConstructsQueryResponse>(
+                        actionUri: Constants.Action_GetConstructs,
+                        payload: new GetConstructsQueryRequest() { Token = App.Token, PageIndex = i, PageSize = pageSize, WorldId = App.InWorld.Id });
+
+                    if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
+                    {
+                        MessageBox.Show(response.ExternalError.ToString());
+                        _mainPage.SetIsBusy(false);
+                    }
+
+                    var constructs = response.Constructs;
+
+                    if (constructs != null && constructs.Any())
+                    {
+                        foreach (var construct in constructs)
+                        {
+                            // If a construct already exists then update that, this can happen as after avatar login, new constructs can start appearing thru HubService
+                            if (Canvas_root.Children.OfType<Button>().Count(x => x.Tag is Construct) > 0
+                                && Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct).Any(x => ((Construct)x.Tag).Id == construct.Id))
+                            {
+                                if (Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == construct.Id) is Button constructBtn)
+                                {
+                                    constructBtn.Tag = construct;
+
+                                    Canvas.SetLeft(constructBtn, construct.Coordinate.X);
+                                    Canvas.SetTop(constructBtn, construct.Coordinate.Y);
+                                    Canvas.SetZIndex(constructBtn, construct.Coordinate.Z);
+
+                                    ScaleElement(constructBtn, construct.Scale);
+                                    RotateElement(constructBtn, construct.Rotation);
+                                }
+                            }
+                            else // If construct doesn't exist then add that
+                            {
+                                var constructBtn = GenerateConstructButton(
+                                   name: construct.Name,
+                                   imageUrl: construct.ImageUrl,
+                                   constructId: construct.Id,
+                                   inWorld: construct.World,
+                                   creator: construct.Creator);
+
+                                AddConstructOnCanvas(
+                                    construct: constructBtn,
+                                    x: construct.Coordinate.X,
+                                    y: construct.Coordinate.Y,
+                                    z: construct.Coordinate.Z);
+
+                                ScaleElement(constructBtn, construct.Scale);
+                                RotateElement(constructBtn, construct.Rotation);
+                            }
+                        }
+                    }
+                }
+
+                Console.WriteLine("LoginToHub: Completed fetching constructs.");
+            }
+        }
+
+        private void AddAvatarsToCanvasAfterHubLogin(Avatar[] avatars)
+        {
+            if (avatars != null && avatars.Any())
+            {
+                Console.WriteLine("LoginToHub: avatars found: " + avatars.Count());
+
+                // Find current user's avatar and update current Avatar instance
+                var responseAvatar = avatars.FirstOrDefault(x => x.Id == Avatar.Id);
+                Avatar = responseAvatar;
+
+                foreach (var avatar in avatars)
+                {
+                    var avatarButton = GenerateAvatarButton(avatar);
+                    SetAvatarActivityStatus(avatarButton, avatar, avatar.ActivityStatus);
+
+                    AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
+
+                    AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
+                }
+
+                ParticipantsCount.Text = AvatarMessengers.Count().ToString();
             }
         }
 
