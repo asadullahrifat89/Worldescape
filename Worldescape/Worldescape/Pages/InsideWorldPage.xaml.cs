@@ -1705,7 +1705,7 @@ namespace Worldescape
 
                         // Get constructs count for this world
                         var countResponse = await _httpServiceHelper.SendGetRequest<GetConstructsCountQueryResponse>(
-                            actionUri: Constants.Action_GetConstructs,
+                            actionUri: Constants.Action_GetConstructsCount,
                             payload: new GetConstructsCountQueryRequest() { Token = App.Token, WorldId = App.InWorld.Id });
 
                         if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
@@ -1718,7 +1718,7 @@ namespace Worldescape
                         if (countResponse.Count > 0)
                         {
                             var pageSize = 20;
-                            var NumberOfPages = countResponse.Count / pageSize;
+                            var NumberOfPages = countResponse.Count < pageSize ? 1 : countResponse.Count / pageSize;
 
                             for (int i = 0; i < NumberOfPages; i++)
                             {

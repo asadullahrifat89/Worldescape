@@ -56,6 +56,14 @@ namespace Worldescape.Database
             return result != null;
         }
 
+        public async Task<bool> ExistsById<T>(int id)
+        {
+            var collection = GetCollection<T>();
+            var filter = Builders<T>.Filter.Eq("Id", id);
+            var result = await collection.Find(filter).FirstOrDefaultAsync();
+            return result != null;
+        }
+
         public async Task<T> FindOne<T>(FilterDefinition<T> filter)
         {
             var collection = GetCollection<T>();
@@ -116,6 +124,14 @@ namespace Worldescape.Database
 
         public async Task<bool> DeleteDocument<T>(FilterDefinition<T> filter)
         {
+            var collection = GetCollection<T>();
+            var result = await collection.FindOneAndDeleteAsync(filter);
+            return result != null;
+        }
+
+        public async Task<bool> DeleteById<T>(int id)
+        {
+            var filter = Builders<T>.Filter.Eq("Id", id);
             var collection = GetCollection<T>();
             var result = await collection.FindOneAndDeleteAsync(filter);
             return result != null;
