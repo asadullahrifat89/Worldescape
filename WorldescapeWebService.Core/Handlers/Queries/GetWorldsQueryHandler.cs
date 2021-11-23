@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Worldescape.Data;
 using Worldescape.Database;
@@ -44,7 +45,7 @@ public class GetWorldsQueryHandler : IRequestHandler<GetWorldsQuery, GetWorldsQu
             var filter = Builders<World>.Filter.Empty;
 
             if (!request.SearchString.IsNullOrBlank())
-                filter = Builders<World>.Filter.AnyIn(x => x.Name, request.SearchString);
+                filter = Builders<World>.Filter.Regex(x => x.Name, new BsonRegularExpression("/.*" + request.SearchString + ".*/i"));
 
             // Count total number of documents for filter, front end will calculate max number of pages from it
             var count = await _databaseService.CountDocuments(filter);

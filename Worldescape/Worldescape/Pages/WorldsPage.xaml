@@ -15,7 +15,7 @@
 
         <StackPanel
             Grid.Row="0"
-            Margin="20"
+            Margin="20,20,20,10"
             Orientation="Horizontal">
 
             <!--  Srach box for worlds  -->
@@ -25,6 +25,7 @@
                 Margin="10,0"
                 VerticalAlignment="Center"
                 FontSize="16"
+                KeyDown="SearchWorldsTextHolder_KeyDown"
                 PlaceholderText="Search worlds"
                 Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
                 TextAlignment="Left" />

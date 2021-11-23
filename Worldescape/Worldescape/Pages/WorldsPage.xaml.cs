@@ -22,7 +22,7 @@ namespace Worldescape
     {
         #region Fields
 
-        int pageSize = 24;
+        int pageSize = 12;
         int pageIndex = 0;
         long totalPageCount = 0;
 
@@ -42,7 +42,7 @@ namespace Worldescape
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
-            ShowWorlds();
+            LoadWorlds();
         }
 
         #endregion
@@ -51,7 +51,7 @@ namespace Worldescape
 
         #region Functionality
 
-        private async Task ShowWorlds()
+        private async Task LoadWorlds()
         {
             var countResponse = await GetWorldsCount();
 
@@ -78,16 +78,18 @@ namespace Worldescape
 
             var _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
-                Margin = new Thickness(5),
+                Margin = new Thickness(20,5,20,5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
                 MinHeight = 600
             };
 
+            var size = 230;
+
             foreach (var world in worlds)
             {
-                var img = _worldHelper.GetWorldPicture(world: world, size: 300);
+                var img = _worldHelper.GetWorldPicture(world: world, size: size);
 
-                img.Margin = new Thickness(10,15,10,10);
+                img.Margin = new Thickness(10,15,10,10);                
 
                 var stackPanel = new StackPanel() { Margin = new Thickness(10) };
                 stackPanel.Children.Add(img);
@@ -97,14 +99,22 @@ namespace Worldescape
                     FontWeight = FontWeights.SemiBold,
                     TextAlignment = TextAlignment.Center,
                     Text = world.Name,
-                    Margin = new Thickness(5,5,5,0),
+                    Margin = new Thickness(5),
+                });
+                stackPanel.Children.Add(new TextBlock()
+                {
+                    FontSize = 15,
+                    FontWeight = FontWeights.SemiBold,
+                    TextAlignment = TextAlignment.Center,
+                    Text = "By "+ world.Creator.Name,
+                    Margin = new Thickness(5),
                 });
 
                 var buttonWorld = new Button()
                 {
                     Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                    Height = 300,
-                    Width = 300,
+                    Height = size,
+                    Width = size,
                     Margin = new Thickness(5),
                     Tag = world,
                 };               
@@ -116,12 +126,12 @@ namespace Worldescape
             }
 
             ContentScrollViewer.Content = _masonryPanel;
+
+            _settingWorlds = false;
         }
 
         private async Task<GetWorldsCountQueryResponse> GetWorldsCount()
         {
-
-
             // Get constructs count for this world
             var countResponse = await _httpServiceHelper.SendGetRequest<GetWorldsCountQueryResponse>(
              actionUri: Constants.Action_GetWorldsCount,
@@ -147,7 +157,7 @@ namespace Worldescape
 
         private async void ButtonSearchWorld_Click(object sender, RoutedEventArgs e)
         {
-            await ShowWorlds();
+            await LoadWorlds();
         }
 
         private void ButtonWorld_Click(object sender, RoutedEventArgs e)
@@ -206,10 +216,22 @@ namespace Worldescape
                 }
                 else
                 {
-                    await ShowWorlds();
+                    await LoadWorlds();
                 }
             });
             worldCreatorWindow.Show();
+        }
+
+        #endregion
+
+        #region UX Events
+
+        private async void SearchWorldsTextHolder_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                await LoadWorlds();
+            }
         }
 
         #endregion
