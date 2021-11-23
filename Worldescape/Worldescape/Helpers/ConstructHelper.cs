@@ -23,6 +23,13 @@ namespace Worldescape
 {
     public class ConstructHelper
     {
+        #region UI
+
+        /// <summary>
+        /// Return if the current app user can manipulate the provided construct.
+        /// </summary>
+        /// <param name="uIElement"></param>
+        /// <returns></returns>
         public bool CanManipulateConstruct(UIElement uIElement)
         {
             if (uIElement != null && ((Button)uIElement).Tag is Construct c && c.Creator.Id == App.User.Id)
@@ -228,6 +235,8 @@ namespace Worldescape
                 return null;
 
             return canvas.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == constructId).FirstOrDefault();
-        }
+        } 
+
+        #endregion
     }
 }

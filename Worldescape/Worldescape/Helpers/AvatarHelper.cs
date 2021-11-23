@@ -13,6 +13,8 @@ namespace Worldescape
 {
     public class AvatarHelper
     {
+        #region UI
+
         /// <summary>
         /// Gets the user image in a circular border from the provided avatar.
         /// </summary>
@@ -204,6 +206,8 @@ namespace Worldescape
                 return null;
 
             return canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == avatarId);
-        }
+        } 
+
+        #endregion
     }
 }
