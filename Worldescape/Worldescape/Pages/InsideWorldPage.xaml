@@ -78,6 +78,7 @@
                             x:Name="AvatarNameHolder"
                             Margin="5,0,10,0"
                             VerticalAlignment="Center" />
+
                     </StackPanel>
                 </Button.Content>
             </Button>
@@ -140,10 +141,10 @@
 
             </StackPanel>
 
-            <!--  Selected construct images and avatar images with commands  -->
+            <!--  Selected & operational constructs & avatar images, side card, avatar commands  -->
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
-                <!--  Selected and operational construct images  -->
+                <!--  Selected & operational construct images  -->
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
                     <!--  Shows adding, cloning, moving construct  -->
@@ -364,7 +365,7 @@
 
             </StackPanel>
 
-            <!--  Construct operation buttons  -->
+            <!--  Bottom middle construct operation buttons  -->
             <WrapPanel
                 x:Name="ConstructOperationalCommandsHolder"
                 Orientation="Horizontal"

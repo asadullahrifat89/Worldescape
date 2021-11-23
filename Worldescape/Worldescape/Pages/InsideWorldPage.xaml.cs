@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Service;
 using Worldescape.Data;
 using Image = Windows.UI.Xaml.Controls.Image;
+using Windows.UI.Input;
 
 namespace Worldescape
 {
@@ -815,11 +816,6 @@ namespace Worldescape
             }
         }
 
-        private Construct CenterAlignNewConstructButton(Windows.UI.Input.PointerPoint pressedPoint, Button constructButton, Construct construct)
-        {
-            return _constructHelper.CenterAlignNewConstructButton(pressedPoint, constructButton, construct);
-        }
-
         #endregion
 
         #region Message
@@ -1374,6 +1370,7 @@ namespace Worldescape
                 _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatar.Id);
                 ShowMessagingAvatar(_messageToAvatar);
                 ShowMessagingControls();
+                SetAvatarDetailsOnSideCard();
 
                 MessagingTextBox.Focus();
             }
@@ -1719,7 +1716,7 @@ namespace Worldescape
                         _isLoggedIn = true;
 
                         // Set connected user's avatar image
-                        ShowCurrentAvatar();
+                        ShowCurrentUserAvatar();
                         return true;
                     }
                     else
@@ -2152,16 +2149,12 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Shows user's selected avatar.
+        /// Shows current user's avatar.
         /// </summary>
-        private void ShowCurrentAvatar()
+        private void ShowCurrentUserAvatar()
         {
             if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
             {
-                //var oriBitmap = ((Image)((Button)iElement).Content).Source as BitmapImage;
-
-                //var bitmap = new BitmapImage(new Uri(oriBitmap.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
-
                 var avatar = _avatarHelper.GetTaggedAvatar(iElement);
 
                 MyAvatarButton.Tag = avatar;
@@ -2279,8 +2272,17 @@ namespace Worldescape
 
         #endregion
 
-        #region Construct     
+        #region Construct   
 
+        private Construct CenterAlignNewConstructButton(PointerPoint pressedPoint, Button constructButton, Construct construct)
+        {
+            return _constructHelper.CenterAlignNewConstructButton(pressedPoint, constructButton, construct);
+        }
+
+        /// <summary>
+        /// Checks if the selected construct can be manipulated by the current user. A user can only manipulate construct he added.
+        /// </summary>
+        /// <returns></returns>
         private bool CanManipulateConstruct()
         {
             return _constructHelper.CanManipulateConstruct(_selectedConstruct);
