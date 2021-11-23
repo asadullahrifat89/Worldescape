@@ -511,6 +511,8 @@ namespace Worldescape
                 {
                     OwnAvatarActionsHolder.Visibility = Visibility.Collapsed;
                     OtherAvatarActionsHolder.Visibility = Visibility.Visible;
+                    SelectStatusButton.IsChecked = false;
+                    HideAvatarActivityStatusHolder();
                 }
             }
         }
