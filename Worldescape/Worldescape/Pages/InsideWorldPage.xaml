@@ -36,13 +36,13 @@
             VerticalAlignment="Top"
             Orientation="Horizontal">
 
-            <!--  Join  -->
+            <!--  Connect  -->
             <Button
                 x:Name="ConnectButton"
                 MinWidth="110"
                 Margin="10"
                 Click="ConnectButton_Click"
-                Content="Join"
+                Content="Connect"
                 FontSize="20"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
