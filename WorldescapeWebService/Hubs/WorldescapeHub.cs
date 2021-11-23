@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using MediatR;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
 using Worldescape.Data;
 
@@ -11,20 +12,24 @@ namespace WorldescapeWebService
     {
         #region Fields
 
-        private readonly ILogger<WorldescapeHub> _logger;
+        readonly ILogger<WorldescapeHub> _logger;
 
         //<ConnectionId, Avatar>
-        private static ConcurrentDictionary<string, Avatar> ConcurrentAvatars = new();
+        static ConcurrentDictionary<string, Avatar> ConcurrentAvatars = new();
 
         //<ConstructId, Construct>
-        private static ConcurrentDictionary<int, Construct> ConcurrentConstructs = new();
+        static ConcurrentDictionary<int, Construct> ConcurrentConstructs = new();
 
+        readonly IMediator _mediator;
         #endregion
 
         #region Ctor
 
-        public WorldescapeHub(ILogger<WorldescapeHub> logger)
+        public WorldescapeHub(
+            ILogger<WorldescapeHub> logger,
+            IMediator mediator)
         {
+            _mediator = mediator;
             _logger = logger;
         }
 
