@@ -19,17 +19,17 @@ namespace Worldescape
     {
         #region Fields
 
-        Action<string> _dataUrlCallback;
-        string _dataUrl;
+        Action<string> _onDataUrl;
+        string _selectedDataUrl;
 
         #endregion
 
         #region Ctor
 
-        public ImagePickerWindow(Action<string> dataUrlCallback)
+        public ImagePickerWindow(Action<string> onDataUrl)
         {
             InitializeComponent();
-            _dataUrlCallback = dataUrlCallback;
+            _onDataUrl = onDataUrl;
         }
 
         #endregion
@@ -41,13 +41,13 @@ namespace Worldescape
 
         private void FileOpenDialogPresenter_ImageUrl_FileOpened(object sender, CSHTML5.Extensions.FileOpenDialog.FileOpenedEventArgs e)
         {
-            _dataUrl = e.DataURL;
+            _selectedDataUrl = e.DataURL;
 
-            if (string.IsNullOrEmpty(_dataUrl))
+            if (string.IsNullOrEmpty(_selectedDataUrl))
                 return;
 
             var bitmapimage = new BitmapImage();
-            bitmapimage.SetSource(_dataUrl);
+            bitmapimage.SetSource(_selectedDataUrl);
             Image_ProfileImageUrl.Source = bitmapimage;
 
             //var base64String = e.DataURL;
@@ -66,7 +66,7 @@ namespace Worldescape
         private void Button_OK_Click(object sender, RoutedEventArgs e)
         {
             //TODO: upload the image to actual server and receive url and send it back
-            _dataUrlCallback?.Invoke(_dataUrl);
+            _onDataUrl?.Invoke(_selectedDataUrl);
             this.DialogResult = true;
         }
 

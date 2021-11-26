@@ -148,18 +148,18 @@ namespace Worldescape
 
         private void Button_UploadImageUrl_Click(object sender, RoutedEventArgs e)
         {
-            ImagePickerWindow imagePickerWindow = new ImagePickerWindow((dataUrl) =>
+            ImagePickerWindow imagePickerWindow = new ImagePickerWindow((onDataUrl) =>
             {
-                AccountModel.ImageUrl = dataUrl;
+                AccountModel.ImageUrl = onDataUrl;
 
-                if (dataUrl.Contains("ms-appx:"))
+                if (onDataUrl.Contains("ms-appx:"))
                 {                    
-                    Image_ProfileImageUrl.Source = new BitmapImage(new Uri(dataUrl));
+                    Image_ProfileImageUrl.Source = new BitmapImage(new Uri(onDataUrl));
                 }
                 else
                 {
                     var bitmapimage = new BitmapImage();
-                    bitmapimage.SetSource(dataUrl);
+                    bitmapimage.SetSource(onDataUrl);
                     Image_ProfileImageUrl.Source = bitmapimage;
                 }
             });
