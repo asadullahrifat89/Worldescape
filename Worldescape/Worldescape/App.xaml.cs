@@ -64,6 +64,7 @@ namespace Worldescape
             services.AddSingleton<ConstructHelper>();
             services.AddSingleton<WorldHelper>();
             services.AddSingleton<PageNumberHelper>();
+            services.AddSingleton<ImageHelper>();
 
             // Pages
             services.AddSingleton<MainPage>();

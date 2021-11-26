@@ -10,6 +10,8 @@ namespace Worldescape
     {
         #region Fields
 
+        readonly ImageHelper _imageHelper;
+
         #endregion
 
         #region Ctor
@@ -18,6 +20,7 @@ namespace Worldescape
         {
             InitializeComponent();
             CurrentUserHolder.DataContext = CurrentUserModel;
+            _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
         }
 
         #endregion
@@ -60,7 +63,7 @@ namespace Worldescape
 
             // If no profile picture was set
             CurrentUserModel.ProfileImageUrl = App.User.ImageUrl;
-            Image_ProfileImageUrl.Source = new BitmapImage(new Uri(CurrentUserModel.ProfileImageUrl));
+            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(CurrentUserModel.ProfileImageUrl);
         }
 
         public void SetIsBusy(bool isBusy, string busyMessage = null)

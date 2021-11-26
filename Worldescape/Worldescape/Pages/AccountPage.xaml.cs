@@ -14,8 +14,9 @@ namespace Worldescape
     {
         #region Fields
 
-        private readonly HttpServiceHelper _httpServiceHelper;
-        private readonly MainPage _mainPage;
+        readonly MainPage _mainPage;
+        readonly HttpServiceHelper _httpServiceHelper;
+        readonly ImageHelper _imageHelper;
 
         #endregion
 
@@ -25,8 +26,10 @@ namespace Worldescape
         {
             InitializeComponent();
             AccountModelHolder.DataContext = AccountModel;
+            
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+            _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
 
             LoadUserDetails();
             CheckIfModelValid();
@@ -57,7 +60,7 @@ namespace Worldescape
             }
 
             AccountModel.ImageUrl = App.User.ImageUrl; // If not set then default is set after logging in
-            Image_ProfileImageUrl.Source = new BitmapImage(new Uri(App.User.ImageUrl));
+            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(App.User.ImageUrl);
             TextBlock_Name.Text = App.User.Name;
         }
 
@@ -151,19 +154,7 @@ namespace Worldescape
             ImagePickerWindow imagePickerWindow = new ImagePickerWindow((onDataUrl) =>
             {
                 AccountModel.ImageUrl = onDataUrl;
-
-                if (onDataUrl.Contains("ms-appx:"))
-                {
-                    var bitmapimage = new BitmapImage();
-                    bitmapimage.UriSource = new Uri(onDataUrl);
-                    Image_ProfileImageUrl.Source = bitmapimage;
-                }
-                else
-                {
-                    var bitmapimage = new BitmapImage();
-                    bitmapimage.SetSource(onDataUrl);
-                    Image_ProfileImageUrl.Source = bitmapimage;
-                }
+                Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(onDataUrl);
             });
 
             imagePickerWindow.Show();
@@ -190,7 +181,7 @@ namespace Worldescape
             }
 
             AccountModel.ImageUrl = defaultImageUrl;
-            Image_ProfileImageUrl.Source = new BitmapImage(new Uri(defaultImageUrl));
+            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(AccountModel.ImageUrl);
         }
 
         private async void Button_UpdateAccount_Click(object sender, RoutedEventArgs e)
