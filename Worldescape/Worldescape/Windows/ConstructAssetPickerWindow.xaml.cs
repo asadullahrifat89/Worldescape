@@ -67,7 +67,7 @@ namespace Worldescape
 
             filteredData.AddRange(_constructAssets.Where(x =>
             (!_constructCategoryNameFilter.IsNullOrBlank() ? x.Category == _constructCategoryNameFilter : !x.Category.IsNullOrBlank())
-            && (!SearchConstructAssetsTextHolder.Text.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(SearchConstructAssetsTextHolder.Text.ToLowerInvariant()) : !x.Name.IsNullOrBlank())));
+            && (!TextBoxSearchConstructAssets.Text.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(TextBoxSearchConstructAssets.Text.ToLowerInvariant()) : !x.Name.IsNullOrBlank())));
 
             return filteredData;
         }
@@ -89,7 +89,7 @@ namespace Worldescape
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
-                //Height = 500
+                Height = 500
             };
 
             // Add an All button first
@@ -207,7 +207,7 @@ namespace Worldescape
 
             _totalPageCount = _pageNumberHelper.GetTotalPageCount(_pageSize, filteredData.Count());
 
-            FoundConstructAssetsCountHolder.Text = $"Found { filteredData?.Count().ToString() } constructs in {_pickedConstructCategory.Name}...";
+            FoundConstructAssetsCountHolder.Text = $"Found { filteredData?.Count().ToString() } constructs in {_pickedConstructCategory.Name.ToLowerInvariant()}{(TextBoxSearchConstructAssets.Text.IsNullOrBlank() ? "" : " matching " + TextBoxSearchConstructAssets.Text)}...";
             PopulatePageNumbers(0);
         }
 
@@ -296,7 +296,7 @@ namespace Worldescape
 
         #region UX Events
 
-        private void SearchConstructAssetsTextHolder_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void TextBoxSearchConstructAssets_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {

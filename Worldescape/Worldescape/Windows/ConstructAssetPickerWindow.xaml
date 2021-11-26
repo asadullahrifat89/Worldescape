@@ -39,13 +39,13 @@
 
                 <!--  Search box for constructs  -->
                 <TextBox
-                    x:Name="SearchConstructAssetsTextHolder"
+                    x:Name="TextBoxSearchConstructAssets"
                     Grid.Column="1"
                     MinWidth="300"
                     Margin="5,0"
                     VerticalAlignment="Center"
                     FontSize="16"
-                    KeyDown="SearchConstructAssetsTextHolder_KeyDown"
+                    KeyDown="TextBoxSearchConstructAssets_KeyDown"
                     PlaceholderText="Search constructs"
                     Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
                     TextAlignment="Left" />

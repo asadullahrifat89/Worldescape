@@ -20,34 +20,34 @@
 
             <!--  Search box for worlds  -->
             <TextBox
-                x:Name="SearchWorldsTextHolder"
+                x:Name="TextBox_SearchWorldsText"
                 Width="300"
                 Margin="10,0"
                 VerticalAlignment="Center"
                 FontSize="16"
-                KeyDown="SearchWorldsTextHolder_KeyDown"
+                KeyDown="TextBox_SearchWorldsText_KeyDown"
                 PlaceholderText="Search worlds"
                 Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
                 TextAlignment="Left" />
 
             <!--  Search worlds  -->
             <Button
-                x:Name="ButtonSearchWorld"
+                x:Name="Button_SearchWorld"
                 Grid.Column="1"
                 Width="120"
                 Margin="10,0"
-                Click="ButtonSearchWorld_Click"
+                Click="Button_SearchWorld_Click"
                 Content="Search"
                 FontSize="16"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
             <!--  Create world  -->
             <Button
-                x:Name="ButtonCreateWorld"
+                x:Name="Button_CreateWorld"
                 Grid.Column="1"
                 Width="140"
                 Margin="10,0"
-                Click="ButtonCreateWorld_Click"
+                Click="Button_CreateWorld_Click"
                 Content="Create World"
                 FontSize="16"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
@@ -57,7 +57,7 @@
         <StackPanel Grid.Row="1" Margin="20,0">
 
             <TextBlock
-                x:Name="FoundWorldsCountHolder"
+                x:Name="TextBox_FoundWorldsCount"
                 Margin="10"
                 FontSize="16"
                 FontWeight="SemiBold"
@@ -81,7 +81,7 @@
 
             <!--  Previous button  -->
             <Button
-                x:Name="PreviousButton"
+                x:Name="Button_Previous"
                 Width="110"
                 Margin="5"
                 Click="ButtonPreview_Click"
@@ -121,7 +121,7 @@
 
             <!--  Next button  -->
             <Button
-                x:Name="NextButton"
+                x:Name="Button_Next"
                 Width="110"
                 Margin="5"
                 Click="ButtonNext_Click"

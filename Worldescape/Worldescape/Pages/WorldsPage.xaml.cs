@@ -73,7 +73,7 @@ namespace Worldescape
 
             var response = await _httpServiceHelper.SendGetRequest<GetWorldsQueryResponse>(
                 actionUri: Constants.Action_GetWorlds,
-                payload: new GetWorldsQueryRequest() { Token = App.Token, PageIndex = _pageIndex, PageSize = _pageSize, SearchString = SearchWorldsTextHolder.Text });
+                payload: new GetWorldsQueryRequest() { Token = App.Token, PageIndex = _pageIndex, PageSize = _pageSize, SearchString = TextBox_SearchWorldsText.Text });
 
             if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
             {
@@ -141,16 +141,16 @@ namespace Worldescape
             // Get constructs count for this world
             var countResponse = await _httpServiceHelper.SendGetRequest<GetWorldsCountQueryResponse>(
                 actionUri: Constants.Action_GetWorldsCount,
-                payload: new GetWorldsCountQueryRequest() { Token = App.Token, SearchString = SearchWorldsTextHolder.Text });
+                payload: new GetWorldsCountQueryRequest() { Token = App.Token, SearchString = TextBox_SearchWorldsText.Text });
 
             if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
             {
                 MessageBox.Show(countResponse.ExternalError.ToString());
             }
 
-            _totalPageCount = _pageNumberHelper.GetTotalPageCount(_pageSize, countResponse.Count);            
+            _totalPageCount = _pageNumberHelper.GetTotalPageCount(_pageSize, countResponse.Count);
 
-            FoundWorldsCountHolder.Text = $"Found {countResponse.Count} worlds...";
+            TextBox_FoundWorldsCount.Text = $"Found {countResponse.Count} worlds{(TextBox_SearchWorldsText.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchWorldsText.Text)}...";
             PopulatePageNumbers(0);
             return countResponse.Count;
         }
@@ -162,7 +162,7 @@ namespace Worldescape
         }
 
         private void PopulatePageNumbers(int? pageIndex = null)
-        {            
+        {
             _pageNumbers = _pageNumberHelper.PopulatePageNumbers(_totalPageCount, pageIndex ?? _pageIndex, _pageNumbers);
             PagesHolder.ItemsSource = _pageNumbers;
         }
@@ -171,7 +171,7 @@ namespace Worldescape
 
         #region Button Events
 
-        private void ButtonSearchWorld_Click(object sender, RoutedEventArgs e)
+        private void Button_SearchWorld_Click(object sender, RoutedEventArgs e)
         {
             SearchWorlds();
         }
@@ -224,7 +224,7 @@ namespace Worldescape
             }
         }
 
-        private void ButtonCreateWorld_Click(object sender, RoutedEventArgs e)
+        private void Button_CreateWorld_Click(object sender, RoutedEventArgs e)
         {
             WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow((world) =>
             {
@@ -247,7 +247,7 @@ namespace Worldescape
 
         #region UX Events
 
-        private void SearchWorldsTextHolder_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void TextBox_SearchWorldsText_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {

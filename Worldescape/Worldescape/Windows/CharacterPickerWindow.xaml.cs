@@ -55,11 +55,7 @@ namespace Worldescape
 
             foreach (var item in _characters)
             {
-                var uri = item.ImageUrl;
-
-                item.ImageUrl = uri;
-
-                var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+                var bitmap = new BitmapImage(new Uri(item.ImageUrl, UriKind.RelativeOrAbsolute));
 
                 var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, Height = 100, Width = 100 };
 
