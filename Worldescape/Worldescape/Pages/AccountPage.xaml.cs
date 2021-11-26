@@ -57,7 +57,7 @@ namespace Worldescape
 
             AccountModel.ImageUrl = App.User.ImageUrl;
             Image_ProfileImageUrl.Source = new BitmapImage(new Uri(App.User.ImageUrl));
-            TextBlock_Name.Text = App.User.Name;            
+            TextBlock_Name.Text = App.User.Name;
         }
 
         #endregion
@@ -148,7 +148,11 @@ namespace Worldescape
         private void FileOpenDialogPresenter_ImageUrl_FileOpened(object sender, CSHTML5.Extensions.FileOpenDialog.FileOpenedEventArgs e)
         {
             string dataURL = e.DataURL;
-            BitmapImage bitmapimage = new BitmapImage();
+            
+            if (string.IsNullOrEmpty(dataURL))
+                return;
+
+            var bitmapimage = new BitmapImage();
             bitmapimage.SetSource(dataURL);
             Image_ProfileImageUrl.Source = bitmapimage;
 
@@ -183,6 +187,6 @@ namespace Worldescape
 
         #endregion
 
-       
+
     }
 }
