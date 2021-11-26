@@ -56,9 +56,9 @@ namespace Worldescape
 
         private async Task LoadWorlds()
         {
-            var countResponse = await GetWorldsCount();
+            var count = await GetWorldsCount();
 
-            if (countResponse.Count > 0)
+            if (count > 0)
             {
                 await GetWorlds();
             }
@@ -133,7 +133,7 @@ namespace Worldescape
             _settingWorlds = false;
         }
 
-        private async Task<GetWorldsCountQueryResponse> GetWorldsCount()
+        private async Task<long> GetWorldsCount()
         {
             // Get constructs count for this world
             var countResponse = await _httpServiceHelper.SendGetRequest<GetWorldsCountQueryResponse>(
@@ -151,7 +151,7 @@ namespace Worldescape
 
             PopulatePageNumbers();
 
-            return countResponse;
+            return countResponse.Count;
         }
 
         private void GeneratePageNumbers()

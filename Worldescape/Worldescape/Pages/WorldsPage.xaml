@@ -79,6 +79,7 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
 
+            <!--  Previous button  -->
             <Button
                 x:Name="PreviousButton"
                 Width="120"
@@ -87,35 +88,38 @@
                 Content="Previous"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
-            <ListBox
+            <!--  page number Buttons  -->
+            <ItemsControl
                 x:Name="PagesHolder"
                 BorderThickness="0"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
-                <ListBox.ItemsPanel>
+                <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Background="Transparent" Orientation="Horizontal" />
                     </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
+                </ItemsControl.ItemsPanel>
 
-                <ListBox.ItemTemplate>
+                <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <Button
                                 x:Name="ButtonPageIndex"
                                 Width="50"
                                 Height="50"
+                                Margin="5,0"
                                 BorderThickness="0"
                                 Click="ButtonPageIndex_Click"
                                 Content="{Binding}"
                                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
                         </StackPanel>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
+                </ItemsControl.ItemTemplate>
 
-            </ListBox>
+            </ItemsControl>
 
+            <!--  Next button  -->
             <Button
                 x:Name="NextButton"
                 Width="120"
