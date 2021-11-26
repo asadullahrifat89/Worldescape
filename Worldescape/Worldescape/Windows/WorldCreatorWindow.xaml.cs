@@ -37,7 +37,7 @@ namespace Worldescape
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
         }
 
-        private async void OKButton_Click(object sender, RoutedEventArgs e)
+        private async void Button_OK_Click(object sender, RoutedEventArgs e)
         {
             if (!WorldNameHolder.Text.IsNullOrBlank())
             {
@@ -76,7 +76,7 @@ namespace Worldescape
             }
             else
             {
-                MessageBox.Show("Failed to save your world. This shouldn't be happening.", "Failed..");
+                MessageBox.Show("Failed to save your world. This shouldn't be happening. Try again.", "Failed..");
                 _mainPage.SetIsBusy(false);
             }
         }
@@ -108,12 +108,12 @@ namespace Worldescape
             }
             else
             {
-                MessageBox.Show("Failed to save your world. This shouldn't be happening.", "Failed..");
+                MessageBox.Show("Failed to create your world. This shouldn't be happening. Try again.", "Failed..");
                 _mainPage.SetIsBusy(false);
             }
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Cancel_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
         }

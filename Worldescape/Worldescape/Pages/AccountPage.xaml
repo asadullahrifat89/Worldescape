@@ -186,7 +186,7 @@
                     x:Name="Button_Discard"
                     Margin="10"
                     Click="Button_Discard_Click"
-                    Content="Log In"
+                    Content="Discard"
                     FontSize="16"
                     Style="{StaticResource MaterialDesign_Button_Style}" />
 

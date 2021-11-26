@@ -30,18 +30,18 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Button
-                x:Name="CancelButton"
+                x:Name="Button_Cancel"
                 Width="120"
                 Margin="5"
-                Click="CancelButton_Click"
+                Click="Button_Cancel_Click"
                 Content="Cancel"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
             <Button
-                x:Name="OKButton"
+                x:Name="Button_OK"
                 Width="120"
                 Margin="5"
-                Click="OKButton_Click"
+                Click="Button_OK_Click"
                 Content="Save"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
         </StackPanel>

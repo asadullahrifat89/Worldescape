@@ -53,7 +53,7 @@ public class AddWorldCommandHandler : IRequestHandler<AddWorldCommand, World>
                 ImageUrl = request.ImageUrl,
                 CreatedOn = DateTime.Now,
                 UpdatedOn = null,
-                Creator = new Creator() { Id = user.Id, ImageUrl = user.ImageUrl, Name = user.Name }
+                Creator = new Creator() { Id = user.Id, ImageUrl = user.ImageUrl, Name = user.FirstName }
             };
 
             if (await _databaseService.InsertDocument(world))
