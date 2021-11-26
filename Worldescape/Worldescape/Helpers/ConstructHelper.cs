@@ -138,7 +138,8 @@ namespace Worldescape
             string imageUrl,
             int? constructId = null,
             InWorld inWorld = null,
-            Creator creator = null)
+            Creator creator = null,
+            DateTime? createdOn = null)
         {
             var uri = imageUrl;
 
@@ -165,7 +166,8 @@ namespace Worldescape
                     Name = name,
                     ImageUrl = uri,
                     Creator = creator ?? new Creator() { Id = App.User.Id, Name = App.User.Name, ImageUrl = App.User.ImageUrl },
-                    World = inWorld ?? new InWorld() { Id = App.World.Id, Name = App.World.Name }
+                    World = inWorld ?? new InWorld() { Id = App.World.Id, Name = App.World.Name },
+                    CreatedOn = createdOn ?? DateTime.Now,
                 }
             };
 
@@ -235,7 +237,7 @@ namespace Worldescape
                 return null;
 
             return canvas.Children.OfType<Button>().Where(x => x.Tag is Construct c && c.Id == constructId).FirstOrDefault();
-        } 
+        }
 
         #endregion
     }
