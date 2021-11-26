@@ -89,23 +89,24 @@ namespace Worldescape.Service.Properties {
         /// <summary>
         ///   Looks up a localized string similar to [
         ///  {
-        ///    &quot;Name&quot;: &quot;Building Tiles 0 0 0 &quot;,
-        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Buildings\\buildingTiles_000.png&quot;,
-        ///    &quot;Category&quot;: &quot;Buildings&quot;
+        ///    &quot;Name&quot;: &quot;Abstract Tile 0 1 &quot;,
+        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Blocks\\abstractTile_01.png&quot;,
+        ///    &quot;Category&quot;: &quot;Blocks&quot;
         ///  },
         ///  {
-        ///    &quot;Name&quot;: &quot;Building Tiles 0 0 1 &quot;,
-        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Buildings\\buildingTiles_001.png&quot;,
-        ///    &quot;Category&quot;: &quot;Buildings&quot;
+        ///    &quot;Name&quot;: &quot;Abstract Tile 0 2 &quot;,
+        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Blocks\\abstractTile_02.png&quot;,
+        ///    &quot;Category&quot;: &quot;Blocks&quot;
         ///  },
         ///  {
-        ///    &quot;Name&quot;: &quot;Building Tiles 0 0 2 &quot;,
-        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Buildings\\buildingTiles_002.png&quot;,
-        ///    &quot;Category&quot;: &quot;Buildings&quot;
+        ///    &quot;Name&quot;: &quot;Abstract Tile 0 3 &quot;,
+        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Blocks\\abstractTile_03.png&quot;,
+        ///    &quot;Category&quot;: &quot;Blocks&quot;
         ///  },
         ///  {
-        ///    &quot;Name&quot;: &quot;Building Tiles 0 0 3 &quot;,
-        ///    &quot;ImageUrl&quot;: &quot;World_Objec [rest of string was truncated]&quot;;.
+        ///    &quot;Name&quot;: &quot;Abstract Tile 0 4 &quot;,
+        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Blocks\\abstractTile_04.png&quot;,
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ConstructAssets {
             get {

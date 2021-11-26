@@ -5019,4 +5019,8 @@
 		<Content Include="Assets\World_Objects\Space\weapon_rifle_SW.png" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Assets\World_Objects\Blocks\" />
+	</ItemGroup>
+
 </Project>
