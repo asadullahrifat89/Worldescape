@@ -25,6 +25,8 @@ namespace Worldescape
         List<ConstructAsset> _constructAssets = new List<ConstructAsset>();
         List<ConstructCategory> _constructCategories = new List<ConstructCategory>();
 
+        RangeObservableCollection<string> _pageNumbers = new RangeObservableCollection<string>();
+
         Action<ConstructAsset> _assetSelected;
 
         readonly AssetUrlHelper _assetUriHelper;
@@ -88,6 +90,9 @@ namespace Worldescape
             }
 
             ContentScrollViewer.Content = _masonryPanel;
+
+            _pageNumbers.Clear();
+            PagesHolder.ItemsSource = _pageNumbers;
         }
 
         private void ShowConstructAssets()
@@ -98,7 +103,7 @@ namespace Worldescape
 
             var filteredData = string.IsNullOrEmpty(_pickedConstructCategory) ? _constructAssets : _constructAssets.Where(x => x.Category == _pickedConstructCategory);
 
-            _totalPageCount = filteredData.Count() / _pageSize;
+            GetConstructAssetsCount(filteredData);
 
             var pagedData = filteredData.Skip(_pageIndex * _pageSize).Take(_pageSize);
 
@@ -145,42 +150,61 @@ namespace Worldescape
             _settingConstructAssets = false;
         }
 
+        private void GetConstructAssetsCount(IEnumerable<ConstructAsset> filteredData)
+        {
+            _totalPageCount = filteredData.Count() / _pageSize;
+            FoundConstructAssetsCountHolder.Text = $"Found { filteredData?.Count().ToString() } constructs...";
+
+            PopulatePageNumbers();
+        }
+
+        private void GeneratePageNumbers()
+        {
+            _pageNumbers = _pageNumberHelper.GeneratePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
+            PagesHolder.ItemsSource = _pageNumbers;
+        }
+
+        private void PopulatePageNumbers()
+        {
+            _pageNumbers.Clear();
+            _pageNumbers = _pageNumberHelper.PopulatePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
+            PagesHolder.ItemsSource = _pageNumbers;
+        }
+
         #endregion
 
         #region Button Events
-
-        private void ButtonNext_Click(object sender, RoutedEventArgs e)
-        {
-            if (!_settingConstructAssets)
-            {
-                //_pageIndex++;
-
-                //if (_pageIndex > _totalPageCount)
-                //{
-                //    _pageIndex = _totalPageCount;
-                //}
-
-                _pageNumberHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
-
-                ShowConstructAssets();
-            }
-        }
 
         private void ButtonPreview_Click(object sender, RoutedEventArgs e)
         {
             if (!_settingConstructAssets)
             {
-                //_pageIndex--;
-
-                //if (_pageIndex < 0)
-                //{
-                //    _pageIndex = 0;
-                //    return;
-                //}
-
                 _pageNumberHelper.GetPreviousPageNumber(_totalPageCount, _pageIndex);
 
                 ShowConstructAssets();
+                GeneratePageNumbers();
+            }
+        }
+
+        private void ButtonNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_settingConstructAssets)
+            {
+                _pageNumberHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
+
+                ShowConstructAssets();
+                GeneratePageNumbers();
+            }
+        }
+
+        private void ButtonPageIndex_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_settingConstructAssets)
+            {
+                _pageIndex = Convert.ToInt32(((Button)sender).Content);
+
+                ShowConstructAssets();
+                GeneratePageNumbers();
             }
         }
 
@@ -208,7 +232,7 @@ namespace Worldescape
 
         #endregion
 
-        #endregion
+        #endregion      
     }
 }
 

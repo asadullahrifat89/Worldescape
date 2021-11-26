@@ -48,7 +48,7 @@ namespace Worldescape
             _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
             _pageNumberHelper = App.ServiceProvider.GetService(typeof(PageNumberHelper)) as PageNumberHelper;
 
-            LoadWorlds();
+            ShowWorlds();
         }
 
         #endregion
@@ -57,7 +57,7 @@ namespace Worldescape
 
         #region Functionality
 
-        private async void LoadWorlds()
+        private async void ShowWorlds()
         {
             var count = await GetWorldsCount();
 
@@ -176,7 +176,7 @@ namespace Worldescape
 
         private void ButtonSearchWorld_Click(object sender, RoutedEventArgs e)
         {
-            LoadWorlds();
+            ShowWorlds();
         }
 
         private void ButtonWorld_Click(object sender, RoutedEventArgs e)
@@ -240,7 +240,7 @@ namespace Worldescape
                 }
                 else
                 {
-                    LoadWorlds();
+                    ShowWorlds();
                 }
             });
             worldCreatorWindow.Show();
@@ -254,7 +254,7 @@ namespace Worldescape
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                LoadWorlds();
+                ShowWorlds();
             }
         }
 

@@ -43,10 +43,12 @@ namespace Worldescape
             {
                 if (pageIndex.ToString() == _pageNumbers.FirstOrDefault()) // If current page index is equal to the first page of generated page numbers
                 {
+                    _pageNumbers.Clear();
                     return PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
                 }
                 else if (pageIndex.ToString() == _pageNumbers.LastOrDefault()) // If the current page index is equal to the last page of generated page numbers
                 {
+                    _pageNumbers.Clear();
                     return PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
                 }
                 else

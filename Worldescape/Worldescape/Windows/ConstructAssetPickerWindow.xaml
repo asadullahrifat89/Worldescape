@@ -4,48 +4,95 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Worldescape"
     Title="ConstructAssetPickerWindow"
-    Width="610"
-    Height="600"
+    Width="615"
+    Height="655"
     FontWeight="SemiBold"
     Style="{StaticResource MaterialDesign_ChildWindow_Style}">
 
     <Grid x:Name="LayoutRoot" Margin="2">
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <StackPanel
+            Grid.Row="0"
+            Margin="5"
+            Orientation="Horizontal">
+
+            <Button
+                x:Name="CategoriesButton"
+                Width="120"
+                Margin="5,0"
+                Click="ButtonShowCategories_Click"
+                Content="Categories"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+            <TextBlock
+                x:Name="FoundConstructAssetsCountHolder"
+                Margin="10"
+                FontSize="16"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
+
+        </StackPanel>
+
         <ScrollViewer
             x:Name="ContentScrollViewer"
+            Grid.Row="1"
             HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Auto" />
 
         <StackPanel
-            Grid.Row="1"
+            Grid.Row="2"
             Margin="5"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
 
             <Button
                 x:Name="PreviousButton"
-                Width="120"
+                Width="110"
                 Margin="5"
                 Click="ButtonPreview_Click"
                 Content="Previous"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
-            <Button
-                x:Name="CategoriesButton"
-                Width="120"
-                Margin="5"
-                Click="ButtonShowCategories_Click"
-                Content="Categories"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+            <!--  page number Buttons  -->
+            <ItemsControl
+                x:Name="PagesHolder"
+                BorderThickness="0"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled">
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Background="Transparent" Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                x:Name="ButtonPageIndex"
+                                Width="50"
+                                Height="50"
+                                Margin="5,0"
+                                BorderThickness="0"
+                                Click="ButtonPageIndex_Click"
+                                Content="{Binding}"
+                                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
 
             <Button
                 x:Name="NextButton"
-                Width="120"
+                Width="110"
                 Margin="5"
                 Click="ButtonNext_Click"
                 Content="Next"
