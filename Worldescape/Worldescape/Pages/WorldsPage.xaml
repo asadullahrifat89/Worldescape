@@ -34,11 +34,12 @@
             <Button
                 x:Name="Button_SearchWorld"
                 Grid.Column="1"
-                Width="120"
+                Width="50"
                 Margin="10,0"
                 Click="Button_SearchWorld_Click"
-                Content="Search"
-                FontSize="16"
+                Content="&#xE721;"
+                FontFamily="Segoe MDL2 Assets"
+                FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
             <!--  Create world  -->

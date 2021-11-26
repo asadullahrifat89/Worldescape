@@ -154,22 +154,24 @@
                     <!--  Add  -->
                     <ToggleButton
                         x:Name="Button_ConstructAdd"
-                        MinWidth="110"
+                        Width="50"
                         Margin="10"
                         Click="Button_ConstructAdd_Click"
-                        Content="Add"
-                        FontSize="20"
+                        Content="&#xE948;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontWeight="Normal"
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
                         Visibility="Collapsed" />
 
                     <!--  Select  -->
                     <ToggleButton
                         x:Name="Button_ConstructMultiSelect"
-                        MinWidth="110"
+                        Width="50"
                         Margin="10"
                         Click="Button_ConstructMultiSelect_Click"
-                        Content="Select"
-                        FontSize="20"
+                        Content="&#xE762;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontWeight="Normal"
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
                         Visibility="Collapsed" />
 
@@ -418,21 +420,23 @@
                 <!--  Move  -->
                 <ToggleButton
                     x:Name="Button_ConstructMove"
-                    MinWidth="110"
+                    Width="50"
                     Margin="10"
                     Click="Button_ConstructMove_Click"
-                    Content="Move"
-                    FontSize="20"
+                    Content="&#xE759;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
                 <!--  Clone, not available while multi selection  -->
                 <ToggleButton
                     x:Name="Button_ConstructClone"
-                    MinWidth="110"
+                    Width="50"
                     Margin="10"
                     Click="Button_ConstructClone_Click"
-                    Content="Clone"
-                    FontSize="20"
+                    Content="&#xE8C8;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
                     Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}" />
 

@@ -234,7 +234,10 @@ namespace Worldescape
             else if (Button_ConstructCraft.IsChecked.Value)
             {
                 if (!CanManipulateConstruct())
+                {
+                    HideConstructOperationButtons();
                     return;
+                }                    
 
                 ShowConstructOperationButtons();
 
@@ -585,7 +588,7 @@ namespace Worldescape
         /// <param name="e"></param>
         private void Button_ConstructMultiSelect_Click(object sender, RoutedEventArgs e)
         {
-            Button_ConstructMultiSelect.Content = Button_ConstructMultiSelect.IsChecked.Value ? "Selecting" : "Select";
+            //Button_ConstructMultiSelect.Content = Button_ConstructMultiSelect.IsChecked.Value ? "Selecting" : "Select";
 
             if (Button_ConstructMultiSelect.IsChecked.Value)
             {
@@ -606,19 +609,19 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                Button_ConstructCraft.Content = Button_ConstructCraft.IsChecked.Value ? "Constructing" : "Construct";
+                //Button_ConstructCraft.Content = Button_ConstructCraft.IsChecked.Value ? "Constructing" : "Construct";
 
                 Button_ConstructMove.IsChecked = false;
-                Button_ConstructMove.Content = "Move";
+                //Button_ConstructMove.Content = "Move";
 
                 Button_ConstructClone.IsChecked = false;
-                Button_ConstructClone.Content = "Clone";
+                //Button_ConstructClone.Content = "Clone";
 
                 Button_ConstructAdd.IsChecked = false;
-                Button_ConstructAdd.Content = "Add";
+                //Button_ConstructAdd.Content = "Add";
 
                 Button_ConstructMultiSelect.IsChecked = false;
-                Button_ConstructMultiSelect.Content = "Select";
+                //Button_ConstructMultiSelect.Content = "Select";
 
                 if (Button_ConstructCraft.IsChecked.Value)
                 {
@@ -658,13 +661,13 @@ namespace Worldescape
                 if (_addingConstruct != null)
                 {
                     _addingConstruct = null;
-                    Button_ConstructAdd.Content = "Add";
+                    //Button_ConstructAdd.Content = "Add";
                     Button_ConstructAdd.IsChecked = false;
 
                     return;
                 }
 
-                Button_ConstructAdd.Content = "Adding";
+                //Button_ConstructAdd.Content = "Adding";
 
                 if (!ConstructAssets.Any())
                 {
@@ -690,7 +693,7 @@ namespace Worldescape
                 {
                     if (_addingConstruct == null)
                     {
-                        Button_ConstructAdd.Content = "Add";
+                        //Button_ConstructAdd.Content = "Add";
                         Button_ConstructAdd.IsChecked = false;
                     }
                 };
@@ -706,7 +709,7 @@ namespace Worldescape
         /// <param name="e"></param>
         private void Button_ConstructMove_Click(object sender, RoutedEventArgs e)
         {
-            Button_ConstructMove.Content = Button_ConstructMove.IsChecked.Value ? "Moving" : "Move";
+            //Button_ConstructMove.Content = Button_ConstructMove.IsChecked.Value ? "Moving" : "Move";
 
             if (!Button_ConstructMove.IsChecked.Value)
             {
@@ -730,7 +733,7 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                Button_ConstructClone.Content = Button_ConstructClone.IsChecked.Value ? "Cloning" : "Clone";
+                // Button_ConstructClone.Content = Button_ConstructClone.IsChecked.Value ? "Cloning" : "Clone";
 
                 if (!Button_ConstructClone.IsChecked.Value)
                 {
@@ -2469,7 +2472,7 @@ namespace Worldescape
         private void ClearMultiselectedConstructs()
         {
             Button_ConstructMultiSelect.IsChecked = false;
-            Button_ConstructMultiSelect.Content = "Select";
+            //Button_ConstructMultiSelect.Content = "Select";
             MultiSelectedConstructsHolder.Children.Clear();
             MultiselectedConstructs.Clear();
         }
