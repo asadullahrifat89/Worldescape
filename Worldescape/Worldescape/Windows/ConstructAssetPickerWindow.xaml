@@ -26,13 +26,7 @@
             Margin="5"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
-            <Button
-                x:Name="CategoriesButton"
-                Width="120"
-                Margin="5"
-                Click="ButtonShowCategories_Click"
-                Content="Categories"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
             <Button
                 x:Name="PreviousButton"
                 Width="120"
@@ -40,6 +34,15 @@
                 Click="ButtonPreview_Click"
                 Content="Previous"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+            <Button
+                x:Name="CategoriesButton"
+                Width="120"
+                Margin="5"
+                Click="ButtonShowCategories_Click"
+                Content="Categories"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
             <Button
                 x:Name="NextButton"
                 Width="120"
@@ -47,6 +50,7 @@
                 Click="ButtonNext_Click"
                 Content="Next"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
         </StackPanel>
 
     </Grid>
