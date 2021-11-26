@@ -1,25 +1,34 @@
 ﻿using FluentValidation;
+using MongoDB.Driver;
+using Worldescape.Data;
+using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
 public class UpdateWorldCommandValidator : AbstractValidator<UpdateWorldCommand>
 {
-    private readonly ApiTokenHelper _apiTokenHelper;
+    readonly ApiTokenHelper _apiTokenHelper;
+    readonly DatabaseService _databaseService;
 
-    public UpdateWorldCommandValidator(ApiTokenHelper apiTokenHelper, AddWorldCommandValidator validationRules)
+    public UpdateWorldCommandValidator(
+        ApiTokenHelper apiTokenHelper,
+        AddWorldCommandValidator validationRules,
+        DatabaseService databaseService)
     {
+        _databaseService = databaseService;
         _apiTokenHelper = apiTokenHelper;
 
-        RuleFor(x => x.Token).NotNull().NotEmpty();
-        RuleFor(x => x.Token).MustAsync(BeValidApiToken);
 
         RuleFor(x => x.Id).GreaterThan(0);
-        RuleFor(x => x).Must(x => validationRules.Validate(x).IsValid);
+        RuleFor(x => x).MustAsync(BeAnExistingWorld);
+        
+        RuleFor(x => x).Must(x => validationRules.Validate(x).IsValid);       
     }
 
-    private Task<bool> BeValidApiToken(string token, CancellationToken arg2)
+    private async Task<bool> BeAnExistingWorld(UpdateWorldCommand command, CancellationToken arg2)
     {
-        return _apiTokenHelper.BeValidApiToken(token);
+        var exists = await _databaseService.ExistsById<World>(command.Id);
+        return exists;
     }
 }
 

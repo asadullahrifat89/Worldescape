@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Data;
 using Worldescape.Service;
 
@@ -52,6 +53,9 @@ namespace Worldescape
                 default:
                     break;
             }
+
+            AccountModel.ImageUrl = App.User.ImageUrl;
+            Image_ProfileImageUrl.Source = new BitmapImage(new Uri(App.User.ImageUrl));
         }
 
         #endregion
@@ -89,9 +93,11 @@ namespace Worldescape
 
         private async Task UpdateUser()
         {
-            _mainPage.SetIsBusy(true, "Creating your account...");
+            _mainPage.SetIsBusy(true, "Saving your account...");
             var command = new UpdateUserCommandRequest
             {
+                Token = App.Token,
+                //Phone = AccountModel.Phone,
                 Id = AccountModel.Id,
                 Email = AccountModel.Email,
                 Password = AccountModel.Password,
@@ -100,6 +106,7 @@ namespace Worldescape
                 FirstName = AccountModel.FirstName,
                 LastName = AccountModel.LastName,
                 Name = AccountModel.FirstName + " " + AccountModel.LastName,
+                ImageUrl = AccountModel.ImageUrl,
             };
 
             var response = await _httpServiceHelper.SendPostRequest<ServiceResponse>(

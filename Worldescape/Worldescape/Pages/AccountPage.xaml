@@ -16,19 +16,26 @@
 
         <StackPanel Margin="20" VerticalAlignment="Top">
 
-            <!--<TextBlock
-                Margin="10"
-                FontSize="50"
-                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                Text="Worldescape"
-                TextAlignment="Center" />
+            <!--  ProfileImageUrl  -->
+            <Border
+                Width="100"
+                Height="100"
+                Margin="5,0"
+                ClipToBounds="True"
+                CornerRadius="40">
+                <Image
+                    x:Name="Image_ProfileImageUrl"
+                    Width="100"
+                    Height="100"
+                    Stretch="Uniform" />
+            </Border>
 
+            <!--  Name  -->
             <TextBlock
-                Margin="10"
-                FontSize="30"
-                Text="Your worldescaping journey starts here..."
-                TextAlignment="Center"
-                TextWrapping="Wrap" />-->
+                x:Name="TextBlock_Name"
+                Margin="5"
+                VerticalAlignment="Center"
+                FontSize="18" />
 
         </StackPanel>
 

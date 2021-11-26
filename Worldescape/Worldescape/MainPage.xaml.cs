@@ -60,7 +60,7 @@ namespace Worldescape
 
             // If no profile picture was set
             CurrentUserModel.ProfileImageUrl = App.User.ImageUrl;
-            ProfileImageUrlHolder.Source = new BitmapImage(new Uri(CurrentUserModel.ProfileImageUrl));
+            Image_ProfileImageUrl.Source = new BitmapImage(new Uri(CurrentUserModel.ProfileImageUrl));
         }
 
         public void SetIsBusy(bool isBusy, string busyMessage = null)

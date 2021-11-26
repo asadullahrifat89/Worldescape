@@ -56,7 +56,7 @@
                                 ClipToBounds="True"
                                 CornerRadius="40">
                                 <Image
-                                    x:Name="ProfileImageUrlHolder"
+                                    x:Name="Image_ProfileImageUrl"
                                     Width="40"
                                     Height="40"
                                     Stretch="Uniform" />

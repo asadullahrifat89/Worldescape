@@ -83,6 +83,14 @@ namespace Worldescape.Data
 
     public class AccountModel : SignupModel
     {
+        /// <summary>
+        /// Id of the user.
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Image url of the profile picture of the user.
+        /// </summary>
+        public string ImageUrl { get; set; }
     }
 }

@@ -41,9 +41,6 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, Servi
 
             var result = await _databaseService.FindById<User>(request.Id);
 
-            if (result == null || result.IsEmpty())
-                throw new Exception("User with Id: " + request.Id + "not found.");
-
             // update user instance
             result.FirstName = request.FirstName;
             result.LastName = request.LastName;

@@ -41,9 +41,6 @@ public class UpdateWorldCommandHandler : IRequestHandler<UpdateWorldCommand, Wor
 
             var result = await _databaseService.FindById<World>(request.Id);
 
-            if (result == null || result.IsEmpty())
-                throw new Exception("World with Id: " + request.Id + "not found.");
-
             // update world instance
             result.Name = request.Name;
             result.ImageUrl = request.ImageUrl;

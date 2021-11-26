@@ -43,11 +43,7 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ServiceResp
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             validationResult.EnsureValidResult();
 
-            var filter = Builders<User>.Filter.Eq(x => x.Email, request.Email);
-            var result = await _databaseService.FindOne(filter);
-
-            if (result != null && !result.IsEmpty())
-                throw new Exception("User with Email: " + request.Email + " already exists.");
+            var filter = Builders<User>.Filter.Eq(x => x.Email, request.Email);         
 
             // Create new user instance
             var user = new User
@@ -67,7 +63,7 @@ public class AddUserCommandHandler : IRequestHandler<AddUserCommand, ServiceResp
 
             if (await _databaseService.InsertDocument(user))
             {
-                result = await _databaseService.FindOne(filter);
+               var result = await _databaseService.FindOne(filter);
 
                 if (result != null)
                 {
