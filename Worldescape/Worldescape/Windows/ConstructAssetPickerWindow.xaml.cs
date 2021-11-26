@@ -91,6 +91,7 @@ namespace Worldescape
                 Height = 500
             };
 
+            // Add an All button first
             var button_All = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
@@ -106,6 +107,7 @@ namespace Worldescape
 
             _masonryPanel.Children.Add(button_All);
 
+            //Add all teh categories
             foreach (var item in pagedData)
             {
                 var button_Category = new Button()
