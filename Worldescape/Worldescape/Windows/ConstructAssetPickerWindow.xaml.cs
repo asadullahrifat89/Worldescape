@@ -14,9 +14,9 @@ namespace Worldescape
     {
         #region Fields
 
-        int pageSize = 24;
-        int pageIndex = 0;
-        int totalPageCount = 0;
+        int _pageSize = 24;
+        int _pageIndex = 0;
+        int _totalPageCount = 0;
 
         bool _settingConstructAssets = false;
 
@@ -96,9 +96,9 @@ namespace Worldescape
 
             var filteredData = string.IsNullOrEmpty(_pickedConstructCategory) ? _constructAssets : _constructAssets.Where(x => x.Category == _pickedConstructCategory);
 
-            totalPageCount = filteredData.Count() / pageSize;
+            _totalPageCount = filteredData.Count() / _pageSize;
 
-            var pagedData = filteredData.Skip(pageIndex * pageSize).Take(pageSize);
+            var pagedData = filteredData.Skip(_pageIndex * _pageSize).Take(_pageSize);
 
             var _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
@@ -151,11 +151,11 @@ namespace Worldescape
         {
             if (!_settingConstructAssets)
             {
-                pageIndex++;
+                _pageIndex++;
 
-                if (pageIndex > totalPageCount)
+                if (_pageIndex > _totalPageCount)
                 {
-                    pageIndex = totalPageCount;
+                    _pageIndex = _totalPageCount;
                 }
 
                 ShowConstructAssets();
@@ -166,11 +166,11 @@ namespace Worldescape
         {
             if (!_settingConstructAssets)
             {
-                pageIndex--;
+                _pageIndex--;
 
-                if (pageIndex < 0)
+                if (_pageIndex < 0)
                 {
-                    pageIndex = 0;
+                    _pageIndex = 0;
                     return;
                 }
 
@@ -185,7 +185,7 @@ namespace Worldescape
 
         private void ButtonConstructCategory_Click(object sender, RoutedEventArgs e)
         {
-            pageIndex = 0;
+            _pageIndex = 0;
             _pickedConstructCategory = (((Button)sender).Tag as ConstructCategory).Name;
             ShowConstructAssets();
         }

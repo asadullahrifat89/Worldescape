@@ -22,15 +22,18 @@ namespace Worldescape
     {
         #region Fields
 
-        int pageSize = 12;
-        int pageIndex = 0;
-        long totalPageCount = 0;
+        int _pageSize = 12;
+        int _pageIndex = 0;
+        long _totalPageCount = 0;
 
         bool _settingWorlds = false;
 
         readonly MainPage _mainPage;
         readonly HttpServiceHelper _httpServiceHelper;
         readonly WorldHelper _worldHelper;
+
+        RangeObservableCollection<string> _pageNumbers = new RangeObservableCollection<string>();
+
         #endregion
 
         #region Ctor
@@ -67,7 +70,7 @@ namespace Worldescape
 
             var response = await _httpServiceHelper.SendGetRequest<GetWorldsQueryResponse>(
                 actionUri: Constants.Action_GetWorlds,
-                payload: new GetWorldsQueryRequest() { Token = App.Token, PageIndex = pageIndex, PageSize = pageSize, SearchString = SearchWorldsTextHolder.Text });
+                payload: new GetWorldsQueryRequest() { Token = App.Token, PageIndex = _pageIndex, PageSize = _pageSize, SearchString = SearchWorldsTextHolder.Text });
 
             if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
             {
@@ -78,7 +81,7 @@ namespace Worldescape
 
             var _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
-                Margin = new Thickness(20,0,20,0),
+                Margin = new Thickness(20, 0, 20, 0),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
                 MinHeight = 600
             };
@@ -89,7 +92,7 @@ namespace Worldescape
             {
                 var img = _worldHelper.GetWorldPicture(world: world, size: size);
 
-                img.Margin = new Thickness(10,15,10,10);                
+                img.Margin = new Thickness(10, 15, 10, 10);
 
                 var stackPanel = new StackPanel() { Margin = new Thickness(10) };
                 stackPanel.Children.Add(img);
@@ -106,7 +109,7 @@ namespace Worldescape
                     FontSize = 15,
                     FontWeight = FontWeights.SemiBold,
                     TextAlignment = TextAlignment.Center,
-                    Text = "By "+ world.Creator.Name,
+                    Text = "By " + world.Creator.Name,
                     Margin = new Thickness(5),
                 });
 
@@ -117,7 +120,7 @@ namespace Worldescape
                     Width = size,
                     Margin = new Thickness(5),
                     Tag = world,
-                };               
+                };
 
                 buttonWorld.Click += ButtonWorld_Click;
                 buttonWorld.Content = stackPanel;
@@ -134,21 +137,53 @@ namespace Worldescape
         {
             // Get constructs count for this world
             var countResponse = await _httpServiceHelper.SendGetRequest<GetWorldsCountQueryResponse>(
-             actionUri: Constants.Action_GetWorldsCount,
-             payload: new GetWorldsCountQueryRequest() { Token = App.Token, SearchString = SearchWorldsTextHolder.Text });
+                actionUri: Constants.Action_GetWorldsCount,
+                payload: new GetWorldsCountQueryRequest() { Token = App.Token, SearchString = SearchWorldsTextHolder.Text });
 
             if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
             {
                 MessageBox.Show(countResponse.ExternalError.ToString());
             }
 
-            totalPageCount = countResponse.Count < pageSize ? 1 : countResponse.Count / pageSize;
+            _totalPageCount = countResponse.Count < _pageSize ? 1 : (long)Math.Ceiling(countResponse.Count / (decimal)_pageSize);
 
             FoundWorldsCountHolder.Text = $"Found {countResponse.Count} worlds...";
 
-            // TODO: create page numbers below
+            PopulatePageNumbers();
 
             return countResponse;
+        }
+
+        private void GeneratePageNumbers()
+        {
+            // Ig total page count is greater than 5 only then make repopulation other wise no need
+            if (_totalPageCount > 5)
+            {
+                // If current page index is equal to the first page of generated page numbers
+                if (_pageIndex.ToString() == _pageNumbers.FirstOrDefault())
+                {
+                    PopulatePageNumbers();
+                } // If the current page index is equal to the last page of generated page numbers
+                else if (_pageIndex.ToString() == _pageNumbers.LastOrDefault())
+                {
+                    PopulatePageNumbers();
+                }
+            }
+        }
+
+        private void PopulatePageNumbers()
+        {
+            for (int i = _pageIndex; i < _totalPageCount; i++)
+            {
+                _pageNumbers.Add(i.ToString());
+
+                if (i >= 5) // Generate upto 5 pages
+                {
+                    break;
+                }
+            }
+
+            PagesHolder.ItemsSource = _pageNumbers;
         }
 
         #endregion
@@ -176,15 +211,17 @@ namespace Worldescape
         {
             if (!_settingWorlds)
             {
-                pageIndex--;
+                _pageIndex--;
 
-                if (pageIndex < 0)
+                if (_pageIndex < 0)
                 {
-                    pageIndex = 0;
+                    _pageIndex = 0;
                     return;
                 }
 
                 await GetWorlds();
+
+                GeneratePageNumbers();
             }
         }
 
@@ -192,14 +229,28 @@ namespace Worldescape
         {
             if (!_settingWorlds)
             {
-                pageIndex++;
+                _pageIndex++;
 
-                if (pageIndex > totalPageCount)
+                if (_pageIndex > _totalPageCount)
                 {
-                    pageIndex = (int)totalPageCount;
+                    _pageIndex = (int)_totalPageCount;
                 }
 
                 await GetWorlds();
+
+                GeneratePageNumbers();
+            }
+        }
+
+        private async void ButtonPageIndex_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_settingWorlds)
+            {
+                _pageIndex = Convert.ToInt32(((Button)sender).Content);
+
+                await GetWorlds();
+
+                GeneratePageNumbers();
             }
         }
 
@@ -207,7 +258,7 @@ namespace Worldescape
         {
             WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow(async (world) =>
             {
-                var result =  MessageBox.Show("Would you like to teleport to your created world now?", "Teleport", MessageBoxButton.OKCancel);
+                var result = MessageBox.Show("Would you like to teleport to your created world now?", "Teleport", MessageBoxButton.OKCancel);
 
                 if (result == MessageBoxResult.OK)
                 {

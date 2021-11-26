@@ -18,7 +18,7 @@
             Margin="20,20,20,10"
             Orientation="Horizontal">
 
-            <!--  Srach box for worlds  -->
+            <!--  Search box for worlds  -->
             <TextBox
                 x:Name="SearchWorldsTextHolder"
                 Width="300"
@@ -72,7 +72,7 @@
             HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Auto" />
 
-
+        <!--  Next, page numbers, and previous buttons  -->
         <StackPanel
             Grid.Row="3"
             Margin="10"
@@ -86,6 +86,35 @@
                 Click="ButtonPreview_Click"
                 Content="Previous"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+            <ListBox
+                x:Name="PagesHolder"
+                BorderThickness="0"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled">
+
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Background="Transparent" Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                x:Name="ButtonPageIndex"
+                                Width="50"
+                                Height="50"
+                                BorderThickness="0"
+                                Click="ButtonPageIndex_Click"
+                                Content="{Binding}"
+                                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
 
             <Button
                 x:Name="NextButton"
