@@ -55,6 +55,7 @@ namespace Worldescape
         readonly ConstructHelper _constructHelper;
         readonly WorldHelper _worldHelper;
         readonly HttpServiceHelper _httpServiceHelper;
+        readonly PageNumberHelper _pageNumberHelper;
 
         #endregion
 
@@ -70,6 +71,7 @@ namespace Worldescape
             _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
             _constructHelper = App.ServiceProvider.GetService(typeof(ConstructHelper)) as ConstructHelper;
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
+            _pageNumberHelper = App.ServiceProvider.GetService(typeof(PageNumberHelper)) as PageNumberHelper;
 
             SubscribeHub();
         }
@@ -921,7 +923,7 @@ namespace Worldescape
             if (_isLoggedIn)
             {
                 _mainPage.SetIsBusy(true);
-                
+
                 await HubService.Logout();
                 await HubService.DisconnectAsync();
                 App.World = new World();
@@ -1632,7 +1634,7 @@ namespace Worldescape
                 Button_World.Tag = App.World;
                 Button_World.Visibility = Visibility.Visible;
                 WorldImageHolder.Content = GetWorldPicture(App.World);
-                WorldNameHolder.Text = App.World.Name;                
+                WorldNameHolder.Text = App.World.Name;
             }
         }
 
@@ -1787,14 +1789,15 @@ namespace Worldescape
             if (countResponse.Count > 0)
             {
                 var pageSize = 20;
-                var NumberOfPages = countResponse.Count < pageSize ? 1 : countResponse.Count / pageSize;
 
-                for (int i = 0; i < NumberOfPages; i++)
+                var totalPageCount = _pageNumberHelper.GetTotalPageCount(pageSize, countResponse.Count);
+
+                for (int pageIndex = 0; pageIndex < totalPageCount; pageIndex++)
                 {
                     // Get constructs in small packets
                     var response = await _httpServiceHelper.SendGetRequest<GetConstructsQueryResponse>(
                         actionUri: Constants.Action_GetConstructs,
-                        payload: new GetConstructsQueryRequest() { Token = App.Token, PageIndex = i, PageSize = pageSize, WorldId = App.World.Id });
+                        payload: new GetConstructsQueryRequest() { Token = App.Token, PageIndex = pageIndex, PageSize = pageSize, WorldId = App.World.Id });
 
                     if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
                     {

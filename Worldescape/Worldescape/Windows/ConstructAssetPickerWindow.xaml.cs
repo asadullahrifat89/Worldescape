@@ -16,7 +16,7 @@ namespace Worldescape
 
         int _pageSize = 24;
         int _pageIndex = 0;
-        int _totalPageCount = 0;
+        long _totalPageCount = 0;
 
         bool _settingConstructAssets = false;
 
@@ -150,7 +150,8 @@ namespace Worldescape
 
         private void ShowConstructAssetsCount(IEnumerable<ConstructAsset> filteredData)
         {
-            _totalPageCount = filteredData.Count() / _pageSize;
+            _totalPageCount = _pageNumberHelper.GetTotalPageCount(_pageSize, filteredData.Count());
+
             FoundConstructAssetsCountHolder.Text = $"Found { filteredData?.Count().ToString() } constructs...";
             PopulatePageNumbers(0);
         }

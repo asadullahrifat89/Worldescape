@@ -148,7 +148,7 @@ namespace Worldescape
                 MessageBox.Show(countResponse.ExternalError.ToString());
             }
 
-            _totalPageCount = countResponse.Count < _pageSize ? 1 : (long)Math.Ceiling(countResponse.Count / (decimal)_pageSize);
+            _totalPageCount = _pageNumberHelper.GetTotalPageCount(_pageSize, countResponse.Count);            
 
             FoundWorldsCountHolder.Text = $"Found {countResponse.Count} worlds...";
 

@@ -1,10 +1,17 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Windows.UI.Xaml.Controls;
 
 namespace Worldescape
 {
     public class PageNumberHelper
     {
+        public long GetTotalPageCount(int pageSize, long dataCount)
+        {
+            var totalPageCount = dataCount < pageSize ? 1 : (long)Math.Ceiling(dataCount / (decimal)pageSize);
+            return totalPageCount;
+        }
+
         public int GetNextPageNumber(
             long totalPageCount,
             int pageIndex)
@@ -37,21 +44,14 @@ namespace Worldescape
             long totalPageCount,
             int pageIndex,
             RangeObservableCollection<string> _pageNumbers)
-        {
-            if (pageIndex >= 4)
+        {            
+            if (pageIndex.ToString() == _pageNumbers.FirstOrDefault()) // If current page index is equal to the first page of generated page numbers
             {
-                if (pageIndex.ToString() == _pageNumbers.FirstOrDefault()) // If current page index is equal to the first page of generated page numbers
-                {
-                    return PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
-                }
-                else if (pageIndex.ToString() == _pageNumbers.LastOrDefault()) // If the current page index is equal to the last page of generated page numbers
-                {
-                    return PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
-                }
-                else
-                {
-                    return _pageNumbers;
-                }
+                return PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
+            }
+            else if (pageIndex.ToString() == _pageNumbers.LastOrDefault()) // If the current page index is equal to the last page of generated page numbers
+            {
+                return PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
             }
             else
             {
