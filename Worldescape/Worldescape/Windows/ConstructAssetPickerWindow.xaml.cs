@@ -21,7 +21,7 @@ namespace Worldescape
 
         bool _settingConstructAssets = false;
 
-        string _pickedConstructCategory = string.Empty;
+        string _selectedConstructCategoryName = string.Empty;
 
         List<ConstructAsset> _constructAssets = new List<ConstructAsset>();
         List<ConstructCategory> _constructCategories = new List<ConstructCategory>();
@@ -65,7 +65,7 @@ namespace Worldescape
             var filteredData = new List<ConstructAsset>();
 
             filteredData.AddRange(_constructAssets.Where(x =>
-            (!_pickedConstructCategory.IsNullOrBlank() ? x.Category == _pickedConstructCategory : !x.Category.IsNullOrBlank())
+            (!_selectedConstructCategoryName.IsNullOrBlank() ? x.Category == _selectedConstructCategoryName : !x.Category.IsNullOrBlank())
             && (!SearchConstructAssetsTextHolder.Text.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(SearchConstructAssetsTextHolder.Text.ToLowerInvariant()) : !x.Name.IsNullOrBlank())));
 
             return filteredData;
@@ -91,9 +91,24 @@ namespace Worldescape
                 Height = 500
             };
 
+            var button_All = new Button()
+            {
+                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Width = 150,
+                Height = 120,
+                Margin = new Thickness(3),
+                Tag = new ConstructCategory() { Name = "All" },
+                FontSize = 18
+            };
+
+            button_All.Click += ButtonConstructCategory_Click;
+            button_All.Content = "All";
+
+            _masonryPanel.Children.Add(button_All);
+
             foreach (var item in pagedData)
             {
-                var buttonConstructAsset = new Button()
+                var button_Category = new Button()
                 {
                     Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
                     Width = 150,
@@ -103,10 +118,10 @@ namespace Worldescape
                     FontSize = 18
                 };
 
-                buttonConstructAsset.Click += ButtonConstructCategory_Click;
-                buttonConstructAsset.Content = item.Name;
+                button_Category.Click += ButtonConstructCategory_Click;
+                button_Category.Content = item.Name;
 
-                _masonryPanel.Children.Add(buttonConstructAsset);
+                _masonryPanel.Children.Add(button_Category);
             }
 
             ContentScrollViewer.Content = _masonryPanel;
@@ -254,9 +269,10 @@ namespace Worldescape
 
         private void ButtonConstructCategory_Click(object sender, RoutedEventArgs e)
         {
-            _pickedConstructCategory = (((Button)sender).Tag as ConstructCategory).Name;
+            var categoryName = (((Button)sender).Tag as ConstructCategory).Name;
+            SelectedCategoryNameHolder.Text = categoryName.IsNullOrBlank() ? "" : $"In {categoryName}: ";
 
-            SelectedCategoryNameHolder.Text = _pickedConstructCategory.IsNullOrBlank() ? "" : $"In {_pickedConstructCategory}: ";
+            _selectedConstructCategoryName = !categoryName.Equals("All") ? categoryName : null;
 
             _pageIndex = 0;
             ShowConstructAssetsCount();
