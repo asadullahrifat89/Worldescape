@@ -57,7 +57,7 @@ namespace Worldescape
 
         #region Functionality
 
-        private async Task LoadWorlds()
+        private async void LoadWorlds()
         {
             var count = await GetWorldsCount();
 
@@ -165,6 +165,7 @@ namespace Worldescape
 
         private void PopulatePageNumbers()
         {
+            _pageNumbers.Clear();
             _pageNumbers = _pageNumberHelper.PopulatePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
             PagesHolder.ItemsSource = _pageNumbers;
         }
@@ -173,9 +174,9 @@ namespace Worldescape
 
         #region Button Events
 
-        private async void ButtonSearchWorld_Click(object sender, RoutedEventArgs e)
+        private void ButtonSearchWorld_Click(object sender, RoutedEventArgs e)
         {
-            await LoadWorlds();
+            LoadWorlds();
         }
 
         private void ButtonWorld_Click(object sender, RoutedEventArgs e)
@@ -228,7 +229,7 @@ namespace Worldescape
 
         private void ButtonCreateWorld_Click(object sender, RoutedEventArgs e)
         {
-            WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow(async (world) =>
+            WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow((world) =>
             {
                 var result = MessageBox.Show("Would you like to teleport to your created world now?", "Teleport", MessageBoxButton.OKCancel);
 
@@ -239,7 +240,7 @@ namespace Worldescape
                 }
                 else
                 {
-                    await LoadWorlds();
+                    LoadWorlds();
                 }
             });
             worldCreatorWindow.Show();
@@ -249,11 +250,11 @@ namespace Worldescape
 
         #region UX Events
 
-        private async void SearchWorldsTextHolder_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void SearchWorldsTextHolder_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                await LoadWorlds();
+                LoadWorlds();
             }
         }
 

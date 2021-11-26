@@ -35,22 +35,22 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Orientation="Horizontal">
-
+            
             <!--  Connect  -->
             <Button
-                x:Name="ConnectButton"
+                x:Name="Button_Connect"
                 MinWidth="110"
                 Margin="10"
-                Click="ConnectButton_Click"
+                Click="Button_Connect_Click"
                 Content="Connect"
                 FontSize="20"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
             <!--  World  -->
             <Button
-                x:Name="WorldButton"
+                x:Name="Button_World"
                 MinWidth="100"
-                Click="WorldButton_Click"
+                Click="Button_World_Click"
                 FontSize="15"
                 FontWeight="Semibold"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}"
@@ -78,14 +78,13 @@
 
             <!--  Leave  -->
             <Button
-                x:Name="LeaveButton"
+                x:Name="Button_Leave"
                 MinWidth="110"
                 Margin="10"
-                Click="LeaveButton_Click"
+                Click="Button_Leave_Click"
                 Content="Leave"
                 FontSize="20"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}"
-                Visibility="Collapsed" />
+                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
 
         </StackPanel>
@@ -100,9 +99,9 @@
             Orientation="Horizontal"
             Visibility="Collapsed">
             <Button
-                x:Name="MyAvatarButton"
+                x:Name="Button_MyAvatar"
                 MinWidth="100"
-                Click="MyAvatarButton_Click"
+                Click="Button_MyAvatar_Click"
                 FontSize="15"
                 FontWeight="Semibold"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}">
@@ -144,20 +143,20 @@
 
                     <!--  Construct  -->
                     <ToggleButton
-                        x:Name="ConstructCraftButton"
+                        x:Name="Button_ConstructCraft"
                         MinWidth="110"
                         Margin="10"
-                        Click="ConstructCraftButton_Click"
+                        Click="Button_ConstructCraft_Click"
                         Content="Construct"
                         FontSize="20"
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
                     <!--  Add  -->
                     <ToggleButton
-                        x:Name="ConstructAddButton"
+                        x:Name="Button_ConstructAdd"
                         MinWidth="110"
                         Margin="10"
-                        Click="ConstructAddButton_Click"
+                        Click="Button_ConstructAdd_Click"
                         Content="Add"
                         FontSize="20"
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
@@ -165,10 +164,10 @@
 
                     <!--  Select  -->
                     <ToggleButton
-                        x:Name="ConstructMultiSelectButton"
+                        x:Name="Button_ConstructMultiSelect"
                         MinWidth="110"
                         Margin="10"
-                        Click="ConstructMultiSelectButton_Click"
+                        Click="Button_ConstructMultiSelect_Click"
                         Content="Select"
                         FontSize="20"
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
@@ -177,7 +176,7 @@
                 </StackPanel>
 
                 <!--  Multi selected constructs  -->
-                <ContentControl Style="{StaticResource MaterialDesign_PopupContent_Style}" Visibility="{Binding ElementName=ConstructMultiSelectButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ContentControl Style="{StaticResource MaterialDesign_PopupContent_Style}" Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel x:Name="MultiSelectedConstructsHolder" Orientation="Horizontal" />
                 </ContentControl>
 
@@ -239,20 +238,20 @@
 
                             <!--  Create post, shows a child window to create a post  -->
                             <Button
-                                x:Name="CreatePostButton"
+                                x:Name="Button_CreatePost"
                                 MinWidth="110"
                                 Margin="5,10"
-                                Click="CreatePostButton_Click"
+                                Click="Button_CreatePost_Click"
                                 Content="Post"
                                 FontSize="20"
                                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                             <!--  Show statuses  -->
                             <ToggleButton
-                                x:Name="SelectStatusButton"
+                                x:Name="Button_SelectStatus"
                                 MinWidth="110"
                                 Margin="5,10"
-                                Click="SelectStatusButton_Click"
+                                Click="Button_SelectStatus_Click"
                                 Content="Status"
                                 FontSize="20"
                                 Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
@@ -268,10 +267,10 @@
 
                             <!--  Message, activates messaging UI  -->
                             <Button
-                                x:Name="MessageAvatarButton"
+                                x:Name="Button_MessageAvatar"
                                 MinWidth="110"
                                 Margin="5,10"
-                                Click="MessageAvatarButton_Click"
+                                Click="Button_MessageAvatar_Click"
                                 Content="Message"
                                 FontSize="20"
                                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
@@ -316,10 +315,10 @@
 
                 <!--  Show details  -->
                 <Button
-                    x:Name="ObjectDetailsButton"
+                    x:Name="Button_ObjectDetails"
                     MinWidth="110"
                     Margin="5,10"
-                    Click="ObjectDetailsButton_Click"
+                    Click="Button_ObjectDetails_Click"
                     Content="Details"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}"
@@ -348,7 +347,7 @@
                         </Grid.RowDefinitions>
 
                         <Button
-                            x:Name="ButtonCloseSideCard"
+                            x:Name="Button_CloseSideCard"
                             Grid.Row="0"
                             Margin="0"
                             Padding="0"
@@ -357,7 +356,7 @@
                             HorizontalContentAlignment="Center"
                             VerticalContentAlignment="Center"
                             Background="Transparent"
-                            Click="ButtonCloseSideCard_Click"
+                            Click="Button_CloseSideCard_Click"
                             Content="&#215;"
                             Effect="{x:Null}"
                             FontSize="26"
@@ -418,81 +417,81 @@
 
                 <!--  Move  -->
                 <ToggleButton
-                    x:Name="ConstructMoveButton"
+                    x:Name="Button_ConstructMove"
                     MinWidth="110"
                     Margin="10"
-                    Click="ConstructMoveButton_Click"
+                    Click="Button_ConstructMove_Click"
                     Content="Move"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
                 <!--  Clone, not available while multi selection  -->
                 <ToggleButton
-                    x:Name="ConstructCloneButton"
+                    x:Name="Button_ConstructClone"
                     MinWidth="110"
                     Margin="10"
-                    Click="ConstructCloneButton_Click"
+                    Click="Button_ConstructClone_Click"
                     Content="Clone"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
-                    Visibility="{Binding ElementName=ConstructMultiSelectButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}" />
+                    Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}" />
 
                 <!--  Upward  -->
                 <Button
-                    x:Name="ConstructBringForwardButton"
+                    x:Name="Button_ConstructBringForward"
                     MinWidth="110"
                     Margin="10"
-                    Click="ConstructBringForwardButton_Click"
+                    Click="Button_ConstructBringForward_Click"
                     Content="Upward"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Downward  -->
                 <Button
-                    x:Name="ConstructSendBackwardButton"
+                    x:Name="Button_ConstructSendBackward"
                     MinWidth="110"
                     Margin="10"
-                    Click="ConstructSendBackwardButton_Click"
+                    Click="Button_ConstructSendBackward_Click"
                     Content="Downward"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Enlarge  -->
                 <Button
-                    x:Name="ConstructScaleUpButton"
+                    x:Name="Button_ConstructScaleUp"
                     MinWidth="110"
                     Margin="10"
-                    Click="ConstructScaleUpButton_Click"
+                    Click="Button_ConstructScaleUp_Click"
                     Content="Enlarge"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Dwindle  -->
                 <Button
-                    x:Name="ConstructScaleDownButton"
+                    x:Name="Button_ConstructScaleDown"
                     MinWidth="110"
                     Margin="10"
-                    Click="ConstructScaleDownButton_Click"
+                    Click="Button_ConstructScaleDown_Click"
                     Content="Dwindle"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Rotate  -->
                 <Button
-                    x:Name="ConstructRotateButton"
+                    x:Name="Button_ConstructRotate"
                     MinWidth="110"
                     Margin="10"
-                    Click="ConstructRotateButton_Click"
+                    Click="Button_ConstructRotate_Click"
                     Content="Rotate"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Delete  -->
                 <Button
-                    x:Name="ConstructDeleteButton"
+                    x:Name="Button_ConstructDelete"
                     MinWidth="110"
                     Margin="10"
-                    Click="ConstructDeleteButton_Click"
+                    Click="Button_ConstructDelete_Click"
                     Content="Delete"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
@@ -532,10 +531,10 @@
 
                 <!--  Send  -->
                 <Button
-                    x:Name="SendUnicastMessageButton"
+                    x:Name="Button_SendUnicastMessage"
                     MinWidth="110"
                     Margin="10"
-                    Click="SendUnicastMessageButton_Click"
+                    Click="Button_SendUnicastMessage_Click"
                     Content="Send"
                     FontSize="20"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />

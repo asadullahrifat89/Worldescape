@@ -441,15 +441,15 @@ namespace Worldescape
             if (!CanPerformWorldEvents())
                 return;
 
-            if (ConstructAddButton.IsChecked.Value && _addingConstruct != null)
+            if (Button_ConstructAdd.IsChecked.Value && _addingConstruct != null)
             {
                 await AddConstructOnPointerPressed(e); // Canvas_root
             }
-            else if (ConstructCloneButton.IsChecked.Value && _cloningConstruct != null)
+            else if (Button_ConstructClone.IsChecked.Value && _cloningConstruct != null)
             {
                 await CloneConstructOnPointerPressed(e); // Canvas_root
             }
-            else if (ConstructMoveButton.IsChecked.Value && _movingConstruct != null)
+            else if (Button_ConstructMove.IsChecked.Value && _movingConstruct != null)
             {
                 await MoveConstructOnPointerPressed(e); // Canvas_root
             }
@@ -508,7 +508,7 @@ namespace Worldescape
                 {
                     OwnAvatarActionsHolder.Visibility = Visibility.Collapsed;
                     OtherAvatarActionsHolder.Visibility = Visibility.Visible;
-                    SelectStatusButton.IsChecked = false;
+                    Button_SelectStatus.IsChecked = false;
                     HideAvatarActivityStatusHolder();
                 }
             }
@@ -533,19 +533,19 @@ namespace Worldescape
 
             ShowSelectedConstruct(uielement); // Construct
 
-            if (ConstructAddButton.IsChecked.Value && _addingConstruct != null)
+            if (Button_ConstructAdd.IsChecked.Value && _addingConstruct != null)
             {
                 await AddConstructOnPointerPressed(e); // Construct
             }
-            else if (ConstructCloneButton.IsChecked.Value && _cloningConstruct != null)
+            else if (Button_ConstructClone.IsChecked.Value && _cloningConstruct != null)
             {
                 await CloneConstructOnPointerPressed(e); // Construct
             }
-            else if (ConstructMoveButton.IsChecked.Value && _movingConstruct != null)
+            else if (Button_ConstructMove.IsChecked.Value && _movingConstruct != null)
             {
                 await MoveConstructOnPointerPressed(e); // Construct
             }
-            else if (ConstructMultiSelectButton.IsChecked.Value)
+            else if (Button_ConstructMultiSelect.IsChecked.Value)
             {
                 if (!CanManipulateConstruct())
                     return;
@@ -559,7 +559,7 @@ namespace Worldescape
                     MultiselectedConstructs.Add(construct);
                 }
             }
-            else if (ConstructCraftButton.IsChecked.Value)
+            else if (Button_ConstructCraft.IsChecked.Value)
             {
                 if (!CanManipulateConstruct())
                     return;
@@ -596,7 +596,7 @@ namespace Worldescape
         /// <param name="e"></param>
         private void Construct_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (ConstructCraftButton.IsChecked.Value)
+            if (Button_ConstructCraft.IsChecked.Value)
             {
                 if (!CanManipulateConstruct())
                     return;
@@ -632,12 +632,12 @@ namespace Worldescape
         /// <param name="e"></param>
         private async void Construct_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (ConstructMoveButton.IsChecked.Value)
+            if (Button_ConstructMove.IsChecked.Value)
             {
                 return;
             }
 
-            if (ConstructCraftButton.IsChecked.Value)
+            if (Button_ConstructCraft.IsChecked.Value)
             {
                 if (!CanManipulateConstruct())
                     return;
@@ -673,7 +673,7 @@ namespace Worldescape
         /// <returns></returns>
         private async Task MoveConstructOnPointerPressed(PointerRoutedEventArgs e)
         {
-            if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
+            if (Button_ConstructMultiSelect.IsChecked.Value && MultiselectedConstructs.Any())
             {
                 var currrentPoint = e.GetCurrentPoint(Canvas_root);
 
@@ -857,7 +857,7 @@ namespace Worldescape
 
         #region World
 
-        private void WorldButton_Click(object sender, RoutedEventArgs e)
+        private void Button_World_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -871,11 +871,11 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ConnectButton_Click(object sender, RoutedEventArgs e)
+        private async void Button_Connect_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                Console.WriteLine("ConnectButton_Click");
+                Console.WriteLine("Button_Connect_Click");
 
                 if (Character.IsEmpty())
                 {
@@ -910,11 +910,24 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void LeaveButton_Click(object sender, RoutedEventArgs e)
+        private async void Button_Leave_Click(object sender, RoutedEventArgs e)
         {
-            await HubService.Logout();
-            await HubService.DisconnectAsync();
-            App.World = new World();
+            var result = MessageBox.Show("Are you sure you want to leave this world?", "Leaving...", MessageBoxButton.OKCancel);
+
+            if (result == MessageBoxResult.Cancel)
+                return;
+
+            // If logged in then log out and disconnect from hub
+            if (_isLoggedIn)
+            {
+                _mainPage.SetIsBusy(true);
+                
+                await HubService.Logout();
+                await HubService.DisconnectAsync();
+                App.World = new World();
+
+                _mainPage.SetIsBusy(false);
+            }
 
             _mainPage.NavigateToPage(Constants.Page_WorldsPage);
         }
@@ -944,11 +957,11 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ConstructMultiSelectButton_Click(object sender, RoutedEventArgs e)
+        private void Button_ConstructMultiSelect_Click(object sender, RoutedEventArgs e)
         {
-            ConstructMultiSelectButton.Content = ConstructMultiSelectButton.IsChecked.Value ? "Selecting" : "Select";
+            Button_ConstructMultiSelect.Content = Button_ConstructMultiSelect.IsChecked.Value ? "Selecting" : "Select";
 
-            if (ConstructMultiSelectButton.IsChecked.Value)
+            if (Button_ConstructMultiSelect.IsChecked.Value)
             {
                 ShowConstructOperationButtons();
             }
@@ -963,37 +976,37 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ConstructCraftButton_Click(object sender, RoutedEventArgs e)
+        private async void Button_ConstructCraft_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
-                ConstructCraftButton.Content = ConstructCraftButton.IsChecked.Value ? "Constructing" : "Construct";
+                Button_ConstructCraft.Content = Button_ConstructCraft.IsChecked.Value ? "Constructing" : "Construct";
 
-                ConstructMoveButton.IsChecked = false;
-                ConstructMoveButton.Content = "Move";
+                Button_ConstructMove.IsChecked = false;
+                Button_ConstructMove.Content = "Move";
 
-                ConstructCloneButton.IsChecked = false;
-                ConstructCloneButton.Content = "Clone";
+                Button_ConstructClone.IsChecked = false;
+                Button_ConstructClone.Content = "Clone";
 
-                ConstructDeleteButton.Content = "Delete";
+                Button_ConstructDelete.Content = "Delete";
 
-                ConstructAddButton.IsChecked = false;
-                ConstructAddButton.Content = "Add";
+                Button_ConstructAdd.IsChecked = false;
+                Button_ConstructAdd.Content = "Add";
 
-                ConstructMultiSelectButton.IsChecked = false;
-                ConstructMultiSelectButton.Content = "Select";
+                Button_ConstructMultiSelect.IsChecked = false;
+                Button_ConstructMultiSelect.Content = "Select";
 
-                if (ConstructCraftButton.IsChecked.Value)
+                if (Button_ConstructCraft.IsChecked.Value)
                 {
-                    ConstructAddButton.Visibility = Visibility.Visible;
-                    ConstructMultiSelectButton.Visibility = Visibility.Visible;
+                    Button_ConstructAdd.Visibility = Visibility.Visible;
+                    Button_ConstructMultiSelect.Visibility = Visibility.Visible;
 
                     await BroadcastAvatarActivityStatus(ActivityStatus.Crafting);
                 }
                 else
                 {
-                    ConstructAddButton.Visibility = Visibility.Collapsed;
-                    ConstructMultiSelectButton.Visibility = Visibility.Collapsed;
+                    Button_ConstructAdd.Visibility = Visibility.Collapsed;
+                    Button_ConstructMultiSelect.Visibility = Visibility.Collapsed;
 
                     HideConstructOperationButtons();
 
@@ -1013,7 +1026,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ConstructAddButton_Click(object sender, RoutedEventArgs e)
+        private void Button_ConstructAdd_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
@@ -1021,13 +1034,13 @@ namespace Worldescape
                 if (_addingConstruct != null)
                 {
                     _addingConstruct = null;
-                    ConstructAddButton.Content = "Add";
-                    ConstructAddButton.IsChecked = false;
+                    Button_ConstructAdd.Content = "Add";
+                    Button_ConstructAdd.IsChecked = false;
 
                     return;
                 }
 
-                ConstructAddButton.Content = "Adding";
+                Button_ConstructAdd.Content = "Adding";
 
                 if (!ConstructAssets.Any())
                 {
@@ -1048,13 +1061,13 @@ namespace Worldescape
                         ShowOperationalConstruct(_addingConstruct);
                     });
 
-                // If the picker was closed without a selection of an asset, set the ConstructAddButton to default
+                // If the picker was closed without a selection of an asset, set the Button_ConstructAdd to default
                 constructAssetPicker.Closed += (s, e) =>
                 {
                     if (_addingConstruct == null)
                     {
-                        ConstructAddButton.Content = "Add";
-                        ConstructAddButton.IsChecked = false;
+                        Button_ConstructAdd.Content = "Add";
+                        Button_ConstructAdd.IsChecked = false;
                     }
                 };
 
@@ -1067,11 +1080,11 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ConstructMoveButton_Click(object sender, RoutedEventArgs e)
+        private void Button_ConstructMove_Click(object sender, RoutedEventArgs e)
         {
-            ConstructMoveButton.Content = ConstructMoveButton.IsChecked.Value ? "Moving" : "Move";
+            Button_ConstructMove.Content = Button_ConstructMove.IsChecked.Value ? "Moving" : "Move";
 
-            if (!ConstructMoveButton.IsChecked.Value)
+            if (!Button_ConstructMove.IsChecked.Value)
             {
                 _movingConstruct = null;
                 ShowOperationalConstruct(null);
@@ -1089,13 +1102,13 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ConstructCloneButton_Click(object sender, RoutedEventArgs e)
+        private void Button_ConstructClone_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
-                ConstructCloneButton.Content = ConstructCloneButton.IsChecked.Value ? "Cloning" : "Clone";
+                Button_ConstructClone.Content = Button_ConstructClone.IsChecked.Value ? "Cloning" : "Clone";
 
-                if (!ConstructCloneButton.IsChecked.Value)
+                if (!Button_ConstructClone.IsChecked.Value)
                 {
                     _cloningConstruct = null;
                     ShowOperationalConstruct(null);
@@ -1114,11 +1127,11 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ConstructDeleteButton_Click(object sender, RoutedEventArgs e)
+        private async void Button_ConstructDelete_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
-                if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
+                if (Button_ConstructMultiSelect.IsChecked.Value && MultiselectedConstructs.Any())
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
@@ -1147,11 +1160,11 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ConstructBringForwardButton_Click(object sender, RoutedEventArgs e)
+        private async void Button_ConstructBringForward_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
-                if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
+                if (Button_ConstructMultiSelect.IsChecked.Value && MultiselectedConstructs.Any())
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
@@ -1178,11 +1191,11 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ConstructSendBackwardButton_Click(object sender, RoutedEventArgs e)
+        private async void Button_ConstructSendBackward_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
-                if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
+                if (Button_ConstructMultiSelect.IsChecked.Value && MultiselectedConstructs.Any())
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
@@ -1209,11 +1222,11 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ConstructScaleUpButton_Click(object sender, RoutedEventArgs e)
+        private async void Button_ConstructScaleUp_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
-                if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
+                if (Button_ConstructMultiSelect.IsChecked.Value && MultiselectedConstructs.Any())
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
@@ -1240,11 +1253,11 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ConstructScaleDownButton_Click(object sender, RoutedEventArgs e)
+        private async void Button_ConstructScaleDown_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
-                if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
+                if (Button_ConstructMultiSelect.IsChecked.Value && MultiselectedConstructs.Any())
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
@@ -1271,11 +1284,11 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ConstructRotateButton_Click(object sender, RoutedEventArgs e)
+        private async void Button_ConstructRotate_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
-                if (ConstructMultiSelectButton.IsChecked.Value && MultiselectedConstructs.Any())
+                if (Button_ConstructMultiSelect.IsChecked.Value && MultiselectedConstructs.Any())
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
@@ -1333,7 +1346,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MyAvatarButton_Click(object sender, RoutedEventArgs e)
+        private void Button_MyAvatar_Click(object sender, RoutedEventArgs e)
         {
             if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
             {
@@ -1346,9 +1359,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SelectStatusButton_Click(object sender, RoutedEventArgs e)
+        private void Button_SelectStatus_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectStatusButton.IsChecked.Value)
+            if (Button_SelectStatus.IsChecked.Value)
             {
                 ShowAvatarActivityStatusHolder();
             }
@@ -1386,7 +1399,7 @@ namespace Worldescape
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                SendUnicastMessageButton_Click(sender, e);
+                Button_SendUnicastMessage_Click(sender, e);
             }
         }
 
@@ -1395,7 +1408,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MessageAvatarButton_Click(object sender, RoutedEventArgs e)
+        private void Button_MessageAvatar_Click(object sender, RoutedEventArgs e)
         {
             if (!CanPerformWorldEvents())
                 return;
@@ -1420,7 +1433,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void SendUnicastMessageButton_Click(object sender, RoutedEventArgs e)
+        private async void Button_SendUnicastMessage_Click(object sender, RoutedEventArgs e)
         {
             if (!CanPerformWorldEvents())
                 return;
@@ -1453,7 +1466,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CreatePostButton_Click(object sender, RoutedEventArgs e)
+        private void Button_CreatePost_Click(object sender, RoutedEventArgs e)
         {
             if (!CanPerformWorldEvents())
                 return;
@@ -1471,7 +1484,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ObjectDetailsButton_Click(object sender, RoutedEventArgs e)
+        private void Button_ObjectDetails_Click(object sender, RoutedEventArgs e)
         {
             // If nothing is selected then no point in showing the side card.
             if (_selectedAvatar == null && _selectedConstruct == null)
@@ -1485,7 +1498,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ButtonCloseSideCard_Click(object sender, RoutedEventArgs e)
+        private void Button_CloseSideCard_Click(object sender, RoutedEventArgs e)
         {
             SideCard.Visibility = Visibility.Collapsed;
         }
@@ -1506,11 +1519,11 @@ namespace Worldescape
             {
                 SelectedConstructHolder.Content = null;
                 SelectedConstructHolder.Visibility = Visibility.Collapsed;
-                ObjectDetailsButton.Visibility = Visibility.Collapsed;
+                Button_ObjectDetails.Visibility = Visibility.Collapsed;
             }
             else
             {
-                ObjectDetailsButton.Visibility = Visibility.Visible;
+                Button_ObjectDetails.Visibility = Visibility.Visible;
 
                 var image = GetImageFromUiElement(uielement, 70);
 
@@ -1550,11 +1563,11 @@ namespace Worldescape
             {
                 SelectedAvatarHolder.Content = null;
                 SelectedAvatarHolder.Visibility = Visibility.Collapsed;
-                ObjectDetailsButton.Visibility = Visibility.Collapsed;
+                Button_ObjectDetails.Visibility = Visibility.Collapsed;
             }
             else
             {
-                ObjectDetailsButton.Visibility = Visibility.Visible;
+                Button_ObjectDetails.Visibility = Visibility.Visible;
 
                 var taggedAvatar = ((Button)uielement).Tag as Avatar;
 
@@ -1616,11 +1629,10 @@ namespace Worldescape
         {
             if (!App.World.IsEmpty())
             {
-                WorldButton.Tag = App.World;
-                WorldButton.Visibility = Visibility.Visible;
+                Button_World.Tag = App.World;
+                Button_World.Visibility = Visibility.Visible;
                 WorldImageHolder.Content = GetWorldPicture(App.World);
-                WorldNameHolder.Text = App.World.Name;
-                LeaveButton.Visibility = Visibility.Visible;
+                WorldNameHolder.Text = App.World.Name;                
             }
         }
 
@@ -1934,7 +1946,7 @@ namespace Worldescape
             // Set moving status on start, if own avatar and if crafting mode is set then set crafting status
             if (taggedObject is Avatar avatar)
             {
-                if (ConstructCraftButton.IsChecked.Value && avatar.Id == Avatar.Id)
+                if (Button_ConstructCraft.IsChecked.Value && avatar.Id == Avatar.Id)
                     SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
                 else
                     SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Moving);
@@ -2066,7 +2078,7 @@ namespace Worldescape
             {
                 if (taggedObject is Avatar taggedAvatar)
                 {
-                    if (ConstructCraftButton.IsChecked.Value && taggedAvatar.Id == Avatar.Id)
+                    if (Button_ConstructCraft.IsChecked.Value && taggedAvatar.Id == Avatar.Id)
                         SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
                     else
                         SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Idle);
@@ -2283,7 +2295,7 @@ namespace Worldescape
             {
                 var avatar = _avatarHelper.GetTaggedAvatar(iElement);
 
-                MyAvatarButton.Tag = avatar;
+                Button_MyAvatar.Tag = avatar;
                 AvatarImageHolder.Content = GetAvatarCharacterPicture(avatar);
                 CurrentAvatarHolder.Visibility = Visibility.Visible;
                 AvatarNameHolder.Text = avatar.Character.Name.Replace("_", " ");
@@ -2313,7 +2325,7 @@ namespace Worldescape
         private void HideAvatarActivityStatusHolder()
         {
             AvatarActivityStatusHolder.Visibility = Visibility.Collapsed;
-            SelectStatusButton.IsChecked = false;
+            Button_SelectStatus.IsChecked = false;
         }
 
         /// <summary>
@@ -2428,8 +2440,8 @@ namespace Worldescape
         /// </summary>
         private void ClearMultiselectedConstructs()
         {
-            ConstructMultiSelectButton.IsChecked = false;
-            ConstructMultiSelectButton.Content = "Select";
+            Button_ConstructMultiSelect.IsChecked = false;
+            Button_ConstructMultiSelect.Content = "Select";
             MultiSelectedConstructsHolder.Children.Clear();
             MultiselectedConstructs.Clear();
         }
