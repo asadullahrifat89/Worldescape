@@ -63,12 +63,20 @@
 
             </Grid>
 
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Margin="5" Orientation="Horizontal">
+
+                <!--  Selected construct category name  -->
+                <TextBlock
+                    x:Name="SelectedCategoryNameHolder"
+                    Margin="5,0"
+                    FontSize="16"
+                    FontWeight="SemiBold"
+                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
 
                 <!--  Found construct assets count  -->
                 <TextBlock
                     x:Name="FoundConstructAssetsCountHolder"
-                    Margin="10"
+                    Margin="5,0"
                     FontSize="16"
                     FontWeight="SemiBold"
                     Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />

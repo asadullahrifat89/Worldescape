@@ -74,6 +74,7 @@ namespace Worldescape
             _pageNumberHelper = App.ServiceProvider.GetService(typeof(PageNumberHelper)) as PageNumberHelper;
 
             SubscribeHub();
+            CommenseConnection();
         }
 
         #endregion
@@ -97,337 +98,6 @@ namespace Worldescape
         #endregion
 
         #region Methods
-
-        #region Received Hub Events
-
-        #region Construct
-        private void HubService_NewBroadcastConstructMovement(int constructId, double x, double y, int z)
-        {
-            if (Canvas_root.Children.FirstOrDefault(c => c is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
-            {
-                MoveElement(uIElement: iElement, goToX: x, goToY: y, gotoZ: z);
-                Console.WriteLine("<<HubService_NewBroadcastConstructMovement: OK");
-            }
-            else
-            {
-                Console.WriteLine("<<HubService_NewBroadcastConstructMovement: IGNORE");
-            }
-        }
-
-        private void HubService_NewBroadcastConstructScale(int constructId, float scale)
-        {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
-            {
-                ScaleElement(uIElement: iElement, scale: scale);
-                Console.WriteLine("<<HubService_NewBroadcastConstructScale: OK");
-            }
-            else
-            {
-                Console.WriteLine("<<HubService_NewBroadcastConstructScale: IGNORE");
-            }
-        }
-
-        private void HubService_NewBroadcastConstructScales(int[] constructIds, float scale)
-        {
-
-        }
-
-        private void HubService_NewBroadcastConstructRotation(int constructId, float rotation)
-        {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
-            {
-                RotateElement(uIElement: iElement, rotation: rotation);
-                Console.WriteLine("<<HubService_NewBroadcastConstructRotation: OK");
-            }
-            else
-            {
-                Console.WriteLine("<<HubService_NewBroadcastConstructRotation: IGNORE");
-            }
-        }
-
-        private void HubService_NewBroadcastConstructRotations(ConcurrentDictionary<int, float> obj)
-        {
-
-        }
-
-        private void HubService_NewBroadcastConstructPlacement(int constructId, int z)
-        {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
-            {
-                Canvas.SetZIndex(iElement, z);
-                Console.WriteLine("<<HubService_NewBroadcastConstructPlacement: OK");
-            }
-            else
-            {
-                Console.WriteLine("<<HubService_NewBroadcastConstructPlacement: IGNORE");
-            }
-        }
-
-        private void HubService_NewRemoveConstruct(int constructId)
-        {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement constructUiElement)
-            {
-                RemoveConstructFromCanvas(constructUiElement);
-                Console.WriteLine("<<HubService_NewRemoveConstruct: OK");
-            }
-            else
-            {
-                Console.WriteLine("<<HubService_NewRemoveConstruct: IGNORE");
-            }
-        }
-
-        private void HubService_NewRemoveConstructs(int[] obj)
-        {
-
-        }
-
-        private void HubService_NewBroadcastConstruct(Construct construct)
-        {
-            var constructBtn = GenerateConstructButton(
-                name: construct.Name,
-                imageUrl: construct.ImageUrl,
-                constructId: construct.Id,
-                inWorld: construct.World,
-                creator: construct.Creator);
-
-            AddConstructOnCanvas(
-                construct: constructBtn,
-                x: construct.Coordinate.X,
-                y: construct.Coordinate.Y,
-                z: construct.Coordinate.Z);
-
-            ScaleElement(constructBtn, construct.Scale);
-            RotateElement(constructBtn, construct.Rotation);
-
-            Console.WriteLine("<<HubService_NewBroadcastConstruct: OK");
-        }
-
-        private void HubService_NewBroadcastConstructs(Construct[] obj)
-        {
-
-        }
-
-        #endregion
-
-        #region Session
-        private void HubService_AvatarReconnected(int avatarId)
-        {
-            if (avatarId > 0)
-            {
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
-                {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
-
-                    if (avatarMessenger != null)
-                    {
-                        avatarMessenger.ActivityStatus = ActivityStatus.Idle;
-                        avatarMessenger.IsLoggedIn = true;
-                    }
-
-                    Console.WriteLine("<<HubService_AvatarReconnected: OK");
-                }
-                else
-                {
-                    Console.WriteLine("<<HubService_AvatarReconnected: IGNORE");
-                }
-            }
-        }
-
-        private void HubService_AvatarDisconnected(int avatarId)
-        {
-            if (avatarId > 0)
-            {
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
-                {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
-
-                    if (avatarMessenger != null)
-                    {
-                        avatarMessenger.ActivityStatus = ActivityStatus.Offline;
-                        avatarMessenger.IsLoggedIn = false;
-                    }
-
-                    Console.WriteLine("<<HubService_AvatarDisconnected: OK");
-                }
-                else
-                {
-                    Console.WriteLine("<<HubService_AvatarDisconnected: IGNORE");
-                }
-            }
-        }
-
-        private void HubService_AvatarLoggedOut(int avatarId)
-        {
-            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
-            {
-                var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
-
-                if (avatarMessenger != null)
-                {
-                    AvatarMessengers.Remove(avatarMessenger);
-                    ParticipantsCount.Text = AvatarMessengers.Count().ToString();
-                }
-
-                Canvas_root.Children.Remove(iElement);
-
-                Console.WriteLine("<<HubService_AvatarLoggedOut: OK");
-            }
-            else
-            {
-                Console.WriteLine("<<HubService_AvatarLoggedOut: IGNORE");
-            }
-        }
-
-        private void HubService_AvatarLoggedIn(Avatar avatar)
-        {
-            // If an avatar already exists, ignore
-            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatar.Id) is UIElement iElement)
-            {
-                Console.WriteLine("<<HubService_AvatarLoggedIn: IGNORE");
-            }
-            else
-            {
-                var avatarButton = GenerateAvatarButton(avatar);
-                AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
-
-                AvatarMessengers.Add(new AvatarMessenger() { Avatar = avatar, ActivityStatus = ActivityStatus.Idle, IsLoggedIn = true });
-                ParticipantsCount.Text = AvatarMessengers.Count().ToString();
-
-                Console.WriteLine("<<HubService_AvatarLoggedIn: OK");
-            }
-        }
-        #endregion
-
-        #region Avatar
-        private void HubService_NewBroadcastAvatarActivityStatus(int avatarId, int activityStatus)
-        {
-            if (avatarId > 0)
-            {
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
-                {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
-
-                    if (avatarMessenger != null)
-                        avatarMessenger.ActivityStatus = (ActivityStatus)activityStatus;
-
-                    var avatarButton = (Button)iElement;
-
-                    //avatarButton.SetAvatarActivityStatus((ActivityStatus)activityStatus);
-                    SetAvatarActivityStatus(avatarButton, avatarButton.Tag as Avatar, (ActivityStatus)activityStatus);
-
-                    Console.WriteLine("<<NewBroadcastAvatarActivityStatus: OK");
-                }
-                else
-                {
-                    Console.WriteLine("<<NewBroadcastAvatarActivityStatus: IGNORE");
-                }
-            }
-        }
-
-        private void HubService_NewBroadcastAvatarMovement(int avatarId, double x, double y, int z)
-        {
-            if (avatarId > 0)
-            {
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
-                {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
-
-                    if (avatarMessenger != null)
-                        avatarMessenger.ActivityStatus = ActivityStatus.Idle;
-
-                    MoveElement(uIElement: iElement, goToX: x, goToY: y);
-
-                    Console.WriteLine("<<NewBroadcastAvatarMovement: OK");
-                }
-                else
-                {
-                    Console.WriteLine("<<NewBroadcastAvatarMovement: IGNORE");
-                }
-            }
-        }
-        #endregion
-
-        #region Message
-
-        private void HubService_AvatarTyping(int avatarId, MessageType mt)
-        {
-
-        }
-
-        private void HubService_NewImageMessage(int avatarId, byte[] pic, MessageType mt)
-        {
-
-        }
-
-        private void HubService_NewTextMessage(int avatarId, string msg, MessageType mt)
-        {
-            if (avatarId > 0)
-            {
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
-                {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
-
-                    if (avatarMessenger != null)
-                        avatarMessenger.ActivityStatus = ActivityStatus.Idle;
-
-                    var senderAvatarUiElement = (Button)iElement;
-
-                    switch (mt)
-                    {
-                        case MessageType.Broadcast:
-                            break;
-                        case MessageType.Unicast:
-                            {
-                                AddChatBubbleToCanvas(msg, senderAvatarUiElement); // receive message
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-
-                    Console.WriteLine("<<HubService_NewTextMessage: OK");
-                }
-                else
-                {
-                    Console.WriteLine("<<HubService_NewTextMessage: IGNORE");
-                }
-            }
-        }
-
-        #endregion
-
-        #region Connection       
-
-        private async void HubService_ConnectionClosed()
-        {
-            Console.WriteLine("<<HubService_ConnectionClosed");
-
-            _isLoggedIn = false;
-
-            if (await ConnectWithHub())
-            {
-                await TryLoginToHub();
-            }
-        }
-
-        private async void HubService_ConnectionReconnected()
-        {
-            _ = await HubService.Login(Avatar);
-
-            _isLoggedIn = true;
-
-            Console.WriteLine("<<HubService_ConnectionReconnected");
-        }
-
-        private void HubService_ConnectionReconnecting()
-        {
-            _isLoggedIn = false;
-
-            Console.WriteLine("<<HubService_ConnectionReconnecting");
-        }
-        #endregion        
-
-        #endregion
 
         #region Pointer Events
 
@@ -873,38 +543,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Button_Connect_Click(object sender, RoutedEventArgs e)
+        private void Button_Connect_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Console.WriteLine("Button_Connect_Click");
-
-                if (Character.IsEmpty())
-                {
-                    Characters = Characters.Any() ? Characters : JsonSerializer.Deserialize<Character[]>(Service.Properties.Resources.CharacterAssets).ToList();
-
-                    var characterPicker = new CharacterPickerWindow(
-                        characters: Characters,
-                        characterSelected: async (character) =>
-                        {
-                            Character = character;
-                            PrepareAvatarData();
-                            _mainPage.SetCurrentUserModel();
-
-                            await Connect();
-                        });
-
-                    characterPicker.Show();
-                }
-                else
-                {
-                    await Connect();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            CommenseConnection();
         }
 
         /// <summary>
@@ -914,24 +555,7 @@ namespace Worldescape
         /// <param name="e"></param>
         private async void Button_Leave_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show("Are you sure you want to leave this world?", "Leaving...", MessageBoxButton.OKCancel);
-
-            if (result == MessageBoxResult.Cancel)
-                return;
-
-            // If logged in then log out and disconnect from hub
-            if (_isLoggedIn)
-            {
-                _mainPage.SetIsBusy(true);
-
-                await HubService.Logout();
-                await HubService.DisconnectAsync();
-                App.World = new World();
-
-                _mainPage.SetIsBusy(false);
-            }
-
-            _mainPage.NavigateToPage(Constants.Page_WorldsPage);
+            await LeaveWorld();
         }
 
         #endregion
@@ -1623,6 +1247,337 @@ namespace Worldescape
 
         #endregion
 
+        #region Hub Events
+
+        #region Construct
+        private void HubService_NewBroadcastConstructMovement(int constructId, double x, double y, int z)
+        {
+            if (Canvas_root.Children.FirstOrDefault(c => c is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            {
+                MoveElement(uIElement: iElement, goToX: x, goToY: y, gotoZ: z);
+                Console.WriteLine("<<HubService_NewBroadcastConstructMovement: OK");
+            }
+            else
+            {
+                Console.WriteLine("<<HubService_NewBroadcastConstructMovement: IGNORE");
+            }
+        }
+
+        private void HubService_NewBroadcastConstructScale(int constructId, float scale)
+        {
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            {
+                ScaleElement(uIElement: iElement, scale: scale);
+                Console.WriteLine("<<HubService_NewBroadcastConstructScale: OK");
+            }
+            else
+            {
+                Console.WriteLine("<<HubService_NewBroadcastConstructScale: IGNORE");
+            }
+        }
+
+        private void HubService_NewBroadcastConstructScales(int[] constructIds, float scale)
+        {
+
+        }
+
+        private void HubService_NewBroadcastConstructRotation(int constructId, float rotation)
+        {
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            {
+                RotateElement(uIElement: iElement, rotation: rotation);
+                Console.WriteLine("<<HubService_NewBroadcastConstructRotation: OK");
+            }
+            else
+            {
+                Console.WriteLine("<<HubService_NewBroadcastConstructRotation: IGNORE");
+            }
+        }
+
+        private void HubService_NewBroadcastConstructRotations(ConcurrentDictionary<int, float> obj)
+        {
+
+        }
+
+        private void HubService_NewBroadcastConstructPlacement(int constructId, int z)
+        {
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            {
+                Canvas.SetZIndex(iElement, z);
+                Console.WriteLine("<<HubService_NewBroadcastConstructPlacement: OK");
+            }
+            else
+            {
+                Console.WriteLine("<<HubService_NewBroadcastConstructPlacement: IGNORE");
+            }
+        }
+
+        private void HubService_NewRemoveConstruct(int constructId)
+        {
+            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement constructUiElement)
+            {
+                RemoveConstructFromCanvas(constructUiElement);
+                Console.WriteLine("<<HubService_NewRemoveConstruct: OK");
+            }
+            else
+            {
+                Console.WriteLine("<<HubService_NewRemoveConstruct: IGNORE");
+            }
+        }
+
+        private void HubService_NewRemoveConstructs(int[] obj)
+        {
+
+        }
+
+        private void HubService_NewBroadcastConstruct(Construct construct)
+        {
+            var constructBtn = GenerateConstructButton(
+                name: construct.Name,
+                imageUrl: construct.ImageUrl,
+                constructId: construct.Id,
+                inWorld: construct.World,
+                creator: construct.Creator);
+
+            AddConstructOnCanvas(
+                construct: constructBtn,
+                x: construct.Coordinate.X,
+                y: construct.Coordinate.Y,
+                z: construct.Coordinate.Z);
+
+            ScaleElement(constructBtn, construct.Scale);
+            RotateElement(constructBtn, construct.Rotation);
+
+            Console.WriteLine("<<HubService_NewBroadcastConstruct: OK");
+        }
+
+        private void HubService_NewBroadcastConstructs(Construct[] obj)
+        {
+
+        }
+
+        #endregion
+
+        #region Session
+        private void HubService_AvatarReconnected(int avatarId)
+        {
+            if (avatarId > 0)
+            {
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
+
+                    if (avatarMessenger != null)
+                    {
+                        avatarMessenger.ActivityStatus = ActivityStatus.Idle;
+                        avatarMessenger.IsLoggedIn = true;
+                    }
+
+                    Console.WriteLine("<<HubService_AvatarReconnected: OK");
+                }
+                else
+                {
+                    Console.WriteLine("<<HubService_AvatarReconnected: IGNORE");
+                }
+            }
+        }
+
+        private void HubService_AvatarDisconnected(int avatarId)
+        {
+            if (avatarId > 0)
+            {
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
+
+                    if (avatarMessenger != null)
+                    {
+                        avatarMessenger.ActivityStatus = ActivityStatus.Offline;
+                        avatarMessenger.IsLoggedIn = false;
+                    }
+
+                    Console.WriteLine("<<HubService_AvatarDisconnected: OK");
+                }
+                else
+                {
+                    Console.WriteLine("<<HubService_AvatarDisconnected: IGNORE");
+                }
+            }
+        }
+
+        private void HubService_AvatarLoggedOut(int avatarId)
+        {
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
+            {
+                var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
+
+                if (avatarMessenger != null)
+                {
+                    AvatarMessengers.Remove(avatarMessenger);
+                    ParticipantsCount.Text = AvatarMessengers.Count().ToString();
+                }
+
+                Canvas_root.Children.Remove(iElement);
+
+                Console.WriteLine("<<HubService_AvatarLoggedOut: OK");
+            }
+            else
+            {
+                Console.WriteLine("<<HubService_AvatarLoggedOut: IGNORE");
+            }
+        }
+
+        private void HubService_AvatarLoggedIn(Avatar avatar)
+        {
+            // If an avatar already exists, ignore
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatar.Id) is UIElement iElement)
+            {
+                Console.WriteLine("<<HubService_AvatarLoggedIn: IGNORE");
+            }
+            else
+            {
+                var avatarButton = GenerateAvatarButton(avatar);
+                AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
+
+                AvatarMessengers.Add(new AvatarMessenger() { Avatar = avatar, ActivityStatus = ActivityStatus.Idle, IsLoggedIn = true });
+                ParticipantsCount.Text = AvatarMessengers.Count().ToString();
+
+                Console.WriteLine("<<HubService_AvatarLoggedIn: OK");
+            }
+        }
+        #endregion
+
+        #region Avatar
+        private void HubService_NewBroadcastAvatarActivityStatus(int avatarId, int activityStatus)
+        {
+            if (avatarId > 0)
+            {
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
+
+                    if (avatarMessenger != null)
+                        avatarMessenger.ActivityStatus = (ActivityStatus)activityStatus;
+
+                    var avatarButton = (Button)iElement;
+
+                    //avatarButton.SetAvatarActivityStatus((ActivityStatus)activityStatus);
+                    SetAvatarActivityStatus(avatarButton, avatarButton.Tag as Avatar, (ActivityStatus)activityStatus);
+
+                    Console.WriteLine("<<NewBroadcastAvatarActivityStatus: OK");
+                }
+                else
+                {
+                    Console.WriteLine("<<NewBroadcastAvatarActivityStatus: IGNORE");
+                }
+            }
+        }
+
+        private void HubService_NewBroadcastAvatarMovement(int avatarId, double x, double y, int z)
+        {
+            if (avatarId > 0)
+            {
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
+
+                    if (avatarMessenger != null)
+                        avatarMessenger.ActivityStatus = ActivityStatus.Idle;
+
+                    MoveElement(uIElement: iElement, goToX: x, goToY: y);
+
+                    Console.WriteLine("<<NewBroadcastAvatarMovement: OK");
+                }
+                else
+                {
+                    Console.WriteLine("<<NewBroadcastAvatarMovement: IGNORE");
+                }
+            }
+        }
+        #endregion
+
+        #region Message
+
+        private void HubService_AvatarTyping(int avatarId, MessageType mt)
+        {
+
+        }
+
+        private void HubService_NewImageMessage(int avatarId, byte[] pic, MessageType mt)
+        {
+
+        }
+
+        private void HubService_NewTextMessage(int avatarId, string msg, MessageType mt)
+        {
+            if (avatarId > 0)
+            {
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
+                {
+                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
+
+                    if (avatarMessenger != null)
+                        avatarMessenger.ActivityStatus = ActivityStatus.Idle;
+
+                    var senderAvatarUiElement = (Button)iElement;
+
+                    switch (mt)
+                    {
+                        case MessageType.Broadcast:
+                            break;
+                        case MessageType.Unicast:
+                            {
+                                AddChatBubbleToCanvas(msg, senderAvatarUiElement); // receive message
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+
+                    Console.WriteLine("<<HubService_NewTextMessage: OK");
+                }
+                else
+                {
+                    Console.WriteLine("<<HubService_NewTextMessage: IGNORE");
+                }
+            }
+        }
+
+        #endregion
+
+        #region Connection       
+
+        private async void HubService_ConnectionClosed()
+        {
+            Console.WriteLine("<<HubService_ConnectionClosed");
+
+            _isLoggedIn = false;
+
+            if (await ConnectWithHub())
+            {
+                await TryLoginToHub();
+            }
+        }
+
+        private async void HubService_ConnectionReconnected()
+        {
+            _ = await HubService.Login(Avatar);
+
+            _isLoggedIn = true;
+
+            Console.WriteLine("<<HubService_ConnectionReconnected");
+        }
+
+        private void HubService_ConnectionReconnecting()
+        {
+            _isLoggedIn = false;
+
+            Console.WriteLine("<<HubService_ConnectionReconnecting");
+        }
+        #endregion        
+
+        #endregion
+
         #region Functionality
 
         #region World
@@ -2146,6 +2101,75 @@ namespace Worldescape
         #region Connection
 
         /// <summary>
+        /// Prompts character selection and establishes communication to hub.
+        /// </summary>
+        /// <returns></returns>
+        private async void CommenseConnection()
+        {
+            try
+            {
+                Console.WriteLine("Button_Connect_Click");
+
+                if (Character.IsEmpty())
+                {
+                    Characters = Characters.Any() ? Characters : JsonSerializer.Deserialize<Character[]>(Service.Properties.Resources.CharacterAssets).ToList();
+
+                    var characterPicker = new CharacterPickerWindow(
+                        characters: Characters,
+                        characterSelected: async (character) =>
+                        {
+                            Character = character;
+                            PrepareAvatarData();
+                            _mainPage.SetCurrentUserModel();
+
+                            await Connect();
+                        });
+
+                    characterPicker.Show();
+                }
+                else
+                {
+                    await Connect();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Leave this world. If user is connected to hub and logged in them logs the user out and disconnects from the hub.
+        /// </summary>
+        /// <returns></returns>
+        private async Task LeaveWorld()
+        {
+            var result = MessageBox.Show("Are you sure you want to leave this world?", "Leaving...", MessageBoxButton.OKCancel);
+
+            if (result == MessageBoxResult.Cancel)
+                return;
+
+            // If logged in then log out and disconnect from hub
+            if (_isLoggedIn)
+            {
+                _mainPage.SetIsBusy(true);
+
+                await HubService.Logout();
+
+                if (HubService.IsConnected())
+                {
+                    await HubService.DisconnectAsync();
+                }
+
+                App.World = new World();
+
+                _mainPage.SetIsBusy(false);
+            }
+
+            _mainPage.NavigateToPage(Constants.Page_WorldsPage);
+        }
+
+        /// <summary>
         /// Subscribe to hub and listen to hub events.
         /// </summary>
         private void SubscribeHub()
@@ -2205,6 +2229,9 @@ namespace Worldescape
             Console.WriteLine("++ListenOnHubService: OK");
         }
 
+        /// <summary>
+        /// Set avatar and world information for logged in user for the current inside world session.
+        /// </summary>
         private void PrepareAvatarData()
         {
             Avatar = new Avatar()

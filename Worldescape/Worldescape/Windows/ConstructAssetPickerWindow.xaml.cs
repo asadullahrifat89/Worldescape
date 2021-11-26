@@ -22,7 +22,6 @@ namespace Worldescape
         bool _settingConstructAssets = false;
 
         string _pickedConstructCategory = string.Empty;
-        string _typedConstructName = string.Empty;
 
         List<ConstructAsset> _constructAssets = new List<ConstructAsset>();
         List<ConstructCategory> _constructCategories = new List<ConstructCategory>();
@@ -67,7 +66,7 @@ namespace Worldescape
 
             filteredData.AddRange(_constructAssets.Where(x =>
             (!_pickedConstructCategory.IsNullOrBlank() ? x.Category == _pickedConstructCategory : !x.Category.IsNullOrBlank())
-            && (!_typedConstructName.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(_typedConstructName.ToLowerInvariant()) : !x.Name.IsNullOrBlank())));
+            && (!SearchConstructAssetsTextHolder.Text.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(SearchConstructAssetsTextHolder.Text.ToLowerInvariant()) : !x.Name.IsNullOrBlank())));
 
             return filteredData;
         }
@@ -256,6 +255,8 @@ namespace Worldescape
         private void ButtonConstructCategory_Click(object sender, RoutedEventArgs e)
         {
             _pickedConstructCategory = (((Button)sender).Tag as ConstructCategory).Name;
+
+            SelectedCategoryNameHolder.Text = _pickedConstructCategory.IsNullOrBlank() ? "" : $"In {_pickedConstructCategory}: ";
 
             _pageIndex = 0;
             ShowConstructAssetsCount();
