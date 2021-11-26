@@ -6,6 +6,8 @@ namespace Worldescape.Data
 {
     public static class Constants
     {
+        #region Constant Methods
+
         public static bool IsNullOrBlank(this string text)
         {
             return string.IsNullOrEmpty(text) || string.IsNullOrWhiteSpace(text);
@@ -13,9 +15,9 @@ namespace Worldescape.Data
 
         public static string GetActionName(string action)
         {
-            if (action.Contains("/api/Command/"))            
+            if (action.Contains("/api/Command/"))
                 action = action.Replace("/api/Command/", "");
-            
+
 
             if (action.Contains("/api/Query/"))
                 action = action.Replace("/api/Query/", "");
@@ -62,7 +64,9 @@ namespace Worldescape.Data
             }
 
             return sb.ToString();
-        }
+        } 
+
+        #endregion
 
         #region Methods Invoked On Client From Server
 
@@ -143,6 +147,7 @@ namespace Worldescape.Data
         public const string Page_InsideWorldPage = "/InsideWorldPage";
         public const string Page_LoginPage = "/LoginPage";
         public const string Page_SignupPage = "/SignupPage";
+        public const string Page_AccountPage = "/AccountPage";
         public const string Page_WorldsPage = "/WorldsPage";
 
         #endregion

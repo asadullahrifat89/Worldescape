@@ -25,6 +25,10 @@
 		<Content Include="Images\Defaults\World_6.png" />
 		<Content Include="Images\Defaults\World_7.png" />
 		<Content Include="Images\Defaults\World_8.png" />
+		<Content Include="Pages\AccountPage.xaml">
+		  <SubType>Designer</SubType>
+		  <Generator>MSBuild:Compile</Generator>
+		</Content>
 		<Content Include="Windows\ConstructAssetPickerWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
@@ -111,6 +115,9 @@
 		<Compile Include="Helpers\ConstructHelper.cs" />
 		<Compile Include="Helpers\PageNumberHelper.cs" />
 		<Compile Include="Helpers\WorldHelper.cs" />
+		<Compile Include="Pages\AccountPage.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
 		<Compile Include="Pages\WorldsPage.xaml.cs" />
 		<Compile Include="Windows\CharacterPickerWindow.xaml.cs" />
 		<Compile Include="Windows\ConstructAssetPickerWindow.xaml.cs" />

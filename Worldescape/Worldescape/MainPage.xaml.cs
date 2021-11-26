@@ -82,7 +82,7 @@ namespace Worldescape
 
         private void MenuItem_ProfileDetails_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            //NavigateToPage(Constants.Page_SignupPage);
+            NavigateToPage(Constants.Page_AccountPage);
             MyAcountButton.IsChecked = false;
         }
 
