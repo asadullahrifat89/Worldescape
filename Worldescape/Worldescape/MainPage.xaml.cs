@@ -89,7 +89,7 @@ namespace Worldescape
             if (App.World.IsEmpty())
                 NavigateToPage(Constants.Page_AccountPage);
             else
-                MessageBox.Show("It is not permissible to change your account information while being coneccted to a world.", "Sorry!");
+                MessageBox.Show("It is not permissible to change your account information while being connected to a world. You can leave this world, only then your can.", "Sorry!");
 
             MyAcountButton.IsChecked = false;
         }
