@@ -5,6 +5,30 @@ namespace Worldescape
 {
     public class PageNumberHelper
     {
+        public int GetNextPageNumber(long _totalPageCount, int _pageIndex)
+        {
+            _pageIndex++;
+
+            if (_pageIndex > _totalPageCount)
+            {
+                _pageIndex = (int)_totalPageCount;
+            }
+
+            return _pageIndex;
+        }
+
+        public int GetPreviousPageNumber(long _totalPageCount, int _pageIndex)
+        {
+            _pageIndex--;
+
+            if (_pageIndex < _totalPageCount - 1)
+            {
+                _pageIndex = 0;
+            }
+
+            return _pageIndex;
+        }
+
         public RangeObservableCollection<string> GeneratePageNumbers(long _totalPageCount, int _pageIndex, RangeObservableCollection<string> _pageNumbers)
         {
             // Ig total page count is greater than 5 only then make repopulation other wise no need

@@ -194,13 +194,15 @@ namespace Worldescape
         {
             if (!_settingWorlds)
             {
-                _pageIndex--;
+                //_pageIndex--;
 
-                if (_pageIndex < 0)
-                {
-                    _pageIndex = 0;
-                    return;
-                }
+                //if (_pageIndex < 0)
+                //{
+                //    _pageIndex = 0;
+                //    return;
+                //}
+
+                _pageIndex = _pageNumberHelper.GetPreviousPageNumber(_totalPageCount, _pageIndex);
 
                 await GetWorlds();
 
@@ -212,12 +214,14 @@ namespace Worldescape
         {
             if (!_settingWorlds)
             {
-                _pageIndex++;
+                //_pageIndex++;
 
-                if (_pageIndex > _totalPageCount)
-                {
-                    _pageIndex = (int)_totalPageCount;
-                }
+                //if (_pageIndex > _totalPageCount)
+                //{
+                //    _pageIndex = (int)_totalPageCount;
+                //}
+
+                _pageIndex = _pageNumberHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
 
                 await GetWorlds();
 
