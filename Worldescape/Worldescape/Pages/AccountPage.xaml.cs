@@ -57,7 +57,7 @@ namespace Worldescape
 
             AccountModel.ImageUrl = App.User.ImageUrl;
             Image_ProfileImageUrl.Source = new BitmapImage(new Uri(App.User.ImageUrl));
-            TextBlock_Name.Text = App.User.Name;
+            TextBlock_Name.Text = App.User.Name;            
         }
 
         #endregion
@@ -145,20 +145,24 @@ namespace Worldescape
 
         #region Button Events
 
-        private void OnFileOpened(object sender, CSHTML5.Extensions.FileOpenDialog.FileOpenedEventArgs e)
+        private void FileOpenDialogPresenter_ImageUrl_FileOpened(object sender, CSHTML5.Extensions.FileOpenDialog.FileOpenedEventArgs e)
         {
-            var base64String = e.DataURL;
-            base64String = base64String.Substring(base64String.IndexOf(',') + 1); 
+            string dataURL = e.DataURL;
+            BitmapImage bitmapimage = new BitmapImage();
+            bitmapimage.SetSource(dataURL);
+            Image_ProfileImageUrl.Source = bitmapimage;
 
-            byte[] byteBuffer = Convert.FromBase64String(base64String);
+            //var base64String = e.DataURL;
+            //base64String = base64String.Substring(base64String.IndexOf(',') + 1);
 
-            using (MemoryStream memoryStream = new MemoryStream(byteBuffer))
-            {
-                var bitmapImage = new BitmapImage();
-                bitmapImage.SetSource(memoryStream);
-                Image_ProfileImageUrl.Source = bitmapImage;
-            }
-            //MessageBox.Show(e.DataURL);
+            //byte[] byteBuffer = Convert.FromBase64String(base64String);
+
+            //using (MemoryStream memoryStream = new MemoryStream(byteBuffer))
+            //{
+            //    var bitmapImage = new BitmapImage();
+            //    bitmapImage.SetSource(memoryStream);
+            //    Image_ProfileImageUrl.Source = bitmapImage;
+            //}
         }
 
         private async void Button_UpdateAccount_Click(object sender, RoutedEventArgs e)
@@ -174,10 +178,11 @@ namespace Worldescape
             NavigateToLoginPage();
         }
 
-        #endregion
 
         #endregion
 
+        #endregion
 
+       
     }
 }

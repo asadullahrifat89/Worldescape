@@ -34,10 +34,11 @@
             </Border>
 
             <extensions:FileOpenDialogPresenter
+                x:Name="FileOpenDialogPresenter_ImageUrl"
                 Margin="5"
                 HorizontalAlignment="Center"
-                FileOpened="OnFileOpened"
-                Filter="Image Files (*.png, *.jpg)"
+                FileOpened="FileOpenDialogPresenter_ImageUrl_FileOpened"
+                Filter="(.jpg;*.png)|*.jpg;*.png"
                 ResultKind="DataURL" />
 
             <!--  Name  -->

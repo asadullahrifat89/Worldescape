@@ -143,8 +143,8 @@ namespace CSHTML5.Extensions.FileOpenDialog
             get { return (string)GetValue(FilterProperty); }
             set { SetValue(FilterProperty, value); }
         }
-        public static readonly DependencyProperty FilterProperty =
-            DependencyProperty.Register("Filter", typeof(string), typeof(FileOpenDialogPresenter), new PropertyMetadata("", Filter_Changed));
+
+        public static readonly DependencyProperty FilterProperty = DependencyProperty.Register("Filter", typeof(string), typeof(FileOpenDialogPresenter), new PropertyMetadata("", Filter_Changed));
 
         static void Filter_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
