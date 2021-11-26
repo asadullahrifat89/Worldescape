@@ -64,11 +64,11 @@ namespace Worldescape
 
         public void SetIsBusy(bool isBusy, string busyMessage = null)
         {
-            Grid_root.IsEnabled = !isBusy;
+            Grid_Root.IsEnabled = !isBusy;
 
-            Grid_root.Opacity = Grid_root.IsEnabled ? 1 : 0.5;
+            Grid_Root.Opacity = Grid_Root.IsEnabled ? 1 : 0.5;
 
-            BusyMessageHolder.Text = Grid_root.IsEnabled ? "" : busyMessage ?? "Processing...";
+            BusyMessageHolder.Text = Grid_Root.IsEnabled ? "" : busyMessage ?? "Loading...";
         }
 
         public void NavigateToPage(string targetUri)
@@ -79,5 +79,21 @@ namespace Worldescape
         }
 
         #endregion
+
+        private void MenuItem_ProfileDetails_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            //NavigateToPage(Constants.Page_SignupPage);
+            MyAcountButton.IsChecked = false;
+        }
+
+        private void MenuItem_Logout_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            App.User = null;
+            App.World = null;
+            App.Token = null;
+
+            NavigateToPage(Constants.Page_LoginPage);
+            MyAcountButton.IsChecked = false;
+        }
     }
 }

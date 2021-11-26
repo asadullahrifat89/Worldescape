@@ -108,22 +108,22 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Canvas_root_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private async void Canvas_Root_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (!CanPerformWorldEvents())
                 return;
 
             if (Button_ConstructAdd.IsChecked.Value && _addingConstruct != null)
             {
-                await AddConstructOnPointerPressed(e); // Canvas_root
+                await AddConstructOnPointerPressed(e); // Canvas_Root
             }
             else if (Button_ConstructClone.IsChecked.Value && _cloningConstruct != null)
             {
-                await CloneConstructOnPointerPressed(e); // Canvas_root
+                await CloneConstructOnPointerPressed(e); // Canvas_Root
             }
             else if (Button_ConstructMove.IsChecked.Value && _movingConstruct != null)
             {
-                await MoveConstructOnPointerPressed(e); // Canvas_root
+                await MoveConstructOnPointerPressed(e); // Canvas_Root
             }
             else
             {
@@ -242,7 +242,7 @@ namespace Worldescape
                 _objectLeft = Canvas.GetLeft(uielement);
                 _objectTop = Canvas.GetTop(uielement);
 
-                var currentPoint = e.GetCurrentPoint(Canvas_root);
+                var currentPoint = e.GetCurrentPoint(Canvas_Root);
 
                 // Remember the pointer position:
                 _pointerX = currentPoint.Position.X;
@@ -277,7 +277,7 @@ namespace Worldescape
 
                 if (_isPointerCaptured)
                 {
-                    var currentPoint = e.GetCurrentPoint(Canvas_root);
+                    var currentPoint = e.GetCurrentPoint(Canvas_Root);
 
                     // Calculate the new position of the object:
                     double deltaH = currentPoint.Position.X - _pointerX;
@@ -347,18 +347,18 @@ namespace Worldescape
         {
             if (Button_ConstructMultiSelect.IsChecked.Value && MultiselectedConstructs.Any())
             {
-                var currrentPoint = e.GetCurrentPoint(Canvas_root);
+                var currrentPoint = e.GetCurrentPoint(Canvas_Root);
 
                 // Align avatar to clicked point
                 AlignAvatarFaceDirection(currrentPoint.Position.X);
 
-                //var maxX = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
+                //var maxX = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
 
-                //UIElement fe = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).FirstOrDefault(x => ((Construct)x.Tag).Coordinate.X >= maxX);
+                //UIElement fe = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).FirstOrDefault(x => ((Construct)x.Tag).Coordinate.X >= maxX);
 
-                // var maxX = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
+                // var maxX = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
 
-                UIElement fe = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct c && c.Id == MultiselectedConstructs.FirstOrDefault().Id).FirstOrDefault();
+                UIElement fe = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && c.Id == MultiselectedConstructs.FirstOrDefault().Id).FirstOrDefault();
 
                 List<Tuple<int, double, double>> distWrtFi = new();
 
@@ -380,7 +380,7 @@ namespace Worldescape
                     var nowX = element.Coordinate.X;
                     var nowY = element.Coordinate.Y;
 
-                    _movingConstruct = Canvas_root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == element.Id);
+                    _movingConstruct = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == element.Id);
 
                     double goToX = currrentPoint.Position.X - ((Button)_movingConstruct).ActualWidth / 2;
                     double goToY = currrentPoint.Position.Y - ((Button)_movingConstruct).ActualHeight / 2;
@@ -429,7 +429,7 @@ namespace Worldescape
 
             if (constructAsset != null)
             {
-                var pressedPoint = e.GetCurrentPoint(Canvas_root);
+                var pressedPoint = e.GetCurrentPoint(Canvas_Root);
 
                 var constructButton = GenerateConstructButton(
                     name: constructAsset.Name,
@@ -469,7 +469,7 @@ namespace Worldescape
 
             if (constructAsset != null)
             {
-                var pressedPoint = e.GetCurrentPoint(Canvas_root);
+                var pressedPoint = e.GetCurrentPoint(Canvas_Root);
 
                 var constructButton = GenerateConstructButton(
                            name: constructAsset.Name,
@@ -507,7 +507,7 @@ namespace Worldescape
             // reply to the selected message and show Messaging controls
             if (((Button)sender).Tag is Avatar avatar)
             {
-                _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatar.Id);
+                _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatar.Id);
                 _selectedAvatar = _messageToAvatar;
 
                 ShowMessagingAvatar(_messageToAvatar);
@@ -761,7 +761,7 @@ namespace Worldescape
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
-                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_root, element.Id);
+                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_Root, element.Id);
 
                         if (_selectedConstruct != null)
                         {
@@ -794,7 +794,7 @@ namespace Worldescape
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
-                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_root, element.Id);
+                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_Root, element.Id);
 
                         if (_selectedConstruct != null)
                         {
@@ -825,7 +825,7 @@ namespace Worldescape
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
-                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_root, element.Id);
+                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_Root, element.Id);
 
                         if (_selectedConstruct != null)
                         {
@@ -856,7 +856,7 @@ namespace Worldescape
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
-                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_root, element.Id);
+                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_Root, element.Id);
 
                         if (_selectedConstruct != null)
                         {
@@ -887,7 +887,7 @@ namespace Worldescape
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
-                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_root, element.Id);
+                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_Root, element.Id);
 
                         if (_selectedConstruct != null)
                         {
@@ -918,7 +918,7 @@ namespace Worldescape
                 {
                     foreach (var element in MultiselectedConstructs)
                     {
-                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_root, element.Id);
+                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(Canvas_Root, element.Id);
 
                         if (_selectedConstruct != null)
                         {
@@ -974,7 +974,7 @@ namespace Worldescape
         /// <param name="e"></param>
         private void Button_MyAvatar_Click(object sender, RoutedEventArgs e)
         {
-            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
             {
                 CanvasScrollViewer.ScrollIntoView((Button)iElement);
             }
@@ -1002,7 +1002,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void SetStatusMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void MenuItem_SetStatus_Click(object sender, RoutedEventArgs e)
         {
             var menuItem = (MenuItem)sender;
 
@@ -1045,7 +1045,7 @@ namespace Worldescape
             // show messenge from and to avatars and show Messaging controls
             if (((Button)_selectedAvatar).Tag is Avatar avatar)
             {
-                _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatar.Id);
+                _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatar.Id);
                 ShowMessagingAvatar(_messageToAvatar);
                 ShowMessagingControls();
                 SetAvatarDetailsOnSideCard();
@@ -1072,7 +1072,7 @@ namespace Worldescape
                 await HubService.SendUnicastMessage(avatar.Id, MessagingTextBox.Text);
 
                 // Add message bubble to own avatar
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
                 {
                     AddChatBubbleToCanvas(MessagingTextBox.Text, iElement); // send message
 
@@ -1230,7 +1230,7 @@ namespace Worldescape
                 // If receiver avatar is forward from current avatar
                 AlignAvatarFaceDirection(receiver.Coordinate.X);
 
-                MessagingFromAvatarHolder.Content = GetImageFromUiElement(_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id));
+                MessagingFromAvatarHolder.Content = GetImageFromUiElement(_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id));
                 MessagingToAvatarHolder.Content = GetImageFromUiElement(receiverUiElement);
             }
         }
@@ -1252,7 +1252,7 @@ namespace Worldescape
         #region Construct
         private void HubService_NewBroadcastConstructMovement(int constructId, double x, double y, int z)
         {
-            if (Canvas_root.Children.FirstOrDefault(c => c is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            if (Canvas_Root.Children.FirstOrDefault(c => c is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
             {
                 MoveElement(uIElement: iElement, goToX: x, goToY: y, gotoZ: z);
                 Console.WriteLine("<<HubService_NewBroadcastConstructMovement: OK");
@@ -1265,7 +1265,7 @@ namespace Worldescape
 
         private void HubService_NewBroadcastConstructScale(int constructId, float scale)
         {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            if (Canvas_Root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
             {
                 ScaleElement(uIElement: iElement, scale: scale);
                 Console.WriteLine("<<HubService_NewBroadcastConstructScale: OK");
@@ -1283,7 +1283,7 @@ namespace Worldescape
 
         private void HubService_NewBroadcastConstructRotation(int constructId, float rotation)
         {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            if (Canvas_Root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
             {
                 RotateElement(uIElement: iElement, rotation: rotation);
                 Console.WriteLine("<<HubService_NewBroadcastConstructRotation: OK");
@@ -1301,7 +1301,7 @@ namespace Worldescape
 
         private void HubService_NewBroadcastConstructPlacement(int constructId, int z)
         {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            if (Canvas_Root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
             {
                 Canvas.SetZIndex(iElement, z);
                 Console.WriteLine("<<HubService_NewBroadcastConstructPlacement: OK");
@@ -1314,7 +1314,7 @@ namespace Worldescape
 
         private void HubService_NewRemoveConstruct(int constructId)
         {
-            if (Canvas_root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement constructUiElement)
+            if (Canvas_Root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement constructUiElement)
             {
                 RemoveConstructFromCanvas(constructUiElement);
                 Console.WriteLine("<<HubService_NewRemoveConstruct: OK");
@@ -1363,7 +1363,7 @@ namespace Worldescape
         {
             if (avatarId > 0)
             {
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
@@ -1386,7 +1386,7 @@ namespace Worldescape
         {
             if (avatarId > 0)
             {
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
@@ -1407,7 +1407,7 @@ namespace Worldescape
 
         private void HubService_AvatarLoggedOut(int avatarId)
         {
-            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatarId) is UIElement iElement)
             {
                 var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
@@ -1417,7 +1417,7 @@ namespace Worldescape
                     ParticipantsCount.Text = AvatarMessengers.Count().ToString();
                 }
 
-                Canvas_root.Children.Remove(iElement);
+                Canvas_Root.Children.Remove(iElement);
 
                 Console.WriteLine("<<HubService_AvatarLoggedOut: OK");
             }
@@ -1430,7 +1430,7 @@ namespace Worldescape
         private void HubService_AvatarLoggedIn(Avatar avatar)
         {
             // If an avatar already exists, ignore
-            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatar.Id) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatar.Id) is UIElement iElement)
             {
                 Console.WriteLine("<<HubService_AvatarLoggedIn: IGNORE");
             }
@@ -1452,7 +1452,7 @@ namespace Worldescape
         {
             if (avatarId > 0)
             {
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
@@ -1477,7 +1477,7 @@ namespace Worldescape
         {
             if (avatarId > 0)
             {
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
@@ -1512,7 +1512,7 @@ namespace Worldescape
         {
             if (avatarId > 0)
             {
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, avatarId) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatarId) is UIElement iElement)
                 {
                     var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
@@ -1686,7 +1686,7 @@ namespace Worldescape
 
                         // Clearing up canvas prior to login
                         AvatarMessengers.Clear();
-                        Canvas_root.Children.Clear();
+                        Canvas_Root.Children.Clear();
 
                         AddAvatarsToCanvasAfterHubLogin(avatars);
 
@@ -1767,10 +1767,10 @@ namespace Worldescape
                         foreach (var construct in constructs)
                         {
                             // If a construct already exists then update that, this can happen as after avatar login, new constructs can start appearing thru HubService
-                            if (Canvas_root.Children.OfType<Button>().Count(x => x.Tag is Construct) > 0
-                                && Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct).Any(x => ((Construct)x.Tag).Id == construct.Id))
+                            if (Canvas_Root.Children.OfType<Button>().Count(x => x.Tag is Construct) > 0
+                                && Canvas_Root.Children.OfType<Button>().Where(x => x.Tag is Construct).Any(x => ((Construct)x.Tag).Id == construct.Id))
                             {
-                                if (Canvas_root.Children.OfType<Button>().Where(x => x.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == construct.Id) is Button constructBtn)
+                                if (Canvas_Root.Children.OfType<Button>().Where(x => x.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == construct.Id) is Button constructBtn)
                                 {
                                     constructBtn.Tag = construct;
 
@@ -1867,7 +1867,7 @@ namespace Worldescape
         /// <returns></returns>
         private object MoveElement(UIElement uIElement, PointerRoutedEventArgs e)
         {
-            var pressedPoint = e.GetCurrentPoint(Canvas_root);
+            var pressedPoint = e.GetCurrentPoint(Canvas_Root);
 
             var button = (Button)uIElement;
 
@@ -2321,7 +2321,7 @@ namespace Worldescape
         /// </summary>
         private void ShowCurrentUserAvatar()
         {
-            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
             {
                 var avatar = _avatarHelper.GetTaggedAvatar(iElement);
 
@@ -2338,7 +2338,7 @@ namespace Worldescape
         /// <param name="construct"></param>
         private void AlignAvatarFaceDirection(double x)
         {
-            _avatarHelper.AlignAvatarFaceDirection(x, Canvas_root, Avatar.Id);
+            _avatarHelper.AlignAvatarFaceDirection(x, Canvas_Root, Avatar.Id);
         }
 
         /// <summary>
@@ -2364,7 +2364,7 @@ namespace Worldescape
         /// <param name="avatar"></param>
         private Avatar AddAvatarOnCanvas(UIElement avatar, double x, double y, int? z = null)
         {
-            return _avatarHelper.AddAvatarOnCanvas(avatar, Canvas_root, x, y, z);
+            return _avatarHelper.AddAvatarOnCanvas(avatar, Canvas_Root, x, y, z);
         }
 
         /// <summary>
@@ -2374,7 +2374,7 @@ namespace Worldescape
         /// <returns></returns>
         private async Task BroadcastAvatarMovement(PointerRoutedEventArgs e)
         {
-            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
             {
                 var taggedObject = MoveElement(iElement, e);
                 var movedAvatar = taggedObject as Avatar;
@@ -2394,7 +2394,7 @@ namespace Worldescape
         /// <returns></returns>
         private async Task BroadcastAvatarActivityStatus(ActivityStatus activityStatus)
         {
-            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_root, Avatar.Id) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
             {
                 var avatarButton = (Button)iElement;
                 var taggedAvatar = avatarButton.Tag as Avatar;
@@ -2462,7 +2462,7 @@ namespace Worldescape
         /// <param name="construct"></param>
         private void RemoveConstructFromCanvas(UIElement construct)
         {
-            _constructHelper.RemoveConstructFromCanvas(construct, Canvas_root);
+            _constructHelper.RemoveConstructFromCanvas(construct, Canvas_Root);
         }
 
         /// <summary>
@@ -2616,7 +2616,7 @@ namespace Worldescape
         /// <param name="z"></param>
         private Construct AddConstructOnCanvas(UIElement construct, double x, double y, int? z = null)
         {
-            return _constructHelper.AddConstructOnCanvas(construct, Canvas_root, x, y, z);
+            return _constructHelper.AddConstructOnCanvas(construct, Canvas_Root, x, y, z);
         }
 
         /// <summary>
@@ -2771,8 +2771,8 @@ namespace Worldescape
             }
             else // If received message then image on the right
             {
-                Button meUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == Avatar.Id);
-                Button senderUiElement = Canvas_root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar senderAvatar && senderAvatar.Id == taggedAvatar.Id);
+                Button meUiElement = Canvas_Root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == Avatar.Id);
+                Button senderUiElement = Canvas_Root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar senderAvatar && senderAvatar.Id == taggedAvatar.Id);
 
                 var receiver = meUiElement.Tag as Avatar;
                 var sender = taggedAvatar;
@@ -2819,7 +2819,7 @@ namespace Worldescape
             // after opacity reaches zero delete this from canvas
             opacityAnimation.Completed += (s, e) =>
             {
-                Canvas_root.Children.Remove(chatBubble);
+                Canvas_Root.Children.Remove(chatBubble);
             };
 
             Storyboard.SetTarget(opacityAnimation, chatBubble);
@@ -2840,7 +2840,7 @@ namespace Worldescape
             // Add a shadow effect to the chat bubble
             chatBubble.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
 
-            Canvas_root.Children.Add(chatBubble);
+            Canvas_Root.Children.Add(chatBubble);
 
             fadeStoryBoard.Begin();
         }

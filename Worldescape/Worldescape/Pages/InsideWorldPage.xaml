@@ -18,13 +18,13 @@
             VerticalScrollBarVisibility="Auto">
 
             <Canvas
-                x:Name="Canvas_root"
+                x:Name="Canvas_Root"
                 Grid.Row="1"
                 Width="8000"
                 Height="8000"
                 AllowDrop="True"
                 Background="Transparent"
-                PointerPressed="Canvas_root_PointerPressed" />
+                PointerPressed="Canvas_Root_PointerPressed" />
 
         </ScrollViewer>
 
@@ -288,23 +288,23 @@
 
                         <StackPanel>
                             <MenuItem
-                                Click="SetStatusMenuItem_Click"
+                                Click="MenuItem_SetStatus_Click"
                                 Content="Idle"
                                 Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
                             <MenuItem
-                                Click="SetStatusMenuItem_Click"
+                                Click="MenuItem_SetStatus_Click"
                                 Content="Working"
                                 Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
                             <MenuItem
-                                Click="SetStatusMenuItem_Click"
+                                Click="MenuItem_SetStatus_Click"
                                 Content="Inspecting"
                                 Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
                             <MenuItem
-                                Click="SetStatusMenuItem_Click"
+                                Click="MenuItem_SetStatus_Click"
                                 Content="Greeting"
                                 Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
                             <MenuItem
-                                Click="SetStatusMenuItem_Click"
+                                Click="MenuItem_SetStatus_Click"
                                 Content="Away"
                                 Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
                         </StackPanel>
