@@ -1,4 +1,8 @@
-﻿namespace Worldescape.Data
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Worldescape.Data
 {
     public static class Constants
     {
@@ -17,6 +21,47 @@
                 action = action.Replace("/api/Query/", "");
 
             return action;
+        }
+
+        public static string CamelToName(string value)
+        {
+            var list = new List<char>();
+
+            if (value.Contains("_"))
+            {
+                value = value.Replace("_", string.Empty);
+            }
+
+            list.AddRange(value.ToCharArray());
+
+            string list_0 = list[0].ToString().ToUpper();
+            if (list.Count > 0)
+            {
+                list[0] = Convert.ToChar(list_0);
+            }
+
+            for (int i = list.Count - 1; i >= 1; i -= 1)
+            {
+                string list_i_1 = list[i - 1].ToString().ToLower();
+                string list_i = list[i].ToString().ToUpper();
+                if (Convert.ToString(list[i]) == list_i && Convert.ToString(list[i - 1]) == list_i_1)
+                {
+                    list.Insert(i, ' ');
+                }
+
+                if (Convert.ToString(list[i]) == "_")
+                {
+                    list[i] = ' ';
+                }
+            }
+
+            var sb = new StringBuilder();
+            foreach (var c in list)
+            {
+                sb.Append(c);
+            }
+
+            return sb.ToString();
         }
 
         #region Methods Invoked On Client From Server

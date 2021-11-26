@@ -89,23 +89,23 @@ namespace Worldescape.Service.Properties {
         /// <summary>
         ///   Looks up a localized string similar to [
         ///  {
-        ///    &quot;Name&quot;: &quot;buildingTiles 000&quot;,
+        ///    &quot;Name&quot;: &quot;Building Tiles 0 0 0 &quot;,
         ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Buildings\\buildingTiles_000.png&quot;,
         ///    &quot;Category&quot;: &quot;Buildings&quot;
         ///  },
         ///  {
-        ///    &quot;Name&quot;: &quot;buildingTiles 001&quot;,
+        ///    &quot;Name&quot;: &quot;Building Tiles 0 0 1 &quot;,
         ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Buildings\\buildingTiles_001.png&quot;,
         ///    &quot;Category&quot;: &quot;Buildings&quot;
         ///  },
         ///  {
-        ///    &quot;Name&quot;: &quot;buildingTiles 002&quot;,
+        ///    &quot;Name&quot;: &quot;Building Tiles 0 0 2 &quot;,
         ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Buildings\\buildingTiles_002.png&quot;,
         ///    &quot;Category&quot;: &quot;Buildings&quot;
         ///  },
         ///  {
-        ///    &quot;Name&quot;: &quot;buildingTiles 003&quot;,
-        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Buildings\\b [rest of string was truncated]&quot;;.
+        ///    &quot;Name&quot;: &quot;Building Tiles 0 0 3 &quot;,
+        ///    &quot;ImageUrl&quot;: &quot;World_Objec [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ConstructAssets {
             get {

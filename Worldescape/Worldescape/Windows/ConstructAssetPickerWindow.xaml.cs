@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -64,7 +65,7 @@ namespace Worldescape
         {
             var filteredData = new List<ConstructAsset>();
 
-            filteredData.AddRange(_constructAssets.Where(x => 
+            filteredData.AddRange(_constructAssets.Where(x =>
             (!_pickedConstructCategory.IsNullOrBlank() ? x.Category == _pickedConstructCategory : !x.Category.IsNullOrBlank())
             && (!_typedConstructName.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(_typedConstructName.ToLowerInvariant()) : !x.Name.IsNullOrBlank())));
 
@@ -96,10 +97,11 @@ namespace Worldescape
                 var buttonConstructAsset = new Button()
                 {
                     Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                    Width = 140,
+                    Width = 150,
                     Height = 120,
                     Margin = new Thickness(3),
                     Tag = item,
+                    FontSize = 18
                 };
 
                 buttonConstructAsset.Click += ButtonConstructCategory_Click;
@@ -143,21 +145,36 @@ namespace Worldescape
                 {
                     Source = bitmap,
                     Stretch = Stretch.Uniform,
-                    Height = 100,
-                    Width = 100
+                    Height = 160,
+                    Width = 160,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                };
+
+                var txt = new TextBlock()
+                {
+                    Text = item.Name,
+                    FontWeight = FontWeights.SemiBold,
+                    Foreground = Application.Current.Resources["MaterialDesign_DefaultAccentColor"] as SolidColorBrush,
+                    TextWrapping = TextWrapping.Wrap,
+                    FontSize = 14
                 };
 
                 var buttonConstructAsset = new Button()
                 {
                     Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                    Height = 100,
-                    Width = 100,
+                    Height = 170,
+                    Width = 170,
                     Margin = new Thickness(3),
                     Tag = item,
                 };
 
+                StackPanel stackPanel = new StackPanel();
+                stackPanel.Children.Add(img);
+                stackPanel.Children.Add(txt);
+
                 buttonConstructAsset.Click += ButtonConstructAsset_Click;
-                buttonConstructAsset.Content = img;
+                buttonConstructAsset.Content = stackPanel;
 
                 _masonryPanel.Children.Add(buttonConstructAsset);
             }

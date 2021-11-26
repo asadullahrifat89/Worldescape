@@ -19,7 +19,7 @@ switch (choice)
             var host = "ms-appx:///Images/World_Objects";
 
             var newlocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape.Assets\\Assets\\World_Objects");
-            
+
             DirectoryInfo parentDirectory = new(newlocation);
 
             List<ConstructAsset> constructs = new List<ConstructAsset>();
@@ -38,8 +38,8 @@ switch (choice)
 
                         var construct = new ConstructAsset()
                         {
-                            Category = directory.Name.Replace("_", " "),
-                            Name = file.Name.Replace("_", " ").Replace(".png", ""),
+                            Category = Constants.CamelToName(directory.Name),
+                            Name = Constants.CamelToName(file.Name).Replace(".png", ""), // file.Name.Replace("_", " ").Replace(".png", ""),
                             ImageUrl = url,
                         };
 
@@ -82,8 +82,8 @@ switch (choice)
 
                         var construct = new ConstructAsset()
                         {
-                            Category = directory.Name.Replace("_", " "),
-                            Name = file.Name.Replace("_", " ").Replace(".png", ""),
+                            Category = Constants.CamelToName(directory.Name),
+                            Name = Constants.CamelToName(file.Name).Replace(".png", ""),
                             ImageUrl = url,
                         };
 
