@@ -5,7 +5,7 @@
     xmlns:local="clr-namespace:Worldescape"
     Title="ConstructAssetPickerWindow"
     Width="615"
-    Height="655"
+    Height="705"
     FontWeight="SemiBold"
     Style="{StaticResource MaterialDesign_ChildWindow_Style}">
 
@@ -17,26 +17,63 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel
-            Grid.Row="0"
-            Margin="5"
-            Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Margin="5">
 
-            <Button
-                x:Name="CategoriesButton"
-                Width="120"
-                Margin="5,0"
-                Click="ButtonShowCategories_Click"
-                Content="Categories"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+            <Grid>
 
-            <TextBlock
-                x:Name="FoundConstructAssetsCountHolder"
-                Margin="10"
-                FontSize="16"
-                FontWeight="SemiBold"
-                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
+                <!--  Select category  -->
+                <Button
+                    x:Name="CategoriesButton"
+                    Grid.Column="0"
+                    Width="120"
+                    Margin="5,0"
+                    Click="ButtonShowCategories_Click"
+                    Content="Categories"
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+                <!--  Search box for constructs  -->
+                <TextBox
+                    x:Name="SearchConstructAssetsTextHolder"
+                    Grid.Column="1"
+                    MinWidth="300"
+                    Margin="5,0"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    KeyDown="SearchConstructAssetsTextHolder_KeyDown"
+                    PlaceholderText="Search constructs"
+                    Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
+                    TextAlignment="Left" />
+
+                <!--  Search worlds  -->
+                <Button
+                    x:Name="ButtonSearchConstructAssets"
+                    Grid.Column="2"
+                    Width="120"
+                    Margin="5,0"
+                    Click="ButtonSearchConstructAssets_Click"
+                    Content="Search"
+                    FontSize="16"
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+            </Grid>
+
+            <StackPanel Orientation="Horizontal">
+
+                <!--  Found construct assets count  -->
+                <TextBlock
+                    x:Name="FoundConstructAssetsCountHolder"
+                    Margin="10"
+                    FontSize="16"
+                    FontWeight="SemiBold"
+                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
+
+            </StackPanel>
         </StackPanel>
 
         <ScrollViewer

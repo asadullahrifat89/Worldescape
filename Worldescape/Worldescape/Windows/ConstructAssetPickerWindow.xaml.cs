@@ -21,6 +21,7 @@ namespace Worldescape
         bool _settingConstructAssets = false;
 
         string _pickedConstructCategory = string.Empty;
+        string _typedConstructName = string.Empty;
 
         List<ConstructAsset> _constructAssets = new List<ConstructAsset>();
         List<ConstructCategory> _constructCategories = new List<ConstructCategory>();
@@ -58,6 +59,24 @@ namespace Worldescape
         #region Methods
 
         #region Functionality
+
+        private IEnumerable<ConstructAsset> GetFilteredConstructAssets()
+        {
+            var filteredData = new List<ConstructAsset>();
+
+            filteredData.AddRange(_constructAssets.Where(x => 
+            (!_pickedConstructCategory.IsNullOrBlank() ? x.Category == _pickedConstructCategory : !x.Category.IsNullOrBlank())
+            && (!_typedConstructName.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(_typedConstructName.ToLowerInvariant()) : !x.Name.IsNullOrBlank())));
+
+            return filteredData;
+        }
+
+        private void SearchConstructAssets()
+        {
+            _pageIndex = 0;
+            ShowConstructAssetsCount();
+            GetConstructAssets();
+        }
 
         private void ShowConstructCategories()
         {
@@ -101,7 +120,7 @@ namespace Worldescape
 
             _settingConstructAssets = true;
 
-            var filteredData = string.IsNullOrEmpty(_pickedConstructCategory) ? _constructAssets : _constructAssets.Where(x => x.Category == _pickedConstructCategory);
+            var filteredData = GetFilteredConstructAssets();
 
             var pagedData = filteredData.Skip(_pageIndex * _pageSize).Take(_pageSize);
 
@@ -148,8 +167,10 @@ namespace Worldescape
             _settingConstructAssets = false;
         }
 
-        private void ShowConstructAssetsCount(IEnumerable<ConstructAsset> filteredData)
+        private void ShowConstructAssetsCount()
         {
+            var filteredData = GetFilteredConstructAssets();
+
             _totalPageCount = _pageNumberHelper.GetTotalPageCount(_pageSize, filteredData.Count());
 
             FoundConstructAssetsCountHolder.Text = $"Found { filteredData?.Count().ToString() } constructs...";
@@ -171,6 +192,11 @@ namespace Worldescape
         #endregion
 
         #region Button Events
+
+        private void ButtonSearchConstructAssets_Click(object sender, RoutedEventArgs e)
+        {
+            SearchConstructAssets();
+        }
 
         private void ButtonPreview_Click(object sender, RoutedEventArgs e)
         {
@@ -212,13 +238,10 @@ namespace Worldescape
 
         private void ButtonConstructCategory_Click(object sender, RoutedEventArgs e)
         {
-            _pageIndex = 0;
             _pickedConstructCategory = (((Button)sender).Tag as ConstructCategory).Name;
 
-            var filteredData = string.IsNullOrEmpty(_pickedConstructCategory) ? _constructAssets : _constructAssets.Where(x => x.Category == _pickedConstructCategory);
-
-            ShowConstructAssetsCount(filteredData);
-
+            _pageIndex = 0;
+            ShowConstructAssetsCount();
             GetConstructAssets();
         }
 
@@ -234,7 +257,19 @@ namespace Worldescape
 
         #endregion
 
-        #endregion      
+        #region UX Events
+
+        private void SearchConstructAssetsTextHolder_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                SearchConstructAssets();
+            }
+        }
+
+        #endregion
+
+        #endregion
     }
 }
 
