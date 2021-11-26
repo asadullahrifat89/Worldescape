@@ -153,8 +153,10 @@ namespace Worldescape
                 AccountModel.ImageUrl = onDataUrl;
 
                 if (onDataUrl.Contains("ms-appx:"))
-                {                    
-                    Image_ProfileImageUrl.Source = new BitmapImage(new Uri(onDataUrl));
+                {
+                    var bitmapimage = new BitmapImage();
+                    bitmapimage.UriSource = new Uri(onDataUrl);
+                    Image_ProfileImageUrl.Source = bitmapimage;
                 }
                 else
                 {
