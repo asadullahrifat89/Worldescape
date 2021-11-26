@@ -39,7 +39,7 @@ switch (choice)
                         var construct = new ConstructAsset()
                         {
                             Category = Constants.CamelToName(directory.Name),
-                            Name = Constants.CamelToName(file.Name).Replace(".png", ""), // file.Name.Replace("_", " ").Replace(".png", ""),
+                            Name = Constants.CamelToName(file.Name).Replace(".png", ""),
                             ImageUrl = url,
                         };
 
