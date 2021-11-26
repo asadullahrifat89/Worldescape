@@ -29,7 +29,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace CSHTML5.Extensions.FileOpenDialog
 {
-    public class OpenFileDialogPresenter : HtmlPresenter
+    public class FileOpenDialogPresenter : HtmlPresenter
     {
         public event EventHandler<FileOpenedEventArgs> FileOpened;
 
@@ -45,7 +45,7 @@ namespace CSHTML5.Extensions.FileOpenDialog
             }
         }
 
-        public OpenFileDialogPresenter()
+        public FileOpenDialogPresenter()
         {
             ResultKind = FileOpenDialog.ResultKind.Text; //Note: this is to set the default value of the property.
 
@@ -144,11 +144,11 @@ namespace CSHTML5.Extensions.FileOpenDialog
             set { SetValue(FilterProperty, value); }
         }
         public static readonly DependencyProperty FilterProperty =
-            DependencyProperty.Register("Filter", typeof(string), typeof(OpenFileDialogPresenter), new PropertyMetadata("", Filter_Changed));
+            DependencyProperty.Register("Filter", typeof(string), typeof(FileOpenDialogPresenter), new PropertyMetadata("", Filter_Changed));
 
         static void Filter_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = (OpenFileDialogPresenter)d;
+            var control = (FileOpenDialogPresenter)d;
             if (CSharpXamlForHtml5.DomManagement.IsControlInVisualTree(control))
             {
                 control.SetFilter((e.NewValue ?? "").ToString());

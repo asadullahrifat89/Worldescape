@@ -115,7 +115,7 @@
 		<Compile Include="Helpers\ConstructHelper.cs" />
 		<Compile Include="Helpers\PageNumberHelper.cs" />
 		<Compile Include="Helpers\WorldHelper.cs" />
-		<Compile Include="Internals\OpenFileDialogPresenter.cs" />
+		<Compile Include="Internals\FileOpenDialogPresenter.cs" />
 		<Compile Include="Pages\AccountPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
