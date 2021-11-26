@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSHTML5.Extensions.FileOpenDialog;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -55,7 +56,7 @@ namespace Worldescape
                     break;
             }
 
-            AccountModel.ImageUrl = App.User.ImageUrl;
+            AccountModel.ImageUrl = App.User.ImageUrl; // If not set then default is set after logging in
             Image_ProfileImageUrl.Source = new BitmapImage(new Uri(App.User.ImageUrl));
             TextBlock_Name.Text = App.User.Name;
         }
@@ -145,28 +146,49 @@ namespace Worldescape
 
         #region Button Events
 
-        private void FileOpenDialogPresenter_ImageUrl_FileOpened(object sender, CSHTML5.Extensions.FileOpenDialog.FileOpenedEventArgs e)
+        private void Button_UploadImageUrl_Click(object sender, RoutedEventArgs e)
         {
-            string dataURL = e.DataURL;
-            
-            if (string.IsNullOrEmpty(dataURL))
-                return;
+            ImagePickerWindow imagePickerWindow = new ImagePickerWindow((dataUrl) =>
+            {
+                AccountModel.ImageUrl = dataUrl;
 
-            var bitmapimage = new BitmapImage();
-            bitmapimage.SetSource(dataURL);
-            Image_ProfileImageUrl.Source = bitmapimage;
+                if (dataUrl.Contains("ms-appx:"))
+                {                    
+                    Image_ProfileImageUrl.Source = new BitmapImage(new Uri(dataUrl));
+                }
+                else
+                {
+                    var bitmapimage = new BitmapImage();
+                    bitmapimage.SetSource(dataUrl);
+                    Image_ProfileImageUrl.Source = bitmapimage;
+                }
+            });
 
-            //var base64String = e.DataURL;
-            //base64String = base64String.Substring(base64String.IndexOf(',') + 1);
+            imagePickerWindow.Show();
+        }
 
-            //byte[] byteBuffer = Convert.FromBase64String(base64String);
+        private void Button_RemoveImageUrl_Click(object sender, RoutedEventArgs e)
+        {
+            string defaultImageUrl = null;
 
-            //using (MemoryStream memoryStream = new MemoryStream(byteBuffer))
-            //{
-            //    var bitmapImage = new BitmapImage();
-            //    bitmapImage.SetSource(memoryStream);
-            //    Image_ProfileImageUrl.Source = bitmapImage;
-            //}
+            // Gender wise default image
+            switch (App.User.Gender)
+            {
+                case Gender.Male:
+                    defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Male.png";
+                    break;
+                case Gender.Female:
+                    defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Female.png";
+                    break;
+                case Gender.Other:
+                    defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Other.png";
+                    break;
+                default:
+                    break;
+            }
+
+            AccountModel.ImageUrl = defaultImageUrl;
+            Image_ProfileImageUrl.Source = new BitmapImage(new Uri(defaultImageUrl));
         }
 
         private async void Button_UpdateAccount_Click(object sender, RoutedEventArgs e)
@@ -182,11 +204,8 @@ namespace Worldescape
             NavigateToLoginPage();
         }
 
-
         #endregion
 
-        #endregion
-
-
+        #endregion      
     }
 }

@@ -8,5 +8,4 @@
     <local:TextToPlaceholderTextVisibilityConverter x:Key="TextToPlaceholderTextVisibilityConverter" />
 
     <SolidColorBrush x:Key="MaterialDesign_DefaultAccentColor" Color="#FF0069EC" />
-
 </ResourceDictionary>
