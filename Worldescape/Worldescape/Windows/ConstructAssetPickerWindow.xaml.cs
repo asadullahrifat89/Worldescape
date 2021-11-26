@@ -95,15 +95,13 @@ namespace Worldescape
             PagesHolder.ItemsSource = _pageNumbers;
         }
 
-        private void ShowConstructAssets()
+        private void GetConstructAssets()
         {
             Title = "Select a Construct";
 
             _settingConstructAssets = true;
 
             var filteredData = string.IsNullOrEmpty(_pickedConstructCategory) ? _constructAssets : _constructAssets.Where(x => x.Category == _pickedConstructCategory);
-
-            GetConstructAssetsCount(filteredData);
 
             var pagedData = filteredData.Skip(_pageIndex * _pageSize).Take(_pageSize);
 
@@ -150,12 +148,11 @@ namespace Worldescape
             _settingConstructAssets = false;
         }
 
-        private void GetConstructAssetsCount(IEnumerable<ConstructAsset> filteredData)
+        private void ShowConstructAssetsCount(IEnumerable<ConstructAsset> filteredData)
         {
             _totalPageCount = filteredData.Count() / _pageSize;
             FoundConstructAssetsCountHolder.Text = $"Found { filteredData?.Count().ToString() } constructs...";
-
-            PopulatePageNumbers();
+            PopulatePageNumbers(0);
         }
 
         private void GeneratePageNumbers()
@@ -164,10 +161,9 @@ namespace Worldescape
             PagesHolder.ItemsSource = _pageNumbers;
         }
 
-        private void PopulatePageNumbers()
+        private void PopulatePageNumbers(int? pageIndex = null)
         {
-            _pageNumbers.Clear();
-            _pageNumbers = _pageNumberHelper.PopulatePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
+            _pageNumbers = _pageNumberHelper.PopulatePageNumbers(_totalPageCount, pageIndex ?? _pageIndex, _pageNumbers);
             PagesHolder.ItemsSource = _pageNumbers;
         }
 
@@ -179,9 +175,9 @@ namespace Worldescape
         {
             if (!_settingConstructAssets)
             {
-                _pageNumberHelper.GetPreviousPageNumber(_totalPageCount, _pageIndex);
+                _pageIndex = _pageNumberHelper.GetPreviousPageNumber(_totalPageCount, _pageIndex);
 
-                ShowConstructAssets();
+                GetConstructAssets();
                 GeneratePageNumbers();
             }
         }
@@ -190,9 +186,9 @@ namespace Worldescape
         {
             if (!_settingConstructAssets)
             {
-                _pageNumberHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
+                _pageIndex = _pageNumberHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
 
-                ShowConstructAssets();
+                GetConstructAssets();
                 GeneratePageNumbers();
             }
         }
@@ -203,7 +199,7 @@ namespace Worldescape
             {
                 _pageIndex = Convert.ToInt32(((Button)sender).Content);
 
-                ShowConstructAssets();
+                GetConstructAssets();
                 GeneratePageNumbers();
             }
         }
@@ -217,7 +213,12 @@ namespace Worldescape
         {
             _pageIndex = 0;
             _pickedConstructCategory = (((Button)sender).Tag as ConstructCategory).Name;
-            ShowConstructAssets();
+
+            var filteredData = string.IsNullOrEmpty(_pickedConstructCategory) ? _constructAssets : _constructAssets.Where(x => x.Category == _pickedConstructCategory);
+
+            ShowConstructAssetsCount(filteredData);
+
+            GetConstructAssets();
         }
 
         private void ButtonConstructAsset_Click(object sender, RoutedEventArgs e)

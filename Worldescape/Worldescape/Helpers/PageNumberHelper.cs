@@ -38,17 +38,14 @@ namespace Worldescape
             int pageIndex,
             RangeObservableCollection<string> _pageNumbers)
         {
-            // Ig total page count is greater than 5 only then make repopulation other wise no need
-            if (totalPageCount > 5)
+            if (pageIndex >= 4)
             {
                 if (pageIndex.ToString() == _pageNumbers.FirstOrDefault()) // If current page index is equal to the first page of generated page numbers
                 {
-                    _pageNumbers.Clear();
                     return PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
                 }
                 else if (pageIndex.ToString() == _pageNumbers.LastOrDefault()) // If the current page index is equal to the last page of generated page numbers
                 {
-                    _pageNumbers.Clear();
                     return PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
                 }
                 else
@@ -67,13 +64,38 @@ namespace Worldescape
             int pageIndex,
             RangeObservableCollection<string> _pageNumbers)
         {
-            for (int i = pageIndex; i < totalPageCount; i++)
-            {
-                _pageNumbers.Add(i.ToString());
+            _pageNumbers.Clear();
 
-                if (i >= 5) // Generate upto 5 pages
+            if (pageIndex - 2 >= 0)
+            {
+                _pageNumbers.Add((pageIndex - 2).ToString());
+            }
+            if (pageIndex - 1 >= 0)
+            {
+                _pageNumbers.Add((pageIndex - 1).ToString());
+            }
+
+            _pageNumbers.Add(pageIndex.ToString());
+
+            if (pageIndex + 1 <= totalPageCount)
+            {
+                _pageNumbers.Add((pageIndex + 1).ToString());
+            }
+            if (pageIndex + 2 <= totalPageCount)
+            {
+                _pageNumbers.Add((pageIndex + 2).ToString());
+            }
+
+            if (_pageNumbers.Count < 5)
+            {
+                if (pageIndex + 3 <= totalPageCount)
                 {
-                    break;
+                    _pageNumbers.Add((pageIndex + 3).ToString());
+                }
+
+                if (pageIndex + 4 <= totalPageCount)
+                {
+                    _pageNumbers.Add((pageIndex + 4).ToString());
                 }
             }
 

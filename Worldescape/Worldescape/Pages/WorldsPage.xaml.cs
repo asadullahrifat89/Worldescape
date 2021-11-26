@@ -152,7 +152,7 @@ namespace Worldescape
 
             FoundWorldsCountHolder.Text = $"Found {countResponse.Count} worlds...";
 
-            PopulatePageNumbers();
+            PopulatePageNumbers(0);
 
             return countResponse.Count;
         }
@@ -163,10 +163,9 @@ namespace Worldescape
             PagesHolder.ItemsSource = _pageNumbers;
         }
 
-        private void PopulatePageNumbers()
-        {
-            _pageNumbers.Clear();
-            _pageNumbers = _pageNumberHelper.PopulatePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
+        private void PopulatePageNumbers(int? pageIndex = null)
+        {            
+            _pageNumbers = _pageNumberHelper.PopulatePageNumbers(_totalPageCount, pageIndex ?? _pageIndex, _pageNumbers);
             PagesHolder.ItemsSource = _pageNumbers;
         }
 
