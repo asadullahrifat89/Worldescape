@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Data;
@@ -82,7 +83,11 @@ namespace Worldescape
 
         private void MenuItem_ProfileDetails_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            NavigateToPage(Constants.Page_AccountPage);
+            if (App.World.IsEmpty())
+                NavigateToPage(Constants.Page_AccountPage);
+            else
+                MessageBox.Show("It is not permissible to change your account information while being coneccted to a world.", "Sorry!");
+
             MyAcountButton.IsChecked = false;
         }
 

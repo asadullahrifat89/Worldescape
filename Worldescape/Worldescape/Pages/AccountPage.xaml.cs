@@ -87,7 +87,7 @@ namespace Worldescape
             _mainPage.NavigateToPage(Constants.Page_LoginPage);
         }
 
-        private async Task UpdateAccount()
+        private async Task UpdateUser()
         {
             _mainPage.SetIsBusy(true, "Creating your account...");
             var command = new UpdateUserCommandRequest
@@ -103,7 +103,7 @@ namespace Worldescape
             };
 
             var response = await _httpServiceHelper.SendPostRequest<ServiceResponse>(
-               actionUri: Constants.Action_AddUser,
+               actionUri: Constants.Action_UpdateUser,
                payload: command);
 
             if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
@@ -141,7 +141,7 @@ namespace Worldescape
             if (!CheckIfModelValid())
                 return;
 
-            await UpdateAccount();
+            await UpdateUser();
         }
 
         private void Button_Discard_Click(object sender, RoutedEventArgs e)
