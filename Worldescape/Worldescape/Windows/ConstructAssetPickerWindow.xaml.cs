@@ -21,7 +21,8 @@ namespace Worldescape
 
         bool _settingConstructAssets = false;
 
-        string _selectedConstructCategoryName = string.Empty;
+        string _constructCategoryNameFilter = string.Empty;
+        ConstructCategory _pickedConstructCategory = new ConstructCategory() { Name = "All" };
 
         List<ConstructAsset> _constructAssets = new List<ConstructAsset>();
         List<ConstructCategory> _constructCategories = new List<ConstructCategory>();
@@ -65,7 +66,7 @@ namespace Worldescape
             var filteredData = new List<ConstructAsset>();
 
             filteredData.AddRange(_constructAssets.Where(x =>
-            (!_selectedConstructCategoryName.IsNullOrBlank() ? x.Category == _selectedConstructCategoryName : !x.Category.IsNullOrBlank())
+            (!_constructCategoryNameFilter.IsNullOrBlank() ? x.Category == _constructCategoryNameFilter : !x.Category.IsNullOrBlank())
             && (!SearchConstructAssetsTextHolder.Text.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(SearchConstructAssetsTextHolder.Text.ToLowerInvariant()) : !x.Name.IsNullOrBlank())));
 
             return filteredData;
@@ -88,7 +89,7 @@ namespace Worldescape
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
-                Height = 500
+                //Height = 500
             };
 
             // Add an All button first
@@ -206,7 +207,7 @@ namespace Worldescape
 
             _totalPageCount = _pageNumberHelper.GetTotalPageCount(_pageSize, filteredData.Count());
 
-            FoundConstructAssetsCountHolder.Text = $"Found { filteredData?.Count().ToString() } constructs...";
+            FoundConstructAssetsCountHolder.Text = $"Found { filteredData?.Count().ToString() } constructs in {_pickedConstructCategory.Name}...";
             PopulatePageNumbers(0);
         }
 
@@ -271,10 +272,10 @@ namespace Worldescape
 
         private void ButtonConstructCategory_Click(object sender, RoutedEventArgs e)
         {
-            var categoryName = (((Button)sender).Tag as ConstructCategory).Name;
-            SelectedCategoryNameHolder.Text = categoryName.IsNullOrBlank() ? "" : $"In {categoryName}: ";
+            _pickedConstructCategory = ((Button)sender).Tag as ConstructCategory;
+            var categoryName = _pickedConstructCategory.Name;
 
-            _selectedConstructCategoryName = !categoryName.Equals("All") ? categoryName : null;
+            _constructCategoryNameFilter = !categoryName.Equals("All") ? categoryName : null;
 
             _pageIndex = 0;
             ShowConstructAssetsCount();

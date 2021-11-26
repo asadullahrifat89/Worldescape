@@ -5,7 +5,7 @@
     xmlns:local="clr-namespace:Worldescape"
     Title="ConstructAssetPickerWindow"
     Width="650"
-    Height="705"
+    Height="720"
     FontWeight="SemiBold"
     Style="{StaticResource MaterialDesign_ChildWindow_Style}">
 
@@ -65,14 +65,6 @@
 
             <StackPanel Margin="5" Orientation="Horizontal">
 
-                <!--  Selected construct category name  -->
-                <TextBlock
-                    x:Name="SelectedCategoryNameHolder"
-                    Margin="5,0"
-                    FontSize="16"
-                    FontWeight="SemiBold"
-                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
-
                 <!--  Found construct assets count  -->
                 <TextBlock
                     x:Name="FoundConstructAssetsCountHolder"
@@ -80,6 +72,13 @@
                     FontSize="16"
                     FontWeight="SemiBold"
                     Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
+
+                <!--  Selected construct category name  -->
+                <!--<TextBlock
+                    x:Name="SelectedCategoryNameHolder"
+                    FontSize="16"
+                    FontWeight="SemiBold"
+                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />-->
 
             </StackPanel>
         </StackPanel>
