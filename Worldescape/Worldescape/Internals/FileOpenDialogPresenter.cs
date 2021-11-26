@@ -47,7 +47,7 @@ namespace CSHTML5.Extensions.FileOpenDialog
 
         public FileOpenDialogPresenter()
         {
-            ResultKind = FileOpenDialog.ResultKind.Text; //Note: this is to set the default value of the property.
+            ResultKind = FileOpenDialog.ResultKind.DataURL; //Note: this is to set the default value of the property.
 
             Html = "<input type='file'>";
 

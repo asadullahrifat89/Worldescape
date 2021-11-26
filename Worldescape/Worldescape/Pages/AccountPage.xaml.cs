@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -144,6 +145,22 @@ namespace Worldescape
 
         #region Button Events
 
+        private void OnFileOpened(object sender, CSHTML5.Extensions.FileOpenDialog.FileOpenedEventArgs e)
+        {
+            var base64String = e.DataURL;
+            base64String = base64String.Substring(base64String.IndexOf(',') + 1); 
+
+            byte[] byteBuffer = Convert.FromBase64String(base64String);
+
+            using (MemoryStream memoryStream = new MemoryStream(byteBuffer))
+            {
+                var bitmapImage = new BitmapImage();
+                bitmapImage.SetSource(memoryStream);
+                Image_ProfileImageUrl.Source = bitmapImage;
+            }
+            //MessageBox.Show(e.DataURL);
+        }
+
         private async void Button_UpdateAccount_Click(object sender, RoutedEventArgs e)
         {
             if (!CheckIfModelValid())
@@ -160,5 +177,7 @@ namespace Worldescape
         #endregion
 
         #endregion
+
+
     }
 }
