@@ -160,6 +160,11 @@ namespace Worldescape
             imagePickerWindow.Show();
         }
 
+        /// <summary>
+        /// Remove the existing image url for user.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_RemoveImageUrl_Click(object sender, RoutedEventArgs e)
         {
             string defaultImageUrl = null;

@@ -35,7 +35,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Orientation="Horizontal">
-            
+
             <!--  Connect  -->
             <Button
                 x:Name="Button_Connect"
@@ -439,61 +439,67 @@
                 <!--  Upward  -->
                 <Button
                     x:Name="Button_ConstructBringForward"
-                    MinWidth="110"
+                    Width="50"
                     Margin="10"
                     Click="Button_ConstructBringForward_Click"
-                    Content="Upward"
-                    FontSize="20"
+                    Content="&#xE70E;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Downward  -->
                 <Button
                     x:Name="Button_ConstructSendBackward"
-                    MinWidth="110"
+                    Width="50"
                     Margin="10"
                     Click="Button_ConstructSendBackward_Click"
-                    Content="Downward"
-                    FontSize="20"
+                    Content="&#xE70D;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Enlarge  -->
                 <Button
                     x:Name="Button_ConstructScaleUp"
-                    MinWidth="110"
+                    Width="50"
                     Margin="10"
                     Click="Button_ConstructScaleUp_Click"
-                    Content="Enlarge"
-                    FontSize="20"
+                    Content="&#xE740;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Dwindle  -->
                 <Button
                     x:Name="Button_ConstructScaleDown"
-                    MinWidth="110"
+                    Width="50"
                     Margin="10"
                     Click="Button_ConstructScaleDown_Click"
-                    Content="Dwindle"
-                    FontSize="20"
+                    Content="&#xE73F;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Rotate  -->
                 <Button
                     x:Name="Button_ConstructRotate"
-                    MinWidth="110"
+                    Width="50"
                     Margin="10"
                     Click="Button_ConstructRotate_Click"
-                    Content="Rotate"
-                    FontSize="20"
+                    Content="&#xE7AD;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 <!--  Delete  -->
                 <Button
                     x:Name="Button_ConstructDelete"
-                    MinWidth="110"
+                    Width="50"
                     Margin="10"
                     Click="Button_ConstructDelete_Click"
-                    Content="Delete"
-                    FontSize="20"
+                    Content="&#xE74D;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
             </WrapPanel>

@@ -614,8 +614,6 @@ namespace Worldescape
                 Button_ConstructClone.IsChecked = false;
                 Button_ConstructClone.Content = "Clone";
 
-                Button_ConstructDelete.Content = "Delete";
-
                 Button_ConstructAdd.IsChecked = false;
                 Button_ConstructAdd.Content = "Add";
 
