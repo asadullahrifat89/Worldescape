@@ -31,6 +31,7 @@ namespace Worldescape
         readonly MainPage _mainPage;
         readonly HttpServiceHelper _httpServiceHelper;
         readonly WorldHelper _worldHelper;
+        readonly PageNumberHelper _pageNumberHelper;
 
         RangeObservableCollection<string> _pageNumbers = new RangeObservableCollection<string>();
 
@@ -45,6 +46,8 @@ namespace Worldescape
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
+            _pageNumberHelper = App.ServiceProvider.GetService(typeof(PageNumberHelper)) as PageNumberHelper;
+
             LoadWorlds();
         }
 
@@ -156,33 +159,13 @@ namespace Worldescape
 
         private void GeneratePageNumbers()
         {
-            // Ig total page count is greater than 5 only then make repopulation other wise no need
-            if (_totalPageCount > 5)
-            {
-                // If current page index is equal to the first page of generated page numbers
-                if (_pageIndex.ToString() == _pageNumbers.FirstOrDefault())
-                {
-                    PopulatePageNumbers();
-                } // If the current page index is equal to the last page of generated page numbers
-                else if (_pageIndex.ToString() == _pageNumbers.LastOrDefault())
-                {
-                    PopulatePageNumbers();
-                }
-            }
+            _pageNumbers = _pageNumberHelper.GeneratePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
+            PagesHolder.ItemsSource = _pageNumbers;
         }
 
         private void PopulatePageNumbers()
         {
-            for (int i = _pageIndex; i < _totalPageCount; i++)
-            {
-                _pageNumbers.Add(i.ToString());
-
-                if (i >= 5) // Generate upto 5 pages
-                {
-                    break;
-                }
-            }
-
+            _pageNumbers = _pageNumberHelper.PopulatePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
             PagesHolder.ItemsSource = _pageNumbers;
         }
 
