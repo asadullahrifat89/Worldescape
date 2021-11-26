@@ -35,7 +35,9 @@
                 x:Name="TextBlock_Name"
                 Margin="5"
                 VerticalAlignment="Center"
-                FontSize="18" />
+                FontSize="18"
+                FontWeight="SemiBold"
+                TextAlignment="Center" />
 
         </StackPanel>
 

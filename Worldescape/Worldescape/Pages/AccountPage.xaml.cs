@@ -56,6 +56,7 @@ namespace Worldescape
 
             AccountModel.ImageUrl = App.User.ImageUrl;
             Image_ProfileImageUrl.Source = new BitmapImage(new Uri(App.User.ImageUrl));
+            TextBlock_Name.Text = App.User.Name;
         }
 
         #endregion
