@@ -44,8 +44,6 @@ namespace Worldescape
 
         readonly IHubService HubService;
 
-        readonly AssetUrlHelper _assetUriHelper;
-
         EasingFunctionBase _constructEaseOut = new ExponentialEase()
         {
             EasingMode = EasingMode.EaseOut,
@@ -67,7 +65,6 @@ namespace Worldescape
 
             HubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
 
-            _assetUriHelper = App.ServiceProvider.GetService(typeof(AssetUrlHelper)) as AssetUrlHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             _avatarHelper = App.ServiceProvider.GetService(typeof(AvatarHelper)) as AvatarHelper;
             _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
@@ -1041,7 +1038,6 @@ namespace Worldescape
                 var constructAssetPicker = new ConstructAssetPickerWindow(
                     constructAssets: ConstructAssets,
                     constructCategories: ConstructCategories,
-                    assetUriHelper: _assetUriHelper,
                     assetSelected: (constructAsset) =>
                     {
                         var constructBtn = GenerateConstructButton(
@@ -1622,7 +1618,7 @@ namespace Worldescape
             {
                 WorldButton.Tag = App.World;
                 WorldButton.Visibility = Visibility.Visible;
-                WorldImageHolder.Content = GetWorldPicture(App.World);                
+                WorldImageHolder.Content = GetWorldPicture(App.World);
                 WorldNameHolder.Text = App.World.Name;
                 LeaveButton.Visibility = Visibility.Visible;
             }

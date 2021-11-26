@@ -27,7 +27,8 @@ namespace Worldescape
 
         Action<ConstructAsset> _assetSelected;
 
-        readonly AssetUrlHelper _assetUriHelper;        
+        readonly AssetUrlHelper _assetUriHelper;
+        readonly PageNumberHelper _pageNumberHelper;
 
         #endregion
 
@@ -35,12 +36,13 @@ namespace Worldescape
         public ConstructAssetPickerWindow(
            List<ConstructAsset> constructAssets,
            List<ConstructCategory> constructCategories,
-           Action<ConstructAsset> assetSelected,
-           AssetUrlHelper assetUriHelper)
+           Action<ConstructAsset> assetSelected)
         {
             InitializeComponent();
 
-            _assetUriHelper = assetUriHelper;
+            _assetUriHelper = App.ServiceProvider.GetService(typeof(AssetUrlHelper)) as AssetUrlHelper;
+            _pageNumberHelper = App.ServiceProvider.GetService(typeof(PageNumberHelper)) as PageNumberHelper;
+
             _constructAssets = constructAssets;
             _constructCategories = constructCategories;
 
@@ -151,12 +153,14 @@ namespace Worldescape
         {
             if (!_settingConstructAssets)
             {
-                _pageIndex++;
+                //_pageIndex++;
 
-                if (_pageIndex > _totalPageCount)
-                {
-                    _pageIndex = _totalPageCount;
-                }
+                //if (_pageIndex > _totalPageCount)
+                //{
+                //    _pageIndex = _totalPageCount;
+                //}
+
+                _pageNumberHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
 
                 ShowConstructAssets();
             }
@@ -166,13 +170,15 @@ namespace Worldescape
         {
             if (!_settingConstructAssets)
             {
-                _pageIndex--;
+                //_pageIndex--;
 
-                if (_pageIndex < 0)
-                {
-                    _pageIndex = 0;
-                    return;
-                }
+                //if (_pageIndex < 0)
+                //{
+                //    _pageIndex = 0;
+                //    return;
+                //}
+
+                _pageNumberHelper.GetPreviousPageNumber(_totalPageCount, _pageIndex);
 
                 ShowConstructAssets();
             }

@@ -5,42 +5,49 @@ namespace Worldescape
 {
     public class PageNumberHelper
     {
-        public int GetNextPageNumber(long _totalPageCount, int _pageIndex)
+        public int GetNextPageNumber(
+            long totalPageCount,
+            int pageIndex)
         {
-            _pageIndex++;
+            pageIndex++;
 
-            if (_pageIndex > _totalPageCount)
+            if (pageIndex > totalPageCount)
             {
-                _pageIndex = (int)_totalPageCount;
+                pageIndex = (int)totalPageCount;
             }
 
-            return _pageIndex;
+            return pageIndex;
         }
 
-        public int GetPreviousPageNumber(long _totalPageCount, int _pageIndex)
+        public int GetPreviousPageNumber(
+            long totalPageCount,
+            int pageIndex)
         {
-            _pageIndex--;
+            pageIndex--;
 
-            if (_pageIndex < _totalPageCount - 1)
+            if (pageIndex < totalPageCount - 1)
             {
-                _pageIndex = 0;
+                pageIndex = 0;
             }
 
-            return _pageIndex;
+            return pageIndex;
         }
 
-        public RangeObservableCollection<string> GeneratePageNumbers(long _totalPageCount, int _pageIndex, RangeObservableCollection<string> _pageNumbers)
+        public RangeObservableCollection<string> GeneratePageNumbers(
+            long totalPageCount,
+            int pageIndex,
+            RangeObservableCollection<string> _pageNumbers)
         {
             // Ig total page count is greater than 5 only then make repopulation other wise no need
-            if (_totalPageCount > 5)
+            if (totalPageCount > 5)
             {
-                if (_pageIndex.ToString() == _pageNumbers.FirstOrDefault()) // If current page index is equal to the first page of generated page numbers
+                if (pageIndex.ToString() == _pageNumbers.FirstOrDefault()) // If current page index is equal to the first page of generated page numbers
                 {
-                    return PopulatePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
+                    return PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
                 }
-                else if (_pageIndex.ToString() == _pageNumbers.LastOrDefault()) // If the current page index is equal to the last page of generated page numbers
+                else if (pageIndex.ToString() == _pageNumbers.LastOrDefault()) // If the current page index is equal to the last page of generated page numbers
                 {
-                    return PopulatePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
+                    return PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
                 }
                 else
                 {
@@ -53,9 +60,12 @@ namespace Worldescape
             }
         }
 
-        public RangeObservableCollection<string> PopulatePageNumbers(long _totalPageCount, int _pageIndex, RangeObservableCollection<string> _pageNumbers)
+        public RangeObservableCollection<string> PopulatePageNumbers(
+            long totalPageCount,
+            int pageIndex,
+            RangeObservableCollection<string> _pageNumbers)
         {
-            for (int i = _pageIndex; i < _totalPageCount; i++)
+            for (int i = pageIndex; i < totalPageCount; i++)
             {
                 _pageNumbers.Add(i.ToString());
 
@@ -66,8 +76,6 @@ namespace Worldescape
             }
 
             return _pageNumbers;
-
-            //PagesHolder.ItemsSource = _pageNumbers;
         }
     }
 }
