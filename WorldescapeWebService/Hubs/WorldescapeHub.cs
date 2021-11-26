@@ -572,13 +572,8 @@ namespace WorldescapeWebService
         {
             if (await _databaseService.FindById<Construct>(constructId) is Construct construct)
             {
-                //construct.Coordinate.Z = z;
-                //await _databaseService.UpsertById(conUpdated, constructId);
-
                 var update = Builders<Construct>.Update.Set(x => x.Coordinate.Z, z);
                 await _databaseService.UpdateById(update, construct.Id);
-
-
             }
         }
 
@@ -586,9 +581,6 @@ namespace WorldescapeWebService
         {
             if (await _databaseService.FindById<Construct>(constructId) is Construct construct)
             {
-                //construct.Rotation = rotation;
-                //await _databaseService.UpsertById(conUpdated, constructId);
-
                 var update = Builders<Construct>.Update.Set(x => x.Rotation, rotation);
                 await _databaseService.UpdateById(update, construct.Id);
             }
@@ -598,9 +590,6 @@ namespace WorldescapeWebService
         {
             if (await _databaseService.FindById<Construct>(constructId) is Construct construct)
             {
-                //construct.Scale = scale;
-                //await _databaseService.UpsertById(conUpdated, constructId);
-
                 var update = Builders<Construct>.Update.Set(x => x.Scale, scale);
                 await _databaseService.UpdateById(update, construct.Id);
             }
@@ -630,15 +619,8 @@ namespace WorldescapeWebService
         {
             if (await _databaseService.FindById<Construct>(constructId) is Construct construct)
             {
-                //construct.Coordinate.X = x;
-                //construct.Coordinate.Y = y;
-                //construct.Coordinate.Z = z;
-
                 var update = Builders<Construct>.Update.Set(x => x.Coordinate.X, x).Set(x => x.Coordinate.Y, y).Set(x => x.Coordinate.Z, z);
-
                 await _databaseService.UpdateById(update, construct.Id);
-
-                //await _databaseService.UpsertById(construct, constructId);
             }
         }
 
