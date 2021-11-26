@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.SignalR;
+using MongoDB.Driver;
 using System.Collections.Concurrent;
 using Worldescape.Data;
 using Worldescape.Database;
@@ -168,7 +169,7 @@ namespace WorldescapeWebService
                 await Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedIn, avatar);
 
                 _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now} World: {group}");
-               
+
                 // Find all avatars from the calling avatar's world
                 var avatars = ConcurrentAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
@@ -567,55 +568,42 @@ namespace WorldescapeWebService
 
         #region Concurrent Constructs
 
-        //private Construct[]? GetConstructs(int worldId)
-        //{
-        //    // Find all constructs from the calling avatar's world
-        //    return ConcurrentConstructs.Where(x => x.Value.World.Id == worldId)?.Select(z => z.Value).ToArray();
-        //}
-
         private async void UpdateConstructPlacementInConstructs(int constructId, int z)
         {
-            if (await _databaseService.FindById<Construct>(constructId) is Construct conUpdated)
+            if (await _databaseService.FindById<Construct>(constructId) is Construct construct)
             {
-                conUpdated.Coordinate.Z = z;
-                await _databaseService.UpsertById(conUpdated, constructId);
+                //construct.Coordinate.Z = z;
+                //await _databaseService.UpsertById(conUpdated, constructId);
+
+                var update = Builders<Construct>.Update.Set(x => x.Coordinate.Z, z);
+                await _databaseService.UpdateById(update, construct.Id);
+
+
             }
-            //if (ConcurrentConstructs.ContainsKey(constructId))
-            //{
-            //    var conUpdated = ConcurrentConstructs[constructId];
-            //    conUpdated.Coordinate.Z = z;
-            //    ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
-            //}
         }
 
         private async void UpdateConstructRotationInConstructs(int constructId, float rotation)
         {
-            if (await _databaseService.FindById<Construct>(constructId) is Construct conUpdated)
+            if (await _databaseService.FindById<Construct>(constructId) is Construct construct)
             {
-                conUpdated.Rotation = rotation;
-                await _databaseService.UpsertById(conUpdated, constructId);
+                //construct.Rotation = rotation;
+                //await _databaseService.UpsertById(conUpdated, constructId);
+
+                var update = Builders<Construct>.Update.Set(x => x.Rotation, rotation);
+                await _databaseService.UpdateById(update, construct.Id);
             }
-            //if (ConcurrentConstructs.ContainsKey(constructId))
-            //{
-            //    var conUpdated = ConcurrentConstructs[constructId];
-            //    conUpdated.Rotation = rotation;
-            //    ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
-            //}
         }
 
         private async void UpdateConstructScaleInConstructs(int constructId, float scale)
         {
-            if (await _databaseService.FindById<Construct>(constructId) is Construct conUpdated)
+            if (await _databaseService.FindById<Construct>(constructId) is Construct construct)
             {
-                conUpdated.Scale = scale;
-                await _databaseService.UpsertById(conUpdated, constructId);
+                //construct.Scale = scale;
+                //await _databaseService.UpsertById(conUpdated, constructId);
+
+                var update = Builders<Construct>.Update.Set(x => x.Scale, scale);
+                await _databaseService.UpdateById(update, construct.Id);
             }
-            //if (ConcurrentConstructs.ContainsKey(constructId))
-            //{
-            //    var conUpdated = ConcurrentConstructs[constructId];
-            //    conUpdated.Scale = scale;
-            //    ConcurrentConstructs.TryUpdate(key: constructId, newValue: conUpdated, comparisonValue: ConcurrentConstructs[constructId]);
-            //}
         }
 
         private async void RemoveConstructFromConstructs(int constructId)
@@ -624,21 +612,10 @@ namespace WorldescapeWebService
             {
                 await _databaseService.DeleteById<Construct>(constructId);
             }
-            //if (ConcurrentConstructs.ContainsKey(constructId))
-            //{
-            //    ConcurrentConstructs.TryRemove(constructId, out Construct c);
-            //}
         }
 
         private async void AddOrUpdateConstructInConstructs(Construct construct)
         {
-            //if (ConcurrentConstructs.ContainsKey(construct.Id))
-            //{
-            //    ConcurrentConstructs.TryRemove(new KeyValuePair<int, Construct>(key: construct.Id, value: construct));
-            //}
-
-            //ConcurrentConstructs.TryAdd(key: construct.Id, value: construct);
-
             if (await _databaseService.ExistsById<Construct>(construct.Id))
             {
                 await _databaseService.UpsertById(construct, construct.Id);
@@ -653,22 +630,16 @@ namespace WorldescapeWebService
         {
             if (await _databaseService.FindById<Construct>(constructId) is Construct construct)
             {
-                construct.Coordinate.X = x;
-                construct.Coordinate.Y = y;
-                construct.Coordinate.Z = z;
+                //construct.Coordinate.X = x;
+                //construct.Coordinate.Y = y;
+                //construct.Coordinate.Z = z;
 
-                await _databaseService.UpsertById(construct, constructId);
+                var update = Builders<Construct>.Update.Set(x => x.Coordinate.X, x).Set(x => x.Coordinate.Y, y).Set(x => x.Coordinate.Z, z);
+
+                await _databaseService.UpdateById(update, construct.Id);
+
+                //await _databaseService.UpsertById(construct, constructId);
             }
-            //if (ConcurrentConstructs.ContainsKey(constructId))
-            //{
-            //    var construct = ConcurrentConstructs[constructId];
-
-            //    construct.Coordinate.X = x;
-            //    construct.Coordinate.Y = y;
-            //    construct.Coordinate.Z = z;
-
-            //    ConcurrentConstructs.TryUpdate(key: constructId, newValue: construct, comparisonValue: ConcurrentConstructs[constructId]);
-            //}
         }
 
         #endregion

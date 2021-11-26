@@ -110,7 +110,22 @@ namespace Worldescape.Database
         public async Task<bool> ReplaceDocument<T>(T document, FilterDefinition<T> filter)
         {
             var collection = GetCollection<T>();
-            var result = await collection.FindOneAndReplaceAsync(filter, document);
+            var result = await collection.FindOneAndReplaceAsync(filter: filter, replacement: document);
+            return result != null;
+        }
+
+        public async Task<bool> UpdateDocument<T>(UpdateDefinition<T> update, FilterDefinition<T> filter)
+        {
+            var collection = GetCollection<T>();
+            var result = await collection.FindOneAndUpdateAsync(filter: filter, update: update);
+            return result != null;
+        }
+
+        public async Task<bool> UpdateById<T>(UpdateDefinition<T> update, int id)
+        {
+            var filter = Builders<T>.Filter.Eq("Id", id);
+            var collection = GetCollection<T>();
+            var result = await collection.FindOneAndUpdateAsync(filter: filter, update: update);
             return result != null;
         }
 
@@ -118,14 +133,14 @@ namespace Worldescape.Database
         {
             var filter = Builders<T>.Filter.Eq("Id", id);
             var collection = GetCollection<T>();
-            var result = await collection.FindOneAndReplaceAsync(filter, document);
+            var result = await collection.FindOneAndReplaceAsync(filter: filter, replacement: document);
             return result != null;
         }
 
         public async Task<bool> DeleteDocument<T>(FilterDefinition<T> filter)
         {
             var collection = GetCollection<T>();
-            var result = await collection.FindOneAndDeleteAsync(filter);
+            var result = await collection.FindOneAndDeleteAsync(filter: filter);
             return result != null;
         }
 
@@ -148,7 +163,7 @@ namespace Worldescape.Database
         {
             var filter = Builders<T>.Filter.Eq("Id", id);
             var collection = GetCollection<T>();
-            var result = await collection.ReplaceOneAsync(filter, document, new ReplaceOptions() { IsUpsert = true });
+            var result = await collection.ReplaceOneAsync(filter: filter, replacement: document, options: new ReplaceOptions() { IsUpsert = true });
             return result != null && result.IsAcknowledged;
         }
 
