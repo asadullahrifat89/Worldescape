@@ -18,7 +18,7 @@ namespace WorldescapeWebService
 
         //<ConnectionId, Avatar>
         static ConcurrentDictionary<string, Avatar> ConcurrentAvatars = new();
-        
+
         #endregion
 
         #region Ctor
@@ -105,9 +105,9 @@ namespace WorldescapeWebService
         public async Task<HubLoginResponse> Login(Avatar avatar)
         {
             // If an existing avatar doesn't exist
-            if (!ConcurrentAvatars.Any(x => x.Value.Id == avatar.Id))
+            if (!AvatarExists(avatar))
             {
-                var minValue = DateTime.MinValue;
+                // var minValue = DateTime.MinValue;
 
                 // Delete inactive avatars who have remained inactive for more than a minute
                 //var concurrentAvatars = OnlineAvatars.Values.Where(x => x.World.Id == avatar.World.Id && x.Session != null && x.Session.DisconnectionTime != minValue);
@@ -130,10 +130,11 @@ namespace WorldescapeWebService
                 };
 
                 // Save the new avatar
-                if (!ConcurrentAvatars.TryAdd(Context.ConnectionId, avatar))
-                {
-                    return null;
-                }
+                //if (!ConcurrentAvatars.TryAdd(Context.ConnectionId, avatar))
+                //{
+                //    return null;
+                //}
+                AddAvatar(avatar);
 
                 var group = avatar.World.Id.ToString();
                 await Groups.AddToGroupAsync(Context.ConnectionId, group);
@@ -154,12 +155,16 @@ namespace WorldescapeWebService
             else
             {
                 // Remove old instance
-                ConcurrentAvatars.TryRemove(ConcurrentAvatars.FirstOrDefault(x => x.Value.Id == avatar.Id));
+                RemoveAvatar(avatar);
 
-                avatar.Session = new AvatarSession() { ReconnectionTime = DateTime.UtcNow, ConnectionId = Context.ConnectionId };
+                avatar.Session = new AvatarSession()
+                {
+                    ReconnectionTime = DateTime.UtcNow,
+                    ConnectionId = Context.ConnectionId
+                };
 
                 // Add new instance            
-                ConcurrentAvatars.TryAdd(Context.ConnectionId, avatar);
+                AddAvatar(avatar);
 
                 var group = GetUsersGroup(avatar);
                 await Groups.AddToGroupAsync(Context.ConnectionId, group);
@@ -188,9 +193,11 @@ namespace WorldescapeWebService
             {
                 if (ConcurrentAvatars.Any(x => x.Value.Id == avatar.Id))
                 {
-                    string connectionId = ConcurrentAvatars.SingleOrDefault((c) => c.Value.Id == avatar.Id).Key;
+                    //string connectionId = ConcurrentAvatars.SingleOrDefault((c) => c.Value.Id == avatar.Id).Key;
 
-                    ConcurrentAvatars.TryRemove(connectionId, out Avatar a);
+                    //ConcurrentAvatars.TryRemove(connectionId, out Avatar a);
+
+                    RemoveAvatar(avatar);
 
                     var group = avatar.World.Id.ToString();
                     Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedOut, avatar.Id);
@@ -510,6 +517,21 @@ namespace WorldescapeWebService
         #endregion
 
         #region Concurrent Avatars
+
+        private bool AvatarExists(Avatar avatar)
+        {
+            return ConcurrentAvatars.Any(x => x.Value.Id == avatar.Id);
+        }
+
+        private void AddAvatar(Avatar avatar)
+        {
+            ConcurrentAvatars.TryAdd(Context.ConnectionId, avatar);
+        }
+
+        private void RemoveAvatar(Avatar avatar)
+        {
+            ConcurrentAvatars.TryRemove(ConcurrentAvatars.FirstOrDefault(x => x.Value.Id == avatar.Id));
+        }
 
         private void UpdateAvatarReconnectionTime(int avatarId, DateTime reconnectionTime)
         {
