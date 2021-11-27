@@ -2,6 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Worldescape.Data;
+using Worldescape.Service;
 
 namespace Worldescape
 {
@@ -13,6 +14,8 @@ namespace Worldescape
         string _selectedDataUrl;
 
         readonly ImageHelper _imageHelper;
+        readonly UrlHelper _urlHelper;
+        readonly HttpServiceHelper _httpServiceHelper;
 
         #endregion
 
@@ -21,8 +24,12 @@ namespace Worldescape
         public ImagePickerWindow(Action<string> newDataUrl, string oldDataUrl = null)
         {
             InitializeComponent();
+
             _newDataUrl = newDataUrl;
+
             _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
+            _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
+            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
 
             if (!oldDataUrl.IsNullOrBlank())
             {
@@ -60,18 +67,28 @@ namespace Worldescape
             //}
         }
 
-        private void Button_OK_Click(object sender, RoutedEventArgs e)
+        private async void Button_OK_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: upload the image to actual server and receive url and send it back
-
             var command = new SaveBlobCommandRequest()
             {
                 Id = UidGenerator.New(),
                 DataUrl = _selectedDataUrl,
+                Token = App.Token
             };
 
-            _newDataUrl?.Invoke(_selectedDataUrl);
-            this.DialogResult = true;
+            var response = await _httpServiceHelper.SendPostRequest<SaveBlobCommandResponse>(
+              actionUri: Constants.Action_SaveBlob,
+              payload: command);
+
+            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
+            {
+                MessageBox.Show(response.ExternalError.ToString());
+            }
+            else
+            {
+                _newDataUrl?.Invoke(_urlHelper.BuildBlobUrl(App.Token, response.Id));
+                this.DialogResult = true;
+            }
         }
 
         private void Button_Cancel_Click(object sender, RoutedEventArgs e)
