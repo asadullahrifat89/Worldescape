@@ -91,7 +91,7 @@ namespace Worldescape
 
         #region Button Events
 
-        private void MenuItem_ProfileDetails_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void MenuItem_ProfileDetails_Click(object sender, RoutedEventArgs e)
         {
             if (App.World.IsEmpty())
                 NavigateToPage(Constants.Page_AccountPage);
@@ -101,7 +101,7 @@ namespace Worldescape
             MyAcountButton.IsChecked = false;
         }
 
-        private void MenuItem_Logout_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void MenuItem_Logout_Click(object sender, RoutedEventArgs e)
         {
             App.User = new User();
             App.World = new World();

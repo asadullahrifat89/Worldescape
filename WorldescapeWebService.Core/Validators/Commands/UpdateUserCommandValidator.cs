@@ -47,7 +47,7 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
 
     private async Task<bool> NotBeAnExistingEmail(UpdateUserCommand command, CancellationToken arg2)
     {
-        var user = await _databaseService.FindOne<User>(Builders<User>.Filter.Eq(x => x.Email, command.Email));
+        var user = await _databaseService.FindOne(Builders<User>.Filter.Eq(x => x.Email, command.Email));
 
         // If not data was found then no user exists with this email, so true.
         if (user == null)

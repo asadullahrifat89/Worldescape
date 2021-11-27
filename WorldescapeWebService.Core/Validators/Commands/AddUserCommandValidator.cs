@@ -27,7 +27,7 @@ public class AddUserCommandValidator : AbstractValidator<AddUserCommand>
 
     private async Task<bool> NotBeAnExistingEmail(AddUserCommand command, CancellationToken arg2)
     {
-        var exists = await _databaseService.Exists<User>(Builders<User>.Filter.Eq(x => x.Email, command.Email));
+        var exists = await _databaseService.Exists(Builders<User>.Filter.Eq(x => x.Email, command.Email));
         return !exists;
     }
 }
