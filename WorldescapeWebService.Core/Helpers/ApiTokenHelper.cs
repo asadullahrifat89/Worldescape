@@ -19,28 +19,7 @@ namespace WorldescapeWebService.Core
                 return false;
 
             var result = await _databaseService.Exists(Builders<ApiToken>.Filter.Eq(x => x.Token, token));
-
             return result;
-
-            //// Open database (or create if doesn't exist)
-            //using (var db = new LiteDatabase(@"Worldescape.db"))
-            //{
-            //    // Get ApiTokens collection
-            //    var col = db.GetCollection<ApiToken>("ApiTokens");
-
-            //    // Use LINQ to query documents (with no index)
-            //    var result = col.FindOne(x => x.Token == token);
-
-            //    // If no api token was found then invalid key
-            //    if (result == null)
-            //    {
-            //        return false;
-            //    }
-            //    else
-            //    {
-            //        return true;
-            //    }
-            //}
         }
 
         /// <summary>
@@ -56,29 +35,6 @@ namespace WorldescapeWebService.Core
                 return null;
 
             return await _databaseService.FindById<User>(apiToken.UserId);
-
-            //// Open database (or create if doesn't exist)
-            //using (var db = new LiteDatabase(@"Worldescape.db"))
-            //{
-            //    // Get ApiTokens collection
-            //    var colApiTokens = db.GetCollection<ApiToken>("ApiTokens");
-
-            //    // Use LINQ to query documents (with no index)
-            //    var apiToken = colApiTokens.FindOne(x => x.Token == token);
-
-            //    // If no api token was found then invalid key
-            //    if (apiToken == null)
-            //    {
-            //        return null;
-            //    }
-            //    else
-            //    {
-            //        // Get Users collection
-            //        var colUser = db.GetCollection<User>("Users");
-
-            //        return colUser.FindById(apiToken.UserId);
-            //    }
-            //}
         }
     }
 }
