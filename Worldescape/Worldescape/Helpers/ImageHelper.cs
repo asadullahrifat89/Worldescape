@@ -11,13 +11,14 @@ namespace Worldescape
         {
             var bitmapimage = new BitmapImage();
 
-            if (dataUrl.Contains("ms-appx:"))
+            if (dataUrl.Contains("data:image/"))
             {
-                bitmapimage.UriSource = new Uri(dataUrl);
+                bitmapimage.SetSource(dataUrl);
+               
             }
             else
             {
-                bitmapimage.SetSource(dataUrl);
+                bitmapimage.UriSource = new Uri(dataUrl);
             }
 
             return bitmapimage;

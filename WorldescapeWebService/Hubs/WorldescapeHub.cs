@@ -15,14 +15,11 @@ namespace WorldescapeWebService
         #region Fields
 
         readonly ILogger<WorldescapeHub> _logger;
+        readonly DatabaseService _databaseService;
 
         //<ConnectionId, Avatar>
         static ConcurrentDictionary<string, Avatar> ConcurrentAvatars = new();
-
-        //<ConstructId, Construct>
-        static ConcurrentDictionary<int, Construct> ConcurrentConstructs = new();
-
-        readonly DatabaseService _databaseService;
+        
         #endregion
 
         #region Ctor
@@ -127,8 +124,11 @@ namespace WorldescapeWebService
                 //    }
                 //}
 
-                avatar.Session = new UserSession() { ReconnectionTime = DateTime.UtcNow };
-                avatar.ConnectionId = Context.ConnectionId;
+                avatar.Session = new AvatarSession()
+                {
+                    ReconnectionTime = DateTime.UtcNow,
+                    ConnectionId = Context.ConnectionId
+                };
 
                 // Save the new avatar
                 if (!ConcurrentAvatars.TryAdd(Context.ConnectionId, avatar))
@@ -157,8 +157,7 @@ namespace WorldescapeWebService
                 // Remove old instance
                 ConcurrentAvatars.TryRemove(ConcurrentAvatars.FirstOrDefault(x => x.Value.Id == avatar.Id));
 
-                avatar.Session = new UserSession() { ReconnectionTime = DateTime.UtcNow };
-                avatar.ConnectionId = Context.ConnectionId;
+                avatar.Session = new AvatarSession() { ReconnectionTime = DateTime.UtcNow, ConnectionId = Context.ConnectionId };
 
                 // Add new instance            
                 ConcurrentAvatars.TryAdd(Context.ConnectionId, avatar);
@@ -246,7 +245,7 @@ namespace WorldescapeWebService
                 && recepientId != sender.Id
                 && !string.IsNullOrEmpty(message))
             {
-                if (ConcurrentAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
+                if (ConcurrentAvatars.Any(x => x.Value.Id == recepientId && x.Value.Session.ConnectionId == recipientConnectionId))
                 {
                     await Clients.Client(recipientConnectionId).SendAsync(Constants.UnicastedTextMessage, sender.Id, message);
 
@@ -266,7 +265,7 @@ namespace WorldescapeWebService
                 && recepientId != sender.Id
                 && img != null)
             {
-                if (ConcurrentAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
+                if (ConcurrentAvatars.Any(x => x.Value.Id == recepientId && x.Value.Session.ConnectionId == recipientConnectionId))
                 {
                     await Clients.Client(recipientConnectionId).SendAsync(Constants.UnicastedPictureMessage, sender.Id, img);
 
@@ -287,7 +286,7 @@ namespace WorldescapeWebService
             Avatar sender = GetCallingUser();
             string recipientConnectionId = GetUserConnectionId(recepientId);
 
-            if (ConcurrentAvatars.Any(x => x.Value.Id == recepientId && x.Value.ConnectionId == recipientConnectionId))
+            if (ConcurrentAvatars.Any(x => x.Value.Id == recepientId && x.Value.Session.ConnectionId == recipientConnectionId))
             {
                 await Clients.Client(recipientConnectionId).SendAsync(Constants.AvatarTyped, sender.Id);
 

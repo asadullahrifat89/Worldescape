@@ -23,12 +23,7 @@
         /// <summary>
         /// The user's session of this avatar in the world.
         /// </summary>
-        public UserSession Session { get; set; } = new UserSession();
-
-        /// <summary>
-        /// The connection id of the avatar.
-        /// </summary>
-        public string ConnectionId { get; set; } = string.Empty;
+        public AvatarSession Session { get; set; } = new AvatarSession();
 
         /// <summary>
         /// The activity status of the avatar in the world.

@@ -292,22 +292,27 @@
                             <MenuItem
                                 Click="MenuItem_SetStatus_Click"
                                 Content="Idle"
+                                FontWeight="SemiBold"
                                 Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
                             <MenuItem
                                 Click="MenuItem_SetStatus_Click"
                                 Content="Working"
+                                FontWeight="SemiBold"
                                 Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
                             <MenuItem
                                 Click="MenuItem_SetStatus_Click"
                                 Content="Inspecting"
+                                FontWeight="SemiBold"
                                 Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
                             <MenuItem
                                 Click="MenuItem_SetStatus_Click"
                                 Content="Greeting"
+                                FontWeight="SemiBold"
                                 Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
                             <MenuItem
                                 Click="MenuItem_SetStatus_Click"
                                 Content="Away"
+                                FontWeight="SemiBold"
                                 Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
                         </StackPanel>
 

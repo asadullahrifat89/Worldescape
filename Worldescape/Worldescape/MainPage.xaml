@@ -77,14 +77,30 @@
                     Style="{StaticResource MaterialDesign_PopupContent_Style}"
                     Visibility="{Binding ElementName=MyAcountButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel>
-                        <MenuItem
-                            Click="MenuItem_ProfileDetails_Click"
-                            Content="Profile Details"
-                            Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
-                        <MenuItem
-                            Click="MenuItem_Logout_Click"
-                            Content="Logout"
-                            Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
+                        <MenuItem Click="MenuItem_ProfileDetails_Click" Style="{StaticResource MaterialDesign_ContextMenuItem_Style}">
+                            <TextBlock>
+                                <Run
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontWeight="Normal"
+                                    Text="&#xE910;" />
+                                <Run
+                                    Margin="5,0"
+                                    FontWeight="SemiBold"
+                                    Text="Profile" />
+                            </TextBlock>
+                        </MenuItem>
+                        <MenuItem Click="MenuItem_Logout_Click" Style="{StaticResource MaterialDesign_ContextMenuItem_Style}">
+                            <TextBlock>
+                                <Run
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontWeight="Normal"
+                                    Text="&#xF3B1;" />
+                                <Run
+                                    Margin="5,0"
+                                    FontWeight="SemiBold"
+                                    Text="Logout" />
+                            </TextBlock>
+                        </MenuItem>
                     </StackPanel>
                 </ContentControl>
 
@@ -99,7 +115,6 @@
             Background="White"
             Style="{StaticResource Card_Style}"
             Visibility="{Binding ElementName=Grid_Root, Path=IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}">
-
             <TextBlock
                 x:Name="BusyMessageHolder"
                 Margin="20"
@@ -107,8 +122,6 @@
                 VerticalAlignment="Center"
                 FontSize="20"
                 FontWeight="SemiBold" />
-
-
         </ContentControl>
 
     </Grid>

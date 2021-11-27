@@ -2140,8 +2140,7 @@ namespace Worldescape
                 {
                     Email = App.User.Email,
                     ImageUrl = App.User.ImageUrl,
-                    Name = App.User.Name,
-                    Phone = App.User.Phone,
+                    Name = App.User.Name
                 },
                 Character = Character,
                 World = new InWorld { Id = App.World.Id, Name = App.World.Name },
