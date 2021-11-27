@@ -21,7 +21,7 @@ namespace Worldescape
 
         #region Ctor
 
-        public ImagePickerWindow(Action<string> blobId, string oldDataUrl = null)
+        public ImagePickerWindow(Action<string> blobId, string imageUrl = null)
         {
             InitializeComponent();
 
@@ -31,10 +31,10 @@ namespace Worldescape
             _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
 
-            if (!oldDataUrl.IsNullOrBlank())
+            if (!imageUrl.IsNullOrBlank())
             {
-                _selectedDataUrl = oldDataUrl;
-                Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(oldDataUrl.Contains("ms-appx:") ? oldDataUrl : _urlHelper.BuildBlobUrl(App.Token, oldDataUrl));
+                _selectedDataUrl = imageUrl;
+                Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(imageUrl.Contains("ms-appx:") ? imageUrl : _urlHelper.BuildBlobUrl(App.Token, imageUrl));
             }
         }
 

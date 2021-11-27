@@ -154,7 +154,7 @@ namespace Worldescape
             {
                 AccountModel.ImageUrl = blobId;                
                 Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_urlHelper.BuildBlobUrl(App.Token, blobId));
-            },oldDataUrl: AccountModel.ImageUrl);
+            },imageUrl: AccountModel.ImageUrl);
 
             imagePickerWindow.Show();
         }
