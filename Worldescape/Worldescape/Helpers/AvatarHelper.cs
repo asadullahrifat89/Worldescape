@@ -6,11 +6,19 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Data;
+using Worldescape.Service;
 
 namespace Worldescape
 {
     public class AvatarHelper
     {
+        readonly UrlHelper _urlHelper;
+
+        public AvatarHelper()
+        {
+            _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
+        }
+
         #region UI
 
         /// <summary>
@@ -21,7 +29,7 @@ namespace Worldescape
         /// <returns></returns>
         public Border GetAvatarUserPicture(Avatar avatar, double size = 40, Color? background = null)
         {
-            var bitmapImage = new BitmapImage(new Uri(avatar.User.ImageUrl));
+            var bitmapImage = new BitmapImage(new Uri(avatar.User.ImageUrl.Contains("ms-appx:") ? avatar.User.ImageUrl : _urlHelper.BuildBlobUrl(App.Token, avatar.User.ImageUrl)));
             return PrepareRoundImage(size, bitmapImage, background);
         }
 
@@ -204,7 +212,7 @@ namespace Worldescape
                 return null;
 
             return canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == avatarId);
-        } 
+        }
 
         #endregion
     }

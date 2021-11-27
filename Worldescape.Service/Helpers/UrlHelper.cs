@@ -20,7 +20,7 @@ namespace Worldescape.Service
             return assetUrl;
         }
 
-        public string BuildBlobUrl(string token, int id)
+        public string BuildBlobUrl(string token, string id)
         {
             string baseUrl = _httpServiceHelper.GetWebServiceUrl();
 

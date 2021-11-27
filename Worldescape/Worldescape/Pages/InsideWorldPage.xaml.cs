@@ -2016,7 +2016,7 @@ namespace Worldescape
                         characterSelected: async (character) =>
                         {
                             Character = character;
-                            PrepareAvatarData();
+                            SetAvatarData();
                             _mainPage.SetCurrentUserModel();
 
                             await Connect();
@@ -2129,7 +2129,7 @@ namespace Worldescape
         /// <summary>
         /// Set avatar and world information for logged in user for the current inside world session.
         /// </summary>
-        private void PrepareAvatarData()
+        private void SetAvatarData()
         {
             Avatar = new Avatar()
             {

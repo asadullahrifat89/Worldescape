@@ -31,7 +31,7 @@ namespace Worldescape
 
         Action<ConstructAsset> _assetSelected;
 
-        readonly UrlHelper _assetUriHelper;
+        readonly UrlHelper _urlHelper;
         readonly PageNumberHelper _pageNumberHelper;
 
         #endregion
@@ -44,7 +44,7 @@ namespace Worldescape
         {
             InitializeComponent();
 
-            _assetUriHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
+            _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
             _pageNumberHelper = App.ServiceProvider.GetService(typeof(PageNumberHelper)) as PageNumberHelper;
 
             _constructAssets = constructAssets;
@@ -152,7 +152,7 @@ namespace Worldescape
 
             foreach (var item in pagedData)
             {
-                var uri = _assetUriHelper.BuildAssetUrl(App.Token, item.ImageUrl);
+                var uri = _urlHelper.BuildAssetUrl(App.Token, item.ImageUrl);
 
                 item.ImageUrl = uri;
 

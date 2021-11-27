@@ -10,7 +10,7 @@ namespace Worldescape
     {
         #region Fields
 
-        Action<string> _newDataUrl;
+        Action<string> _blobId;
         string _selectedDataUrl;
 
         readonly ImageHelper _imageHelper;
@@ -21,11 +21,11 @@ namespace Worldescape
 
         #region Ctor
 
-        public ImagePickerWindow(Action<string> newDataUrl, string oldDataUrl = null)
+        public ImagePickerWindow(Action<string> blobId, string oldDataUrl = null)
         {
             InitializeComponent();
 
-            _newDataUrl = newDataUrl;
+            _blobId = blobId;
 
             _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
             _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
@@ -86,7 +86,7 @@ namespace Worldescape
             }
             else
             {
-                _newDataUrl?.Invoke(_urlHelper.BuildBlobUrl(App.Token, response.Id));
+                _blobId?.Invoke(response.Id.ToString());
                 this.DialogResult = true;
             }
         }

@@ -14,6 +14,7 @@ namespace Worldescape
         readonly MainPage _mainPage;
         readonly HttpServiceHelper _httpServiceHelper;
         readonly ImageHelper _imageHelper;
+        readonly UrlHelper _urlHelper;
 
         #endregion
 
@@ -27,6 +28,7 @@ namespace Worldescape
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
+            _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
 
             LoadUserDetails();
             CheckIfModelValid();
@@ -57,7 +59,7 @@ namespace Worldescape
             }
 
             AccountModel.ImageUrl = App.User.ImageUrl; // If not set then default is set after logging in
-            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(App.User.ImageUrl);
+            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_urlHelper.BuildBlobUrl(App.Token, App.User.ImageUrl));
             TextBlock_Name.Text = App.User.Name;
         }
 
@@ -148,10 +150,10 @@ namespace Worldescape
 
         private void Button_UploadImageUrl_Click(object sender, RoutedEventArgs e)
         {
-            ImagePickerWindow imagePickerWindow = new ImagePickerWindow(newDataUrl: (newDataUrl) =>
+            ImagePickerWindow imagePickerWindow = new ImagePickerWindow(blobId: (blobId) =>
             {
-                AccountModel.ImageUrl = newDataUrl;
-                Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(newDataUrl);
+                AccountModel.ImageUrl = blobId.ToString();                
+                Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_urlHelper.BuildBlobUrl(App.Token, blobId));
             },oldDataUrl: AccountModel.ImageUrl);
 
             imagePickerWindow.Show();

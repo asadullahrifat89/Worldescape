@@ -2,6 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Worldescape.Data;
+using Worldescape.Service;
 
 namespace Worldescape
 {
@@ -10,6 +11,7 @@ namespace Worldescape
         #region Fields
 
         readonly ImageHelper _imageHelper;
+        readonly UrlHelper _urlHelper;
 
         #endregion
 
@@ -19,7 +21,9 @@ namespace Worldescape
         {
             InitializeComponent();
             CurrentUserHolder.DataContext = CurrentUserModel;
+
             _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
+            _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
         }
 
         #endregion
@@ -34,34 +38,33 @@ namespace Worldescape
 
         public void SetCurrentUserModel()
         {
-            var userName = App.User.Name;
-            var profileImageUrl = App.User.ImageUrl;
-
             string defaultImageUrl = string.Empty;
 
             CurrentUserHolder.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            CurrentUserModel.FirstName = userName;
+            CurrentUserModel.FirstName = App.User.Name;
 
-            // Gender wise default image
-            switch (App.User.Gender)
+            if (App.User.ImageUrl.IsNullOrBlank())
             {
-                case Gender.Male:
-                    defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Male.png";
-                    break;
-                case Gender.Female:
-                    defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Female.png";
-                    break;
-                case Gender.Other:
-                    defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Other.png";
-                    break;
-                default:
-                    break;
+                // Gender wise default image
+                switch (App.User.Gender)
+                {
+                    case Gender.Male:
+                        defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Male.png";
+                        break;
+                    case Gender.Female:
+                        defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Female.png";
+                        break;
+                    case Gender.Other:
+                        defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Other.png";
+                        break;
+                    default:
+                        break;
+                }
+
+                App.User.ImageUrl = defaultImageUrl;
             }
 
-            App.User.ImageUrl = !profileImageUrl.IsNullOrBlank() ? profileImageUrl : defaultImageUrl;
-
-            // If no profile picture was set
-            CurrentUserModel.ProfileImageUrl = App.User.ImageUrl;
+            CurrentUserModel.ProfileImageUrl = App.User.ImageUrl.Contains("ms-appx:") ? App.User.ImageUrl : _urlHelper.BuildBlobUrl(App.Token, App.User.ImageUrl);
             Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(CurrentUserModel.ProfileImageUrl);
         }
 
