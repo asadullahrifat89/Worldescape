@@ -5,7 +5,7 @@ namespace Worldescape.Data
     /// <summary>
     /// A registered user in real world. ImageUrl saves the profile picture.
     /// </summary>
-    public class User : CoreBase
+    public class User : EntityBase
     {
         /// <summary>
         /// The first name of the user.

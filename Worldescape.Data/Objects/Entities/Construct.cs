@@ -3,7 +3,7 @@
     /// <summary>
     /// An object in a world.
     /// </summary>
-    public class Construct : CoreBase
+    public class Construct : EntityBase
     {
         /// <summary>
         /// The world in which this construct is.

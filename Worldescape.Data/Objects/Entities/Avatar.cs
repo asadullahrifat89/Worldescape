@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a user as an avatar in the world.
     /// </summary>
-    public class Avatar : CoreBase
+    public class Avatar : EntityBase
     {
         /// <summary>
         /// The character of this avatar.

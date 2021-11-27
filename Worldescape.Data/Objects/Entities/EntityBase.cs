@@ -3,7 +3,7 @@ using System;
 
 namespace Worldescape.Data
 {
-    public class CoreBase
+    public class EntityBase
     {
         /// <summary>
         /// Id of an entity. Auto generated upon instance declaration.

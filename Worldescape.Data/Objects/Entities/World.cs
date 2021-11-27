@@ -3,7 +3,7 @@
     /// <summary>
     /// A world consisting of constructs and avatars.
     /// </summary>
-    public class World : CoreBase
+    public class World : EntityBase
     {
         /// <summary>
         /// The User who created this world.
