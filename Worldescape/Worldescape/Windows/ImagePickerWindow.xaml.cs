@@ -42,31 +42,6 @@ namespace Worldescape
 
         #region Methods
 
-
-        #endregion
-
-        private void FileOpenDialogPresenter_ImageUrl_FileOpened(object sender, CSHTML5.Extensions.FileOpenDialog.FileOpenedEventArgs e)
-        {
-            _selectedDataUrl = e.DataURL;
-
-            if (string.IsNullOrEmpty(_selectedDataUrl))
-                return;
-
-            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_selectedDataUrl);
-
-            //var base64String = e.DataURL;
-            //base64String = base64String.Substring(base64String.IndexOf(',') + 1);
-
-            //byte[] byteBuffer = Convert.FromBase64String(base64String);
-
-            //using (MemoryStream memoryStream = new MemoryStream(byteBuffer))
-            //{
-            //    var bitmapImage = new BitmapImage();
-            //    bitmapImage.SetSource(memoryStream);
-            //    Image_ProfileImageUrl.Source = bitmapImage;
-            //}
-        }
-
         private async void Button_OK_Click(object sender, RoutedEventArgs e)
         {
             var command = new SaveBlobCommandRequest()
@@ -95,6 +70,30 @@ namespace Worldescape
         {
             this.DialogResult = false;
         }
+
+        private void FileOpenDialogPresenter_ImageUrl_FileOpened(object sender, CSHTML5.Extensions.FileOpenDialog.FileOpenedEventArgs e)
+        {
+            _selectedDataUrl = e.DataURL;
+
+            if (string.IsNullOrEmpty(_selectedDataUrl))
+                return;
+
+            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_selectedDataUrl);
+
+            //var base64String = e.DataURL;
+            //base64String = base64String.Substring(base64String.IndexOf(',') + 1);
+
+            //byte[] byteBuffer = Convert.FromBase64String(base64String);
+
+            //using (MemoryStream memoryStream = new MemoryStream(byteBuffer))
+            //{
+            //    var bitmapImage = new BitmapImage();
+            //    bitmapImage.SetSource(memoryStream);
+            //    Image_ProfileImageUrl.Source = bitmapImage;
+            //}
+        }
+
+        #endregion
     }
 }
 

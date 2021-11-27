@@ -9,14 +9,14 @@ namespace Worldescape
         {
             var bitmapimage = new BitmapImage();
 
-            //if (dataUrl.Contains("data:image/"))
-            //{
-            //    bitmapimage.SetSource(dataUrl);               
-            //}
-            //else
-            //{
-            bitmapimage.UriSource = new Uri(dataUrl);
-            //}
+            if (dataUrl.Contains("data:image/"))
+            {
+                bitmapimage.SetSource(dataUrl);
+            }
+            else
+            {
+                bitmapimage.UriSource = new Uri(dataUrl);
+            }
 
             return bitmapimage;
         }
