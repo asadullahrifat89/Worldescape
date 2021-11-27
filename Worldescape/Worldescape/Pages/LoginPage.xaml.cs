@@ -90,7 +90,7 @@ namespace Worldescape
 
                 App.User = user;
 
-                _mainPage.SetCurrentUserModel();
+                _mainPage.SetLoggedInUserModel();
                 _mainPage.NavigateToPage(Constants.Page_WorldsPage);
                 _mainPage.SetIsBusy(false);
             }

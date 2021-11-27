@@ -2017,7 +2017,7 @@ namespace Worldescape
                         {
                             Character = character;
                             SetAvatarData();
-                            _mainPage.SetCurrentUserModel();
+                            _mainPage.SetLoggedInUserModel();
 
                             await Connect();
                         });

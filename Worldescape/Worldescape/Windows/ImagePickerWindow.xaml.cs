@@ -34,7 +34,7 @@ namespace Worldescape
             if (!oldDataUrl.IsNullOrBlank())
             {
                 _selectedDataUrl = oldDataUrl;
-                Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_selectedDataUrl);
+                Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(oldDataUrl.Contains("ms-appx:") ? oldDataUrl : _urlHelper.BuildBlobUrl(App.Token, oldDataUrl));
             }
         }
 

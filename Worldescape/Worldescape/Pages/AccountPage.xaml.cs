@@ -59,7 +59,7 @@ namespace Worldescape
             }
 
             AccountModel.ImageUrl = App.User.ImageUrl; // If not set then default is set after logging in
-            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_urlHelper.BuildBlobUrl(App.Token, App.User.ImageUrl));
+            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(App.User.ImageUrl.Contains("ms-appx:") ? App.User.ImageUrl: _urlHelper.BuildBlobUrl(App.Token, App.User.ImageUrl));
             TextBlock_Name.Text = App.User.Name;
         }
 
@@ -150,9 +150,9 @@ namespace Worldescape
 
         private void Button_UploadImageUrl_Click(object sender, RoutedEventArgs e)
         {
-            ImagePickerWindow imagePickerWindow = new ImagePickerWindow(blobId: (blobId) =>
+            var imagePickerWindow = new ImagePickerWindow(blobId: (blobId) =>
             {
-                AccountModel.ImageUrl = blobId.ToString();                
+                AccountModel.ImageUrl = blobId;                
                 Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_urlHelper.BuildBlobUrl(App.Token, blobId));
             },oldDataUrl: AccountModel.ImageUrl);
 

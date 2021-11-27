@@ -20,7 +20,7 @@ namespace Worldescape
         public MainPage()
         {
             InitializeComponent();
-            CurrentUserHolder.DataContext = CurrentUserModel;
+            LoggedInUserHolder.DataContext = LoggedInUserModel;
 
             _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
             _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
@@ -30,18 +30,20 @@ namespace Worldescape
 
         #region Properties
 
-        public CurrentUserModel CurrentUserModel { get; set; } = new CurrentUserModel();
+        public LoggedInUserModel LoggedInUserModel { get; set; } = new LoggedInUserModel();
 
         #endregion
 
         #region Methods
 
-        public void SetCurrentUserModel()
+        #region Functionality
+
+        public void SetLoggedInUserModel()
         {
             string defaultImageUrl = string.Empty;
 
-            CurrentUserHolder.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            CurrentUserModel.FirstName = App.User.Name;
+            LoggedInUserHolder.Visibility = Visibility.Visible;
+            LoggedInUserModel.FirstName = App.User.Name;
 
             if (App.User.ImageUrl.IsNullOrBlank())
             {
@@ -64,27 +66,30 @@ namespace Worldescape
                 App.User.ImageUrl = defaultImageUrl;
             }
 
-            CurrentUserModel.ProfileImageUrl = App.User.ImageUrl.Contains("ms-appx:") ? App.User.ImageUrl : _urlHelper.BuildBlobUrl(App.Token, App.User.ImageUrl);
-            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(CurrentUserModel.ProfileImageUrl);
+            LoggedInUserModel.ProfileImageUrl = App.User.ImageUrl.Contains("ms-appx:") ? App.User.ImageUrl : _urlHelper.BuildBlobUrl(App.Token, App.User.ImageUrl);
+            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(LoggedInUserModel.ProfileImageUrl);
         }
 
         public void SetIsBusy(bool isBusy, string busyMessage = null)
         {
             Grid_Root.IsEnabled = !isBusy;
-
             Grid_Root.Opacity = Grid_Root.IsEnabled ? 1 : 0.5;
-
             BusyMessageHolder.Text = Grid_Root.IsEnabled ? "" : busyMessage ?? "Loading...";
         }
 
+        /// <summary>
+        /// Navigate to the target page.
+        /// </summary>
+        /// <param name="targetUri"></param>
         public void NavigateToPage(string targetUri)
         {
-            // Navigate to the target page:
             Uri uri = new Uri(targetUri, UriKind.Relative);
             PageContainerFrame.Source = uri;
         }
 
         #endregion
+
+        #region Button Events
 
         private void MenuItem_ProfileDetails_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
@@ -98,12 +103,17 @@ namespace Worldescape
 
         private void MenuItem_Logout_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            App.User = null;
-            App.World = null;
+            App.User = new User();
+            App.World = new World();
             App.Token = null;
 
             NavigateToPage(Constants.Page_LoginPage);
             MyAcountButton.IsChecked = false;
+            LoggedInUserHolder.Visibility = Visibility.Collapsed;
         }
+
+        #endregion
+
+        #endregion
     }
 }

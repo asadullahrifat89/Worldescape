@@ -46,7 +46,7 @@ namespace CSHTML5.Extensions.FileOpenDialog
 
         public FileOpenDialogPresenter()
         {
-            ResultKind = FileOpenDialog.ResultKind.DataURL; //Note: this is to set the default value of the property.
+            ResultKind = ResultKind.DataURL; //Note: this is to set the default value of the property.
 
             Html = "<input type='file'>";
 
@@ -172,7 +172,7 @@ namespace CSHTML5.Extensions.FileOpenDialog
         /// Only available if the property "ResultKind" was set to "DataURL".
         /// </summary>
         public readonly string DataURL;
-
+                
         public FileOpenedEventArgs(object result, ResultKind resultKind)
         {
             if (resultKind == ResultKind.Text)

@@ -2,7 +2,7 @@
 
 namespace Worldescape.Data
 {
-    public class CurrentUserModel : ModelBase
+    public class LoggedInUserModel : ModelBase
     {
         private string _FirstName;
         public string FirstName
@@ -29,16 +29,5 @@ namespace Worldescape.Data
                 RaisePropertyChanged("ProfileImageUrl");
             }
         }
-
-        //private string _AvatarImageUrl;
-        //public string AvatarImageUrl
-        //{
-        //    get { return _AvatarImageUrl; }
-        //    set
-        //    {
-        //        _AvatarImageUrl = value;
-        //        RaisePropertyChanged("AvatarImageUrl");
-        //    }
-        //}
     }
 }

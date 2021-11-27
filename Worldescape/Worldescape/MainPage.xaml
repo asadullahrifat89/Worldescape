@@ -30,7 +30,7 @@
 
             <!--  Top right Current user holder, becomes visible after login to server  -->
             <StackPanel
-                x:Name="CurrentUserHolder"
+                x:Name="LoggedInUserHolder"
                 Grid.Row="1"
                 Height="50"
                 Margin="20"

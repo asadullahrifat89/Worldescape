@@ -14,7 +14,7 @@ namespace Worldescape.Service
         public string GetWebServiceUrl()
         {
 #if DEBUG
-            return Service.Properties.Resources.DevWebService;
+            return Properties.Resources.DevWebService;
             //return Properties.Resources.ProdWebService;
 #else
             return Properties.Resources.ProdWebService;
