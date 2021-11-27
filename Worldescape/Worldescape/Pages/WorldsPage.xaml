@@ -22,7 +22,7 @@
             <TextBox
                 x:Name="TextBox_SearchWorldsText"
                 Width="300"
-                Margin="10,0"
+                Margin="5,0"
                 VerticalAlignment="Center"
                 FontSize="16"
                 KeyDown="TextBox_SearchWorldsText_KeyDown"
@@ -35,7 +35,7 @@
                 x:Name="Button_SearchWorld"
                 Grid.Column="1"
                 Width="50"
-                Margin="10,0"
+                Margin="5,0"
                 Click="Button_SearchWorld_Click"
                 Content="&#xE721;"
                 FontFamily="Segoe MDL2 Assets"
@@ -47,7 +47,7 @@
                 x:Name="Button_CreateWorld"
                 Grid.Column="1"
                 Width="140"
-                Margin="10,0"
+                Margin="5,0"
                 Click="Button_CreateWorld_Click"
                 Content="Create World"
                 FontSize="16"
@@ -83,10 +83,12 @@
             <!--  Previous button  -->
             <Button
                 x:Name="Button_Previous"
-                Width="110"
+                Width="70"
                 Margin="5"
                 Click="ButtonPreview_Click"
-                Content="Previous"
+                Content="&#xF743;"
+                FontFamily="Segoe MDL2 Assets"
+                FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
             <!--  page number Buttons  -->
@@ -123,10 +125,12 @@
             <!--  Next button  -->
             <Button
                 x:Name="Button_Next"
-                Width="110"
+                Width="70"
                 Margin="5"
                 Click="ButtonNext_Click"
-                Content="Next"
+                Content="&#xF745;"
+                FontFamily="Segoe MDL2 Assets"
+                FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
         </StackPanel>

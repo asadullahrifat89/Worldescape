@@ -24,16 +24,18 @@
                         <TextBox
                             x:Name="TextBox"
                             Grid.Column="0"
+                            Grid.ColumnSpan="2"
                             Background="White"
                             BorderThickness="2"
                             Style="{StaticResource MaterialDesign_TextBox_Style}" />
                         <Button
                             x:Name="Button"
                             Grid.Column="1"
-                            Width="30"
-                            Background="{TemplateBinding Background}"
+                            Width="50"
+                            Background="Transparent"
                             BorderThickness="0"
-                            Foreground="{TemplateBinding Foreground}">
+                            Foreground="{TemplateBinding Foreground}"
+                            Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}">
                             <Path
                                 Width="20"
                                 Height="20"

@@ -95,12 +95,15 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
 
+            <!--  Previous button  -->
             <Button
                 x:Name="PreviousButton"
-                Width="110"
+                Width="70"
                 Margin="5"
                 Click="ButtonPreview_Click"
-                Content="Previous"
+                Content="&#xF743;"
+                FontFamily="Segoe MDL2 Assets"
+                FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
             <!--  page number Buttons  -->
@@ -134,12 +137,15 @@
 
             </ItemsControl>
 
+            <!--  Next button  -->
             <Button
                 x:Name="NextButton"
-                Width="110"
+                Width="70"
                 Margin="5"
                 Click="ButtonNext_Click"
-                Content="Next"
+                Content="&#xF745;"
+                FontFamily="Segoe MDL2 Assets"
+                FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
         </StackPanel>

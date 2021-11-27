@@ -8,91 +8,94 @@
     FontFamily="Segoe UI"
     mc:Ignorable="d">
 
-    <StackPanel
-        Margin="0,30,0,0"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Top"
-        Orientation="Vertical">
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Auto"
+        IsTabStop="False"
+        VerticalScrollBarVisibility="Auto">
 
-        <StackPanel Margin="20" VerticalAlignment="Top">
-
-            <TextBlock
-                Margin="20"
-                FontSize="50"
-                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                Text="Worldescape"
-                TextAlignment="Center" />
-
-            <TextBlock
-                Margin="10"
-                FontSize="30"
-                Text="Create and explore worlds with millions of people..."
-                TextAlignment="Center"
-                TextWrapping="Wrap" />
-        </StackPanel>
-
-        <ContentControl
-            x:Name="LoginModelHolder"
+        <StackPanel
+            Margin="0,30,0,30"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
-            Style="{StaticResource MaterialDesign_Card_Style}">
+            Orientation="Vertical">
 
-            <StackPanel Width="350" Margin="10">
-
+            <StackPanel Margin="20" VerticalAlignment="Top">
                 <TextBlock
                     Margin="10"
-                    FontSize="20"
-                    Text="Email" />
-
-                <!--  Email  -->
-                <TextBox
-                    x:Name="TextBox_Email"
-                    Margin="10,5,10,10"
-                    BindingValidationError="Control_BindingValidationError"
-                    FontSize="16"
-                    LostFocus="Control_LostFocus"
-                    Style="{StaticResource MaterialDesign_TextBox_Style}"
-                    Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
-                    TextAlignment="Left" />
-
+                    FontSize="50"
+                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
+                    Text="Worldescape"
+                    TextAlignment="Center" />
                 <TextBlock
                     Margin="10"
-                    FontSize="20"
-                    Text="Password" />
-
-                <!--  Password  -->
-                <PasswordBox
-                    x:Name="PasswordBox_Pasword"
-                    Margin="10,5,10,10"
-                    BindingValidationError="Control_BindingValidationError"
-                    FontSize="16"
-                    KeyDown="PasswordBox_Pasword_KeyDown"
-                    LostFocus="Control_LostFocus"
-                    Password="{Binding Password, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
-                    Style="{StaticResource MaterialDesign_PasswordBox_Style}" />
-
-                <!--  Login  -->
-                <Button
-                    x:Name="Button_Login"
-                    Margin="10"
-                    Click="Button_Login_Click"
-                    Content="Log In"
-                    FontSize="16"
-                    Style="{StaticResource MaterialDesign_Button_Style}" />
-
-                <!--  Signup  -->
-                <Button
-                    x:Name="Button_SignUp"
-                    Margin="10"
-                    Click="Button_SignUp_Click"
-                    Content="Sign Up"
-                    FontSize="16"
-                    Style="{StaticResource MaterialDesign_Button_Style}" />
-
+                    FontSize="30"
+                    Text="Create and explore worlds with millions of people..."
+                    TextAlignment="Center"
+                    TextWrapping="Wrap" />
             </StackPanel>
 
-        </ContentControl>
+            <ContentControl
+                x:Name="LoginModelHolder"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Style="{StaticResource MaterialDesign_Card_Style}">
 
-    </StackPanel>
+                <StackPanel Width="350" Margin="10">
 
+                    <TextBlock
+                        Margin="10,5"
+                        FontSize="18"
+                        Text="Email" />
+
+                    <!--  Email  -->
+                    <TextBox
+                        x:Name="TextBox_Email"
+                        Margin="10,5,10,10"
+                        BindingValidationError="Control_BindingValidationError"
+                        FontSize="16"
+                        LostFocus="Control_LostFocus"
+                        Style="{StaticResource MaterialDesign_TextBox_Style}"
+                        Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                        TextAlignment="Left" />
+
+                    <TextBlock
+                        Margin="10,5"
+                        FontSize="18"
+                        Text="Password" />
+
+                    <!--  Password  -->
+                    <PasswordBox
+                        x:Name="PasswordBox_Pasword"
+                        Margin="10,5,10,10"
+                        BindingValidationError="Control_BindingValidationError"
+                        FontSize="16"
+                        KeyDown="PasswordBox_Pasword_KeyDown"
+                        LostFocus="Control_LostFocus"
+                        Password="{Binding Password, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                        Style="{StaticResource MaterialDesign_PasswordBox_Style}" />
+
+                    <!--  Login  -->
+                    <Button
+                        x:Name="Button_Login"
+                        Margin="10"
+                        Click="Button_Login_Click"
+                        Content="Log In"
+                        FontSize="16"
+                        Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                    <!--  Signup  -->
+                    <Button
+                        x:Name="Button_SignUp"
+                        Margin="10"
+                        Click="Button_SignUp_Click"
+                        Content="Sign Up"
+                        FontSize="16"
+                        Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                </StackPanel>
+
+            </ContentControl>
+
+        </StackPanel>
+    </ScrollViewer>
 </Page>
