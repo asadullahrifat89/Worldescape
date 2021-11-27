@@ -33,6 +33,7 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
         RuleFor(x => x).MustAsync(BeAnExistingUser).WithMessage(x => "User with Id: " + x.Id + "not found.");
         RuleFor(x => x).MustAsync(NotBeAnExistingEmail);
     }
+
     private Task<bool> BeValidApiToken(string token, CancellationToken arg2)
     {
         return _apiTokenHelper.BeValidApiToken(token);

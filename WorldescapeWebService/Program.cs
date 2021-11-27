@@ -52,6 +52,7 @@ app.MapGet(Constants.Action_GetApiToken, async (string email, string password, I
         Email = email,
         Password = password
     });
+
 }).WithName(Constants.GetActionName(Constants.Action_GetApiToken));
 
 app.MapGet(Constants.Action_GetUser, async (string token, string email, string password, IMediator mediator) =>
@@ -62,6 +63,7 @@ app.MapGet(Constants.Action_GetUser, async (string token, string email, string p
         Email = email,
         Password = password
     });
+
 }).WithName(Constants.GetActionName(Constants.Action_GetUser));
 
 app.MapGet(Constants.Action_GetWorlds, async (string token, int pageIndex, int pageSize, string? searchString, IMediator mediator) =>
@@ -73,6 +75,7 @@ app.MapGet(Constants.Action_GetWorlds, async (string token, int pageIndex, int p
         PageSize = pageSize,
         SearchString = searchString
     });
+
 }).WithName(Constants.GetActionName(Constants.Action_GetWorlds));
 
 app.MapGet(Constants.Action_GetConstructs, async (string token, int pageIndex, int pageSize, int worldId, IMediator mediator) =>
@@ -84,6 +87,7 @@ app.MapGet(Constants.Action_GetConstructs, async (string token, int pageIndex, i
         PageSize = pageSize,
         WorldId = worldId
     });
+
 }).WithName(Constants.GetActionName(Constants.Action_GetConstructs));
 
 app.MapGet(Constants.Action_GetConstructsCount, async (string token, int worldId, IMediator mediator) =>
@@ -93,6 +97,7 @@ app.MapGet(Constants.Action_GetConstructsCount, async (string token, int worldId
         Token = token,
         WorldId = worldId
     });
+
 }).WithName(Constants.GetActionName(Constants.Action_GetConstructsCount));
 
 app.MapGet(Constants.Action_GetWorldsCount, async (string token, string searchString, IMediator mediator) =>
@@ -102,6 +107,7 @@ app.MapGet(Constants.Action_GetWorldsCount, async (string token, string searchSt
         Token = token,
         SearchString = searchString
     });
+
 }).WithName(Constants.GetActionName(Constants.Action_GetWorldsCount));
 
 app.MapGet(Constants.Action_GetAsset, async (string token, string fileName, IMediator mediator) =>
@@ -115,6 +121,7 @@ app.MapGet(Constants.Action_GetAsset, async (string token, string fileName, IMed
     string fileN = fileName.Replace('\\', '_');
 
     return Microsoft.AspNetCore.Http.Results.File(file, "text/plain", fileN);
+
 }).WithName(Constants.GetActionName(Constants.Action_GetAsset));
 
 #endregion
@@ -136,6 +143,7 @@ app.MapPost(Constants.Action_AddUser, async (AddUserCommandRequest command, IMed
         Gender = command.Gender,
         ImageUrl = command.ImageUrl,
     });
+
 }).WithName(Constants.GetActionName(Constants.Action_AddUser));
 
 app.MapPost(Constants.Action_UpdateUser, async (UpdateUserCommandRequest command, IMediator mediator) =>
@@ -156,6 +164,7 @@ app.MapPost(Constants.Action_UpdateUser, async (UpdateUserCommandRequest command
         Email = command.Email,
         Password = command.Password,
     });
+
 }).WithName(Constants.GetActionName(Constants.Action_UpdateUser));
 
 app.MapPost(Constants.Action_AddWorld, async (AddWorldCommandRequest command, IMediator mediator) =>
@@ -166,6 +175,7 @@ app.MapPost(Constants.Action_AddWorld, async (AddWorldCommandRequest command, IM
         ImageUrl = command.ImageUrl,
         Name = command.Name,
     });
+
 }).WithName(Constants.GetActionName(Constants.Action_AddWorld));
 
 app.MapPost(Constants.Action_UpdateWorld, async (UpdateWorldCommandRequest command, IMediator mediator) =>
@@ -178,6 +188,7 @@ app.MapPost(Constants.Action_UpdateWorld, async (UpdateWorldCommandRequest comma
         ImageUrl = command.ImageUrl,
         Name = command.Name,
     });
+
 }).WithName(Constants.GetActionName(Constants.Action_UpdateWorld));
 
 #endregion

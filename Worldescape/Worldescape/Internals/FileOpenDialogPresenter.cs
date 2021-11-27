@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 //------------------------------------
 // This is an extension for C#/XAML for HTML5 (www.cshtml5.com)

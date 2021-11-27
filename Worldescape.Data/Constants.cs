@@ -134,11 +134,13 @@ namespace Worldescape.Data
         public const string Action_GetConstructs = "/api/Query/GetConstructs";
         public const string Action_GetConstructsCount = "/api/Query/GetConstructsCount";
         public const string Action_GetAsset = "/api/Query/GetAsset";
+        public const string Action_GetBlob = "/api/Query/GetBlob";
 
         public const string Action_AddUser = "/api/Command/AddUser";
         public const string Action_UpdateUser = "/api/Command/UpdateUser";
         public const string Action_AddWorld = "/api/Command/AddWorld";
         public const string Action_UpdateWorld = "/api/Command/UpdateWorld";
+        public const string Action_SaveBlob = "/api/Command/SaveBlob";
 
         #endregion
 

@@ -1,21 +1,11 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Numerics;
-using System.Text.Json;
-using System.Threading.Tasks;
-using System.Windows.Media.Effects;
 using Windows.UI;
-using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
-using Worldescape.Service;
 using Worldescape.Data;
 using Image = Windows.UI.Xaml.Controls.Image;
 

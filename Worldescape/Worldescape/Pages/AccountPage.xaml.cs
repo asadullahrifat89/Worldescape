@@ -1,10 +1,7 @@
-﻿using CSHTML5.Extensions.FileOpenDialog;
-using System;
-using System.IO;
+﻿using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Data;
 using Worldescape.Service;
 

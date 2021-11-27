@@ -18,9 +18,4 @@
 		<ProjectReference Include="..\Worldescape.Data\Worldescape.Data.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="Responses\Hubs\" />
-		<Folder Include="Responses\Queries\" />
-	</ItemGroup>
-
 </Project>
