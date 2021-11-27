@@ -29,19 +29,22 @@
 
                     <!--  ProfileImageUrl  -->
                     <Border
-                        Width="100"
-                        Height="100"
+                        Width="120"
+                        Height="120"
                         Margin="5"
                         ClipToBounds="True"
                         CornerRadius="40">
                         <Image
                             x:Name="Image_ProfileImageUrl"
-                            Width="100"
-                            Height="100"
+                            Width="120"
+                            Height="120"
                             Stretch="Uniform" />
                     </Border>
 
-                    <StackPanel Margin="5" Orientation="Horizontal">
+                    <StackPanel
+                        Margin="5"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal">
                         <Button
                             x:Name="Button_RemoveImageUrl"
                             Width="50"
@@ -56,7 +59,7 @@
                             Width="50"
                             Margin="5"
                             Click="Button_UploadImageUrl_Click"
-                            Content="&#xE898;"
+                            Content="&#xE722;"
                             FontFamily="Segoe MDL2 Assets"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundButton_Style}" />

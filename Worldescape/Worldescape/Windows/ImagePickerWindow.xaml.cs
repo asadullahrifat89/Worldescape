@@ -19,17 +19,26 @@ namespace Worldescape
     {
         #region Fields
 
-        Action<string> _onDataUrl;
+        Action<string> _newDataUrl;
         string _selectedDataUrl;
+
+        readonly ImageHelper _imageHelper;
 
         #endregion
 
         #region Ctor
 
-        public ImagePickerWindow(Action<string> onDataUrl)
+        public ImagePickerWindow(Action<string> newDataUrl, string oldDataUrl = null)
         {
             InitializeComponent();
-            _onDataUrl = onDataUrl;
+            _newDataUrl = newDataUrl;
+            _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
+
+            if (!oldDataUrl.IsNullOrBlank())
+            {
+                _selectedDataUrl = oldDataUrl;
+                Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_selectedDataUrl);
+            }
         }
 
         #endregion
@@ -46,9 +55,7 @@ namespace Worldescape
             if (string.IsNullOrEmpty(_selectedDataUrl))
                 return;
 
-            var bitmapimage = new BitmapImage();
-            bitmapimage.SetSource(_selectedDataUrl);
-            Image_ProfileImageUrl.Source = bitmapimage;
+            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_selectedDataUrl);
 
             //var base64String = e.DataURL;
             //base64String = base64String.Substring(base64String.IndexOf(',') + 1);
@@ -66,7 +73,8 @@ namespace Worldescape
         private void Button_OK_Click(object sender, RoutedEventArgs e)
         {
             //TODO: upload the image to actual server and receive url and send it back
-            _onDataUrl?.Invoke(_selectedDataUrl);
+
+            _newDataUrl?.Invoke(_selectedDataUrl);
             this.DialogResult = true;
         }
 

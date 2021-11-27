@@ -151,11 +151,11 @@ namespace Worldescape
 
         private void Button_UploadImageUrl_Click(object sender, RoutedEventArgs e)
         {
-            ImagePickerWindow imagePickerWindow = new ImagePickerWindow((onDataUrl) =>
+            ImagePickerWindow imagePickerWindow = new ImagePickerWindow(newDataUrl: (newDataUrl) =>
             {
-                AccountModel.ImageUrl = onDataUrl;
-                Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(onDataUrl);
-            });
+                AccountModel.ImageUrl = newDataUrl;
+                Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(newDataUrl);
+            },oldDataUrl: AccountModel.ImageUrl);
 
             imagePickerWindow.Show();
         }
