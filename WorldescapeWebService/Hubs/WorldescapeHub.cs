@@ -17,7 +17,7 @@ namespace WorldescapeWebService
         readonly DatabaseService _databaseService;
 
         //<ConnectionId, Avatar>
-        static ConcurrentDictionary<string, Avatar> ConcurrentAvatars = new();
+        static ConcurrentDictionary<string, Avatar> ConcurrentAvatars { get; set; } = new();
 
         #endregion
 
@@ -191,7 +191,7 @@ namespace WorldescapeWebService
 
             if (avatar != null && !avatar.IsEmpty())
             {
-                if (ConcurrentAvatars.Any(x => x.Value.Id == avatar.Id))
+                if (AvatarExists(avatar))
                 {
                     //string connectionId = ConcurrentAvatars.SingleOrDefault((c) => c.Value.Id == avatar.Id).Key;
 
