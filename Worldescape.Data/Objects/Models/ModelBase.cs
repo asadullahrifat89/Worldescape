@@ -2,7 +2,7 @@
 
 namespace Worldescape.Data
 {
-    public class BaseModel : INotifyPropertyChanged 
+    public class ModelBase : INotifyPropertyChanged 
     {
         public void RaisePropertyChanged(string propertyName)
         {

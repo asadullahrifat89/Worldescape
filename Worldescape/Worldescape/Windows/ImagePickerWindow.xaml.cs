@@ -64,6 +64,12 @@ namespace Worldescape
         {
             //TODO: upload the image to actual server and receive url and send it back
 
+            var command = new SaveBlobCommandRequest()
+            {
+                Id = UidGenerator.New(),
+                DataUrl = _selectedDataUrl,
+            };
+
             _newDataUrl?.Invoke(_selectedDataUrl);
             this.DialogResult = true;
         }

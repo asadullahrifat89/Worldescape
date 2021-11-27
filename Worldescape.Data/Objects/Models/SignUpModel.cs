@@ -2,7 +2,7 @@
 
 namespace Worldescape.Data
 {
-    public class SignupModel : BaseModel
+    public class SignupModel : ModelBase
     {
         private string _FirstName;
         public string FirstName

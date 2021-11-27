@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using Worldescape.Data;
 using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
@@ -39,16 +40,20 @@ public class GetBlobQueryHandler : IRequestHandler<GetBlobQuery, byte[]>
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             validationResult.EnsureValidResult();
 
-            //var location = typeof(GetBlobQuery).Assembly.Location;
-
-            //var newlocation = location.Replace("WorldescapeWebService\\bin\\Debug\\net6.0\\WorldescapeWebService.Core.dll", "Worldescape.Assets");
-
-            //var path = Path.Combine(newlocation, "Assets", request.FileName);
-
             byte[] bytes = new byte[] { };
 
-            //if (File.Exists(path))
-            //    bytes = await File.ReadAllBytesAsync(path);
+            var blob = await _databaseService.FindById<Blob>(request.Id);
+
+            if (blob == null)
+                return bytes;
+
+            if (!blob.DataUrl.IsNullOrBlank())
+            {
+                var base64String = blob.DataUrl;
+                base64String = base64String.Substring(base64String.IndexOf(',') + 1);
+
+                bytes = Convert.FromBase64String(base64String);
+            }                
 
             return bytes;
         }

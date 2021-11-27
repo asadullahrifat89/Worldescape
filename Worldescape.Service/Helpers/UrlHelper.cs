@@ -2,11 +2,11 @@
 
 namespace Worldescape.Service
 {
-    public class AssetUrlHelper
+    public class UrlHelper
     {
         private readonly HttpServiceHelper _httpServiceHelper;
 
-        public AssetUrlHelper(HttpServiceHelper httpCommunicationService)
+        public UrlHelper(HttpServiceHelper httpCommunicationService)
         {
             _httpServiceHelper = httpCommunicationService;
         }
@@ -16,6 +16,15 @@ namespace Worldescape.Service
             string baseUrl = _httpServiceHelper.GetWebServiceUrl();
 
             string assetUrl = imageUrl.Contains(baseUrl) ? imageUrl : @$"{baseUrl}{Constants.Action_GetAsset}?token={token}&fileName={imageUrl}";
+
+            return assetUrl;
+        }
+
+        public string BuildBlobUrl(string token, int id)
+        {
+            string baseUrl = _httpServiceHelper.GetWebServiceUrl();
+
+            string assetUrl = @$"{baseUrl}{Constants.Action_GetBlob}?token={token}&id={id}";
 
             return assetUrl;
         }

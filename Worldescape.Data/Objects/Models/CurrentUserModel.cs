@@ -2,7 +2,7 @@
 
 namespace Worldescape.Data
 {
-    public class CurrentUserModel : BaseModel
+    public class CurrentUserModel : ModelBase
     {
         private string _FirstName;
         public string FirstName

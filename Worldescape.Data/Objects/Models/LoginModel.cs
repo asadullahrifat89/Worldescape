@@ -2,7 +2,7 @@
 
 namespace Worldescape.Data
 {
-    public class LoginModel : BaseModel
+    public class LoginModel : ModelBase
     {
         private string _Email;
         public string Email

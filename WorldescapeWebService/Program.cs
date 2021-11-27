@@ -124,6 +124,20 @@ app.MapGet(Constants.Action_GetAsset, async (string token, string fileName, IMed
 
 }).WithName(Constants.GetActionName(Constants.Action_GetAsset));
 
+app.MapGet(Constants.Action_GetBlob, async (string token, int id, IMediator mediator) =>
+{
+    byte[] file = await mediator.Send(new GetBlobQuery()
+    {
+        Token = token,
+        Id = id
+    });
+
+    string fileN = id.ToString();
+
+    return Microsoft.AspNetCore.Http.Results.File(file, "text/plain", fileN);
+
+}).WithName(Constants.GetActionName(Constants.Action_GetBlob));
+
 #endregion
 
 #region Commands
@@ -190,6 +204,17 @@ app.MapPost(Constants.Action_UpdateWorld, async (UpdateWorldCommandRequest comma
     });
 
 }).WithName(Constants.GetActionName(Constants.Action_UpdateWorld));
+
+app.MapPost(Constants.Action_SaveBlob, async (SaveBlobCommandRequest command, IMediator mediator) =>
+{
+    return await mediator.Send(new SaveBlobCommand
+    {
+        Token = command.Token,
+        Id = command.Id,
+        DataUrl = command.DataUrl,
+    });
+
+}).WithName(Constants.GetActionName(Constants.Action_SaveBlob));
 
 #endregion
 
