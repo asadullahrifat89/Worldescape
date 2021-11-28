@@ -112,8 +112,35 @@ namespace Worldescape
         /// <param name="targetUri"></param>
         public void NavigateToPage(string targetUri)
         {
-            Uri uri = new Uri(targetUri, UriKind.Relative);
-            PageContainerFrame.Source = uri;
+            //Uri uri = new Uri(targetUri, UriKind.Relative);
+            //PageContainerFrame.Source = uri;
+
+            Page page = null;
+
+            switch (targetUri)
+            {
+                case Constants.Page_AccountPage:
+                    page = App.ServiceProvider.GetService(typeof(AccountPage)) as AccountPage;
+                    break;
+                case Constants.Page_InsideWorldPage:
+                    page = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;
+                    break;
+                case Constants.Page_LoginPage:
+                    page = App.ServiceProvider.GetService(typeof(LoginPage)) as LoginPage;
+                    break;
+                case Constants.Page_SignupPage:
+                    page = App.ServiceProvider.GetService(typeof(SignupPage)) as SignupPage;
+                    break;
+                case Constants.Page_WorldsPage:
+                    page = App.ServiceProvider.GetService(typeof(WorldsPage)) as WorldsPage;
+                    break;
+                default:
+                    break;
+            }
+
+            PageContainerFrame.Content = page;
+
+            //TODO: get singleton page and set content
         }
 
         #endregion
