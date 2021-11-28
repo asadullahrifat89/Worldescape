@@ -2073,7 +2073,7 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Subscribe to hub and listen to hub events.
+        /// Subscribe to hub and start listening to hub events.
         /// </summary>
         private void SubscribeHub()
         {
@@ -2129,7 +2129,67 @@ namespace Worldescape
 
             #endregion
 
-            Console.WriteLine("++ListenOnHubService: OK");
+            Console.WriteLine("++SubscribeHub: OK");
+        }
+
+        /// <summary>
+        /// Unsubscribe from hub and stop listening to hub events.
+        /// </summary>
+        private void UnsubscribeHub()
+        {
+            #region Hub Connectivity
+
+            HubService.ConnectionReconnecting -= HubService_ConnectionReconnecting;
+            HubService.ConnectionReconnected -= HubService_ConnectionReconnected;
+            HubService.ConnectionClosed -= HubService_ConnectionClosed;
+
+            #endregion
+
+            #region Avatar World Events
+
+            HubService.NewBroadcastAvatarMovement -= HubService_NewBroadcastAvatarMovement;
+            HubService.NewBroadcastAvatarActivityStatus -= HubService_NewBroadcastAvatarActivityStatus;
+
+            #endregion
+
+            #region Avatar Connectivity
+
+            HubService.AvatarLoggedIn -= HubService_AvatarLoggedIn;
+            HubService.AvatarLoggedOut -= HubService_AvatarLoggedOut;
+            HubService.AvatarDisconnected -= HubService_AvatarDisconnected;
+            HubService.AvatarReconnected -= HubService_AvatarReconnected;
+
+            #endregion
+
+            #region Construct World Events
+
+            HubService.NewBroadcastConstruct -= HubService_NewBroadcastConstruct;
+            HubService.NewBroadcastConstructs -= HubService_NewBroadcastConstructs;
+
+            HubService.NewRemoveConstruct -= HubService_NewRemoveConstruct;
+            HubService.NewRemoveConstructs -= HubService_NewRemoveConstructs;
+
+            HubService.NewBroadcastConstructPlacement -= HubService_NewBroadcastConstructPlacement;
+
+            HubService.NewBroadcastConstructRotation -= HubService_NewBroadcastConstructRotation;
+            HubService.NewBroadcastConstructRotations -= HubService_NewBroadcastConstructRotations;
+
+            HubService.NewBroadcastConstructScale -= HubService_NewBroadcastConstructScale;
+            HubService.NewBroadcastConstructScales -= HubService_NewBroadcastConstructScales;
+
+            HubService.NewBroadcastConstructMovement -= HubService_NewBroadcastConstructMovement;
+
+            #endregion
+
+            #region Avatar Messaging
+
+            HubService.AvatarTyping -= HubService_AvatarTyping;
+            HubService.NewTextMessage -= HubService_NewTextMessage;
+            HubService.NewImageMessage -= HubService_NewImageMessage;
+
+            #endregion
+
+            Console.WriteLine("++UnsubscribeHub: OK");
         }
 
         /// <summary>
@@ -2864,6 +2924,14 @@ namespace Worldescape
 
         #endregion
 
-        #endregion       
+        #endregion
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (HubService != null)
+            {
+                UnsubscribeHub();
+            }
+        }
     }
 }
