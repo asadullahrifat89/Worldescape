@@ -38,6 +38,35 @@ namespace Worldescape
 
         #region Functionality
 
+        private void ProfileDetails()
+        {
+            NavigateToPage(Constants.Page_AccountPage);
+            MyAcountButton.IsChecked = false;
+        }
+
+        private void Logout()
+        {
+            App.User = new User();
+            App.World = new World();
+            App.Token = null;
+
+            NavigateToPage(Constants.Page_LoginPage);
+            MyAcountButton.IsChecked = false;
+            LoggedInUserHolder.Visibility = Visibility.Collapsed;
+        }
+
+        private void LogoutHubService()
+        {
+            var hubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
+
+            if (hubService.IsConnected())
+            {
+                hubService.Logout();
+                App.World = new World();
+                hubService.DisconnectAsync();
+            }
+        }
+
         public void SetLoggedInUserModel()
         {
             string defaultImageUrl = string.Empty;
@@ -94,22 +123,35 @@ namespace Worldescape
         private void MenuItem_ProfileDetails_Click(object sender, RoutedEventArgs e)
         {
             if (App.World.IsEmpty())
-                NavigateToPage(Constants.Page_AccountPage);
+            {
+                ProfileDetails();
+            }
             else
-                MessageBox.Show("It is not permissible to change your account information while being connected to a world. You can leave this world, only then your can.", "Sorry!");
-
-            MyAcountButton.IsChecked = false;
+            {
+                var result = MessageBox.Show("You are connected to a world. Are you sure you want to leave?", "Warning!", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    LogoutHubService();
+                    ProfileDetails();
+                }
+            }
         }
 
         private void MenuItem_Logout_Click(object sender, RoutedEventArgs e)
         {
-            App.User = new User();
-            App.World = new World();
-            App.Token = null;
-
-            NavigateToPage(Constants.Page_LoginPage);
-            MyAcountButton.IsChecked = false;
-            LoggedInUserHolder.Visibility = Visibility.Collapsed;
+            if (App.World.IsEmpty())
+            {
+                Logout();
+            }
+            else
+            {
+                var result = MessageBox.Show("You are connected to a world. Are you sure you want to leave?", "Warning!", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    LogoutHubService();
+                    Logout();
+                }
+            }
         }
 
         #endregion

@@ -129,11 +129,7 @@ namespace WorldescapeWebService
                     ConnectionId = Context.ConnectionId
                 };
 
-                // Save the new avatar
-                //if (!ConcurrentAvatars.TryAdd(Context.ConnectionId, avatar))
-                //{
-                //    return null;
-                //}
+                // Save the new avatar                
                 AddAvatar(avatar);
 
                 var group = avatar.World.Id.ToString();
@@ -193,10 +189,6 @@ namespace WorldescapeWebService
             {
                 if (AvatarExists(avatar))
                 {
-                    //string connectionId = ConcurrentAvatars.SingleOrDefault((c) => c.Value.Id == avatar.Id).Key;
-
-                    //ConcurrentAvatars.TryRemove(connectionId, out Avatar a);
-
                     RemoveAvatar(avatar);
 
                     var group = avatar.World.Id.ToString();

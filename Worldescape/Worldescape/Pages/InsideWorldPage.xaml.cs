@@ -1555,6 +1555,9 @@ namespace Worldescape
 
             _isLoggedIn = false;
 
+            if (App.World.IsEmpty())
+                return;
+
             if (await ConnectWithHub())
             {
                 await TryLoginToHub();
@@ -1620,6 +1623,9 @@ namespace Worldescape
         {
             try
             {
+                if (App.World.IsEmpty())
+                    return false;
+
                 Console.WriteLine("TryConnect: ATTEMP");
 
                 if (HubService.IsConnected())
