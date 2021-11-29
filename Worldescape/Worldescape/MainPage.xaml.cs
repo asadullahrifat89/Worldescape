@@ -55,18 +55,6 @@ namespace Worldescape
             LoggedInUserHolder.Visibility = Visibility.Collapsed;
         }
 
-        //private void LogoutHubService()
-        //{
-        //    var hubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
-
-        //    if (hubService.IsConnected())
-        //    {
-        //        hubService.Logout();
-        //        App.World = new World();
-        //        hubService.DisconnectAsync();
-        //    }
-        //}
-
         public void SetLoggedInUserModel()
         {
             string defaultImageUrl = string.Empty;
@@ -114,40 +102,6 @@ namespace Worldescape
         {
             Uri uri = new Uri(targetUri, UriKind.Relative);
             PageContainerFrame.Source = uri;
-
-            //Page page = null;
-
-            //switch (targetUri)
-            //{
-            //    case Constants.Page_AccountPage:
-            //        page = App.ServiceProvider.GetService(typeof(AccountPage)) as AccountPage;
-            //        break;
-            //    case Constants.Page_InsideWorldPage:
-            //        page = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;
-            //        break;
-            //    case Constants.Page_LoginPage:
-            //        page = App.ServiceProvider.GetService(typeof(LoginPage)) as LoginPage;
-            //        break;
-            //    case Constants.Page_SignupPage:
-            //        page = App.ServiceProvider.GetService(typeof(SignupPage)) as SignupPage;
-            //        break;
-            //    case Constants.Page_WorldsPage:
-            //        page = App.ServiceProvider.GetService(typeof(WorldsPage)) as WorldsPage;
-            //        break;
-            //    default:
-            //        break;
-            //}
-
-            //PageContainerFrame.Content = page;
-
-            //switch (targetUri)
-            //{
-            //    case Constants.Page_InsideWorldPage:
-            //        ((InsideWorldPage)page).CommenseConnection();
-            //        break;
-            //    default:
-            //        break;
-            //}
         }
 
         #endregion
@@ -165,7 +119,6 @@ namespace Worldescape
                 var result = MessageBox.Show("You are connected to a world. Are you sure you want to leave?", "Warning!", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
-                    //LogoutHubService();
                     ProfileDetails();
                 }
             }
@@ -182,7 +135,6 @@ namespace Worldescape
                 var result = MessageBox.Show("You are connected to a world. Are you sure you want to leave?", "Warning!", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
-                    //LogoutHubService();
                     Logout();
                 }
             }

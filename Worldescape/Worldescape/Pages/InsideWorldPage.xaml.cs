@@ -1580,16 +1580,13 @@ namespace Worldescape
         private async void HubService_ConnectionReconnected()
         {
             _ = await HubService.Login(Avatar);
-
             _isLoggedIn = true;
-
             Console.WriteLine("<<HubService_ConnectionReconnected");
         }
 
         private void HubService_ConnectionReconnecting()
         {
             _isLoggedIn = false;
-
             Console.WriteLine("<<HubService_ConnectionReconnecting");
         }
         #endregion        
@@ -2940,7 +2937,6 @@ namespace Worldescape
 
             fadeStoryBoard.Begin();
         }
-
 
         #endregion
 
