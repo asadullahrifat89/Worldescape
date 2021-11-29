@@ -67,7 +67,9 @@ namespace Worldescape
             }
             else
             {
-                MessageBox.Show("Failed to save your world. This shouldn't be happening. Try again.", "Failed..");
+                var contentDialogue = new ContentDialogueWindow(title: "Failed!", message: "Failed to save your world. This shouldn't be happening. Try again.");
+                contentDialogue.Show();
+
                 _mainPage.SetIsBusy(false);
             }
         }
@@ -99,7 +101,9 @@ namespace Worldescape
             }
             else
             {
-                MessageBox.Show("Failed to create your world. This shouldn't be happening. Try again.", "Failed..");
+                var contentDialogue = new ContentDialogueWindow(title: "Failed!", message: "Failed to create your world. This shouldn't be happening. Try again.");
+                contentDialogue.Show();
+
                 _mainPage.SetIsBusy(false);
             }
         }

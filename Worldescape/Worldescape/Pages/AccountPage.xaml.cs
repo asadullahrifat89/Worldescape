@@ -24,7 +24,7 @@ namespace Worldescape
         {
             InitializeComponent();
             AccountModelHolder.DataContext = AccountModel;
-            
+
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
@@ -59,7 +59,7 @@ namespace Worldescape
             }
 
             AccountModel.ImageUrl = App.User.ImageUrl; // If not set then default is set after logging in
-            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(App.User.ImageUrl.Contains("ms-appx:") ? App.User.ImageUrl: _urlHelper.BuildBlobUrl(App.Token, App.User.ImageUrl));
+            Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(App.User.ImageUrl.Contains("ms-appx:") ? App.User.ImageUrl : _urlHelper.BuildBlobUrl(App.Token, App.User.ImageUrl));
             TextBlock_Name.Text = App.User.Name;
         }
 
@@ -125,7 +125,9 @@ namespace Worldescape
 
             if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
             {
-                MessageBox.Show(response.ExternalError.ToString());
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
+                contentDialogue.Show();
+
                 _mainPage.SetIsBusy(false);
             }
             else
@@ -157,9 +159,9 @@ namespace Worldescape
         {
             var imagePickerWindow = new ImagePickerWindow(blobId: (blobId) =>
             {
-                AccountModel.ImageUrl = blobId;                
+                AccountModel.ImageUrl = blobId;
                 Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_urlHelper.BuildBlobUrl(App.Token, blobId));
-            },imageUrl: AccountModel.ImageUrl);
+            }, imageUrl: AccountModel.ImageUrl);
 
             imagePickerWindow.Show();
         }
@@ -211,7 +213,7 @@ namespace Worldescape
             else
             {
                 NavigateToLoginPage();
-            }            
+            }
         }
 
         #endregion

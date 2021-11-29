@@ -61,7 +61,9 @@ namespace Worldescape
 
             if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
             {
-                MessageBox.Show(response.ExternalError.ToString());
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
+                contentDialogue.Show();
+                
                 _mainPage.SetIsBusy(false);
             }
             else
@@ -70,7 +72,9 @@ namespace Worldescape
 
                 if (token.IsNullOrBlank())
                 {
-                    MessageBox.Show("Failed to login.");
+                    var contentDialogue = new ContentDialogueWindow(title: "Error!", message: "Failed to login.");
+                    contentDialogue.Show();
+
                     _mainPage.SetIsBusy(false);
                     return;
                 }
@@ -83,7 +87,9 @@ namespace Worldescape
 
                 if (user == null || user.IsEmpty())
                 {
-                    MessageBox.Show("Failed to login.");
+                    var contentDialogue = new ContentDialogueWindow(title: "Error!", message: "Failed to login.");
+                    contentDialogue.Show();
+                                        
                     _mainPage.SetIsBusy(false);
                     return;
                 }

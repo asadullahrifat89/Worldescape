@@ -573,9 +573,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Button_Leave_Click(object sender, RoutedEventArgs e)
+        private void Button_Leave_Click(object sender, RoutedEventArgs e)
         {
-            await LeaveWorld();
+            LeaveWorld();
         }
 
         #endregion
@@ -1619,12 +1619,13 @@ namespace Worldescape
             }
             else
             {
-                MessageBoxResult messageBoxResult = MessageBox.Show("Would you like to try again?", "Connection failure", MessageBoxButton.OKCancel);
-
-                if (messageBoxResult == MessageBoxResult.OK)
+                var contentDialogue = new ContentDialogueWindow(title: "Connection failure!", message: "Would you like to try again?", result: async (result) =>
                 {
-                    await ConnectWithHubThenLogin();
-                }
+                    if (result)
+                        await ConnectWithHubThenLogin();
+                });
+
+                contentDialogue.Show();
             }
         }
 
@@ -1673,12 +1674,13 @@ namespace Worldescape
             {
                 Console.WriteLine("TryHubLogin: FAILED");
 
-                MessageBoxResult messageBoxResult = MessageBox.Show("Would you like to try again?", "Login failure", MessageBoxButton.OKCancel);
-
-                if (messageBoxResult == MessageBoxResult.OK)
+                var contentDialogue = new ContentDialogueWindow(title: "Login failure!", message: "Would you like to try again?", result: async (result) =>
                 {
-                    await TryLoginToHub();
-                }
+                    if (result)
+                        await TryLoginToHub();
+                });
+
+                contentDialogue.Show();
             }
             else
             {
@@ -2089,16 +2091,15 @@ namespace Worldescape
         /// Leave this world. If user is connected to hub and logged in them logs the user out and disconnects from the hub.
         /// </summary>
         /// <returns></returns>
-        private async Task LeaveWorld()
+        private void LeaveWorld()
         {
-            var result = MessageBox.Show("Are you sure you want to leave this world?", "Leaving...", MessageBoxButton.OKCancel);
+            var contentDialogue = new ContentDialogueWindow(title: "Leaving!", message: "Are you sure you want to leave this world?", result: (result) =>
+            {
+                if (result)
+                    _mainPage.NavigateToPage(Constants.Page_WorldsPage);
+            });
 
-            if (result == MessageBoxResult.Cancel)
-                return;
-
-            //await LogoutFromHubThenDisconnect();
-
-            _mainPage.NavigateToPage(Constants.Page_WorldsPage);
+            contentDialogue.Show();
         }
 
         /// <summary>
@@ -2300,7 +2301,9 @@ namespace Worldescape
 
             if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
             {
-                MessageBox.Show(countResponse.ExternalError.ToString());
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: countResponse.ExternalError.ToString());
+                contentDialogue.Show();
+
                 _mainPage.SetIsBusy(false);
             }
 
@@ -2320,7 +2323,9 @@ namespace Worldescape
 
                     if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
                     {
-                        MessageBox.Show(response.ExternalError.ToString());
+                        var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
+                        contentDialogue.Show();
+
                         _mainPage.SetIsBusy(false);
                     }
 
@@ -2505,7 +2510,9 @@ namespace Worldescape
 
             if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
             {
-                MessageBox.Show(countResponse.ExternalError.ToString());
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: countResponse.ExternalError.ToString());
+                contentDialogue.Show();
+
                 _mainPage.SetIsBusy(false);
             }
 
@@ -2525,7 +2532,9 @@ namespace Worldescape
 
                     if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
                     {
-                        MessageBox.Show(response.ExternalError.ToString());
+                        var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
+                        contentDialogue.Show();
+
                         _mainPage.SetIsBusy(false);
                     }
 

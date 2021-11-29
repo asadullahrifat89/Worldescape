@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Windows.Foundation;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -17,12 +18,12 @@ namespace Worldescape
     {
         readonly Action<bool> _result;
 
-        public ContentDialogueWindow(string title, string message, Action<bool> result)
+        public ContentDialogueWindow(string title, string message, Action<bool> result = null)
         {
             InitializeComponent();
             _result = result;
             Title = title;
-            ContentScrollViewer.Content = message;
+            TextBlock_Message.Text = message;
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)

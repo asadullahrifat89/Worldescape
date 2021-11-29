@@ -57,7 +57,8 @@ namespace Worldescape
 
             if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
             {
-                MessageBox.Show(response.ExternalError.ToString());
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
+                contentDialogue.Show();
             }
             else
             {

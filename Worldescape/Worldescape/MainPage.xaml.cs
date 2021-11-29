@@ -116,11 +116,13 @@ namespace Worldescape
             }
             else
             {
-                var result = MessageBox.Show("You are connected to a world. Are you sure you want to leave?", "Warning!", MessageBoxButton.OKCancel);
-                if (result == MessageBoxResult.OK)
+                var contentDialogue = new ContentDialogueWindow(title: "Warning!", message: "You are connected to a world. Are you sure you want to leave?", result: (result) =>
                 {
-                    ProfileDetails();
-                }
+                    if (result)
+                        ProfileDetails();
+                });
+
+                contentDialogue.Show();               
             }
         }
 
@@ -132,11 +134,13 @@ namespace Worldescape
             }
             else
             {
-                var result = MessageBox.Show("You are connected to a world. Are you sure you want to leave?", "Warning!", MessageBoxButton.OKCancel);
-                if (result == MessageBoxResult.OK)
+                var contentDialogue = new ContentDialogueWindow(title: "Warning!", message: "You are connected to a world. Are you sure you want to leave?", result: (result) =>
                 {
-                    Logout();
-                }
+                    if (result)
+                        Logout();
+                });
+
+                contentDialogue.Show();
             }
         }
 

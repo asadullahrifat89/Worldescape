@@ -68,7 +68,8 @@ namespace Worldescape
 
             if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
             {
-                MessageBox.Show(response.ExternalError.ToString());
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
+                contentDialogue.Show();
             }
 
             var worlds = response.Worlds;
@@ -136,7 +137,8 @@ namespace Worldescape
 
             if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
             {
-                MessageBox.Show(countResponse.ExternalError.ToString());
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: countResponse.ExternalError.ToString());
+                contentDialogue.Show();
             }
 
             _totalPageCount = _pageNumberHelper.GetTotalPageCount(_pageSize, countResponse.Count);
@@ -170,13 +172,17 @@ namespace Worldescape
         private void ButtonWorld_Click(object sender, RoutedEventArgs e)
         {
             var world = ((Button)sender).Tag as World;
-            var result = MessageBox.Show("Would you like to go to this world?", $"Go to {world.Name}", MessageBoxButton.OKCancel);
 
-            if (result == MessageBoxResult.OK)
+            var contentDialogue = new ContentDialogueWindow(title: $"Go to {world.Name}", message: "Would you like to go to this world?", result: (result) =>
             {
-                App.World = world;
-                _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
-            }
+                if (result)
+                {
+                    App.World = world;
+                    _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
+                }
+            });
+
+            contentDialogue.Show();
         }
 
         private async void ButtonPreview_Click(object sender, RoutedEventArgs e)
@@ -219,17 +225,20 @@ namespace Worldescape
         {
             WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow((world) =>
             {
-                var result = MessageBox.Show("Would you like to teleport to your created world now?", "Teleport", MessageBoxButton.OKCancel);
+                var contentDialogue = new ContentDialogueWindow($"Teleport", "Would you like to teleport to your created world now?", (result) =>
+                {
+                    if (result)
+                    {
+                        App.World = world;
+                        _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
+                    }
+                    else
+                    {
+                        SearchWorlds();
+                    }
+                });
 
-                if (result == MessageBoxResult.OK)
-                {
-                    App.World = world;
-                    _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
-                }
-                else
-                {
-                    SearchWorlds();
-                }
+                contentDialogue.Show();
             });
             worldCreatorWindow.Show();
         }
