@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Worldescape.Data;
+using Worldescape.Common;
 using Worldescape.Service;
 
 namespace Worldescape

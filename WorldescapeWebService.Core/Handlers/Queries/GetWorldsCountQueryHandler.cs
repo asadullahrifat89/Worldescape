@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using Worldescape.Data;
+using Worldescape.Common;
 using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;

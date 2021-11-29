@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Service;
-using Worldescape.Data;
+using Worldescape.Common;
 using Image = Windows.UI.Xaml.Controls.Image;
 using Windows.UI.Input;
 

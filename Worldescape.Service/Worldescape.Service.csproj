@@ -16,7 +16,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Worldescape.Data\Worldescape.Data.csproj" />
+	  <ProjectReference Include="..\Worldescape.Common\Worldescape.Common.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

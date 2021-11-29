@@ -14,8 +14,8 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Worldescape.Assets\Worldescape.Assets.csproj" />
+		<ProjectReference Include="..\Worldescape.Common\Worldescape.Common.csproj" />
 		<ProjectReference Include="..\Worldescape.Database\Worldescape.Database.csproj" />
-		<ProjectReference Include="..\Worldescape.Data\Worldescape.Data.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using Worldescape.Data;
+using Worldescape.Common;
 
 var executingAssemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
 

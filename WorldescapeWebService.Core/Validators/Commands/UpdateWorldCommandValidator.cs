@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Worldescape.Data;
+using Worldescape.Common;
 using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;

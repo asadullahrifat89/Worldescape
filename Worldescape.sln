@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{6DE6833C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{2F265F2C-582E-4EFC-BF8D-CF525BFB55A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape.Data", "Worldescape.Data\Worldescape.Data.csproj", "{70D12ACE-4398-4617-BEA8-3FB19D8173AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape.Common", "Worldescape.Common\Worldescape.Common.csproj", "{70D12ACE-4398-4617-BEA8-3FB19D8173AE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worldescape", "Worldescape\Worldescape\Worldescape.csproj", "{F7DD3542-154A-4EAD-86BD-0E3590BA6A38}"
 EndProject

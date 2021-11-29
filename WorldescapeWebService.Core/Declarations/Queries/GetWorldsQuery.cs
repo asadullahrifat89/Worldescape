@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Worldescape.Data;
+using Worldescape.Common;
 
 namespace WorldescapeWebService.Core;
 

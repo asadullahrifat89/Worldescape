@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
-using Worldescape.Data;
+using Worldescape.Common;
 using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;

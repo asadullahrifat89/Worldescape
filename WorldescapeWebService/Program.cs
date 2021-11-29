@@ -6,7 +6,7 @@ using WorldescapeWebService;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Http.Connections;
 using Worldescape.Database;
-using Worldescape.Data;
+using Worldescape.Common;
 
 #region Service Registration
 
