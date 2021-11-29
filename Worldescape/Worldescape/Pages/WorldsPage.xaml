@@ -24,7 +24,8 @@
                 Grid.Column="1"
                 Width="50"
                 Margin="5,0"
-                Content="&#xE8D4;"
+                Click="ToggleButton_UsersWorldsOnly_Click"
+                Content="&#xE928;"
                 FontFamily="Segoe MDL2 Assets"
                 FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
@@ -37,7 +38,7 @@
                 VerticalAlignment="Center"
                 FontSize="16"
                 KeyDown="TextBox_SearchWorldsText_KeyDown"
-                PlaceholderText="Search worlds"
+                PlaceholderText="Search all worlds..."
                 Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
                 TextAlignment="Left" />
 

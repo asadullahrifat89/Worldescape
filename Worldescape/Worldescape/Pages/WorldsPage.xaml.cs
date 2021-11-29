@@ -177,6 +177,11 @@ namespace Worldescape
 
         #region Button Events
 
+        private void ToggleButton_UsersWorldsOnly_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox_SearchWorldsText.PlaceholderText = ToggleButton_UsersWorldsOnly.IsChecked.Value ? "Search my worlds..." : "Search all worlds...";
+        }
+
         private void Button_SearchWorld_Click(object sender, RoutedEventArgs e)
         {
             SearchWorlds();
@@ -203,9 +208,7 @@ namespace Worldescape
             if (!_settingWorlds)
             {
                 _pageIndex = _paginationHelper.GetPreviousPageNumber(_totalPageCount, _pageIndex);
-
                 await GetWorlds();
-
                 GeneratePageNumbers();
             }
         }
@@ -215,9 +218,7 @@ namespace Worldescape
             if (!_settingWorlds)
             {
                 _pageIndex = _paginationHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
-
                 await GetWorlds();
-
                 GeneratePageNumbers();
             }
         }
@@ -227,9 +228,7 @@ namespace Worldescape
             if (!_settingWorlds)
             {
                 _pageIndex = Convert.ToInt32(((Button)sender).Content);
-
                 await GetWorlds();
-
                 GeneratePageNumbers();
             }
         }
@@ -270,6 +269,6 @@ namespace Worldescape
 
         #endregion
 
-        #endregion
+        #endregion        
     }
 }
