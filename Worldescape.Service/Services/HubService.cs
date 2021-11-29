@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Connections;
@@ -39,14 +38,14 @@ namespace Worldescape.Service
 
         // Construct World Events
         public event Action<Construct> NewBroadcastConstruct;
-        public event Action<Construct[]> NewBroadcastConstructs;
+        //public event Action<Construct[]> NewBroadcastConstructs;
         public event Action<int> NewRemoveConstruct;
-        public event Action<int[]> NewRemoveConstructs;
+        //public event Action<int[]> NewRemoveConstructs;
         public event Action<int, int> NewBroadcastConstructPlacement;
         public event Action<int, float> NewBroadcastConstructRotation;
-        public event Action<ConcurrentDictionary<int, float>> NewBroadcastConstructRotations;
+        //public event Action<ConcurrentDictionary<int, float>> NewBroadcastConstructRotations;
         public event Action<int, float> NewBroadcastConstructScale;
-        public event Action<int[], float> NewBroadcastConstructScales;
+        //public event Action<int[], float> NewBroadcastConstructScales;
         public event Action<int, double, double, int> NewBroadcastConstructMovement;
 
         #endregion
@@ -85,14 +84,14 @@ namespace Worldescape.Service
 
             // Construct
             _connection.On<Construct>(Constants.BroadcastedConstruct, (construct) => NewBroadcastConstruct?.Invoke(construct));
-            _connection.On<Construct[]>(Constants.BroadcastedConstructs, (constructs) => NewBroadcastConstructs?.Invoke(constructs));
+            //_connection.On<Construct[]>(Constants.BroadcastedConstructs, (constructs) => NewBroadcastConstructs?.Invoke(constructs));
             _connection.On<int>(Constants.RemovedConstruct, (constructId) => NewRemoveConstruct?.Invoke(constructId));
-            _connection.On<int[]>(Constants.RemovedConstructs, (constructIds) => NewRemoveConstructs?.Invoke(constructIds));
+            //_connection.On<int[]>(Constants.RemovedConstructs, (constructIds) => NewRemoveConstructs?.Invoke(constructIds));
             _connection.On<int, int>(Constants.BroadcastedConstructPlacement, (constructId, z) => NewBroadcastConstructPlacement?.Invoke(constructId, z));
             _connection.On<int, float>(Constants.BroadcastedConstructRotation, (constructId, rotation) => NewBroadcastConstructRotation?.Invoke(constructId, rotation));
-            _connection.On<ConcurrentDictionary<int, float>>(Constants.BroadcastedConstructRotations, (constructIds) => NewBroadcastConstructRotations?.Invoke(constructIds));
+            //_connection.On<ConcurrentDictionary<int, float>>(Constants.BroadcastedConstructRotations, (constructIds) => NewBroadcastConstructRotations?.Invoke(constructIds));
             _connection.On<int, float>(Constants.BroadcastedConstructScale, (constructId, scale) => NewBroadcastConstructScale?.Invoke(constructId, scale));
-            _connection.On<int[], float>(Constants.BroadcastedConstructScales, (constructIds, scale) => NewBroadcastConstructScales?.Invoke(constructIds, scale));
+            //_connection.On<int[], float>(Constants.BroadcastedConstructScales, (constructIds, scale) => NewBroadcastConstructScales?.Invoke(constructIds, scale));
             _connection.On<int, double, double, int>(Constants.BroadcastedConstructMovement, (constructId, x, y, z) => NewBroadcastConstructMovement?.Invoke(constructId, x, y, z));
 
             // Connection
@@ -238,11 +237,11 @@ namespace Worldescape.Service
             await _connection.SendAsync(Constants.BroadcastConstruct, construct);
         }
 
-        public async Task BroadcastConstructs(Construct[] constructs)
-        {
-            Console.WriteLine(">>HubService: BroadcastConstructsAsync");
-            await _connection.SendAsync(Constants.BroadcastConstructs, constructs);
-        }
+        //public async Task BroadcastConstructs(Construct[] constructs)
+        //{
+        //    Console.WriteLine(">>HubService: BroadcastConstructsAsync");
+        //    await _connection.SendAsync(Constants.BroadcastConstructs, constructs);
+        //}
 
         public async Task RemoveConstruct(int constructId)
         {
@@ -250,11 +249,11 @@ namespace Worldescape.Service
             await _connection.SendAsync(Constants.RemoveConstruct, constructId);
         }
 
-        public async Task RemoveConstructs(int[] constructIds)
-        {
-            Console.WriteLine(">>HubService: RemoveConstructsAsync");
-            await _connection.SendAsync(Constants.RemoveConstructs, constructIds);
-        }
+        //public async Task RemoveConstructs(int[] constructIds)
+        //{
+        //    Console.WriteLine(">>HubService: RemoveConstructsAsync");
+        //    await _connection.SendAsync(Constants.RemoveConstructs, constructIds);
+        //}
 
         public async Task BroadcastConstructPlacement(int constructId, int z)
         {
@@ -268,11 +267,11 @@ namespace Worldescape.Service
             await _connection.SendAsync(Constants.BroadcastConstructRotation, constructId, rotation);
         }
 
-        public async Task BroadcastConstructRotations(ConcurrentDictionary<int, float> constructIds)
-        {
-            Console.WriteLine(">>HubService: BroadcastConstructRotationsAsync");
-            await _connection.SendAsync(Constants.BroadcastConstructRotations, constructIds);
-        }
+        //public async Task BroadcastConstructRotations(ConcurrentDictionary<int, float> constructIds)
+        //{
+        //    Console.WriteLine(">>HubService: BroadcastConstructRotationsAsync");
+        //    await _connection.SendAsync(Constants.BroadcastConstructRotations, constructIds);
+        //}
 
         public async Task BroadcastConstructScale(int constructId, float scale)
         {
@@ -280,11 +279,11 @@ namespace Worldescape.Service
             await _connection.SendAsync(Constants.BroadcastConstructScale, constructId, scale);
         }
 
-        public async Task BroadcastConstructScales(int[] constructIds, float scale)
-        {
-            Console.WriteLine(">>HubService: BroadcastConstructScalesAsync");
-            await _connection.SendAsync(Constants.BroadcastConstructScales, constructIds, scale);
-        }
+        //public async Task BroadcastConstructScales(int[] constructIds, float scale)
+        //{
+        //    Console.WriteLine(">>HubService: BroadcastConstructScalesAsync");
+        //    await _connection.SendAsync(Constants.BroadcastConstructScales, constructIds, scale);
+        //}
 
         public async Task BroadcastConstructMovement(int constructId, double x, double y, int z)
         {

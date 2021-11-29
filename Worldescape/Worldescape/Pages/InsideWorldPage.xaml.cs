@@ -1290,10 +1290,10 @@ namespace Worldescape
             }
         }
 
-        private void HubService_NewBroadcastConstructScales(int[] constructIds, float scale)
-        {
+        //private void HubService_NewBroadcastConstructScales(int[] constructIds, float scale)
+        //{
 
-        }
+        //}
 
         private void HubService_NewBroadcastConstructRotation(int constructId, float rotation)
         {
@@ -1308,10 +1308,10 @@ namespace Worldescape
             }
         }
 
-        private void HubService_NewBroadcastConstructRotations(ConcurrentDictionary<int, float> obj)
-        {
+        //private void HubService_NewBroadcastConstructRotations(ConcurrentDictionary<int, float> obj)
+        //{
 
-        }
+        //}
 
         private void HubService_NewBroadcastConstructPlacement(int constructId, int z)
         {
@@ -1339,10 +1339,10 @@ namespace Worldescape
             }
         }
 
-        private void HubService_NewRemoveConstructs(int[] obj)
-        {
+        //private void HubService_NewRemoveConstructs(int[] obj)
+        //{
 
-        }
+        //}
 
         private void HubService_NewBroadcastConstruct(Construct construct)
         {
@@ -1366,10 +1366,10 @@ namespace Worldescape
             Console.WriteLine("<<HubService_NewBroadcastConstruct: OK");
         }
 
-        private void HubService_NewBroadcastConstructs(Construct[] obj)
-        {
+        //private void HubService_NewBroadcastConstructs(Construct[] obj)
+        //{
 
-        }
+        //}
 
         #endregion
 
@@ -1710,7 +1710,7 @@ namespace Worldescape
 
                         _mainPage.SetIsBusy(false);
 
-                        await GetConstructsAfterHubLogin();
+                        await GetConstructs();
 
                         _isLoggedIn = true;
 
@@ -2123,18 +2123,18 @@ namespace Worldescape
             #region Construct World Events
 
             HubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
-            HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
+            //HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
 
             HubService.NewRemoveConstruct += HubService_NewRemoveConstruct;
-            HubService.NewRemoveConstructs += HubService_NewRemoveConstructs;
+            //HubService.NewRemoveConstructs += HubService_NewRemoveConstructs;
 
             HubService.NewBroadcastConstructPlacement += HubService_NewBroadcastConstructPlacement;
 
             HubService.NewBroadcastConstructRotation += HubService_NewBroadcastConstructRotation;
-            HubService.NewBroadcastConstructRotations += HubService_NewBroadcastConstructRotations;
+            //HubService.NewBroadcastConstructRotations += HubService_NewBroadcastConstructRotations;
 
             HubService.NewBroadcastConstructScale += HubService_NewBroadcastConstructScale;
-            HubService.NewBroadcastConstructScales += HubService_NewBroadcastConstructScales;
+            //HubService.NewBroadcastConstructScales += HubService_NewBroadcastConstructScales;
 
             HubService.NewBroadcastConstructMovement += HubService_NewBroadcastConstructMovement;
 
@@ -2183,18 +2183,18 @@ namespace Worldescape
             #region Construct World Events
 
             HubService.NewBroadcastConstruct -= HubService_NewBroadcastConstruct;
-            HubService.NewBroadcastConstructs -= HubService_NewBroadcastConstructs;
+            //HubService.NewBroadcastConstructs -= HubService_NewBroadcastConstructs;
 
             HubService.NewRemoveConstruct -= HubService_NewRemoveConstruct;
-            HubService.NewRemoveConstructs -= HubService_NewRemoveConstructs;
+            //HubService.NewRemoveConstructs -= HubService_NewRemoveConstructs;
 
             HubService.NewBroadcastConstructPlacement -= HubService_NewBroadcastConstructPlacement;
 
             HubService.NewBroadcastConstructRotation -= HubService_NewBroadcastConstructRotation;
-            HubService.NewBroadcastConstructRotations -= HubService_NewBroadcastConstructRotations;
+            //HubService.NewBroadcastConstructRotations -= HubService_NewBroadcastConstructRotations;
 
             HubService.NewBroadcastConstructScale -= HubService_NewBroadcastConstructScale;
-            HubService.NewBroadcastConstructScales -= HubService_NewBroadcastConstructScales;
+            //HubService.NewBroadcastConstructScales -= HubService_NewBroadcastConstructScales;
 
             HubService.NewBroadcastConstructMovement -= HubService_NewBroadcastConstructMovement;
 
@@ -2447,7 +2447,11 @@ namespace Worldescape
 
         #region Construct   
 
-        private async Task GetConstructsAfterHubLogin()
+        /// <summary>
+        /// Get constructs for the current world.
+        /// </summary>
+        /// <returns></returns>
+        private async Task GetConstructs()
         {
             // Get constructs count for this world
             var countResponse = await _httpServiceHelper.SendGetRequest<GetConstructsCountQueryResponse>(
@@ -2529,6 +2533,13 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Aligns a construct button to the center point of the pressed pointer location.
+        /// </summary>
+        /// <param name="pressedPoint"></param>
+        /// <param name="constructButton"></param>
+        /// <param name="construct"></param>
+        /// <returns></returns>
         private Construct CenterAlignNewConstructButton(PointerPoint pressedPoint, Button constructButton, Construct construct)
         {
             return _constructHelper.CenterAlignNewConstructButton(pressedPoint, constructButton, construct);

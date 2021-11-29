@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using Worldescape.Data;
 
@@ -31,14 +30,14 @@ namespace Worldescape.Service
 
         // Construct
         event Action<Construct> NewBroadcastConstruct;
-        event Action<Construct[]> NewBroadcastConstructs;
+        //event Action<Construct[]> NewBroadcastConstructs;
         event Action<int> NewRemoveConstruct;
-        event Action<int[]> NewRemoveConstructs;
+        //event Action<int[]> NewRemoveConstructs;
         event Action<int, int> NewBroadcastConstructPlacement;
         event Action<int, float> NewBroadcastConstructRotation;
-        event Action<ConcurrentDictionary<int, float>> NewBroadcastConstructRotations;
+        //event Action<ConcurrentDictionary<int, float>> NewBroadcastConstructRotations;
         event Action<int, float> NewBroadcastConstructScale;
-        event Action<int[], float> NewBroadcastConstructScales;
+        //event Action<int[], float> NewBroadcastConstructScales;
         event Action<int, double, double, int> NewBroadcastConstructMovement;
 
         #endregion
@@ -89,21 +88,21 @@ namespace Worldescape.Service
 
         Task BroadcastConstruct(Construct construct);
 
-        Task BroadcastConstructs(Construct[] constructs);
+        //Task BroadcastConstructs(Construct[] constructs);
 
         Task RemoveConstruct(int constructId);
 
-        Task RemoveConstructs(int[] constructIds);
+        //Task RemoveConstructs(int[] constructIds);
 
         Task BroadcastConstructPlacement(int constructId, int z);
 
         Task BroadcastConstructRotation(int constructId, float rotation);
 
-        Task BroadcastConstructRotations(ConcurrentDictionary<int, float> constructIds);
+        //Task BroadcastConstructRotations(ConcurrentDictionary<int, float> constructIds);
 
         Task BroadcastConstructScale(int constructId, float scale);
 
-        Task BroadcastConstructScales(int[] constructIds, float scale);
+        //Task BroadcastConstructScales(int[] constructIds, float scale);
 
         Task BroadcastConstructMovement(int constructId, double x, double y, int z);
 

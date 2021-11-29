@@ -357,22 +357,22 @@ namespace WorldescapeWebService
         }
 
 
-        [HubMethodName(Constants.BroadcastConstructs)]
-        public async void BroadcastConstructs(Construct[] constructs)
-        {
-            if (constructs != null && constructs.Any())
-            {
-                var group = GetUsersGroup(GetCallingUser());
+        //[HubMethodName(Constants.BroadcastConstructs)]
+        //public async void BroadcastConstructs(Construct[] constructs)
+        //{
+        //    if (constructs != null && constructs.Any())
+        //    {
+        //        var group = GetUsersGroup(GetCallingUser());
 
-                await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructs, constructs);
+        //        await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructs, constructs);
 
-                foreach (var construct in constructs)
-                {
-                    AddOrUpdateConstructInConstructs(construct);
-                }
-                _logger.LogInformation($"<> {constructs.Count()} BroadcastConstructs - {DateTime.Now} World: {group}");
-            }
-        }
+        //        foreach (var construct in constructs)
+        //        {
+        //            AddOrUpdateConstructInConstructs(construct);
+        //        }
+        //        _logger.LogInformation($"<> {constructs.Count()} BroadcastConstructs - {DateTime.Now} World: {group}");
+        //    }
+        //}
 
 
         [HubMethodName(Constants.RemoveConstruct)]
@@ -390,23 +390,23 @@ namespace WorldescapeWebService
         }
 
 
-        [HubMethodName(Constants.RemoveConstructs)]
-        public async void RemoveConstructs(int[] constructIds)
-        {
-            if (constructIds != null && constructIds.Any())
-            {
-                var group = GetUsersGroup(GetCallingUser());
+        //[HubMethodName(Constants.RemoveConstructs)]
+        //public async void RemoveConstructs(int[] constructIds)
+        //{
+        //    if (constructIds != null && constructIds.Any())
+        //    {
+        //        var group = GetUsersGroup(GetCallingUser());
 
-                await Clients.OthersInGroup(group).SendAsync(Constants.RemovedConstructs, constructIds);
+        //        await Clients.OthersInGroup(group).SendAsync(Constants.RemovedConstructs, constructIds);
 
-                foreach (var constructId in constructIds)
-                {
-                    RemoveConstructFromConstructs(constructId);
-                }
+        //        foreach (var constructId in constructIds)
+        //        {
+        //            RemoveConstructFromConstructs(constructId);
+        //        }
 
-                _logger.LogInformation($"<> {constructIds.Count()} RemoveConstructs - {DateTime.Now} World: {group}");
-            }
-        }
+        //        _logger.LogInformation($"<> {constructIds.Count()} RemoveConstructs - {DateTime.Now} World: {group}");
+        //    }
+        //}
 
 
         [HubMethodName(Constants.BroadcastConstructPlacement)]
@@ -438,22 +438,22 @@ namespace WorldescapeWebService
         }
 
 
-        [HubMethodName(Constants.BroadcastConstructRotations)]
-        public async void BroadcastConstructRotations(ConcurrentDictionary<int, float> constructIds)
-        {
-            if (constructIds != null)
-            {
-                var group = GetUsersGroup(GetCallingUser());
-                await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructRotations, constructIds);
+        //[HubMethodName(Constants.BroadcastConstructRotations)]
+        //public async void BroadcastConstructRotations(ConcurrentDictionary<int, float> constructIds)
+        //{
+        //    if (constructIds != null)
+        //    {
+        //        var group = GetUsersGroup(GetCallingUser());
+        //        await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructRotations, constructIds);
 
-                foreach (var constructId in constructIds)
-                {
-                    UpdateConstructRotationInConstructs(constructId.Key, constructId.Value);
-                }
+        //        foreach (var constructId in constructIds)
+        //        {
+        //            UpdateConstructRotationInConstructs(constructId.Key, constructId.Value);
+        //        }
 
-                _logger.LogInformation($"<> {constructIds.Count()} BroadcastConstructRotations - {DateTime.Now} World: {group}");
-            }
-        }
+        //        _logger.LogInformation($"<> {constructIds.Count()} BroadcastConstructRotations - {DateTime.Now} World: {group}");
+        //    }
+        //}
 
 
         [HubMethodName(Constants.BroadcastConstructScale)]
@@ -471,23 +471,23 @@ namespace WorldescapeWebService
         }
 
 
-        [HubMethodName(Constants.BroadcastConstructScales)]
-        public async void BroadcastConstructScales(int[] constructIds, float scale)
-        {
-            if (constructIds != null && constructIds.Any())
-            {
-                var group = GetUsersGroup(GetCallingUser());
+        //[HubMethodName(Constants.BroadcastConstructScales)]
+        //public async void BroadcastConstructScales(int[] constructIds, float scale)
+        //{
+        //    if (constructIds != null && constructIds.Any())
+        //    {
+        //        var group = GetUsersGroup(GetCallingUser());
 
-                await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructScales, constructIds, scale);
+        //        await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructScales, constructIds, scale);
 
-                foreach (var constructId in constructIds)
-                {
-                    UpdateConstructScaleInConstructs(constructId, scale);
-                }
+        //        foreach (var constructId in constructIds)
+        //        {
+        //            UpdateConstructScaleInConstructs(constructId, scale);
+        //        }
 
-                _logger.LogInformation($"<> {constructIds.Count()} BroadcastConstructScales - {DateTime.Now} World: {group}");
-            }
-        }
+        //        _logger.LogInformation($"<> {constructIds.Count()} BroadcastConstructScales - {DateTime.Now} World: {group}");
+        //    }
+        //}
 
 
         [HubMethodName(Constants.BroadcastConstructMovement)]
