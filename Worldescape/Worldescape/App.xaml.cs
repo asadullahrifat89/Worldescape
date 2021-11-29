@@ -81,6 +81,7 @@ namespace Worldescape
 
 #if DEBUG
             MessageBox.Show(e.ExceptionObject.ToString());
+            e.Handled = true;
 #else
             Console.WriteLine(e.ExceptionObject.Message);            
             e.Handled = true;
