@@ -101,6 +101,11 @@ namespace Worldescape
 
         #region Page Events
 
+        /// <summary>
+        /// Event fired when this page is unloaded. Logs out the current user from hub, disconnects from hub and unsubscribes from all hub events.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             if (HubService != null)
@@ -1230,6 +1235,10 @@ namespace Worldescape
 
         #region Avatar Images
 
+        /// <summary>
+        /// Show avatar character images in and around message controls.
+        /// </summary>
+        /// <param name="receiverUiElement"></param>
         private void ShowMessagingAvatar(UIElement receiverUiElement)
         {
             if (receiverUiElement == null)
@@ -1249,11 +1258,17 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Shows messaging controls.
+        /// </summary>
         private void ShowMessagingControls()
         {
             MessagingControlsHolder.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Hides messaging controls.
+        /// </summary>
         private void HideMessagingControls()
         {
             MessagingControlsHolder.Visibility = Visibility.Collapsed;
@@ -1374,6 +1389,7 @@ namespace Worldescape
         #endregion
 
         #region Avatar Connection
+
         private void HubService_AvatarReconnected(int avatarId)
         {
             if (avatarId > 0)
@@ -1460,9 +1476,11 @@ namespace Worldescape
                 Console.WriteLine("<<HubService_AvatarLoggedIn: OK");
             }
         }
+        
         #endregion
 
         #region Avatar
+
         private void HubService_NewBroadcastAvatarActivityStatus(int avatarId, int activityStatus)
         {
             if (avatarId > 0)
@@ -1509,6 +1527,7 @@ namespace Worldescape
                 }
             }
         }
+        
         #endregion
 
         #region Message
@@ -1589,6 +1608,7 @@ namespace Worldescape
             _isLoggedIn = false;
             Console.WriteLine("<<HubService_ConnectionReconnecting");
         }
+        
         #endregion        
 
         #endregion
@@ -1597,6 +1617,9 @@ namespace Worldescape
 
         #region World
 
+        /// <summary>
+        /// Shows current world.
+        /// </summary>
         private void ShowCurrentWorld()
         {
             if (!App.World.IsEmpty())
