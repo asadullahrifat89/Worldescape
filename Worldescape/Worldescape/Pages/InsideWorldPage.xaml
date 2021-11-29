@@ -243,21 +243,23 @@
                             <!--  Create post, shows a child window to create a post  -->
                             <Button
                                 x:Name="Button_CreatePost"
-                                MinWidth="110"
+                                Width="70"
                                 Margin="5,10"
                                 Click="Button_CreatePost_Click"
-                                Content="Post"
-                                FontSize="20"
+                                Content="&#xE8F3;"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontWeight="Normal"
                                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                             <!--  Show statuses  -->
                             <ToggleButton
                                 x:Name="Button_SelectStatus"
-                                MinWidth="110"
+                                Width="70"
                                 Margin="5,10"
                                 Click="Button_SelectStatus_Click"
-                                Content="Status"
-                                FontSize="20"
+                                Content="&#xEDE3;"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontWeight="Normal"
                                 Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
                         </WrapPanel>
@@ -272,11 +274,12 @@
                             <!--  Message, activates messaging UI  -->
                             <Button
                                 x:Name="Button_MessageAvatar"
-                                MinWidth="110"
-                                Margin="5,10"
+                                Width="70"
+                                Margin="0,10"
                                 Click="Button_MessageAvatar_Click"
-                                Content="Message"
-                                FontSize="20"
+                                Content="&#xE8F2;"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontWeight="Normal"
                                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                         </WrapPanel>
@@ -515,7 +518,7 @@
 
             </WrapPanel>
 
-            <!--  Bottom middle chat controls  -->
+            <!--  Bottom middle message box, avatar images on left and right and send message button  -->
             <StackPanel
                 x:Name="MessagingControlsHolder"
                 HorizontalAlignment="Center"
@@ -549,11 +552,12 @@
                 <!--  Send  -->
                 <Button
                     x:Name="Button_SendUnicastMessage"
-                    MinWidth="110"
+                    Width="70"
                     Margin="10"
                     Click="Button_SendUnicastMessage_Click"
-                    Content="Send"
-                    FontSize="20"
+                    Content="&#xE724;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
             </StackPanel>

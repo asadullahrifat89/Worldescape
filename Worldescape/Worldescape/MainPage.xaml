@@ -78,7 +78,7 @@
                     Visibility="{Binding ElementName=MyAcountButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel>
                         <MenuItem Click="MenuItem_ProfileDetails_Click" Style="{StaticResource MaterialDesign_ContextMenuItem_Style}">
-                            <TextBlock>
+                            <TextBlock Foreground="{StaticResource MaterialDesign_DefaultAccentColor}">
                                 <Run
                                     FontFamily="Segoe MDL2 Assets"
                                     FontWeight="Normal"
@@ -90,7 +90,7 @@
                             </TextBlock>
                         </MenuItem>
                         <MenuItem Click="MenuItem_Logout_Click" Style="{StaticResource MaterialDesign_ContextMenuItem_Style}">
-                            <TextBlock>
+                            <TextBlock Foreground="{StaticResource MaterialDesign_DefaultAccentColor}">
                                 <Run
                                     FontFamily="Segoe MDL2 Assets"
                                     FontWeight="Normal"

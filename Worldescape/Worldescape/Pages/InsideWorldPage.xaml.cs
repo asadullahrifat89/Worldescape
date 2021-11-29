@@ -370,7 +370,7 @@ namespace Worldescape
                 var currrentPoint = e.GetCurrentPoint(Canvas_Root);
 
                 // Align avatar to clicked point
-                AlignAvatarFaceDirection(currrentPoint.Position.X);
+                AlignUsersAvatarFaceDirection(currrentPoint.Position.X);
 
                 //var maxX = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
 
@@ -427,7 +427,7 @@ namespace Worldescape
                 var construct = taggedObject as Construct;
 
                 // Align avatar to construct point
-                AlignAvatarFaceDirection(construct.Coordinate.X);
+                AlignUsersAvatarFaceDirection(construct.Coordinate.X);
 
                 await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
 
@@ -465,7 +465,7 @@ namespace Worldescape
                 construct = CenterAlignNewConstructButton(pressedPoint, constructButton, construct);
 
                 // Align avatar to construct point
-                AlignAvatarFaceDirection(construct.Coordinate.X);
+                AlignUsersAvatarFaceDirection(construct.Coordinate.X);
 
                 await HubService.BroadcastConstruct(construct);
 
@@ -505,7 +505,7 @@ namespace Worldescape
                 construct = CenterAlignNewConstructButton(pressedPoint, constructButton, construct);
 
                 // Align avatar to construct point
-                AlignAvatarFaceDirection(construct.Coordinate.X);
+                AlignUsersAvatarFaceDirection(construct.Coordinate.X);
 
                 await HubService.BroadcastConstruct(construct);
 
@@ -1216,15 +1216,17 @@ namespace Worldescape
 
                 var taggedAvatar = ((Button)uielement).Tag as Avatar;
 
-                var userImage = GetAvatarUserPicture(taggedAvatar);
-                var avatarImage = GetAvatarCharacterPicture(taggedAvatar);
+                var userImage = GetAvatarUserPicture(taggedAvatar, 80);
+                var avatarImage = GetAvatarCharacterPicture(taggedAvatar, 30);
+                avatarImage.HorizontalAlignment = HorizontalAlignment.Right;
+                avatarImage.VerticalAlignment = VerticalAlignment.Bottom;
 
-                StackPanel stackPanelContent = new StackPanel() { Orientation = Orientation.Vertical };
+                Grid content = new Grid();
 
-                stackPanelContent.Children.Add(userImage);
-                stackPanelContent.Children.Add(avatarImage);
+                content.Children.Add(userImage);
+                content.Children.Add(avatarImage);
 
-                SelectedAvatarHolder.Content = stackPanelContent;
+                SelectedAvatarHolder.Content = content;
                 SelectedAvatarHolder.Visibility = Visibility.Visible;
 
                 SetAvatarDetailsOnSideCard();
@@ -1251,10 +1253,10 @@ namespace Worldescape
                 var receiver = ((Button)receiverUiElement).Tag as Avatar;
 
                 // If receiver avatar is forward from current avatar
-                AlignAvatarFaceDirection(receiver.Coordinate.X);
+                AlignUsersAvatarFaceDirection(receiver.Coordinate.X);
 
-                MessagingFromAvatarHolder.Content = GetImageFromUiElement(_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id));
-                MessagingToAvatarHolder.Content = GetImageFromUiElement(receiverUiElement);
+                MessagingFromAvatarHolder.Content = _avatarHelper.GetAvatarUserPicture(Avatar);// GetImageFromUiElement(_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id));
+                MessagingToAvatarHolder.Content = _avatarHelper.GetAvatarUserPicture(receiver);//GetImageFromUiElement(receiverUiElement);
             }
         }
 
@@ -2421,7 +2423,7 @@ namespace Worldescape
                             AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
                         }
 
-                        AvatarsCount.Text = AvatarMessengers.Count().ToString();                        
+                        AvatarsCount.Text = AvatarMessengers.Count().ToString();
                     }
 
                     await Task.Delay(millisecondsDelay: 1000);
@@ -2471,7 +2473,7 @@ namespace Worldescape
         /// Aligns facing direction of current avatar wrt provided x.
         /// </summary>
         /// <param name="construct"></param>
-        private void AlignAvatarFaceDirection(double x)
+        private void AlignUsersAvatarFaceDirection(double x)
         {
             _avatarHelper.AlignAvatarFaceDirection(x, Canvas_Root, Avatar.Id);
         }
@@ -2726,7 +2728,7 @@ namespace Worldescape
             construct = RotateElement(_selectedConstruct, newRotation) as Construct;
 
             // Align avatar to construct point
-            AlignAvatarFaceDirection(construct.Coordinate.X);
+            AlignUsersAvatarFaceDirection(construct.Coordinate.X);
 
             await HubService.BroadcastConstructRotation(construct.Id, construct.Rotation);
 
@@ -2754,7 +2756,7 @@ namespace Worldescape
             construct = ScaleElement(_selectedConstruct, newScale) as Construct;
 
             // Align avatar to construct point
-            AlignAvatarFaceDirection(construct.Coordinate.X);
+            AlignUsersAvatarFaceDirection(construct.Coordinate.X);
 
             await HubService.BroadcastConstructScale(construct.Id, construct.Scale);
 
@@ -2777,7 +2779,7 @@ namespace Worldescape
             construct = ScaleElement(_selectedConstruct, newScale) as Construct;
 
             // Align avatar to construct point
-            AlignAvatarFaceDirection(construct.Coordinate.X);
+            AlignUsersAvatarFaceDirection(construct.Coordinate.X);
 
             await HubService.BroadcastConstructScale(construct.Id, construct.Scale);
 
@@ -2798,7 +2800,7 @@ namespace Worldescape
             var construct = ((Button)_selectedConstruct).Tag as Construct;
 
             // Align avatar to construct point
-            AlignAvatarFaceDirection(construct.Coordinate.X);
+            AlignUsersAvatarFaceDirection(construct.Coordinate.X);
 
             await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
         }
@@ -2817,7 +2819,7 @@ namespace Worldescape
             var construct = ((Button)_selectedConstruct).Tag as Construct;
 
             // Align avatar to construct point
-            AlignAvatarFaceDirection(construct.Coordinate.X);
+            AlignUsersAvatarFaceDirection(construct.Coordinate.X);
 
             await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
         }
@@ -2832,7 +2834,7 @@ namespace Worldescape
             var construct = ((Button)_selectedConstruct).Tag as Construct;
 
             // Align avatar to construct point
-            AlignAvatarFaceDirection(construct.Coordinate.X);
+            AlignUsersAvatarFaceDirection(construct.Coordinate.X);
 
             RemoveConstructFromCanvas(_selectedConstruct);
 
@@ -3037,7 +3039,7 @@ namespace Worldescape
                 var receiver = ((Button)_messageToAvatar).Tag as Avatar;
 
                 // If receiver avatar is forward from current avatar
-                AlignAvatarFaceDirection(receiver.Coordinate.X);
+                AlignUsersAvatarFaceDirection(receiver.Coordinate.X);
 
                 chatContent.Children.Add(userImageHolder);
                 chatContent.Children.Add(messageHolder);
