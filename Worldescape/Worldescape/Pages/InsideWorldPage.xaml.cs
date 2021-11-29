@@ -2111,7 +2111,7 @@ namespace Worldescape
             if (result == MessageBoxResult.Cancel)
                 return;
 
-            await LogoutFromHubThenDisconnect();
+            //await LogoutFromHubThenDisconnect();
 
             _mainPage.NavigateToPage(Constants.Page_WorldsPage);
         }

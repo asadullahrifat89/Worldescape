@@ -196,15 +196,15 @@ namespace WorldescapeWebService
 
             if (avatar != null && !avatar.IsEmpty())
             {
-                if (await AvatarExists(avatar))
-                {
-                    await RemoveAvatar(avatar);
+                //if (await AvatarExists(avatar))
+                //{
+                await RemoveAvatar(avatar);
 
-                    var group = avatar.World.Id.ToString();
-                    await Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedOut, avatar.Id);
+                var group = avatar.World.Id.ToString();
+                await Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedOut, avatar.Id);
 
-                    _logger.LogInformation($"-- ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Logout-> WorldId {avatar.World.Id} - {DateTime.Now} World: {group}");
-                }
+                _logger.LogInformation($"-- ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Logout-> WorldId {avatar.World.Id} - {DateTime.Now} World: {group}");
+                //}
             }
         }
 
@@ -356,14 +356,14 @@ namespace WorldescapeWebService
         #region Construct World Events
 
         [HubMethodName(Constants.BroadcastConstruct)]
-        public async void BroadcastConstruct(Construct construct)
+        public async Task BroadcastConstruct(Construct construct)
         {
             if (construct.Id > 0)
             {
                 var group = GetUsersGroup(await GetCallingUser());
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstruct, construct);
 
-                AddOrUpdateConstructInConstructs(construct);
+                await AddOrUpdateConstructInConstructs(construct);
                 _logger.LogInformation($"<> {construct.Id} BroadcastConstruct - {DateTime.Now} World: {group}");
             }
         }
@@ -388,7 +388,7 @@ namespace WorldescapeWebService
 
 
         [HubMethodName(Constants.RemoveConstruct)]
-        public async void RemoveConstruct(int constructId)
+        public async Task RemoveConstruct(int constructId)
         {
             if (constructId > 0)
             {
@@ -396,7 +396,7 @@ namespace WorldescapeWebService
 
                 await Clients.OthersInGroup(group).SendAsync(Constants.RemovedConstruct, constructId);
 
-                RemoveConstructFromConstructs(constructId);
+                await RemoveConstructFromConstructs(constructId);
                 _logger.LogInformation($"<> Construct: {constructId} RemoveConstruct - {DateTime.Now} World: {group}");
             }
         }
@@ -422,7 +422,7 @@ namespace WorldescapeWebService
 
 
         [HubMethodName(Constants.BroadcastConstructPlacement)]
-        public async void BroadcastConstructPlacement(int constructId, int z)
+        public async Task BroadcastConstructPlacement(int constructId, int z)
         {
             if (constructId > 0)
             {
@@ -430,21 +430,21 @@ namespace WorldescapeWebService
 
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructPlacement, constructId, z);
 
-                UpdateConstructPlacementInConstructs(constructId, z);
+                await UpdateConstructPlacementInConstructs(constructId, z);
                 _logger.LogInformation($"<> Construct: {constructId} BroadcastConstructPlacement - {DateTime.Now} World: {group}");
             }
         }
 
 
         [HubMethodName(Constants.BroadcastConstructRotation)]
-        public async void BroadcastConstructRotation(int constructId, float rotation)
+        public async Task BroadcastConstructRotation(int constructId, float rotation)
         {
             if (constructId > 0)
             {
                 var group = GetUsersGroup(await GetCallingUser());
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructRotation, constructId, rotation);
 
-                UpdateConstructRotationInConstructs(constructId, rotation);
+                await UpdateConstructRotationInConstructs(constructId, rotation);
                 _logger.LogInformation($"<> Construct: {constructId} BroadcastConstructRotation - {DateTime.Now} World: {group}");
             }
         }
@@ -469,7 +469,7 @@ namespace WorldescapeWebService
 
 
         [HubMethodName(Constants.BroadcastConstructScale)]
-        public async void BroadcastConstructScale(int constructId, float scale)
+        public async Task BroadcastConstructScale(int constructId, float scale)
         {
             if (constructId > 0)
             {
@@ -477,7 +477,7 @@ namespace WorldescapeWebService
 
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructScale, constructId, scale);
 
-                UpdateConstructScaleInConstructs(constructId, scale);
+                await UpdateConstructScaleInConstructs(constructId, scale);
                 _logger.LogInformation($"<> Construct: {constructId} BroadcastConstructScale - {DateTime.Now} World: {group}");
             }
         }
@@ -503,7 +503,7 @@ namespace WorldescapeWebService
 
 
         [HubMethodName(Constants.BroadcastConstructMovement)]
-        public async void BroadcastConstructMovement(int constructId, double x, double y, int z)
+        public async Task BroadcastConstructMovement(int constructId, double x, double y, int z)
         {
             if (constructId > 0)
             {
@@ -511,7 +511,7 @@ namespace WorldescapeWebService
 
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedConstructMovement, constructId, x, y, z);
 
-                UpdateConstructMovementInConstructs(constructId, x, y, z);
+                await UpdateConstructMovementInConstructs(constructId, x, y, z);
                 _logger.LogInformation($"<> Construct: Construct: {constructId} BroadcastConstructMovement - {DateTime.Now} World: {group}");
             }
         }
@@ -642,7 +642,7 @@ namespace WorldescapeWebService
 
         #region Concurrent Constructs
 
-        private async void AddOrUpdateConstructInConstructs(Construct construct)
+        private async Task AddOrUpdateConstructInConstructs(Construct construct)
         {
             if (await _databaseService.ExistsById<Construct>(construct.Id))
             {
@@ -654,7 +654,7 @@ namespace WorldescapeWebService
             }
         }
 
-        private async void RemoveConstructFromConstructs(int constructId)
+        private async Task RemoveConstructFromConstructs(int constructId)
         {
             if (await _databaseService.ExistsById<Construct>(constructId))
             {
@@ -662,7 +662,7 @@ namespace WorldescapeWebService
             }
         }
 
-        private async void UpdateConstructPlacementInConstructs(int constructId, int z)
+        private async Task UpdateConstructPlacementInConstructs(int constructId, int z)
         {
             if (await _databaseService.FindById<Construct>(constructId) is Construct construct)
             {
@@ -671,7 +671,7 @@ namespace WorldescapeWebService
             }
         }
 
-        private async void UpdateConstructRotationInConstructs(int constructId, float rotation)
+        private async Task UpdateConstructRotationInConstructs(int constructId, float rotation)
         {
             if (await _databaseService.FindById<Construct>(constructId) is Construct construct)
             {
@@ -680,7 +680,7 @@ namespace WorldescapeWebService
             }
         }
 
-        private async void UpdateConstructScaleInConstructs(int constructId, float scale)
+        private async Task UpdateConstructScaleInConstructs(int constructId, float scale)
         {
             if (await _databaseService.FindById<Construct>(constructId) is Construct construct)
             {
@@ -689,7 +689,7 @@ namespace WorldescapeWebService
             }
         }
 
-        private async void UpdateConstructMovementInConstructs(int constructId, double x, double y, int z)
+        private async Task UpdateConstructMovementInConstructs(int constructId, double x, double y, int z)
         {
             if (await _databaseService.FindById<Construct>(constructId) is Construct construct)
             {
