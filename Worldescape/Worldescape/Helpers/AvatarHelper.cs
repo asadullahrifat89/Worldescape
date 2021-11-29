@@ -208,6 +208,7 @@ namespace Worldescape
         {
             if (avatarId == 0)
                 return null;
+
             if (canvas == null)
                 return null;
 
