@@ -54,7 +54,7 @@ namespace Worldescape
         readonly ConstructHelper _constructHelper;
         readonly WorldHelper _worldHelper;
         readonly HttpServiceHelper _httpServiceHelper;
-        readonly PageNumberHelper _pageNumberHelper;
+        readonly PaginationHelper _paginationHelper;
 
         #endregion
 
@@ -70,7 +70,7 @@ namespace Worldescape
             _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
             _constructHelper = App.ServiceProvider.GetService(typeof(ConstructHelper)) as ConstructHelper;
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
-            _pageNumberHelper = App.ServiceProvider.GetService(typeof(PageNumberHelper)) as PageNumberHelper;
+            _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
 
             SubscribeHub();
             CommenseConnection();
@@ -2312,7 +2312,7 @@ namespace Worldescape
             {
                 var pageSize = 20;
 
-                var totalPageCount = _pageNumberHelper.GetTotalPageCount(pageSize, countResponse.Count);
+                var totalPageCount = _paginationHelper.GetTotalPageCount(pageSize, countResponse.Count);
 
                 for (int pageIndex = 0; pageIndex < totalPageCount; pageIndex++)
                 {
@@ -2521,7 +2521,7 @@ namespace Worldescape
             {
                 var pageSize = 20;
 
-                var totalPageCount = _pageNumberHelper.GetTotalPageCount(pageSize, countResponse.Count);
+                var totalPageCount = _paginationHelper.GetTotalPageCount(pageSize, countResponse.Count);
 
                 for (int pageIndex = 0; pageIndex < totalPageCount; pageIndex++)
                 {

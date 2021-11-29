@@ -22,7 +22,7 @@ namespace Worldescape
         readonly MainPage _mainPage;
         readonly HttpServiceHelper _httpServiceHelper;
         readonly WorldHelper _worldHelper;
-        readonly PageNumberHelper _pageNumberHelper;
+        readonly PaginationHelper _paginationHelper;
 
         RangeObservableCollection<string> _pageNumbers = new RangeObservableCollection<string>();
 
@@ -37,7 +37,7 @@ namespace Worldescape
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
-            _pageNumberHelper = App.ServiceProvider.GetService(typeof(PageNumberHelper)) as PageNumberHelper;
+            _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
 
             SearchWorlds();
         }
@@ -141,7 +141,7 @@ namespace Worldescape
                 contentDialogue.Show();
             }
 
-            _totalPageCount = _pageNumberHelper.GetTotalPageCount(_pageSize, countResponse.Count);
+            _totalPageCount = _paginationHelper.GetTotalPageCount(_pageSize, countResponse.Count);
 
             TextBox_FoundWorldsCount.Text = $"Found {countResponse.Count} worlds{(TextBox_SearchWorldsText.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchWorldsText.Text)}...";
             PopulatePageNumbers(0);
@@ -150,13 +150,13 @@ namespace Worldescape
 
         private void GeneratePageNumbers()
         {
-            _pageNumbers = _pageNumberHelper.GeneratePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
+            _pageNumbers = _paginationHelper.GeneratePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
             PagesHolder.ItemsSource = _pageNumbers;
         }
 
         private void PopulatePageNumbers(int? pageIndex = null)
         {
-            _pageNumbers = _pageNumberHelper.PopulatePageNumbers(_totalPageCount, pageIndex ?? _pageIndex, _pageNumbers);
+            _pageNumbers = _paginationHelper.PopulatePageNumbers(_totalPageCount, pageIndex ?? _pageIndex, _pageNumbers);
             PagesHolder.ItemsSource = _pageNumbers;
         }
 
@@ -189,7 +189,7 @@ namespace Worldescape
         {
             if (!_settingWorlds)
             {
-                _pageIndex = _pageNumberHelper.GetPreviousPageNumber(_totalPageCount, _pageIndex);
+                _pageIndex = _paginationHelper.GetPreviousPageNumber(_totalPageCount, _pageIndex);
 
                 await GetWorlds();
 
@@ -201,7 +201,7 @@ namespace Worldescape
         {
             if (!_settingWorlds)
             {
-                _pageIndex = _pageNumberHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
+                _pageIndex = _paginationHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
 
                 await GetWorlds();
 

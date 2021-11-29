@@ -32,7 +32,7 @@ namespace Worldescape
         Action<ConstructAsset> _assetSelected;
 
         readonly UrlHelper _urlHelper;
-        readonly PageNumberHelper _pageNumberHelper;
+        readonly PaginationHelper _paginationHelper;
 
         #endregion
 
@@ -45,7 +45,7 @@ namespace Worldescape
             InitializeComponent();
 
             _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
-            _pageNumberHelper = App.ServiceProvider.GetService(typeof(PageNumberHelper)) as PageNumberHelper;
+            _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
 
             _constructAssets = constructAssets;
             _constructCategories = constructCategories;
@@ -205,7 +205,7 @@ namespace Worldescape
         {
             var filteredData = GetFilteredConstructAssets();
 
-            _totalPageCount = _pageNumberHelper.GetTotalPageCount(_pageSize, filteredData.Count());
+            _totalPageCount = _paginationHelper.GetTotalPageCount(_pageSize, filteredData.Count());
 
             FoundConstructAssetsCountHolder.Text = $"Found { filteredData?.Count().ToString() } constructs in {_pickedConstructCategory.Name.ToLowerInvariant()}{(TextBoxSearchConstructAssets.Text.IsNullOrBlank() ? "" : " matching " + TextBoxSearchConstructAssets.Text)}...";
             PopulatePageNumbers(0);
@@ -213,13 +213,13 @@ namespace Worldescape
 
         private void GeneratePageNumbers()
         {
-            _pageNumbers = _pageNumberHelper.GeneratePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
+            _pageNumbers = _paginationHelper.GeneratePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
             PagesHolder.ItemsSource = _pageNumbers;
         }
 
         private void PopulatePageNumbers(int? pageIndex = null)
         {
-            _pageNumbers = _pageNumberHelper.PopulatePageNumbers(_totalPageCount, pageIndex ?? _pageIndex, _pageNumbers);
+            _pageNumbers = _paginationHelper.PopulatePageNumbers(_totalPageCount, pageIndex ?? _pageIndex, _pageNumbers);
             PagesHolder.ItemsSource = _pageNumbers;
         }
 
@@ -236,7 +236,7 @@ namespace Worldescape
         {
             if (!_settingConstructAssets)
             {
-                _pageIndex = _pageNumberHelper.GetPreviousPageNumber(_totalPageCount, _pageIndex);
+                _pageIndex = _paginationHelper.GetPreviousPageNumber(_totalPageCount, _pageIndex);
 
                 GetConstructAssets();
                 GeneratePageNumbers();
@@ -247,7 +247,7 @@ namespace Worldescape
         {
             if (!_settingConstructAssets)
             {
-                _pageIndex = _pageNumberHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
+                _pageIndex = _paginationHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
 
                 GetConstructAssets();
                 GeneratePageNumbers();

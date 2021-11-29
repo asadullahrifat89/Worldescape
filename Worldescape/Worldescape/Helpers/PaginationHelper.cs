@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Worldescape
 {
-    public class PageNumberHelper
+    public class PaginationHelper
     {
         public long GetTotalPageCount(int pageSize, long dataCount)
         {
@@ -66,6 +66,7 @@ namespace Worldescape
         {
             _pageNumbers.Clear();
 
+            // Add previous two buttons
             if (pageIndex - 2 >= 0)
             {
                 _pageNumbers.Add((pageIndex - 2).ToString());
@@ -75,8 +76,10 @@ namespace Worldescape
                 _pageNumbers.Add((pageIndex - 1).ToString());
             }
 
+            // Add own button
             _pageNumbers.Add(pageIndex.ToString());
 
+            // Add next two buttons
             if (pageIndex + 1 <= totalPageCount)
             {
                 _pageNumbers.Add((pageIndex + 1).ToString());
@@ -86,6 +89,7 @@ namespace Worldescape
                 _pageNumbers.Add((pageIndex + 2).ToString());
             }
 
+            // If page numbers are less than 5 then try to add more two next buttons
             if (_pageNumbers.Count < 5)
             {
                 if (pageIndex + 3 <= totalPageCount)

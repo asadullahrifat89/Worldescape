@@ -5,7 +5,7 @@
 		<!--<TargetFramework>net6.0</TargetFramework>-->
 		<LangVersion>9.0</LangVersion>
 		<EnableDefaultItems>false</EnableDefaultItems>
-		<OpenSilverVersion>1.0.0</OpenSilverVersion>
+		<!--<OpenSilverVersion>1.0.0</OpenSilverVersion>-->
 		<IsOpenSilver>true</IsOpenSilver>
 	</PropertyGroup>
 
@@ -121,7 +121,7 @@
 		<Compile Include="Helpers\AvatarHelper.cs" />
 		<Compile Include="Helpers\ConstructHelper.cs" />
 		<Compile Include="Helpers\ImageHelper.cs" />
-		<Compile Include="Helpers\PageNumberHelper.cs" />
+		<Compile Include="Helpers\PaginationHelper.cs" />
 		<Compile Include="Helpers\WorldHelper.cs" />
 		<Compile Include="Internals\FileOpenDialogPresenter.cs" />
 		<Compile Include="Pages\AccountPage.xaml.cs">

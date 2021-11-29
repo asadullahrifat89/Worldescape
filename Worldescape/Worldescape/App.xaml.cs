@@ -63,7 +63,7 @@ namespace Worldescape
             services.AddSingleton<AvatarHelper>();
             services.AddSingleton<ConstructHelper>();
             services.AddSingleton<WorldHelper>();
-            services.AddSingleton<PageNumberHelper>();
+            services.AddSingleton<PaginationHelper>();
             services.AddSingleton<ImageHelper>();
 
             // Pages
