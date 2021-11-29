@@ -59,13 +59,45 @@ namespace Worldescape
             }
         }
 
+        private async Task<long> GetWorldsCount()
+        {
+            // Get constructs count for this world
+            var countResponse = await _httpServiceHelper.SendGetRequest<GetWorldsCountQueryResponse>(
+                actionUri: Constants.Action_GetWorldsCount,
+                payload: new GetWorldsCountQueryRequest()
+                {
+                    Token = App.Token,
+                    SearchString = TextBox_SearchWorldsText.Text,
+                    CreatorId = ToggleButton_UsersWorldsOnly.IsChecked.Value ? App.User.Id : 0
+                });
+
+            if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
+            {
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: countResponse.ExternalError.ToString());
+                contentDialogue.Show();
+            }
+
+            _totalPageCount = _paginationHelper.GetTotalPageCount(_pageSize, countResponse.Count);
+
+            TextBox_FoundWorldsCount.Text = $"Found {countResponse.Count} worlds{(TextBox_SearchWorldsText.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchWorldsText.Text)}...";
+            PopulatePageNumbers(0);
+            return countResponse.Count;
+        }
+
         private async Task GetWorlds()
         {
             _settingWorlds = true;
 
             var response = await _httpServiceHelper.SendGetRequest<GetWorldsQueryResponse>(
                 actionUri: Constants.Action_GetWorlds,
-                payload: new GetWorldsQueryRequest() { Token = App.Token, PageIndex = _pageIndex, PageSize = _pageSize, SearchString = TextBox_SearchWorldsText.Text });
+                payload: new GetWorldsQueryRequest()
+                {
+                    Token = App.Token,
+                    PageIndex = _pageIndex,
+                    PageSize = _pageSize,
+                    SearchString = TextBox_SearchWorldsText.Text,
+                    CreatorId = ToggleButton_UsersWorldsOnly.IsChecked.Value ? App.User.Id : 0
+                });
 
             if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
             {
@@ -100,14 +132,14 @@ namespace Worldescape
                     Text = world.Name,
                     Margin = new Thickness(5),
                 });
-                stackPanel.Children.Add(new TextBlock()
-                {
-                    FontSize = 15,
-                    FontWeight = FontWeights.SemiBold,
-                    TextAlignment = TextAlignment.Center,
-                    Text = "By " + world.Creator.Name,
-                    Margin = new Thickness(5),
-                });
+                //stackPanel.Children.Add(new TextBlock()
+                //{
+                //    FontSize = 15,
+                //    FontWeight = FontWeights.SemiBold,
+                //    TextAlignment = TextAlignment.Center,
+                //    Text = "By " + world.Creator.Name,
+                //    Margin = new Thickness(5),
+                //});
 
                 var buttonWorld = new Button()
                 {
@@ -127,26 +159,6 @@ namespace Worldescape
             ContentScrollViewer.Content = _masonryPanel;
 
             _settingWorlds = false;
-        }
-
-        private async Task<long> GetWorldsCount()
-        {
-            // Get constructs count for this world
-            var countResponse = await _httpServiceHelper.SendGetRequest<GetWorldsCountQueryResponse>(
-                actionUri: Constants.Action_GetWorldsCount,
-                payload: new GetWorldsCountQueryRequest() { Token = App.Token, SearchString = TextBox_SearchWorldsText.Text });
-
-            if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
-            {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: countResponse.ExternalError.ToString());
-                contentDialogue.Show();
-            }
-
-            _totalPageCount = _paginationHelper.GetTotalPageCount(_pageSize, countResponse.Count);
-
-            TextBox_FoundWorldsCount.Text = $"Found {countResponse.Count} worlds{(TextBox_SearchWorldsText.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchWorldsText.Text)}...";
-            PopulatePageNumbers(0);
-            return countResponse.Count;
         }
 
         private void GeneratePageNumbers()

@@ -66,24 +66,26 @@ app.MapGet(Constants.Action_GetUser, async (string token, string email, string p
 
 }).WithName(Constants.GetActionName(Constants.Action_GetUser));
 
-app.MapGet(Constants.Action_GetWorldsCount, async (string token, string searchString, IMediator mediator) =>
+app.MapGet(Constants.Action_GetWorldsCount, async (string token, string searchString, int creatorId, IMediator mediator) =>
 {
     return await mediator.Send(new GetWorldsCountQuery()
     {
         Token = token,
-        SearchString = searchString
+        SearchString = searchString,
+        CreatorId = creatorId
     });
 
 }).WithName(Constants.GetActionName(Constants.Action_GetWorldsCount));
 
-app.MapGet(Constants.Action_GetWorlds, async (string token, int pageIndex, int pageSize, string? searchString, IMediator mediator) =>
+app.MapGet(Constants.Action_GetWorlds, async (string token, int pageIndex, int pageSize, string searchString, int creatorId, IMediator mediator) =>
 {
     return await mediator.Send(new GetWorldsQuery()
     {
         Token = token,
         PageIndex = pageIndex,
         PageSize = pageSize,
-        SearchString = searchString
+        SearchString = searchString,
+        CreatorId = creatorId
     });
 
 }).WithName(Constants.GetActionName(Constants.Action_GetWorlds));
