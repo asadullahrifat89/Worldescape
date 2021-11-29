@@ -2,6 +2,6 @@
 {
     public class HubLoginResponse
     {
-        public Avatar[] Avatars { get; set; }
+        public Avatar Avatar { get; set; }
     }
 }

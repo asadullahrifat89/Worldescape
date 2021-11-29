@@ -77,7 +77,7 @@ namespace WorldescapeWebService
             Avatar avatar = await GetCallingUser();
             if (avatar != null)
             {
-                UpdateAvatarDisconnectionTime(avatar.Id, DateTime.Now);
+                await UpdateAvatarDisconnectionTime(avatar.Id, DateTime.Now);
 
                 var group = GetUsersGroup(avatar);
 
@@ -94,7 +94,7 @@ namespace WorldescapeWebService
             Avatar avatar = await GetCallingUser();
             if (avatar != null)
             {
-                UpdateAvatarReconnectionTime(avatar.Id, DateTime.Now);
+                await UpdateAvatarReconnectionTime(avatar.Id, DateTime.Now);
 
                 var group = GetUsersGroup(avatar);
 
@@ -139,7 +139,7 @@ namespace WorldescapeWebService
                 };
 
                 // Save the new avatar                
-                AddAvatar(avatar);
+                await AddAvatar(avatar);
 
                 var group = avatar.World.Id.ToString();
                 await Groups.AddToGroupAsync(Context.ConnectionId, group);
@@ -148,19 +148,19 @@ namespace WorldescapeWebService
 
                 _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now} World: {group}");
 
-                // Find all avatars from the calling avatar's world
-                //var avatars = ConcurrentAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+                // Find own avatars from the calling avatar's world
+                var ownAvatar = await GetAvatar(avatar.Id); //ConcurrentAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
-                // Return the curated avatars and constructs
+                // Return the curated avatar
                 return new HubLoginResponse()
                 {
-                    //Avatars = avatars ?? new Avatar[] { }
+                    Avatar = ownAvatar
                 };
             }
             else
             {
                 // Remove old instance
-                RemoveAvatar(avatar);
+                await RemoveAvatar(avatar);
 
                 avatar.Session = new AvatarSession()
                 {
@@ -169,7 +169,7 @@ namespace WorldescapeWebService
                 };
 
                 // Add new instance            
-                AddAvatar(avatar);
+                await AddAvatar(avatar);
 
                 var group = GetUsersGroup(avatar);
                 await Groups.AddToGroupAsync(Context.ConnectionId, group);
@@ -178,19 +178,19 @@ namespace WorldescapeWebService
 
                 _logger.LogInformation($"++ ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Login-> World {avatar.World.Id} - {DateTime.Now} World: {group}");
 
-                // Find all avatars from the calling avatar's world
-                //var avatars = ConcurrentAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
+                // Find own avatars from the calling avatar's world
+                var ownAvatar = await GetAvatar(avatar.Id); //ConcurrentAvatars.Where(x => x.Value.World.Id == avatar.World.Id)?.Select(z => z.Value).ToArray();
 
-                // Return the curated avatars and constructs
+                // Return the curated avatar
                 return new HubLoginResponse()
                 {
-                    //Avatars = avatars ?? new Avatar[] { }
+                    Avatar = ownAvatar
                 };
             }
         }
 
         [HubMethodName(Constants.Logout)]
-        public async void Logout()
+        public async Task Logout()
         {
             Avatar avatar = await GetCallingUser();
 
@@ -198,7 +198,7 @@ namespace WorldescapeWebService
             {
                 if (await AvatarExists(avatar))
                 {
-                    RemoveAvatar(avatar);
+                    await RemoveAvatar(avatar);
 
                     var group = avatar.World.Id.ToString();
                     await Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedOut, avatar.Id);
@@ -322,7 +322,7 @@ namespace WorldescapeWebService
         #region Avatar World Events
 
         [HubMethodName(Constants.BroadcastAvatarMovement)]
-        public async void BroadcastAvatarMovement(int avatarId, double x, double y, int z)
+        public async Task BroadcastAvatarMovement(int avatarId, double x, double y, int z)
         {
             if (avatarId > 0)
             {
@@ -330,7 +330,7 @@ namespace WorldescapeWebService
 
                 await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedAvatarMovement, avatarId, x, y, z);
 
-                UpdateAvatarMovement(avatarId, x, y, z);
+                await UpdateAvatarMovement(avatarId, x, y, z);
 
                 _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatarId} BroadcastAvatarMovement - {DateTime.Now} World: {group}");
             }
@@ -338,14 +338,14 @@ namespace WorldescapeWebService
 
 
         [HubMethodName(Constants.BroadcastAvatarActivityStatus)]
-        public async void BroadcastAvatarActivityStatus(int avatarId, int activityStatus)
+        public async Task BroadcastAvatarActivityStatus(int avatarId, int activityStatus)
         {
             if (avatarId > 0)
             {
                 var group = await GetCallingUser(avatarId);
                 await Clients.OthersInGroup(GetUsersGroup(group)).SendAsync(Constants.BroadcastedAvatarActivityStatus, avatarId, activityStatus);
 
-                UpdateAvatarActivityStatus(avatarId, activityStatus);
+                await UpdateAvatarActivityStatus(avatarId, activityStatus);
 
                 _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {avatarId} BroadcastAvatarActivityStatus - {DateTime.Now} World: {group}");
             }
@@ -522,6 +522,11 @@ namespace WorldescapeWebService
 
         #region Concurrent Avatars
 
+        private async Task<Avatar> GetAvatar(int avatarId)
+        {
+            return await _databaseService.FindById<Avatar>(avatarId);
+        }
+
         private async Task<bool> AvatarExists(int avatarId, string connectionId)
         {
             return await _databaseService.Exists(Builders<Avatar>.Filter.And(Builders<Avatar>.Filter.Eq(x => x.Id, avatarId), Builders<Avatar>.Filter.Eq(x => x.Session.ConnectionId, connectionId)));
@@ -534,7 +539,7 @@ namespace WorldescapeWebService
             return await _databaseService.ExistsById<Avatar>(avatar.Id);
         }
 
-        private async void AddAvatar(Avatar avatar)
+        private async Task AddAvatar(Avatar avatar)
         {
             if (await _databaseService.ExistsById<Avatar>(avatar.Id))
             {
@@ -548,7 +553,7 @@ namespace WorldescapeWebService
             //ConcurrentAvatars.TryAdd(Context.ConnectionId, avatar);
         }
 
-        private async void RemoveAvatar(Avatar avatar)
+        private async Task RemoveAvatar(Avatar avatar)
         {
             //ConcurrentAvatars.TryRemove(ConcurrentAvatars.FirstOrDefault(x => x.Value.Id == avatar.Id));
 
@@ -558,7 +563,7 @@ namespace WorldescapeWebService
             }
         }
 
-        private async void UpdateAvatarReconnectionTime(int avatarId, DateTime reconnectionTime)
+        private async Task UpdateAvatarReconnectionTime(int avatarId, DateTime reconnectionTime)
         {
             if (await _databaseService.FindById<Avatar>(avatarId) is Avatar avatar)
             {
@@ -576,7 +581,7 @@ namespace WorldescapeWebService
             //}
         }
 
-        private async void UpdateAvatarDisconnectionTime(int avatarId, DateTime disconnectionTime)
+        private async Task UpdateAvatarDisconnectionTime(int avatarId, DateTime disconnectionTime)
         {
             if (await _databaseService.FindById<Avatar>(avatarId) is Avatar avatar)
             {
@@ -594,7 +599,7 @@ namespace WorldescapeWebService
             //}
         }
 
-        private async void UpdateAvatarActivityStatus(int avatarId, int activityStatus)
+        private async Task UpdateAvatarActivityStatus(int avatarId, int activityStatus)
         {
             if (await _databaseService.FindById<Avatar>(avatarId) is Avatar avatar)
             {
@@ -612,7 +617,7 @@ namespace WorldescapeWebService
             //}
         }
 
-        private async void UpdateAvatarMovement(int avatarId, double x, double y, int z)
+        private async Task UpdateAvatarMovement(int avatarId, double x, double y, int z)
         {
             if (await _databaseService.FindById<Avatar>(avatarId) is Avatar avatar)
             {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -1476,7 +1475,7 @@ namespace Worldescape
                 Console.WriteLine("<<HubService_AvatarLoggedIn: OK");
             }
         }
-        
+
         #endregion
 
         #region Avatar
@@ -1527,7 +1526,7 @@ namespace Worldescape
                 }
             }
         }
-        
+
         #endregion
 
         #region Message
@@ -1608,8 +1607,8 @@ namespace Worldescape
             _isLoggedIn = false;
             Console.WriteLine("<<HubService_ConnectionReconnecting");
         }
-        
-        #endregion        
+
+        #endregion
 
         #endregion
 
@@ -1723,13 +1722,16 @@ namespace Worldescape
                     {
                         Console.WriteLine("LoginToHub: OK");
 
-                        var avatars = result.Avatars;
+                        var avatar = result.Avatar;
+
+                        // Logged in user's avatar
+                        Avatar = avatar;
 
                         // Clearing up canvas prior to login
                         AvatarMessengers.Clear();
                         Canvas_Root.Children.Clear();
 
-                        AddAvatarsToCanvasAfterHubLogin(avatars);
+                        await GetAvatars();
 
                         _mainPage.SetIsBusy(false);
 
@@ -2112,7 +2114,7 @@ namespace Worldescape
             await LogoutFromHubThenDisconnect();
 
             _mainPage.NavigateToPage(Constants.Page_WorldsPage);
-        }      
+        }
 
         /// <summary>
         /// Subscribe to hub and start listening to hub events.
@@ -2300,27 +2302,62 @@ namespace Worldescape
 
         #region Avatar
 
-        private void AddAvatarsToCanvasAfterHubLogin(Avatar[] avatars)
+        /// <summary>
+        /// Get avatars for the current world.
+        /// </summary>
+        /// <param name="avatars"></param>
+        private async Task GetAvatars()
         {
-            if (avatars != null && avatars.Any())
+            // Get Avatars count for this world
+            var countResponse = await _httpServiceHelper.SendGetRequest<GetAvatarsCountQueryResponse>(
+                actionUri: Constants.Action_GetAvatarsCount,
+                payload: new GetAvatarsCountQueryRequest() { Token = App.Token, WorldId = App.World.Id });
+
+            if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
             {
-                Console.WriteLine("LoginToHub: avatars found: " + avatars.Count());
+                MessageBox.Show(countResponse.ExternalError.ToString());
+                _mainPage.SetIsBusy(false);
+            }
 
-                // Find current user's avatar and update current Avatar instance
-                var responseAvatar = avatars.FirstOrDefault(x => x.Id == Avatar.Id);
-                Avatar = responseAvatar;
+            // If any avatars exist for this world start fetching asynchronously
+            if (countResponse.Count > 0)
+            {
+                var pageSize = 20;
 
-                foreach (var avatar in avatars)
+                var totalPageCount = _pageNumberHelper.GetTotalPageCount(pageSize, countResponse.Count);
+
+                for (int pageIndex = 0; pageIndex < totalPageCount; pageIndex++)
                 {
-                    var avatarButton = GenerateAvatarButton(avatar);
-                    SetAvatarActivityStatus(avatarButton, avatar, avatar.ActivityStatus);
+                    // Get Avatars in small packets
+                    var response = await _httpServiceHelper.SendGetRequest<GetAvatarsQueryResponse>(
+                        actionUri: Constants.Action_GetAvatars,
+                        payload: new GetAvatarsQueryRequest() { Token = App.Token, PageIndex = pageIndex, PageSize = pageSize, WorldId = App.World.Id });
 
-                    AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
+                    if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
+                    {
+                        MessageBox.Show(response.ExternalError.ToString());
+                        _mainPage.SetIsBusy(false);
+                    }
 
-                    AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
+                    var avatars = response.Avatars;
+
+                    if (avatars != null && avatars.Any())
+                    {
+                        Console.WriteLine("LoginToHub: avatars found: " + avatars.Count());
+
+                        foreach (var avatar in avatars)
+                        {
+                            var avatarButton = GenerateAvatarButton(avatar);
+                            SetAvatarActivityStatus(avatarButton, avatar, avatar.ActivityStatus);
+
+                            AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
+
+                            AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
+                        }
+
+                        ParticipantsCount.Text = AvatarMessengers.Count().ToString();
+                    }
                 }
-
-                ParticipantsCount.Text = AvatarMessengers.Count().ToString();
             }
         }
 
