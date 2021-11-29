@@ -549,6 +549,19 @@ namespace Worldescape
 
         #region World
 
+        private void ToggleButton_ShowAvatars_Click(object sender, RoutedEventArgs e)
+        {
+            if (ToggleButton_ShowAvatars.IsChecked.Value)
+            {
+                ContentControl_AvatarsContainer.Visibility = Visibility.Visible;
+                PopulateAvatarsInAvatarsContainer();
+            }
+            else
+            {
+                ContentControl_AvatarsContainer.Visibility = Visibility.Collapsed;
+            }
+        }
+
         private void Button_World_Click(object sender, RoutedEventArgs e)
         {
 
@@ -958,6 +971,17 @@ namespace Worldescape
 
         #region Avatar
 
+        private void ActiveAvatarButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (((Button)sender).Tag is Avatar avatar)
+            {
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatar.Id) is UIElement iElement)
+                {
+                    CanvasScrollViewer.ScrollIntoView(element: (Button)iElement, horizontalMargin: 200, verticalMargin: 200, duration: new Duration(TimeSpan.FromSeconds(2)));
+                }
+            }
+        }
+
         /// <summary>
         /// Sets selected avatar details on side card.
         /// </summary>
@@ -994,7 +1018,7 @@ namespace Worldescape
         {
             if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
             {
-                CanvasScrollViewer.ScrollIntoView((Button)iElement);
+                CanvasScrollViewer.ScrollIntoView(element: (Button)iElement, horizontalMargin: 200, verticalMargin: 200, duration: new Duration(TimeSpan.FromSeconds(2)));
             }
         }
 
@@ -1422,12 +1446,11 @@ namespace Worldescape
                 {
                     AvatarMessengers.Remove(avatarMessenger);
                     AvatarsCount.Text = AvatarMessengers.Count().ToString();
-
-                    //if (_masonryPanel.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == avatarId) is UIElement element)
-                    //    _masonryPanel.Children.Remove(element);
                 }
 
                 Canvas_Root.Children.Remove(iElement);
+
+                PopulateAvatarsInAvatarsContainer();
 
                 Console.WriteLine("<<HubService_AvatarLoggedOut: OK");
             }
@@ -2294,14 +2317,16 @@ namespace Worldescape
 
         #region Avatar
 
+        /// <summary>
+        /// Populate masonry panle to show active avatars in current world.
+        /// </summary>
         private void PopulateAvatarsInAvatarsContainer()
         {
             var _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
-                Height = 500,
-                //Width = 250,
+                Height = 400
             };
 
             foreach (Avatar avatar in AvatarMessengers.Select(x => x.Avatar))
@@ -2309,7 +2334,7 @@ namespace Worldescape
                 var userImage = GetAvatarUserPicture(avatar);
                 userImage.Margin = new Thickness(5, 0, 5, 0);
 
-                var avatarMasonButton = new Button()
+                var activeAvatarButton = new Button()
                 {
                     Tag = avatar,
                     Style = App.Current.TryFindResource("MaterialDesign_Button_Style_NoDropShadow") as Style,
@@ -2318,9 +2343,9 @@ namespace Worldescape
                     VerticalAlignment = VerticalAlignment.Center,
                 };
 
-                var stackMasonContent = new StackPanel() { Orientation = Orientation.Horizontal };
-                stackMasonContent.Children.Add(userImage);
-                stackMasonContent.Children.Add(new TextBlock()
+                var content = new StackPanel() { Orientation = Orientation.Horizontal };
+                content.Children.Add(userImage);
+                content.Children.Add(new TextBlock()
                 {
                     VerticalAlignment = VerticalAlignment.Center,
                     Text = avatar.Name,
@@ -2330,9 +2355,10 @@ namespace Worldescape
                     TextWrapping = TextWrapping.Wrap,
                 });
 
-                avatarMasonButton.Content = stackMasonContent;
+                activeAvatarButton.Content = content;
+                activeAvatarButton.Click += ActiveAvatarButton_Click;
 
-                _masonryPanel.Children.Add(avatarMasonButton);
+                _masonryPanel.Children.Add(activeAvatarButton);
             }
 
             ScrollViewer_AvatarsContainer.Content = _masonryPanel;
@@ -3093,18 +3119,5 @@ namespace Worldescape
         #endregion
 
         #endregion
-
-        private void ToggleButton_ShowAvatars_Click(object sender, RoutedEventArgs e)
-        {
-            if (ToggleButton_ShowAvatars.IsChecked.Value)
-            {
-                ContentControl_AvatarsContainer.Visibility = Visibility.Visible;
-                PopulateAvatarsInAvatarsContainer();
-            }
-            else
-            {
-                ContentControl_AvatarsContainer.Visibility = Visibility.Collapsed;
-            }
-        }
     }
 }

@@ -595,7 +595,7 @@
             <ScrollViewer
                 x:Name="ScrollViewer_AvatarsContainer"
                 Width="250"
-                Height="520"
+                Height="420"
                 HorizontalScrollBarVisibility="Disabled"
                 VerticalScrollBarVisibility="Auto" />
         </ContentControl>
