@@ -2881,6 +2881,7 @@ namespace Worldescape
             if (_messageToAvatar == null)
                 return;
 
+            //Check if a valid message was typed and the recepient exists in canvas
             if (((Button)_messageToAvatar).Tag is Avatar avatar && !MessagingTextBox.Text.IsNullOrBlank() && Canvas_Root.Children.OfType<Button>().Any(x => x.Tag is Avatar avatar1 && avatar1.Id == avatar.Id))
             {
                 await HubService.SendUnicastMessage(avatar.Id, MessagingTextBox.Text);
