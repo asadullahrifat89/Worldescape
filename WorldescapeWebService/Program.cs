@@ -258,7 +258,7 @@ app.UseCors("CorsPolicy");
 //app.UseHttpsRedirection();
 //app.UseHsts();
 
-app.MapHub<WorldescapeHub>("/worldescapehub", options =>
+app.MapHub<SignalRHub>("/worldescapehub", options =>
 {
     options.Transports = HttpTransportType.WebSockets;
 });

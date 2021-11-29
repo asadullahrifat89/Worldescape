@@ -7,13 +7,13 @@ using Worldescape.Database;
 namespace WorldescapeWebService
 {
     /// <summary>
-    /// Provies acess tp server side signalR hub methods, hosts concurrent avatars and constructs world wise. New ConnectionId is generated per user login.
+    /// Provides access to server side signalR hub methods. New ConnectionId is generated per user login.
     /// </summary>
-    public class WorldescapeHub : Hub
+    public class SignalRHub : Hub
     {
         #region Fields
 
-        readonly ILogger<WorldescapeHub> _logger;
+        readonly ILogger<SignalRHub> _logger;
         readonly DatabaseService _databaseService;
 
         //<ConnectionId, Avatar>
@@ -23,8 +23,8 @@ namespace WorldescapeWebService
 
         #region Ctor
 
-        public WorldescapeHub(
-            ILogger<WorldescapeHub> logger,
+        public SignalRHub(
+            ILogger<SignalRHub> logger,
             DatabaseService databaseService)
         {
             _databaseService = databaseService;
