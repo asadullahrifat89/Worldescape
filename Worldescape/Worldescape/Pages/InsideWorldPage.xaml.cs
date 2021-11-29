@@ -56,6 +56,13 @@ namespace Worldescape
         readonly HttpServiceHelper _httpServiceHelper;
         readonly PaginationHelper _paginationHelper;
 
+        MasonryPanelWithProgressiveLoading _masonryPanel = new MasonryPanelWithProgressiveLoading()
+        {
+            Margin = new Thickness(5),
+            Style = Application.Current.Resources["Panel_Style"] as Style,
+            Height = 500
+        };
+
         #endregion
 
         #region Ctor
@@ -1422,6 +1429,9 @@ namespace Worldescape
                 {
                     AvatarMessengers.Remove(avatarMessenger);
                     AvatarsCount.Text = AvatarMessengers.Count().ToString();
+
+                    if (_masonryPanel.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == avatarId) is UIElement element)
+                        _masonryPanel.Children.Remove(element);
                 }
 
                 Canvas_Root.Children.Remove(iElement);
@@ -1448,6 +1458,8 @@ namespace Worldescape
 
                 AvatarMessengers.Add(new AvatarMessenger() { Avatar = avatar, ActivityStatus = ActivityStatus.Idle, IsLoggedIn = true });
                 AvatarsCount.Text = AvatarMessengers.Count().ToString();
+
+                PopulateAvatarsInAvatarsContainer();
 
                 Console.WriteLine("<<HubService_AvatarLoggedIn: OK");
             }
@@ -1709,6 +1721,7 @@ namespace Worldescape
                         // Clearing up canvas prior to login
                         AvatarMessengers.Clear();
                         Canvas_Root.Children.Clear();
+                        _masonryPanel.Children.Clear();
 
                         await GetAvatars();
 
@@ -2288,6 +2301,46 @@ namespace Worldescape
 
         #region Avatar
 
+        private void PopulateAvatarsInAvatarsContainer()
+        {
+            var _masonryPanel = new MasonryPanelWithProgressiveLoading()
+            {
+                Margin = new Thickness(5),
+                Style = Application.Current.Resources["Panel_Style"] as Style,
+                Height = 600
+            };
+
+            foreach (Avatar avatar in AvatarMessengers.Select(x => x.Avatar))
+            {
+                var userImage = GetAvatarUserPicture(avatar);
+                userImage.Margin = new Thickness(5, 0, 0, 0);
+
+                var avatarMasonButton = new Button()
+                {
+                    Tag = avatar,
+                    Style = App.Current.TryFindResource("MaterialDesign_Button_Style") as Style,
+                    Margin = new Thickness(5)
+                };
+
+                var stackMasonContent = new StackPanel() { Orientation = Orientation.Horizontal };
+                stackMasonContent.Children.Add(userImage);
+                stackMasonContent.Children.Add(new TextBlock()
+                {
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Text = avatar.Name,
+                    FontWeight = FontWeights.SemiBold,
+                    FontSize = 16,
+                    Margin = new Thickness(5, 0, 5, 0)
+                });
+
+                avatarMasonButton.Content = stackMasonContent;
+
+                _masonryPanel.Children.Add(avatarMasonButton);
+            }
+
+            ScrollViewer_AvatarsContainer.Content = _masonryPanel;
+        }
+
         /// <summary>
         /// Get avatars for the current world.
         /// </summary>
@@ -2346,6 +2399,8 @@ namespace Worldescape
                         }
 
                         AvatarsCount.Text = AvatarMessengers.Count().ToString();
+
+                        PopulateAvatarsInAvatarsContainer();
                     }
                 }
             }

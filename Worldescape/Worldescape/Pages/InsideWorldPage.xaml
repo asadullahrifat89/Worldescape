@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Worldescape"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:worldescape="clr-namespace:Worldescape"
     FontFamily="Segoe UI"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
@@ -561,7 +562,7 @@
 
         <!--  Bottom right people counter  -->
         <ToggleButton
-            x:Name="ToggleButton_ShowPeople"
+            x:Name="ToggleButton_ShowAvatars"
             MinWidth="100"
             Margin="20"
             HorizontalAlignment="Right"
@@ -581,6 +582,23 @@
                 </TextBlock>
             </ToggleButton.Content>
         </ToggleButton>
+
+        <ScrollViewer
+            x:Name="ScrollViewer_AvatarsContainer"
+            Width="250"
+            Height="600"
+            Margin="20,20,20,70"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto"
+            Visibility="{Binding ElementName=ToggleButton_ShowAvatars, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <!--<worldescape:MasonryPanelWithProgressiveLoading
+                x:Name="MasonryPanel_AvatarsContainer"
+                Width="300"
+                MaxHeight="600"
+                Style="{StaticResource Panel_Style}" />-->
+        </ScrollViewer>
 
     </Grid>
 
