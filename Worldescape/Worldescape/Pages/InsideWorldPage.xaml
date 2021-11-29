@@ -560,15 +560,27 @@
         </StackPanel>
 
         <!--  Bottom right people counter  -->
-        <TextBlock
+        <ToggleButton
+            x:Name="ToggleButton_ShowPeople"
+            MinWidth="100"
             Margin="20"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            FontSize="16"
-            FontWeight="Bold">
-            <Run x:Name="ParticipantsCount" />
-            <Run Text=" people joined" />
-        </TextBlock>
+            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
+            <ToggleButton.Content>
+                <TextBlock>
+                    <Run
+                        FontFamily="Segoe MDL2 Assets"
+                        FontWeight="Normal"
+                        Text="&#xE902;" />
+                    <Run Text=" " />
+                    <Run
+                        x:Name="AvatarsCount"
+                        FontSize="16"
+                        FontWeight="SemiBold" />
+                </TextBlock>
+            </ToggleButton.Content>
+        </ToggleButton>
 
     </Grid>
 

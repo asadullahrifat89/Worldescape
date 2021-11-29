@@ -1421,7 +1421,7 @@ namespace Worldescape
                 if (avatarMessenger != null)
                 {
                     AvatarMessengers.Remove(avatarMessenger);
-                    ParticipantsCount.Text = AvatarMessengers.Count().ToString();
+                    AvatarsCount.Text = AvatarMessengers.Count().ToString();
                 }
 
                 Canvas_Root.Children.Remove(iElement);
@@ -1447,7 +1447,7 @@ namespace Worldescape
                 AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
 
                 AvatarMessengers.Add(new AvatarMessenger() { Avatar = avatar, ActivityStatus = ActivityStatus.Idle, IsLoggedIn = true });
-                ParticipantsCount.Text = AvatarMessengers.Count().ToString();
+                AvatarsCount.Text = AvatarMessengers.Count().ToString();
 
                 Console.WriteLine("<<HubService_AvatarLoggedIn: OK");
             }
@@ -2345,7 +2345,7 @@ namespace Worldescape
                             AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
                         }
 
-                        ParticipantsCount.Text = AvatarMessengers.Count().ToString();
+                        AvatarsCount.Text = AvatarMessengers.Count().ToString();
                     }
                 }
             }

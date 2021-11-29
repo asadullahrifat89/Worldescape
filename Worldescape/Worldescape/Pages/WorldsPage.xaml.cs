@@ -51,12 +51,8 @@ namespace Worldescape
 
         private async void SearchWorlds()
         {
-            var count = await GetWorldsCount();
-
-            if (count > 0)
-            {
+            if (await GetWorldsCount() > 0)
                 await GetWorlds();
-            }
         }
 
         private async Task<long> GetWorldsCount()
@@ -180,6 +176,7 @@ namespace Worldescape
         private void ToggleButton_UsersWorldsOnly_Click(object sender, RoutedEventArgs e)
         {
             TextBox_SearchWorldsText.PlaceholderText = ToggleButton_UsersWorldsOnly.IsChecked.Value ? "Search my worlds..." : "Search all worlds...";
+            SearchWorlds();
         }
 
         private void Button_SearchWorld_Click(object sender, RoutedEventArgs e)
