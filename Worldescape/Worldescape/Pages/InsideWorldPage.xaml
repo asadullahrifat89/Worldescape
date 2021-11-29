@@ -567,6 +567,7 @@
             Margin="20"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
+            Click="ToggleButton_ShowAvatars_Click"
             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
             <ToggleButton.Content>
                 <TextBlock>
@@ -583,22 +584,21 @@
             </ToggleButton.Content>
         </ToggleButton>
 
-        <ScrollViewer
-            x:Name="ScrollViewer_AvatarsContainer"
-            Width="250"
-            Height="600"
-            Margin="20,20,20,70"
+        <!--  Visibility="{Binding ElementName=ToggleButton_ShowAvatars, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"  -->
+        <ContentControl
+            x:Name="ContentControl_AvatarsContainer"
+            Margin="20,20,20,90"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
-            HorizontalScrollBarVisibility="Disabled"
-            VerticalScrollBarVisibility="Auto"
-            Visibility="{Binding ElementName=ToggleButton_ShowAvatars, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <!--<worldescape:MasonryPanelWithProgressiveLoading
-                x:Name="MasonryPanel_AvatarsContainer"
-                Width="300"
-                MaxHeight="600"
-                Style="{StaticResource Panel_Style}" />-->
-        </ScrollViewer>
+            Style="{StaticResource MaterialDesign_Card_Style}"
+            Visibility="Collapsed">
+            <ScrollViewer
+                x:Name="ScrollViewer_AvatarsContainer"
+                Width="250"
+                Height="520"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto" />
+        </ContentControl>
 
     </Grid>
 

@@ -56,13 +56,6 @@ namespace Worldescape
         readonly HttpServiceHelper _httpServiceHelper;
         readonly PaginationHelper _paginationHelper;
 
-        MasonryPanelWithProgressiveLoading _masonryPanel = new MasonryPanelWithProgressiveLoading()
-        {
-            Margin = new Thickness(5),
-            Style = Application.Current.Resources["Panel_Style"] as Style,
-            Height = 500
-        };
-
         #endregion
 
         #region Ctor
@@ -1430,8 +1423,8 @@ namespace Worldescape
                     AvatarMessengers.Remove(avatarMessenger);
                     AvatarsCount.Text = AvatarMessengers.Count().ToString();
 
-                    if (_masonryPanel.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == avatarId) is UIElement element)
-                        _masonryPanel.Children.Remove(element);
+                    //if (_masonryPanel.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == avatarId) is UIElement element)
+                    //    _masonryPanel.Children.Remove(element);
                 }
 
                 Canvas_Root.Children.Remove(iElement);
@@ -1721,7 +1714,7 @@ namespace Worldescape
                         // Clearing up canvas prior to login
                         AvatarMessengers.Clear();
                         Canvas_Root.Children.Clear();
-                        _masonryPanel.Children.Clear();
+                        //_masonryPanel.Children.Clear();
 
                         await GetAvatars();
 
@@ -2307,19 +2300,22 @@ namespace Worldescape
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
-                Height = 600
+                Height = 500,
+                //Width = 250,
             };
 
             foreach (Avatar avatar in AvatarMessengers.Select(x => x.Avatar))
             {
                 var userImage = GetAvatarUserPicture(avatar);
-                userImage.Margin = new Thickness(5, 0, 0, 0);
+                userImage.Margin = new Thickness(5, 0, 5, 0);
 
                 var avatarMasonButton = new Button()
                 {
                     Tag = avatar,
-                    Style = App.Current.TryFindResource("MaterialDesign_Button_Style") as Style,
-                    Margin = new Thickness(5)
+                    Style = App.Current.TryFindResource("MaterialDesign_Button_Style_NoDropShadow") as Style,
+                    Margin = new Thickness(5),
+                    HorizontalContentAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Center,
                 };
 
                 var stackMasonContent = new StackPanel() { Orientation = Orientation.Horizontal };
@@ -2330,7 +2326,8 @@ namespace Worldescape
                     Text = avatar.Name,
                     FontWeight = FontWeights.SemiBold,
                     FontSize = 16,
-                    Margin = new Thickness(5, 0, 5, 0)
+                    Margin = new Thickness(5, 0, 5, 0),
+                    TextWrapping = TextWrapping.Wrap,
                 });
 
                 avatarMasonButton.Content = stackMasonContent;
@@ -3096,5 +3093,18 @@ namespace Worldescape
         #endregion
 
         #endregion
+
+        private void ToggleButton_ShowAvatars_Click(object sender, RoutedEventArgs e)
+        {
+            if (ToggleButton_ShowAvatars.IsChecked.Value)
+            {
+                ContentControl_AvatarsContainer.Visibility = Visibility.Visible;
+                PopulateAvatarsInAvatarsContainer();
+            }
+            else
+            {
+                ContentControl_AvatarsContainer.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }
