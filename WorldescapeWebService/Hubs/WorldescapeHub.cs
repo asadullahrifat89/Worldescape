@@ -210,10 +210,10 @@ namespace WorldescapeWebService
 
         #endregion
 
-        #region Messagin
+        #region Messaging
 
         [HubMethodName(Constants.BroadcastTextMessage)]
-        public async void BroadcastTextMessage(string message)
+        public async Task BroadcastTextMessage(string message)
         {
             if (!string.IsNullOrEmpty(message))
             {
@@ -228,7 +228,7 @@ namespace WorldescapeWebService
 
 
         [HubMethodName(Constants.BroadcastImageMessage)]
-        public async void BroadcastImageMessage(byte[] img)
+        public async Task BroadcastImageMessage(byte[] img)
         {
             if (img != null)
             {
@@ -243,7 +243,7 @@ namespace WorldescapeWebService
 
 
         [HubMethodName(Constants.UnicastTextMessage)]
-        public async void UnicastTextMessage(int recepientId, string message)
+        public async Task UnicastTextMessage(int recepientId, string message)
         {
             Avatar sender = await GetCallingUser();
             string recipientConnectionId = await GetUserConnectionId(recepientId);
@@ -264,7 +264,7 @@ namespace WorldescapeWebService
 
 
         [HubMethodName(Constants.UnicastImageMessage)]
-        public async void UnicastImageMessage(int recepientId, byte[] img)
+        public async Task UnicastImageMessage(int recepientId, byte[] img)
         {
             Avatar sender = await GetCallingUser();
             string recipientConnectionId = await GetUserConnectionId(recepientId);
@@ -285,7 +285,7 @@ namespace WorldescapeWebService
 
 
         [HubMethodName(Constants.Typing)]
-        public async void Typing(int recepientId)
+        public async Task Typing(int recepientId)
         {
             if (recepientId <= 0)
             {
@@ -306,7 +306,7 @@ namespace WorldescapeWebService
 
 
         [HubMethodName(Constants.BroadcastTyping)]
-        public async void BroadcastTyping()
+        public async Task BroadcastTyping()
         {
             Avatar sender = await GetCallingUser();
 
