@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -24,7 +25,7 @@ namespace Worldescape
         readonly WorldHelper _worldHelper;
         readonly PaginationHelper _paginationHelper;
 
-        RangeObservableCollection<string> _pageNumbers = new RangeObservableCollection<string>();
+        RangeObservableCollection<PageNumber> _pageNumbers = new RangeObservableCollection<PageNumber>();
 
         #endregion
 

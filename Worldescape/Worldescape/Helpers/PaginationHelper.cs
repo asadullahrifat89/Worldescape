@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Worldescape
@@ -40,53 +42,61 @@ namespace Worldescape
             return pageIndex;
         }
 
-        public RangeObservableCollection<string> GeneratePageNumbers(
+        public RangeObservableCollection<PageNumber> GeneratePageNumbers(
             long totalPageCount,
             int pageIndex,
-            RangeObservableCollection<string> _pageNumbers)
-        {            
-            if (pageIndex.ToString() == _pageNumbers.FirstOrDefault()) // If current page index is equal to the first page of generated page numbers
+            RangeObservableCollection<PageNumber> _pageNumbers)
+        {
+            if (pageIndex.ToString() == _pageNumbers.FirstOrDefault().Number) // If current page index is equal to the first page of generated page numbers
             {
-                return PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
+                _pageNumbers = PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
             }
-            else if (pageIndex.ToString() == _pageNumbers.LastOrDefault()) // If the current page index is equal to the last page of generated page numbers
+            else if (pageIndex.ToString() == _pageNumbers.LastOrDefault().Number) // If the current page index is equal to the last page of generated page numbers
             {
-                return PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
+                _pageNumbers = PopulatePageNumbers(totalPageCount, pageIndex, _pageNumbers);
             }
-            else
+
+            foreach (PageNumber pageNumbner in _pageNumbers)
             {
-                return _pageNumbers;
+                pageNumbner.BorderThickness = new Thickness(0);
             }
+
+            if (_pageNumbers.FirstOrDefault(x => x.Number == pageIndex.ToString()) is PageNumber pageNumber)
+            {
+                pageNumber.BorderThickness = new Thickness(2);
+            }
+
+            return _pageNumbers;
         }
 
-        public RangeObservableCollection<string> PopulatePageNumbers(
+        public RangeObservableCollection<PageNumber> PopulatePageNumbers(
             long totalPageCount,
             int pageIndex,
-            RangeObservableCollection<string> _pageNumbers)
+            RangeObservableCollection<PageNumber> _pageNumbers)
         {
             _pageNumbers.Clear();
 
             // Add previous two buttons
             if (pageIndex - 2 >= 0)
             {
-                _pageNumbers.Add((pageIndex - 2).ToString());
+                _pageNumbers.Add(new PageNumber((pageIndex - 2).ToString()));
             }
             if (pageIndex - 1 >= 0)
             {
-                _pageNumbers.Add((pageIndex - 1).ToString());
+                _pageNumbers.Add(new PageNumber((pageIndex - 1).ToString()));
             }
 
             // Add own button
-            _pageNumbers.Add(pageIndex.ToString());
+            _pageNumbers.Add(new PageNumber(pageIndex.ToString()));
 
             // Add next two buttons
             if (pageIndex + 1 <= totalPageCount)
             {
-                _pageNumbers.Add((pageIndex + 1).ToString());
+                _pageNumbers.Add(new PageNumber((pageIndex + 1).ToString()));
             }
             if (pageIndex + 2 <= totalPageCount)
             {
-                _pageNumbers.Add((pageIndex + 2).ToString());
+                _pageNumbers.Add(new PageNumber((pageIndex + 2).ToString()));
             }
 
             // If page numbers are less than 5 then try to add more two next buttons
@@ -94,12 +104,12 @@ namespace Worldescape
             {
                 if (pageIndex + 3 <= totalPageCount)
                 {
-                    _pageNumbers.Add((pageIndex + 3).ToString());
+                    _pageNumbers.Add(new PageNumber((pageIndex + 3).ToString()));
                 }
 
                 if (pageIndex + 4 <= totalPageCount)
                 {
-                    _pageNumbers.Add((pageIndex + 4).ToString());
+                    _pageNumbers.Add(new PageNumber((pageIndex + 4).ToString()));
                 }
             }
 

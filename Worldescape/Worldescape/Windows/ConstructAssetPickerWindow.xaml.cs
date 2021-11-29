@@ -27,7 +27,7 @@ namespace Worldescape
         List<ConstructAsset> _constructAssets = new List<ConstructAsset>();
         List<ConstructCategory> _constructCategories = new List<ConstructCategory>();
 
-        RangeObservableCollection<string> _pageNumbers = new RangeObservableCollection<string>();
+        RangeObservableCollection<PageNumber> _pageNumbers = new RangeObservableCollection<PageNumber>();
 
         Action<ConstructAsset> _assetSelected;
 

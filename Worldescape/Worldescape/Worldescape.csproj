@@ -121,6 +121,7 @@
 		<Compile Include="Helpers\AvatarHelper.cs" />
 		<Compile Include="Helpers\ConstructHelper.cs" />
 		<Compile Include="Helpers\ImageHelper.cs" />
+		<Compile Include="Internals\PageNumber.cs" />
 		<Compile Include="Helpers\PaginationHelper.cs" />
 		<Compile Include="Helpers\WorldHelper.cs" />
 		<Compile Include="Internals\FileOpenDialogPresenter.cs" />

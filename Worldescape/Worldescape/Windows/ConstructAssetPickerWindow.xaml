@@ -121,17 +121,16 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Button
-                                x:Name="ButtonPageIndex"
-                                Width="50"
-                                Height="50"
-                                Margin="5,0"
-                                BorderThickness="0"
-                                Click="ButtonPageIndex_Click"
-                                Content="{Binding}"
-                                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-                        </StackPanel>
+                        <Button
+                            x:Name="ButtonPageIndex"
+                            Width="50"
+                            Height="50"
+                            Margin="5,0"
+                            BorderBrush="{StaticResource MaterialDesign_DefaultAccentColor}"
+                            BorderThickness="{Binding BorderThickness, Mode=OneWay}"
+                            Click="ButtonPageIndex_Click"
+                            Content="{Binding Number, Mode=OneWay}"
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
 
