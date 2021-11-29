@@ -66,6 +66,16 @@ app.MapGet(Constants.Action_GetUser, async (string token, string email, string p
 
 }).WithName(Constants.GetActionName(Constants.Action_GetUser));
 
+app.MapGet(Constants.Action_GetWorldsCount, async (string token, string searchString, IMediator mediator) =>
+{
+    return await mediator.Send(new GetWorldsCountQuery()
+    {
+        Token = token,
+        SearchString = searchString
+    });
+
+}).WithName(Constants.GetActionName(Constants.Action_GetWorldsCount));
+
 app.MapGet(Constants.Action_GetWorlds, async (string token, int pageIndex, int pageSize, string? searchString, IMediator mediator) =>
 {
     return await mediator.Send(new GetWorldsQuery()
@@ -77,6 +87,16 @@ app.MapGet(Constants.Action_GetWorlds, async (string token, int pageIndex, int p
     });
 
 }).WithName(Constants.GetActionName(Constants.Action_GetWorlds));
+
+app.MapGet(Constants.Action_GetConstructsCount, async (string token, int worldId, IMediator mediator) =>
+{
+    return await mediator.Send(new GetConstructsCountQuery()
+    {
+        Token = token,
+        WorldId = worldId
+    });
+
+}).WithName(Constants.GetActionName(Constants.Action_GetConstructsCount));
 
 app.MapGet(Constants.Action_GetConstructs, async (string token, int pageIndex, int pageSize, int worldId, IMediator mediator) =>
 {
@@ -90,25 +110,27 @@ app.MapGet(Constants.Action_GetConstructs, async (string token, int pageIndex, i
 
 }).WithName(Constants.GetActionName(Constants.Action_GetConstructs));
 
-app.MapGet(Constants.Action_GetConstructsCount, async (string token, int worldId, IMediator mediator) =>
+app.MapGet(Constants.Action_GetAvatarsCount, async (string token, int worldId, IMediator mediator) =>
 {
-    return await mediator.Send(new GetConstructsCountQuery()
+    return await mediator.Send(new GetAvatarsCountQuery()
     {
         Token = token,
         WorldId = worldId
     });
 
-}).WithName(Constants.GetActionName(Constants.Action_GetConstructsCount));
+}).WithName(Constants.GetActionName(Constants.Action_GetAvatarsCount));
 
-app.MapGet(Constants.Action_GetWorldsCount, async (string token, string searchString, IMediator mediator) =>
+app.MapGet(Constants.Action_GetAvatars, async (string token, int pageIndex, int pageSize, int worldId, IMediator mediator) =>
 {
-    return await mediator.Send(new GetWorldsCountQuery()
+    return await mediator.Send(new GetAvatarsQuery()
     {
         Token = token,
-        SearchString = searchString
+        PageIndex = pageIndex,
+        PageSize = pageSize,
+        WorldId = worldId
     });
 
-}).WithName(Constants.GetActionName(Constants.Action_GetWorldsCount));
+}).WithName(Constants.GetActionName(Constants.Action_GetAvatars));
 
 app.MapGet(Constants.Action_GetAsset, async (string token, string fileName, IMediator mediator) =>
 {

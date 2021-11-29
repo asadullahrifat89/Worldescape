@@ -129,10 +129,16 @@ namespace Worldescape.Common
 
         public const string Action_GetApiToken = "/api/Query/GetApiToken";
         public const string Action_GetUser = "/api/Query/GetUser";
-        public const string Action_GetWorlds = "/api/Query/GetWorlds";
+
+        public const string Action_GetAvatarsCount = "/api/Query/GetAvatarsCount";
+        public const string Action_GetAvatars = "/api/Query/GetAvatars";
+
         public const string Action_GetWorldsCount = "/api/Query/GetWorldsCount";
-        public const string Action_GetConstructs = "/api/Query/GetConstructs";
+        public const string Action_GetWorlds = "/api/Query/GetWorlds";
+
         public const string Action_GetConstructsCount = "/api/Query/GetConstructsCount";
+        public const string Action_GetConstructs = "/api/Query/GetConstructs";
+        
         public const string Action_GetAsset = "/api/Query/GetAsset";
         public const string Action_GetBlob = "/api/Query/GetBlob";
 

@@ -1,9 +1,9 @@
 ﻿namespace Worldescape.Common
 {
     /// <summary>
-    /// A query that fetches Constructs.
+    /// A query that fetches Avatars.
     /// </summary>
-    public class GetConstructsQueryRequest : RequestBase
+    public class GetAvatarsQueryRequest : RequestBase
     {
         /// <summary>
         /// The page index of the query.
@@ -16,7 +16,7 @@
         public int PageSize { get; set; } = 0;
 
         /// <summary>
-        /// The world id of which the constructs are to be returned.
+        /// The world id of which the Avatars are to be returned.
         /// </summary>
         public int WorldId { get; set; }
     }
