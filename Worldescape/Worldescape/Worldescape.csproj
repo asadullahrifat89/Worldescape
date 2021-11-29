@@ -107,6 +107,9 @@
 		<Page Include="Styles\Styles.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
+		<Content Include="Windows\ContentDialogueWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</Content>
 		<Content Include="Windows\WorldCreatorWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
@@ -125,6 +128,7 @@
 		  <SubType>Code</SubType>
 		</Compile>
 		<Compile Include="Pages\WorldsPage.xaml.cs" />
+		<Compile Include="Windows\ContentDialogueWindow.xaml.cs" />
 		<Compile Include="Windows\ImagePickerWindow.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
