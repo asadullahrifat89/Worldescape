@@ -553,12 +553,12 @@ namespace Worldescape
         {
             if (ToggleButton_ShowAvatars.IsChecked.Value)
             {
-                ContentControl_AvatarsContainer.Visibility = Visibility.Visible;
+                ContentControl_ActiveAvatarsContainer.Visibility = Visibility.Visible;
                 PopulateAvatarsInAvatarsContainer();
             }
             else
             {
-                ContentControl_AvatarsContainer.Visibility = Visibility.Collapsed;
+                ContentControl_ActiveAvatarsContainer.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -2361,7 +2361,7 @@ namespace Worldescape
                 _masonryPanel.Children.Add(activeAvatarButton);
             }
 
-            ScrollViewer_AvatarsContainer.Content = _masonryPanel;
+            ScrollViewer_ActiveAvatarsContainer.Content = _masonryPanel;
         }
 
         /// <summary>
@@ -2421,11 +2421,13 @@ namespace Worldescape
                             AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
                         }
 
-                        AvatarsCount.Text = AvatarMessengers.Count().ToString();
-
-                        PopulateAvatarsInAvatarsContainer();
+                        AvatarsCount.Text = AvatarMessengers.Count().ToString();                        
                     }
+
+                    await Task.Delay(millisecondsDelay: 1000);
                 }
+
+                PopulateAvatarsInAvatarsContainer();
             }
         }
 
@@ -2659,6 +2661,8 @@ namespace Worldescape
                             }
                         }
                     }
+
+                    await Task.Delay(millisecondsDelay: 1000);
                 }
 
                 Console.WriteLine("LoginToHub: Completed fetching constructs.");

@@ -51,12 +51,13 @@ namespace Worldescape
 
         private async void SearchWorlds()
         {
-            if (await GetWorldsCount() > 0)
-                await GetWorlds();
+            await GetWorlds();
         }
 
-        private async Task<long> GetWorldsCount()
+        private async Task GetWorlds()
         {
+            _settingWorlds = true;
+
             // Get constructs count for this world
             var countResponse = await _httpServiceHelper.SendGetRequest<GetWorldsCountQueryResponse>(
                 actionUri: Constants.Action_GetWorldsCount,
@@ -70,89 +71,87 @@ namespace Worldescape
             if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
             {
                 var contentDialogue = new ContentDialogueWindow(title: "Error!", message: countResponse.ExternalError.ToString());
-                contentDialogue.Show();
+                contentDialogue.Show();                
             }
 
             _totalPageCount = _paginationHelper.GetTotalPageCount(_pageSize, countResponse.Count);
 
             TextBox_FoundWorldsCount.Text = $"Found {countResponse.Count} worlds{(TextBox_SearchWorldsText.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchWorldsText.Text)}...";
             PopulatePageNumbers(0);
-            return countResponse.Count;
-        }
 
-        private async Task GetWorlds()
-        {
-            _settingWorlds = true;
-
-            var response = await _httpServiceHelper.SendGetRequest<GetWorldsQueryResponse>(
-                actionUri: Constants.Action_GetWorlds,
-                payload: new GetWorldsQueryRequest()
-                {
-                    Token = App.Token,
-                    PageIndex = _pageIndex,
-                    PageSize = _pageSize,
-                    SearchString = TextBox_SearchWorldsText.Text,
-                    CreatorId = ToggleButton_UsersWorldsOnly.IsChecked.Value ? App.User.Id : 0
-                });
-
-            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
+            if (countResponse.Count > 0)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
-                contentDialogue.Show();
-            }
 
-            var worlds = response.Worlds;
+                var response = await _httpServiceHelper.SendGetRequest<GetWorldsQueryResponse>(
+                   actionUri: Constants.Action_GetWorlds,
+                   payload: new GetWorldsQueryRequest()
+                   {
+                       Token = App.Token,
+                       PageIndex = _pageIndex,
+                       PageSize = _pageSize,
+                       SearchString = TextBox_SearchWorldsText.Text,
+                       CreatorId = ToggleButton_UsersWorldsOnly.IsChecked.Value ? App.User.Id : 0
+                   });
 
-            var _masonryPanel = new MasonryPanelWithProgressiveLoading()
-            {
-                Margin = new Thickness(20, 0, 20, 0),
-                Style = Application.Current.Resources["Panel_Style"] as Style,
-                MinHeight = 600
-            };
-
-            var size = 220;
-
-            foreach (var world in worlds)
-            {
-                var img = _worldHelper.GetWorldPicture(world: world, size: size);
-
-                img.Margin = new Thickness(10, 15, 10, 10);
-
-                var stackPanel = new StackPanel() { Margin = new Thickness(10) };
-                stackPanel.Children.Add(img);
-                stackPanel.Children.Add(new TextBlock()
+                if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
                 {
-                    FontSize = 20,
-                    FontWeight = FontWeights.SemiBold,
-                    TextAlignment = TextAlignment.Center,
-                    Text = world.Name,
-                    Margin = new Thickness(5),
-                });
-                //stackPanel.Children.Add(new TextBlock()
-                //{
-                //    FontSize = 15,
-                //    FontWeight = FontWeights.SemiBold,
-                //    TextAlignment = TextAlignment.Center,
-                //    Text = "By " + world.Creator.Name,
-                //    Margin = new Thickness(5),
-                //});
+                    var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
+                    contentDialogue.Show();
+                }
 
-                var buttonWorld = new Button()
+                var worlds = response.Worlds;
+
+                var _masonryPanel = new MasonryPanelWithProgressiveLoading()
                 {
-                    Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                    Height = size,
-                    Width = size,
-                    Margin = new Thickness(5),
-                    Tag = world,
+                    Margin = new Thickness(20, 0, 20, 0),
+                    Style = Application.Current.Resources["Panel_Style"] as Style,
+                    MinHeight = 600
                 };
 
-                buttonWorld.Click += ButtonWorld_Click;
-                buttonWorld.Content = stackPanel;
+                var size = 220;
 
-                _masonryPanel.Children.Add(buttonWorld);
+                foreach (var world in worlds)
+                {
+                    var img = _worldHelper.GetWorldPicture(world: world, size: size);
+
+                    img.Margin = new Thickness(10, 15, 10, 10);
+
+                    var stackPanel = new StackPanel() { Margin = new Thickness(10) };
+                    stackPanel.Children.Add(img);
+                    stackPanel.Children.Add(new TextBlock()
+                    {
+                        FontSize = 20,
+                        FontWeight = FontWeights.SemiBold,
+                        TextAlignment = TextAlignment.Center,
+                        Text = world.Name,
+                        Margin = new Thickness(5),
+                    });
+                    //stackPanel.Children.Add(new TextBlock()
+                    //{
+                    //    FontSize = 15,
+                    //    FontWeight = FontWeights.SemiBold,
+                    //    TextAlignment = TextAlignment.Center,
+                    //    Text = "By " + world.Creator.Name,
+                    //    Margin = new Thickness(5),
+                    //});
+
+                    var buttonWorld = new Button()
+                    {
+                        Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                        Height = size,
+                        Width = size,
+                        Margin = new Thickness(5),
+                        Tag = world,
+                    };
+
+                    buttonWorld.Click += ButtonWorld_Click;
+                    buttonWorld.Content = stackPanel;
+
+                    _masonryPanel.Children.Add(buttonWorld);
+                }
+
+                ContentScrollViewer.Content = _masonryPanel;
             }
-
-            ContentScrollViewer.Content = _masonryPanel;
 
             _settingWorlds = false;
         }
