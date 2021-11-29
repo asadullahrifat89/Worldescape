@@ -24,6 +24,12 @@ namespace Worldescape
             _result = result;
             Title = title;
             TextBlock_Message.Text = message;
+
+            if (message.EndsWith("?"))
+            {
+                OKButton.Content = "Yes";
+                CancelButton.Content = "No";
+            }
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)

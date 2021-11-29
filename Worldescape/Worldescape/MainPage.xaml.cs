@@ -116,7 +116,7 @@ namespace Worldescape
             }
             else
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Warning!", message: "You are connected to a world. Are you sure you want to leave?", result: (result) =>
+                var contentDialogue = new ContentDialogueWindow(title: "Warning!", message: "Are you sure you want to leave?", result: (result) =>
                 {
                     if (result)
                         ProfileDetails();
@@ -134,7 +134,7 @@ namespace Worldescape
             }
             else
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Warning!", message: "You are connected to a world. Are you sure you want to leave?", result: (result) =>
+                var contentDialogue = new ContentDialogueWindow(title: "Warning!", message: "Are you sure you want to leave?", result: (result) =>
                 {
                     if (result)
                         Logout();
