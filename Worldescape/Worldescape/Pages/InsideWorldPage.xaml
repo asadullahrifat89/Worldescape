@@ -139,14 +139,14 @@
                 VerticalAlignment="Center"
                 Visibility="Collapsed">
 
-                <!--  COnstruct, Add, Select buttons  -->
+                <!--  Construct, Add, Select buttons  -->
                 <StackPanel Orientation="Horizontal">
 
                     <!--  Construct  -->
                     <ToggleButton
                         x:Name="Button_ConstructCraft"
                         MinWidth="110"
-                        Margin="10"
+                        Margin="5,10"
                         Click="Button_ConstructCraft_Click"
                         Content="Construct"
                         FontSize="20"
@@ -156,7 +156,7 @@
                     <ToggleButton
                         x:Name="Button_ConstructAdd"
                         Width="50"
-                        Margin="10"
+                        Margin="5,10"
                         Click="Button_ConstructAdd_Click"
                         Content="&#xE948;"
                         FontFamily="Segoe MDL2 Assets"
@@ -168,7 +168,7 @@
                     <ToggleButton
                         x:Name="Button_ConstructMultiSelect"
                         Width="50"
-                        Margin="10"
+                        Margin="5,10"
                         Click="Button_ConstructMultiSelect_Click"
                         Content="&#xE762;"
                         FontFamily="Segoe MDL2 Assets"
@@ -427,7 +427,7 @@
                 <ToggleButton
                     x:Name="Button_ConstructMove"
                     Width="50"
-                    Margin="10"
+                    Margin="5,10"
                     Click="Button_ConstructMove_Click"
                     Content="&#xE759;"
                     FontFamily="Segoe MDL2 Assets"
@@ -438,7 +438,7 @@
                 <ToggleButton
                     x:Name="Button_ConstructClone"
                     Width="50"
-                    Margin="10"
+                    Margin="5,10"
                     Click="Button_ConstructClone_Click"
                     Content="&#xE8C8;"
                     FontFamily="Segoe MDL2 Assets"
@@ -450,7 +450,7 @@
                 <Button
                     x:Name="Button_ConstructBringForward"
                     Width="50"
-                    Margin="10"
+                    Margin="5,10"
                     Click="Button_ConstructBringForward_Click"
                     Content="&#xE70E;"
                     FontFamily="Segoe MDL2 Assets"
@@ -461,7 +461,7 @@
                 <Button
                     x:Name="Button_ConstructSendBackward"
                     Width="50"
-                    Margin="10"
+                    Margin="5,10"
                     Click="Button_ConstructSendBackward_Click"
                     Content="&#xE70D;"
                     FontFamily="Segoe MDL2 Assets"
@@ -472,7 +472,7 @@
                 <Button
                     x:Name="Button_ConstructScaleUp"
                     Width="50"
-                    Margin="10"
+                    Margin="5,10"
                     Click="Button_ConstructScaleUp_Click"
                     Content="&#xE740;"
                     FontFamily="Segoe MDL2 Assets"
@@ -483,7 +483,7 @@
                 <Button
                     x:Name="Button_ConstructScaleDown"
                     Width="50"
-                    Margin="10"
+                    Margin="5,10"
                     Click="Button_ConstructScaleDown_Click"
                     Content="&#xE73F;"
                     FontFamily="Segoe MDL2 Assets"
@@ -494,7 +494,7 @@
                 <Button
                     x:Name="Button_ConstructRotate"
                     Width="50"
-                    Margin="10"
+                    Margin="5,10"
                     Click="Button_ConstructRotate_Click"
                     Content="&#xE7AD;"
                     FontFamily="Segoe MDL2 Assets"
@@ -505,7 +505,7 @@
                 <Button
                     x:Name="Button_ConstructDelete"
                     Width="50"
-                    Margin="10"
+                    Margin="5,10"
                     Click="Button_ConstructDelete_Click"
                     Content="&#xE74D;"
                     FontFamily="Segoe MDL2 Assets"

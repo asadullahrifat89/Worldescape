@@ -96,6 +96,11 @@ namespace Worldescape
             _mainPage.NavigateToPage(Constants.Page_LoginPage);
         }
 
+        private void NavigateToWorldsPage()
+        {
+            _mainPage.NavigateToPage(Constants.Page_WorldsPage);
+        }
+
         private async Task UpdateUser()
         {
             _mainPage.SetIsBusy(true, "Saving your account...");
@@ -198,7 +203,15 @@ namespace Worldescape
 
         private void Button_Discard_Click(object sender, RoutedEventArgs e)
         {
-            NavigateToLoginPage();
+            // If user is already logged in then go to worlds page
+            if (!App.User.IsEmpty())
+            {
+                NavigateToWorldsPage();
+            }
+            else
+            {
+                NavigateToLoginPage();
+            }            
         }
 
         #endregion

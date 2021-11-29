@@ -99,6 +99,19 @@ namespace Worldescape
 
         #region Methods
 
+        #region Page Events
+
+        private async void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (HubService != null)
+            {
+                await LogoutFromHubThenDisconnect();
+                UnsubscribeHub();
+            }
+        }
+
+        #endregion
+
         #region Pointer Events
 
         #region Canvas
@@ -1360,7 +1373,7 @@ namespace Worldescape
 
         #endregion
 
-        #region Session
+        #region Avatar Connection
         private void HubService_AvatarReconnected(int avatarId)
         {
             if (avatarId > 0)
@@ -1547,7 +1560,7 @@ namespace Worldescape
 
         #endregion
 
-        #region Connection       
+        #region Hub Connection       
 
         private async void HubService_ConnectionClosed()
         {
@@ -1732,6 +1745,30 @@ namespace Worldescape
             {
                 Console.WriteLine("HubLogin: ERROR " + "\n" + ex.Message);
                 return false;
+            }
+        }
+
+        #endregion
+
+        #region Hub Logout
+
+        private async Task LogoutFromHubThenDisconnect()
+        {
+            // If logged in then log out and disconnect from hub
+            if (_isLoggedIn)
+            {
+                _mainPage.SetIsBusy(true);
+
+                await HubService.Logout();
+
+                if (HubService.IsConnected())
+                {
+                    await HubService.DisconnectAsync();
+                }
+
+                App.World = new World();
+
+                _mainPage.SetIsBusy(false);
             }
         }
 
@@ -2052,25 +2089,10 @@ namespace Worldescape
             if (result == MessageBoxResult.Cancel)
                 return;
 
-            // If logged in then log out and disconnect from hub
-            if (_isLoggedIn)
-            {
-                _mainPage.SetIsBusy(true);
-
-                await HubService.Logout();
-
-                if (HubService.IsConnected())
-                {
-                    await HubService.DisconnectAsync();
-                }
-
-                App.World = new World();
-
-                _mainPage.SetIsBusy(false);
-            }
+            await LogoutFromHubThenDisconnect();
 
             _mainPage.NavigateToPage(Constants.Page_WorldsPage);
-        }
+        }      
 
         /// <summary>
         /// Subscribe to hub and start listening to hub events.
@@ -2925,13 +2947,5 @@ namespace Worldescape
         #endregion
 
         #endregion
-
-        private void Page_Unloaded(object sender, RoutedEventArgs e)
-        {
-            if (HubService != null)
-            {
-                UnsubscribeHub();
-            }
-        }
     }
 }

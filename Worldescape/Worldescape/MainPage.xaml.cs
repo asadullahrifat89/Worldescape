@@ -55,17 +55,17 @@ namespace Worldescape
             LoggedInUserHolder.Visibility = Visibility.Collapsed;
         }
 
-        private void LogoutHubService()
-        {
-            var hubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
+        //private void LogoutHubService()
+        //{
+        //    var hubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
 
-            if (hubService.IsConnected())
-            {
-                hubService.Logout();
-                App.World = new World();
-                hubService.DisconnectAsync();
-            }
-        }
+        //    if (hubService.IsConnected())
+        //    {
+        //        hubService.Logout();
+        //        App.World = new World();
+        //        hubService.DisconnectAsync();
+        //    }
+        //}
 
         public void SetLoggedInUserModel()
         {
@@ -165,7 +165,7 @@ namespace Worldescape
                 var result = MessageBox.Show("You are connected to a world. Are you sure you want to leave?", "Warning!", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
-                    LogoutHubService();
+                    //LogoutHubService();
                     ProfileDetails();
                 }
             }
@@ -182,7 +182,7 @@ namespace Worldescape
                 var result = MessageBox.Show("You are connected to a world. Are you sure you want to leave?", "Warning!", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
-                    LogoutHubService();
+                    //LogoutHubService();
                     Logout();
                 }
             }
