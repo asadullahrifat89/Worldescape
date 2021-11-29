@@ -5,10 +5,14 @@ namespace Worldescape
 {
     public class PageNumber : INotifyPropertyChanged
     {
+        #region Ctor
+        
         public PageNumber(string number)
         {
             Number = number;
-        }
+        } 
+
+        #endregion
 
         #region PropertyChanged
 
