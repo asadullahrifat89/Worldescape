@@ -16,6 +16,8 @@ namespace Worldescape
     {
         #region Fields
 
+        public event EventHandler<ConstructAsset> AssetSelected;
+
         double _constructAssetMasonrySize = 130;
         double _constructCategoryMasonrySize = 130;
 
@@ -26,17 +28,15 @@ namespace Worldescape
         bool _settingConstructAssets = false;
 
         string _constructCategoryNameFilter = string.Empty;
-        ConstructCategory _pickedConstructCategory = new ConstructCategory() { Name = "All" };
-
-        List<ConstructAsset> ConstructAssets = new List<ConstructAsset>();
-        List<ConstructCategory> ConstructCategories = new List<ConstructCategory>();
-
-        RangeObservableCollection<PageNumber> _pageNumbers = new RangeObservableCollection<PageNumber>();
+        
+        readonly List<ConstructAsset> ConstructAssets = new List<ConstructAsset>();
+        readonly List<ConstructCategory> ConstructCategories = new List<ConstructCategory>();
 
         readonly UrlHelper _urlHelper;
         readonly PaginationHelper _paginationHelper;
 
-        public event EventHandler<ConstructAsset> AssetSelected;
+        ConstructCategory _pickedConstructCategory = new ConstructCategory() { Name = "All" };
+        RangeObservableCollection<PageNumber> _pageNumbers = new RangeObservableCollection<PageNumber>();
 
         #endregion
 
