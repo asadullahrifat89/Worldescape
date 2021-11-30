@@ -1623,22 +1623,27 @@ namespace Worldescape
 
         #region World
 
-        private async void PopulateClouds()
+        private async void PopulateClouds(bool drawOver = false)
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 25; i++)
             {
-                var cloudImage = $"ms-appx:///Images/Defaults/cloud-{new Random().Next(3)}.png";
+                var cloudImage = $"ms-appx:///Images/Defaults/cloud-{new Random().Next(0, 3)}.png";
 
                 var bitmap = new BitmapImage(new Uri(cloudImage, UriKind.RelativeOrAbsolute));
 
-                var img = new Image() { Source = bitmap, Stretch = Stretch.None };
+                var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, MaxHeight = 256, MaxWidth = 256 };
 
-                //Canvas.SetLeft(img, new Random().Next(8000));
                 Canvas.SetTop(img, new Random().Next(8000));
+
+                if (drawOver)
+                {
+                    Canvas.SetZIndex(img, 999);
+                    img.RenderTransform = new ScaleTransform() { ScaleX = -1 };
+                }
 
                 float distance = 8000;
                 float unitPixel = 200f;
-                float timeToTravelunitPixel = 0.5f;
+                float timeToTravelunitPixel = (float)(new Random().Next(1, 5));
 
                 float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
 
@@ -1648,7 +1653,6 @@ namespace Worldescape
                     To = 8000,
                     Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
                     RepeatBehavior = RepeatBehavior.Forever,
-                    //EasingFunction = _constructEaseOut,
                 };
 
                 Storyboard.SetTarget(gotoXAnimation, img);
@@ -1785,6 +1789,7 @@ namespace Worldescape
                         PopulateClouds();
                         await GetAvatars();
                         await GetConstructs();
+                        PopulateClouds(true);
 
                         _isLoggedIn = true;
 
@@ -2309,7 +2314,7 @@ namespace Worldescape
                 },
                 Character = Character,
                 World = new InWorld { Id = App.World.Id, Name = App.World.Name },
-                Coordinate = new Coordinate(x: (Window.Current.Bounds.Width / 2) - 50, y: (Window.Current.Bounds.Height / 2) - 100, z: new Random().Next(100, 999)),
+                Coordinate = new Coordinate(x: (Window.Current.Bounds.Width / 2) - 50, y: (Window.Current.Bounds.Height / 2) - 100, z: new Random().Next(100, 900)),
                 ImageUrl = Character.ImageUrl,
             };
         }
