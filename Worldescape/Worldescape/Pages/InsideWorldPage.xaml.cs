@@ -160,31 +160,31 @@ namespace Worldescape
                 ClearMultiselectedConstructs();
                 HideAvatarActivityStatusHolder();
 
-                if (ToggleButton_Pan.IsChecked.Value)
+                if (ToggleButton_PanCanvas.IsChecked.Value)
                 {
                     // Canvas_Root drag start
                     UIElement uielement = (UIElement)sender;
-                    DragStart(Canvas_RootContainer, e, uielement); 
+                    DragStart(Canvas_RootContainer, e, uielement);
                 }
             }
         }
 
         private void Canvas_Root_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (ToggleButton_Pan.IsChecked.Value)
+            if (ToggleButton_PanCanvas.IsChecked.Value)
             {
                 UIElement uielement = (UIElement)sender;
-                DragElement(Canvas_RootContainer, e, uielement); 
+                DragElement(Canvas_RootContainer, e, uielement);
             }
         }
 
         private void Canvas_Root_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (ToggleButton_Pan.IsChecked.Value)
+            if (ToggleButton_PanCanvas.IsChecked.Value)
             {
                 // Drag stop
                 UIElement uielement = (UIElement)sender;
-                DragRelease(e, uielement); 
+                DragRelease(e, uielement);
             }
         }
 
@@ -603,7 +603,7 @@ namespace Worldescape
 
                 Button_ConstructAdd.IsChecked = false;
 
-                ToggleButton_Pan.IsChecked = false;
+                ToggleButton_PanCanvas.IsChecked = false;
 
                 HideConstructAssetsControl();
 
@@ -1802,20 +1802,6 @@ namespace Worldescape
         private void DragStart(Canvas canvas, PointerRoutedEventArgs e, UIElement uielement)
         {
             _elementHelper.DragStart(canvas, e, uielement);
-
-            //// Drag start of a constuct
-            //_objectLeft = Canvas.GetLeft(uielement);
-            //_objectTop = Canvas.GetTop(uielement);
-
-            //var currentPoint = e.GetCurrentPoint(Canvas_Root);
-
-            //// Remember the pointer position:
-            //_pointerX = currentPoint.Position.X;
-            //_pointerY = currentPoint.Position.Y;
-
-            //uielement.CapturePointer(e.Pointer);
-
-            //_isPointerCaptured = true;
         }
 
         /// <summary>
@@ -1826,26 +1812,6 @@ namespace Worldescape
         private void DragElement(Canvas canvas, PointerRoutedEventArgs e, UIElement uielement)
         {
             _elementHelper.DragElement(canvas, e, uielement);
-
-            //if (_isPointerCaptured)
-            //{
-            //    var currentPoint = e.GetCurrentPoint(Canvas_Root);
-
-            //    // Calculate the new position of the object:
-            //    double deltaH = currentPoint.Position.X - _pointerX;
-            //    double deltaV = currentPoint.Position.Y - _pointerY;
-
-            //    _objectLeft = deltaH + _objectLeft;
-            //    _objectTop = deltaV + _objectTop;
-
-            //    // Update the object position:
-            //    Canvas.SetLeft(uielement, _objectLeft);
-            //    Canvas.SetTop(uielement, _objectTop);
-
-            //    // Remember the pointer position:
-            //    _pointerX = currentPoint.Position.X;
-            //    _pointerY = currentPoint.Position.Y;
-            //}
         }
 
         /// <summary>
@@ -1856,9 +1822,6 @@ namespace Worldescape
         private void DragRelease(PointerRoutedEventArgs e, UIElement uielement)
         {
             _elementHelper.DragRelease(e, uielement);
-
-            //_isPointerCaptured = false;
-            //uielement.ReleasePointerCapture(e.Pointer);
         }
 
         /// <summary>
@@ -2992,5 +2955,17 @@ namespace Worldescape
         #endregion
 
         #endregion
+
+        private void ToggleButton_ZoomInCanvas_Click(object sender, RoutedEventArgs e)
+        {
+            Canvas_RootScaleTransform.ScaleX += 0.25;
+            Canvas_RootScaleTransform.ScaleY += 0.25;
+        }
+
+        private void ToggleButton_ZoomOutCanvas_Click(object sender, RoutedEventArgs e)
+        {
+            Canvas_RootScaleTransform.ScaleX -= 0.25;
+            Canvas_RootScaleTransform.ScaleY -= 0.25;
+        }
     }
 }
