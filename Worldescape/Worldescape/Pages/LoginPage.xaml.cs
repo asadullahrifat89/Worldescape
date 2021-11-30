@@ -24,8 +24,6 @@ namespace Worldescape
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             CheckIfModelValid();
-
-            //ContentControl_Root.Content = ImageTile.GenerateTiles("ms-appx:///Images/Defaults/FloatingClouds.gif", 1000, 1000);
         }
 
         #endregion
