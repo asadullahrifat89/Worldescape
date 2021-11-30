@@ -19,7 +19,6 @@
 		</ApplicationDefinition>
 		<Content Include="Images\Defaults\cloud-0.png" />
 		<Content Include="Images\Defaults\cloud-1.png" />
-		<Content Include="Images\Defaults\cloud-2.png" />
 		<Content Include="Images\Defaults\World_1.png" />
 		<Content Include="Images\Defaults\World_2.png" />
 		<Content Include="Images\Defaults\World_3.png" />

@@ -1627,7 +1627,7 @@ namespace Worldescape
         {
             for (int i = 0; i < 25; i++)
             {
-                var cloudImage = $"ms-appx:///Images/Defaults/cloud-{new Random().Next(0, 3)}.png";
+                var cloudImage = $"ms-appx:///Images/Defaults/cloud-{new Random().Next(minValue: 0, maxValue: 2)}.png";
 
                 var bitmap = new BitmapImage(new Uri(cloudImage, UriKind.RelativeOrAbsolute));
 
@@ -1643,7 +1643,7 @@ namespace Worldescape
 
                 float distance = 8000;
                 float unitPixel = 200f;
-                float timeToTravelunitPixel = (float)(new Random().Next(1, 5));
+                float timeToTravelunitPixel = (float)(new Random().Next(minValue: 1, maxValue: 5));
 
                 float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
 
