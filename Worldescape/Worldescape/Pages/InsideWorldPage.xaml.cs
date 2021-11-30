@@ -504,6 +504,18 @@ namespace Worldescape
 
         }
 
+        private void ToggleButton_ZoomInCanvas_Click(object sender, RoutedEventArgs e)
+        {
+            Canvas_RootScaleTransform.ScaleX += 0.25;
+            Canvas_RootScaleTransform.ScaleY += 0.25;
+        }
+
+        private void ToggleButton_ZoomOutCanvas_Click(object sender, RoutedEventArgs e)
+        {
+            Canvas_RootScaleTransform.ScaleX -= 0.25;
+            Canvas_RootScaleTransform.ScaleY -= 0.25;
+        }
+
         #endregion
 
         #region Connection
@@ -2366,6 +2378,11 @@ namespace Worldescape
             ConstructAssetPickerControl.AssetSelected += ConstructAssetPickerControl_AssetSelected;
         }
 
+        /// <summary>
+        /// Subscription method for AssetSelected event of ConstructAssetPickerControl.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="constructAsset"></param>
         private void ConstructAssetPickerControl_AssetSelected(object sender, ConstructAsset constructAsset)
         {
             var constructBtn = GenerateConstructButton(
@@ -2719,13 +2736,16 @@ namespace Worldescape
         /// <returns></returns>
         private async Task MoveMultiSelectedConstruct(PointerRoutedEventArgs e)
         {
-            var currrentPoint = e.GetCurrentPoint(Canvas_Root);
+            var pressedPoint = e.GetCurrentPoint(Canvas_Root);
 
-            var pointX = currrentPoint.Position.X;
-            var pointY = currrentPoint.Position.Y;
+            var pointX = NormalizePointerX(pressedPoint);
+            var pointY = NormalizePointerY(pressedPoint);
 
-            pointX = pointX / ((ScaleTransform)Canvas_Root.RenderTransform).ScaleX;
-            pointY = pointY / ((ScaleTransform)Canvas_Root.RenderTransform).ScaleY;
+            //var pointX = currrentPoint.Position.X;
+            //var pointY = currrentPoint.Position.Y;
+
+            //pointX = pointX / ((ScaleTransform)Canvas_Root.RenderTransform).ScaleX;
+            //pointY = pointY / ((ScaleTransform)Canvas_Root.RenderTransform).ScaleY;
 
             // Align avatar to clicked point
             AlignUsersAvatarFaceDirection(pointX);
@@ -2796,6 +2816,26 @@ namespace Worldescape
             await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
 
             Console.WriteLine("Construct moved.");
+        }
+
+        /// <summary>
+        /// Normalizes the X position of the provided PointerPoint w.r.t X ScaleTransform factor of Canvas_Root.
+        /// </summary>
+        /// <param name="pressedPoint"></param>
+        /// <returns></returns>
+        private double NormalizePointerX(PointerPoint pressedPoint)
+        {
+            return _elementHelper.NormalizePointerX(Canvas_Root, pressedPoint);
+        }
+
+        /// <summary>
+        ///  Normalizes the Y position of the provided PointerPoint w.r.t Y ScaleTransform factor of Canvas_Root.
+        /// </summary>
+        /// <param name="pressedPoint"></param>
+        /// <returns></returns>
+        private double NormalizePointerY(PointerPoint pressedPoint)
+        {
+            return _elementHelper.NormalizePointerY(Canvas_Root, pressedPoint);
         }
 
         #endregion
@@ -2985,17 +3025,5 @@ namespace Worldescape
         #endregion
 
         #endregion
-
-        private void ToggleButton_ZoomInCanvas_Click(object sender, RoutedEventArgs e)
-        {
-            Canvas_RootScaleTransform.ScaleX += 0.25;
-            Canvas_RootScaleTransform.ScaleY += 0.25;
-        }
-
-        private void ToggleButton_ZoomOutCanvas_Click(object sender, RoutedEventArgs e)
-        {
-            Canvas_RootScaleTransform.ScaleX -= 0.25;
-            Canvas_RootScaleTransform.ScaleY -= 0.25;
-        }
     }
 }

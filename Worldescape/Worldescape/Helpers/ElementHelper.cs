@@ -13,6 +13,8 @@ namespace Worldescape
 {
     public class ElementHelper
     {
+        #region Fields
+
         bool _isPointerCaptured;
         double _pointerX;
         double _pointerY;
@@ -23,10 +25,45 @@ namespace Worldescape
         readonly AvatarHelper _avatarHelper;
         readonly EasingFunctionBase _constructEaseOut = new ExponentialEase() { EasingMode = EasingMode.EaseOut, Exponent = 5, };
 
+        #endregion
+
+        #region Ctor
+
         public ElementHelper(AvatarHelper avatarHelper)
         {
             _avatarHelper = avatarHelper;
         }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Normalizes the X position of the provided PointerPoint w.r.t X ScaleTransform factor of the provided Canvas.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="pressedPoint"></param>
+        /// <returns></returns>
+        public double NormalizePointerX(Canvas canvas, Windows.UI.Input.PointerPoint pressedPoint)
+        {
+            var pointX = pressedPoint.Position.X;
+            pointX = pointX / ((ScaleTransform)canvas.RenderTransform).ScaleX;
+            return pointX;
+        }
+
+        /// <summary>
+        /// Normalizes the Y position of the provided PointerPoint w.r.t Y ScaleTransform factor of the provided Canvas.
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="pressedPoint"></param>
+        /// <returns></returns>
+        public double NormalizePointerY(Canvas canvas, Windows.UI.Input.PointerPoint pressedPoint)
+        {
+            var pointY = pressedPoint.Position.Y;
+            pointY = pointY / ((ScaleTransform)canvas.RenderTransform).ScaleY;
+            return pointY;
+        }
+
 
         /// <summary>
         /// Moves an UIElement to a new coordinate with the provided PointerRoutedEventArgs in canvas. Returns the tagged object of the uIElement.
@@ -39,11 +76,14 @@ namespace Worldescape
         {
             var pressedPoint = e.GetCurrentPoint(canvas);
 
-            var pointX = pressedPoint.Position.X;
-            var pointY = pressedPoint.Position.Y;
+            var pointX = NormalizePointerX(canvas, pressedPoint);
+            var pointY = NormalizePointerY(canvas, pressedPoint);
 
-            pointX = pointX / ((ScaleTransform)canvas.RenderTransform).ScaleX;
-            pointY = pointY / ((ScaleTransform)canvas.RenderTransform).ScaleY;
+            //var pointX = pressedPoint.Position.X;
+            //var pointY = pressedPoint.Position.Y;
+
+            //pointX = pointX / ((ScaleTransform)canvas.RenderTransform).ScaleX;
+            //pointY = pointY / ((ScaleTransform)canvas.RenderTransform).ScaleY;
 
             var button = (Button)uIElement;
 
@@ -396,5 +436,7 @@ namespace Worldescape
             _isPointerCaptured = false;
             uielement.ReleasePointerCapture(e.Pointer);
         }
+
+        #endregion
     }
 }
