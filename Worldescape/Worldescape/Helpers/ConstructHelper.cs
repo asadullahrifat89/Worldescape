@@ -13,6 +13,13 @@ namespace Worldescape
 {
     public class ConstructHelper
     {
+        readonly ElementHelper _elementHelper;
+
+        public ConstructHelper(ElementHelper elementHelper)
+        {
+            _elementHelper = elementHelper;
+        }
+
         #region UI
 
         /// <summary>
@@ -194,13 +201,17 @@ namespace Worldescape
         public Construct CenterAlignNewConstructButton(
             Windows.UI.Input.PointerPoint pressedPoint,
             Button constructButton,
-            Construct construct)
+            Construct construct,
+            Canvas canvas)
         {
             var offsetX = constructButton.ActualWidth / 2;
             var offsetY = constructButton.ActualHeight / 2;
 
-            var goToX = pressedPoint.Position.X - offsetX;
-            var goToY = pressedPoint.Position.Y - offsetY;
+            var pointX = _elementHelper.NormalizePointerX(canvas, pressedPoint);
+            var pointY = _elementHelper.NormalizePointerY(canvas, pressedPoint);
+
+            var goToX = pointX - offsetX;
+            var goToY = pointY - offsetY;
 
             Canvas.SetLeft(constructButton, goToX);
             Canvas.SetTop(constructButton, goToY);

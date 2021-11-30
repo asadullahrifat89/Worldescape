@@ -28,15 +28,16 @@
                 VerticalScrollBarVisibility="Auto">
 
                 <Canvas x:Name="Canvas_RootContainer">
+
+                    <!--  PointerMoved="Canvas_Root_PointerMoved"  -->
+                    <!--  PointerReleased="Canvas_Root_PointerReleased"  -->
                     <Canvas
                         x:Name="Canvas_Root"
                         Width="8000"
                         Height="8000"
                         AllowDrop="True"
                         Background="Transparent"
-                        PointerMoved="Canvas_Root_PointerMoved"
-                        PointerPressed="Canvas_Root_PointerPressed"
-                        PointerReleased="Canvas_Root_PointerReleased">
+                        PointerPressed="Canvas_Root_PointerPressed">
                         <Canvas.RenderTransform>
                             <ScaleTransform x:Name="Canvas_RootScaleTransform" ScaleX="1" ScaleY="1" />
                         </Canvas.RenderTransform>
@@ -620,21 +621,21 @@
             </ContentControl>
 
             <StackPanel
-                Margin="20"
+                Margin="15,20,20,30"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
                 Orientation="Horizontal"
                 Visibility="{Binding ElementName=CurrentAvatarHolder, Path=Visibility, Mode=OneWay}">
 
                 <!--  Pan canvas  -->
-                <ToggleButton
+                <!--<ToggleButton
                     x:Name="ToggleButton_PanCanvas"
                     Width="50"
                     Margin="5,0"
                     Content="&#xECE9;"
                     FontFamily="Segoe MDL2 Assets"
                     FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
+                    Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />-->
 
                 <!--  Zoom in canvas  -->
                 <Button

@@ -24,7 +24,6 @@ namespace Worldescape
         double _objectLeft;
         double _objectTop;
 
-
         readonly AvatarHelper _avatarHelper;
         readonly EasingFunctionBase _constructEaseOut = new ExponentialEase() { EasingMode = EasingMode.EaseOut, Exponent = 5, };
 

@@ -161,36 +161,36 @@ namespace Worldescape
                 ClearMultiselectedConstructs();
                 HideAvatarActivityStatusHolder();
 
-                if (ToggleButton_PanCanvas.IsChecked.Value)
-                {
-                    Canvas_RootContainer.Cursor = Cursors.SizeAll;
+                //if (ToggleButton_PanCanvas.IsChecked.Value)
+                //{
+                //    Canvas_RootContainer.Cursor = Cursors.SizeAll;
 
-                    // Canvas_Root drag start
-                    UIElement uielement = (UIElement)sender;
-                    DragStart(Canvas_RootContainer, e, uielement);
-                }
+                //    // Canvas_Root drag start
+                //    UIElement uielement = (UIElement)sender;
+                //    DragStart(Canvas_RootContainer, e, uielement);
+                //}
             }
         }
 
-        private void Canvas_Root_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            if (ToggleButton_PanCanvas.IsChecked.Value)
-            {
-                UIElement uielement = (UIElement)sender;
-                DragElement(Canvas_RootContainer, e, uielement);
-            }
-        }
+        //private void Canvas_Root_PointerMoved(object sender, PointerRoutedEventArgs e)
+        //{
+        //    if (ToggleButton_PanCanvas.IsChecked.Value)
+        //    {
+        //        UIElement uielement = (UIElement)sender;
+        //        DragElement(Canvas_RootContainer, e, uielement);
+        //    }
+        //}
 
-        private void Canvas_Root_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            if (ToggleButton_PanCanvas.IsChecked.Value)
-            {
-                Canvas_RootContainer.Cursor = Cursors.Arrow;
-                // Drag stop
-                UIElement uielement = (UIElement)sender;
-                DragRelease(e, uielement);
-            }
-        }
+        //private void Canvas_Root_PointerReleased(object sender, PointerRoutedEventArgs e)
+        //{
+        //    if (ToggleButton_PanCanvas.IsChecked.Value)
+        //    {
+        //        Canvas_RootContainer.Cursor = Cursors.Arrow;
+        //        // Drag stop
+        //        UIElement uielement = (UIElement)sender;
+        //        DragRelease(e, uielement);
+        //    }
+        //}
 
         #endregion
 
@@ -565,7 +565,7 @@ namespace Worldescape
 
                 Button_ConstructAdd.IsChecked = false;
 
-                ToggleButton_PanCanvas.IsChecked = false;
+                //ToggleButton_PanCanvas.IsChecked = false;
 
                 HideConstructAssetsControl();
 
@@ -2500,7 +2500,7 @@ namespace Worldescape
         /// <returns></returns>
         private Construct CenterAlignNewConstructButton(PointerPoint pressedPoint, Button constructButton, Construct construct)
         {
-            return _constructHelper.CenterAlignNewConstructButton(pressedPoint, constructButton, construct);
+            return _constructHelper.CenterAlignNewConstructButton(pressedPoint: pressedPoint, constructButton: constructButton, construct: construct, canvas: Canvas_Root);
         }
 
         /// <summary>

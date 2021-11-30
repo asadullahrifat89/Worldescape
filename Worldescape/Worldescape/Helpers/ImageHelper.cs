@@ -5,6 +5,11 @@ namespace Worldescape
 {
     public class ImageHelper
     {
+        /// <summary>
+        /// Returns a BitmapImage from the provided dataUrl.
+        /// </summary>
+        /// <param name="dataUrl"></param>
+        /// <returns></returns>
         public BitmapImage GetBitmapImage(string dataUrl)
         {
             var bitmapimage = new BitmapImage();

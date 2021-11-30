@@ -14,7 +14,7 @@ namespace Worldescape
     {
         #region Fields
 
-        int _pageSize = 12;
+        int _pageSize = 18;
         int _pageIndex = 0;
         long _totalPageCount = 0;
 
@@ -81,7 +81,6 @@ namespace Worldescape
 
             if (countResponse.Count > 0)
             {
-
                 var response = await _httpServiceHelper.SendGetRequest<GetWorldsQueryResponse>(
                    actionUri: Constants.Action_GetWorlds,
                    payload: new GetWorldsQueryRequest()
