@@ -612,7 +612,7 @@
             <!--  Bottom right active avatars list  -->
             <ContentControl
                 x:Name="ContentControl_ActiveAvatarsContainer"
-                Margin="20,20,20,100"
+                Margin="20,20,20,90"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
                 Style="{StaticResource MaterialDesign_Card_Style}"
@@ -625,6 +625,7 @@
                     VerticalScrollBarVisibility="Auto" />
             </ContentControl>
 
+            <!--  Bottom left zoom buttons  -->
             <StackPanel
                 Margin="15,20,20,30"
                 HorizontalAlignment="Left"
@@ -665,6 +666,7 @@
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
             </StackPanel>
+
         </Grid>
 
         <!--  Bottom wide construct assets list  -->
