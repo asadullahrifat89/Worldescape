@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Common;
 
@@ -51,6 +53,56 @@ namespace Worldescape
 
             imageBorder.Child = userImage;
             return imageBorder;
+        }
+
+        /// <summary>
+        /// Adds random clouds to the canvas. If drawOver= true then adds the clouds on top of existing canvas elements.
+        /// </summary>
+        /// <param name="drawOver"></param>
+        public async Task PopulateClouds(Canvas canvas, bool drawOver = false)
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                var cloudImage = $"ms-appx:///Images/Defaults/cloud-{new Random().Next(minValue: 0, maxValue: 2)}.png";
+
+                var bitmap = new BitmapImage(new Uri(cloudImage, UriKind.RelativeOrAbsolute));
+
+                var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, MaxHeight = 256, MaxWidth = 256 };
+
+                Canvas.SetTop(img, new Random().Next(8000));
+
+                if (drawOver)
+                {
+                    Canvas.SetZIndex(img, 999);
+                    img.RenderTransform = new ScaleTransform() { ScaleX = -1 };
+                }
+
+                float distance = 7500;
+                float unitPixel = 200f;
+                float timeToTravelunitPixel = new Random().Next(minValue: 1, maxValue: 5);
+
+                float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
+
+                var gotoXAnimation = new DoubleAnimation()
+                {
+                    From = 0,
+                    To = distance,
+                    Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                    RepeatBehavior = RepeatBehavior.Forever,
+                };
+
+                Storyboard.SetTarget(gotoXAnimation, img);
+                Storyboard.SetTargetProperty(gotoXAnimation, new PropertyPath(Canvas.LeftProperty));
+
+                Storyboard moveStory = new Storyboard();
+                moveStory.Children.Add(gotoXAnimation);
+
+                canvas.Children.Add(img);
+
+                moveStory.Begin();
+
+                await Task.Delay(1000);
+            }
         }
 
         #endregion
