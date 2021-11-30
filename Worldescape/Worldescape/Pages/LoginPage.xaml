@@ -54,7 +54,7 @@
                         BindingValidationError="Control_BindingValidationError"
                         FontSize="16"
                         LostFocus="Control_LostFocus"
-                        Style="{StaticResource MaterialDesign_TextBox_Style}"
+                        Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
                         Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
                         TextAlignment="Left" />
 
@@ -72,7 +72,7 @@
                         KeyDown="PasswordBox_Pasword_KeyDown"
                         LostFocus="Control_LostFocus"
                         Password="{Binding Password, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
-                        Style="{StaticResource MaterialDesign_PasswordBox_Style}" />
+                        Style="{StaticResource MaterialDesign_RoundPasswordBox_Style}" />
 
                     <!--  Login  -->
                     <Button
@@ -81,7 +81,7 @@
                         Click="Button_Login_Click"
                         Content="Log In"
                         FontSize="16"
-                        Style="{StaticResource MaterialDesign_Button_Style}" />
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                     <!--  Signup  -->
                     <Button
@@ -90,7 +90,7 @@
                         Click="Button_SignUp_Click"
                         Content="Sign Up"
                         FontSize="16"
-                        Style="{StaticResource MaterialDesign_Button_Style}" />
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 </StackPanel>
 

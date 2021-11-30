@@ -59,7 +59,7 @@
                                 FontSize="16"
                                 LostFocus="Control_LostFocus"
                                 PlaceholderText="Jhon"
-                                Style="{StaticResource MaterialDesign_TextBox_Style}"
+                                Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
                                 Text="{Binding FirstName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
                                 TextAlignment="Left" />
 
@@ -81,7 +81,7 @@
                                 FontSize="16"
                                 LostFocus="Control_LostFocus"
                                 PlaceholderText="Doe"
-                                Style="{StaticResource MaterialDesign_TextBox_Style}"
+                                Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
                                 Text="{Binding LastName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
                                 TextAlignment="Left" />
 
@@ -102,7 +102,7 @@
                         FontSize="16"
                         LostFocus="Control_LostFocus"
                         PlaceholderText="username@usermail.com"
-                        Style="{StaticResource MaterialDesign_TextBox_Style}"
+                        Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
                         Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
                         TextAlignment="Left" />
 
@@ -119,7 +119,7 @@
                         FontSize="16"
                         LostFocus="Control_LostFocus"
                         Password="{Binding Password, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
-                        Style="{StaticResource MaterialDesign_PasswordBox_Style}" />
+                        Style="{StaticResource MaterialDesign_RoundPasswordBox_Style}" />
 
                     <TextBlock
                         Margin="10,5"
@@ -134,7 +134,7 @@
                         FontSize="16"
                         LostFocus="Control_LostFocus"
                         SelectedDate="{Binding DateOfBirth, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
-                        Style="{StaticResource MaterialDesign_DatePicker_Style}" />
+                        Style="{StaticResource MaterialDesign_RoundDatePicker_Style}" />
 
                     <TextBlock
                         Margin="10,5"
@@ -172,7 +172,7 @@
                         Content="Create Account"
                         FontSize="16"
                         IsEnabled="{Binding Path=IsValid, Mode=OneWay}"
-                        Style="{StaticResource MaterialDesign_Button_Style}" />
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                     <Button
                         x:Name="Button_Login"
@@ -180,7 +180,7 @@
                         Click="Button_Login_Click"
                         Content="Log In"
                         FontSize="16"
-                        Style="{StaticResource MaterialDesign_Button_Style}" />
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                 </StackPanel>
 

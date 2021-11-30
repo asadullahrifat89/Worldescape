@@ -27,22 +27,22 @@
                 IsTabStop="False"
                 VerticalScrollBarVisibility="Auto">
 
-                <Canvas x:Name="Canvas_RootContainer">
+                <!--<Canvas x:Name="Canvas_RootContainer">-->
 
-                    <!--  PointerMoved="Canvas_Root_PointerMoved"  -->
-                    <!--  PointerReleased="Canvas_Root_PointerReleased"  -->
-                    <Canvas
-                        x:Name="Canvas_Root"
-                        Width="8000"
-                        Height="8000"
-                        AllowDrop="True"
-                        Background="Transparent"
-                        PointerPressed="Canvas_Root_PointerPressed">
-                        <Canvas.RenderTransform>
-                            <ScaleTransform x:Name="Canvas_RootScaleTransform" ScaleX="1" ScaleY="1" />
-                        </Canvas.RenderTransform>
-                    </Canvas>
+                <!--  PointerMoved="Canvas_Root_PointerMoved"  -->
+                <!--  PointerReleased="Canvas_Root_PointerReleased"  -->
+                <Canvas
+                    x:Name="Canvas_Root"
+                    Width="8000"
+                    Height="8000"
+                    AllowDrop="True"
+                    Background="Transparent"
+                    PointerPressed="Canvas_Root_PointerPressed">
+                    <Canvas.RenderTransform>
+                        <ScaleTransform x:Name="Canvas_RootScaleTransform" ScaleX="1" ScaleY="1" />
+                    </Canvas.RenderTransform>
                 </Canvas>
+                <!--</Canvas>-->
 
             </ScrollViewer>
 
@@ -196,7 +196,10 @@
                     </StackPanel>
 
                     <!--  Multi selected constructs  -->
-                    <ContentControl Style="{StaticResource MaterialDesign_PopupContent_Style}" Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <ContentControl
+                        Padding="5"
+                        Style="{StaticResource MaterialDesign_Card_Style}"
+                        Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                         <StackPanel x:Name="MultiSelectedConstructsHolder" Orientation="Horizontal" />
                     </ContentControl>
 
@@ -212,20 +215,22 @@
                         <ContentControl
                             x:Name="OperationalConstructHolder"
                             Margin="10"
+                            Padding="5"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                            Style="{StaticResource MaterialDesign_Card_Style}"
                             Visibility="Collapsed" />
 
                         <!--  Shows clicked on construct  -->
                         <ContentControl
                             x:Name="SelectedConstructHolder"
                             Margin="10"
+                            Padding="5"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontWeight="SemiBold"
                             Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                            Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                            Style="{StaticResource MaterialDesign_Card_Style}"
                             Visibility="Collapsed" />
 
                     </StackPanel>
@@ -240,11 +245,12 @@
                         <ContentControl
                             x:Name="SelectedAvatarHolder"
                             Margin="10"
+                            Padding="5"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontWeight="SemiBold"
                             Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                            Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                            Style="{StaticResource MaterialDesign_Card_Style}"
                             Visibility="Collapsed" />
 
                         <!--  Selected avatar commands  -->
