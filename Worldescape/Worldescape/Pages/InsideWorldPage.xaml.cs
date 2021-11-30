@@ -131,7 +131,7 @@ namespace Worldescape
             if (!CanPerformWorldEvents())
                 return;
 
-            if (/*Button_ConstructAdd.IsChecked.Value &&*/ _addingConstruct != null)
+            if (Button_ConstructAdd.IsChecked.Value && _addingConstruct != null)
             {
                 await AddConstructOnPointerPressed(e); // Canvas_Root
             }
@@ -223,7 +223,7 @@ namespace Worldescape
 
             ShowSelectedConstruct(uielement); // Construct
 
-            if (/*Button_ConstructAdd.IsChecked.Value &&*/ _addingConstruct != null)
+            if (Button_ConstructAdd.IsChecked.Value && _addingConstruct != null)
             {
                 await AddConstructOnPointerPressed(e); // Construct
             }
@@ -601,8 +601,8 @@ namespace Worldescape
 
         private void Button_CloseConstructAssetsContainer_Click(object sender, RoutedEventArgs e)
         {
-            ContentControl_ConstructAssetsControlContainer.Content = null;
-            ContentControl_ConstructAssetsContainer.Visibility = Visibility.Collapsed;
+            HideConstructAssetsControl();
+            //Button_ConstructAdd.IsChecked = false;
         }
 
         /// <summary>
@@ -655,7 +655,9 @@ namespace Worldescape
 
                 Button_ConstructClone.IsChecked = false;
 
-                //Button_ConstructAdd.IsChecked = false;
+                Button_ConstructAdd.IsChecked = false;
+
+                HideConstructAssetsControl();
 
                 Button_ConstructMultiSelect.IsChecked = false;
 
@@ -701,8 +703,15 @@ namespace Worldescape
                     //return;
                 }
 
-                ContentControl_ConstructAssetsControlContainer.Content = ConstructAssetPickerControl;
-                ContentControl_ConstructAssetsContainer.Visibility = Visibility.Visible;
+                if (Button_ConstructAdd.IsChecked.Value)
+                {
+                    ShowConstructAssetsControl();
+                }
+                else
+                {
+                    HideConstructAssetsControl();
+                }
+                
                 //ConstructAssetPickerControl.ShowConstructCategories();
 
                 //if (!ConstructAssets.Any())
@@ -2630,13 +2639,28 @@ namespace Worldescape
 
         #region Construct
 
+        private void ShowConstructAssetsControl()
+        {
+            if (ContentControl_ConstructAssetsControlContainer.Content == null)
+            {
+                ContentControl_ConstructAssetsControlContainer.Content = ConstructAssetPickerControl;
+            }
+            ContentControl_ConstructAssetsContainer.Visibility = Visibility.Visible;
+        }
+
+        private void HideConstructAssetsControl()
+        {
+            //ContentControl_ConstructAssetsControlContainer.Content = null;
+            ContentControl_ConstructAssetsContainer.Visibility = Visibility.Collapsed;
+        }
+
         private void UnsubscribeConstructAssetPicker()
         {
             ConstructAssetPickerControl.AssetSelected -= ConstructAssetPickerControl_AssetSelected;
         }
 
         private void SubscribeConstructAssetPicker() 
-        {
+        {            
             ConstructAssetPickerControl.AssetSelected += ConstructAssetPickerControl_AssetSelected;
         }
 
