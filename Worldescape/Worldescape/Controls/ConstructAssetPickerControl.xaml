@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Worldescape"
-    Height="350"
     FontWeight="SemiBold">
     <Grid x:Name="LayoutRoot" Margin="2">
 
@@ -13,57 +12,51 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Margin="5">
+        <StackPanel
+            Grid.Row="0"
+            Margin="5"
+            Orientation="Horizontal">
 
-            <StackPanel Orientation="Horizontal">
+            <!--  Select category  -->
+            <Button
+                x:Name="CategoriesButton"
+                Grid.Column="0"
+                Width="120"
+                Margin="5,0"
+                Click="ButtonShowCategories_Click"
+                Content="Categories"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
-                <!--<Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>-->
+            <!--  Search box for constructs  -->
+            <TextBox
+                x:Name="TextBoxSearchConstructAssets"
+                Grid.Column="1"
+                Width="300"
+                Margin="5,0"
+                VerticalAlignment="Center"
+                FontSize="16"
+                KeyDown="TextBoxSearchConstructAssets_KeyDown"
+                PlaceholderText="Search constructs"
+                Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
+                TextAlignment="Left" />
 
-                <!--  Select category  -->
-                <Button
-                    x:Name="CategoriesButton"
-                    Grid.Column="0"
-                    Width="120"
-                    Margin="5,0"
-                    Click="ButtonShowCategories_Click"
-                    Content="Categories"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-                <!--  Search box for constructs  -->
-                <TextBox
-                    x:Name="TextBoxSearchConstructAssets"
-                    Grid.Column="1"
-                    Width="300"
-                    Margin="5,0"
-                    VerticalAlignment="Center"
-                    FontSize="16"
-                    KeyDown="TextBoxSearchConstructAssets_KeyDown"
-                    PlaceholderText="Search constructs"
-                    Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
-                    TextAlignment="Left" />
-
-                <!--  Search worlds  -->
-                <Button
-                    x:Name="ButtonSearchConstructAssets"
-                    Grid.Column="2"
-                    Width="50"
-                    Margin="5,0"
-                    Click="ButtonSearchConstructAssets_Click"
-                    Content="&#xE721;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-            </StackPanel>
+            <!--  Search worlds  -->
+            <Button
+                x:Name="ButtonSearchConstructAssets"
+                Grid.Column="2"
+                Width="50"
+                Margin="5,0"
+                Click="ButtonSearchConstructAssets_Click"
+                Content="&#xE721;"
+                FontFamily="Segoe MDL2 Assets"
+                FontWeight="Normal"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
             <!--  Found construct assets count  -->
             <TextBlock
                 x:Name="FoundConstructAssetsCountHolder"
                 Margin="5,0"
+                VerticalAlignment="Center"
                 FontSize="16"
                 FontWeight="SemiBold"
                 Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />

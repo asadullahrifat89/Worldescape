@@ -91,7 +91,7 @@ namespace Worldescape
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
-                Height = 350
+                Height = 300
             };
 
             var allConstructCategory = new ConstructCategory() { Name = "All" };
