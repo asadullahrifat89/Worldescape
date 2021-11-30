@@ -37,7 +37,6 @@ namespace Worldescape
         UIElement _messageToAvatar;
 
         readonly IHubService HubService;
-
         readonly MainPage _mainPage;
         readonly AvatarHelper _avatarHelper;
         readonly ConstructHelper _constructHelper;
