@@ -52,6 +52,8 @@ namespace Worldescape
         readonly HttpServiceHelper _httpServiceHelper;
         readonly PaginationHelper _paginationHelper;
 
+        readonly ConstructAssetPickerControl ConstructAssetPickerControl;
+
         #endregion
 
         #region Ctor
@@ -67,8 +69,10 @@ namespace Worldescape
             _constructHelper = App.ServiceProvider.GetService(typeof(ConstructHelper)) as ConstructHelper;
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
+            ConstructAssetPickerControl = App.ServiceProvider.GetService(typeof(ConstructAssetPickerControl)) as ConstructAssetPickerControl;
 
             SubscribeHub();
+            SubscribeConstructAssetPicker();
             SelectCharacterAndConnect();
         }
 
@@ -107,6 +111,7 @@ namespace Worldescape
             {
                 await LogoutFromHubThenDisconnect();
                 UnsubscribeHub();
+                UnsubscribeConstructAssetPicker();
             }
         }
 
@@ -594,6 +599,12 @@ namespace Worldescape
 
         #region Construct
 
+        private void Button_CloseConstructAssetsContainer_Click(object sender, RoutedEventArgs e)
+        {
+            ContentControl_ConstructAssetsControlContainer.Content = null;
+            ContentControl_ConstructAssetsContainer.Visibility = Visibility.Collapsed;
+        }
+
         /// <summary>
         /// Sets selected construct details on side card.
         /// </summary>
@@ -687,27 +698,31 @@ namespace Worldescape
                 {
                     _addingConstruct = null;
                     //Button_ConstructAdd.IsChecked = false;
-                    return;
+                    //return;
                 }
 
-                if (!ConstructAssets.Any())
-                {
-                    ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Service.Properties.Resources.ConstructAssets).ToList();
-                    ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
-                }
+                ContentControl_ConstructAssetsControlContainer.Content = ConstructAssetPickerControl;
+                ContentControl_ConstructAssetsContainer.Visibility = Visibility.Visible;
+                //ConstructAssetPickerControl.ShowConstructCategories();
 
-                var constructAssetPicker = new ConstructAssetPickerWindow(
-                    constructAssets: ConstructAssets,
-                    constructCategories: ConstructCategories,
-                    assetSelected: (constructAsset) =>
-                    {
-                        var constructBtn = GenerateConstructButton(
-                            name: constructAsset.Name,
-                            imageUrl: constructAsset.ImageUrl);
+                //if (!ConstructAssets.Any())
+                //{
+                //    ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Service.Properties.Resources.ConstructAssets).ToList();
+                //    ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
+                //}
 
-                        _addingConstruct = constructBtn;
-                        ShowOperationalConstruct(_addingConstruct);
-                    });
+                //var constructAssetPicker = new ConstructAssetPickerWindow(
+                //    constructAssets: ConstructAssets,
+                //    constructCategories: ConstructCategories,
+                //    assetSelected: (constructAsset) =>
+                //    {
+                //        var constructBtn = GenerateConstructButton(
+                //            name: constructAsset.Name,
+                //            imageUrl: constructAsset.ImageUrl);
+
+                //        _addingConstruct = constructBtn;
+                //        ShowOperationalConstruct(_addingConstruct);
+                //    });
 
                 // If the picker was closed without a selection of an asset, set the Button_ConstructAdd to default
                 //constructAssetPicker.Closed += (s, e) =>
@@ -718,7 +733,7 @@ namespace Worldescape
                 //    }
                 //};
 
-                constructAssetPicker.Show();
+                //constructAssetPicker.Show();
             }
         }
 
@@ -2613,7 +2628,27 @@ namespace Worldescape
 
         #endregion
 
-        #region Construct   
+        #region Construct
+
+        private void UnsubscribeConstructAssetPicker()
+        {
+            ConstructAssetPickerControl.AssetSelected -= ConstructAssetPickerControl_AssetSelected;
+        }
+
+        private void SubscribeConstructAssetPicker() 
+        {
+            ConstructAssetPickerControl.AssetSelected += ConstructAssetPickerControl_AssetSelected;
+        }
+
+        private void ConstructAssetPickerControl_AssetSelected(object sender, ConstructAsset constructAsset)
+        {
+            var constructBtn = GenerateConstructButton(
+                name: constructAsset.Name,
+                imageUrl: constructAsset.ImageUrl);
+
+            _addingConstruct = constructBtn;
+            ShowOperationalConstruct(_addingConstruct);
+        }
 
         /// <summary>
         /// Get constructs for the current world.
@@ -3160,6 +3195,6 @@ namespace Worldescape
 
         #endregion
 
-        #endregion
+        #endregion       
     }
 }

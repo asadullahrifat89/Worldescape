@@ -566,7 +566,7 @@
 
         </StackPanel>
 
-        <!--  Bottom right people counter  -->
+        <!--  Bottom right active avatars button  -->
         <ToggleButton
             x:Name="ToggleButton_ShowAvatars"
             MinWidth="100"
@@ -590,7 +590,7 @@
             </ToggleButton.Content>
         </ToggleButton>
 
-        <!--  Visibility="{Binding ElementName=ToggleButton_ShowAvatars, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"  -->
+        <!--  Bottom right active avatars list  -->
         <ContentControl
             x:Name="ContentControl_ActiveAvatarsContainer"
             Margin="20,20,20,100"
@@ -604,6 +604,52 @@
                 Height="420"
                 HorizontalScrollBarVisibility="Disabled"
                 VerticalScrollBarVisibility="Auto" />
+        </ContentControl>
+
+        <!--  Bottom left construct assets list  -->
+        <ContentControl
+            x:Name="ContentControl_ConstructAssetsContainer"
+            Margin="20,20,20,100"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Style="{StaticResource MaterialDesign_Card_Style}"
+            Visibility="Collapsed">
+
+            <Grid
+                Margin="10,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Button
+                    x:Name="Button_CloseConstructAssetsContainer"
+                    Grid.Row="0"
+                    Margin="0"
+                    Padding="0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Background="Transparent"
+                    Click="Button_CloseConstructAssetsContainer_Click"
+                    Content="&#215;"
+                    Effect="{x:Null}"
+                    FontSize="26"
+                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
+                    Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}" />
+
+                <ContentControl
+                    x:Name="ContentControl_ConstructAssetsControlContainer"
+                    Grid.Row="1"
+                    Width="650"
+                    Height="720" />
+
+            </Grid>
+
         </ContentControl>
 
     </Grid>
