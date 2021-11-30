@@ -1,0 +1,236 @@
+﻿<Page
+    x:Class="Worldescape.AccountPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="clr-namespace:CSHTML5.Extensions.FileOpenDialog"
+    xmlns:local="using:Worldescape"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="Segoe UI"
+    mc:Ignorable="d">
+
+    <ScrollViewer
+        HorizontalScrollBarVisibility="Auto"
+        IsTabStop="False"
+        VerticalScrollBarVisibility="Auto">
+        <StackPanel
+            Margin="0,10,0,10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Orientation="Vertical">
+
+            <!--  Profile image, name  -->
+            <StackPanel
+                Margin="20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top">
+
+                <StackPanel Orientation="Horizontal">
+
+                    <!--  ProfileImageUrl  -->
+                    <Border
+                        Width="120"
+                        Height="120"
+                        Margin="5"
+                        ClipToBounds="True"
+                        CornerRadius="40">
+                        <Image
+                            x:Name="Image_ProfileImageUrl"
+                            Width="120"
+                            Height="120"
+                            Stretch="Uniform" />
+                    </Border>
+
+                    <StackPanel
+                        Margin="5"
+                        VerticalAlignment="Bottom"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="Button_RemoveImageUrl"
+                            Width="50"
+                            Margin="5"
+                            Click="Button_RemoveImageUrl_Click"
+                            Content="&#xE74D;"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontWeight="Normal"
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                        <Button
+                            x:Name="Button_UploadImageUrl"
+                            Width="50"
+                            Margin="5"
+                            Click="Button_UploadImageUrl_Click"
+                            Content="&#xE722;"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontWeight="Normal"
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                    </StackPanel>
+
+                </StackPanel>
+
+                <!--  Name  -->
+                <TextBlock
+                    x:Name="TextBlock_Name"
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    FontSize="18"
+                    FontWeight="SemiBold"
+                    TextAlignment="Center" />
+
+            </StackPanel>
+
+            <ContentControl
+                x:Name="AccountModelHolder"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Style="{StaticResource MaterialDesign_Card_Style}">
+
+                <StackPanel Margin="10">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <StackPanel>
+
+                            <TextBlock
+                                Margin="10,5"
+                                FontSize="16"
+                                Text="First name" />
+
+                            <!--  First name  -->
+                            <TextBox
+                                x:Name="TextBox_FirstName"
+                                Width="200"
+                                Margin="10,5,10,10"
+                                BindingValidationError="Control_BindingValidationError"
+                                FontSize="16"
+                                LostFocus="Control_LostFocus"
+                                PlaceholderText="Jhon"
+                                Style="{StaticResource MaterialDesign_TextBox_Style}"
+                                Text="{Binding FirstName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                                TextAlignment="Left" />
+
+                        </StackPanel>
+
+                        <StackPanel>
+
+                            <TextBlock
+                                Margin="10,5"
+                                FontSize="16"
+                                Text="Last name" />
+
+                            <!--  Last name  -->
+                            <TextBox
+                                x:Name="TextBox_LastName"
+                                Width="200"
+                                Margin="10,5,10,10"
+                                BindingValidationError="Control_BindingValidationError"
+                                FontSize="16"
+                                LostFocus="Control_LostFocus"
+                                PlaceholderText="Doe"
+                                Style="{StaticResource MaterialDesign_TextBox_Style}"
+                                Text="{Binding LastName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                                TextAlignment="Left" />
+
+                        </StackPanel>
+
+                    </StackPanel>
+
+                    <TextBlock
+                        Margin="10,5"
+                        FontSize="16"
+                        Text="Email" />
+
+                    <!--  Email  -->
+                    <TextBox
+                        x:Name="TextBox_Email"
+                        Margin="10,5,10,10"
+                        BindingValidationError="Control_BindingValidationError"
+                        FontSize="16"
+                        LostFocus="Control_LostFocus"
+                        PlaceholderText="username@usermail.com"
+                        Style="{StaticResource MaterialDesign_TextBox_Style}"
+                        Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                        TextAlignment="Left" />
+
+                    <TextBlock
+                        Margin="10,5"
+                        FontSize="16"
+                        Text="New password" />
+
+                    <!--  Password  -->
+                    <PasswordBox
+                        x:Name="PasswordBox_Pasword"
+                        Margin="10,5,10,10"
+                        BindingValidationError="Control_BindingValidationError"
+                        FontSize="16"
+                        LostFocus="Control_LostFocus"
+                        Password="{Binding Password, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                        Style="{StaticResource MaterialDesign_PasswordBox_Style}" />
+
+                    <TextBlock
+                        Margin="10,5"
+                        FontSize="16"
+                        Text="Date of birth" />
+
+                    <!--  Date of birth  -->
+                    <DatePicker
+                        x:Name="DatePicker_DateOfBirth"
+                        Margin="10,5,10,10"
+                        BindingValidationError="Control_BindingValidationError"
+                        FontSize="16"
+                        LostFocus="Control_LostFocus"
+                        SelectedDate="{Binding DateOfBirth, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                        Style="{StaticResource MaterialDesign_DatePicker_Style}" />
+
+                    <TextBlock
+                        Margin="10,5"
+                        FontSize="16"
+                        Text="Gender" />
+
+                    <!--  Gender  -->
+                    <StackPanel Margin="10,5,10,10" Orientation="Horizontal">
+                        <RadioButton
+                            x:Name="RadioButton_Male"
+                            Margin="10"
+                            Content="Male"
+                            LostFocus="Control_LostFocus"
+                            Style="{StaticResource MaterialDesign_RadioButton_Style}" />
+
+                        <RadioButton
+                            x:Name="RadioButton_Female"
+                            Margin="10"
+                            Content="Female"
+                            LostFocus="Control_LostFocus"
+                            Style="{StaticResource MaterialDesign_RadioButton_Style}" />
+
+                        <RadioButton
+                            x:Name="RadioButton_Other"
+                            Margin="10"
+                            Content="Other"
+                            LostFocus="Control_LostFocus"
+                            Style="{StaticResource MaterialDesign_RadioButton_Style}" />
+                    </StackPanel>
+
+                    <Button
+                        x:Name="Button_UpdateAccount"
+                        Margin="10"
+                        Click="Button_UpdateAccount_Click"
+                        Content="Save"
+                        FontSize="16"
+                        IsEnabled="{Binding Path=IsValid, Mode=OneWay}"
+                        Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                    <Button
+                        x:Name="Button_Discard"
+                        Margin="10"
+                        Click="Button_Discard_Click"
+                        Content="Discard"
+                        FontSize="16"
+                        Style="{StaticResource MaterialDesign_Button_Style}" />
+
+                </StackPanel>
+
+            </ContentControl>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

@@ -1,0 +1,150 @@
+﻿<Page
+    x:Class="Worldescape.WorldsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Worldescape">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            Margin="20,20,20,10"
+            Orientation="Horizontal">
+
+            <!--  Current user's worlds only  -->
+            <ToggleButton
+                x:Name="ToggleButton_UsersWorldsOnly"
+                Grid.Column="1"
+                Width="50"
+                Margin="5,0"
+                Click="ToggleButton_UsersWorldsOnly_Click"
+                Content="&#xE928;"
+                FontFamily="Segoe MDL2 Assets"
+                FontWeight="Normal"
+                Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
+
+            <!--  Search box for worlds  -->
+            <TextBox
+                x:Name="TextBox_SearchWorldsText"
+                Width="300"
+                Margin="5,0"
+                VerticalAlignment="Center"
+                FontSize="16"
+                KeyDown="TextBox_SearchWorldsText_KeyDown"
+                PlaceholderText="Search all worlds..."
+                Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
+                TextAlignment="Left" />
+
+            <!--  Search worlds  -->
+            <Button
+                x:Name="Button_SearchWorld"
+                Grid.Column="1"
+                Width="50"
+                Margin="5,0"
+                Click="Button_SearchWorld_Click"
+                Content="&#xE721;"
+                FontFamily="Segoe MDL2 Assets"
+                FontWeight="Normal"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+            <!--  Create world  -->
+            <Button
+                x:Name="Button_CreateWorld"
+                Grid.Column="1"
+                Width="140"
+                Margin="5,0"
+                Click="Button_CreateWorld_Click"
+                Content="Create World"
+                FontSize="16"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="20,0">
+
+            <TextBlock
+                x:Name="TextBox_FoundWorldsCount"
+                Margin="10"
+                FontSize="16"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
+
+        </StackPanel>
+
+        <!--  Loaded worlds  -->
+        <ScrollViewer
+            x:Name="ContentScrollViewer"
+            Grid.Row="2"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto" />
+
+        <!--  Next, page numbers, and previous buttons  -->
+        <StackPanel
+            Grid.Row="3"
+            Margin="10"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+
+            <!--  Previous button  -->
+            <Button
+                x:Name="Button_Previous"
+                Width="70"
+                Margin="5"
+                Click="ButtonPreview_Click"
+                Content="&#xF743;"
+                FontFamily="Segoe MDL2 Assets"
+                FontWeight="Normal"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+            <!--  page number Buttons  -->
+            <ItemsControl
+                x:Name="PagesHolder"
+                BorderThickness="0"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled">
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Background="Transparent" Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button
+                            x:Name="ButtonPageIndex"
+                            Width="50"
+                            Height="50"
+                            Margin="5,0"
+                            BorderBrush="{StaticResource MaterialDesign_DefaultAccentColor}"
+                            BorderThickness="{Binding BorderThickness, Mode=OneWay}"
+                            Click="ButtonPageIndex_Click"
+                            Content="{Binding Number, Mode=OneWay}"
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+            </ItemsControl>
+
+            <!--  Next button  -->
+            <Button
+                x:Name="Button_Next"
+                Width="70"
+                Margin="5"
+                Click="ButtonNext_Click"
+                Content="&#xF745;"
+                FontFamily="Segoe MDL2 Assets"
+                FontWeight="Normal"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+        </StackPanel>
+
+    </Grid>
+</Page>
