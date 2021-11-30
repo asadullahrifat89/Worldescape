@@ -2416,6 +2416,9 @@ namespace Worldescape
             ConstructAssetPickerControl.AssetSelected -= ConstructAssetPickerControl_AssetSelected;
         }
 
+        /// <summary>
+        /// Subscribes to AssetSelected event of ConstructAssetPickerControl.
+        /// </summary>
         private void SubscribeConstructAssetPicker()
         {
             ConstructAssetPickerControl.AssetSelected += ConstructAssetPickerControl_AssetSelected;
