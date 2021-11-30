@@ -10,6 +10,8 @@
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
 
+
+
     <Grid x:Name="Grid_Root">
 
         <Grid.RowDefinitions>
@@ -27,8 +29,6 @@
                 IsTabStop="False"
                 VerticalScrollBarVisibility="Auto">
 
-                <!--<Canvas x:Name="Canvas_RootContainer">-->
-
                 <!--  PointerMoved="Canvas_Root_PointerMoved"  -->
                 <!--  PointerReleased="Canvas_Root_PointerReleased"  -->
                 <Canvas
@@ -42,7 +42,6 @@
                         <ScaleTransform x:Name="Canvas_RootScaleTransform" ScaleX="1" ScaleY="1" />
                     </Canvas.RenderTransform>
                 </Canvas>
-                <!--</Canvas>-->
 
             </ScrollViewer>
 
