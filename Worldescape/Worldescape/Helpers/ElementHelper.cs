@@ -13,6 +13,13 @@ namespace Worldescape
 {
     public class ElementHelper
     {
+        bool _isPointerCaptured;
+        double _pointerX;
+        double _pointerY;
+        double _objectLeft;
+        double _objectTop;
+
+
         readonly AvatarHelper _avatarHelper;
         readonly EasingFunctionBase _constructEaseOut = new ExponentialEase() { EasingMode = EasingMode.EaseOut, Exponent = 5, };
 
@@ -321,6 +328,67 @@ namespace Worldescape
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Starts dragging an UIElement.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="uielement"></param>
+        public void DragStart(Canvas canvas, PointerRoutedEventArgs e, UIElement uielement)
+        {
+            // Drag start of a constuct
+            _objectLeft = Canvas.GetLeft(uielement);
+            _objectTop = Canvas.GetTop(uielement);
+
+            var currentPoint = e.GetCurrentPoint(canvas);
+
+            // Remember the pointer position:
+            _pointerX = currentPoint.Position.X;
+            _pointerY = currentPoint.Position.Y;
+
+            uielement.CapturePointer(e.Pointer);
+
+            _isPointerCaptured = true;
+        }
+
+        /// <summary>
+        /// Drags an UIElement.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="uielement"></param>
+        public void DragElement(Canvas canvas, PointerRoutedEventArgs e, UIElement uielement)
+        {
+            if (_isPointerCaptured)
+            {
+                var currentPoint = e.GetCurrentPoint(canvas);
+
+                // Calculate the new position of the object:
+                double deltaH = currentPoint.Position.X - _pointerX;
+                double deltaV = currentPoint.Position.Y - _pointerY;
+
+                _objectLeft = deltaH + _objectLeft;
+                _objectTop = deltaV + _objectTop;
+
+                // Update the object position:
+                Canvas.SetLeft(uielement, _objectLeft);
+                Canvas.SetTop(uielement, _objectTop);
+
+                // Remember the pointer position:
+                _pointerX = currentPoint.Position.X;
+                _pointerY = currentPoint.Position.Y;
+            }
+        }
+
+        /// <summary>
+        /// Stops dragging an UIElement.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="uielement"></param>
+        public void DragRelease(PointerRoutedEventArgs e, UIElement uielement)
+        {
+            _isPointerCaptured = false;
+            uielement.ReleasePointerCapture(e.Pointer);
         }
     }
 }

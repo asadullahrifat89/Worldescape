@@ -25,11 +25,11 @@ namespace Worldescape
     {
         #region Fields
 
-        bool _isPointerCaptured;
-        double _pointerX;
-        double _pointerY;
-        double _objectLeft;
-        double _objectTop;
+        //bool _isPointerCaptured;
+        //double _pointerX;
+        //double _pointerY;
+        //double _objectLeft;
+        //double _objectTop;
 
         bool _isLoggedIn;
 
@@ -167,7 +167,24 @@ namespace Worldescape
 
                 ClearMultiselectedConstructs();
                 HideAvatarActivityStatusHolder();
+
+                // Canvas_Root drag start
+                UIElement uielement = (UIElement)sender;
+                DragStart(Canvas_RootContainer, e, uielement);
             }
+        }
+
+        private void Canvas_Root_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            UIElement uielement = (UIElement)sender;
+            DragElement(Canvas_RootContainer, e, uielement);
+        }
+
+        private void Canvas_Root_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            // Drag stop
+            UIElement uielement = (UIElement)sender;
+            DragRelease(e, uielement);
         }
 
         #endregion
@@ -262,19 +279,7 @@ namespace Worldescape
 
                 ShowConstructOperationButtons();
 
-                // Drag start of a constuct
-                _objectLeft = Canvas.GetLeft(uielement);
-                _objectTop = Canvas.GetTop(uielement);
-
-                var currentPoint = e.GetCurrentPoint(Canvas_Root);
-
-                // Remember the pointer position:
-                _pointerX = currentPoint.Position.X;
-                _pointerY = currentPoint.Position.Y;
-
-                uielement.CapturePointer(e.Pointer);
-
-                _isPointerCaptured = true;
+                DragStart(Canvas_Root, e, uielement);
 
                 Console.WriteLine("Construct drag started.");
             }
@@ -298,26 +303,7 @@ namespace Worldescape
                     return;
 
                 UIElement uielement = (UIElement)sender;
-
-                if (_isPointerCaptured)
-                {
-                    var currentPoint = e.GetCurrentPoint(Canvas_Root);
-
-                    // Calculate the new position of the object:
-                    double deltaH = currentPoint.Position.X - _pointerX;
-                    double deltaV = currentPoint.Position.Y - _pointerY;
-
-                    _objectLeft = deltaH + _objectLeft;
-                    _objectTop = deltaV + _objectTop;
-
-                    // Update the object position:
-                    Canvas.SetLeft(uielement, _objectLeft);
-                    Canvas.SetTop(uielement, _objectTop);
-
-                    // Remember the pointer position:
-                    _pointerX = currentPoint.Position.X;
-                    _pointerY = currentPoint.Position.Y;
-                }
+                DragElement(Canvas_Root, e, uielement);
             }
         }
 
@@ -340,8 +326,7 @@ namespace Worldescape
 
                 // Drag drop selected construct
                 UIElement uielement = (UIElement)sender;
-                _isPointerCaptured = false;
-                uielement.ReleasePointerCapture(e.Pointer);
+                DragRelease(e, uielement);
 
                 _selectedConstruct = uielement;
                 ShowSelectedConstruct(uielement); // Construct
@@ -1764,7 +1749,7 @@ namespace Worldescape
 
                         // Get avatars and constructs
                         await GetAvatars();
-                        PopulateClouds();                        
+                        PopulateClouds();
                         ScrollIntoView(Avatar);
                         GetConstructs();
                         PopulateClouds(true);
@@ -1829,6 +1814,73 @@ namespace Worldescape
         #endregion
 
         #region Element
+
+        /// <summary>
+        /// Starts dragging an UIElement.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="uielement"></param>
+        private void DragStart(Canvas canvas, PointerRoutedEventArgs e, UIElement uielement)
+        {
+            _elementHelper.DragStart(canvas, e, uielement);
+
+            //// Drag start of a constuct
+            //_objectLeft = Canvas.GetLeft(uielement);
+            //_objectTop = Canvas.GetTop(uielement);
+
+            //var currentPoint = e.GetCurrentPoint(Canvas_Root);
+
+            //// Remember the pointer position:
+            //_pointerX = currentPoint.Position.X;
+            //_pointerY = currentPoint.Position.Y;
+
+            //uielement.CapturePointer(e.Pointer);
+
+            //_isPointerCaptured = true;
+        }
+
+        /// <summary>
+        /// Drags an UIElement.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="uielement"></param>
+        private void DragElement(Canvas canvas, PointerRoutedEventArgs e, UIElement uielement)
+        {
+            _elementHelper.DragElement(canvas, e, uielement);
+
+            //if (_isPointerCaptured)
+            //{
+            //    var currentPoint = e.GetCurrentPoint(Canvas_Root);
+
+            //    // Calculate the new position of the object:
+            //    double deltaH = currentPoint.Position.X - _pointerX;
+            //    double deltaV = currentPoint.Position.Y - _pointerY;
+
+            //    _objectLeft = deltaH + _objectLeft;
+            //    _objectTop = deltaV + _objectTop;
+
+            //    // Update the object position:
+            //    Canvas.SetLeft(uielement, _objectLeft);
+            //    Canvas.SetTop(uielement, _objectTop);
+
+            //    // Remember the pointer position:
+            //    _pointerX = currentPoint.Position.X;
+            //    _pointerY = currentPoint.Position.Y;
+            //}
+        }
+
+        /// <summary>
+        /// Stops dragging an UIElement.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="uielement"></param>
+        private void DragRelease(PointerRoutedEventArgs e, UIElement uielement)
+        {
+            _elementHelper.DragRelease(e, uielement);
+
+            //_isPointerCaptured = false;
+            //uielement.ReleasePointerCapture(e.Pointer);
+        }
 
         /// <summary>
         /// Gets the image from the provided UiElement.
@@ -2940,6 +2992,6 @@ namespace Worldescape
 
         #endregion
 
-        #endregion       
+        #endregion
     }
 }

@@ -26,14 +26,17 @@
                 IsTabStop="False"
                 VerticalScrollBarVisibility="Auto">
 
-                <Canvas
-                    x:Name="Canvas_Root"
-                    Grid.Row="1"
-                    Width="8000"
-                    Height="8000"
-                    AllowDrop="True"
-                    Background="Transparent"
-                    PointerPressed="Canvas_Root_PointerPressed" />
+                <Canvas x:Name="Canvas_RootContainer">
+                    <Canvas
+                        x:Name="Canvas_Root"
+                        Width="8000"
+                        Height="8000"
+                        AllowDrop="True"
+                        Background="Transparent"
+                        PointerMoved="Canvas_Root_PointerMoved"
+                        PointerPressed="Canvas_Root_PointerPressed"
+                        PointerReleased="Canvas_Root_PointerReleased" />
+                </Canvas>
 
             </ScrollViewer>
 
