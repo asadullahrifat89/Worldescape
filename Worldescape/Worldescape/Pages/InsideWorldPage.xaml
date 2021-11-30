@@ -599,7 +599,7 @@
                 <ContentControl
                     x:Name="ContentControl_ActiveAvatarsContainer"
                     Grid.Row="1"
-                    Margin="20,20,20,70"
+                    Margin="20,20,30,70"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Style="{StaticResource MaterialDesign_Card_Style}"
