@@ -3,8 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Worldescape"
-    Width="650"
-    Height="720"
+    Height="350"
     FontWeight="SemiBold">
     <Grid x:Name="LayoutRoot" Margin="2">
 
@@ -16,13 +15,13 @@
 
         <StackPanel Grid.Row="0" Margin="5">
 
-            <Grid>
+            <StackPanel Orientation="Horizontal">
 
-                <Grid.ColumnDefinitions>
+                <!--<Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitions>-->
 
                 <!--  Select category  -->
                 <Button
@@ -38,7 +37,7 @@
                 <TextBox
                     x:Name="TextBoxSearchConstructAssets"
                     Grid.Column="1"
-                    MinWidth="300"
+                    Width="300"
                     Margin="5,0"
                     VerticalAlignment="Center"
                     FontSize="16"
@@ -51,33 +50,24 @@
                 <Button
                     x:Name="ButtonSearchConstructAssets"
                     Grid.Column="2"
-                    Width="120"
+                    Width="50"
                     Margin="5,0"
                     Click="ButtonSearchConstructAssets_Click"
-                    Content="Search"
-                    FontSize="16"
+                    Content="&#xE721;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
-            </Grid>
-
-            <StackPanel Margin="5" Orientation="Horizontal">
-
-                <!--  Found construct assets count  -->
-                <TextBlock
-                    x:Name="FoundConstructAssetsCountHolder"
-                    Margin="5,0"
-                    FontSize="16"
-                    FontWeight="SemiBold"
-                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
-
-                <!--  Selected construct category name  -->
-                <!--<TextBlock
-                    x:Name="SelectedCategoryNameHolder"
-                    FontSize="16"
-                    FontWeight="SemiBold"
-                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />-->
-
             </StackPanel>
+
+            <!--  Found construct assets count  -->
+            <TextBlock
+                x:Name="FoundConstructAssetsCountHolder"
+                Margin="5,0"
+                FontSize="16"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
+
         </StackPanel>
 
         <ScrollViewer

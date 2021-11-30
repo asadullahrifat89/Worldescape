@@ -13,604 +13,612 @@
 
     <Grid x:Name="Grid_Root">
 
-        <!--  Canvas host  -->
-        <ScrollViewer
-            x:Name="CanvasScrollViewer"
-            Background="Transparent"
-            HorizontalScrollBarVisibility="Auto"
-            IsTabStop="False"
-            VerticalScrollBarVisibility="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-            <Canvas
-                x:Name="Canvas_Root"
-                Grid.Row="1"
-                Width="8000"
-                Height="8000"
-                AllowDrop="True"
+        <Grid Grid.Row="0">
+            <!--  Canvas host  -->
+            <ScrollViewer
+                x:Name="CanvasScrollViewer"
                 Background="Transparent"
-                PointerPressed="Canvas_Root_PointerPressed" />
+                HorizontalScrollBarVisibility="Auto"
+                IsTabStop="False"
+                VerticalScrollBarVisibility="Auto">
 
-        </ScrollViewer>
+                <Canvas
+                    x:Name="Canvas_Root"
+                    Grid.Row="1"
+                    Width="8000"
+                    Height="8000"
+                    AllowDrop="True"
+                    Background="Transparent"
+                    PointerPressed="Canvas_Root_PointerPressed" />
 
-        <!--  Top middle connection buttons  -->
-        <StackPanel
-            x:Name="TopButtonsHolder"
-            Margin="20"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Orientation="Horizontal">
+            </ScrollViewer>
 
-            <!--  Connect  -->
-            <Button
-                x:Name="Button_Connect"
-                MinWidth="110"
-                Margin="10"
-                Click="Button_Connect_Click"
-                Content="Connect"
-                FontSize="20"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-            <!--  World  -->
-            <Button
-                x:Name="Button_World"
-                MinWidth="100"
-                Click="Button_World_Click"
-                FontSize="15"
-                FontWeight="Semibold"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}"
-                Visibility="Collapsed">
-
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-
-                        <!--  WorldImage  -->
-                        <ContentControl
-                            x:Name="WorldImageHolder"
-                            Margin="5,0"
-                            FontWeight="SemiBold" />
-
-                        <!--  WorldName  -->
-                        <TextBlock
-                            x:Name="WorldNameHolder"
-                            Margin="5,0,10,0"
-                            VerticalAlignment="Center" />
-
-                    </StackPanel>
-                </Button.Content>
-
-            </Button>
-
-            <!--  Leave  -->
-            <Button
-                x:Name="Button_Leave"
-                MinWidth="110"
-                Margin="10"
-                Click="Button_Leave_Click"
-                Content="Leave"
-                FontSize="20"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-
-        </StackPanel>
-
-        <!--  Top left current avatar button, scrolls to avatar, becomes visible after avatar hub login  -->
-        <StackPanel
-            x:Name="CurrentAvatarHolder"
-            Height="50"
-            Margin="20"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Orientation="Horizontal"
-            Visibility="Collapsed">
-            <Button
-                x:Name="Button_MyAvatar"
-                MinWidth="100"
-                Click="Button_MyAvatar_Click"
-                FontSize="15"
-                FontWeight="Semibold"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}">
-                <Button.Content>
-                    <StackPanel Orientation="Horizontal">
-
-                        <!--  AvatarImageHolder  -->
-                        <ContentControl
-                            x:Name="AvatarImageHolder"
-                            Margin="5,0"
-                            FontWeight="SemiBold" />
-
-                        <!--  AvatarName  -->
-                        <TextBlock
-                            x:Name="AvatarNameHolder"
-                            Margin="5,0,10,0"
-                            VerticalAlignment="Center" />
-
-                    </StackPanel>
-                </Button.Content>
-            </Button>
-        </StackPanel>
-
-        <!--  Bottom middle construct, messaging, status controls  -->
-        <StackPanel
-            Margin="20"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Bottom">
-
-            <!--  Craft and Add buttons  -->
+            <!--  Top middle connection buttons  -->
             <StackPanel
-                x:Name="ConstructCraftingButtonsHolder"
+                x:Name="TopButtonsHolder"
+                Margin="20"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Visibility="Collapsed">
+                VerticalAlignment="Top"
+                Orientation="Horizontal">
 
-                <!--  Construct, Add, Select buttons  -->
-                <StackPanel Orientation="Horizontal">
+                <!--  Connect  -->
+                <Button
+                    x:Name="Button_Connect"
+                    MinWidth="110"
+                    Margin="10"
+                    Click="Button_Connect_Click"
+                    Content="Connect"
+                    FontSize="20"
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
-                    <!--  Construct  -->
-                    <ToggleButton
-                        x:Name="Button_ConstructCraft"
-                        MinWidth="110"
-                        Margin="5,10"
-                        Click="Button_ConstructCraft_Click"
-                        Content="Construct"
-                        FontSize="20"
-                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
+                <!--  World  -->
+                <Button
+                    x:Name="Button_World"
+                    MinWidth="100"
+                    Click="Button_World_Click"
+                    FontSize="15"
+                    FontWeight="Semibold"
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}"
+                    Visibility="Collapsed">
 
-                    <!--  Add  -->
-                    <ToggleButton
-                        x:Name="Button_ConstructAdd"
-                        Width="50"
-                        Margin="5,10"
-                        Click="Button_ConstructAdd_Click"
-                        Content="&#xE948;"
-                        FontFamily="Segoe MDL2 Assets"
-                        FontWeight="Normal"
-                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
-                        Visibility="Collapsed" />
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
 
-                    <!--  Select  -->
-                    <ToggleButton
-                        x:Name="Button_ConstructMultiSelect"
-                        Width="50"
-                        Margin="5,10"
-                        Click="Button_ConstructMultiSelect_Click"
-                        Content="&#xE762;"
-                        FontFamily="Segoe MDL2 Assets"
-                        FontWeight="Normal"
-                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
-                        Visibility="Collapsed" />
+                            <!--  WorldImage  -->
+                            <ContentControl
+                                x:Name="WorldImageHolder"
+                                Margin="5,0"
+                                FontWeight="SemiBold" />
 
-                </StackPanel>
+                            <!--  WorldName  -->
+                            <TextBlock
+                                x:Name="WorldNameHolder"
+                                Margin="5,0,10,0"
+                                VerticalAlignment="Center" />
 
-                <!--  Multi selected constructs  -->
-                <ContentControl Style="{StaticResource MaterialDesign_PopupContent_Style}" Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <StackPanel x:Name="MultiSelectedConstructsHolder" Orientation="Horizontal" />
-                </ContentControl>
+                        </StackPanel>
+                    </Button.Content>
+
+                </Button>
+
+                <!--  Leave  -->
+                <Button
+                    x:Name="Button_Leave"
+                    MinWidth="110"
+                    Margin="10"
+                    Click="Button_Leave_Click"
+                    Content="Leave"
+                    FontSize="20"
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
 
             </StackPanel>
 
-            <!--  Selected & operational constructs & avatar images, side card, avatar commands  -->
-            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <!--  Top left current avatar button, scrolls to avatar, becomes visible after avatar hub login  -->
+            <StackPanel
+                x:Name="CurrentAvatarHolder"
+                Height="50"
+                Margin="20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Orientation="Horizontal"
+                Visibility="Collapsed">
+                <Button
+                    x:Name="Button_MyAvatar"
+                    MinWidth="100"
+                    Click="Button_MyAvatar_Click"
+                    FontSize="15"
+                    FontWeight="Semibold"
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
 
-                <!--  Selected & operational construct images  -->
-                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                            <!--  AvatarImageHolder  -->
+                            <ContentControl
+                                x:Name="AvatarImageHolder"
+                                Margin="5,0"
+                                FontWeight="SemiBold" />
 
-                    <!--  Shows adding, cloning, moving construct  -->
-                    <ContentControl
-                        x:Name="OperationalConstructHolder"
-                        Margin="10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource MaterialDesign_PopupContent_Style}"
-                        Visibility="Collapsed" />
+                            <!--  AvatarName  -->
+                            <TextBlock
+                                x:Name="AvatarNameHolder"
+                                Margin="5,0,10,0"
+                                VerticalAlignment="Center" />
 
-                    <!--  Shows clicked on construct  -->
-                    <ContentControl
-                        x:Name="SelectedConstructHolder"
-                        Margin="10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontWeight="SemiBold"
-                        Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                        Style="{StaticResource MaterialDesign_PopupContent_Style}"
-                        Visibility="Collapsed" />
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
 
-                </StackPanel>
+            <!--  Bottom middle construct, messaging, status controls  -->
+            <StackPanel
+                Margin="20"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom">
 
-                <!--  Selected avatar image and commands  -->
+                <!--  Craft and Add buttons  -->
                 <StackPanel
-                    Name="AvatarCommandsHolder"
+                    x:Name="ConstructCraftingButtonsHolder"
                     HorizontalAlignment="Center"
-                    Orientation="Horizontal">
+                    VerticalAlignment="Center"
+                    Visibility="Collapsed">
 
-                    <!--  Selected avatar image, shows the selected avatar's profile picture and character picture  -->
-                    <ContentControl
-                        x:Name="SelectedAvatarHolder"
-                        Margin="10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontWeight="SemiBold"
-                        Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                        Style="{StaticResource MaterialDesign_PopupContent_Style}"
-                        Visibility="Collapsed" />
+                    <!--  Construct, Add, Select buttons  -->
+                    <StackPanel Orientation="Horizontal">
 
-                    <!--  Selected avatar commands  -->
-                    <StackPanel HorizontalAlignment="Center">
+                        <!--  Construct  -->
+                        <ToggleButton
+                            x:Name="Button_ConstructCraft"
+                            MinWidth="110"
+                            Margin="5,10"
+                            Click="Button_ConstructCraft_Click"
+                            Content="Construct"
+                            FontSize="20"
+                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
-                        <!--  Commands for own avatar  -->
-                        <WrapPanel
-                            x:Name="OwnAvatarActionsHolder"
-                            Orientation="Vertical"
-                            Visibility="Collapsed">
+                        <!--  Add  -->
+                        <ToggleButton
+                            x:Name="Button_ConstructAdd"
+                            Width="50"
+                            Margin="5,10"
+                            Click="Button_ConstructAdd_Click"
+                            Content="&#xE948;"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontWeight="Normal"
+                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
+                            Visibility="Collapsed" />
 
-                            <!--  Create post, shows a child window to create a post  -->
-                            <Button
-                                x:Name="Button_CreatePost"
-                                Width="70"
-                                Margin="5,10"
-                                Click="Button_CreatePost_Click"
-                                Content="&#xE8F3;"
-                                FontFamily="Segoe MDL2 Assets"
-                                FontWeight="Normal"
-                                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-                            <!--  Show statuses  -->
-                            <ToggleButton
-                                x:Name="Button_SelectStatus"
-                                Width="70"
-                                Margin="5,10"
-                                Click="Button_SelectStatus_Click"
-                                Content="&#xEDE3;"
-                                FontFamily="Segoe MDL2 Assets"
-                                FontWeight="Normal"
-                                Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
-
-                        </WrapPanel>
-
-                        <!--  Commands for other avatar  -->
-                        <WrapPanel
-                            x:Name="OtherAvatarActionsHolder"
-                            Margin="5,0"
-                            Orientation="Vertical"
-                            Visibility="Collapsed">
-
-                            <!--  Message, activates messaging UI  -->
-                            <Button
-                                x:Name="Button_MessageAvatar"
-                                Width="70"
-                                Margin="0,10"
-                                Click="Button_MessageAvatar_Click"
-                                Content="&#xE8F2;"
-                                FontFamily="Segoe MDL2 Assets"
-                                FontWeight="Normal"
-                                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-                        </WrapPanel>
+                        <!--  Select  -->
+                        <ToggleButton
+                            x:Name="Button_ConstructMultiSelect"
+                            Width="50"
+                            Margin="5,10"
+                            Click="Button_ConstructMultiSelect_Click"
+                            Content="&#xE762;"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontWeight="Normal"
+                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
+                            Visibility="Collapsed" />
 
                     </StackPanel>
 
-                    <!--  Set own status commands  -->
+                    <!--  Multi selected constructs  -->
+                    <ContentControl Style="{StaticResource MaterialDesign_PopupContent_Style}" Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel x:Name="MultiSelectedConstructsHolder" Orientation="Horizontal" />
+                    </ContentControl>
+
+                </StackPanel>
+
+                <!--  Selected & operational constructs & avatar images, side card, avatar commands  -->
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
+                    <!--  Selected & operational construct images  -->
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+
+                        <!--  Shows adding, cloning, moving construct  -->
+                        <ContentControl
+                            x:Name="OperationalConstructHolder"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                            Visibility="Collapsed" />
+
+                        <!--  Shows clicked on construct  -->
+                        <ContentControl
+                            x:Name="SelectedConstructHolder"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
+                            Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                            Visibility="Collapsed" />
+
+                    </StackPanel>
+
+                    <!--  Selected avatar image and commands  -->
+                    <StackPanel
+                        Name="AvatarCommandsHolder"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+
+                        <!--  Selected avatar image, shows the selected avatar's profile picture and character picture  -->
+                        <ContentControl
+                            x:Name="SelectedAvatarHolder"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontWeight="SemiBold"
+                            Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
+                            Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                            Visibility="Collapsed" />
+
+                        <!--  Selected avatar commands  -->
+                        <StackPanel HorizontalAlignment="Center">
+
+                            <!--  Commands for own avatar  -->
+                            <WrapPanel
+                                x:Name="OwnAvatarActionsHolder"
+                                Orientation="Vertical"
+                                Visibility="Collapsed">
+
+                                <!--  Create post, shows a child window to create a post  -->
+                                <Button
+                                    x:Name="Button_CreatePost"
+                                    Width="70"
+                                    Margin="5,10"
+                                    Click="Button_CreatePost_Click"
+                                    Content="&#xE8F3;"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontWeight="Normal"
+                                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+                                <!--  Show statuses  -->
+                                <ToggleButton
+                                    x:Name="Button_SelectStatus"
+                                    Width="70"
+                                    Margin="5,10"
+                                    Click="Button_SelectStatus_Click"
+                                    Content="&#xEDE3;"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontWeight="Normal"
+                                    Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
+
+                            </WrapPanel>
+
+                            <!--  Commands for other avatar  -->
+                            <WrapPanel
+                                x:Name="OtherAvatarActionsHolder"
+                                Margin="5,0"
+                                Orientation="Vertical"
+                                Visibility="Collapsed">
+
+                                <!--  Message, activates messaging UI  -->
+                                <Button
+                                    x:Name="Button_MessageAvatar"
+                                    Width="70"
+                                    Margin="0,10"
+                                    Click="Button_MessageAvatar_Click"
+                                    Content="&#xE8F2;"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontWeight="Normal"
+                                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+                            </WrapPanel>
+
+                        </StackPanel>
+
+                        <!--  Set own status commands  -->
+                        <ContentControl
+                            x:Name="AvatarActivityStatusHolder"
+                            Margin="10"
+                            Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                            Visibility="Collapsed">
+
+                            <StackPanel>
+                                <MenuItem
+                                    Click="MenuItem_SetStatus_Click"
+                                    Content="Idle"
+                                    FontWeight="SemiBold"
+                                    Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
+                                <MenuItem
+                                    Click="MenuItem_SetStatus_Click"
+                                    Content="Working"
+                                    FontWeight="SemiBold"
+                                    Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
+                                <MenuItem
+                                    Click="MenuItem_SetStatus_Click"
+                                    Content="Inspecting"
+                                    FontWeight="SemiBold"
+                                    Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
+                                <MenuItem
+                                    Click="MenuItem_SetStatus_Click"
+                                    Content="Greeting"
+                                    FontWeight="SemiBold"
+                                    Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
+                                <MenuItem
+                                    Click="MenuItem_SetStatus_Click"
+                                    Content="Away"
+                                    FontWeight="SemiBold"
+                                    Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
+                            </StackPanel>
+
+                        </ContentControl>
+
+                    </StackPanel>
+
+                    <!--  Show details  -->
+                    <Button
+                        x:Name="Button_ObjectDetails"
+                        MinWidth="110"
+                        Margin="5,10"
+                        Click="Button_ObjectDetails_Click"
+                        Content="Details"
+                        FontSize="20"
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}"
+                        Visibility="Collapsed" />
+
+                    <!--  Side card detail  -->
                     <ContentControl
-                        x:Name="AvatarActivityStatusHolder"
+                        x:Name="SideCard"
                         Margin="10"
-                        Style="{StaticResource MaterialDesign_PopupContent_Style}"
+                        Padding="5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        Style="{StaticResource MaterialDesign_Card_Style}"
                         Visibility="Collapsed">
 
-                        <StackPanel>
-                            <MenuItem
-                                Click="MenuItem_SetStatus_Click"
-                                Content="Idle"
-                                FontWeight="SemiBold"
-                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
-                            <MenuItem
-                                Click="MenuItem_SetStatus_Click"
-                                Content="Working"
-                                FontWeight="SemiBold"
-                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
-                            <MenuItem
-                                Click="MenuItem_SetStatus_Click"
-                                Content="Inspecting"
-                                FontWeight="SemiBold"
-                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
-                            <MenuItem
-                                Click="MenuItem_SetStatus_Click"
-                                Content="Greeting"
-                                FontWeight="SemiBold"
-                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
-                            <MenuItem
-                                Click="MenuItem_SetStatus_Click"
-                                Content="Away"
-                                FontWeight="SemiBold"
-                                Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
-                        </StackPanel>
+                        <Grid
+                            Margin="10,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Button
+                                x:Name="Button_CloseSideCard"
+                                Grid.Row="0"
+                                Margin="0"
+                                Padding="0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Background="Transparent"
+                                Click="Button_CloseSideCard_Click"
+                                Content="&#215;"
+                                Effect="{x:Null}"
+                                FontSize="26"
+                                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
+                                Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}" />
+
+                            <StackPanel Grid.Row="1" MinWidth="180">
+
+                                <!--  Selected avatar or constructs image holder  -->
+                                <ContentControl
+                                    x:Name="DetailsImageHolder"
+                                    Margin="10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    FontWeight="SemiBold" />
+
+                                <!--  Selected avatar or constructs name holder  -->
+                                <TextBlock
+                                    x:Name="DetailsNameHolder"
+                                    Margin="20,5,20,10"
+                                    FontSize="18"
+                                    FontWeight="SemiBold"
+                                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+
+                                <!--  Appeared on  -->
+                                <TextBlock
+                                    FontSize="15"
+                                    FontWeight="SemiBold"
+                                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
+                                    Text="Appeared on"
+                                    TextAlignment="Center" />
+
+                                <!--  Selected avatar or constructs created on holder  -->
+                                <TextBlock
+                                    x:Name="DetailsDateHolder"
+                                    Margin="20,2,20,20"
+                                    FontSize="15"
+                                    FontWeight="SemiBold"
+                                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap" />
+
+                            </StackPanel>
+
+                        </Grid>
 
                     </ContentControl>
 
                 </StackPanel>
 
-                <!--  Show details  -->
-                <Button
-                    x:Name="Button_ObjectDetails"
-                    MinWidth="110"
-                    Margin="5,10"
-                    Click="Button_ObjectDetails_Click"
-                    Content="Details"
-                    FontSize="20"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}"
-                    Visibility="Collapsed" />
-
-                <!--  Side card detail  -->
-                <ContentControl
-                    x:Name="SideCard"
-                    Margin="10"
-                    Padding="5"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="Stretch"
-                    Style="{StaticResource MaterialDesign_Card_Style}"
+                <!--  Bottom middle construct operation buttons  -->
+                <WrapPanel
+                    x:Name="ConstructOperationalCommandsHolder"
+                    Orientation="Horizontal"
                     Visibility="Collapsed">
 
-                    <Grid
-                        Margin="10,0"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch">
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-
-                        <Button
-                            x:Name="Button_CloseSideCard"
-                            Grid.Row="0"
-                            Margin="0"
-                            Padding="0"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            HorizontalContentAlignment="Center"
-                            VerticalContentAlignment="Center"
-                            Background="Transparent"
-                            Click="Button_CloseSideCard_Click"
-                            Content="&#215;"
-                            Effect="{x:Null}"
-                            FontSize="26"
-                            Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                            Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}" />
-
-                        <StackPanel Grid.Row="1" MinWidth="180">
-
-                            <!--  Selected avatar or constructs image holder  -->
-                            <ContentControl
-                                x:Name="DetailsImageHolder"
-                                Margin="10"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top"
-                                FontWeight="SemiBold" />
-
-                            <!--  Selected avatar or constructs name holder  -->
-                            <TextBlock
-                                x:Name="DetailsNameHolder"
-                                Margin="20,5,20,10"
-                                FontSize="18"
-                                FontWeight="SemiBold"
-                                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                                TextAlignment="Center"
-                                TextWrapping="Wrap" />
-
-                            <!--  Appeared on  -->
-                            <TextBlock
-                                FontSize="15"
-                                FontWeight="SemiBold"
-                                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                                Text="Appeared on"
-                                TextAlignment="Center" />
-
-                            <!--  Selected avatar or constructs created on holder  -->
-                            <TextBlock
-                                x:Name="DetailsDateHolder"
-                                Margin="20,2,20,20"
-                                FontSize="15"
-                                FontWeight="SemiBold"
-                                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                                TextAlignment="Center"
-                                TextWrapping="Wrap" />
-
-                        </StackPanel>
-
-                    </Grid>
-
-                </ContentControl>
-
-            </StackPanel>
-
-            <!--  Bottom middle construct operation buttons  -->
-            <WrapPanel
-                x:Name="ConstructOperationalCommandsHolder"
-                Orientation="Horizontal"
-                Visibility="Collapsed">
-
-                <!--  Move  -->
-                <ToggleButton
-                    x:Name="Button_ConstructMove"
-                    Width="50"
-                    Margin="5,10"
-                    Click="Button_ConstructMove_Click"
-                    Content="&#xE759;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
-
-                <!--  Clone, not available while multi selection  -->
-                <ToggleButton
-                    x:Name="Button_ConstructClone"
-                    Width="50"
-                    Margin="5,10"
-                    Click="Button_ConstructClone_Click"
-                    Content="&#xE8C8;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
-                    Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}" />
-
-                <!--  Upward  -->
-                <Button
-                    x:Name="Button_ConstructBringForward"
-                    Width="50"
-                    Margin="5,10"
-                    Click="Button_ConstructBringForward_Click"
-                    Content="&#xE70E;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-                <!--  Downward  -->
-                <Button
-                    x:Name="Button_ConstructSendBackward"
-                    Width="50"
-                    Margin="5,10"
-                    Click="Button_ConstructSendBackward_Click"
-                    Content="&#xE70D;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-                <!--  Enlarge  -->
-                <Button
-                    x:Name="Button_ConstructScaleUp"
-                    Width="50"
-                    Margin="5,10"
-                    Click="Button_ConstructScaleUp_Click"
-                    Content="&#xE740;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-                <!--  Dwindle  -->
-                <Button
-                    x:Name="Button_ConstructScaleDown"
-                    Width="50"
-                    Margin="5,10"
-                    Click="Button_ConstructScaleDown_Click"
-                    Content="&#xE73F;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-                <!--  Rotate  -->
-                <Button
-                    x:Name="Button_ConstructRotate"
-                    Width="50"
-                    Margin="5,10"
-                    Click="Button_ConstructRotate_Click"
-                    Content="&#xE7AD;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-                <!--  Delete  -->
-                <Button
-                    x:Name="Button_ConstructDelete"
-                    Width="50"
-                    Margin="5,10"
-                    Click="Button_ConstructDelete_Click"
-                    Content="&#xE74D;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-            </WrapPanel>
-
-            <!--  Bottom middle message box, avatar images on left and right and send message button  -->
-            <StackPanel
-                x:Name="MessagingControlsHolder"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Visibility="Collapsed">
-
-                <!--  Message from avatar image  -->
-                <ContentControl
-                    x:Name="MessagingFromAvatarHolder"
-                    Margin="5,10"
-                    VerticalAlignment="Center" />
-
-                <!--  Message box  -->
-                <TextBox
-                    x:Name="MessagingTextBox"
-                    Width="500"
-                    Margin="10"
-                    VerticalAlignment="Center"
-                    FontSize="16"
-                    KeyDown="MessagingTextBox_KeyDown"
-                    Style="{StaticResource MaterialDesign_TextBox_Style}"
-                    TextWrapping="Wrap" />
-
-                <!--  Message to avatar image  -->
-                <ContentControl
-                    x:Name="MessagingToAvatarHolder"
-                    Margin="5,10"
-                    VerticalAlignment="Center" />
-
-                <!--  Send  -->
-                <Button
-                    x:Name="Button_SendUnicastMessage"
-                    Width="70"
-                    Margin="10"
-                    Click="Button_SendUnicastMessage_Click"
-                    Content="&#xE724;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-            </StackPanel>
-
-        </StackPanel>
-
-        <!--  Bottom right active avatars button  -->
-        <ToggleButton
-            x:Name="ToggleButton_ShowAvatars"
-            MinWidth="100"
-            Margin="20,20,20,30"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Click="ToggleButton_ShowAvatars_Click"
-            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
-            <ToggleButton.Content>
-                <TextBlock>
-                    <Run
+                    <!--  Move  -->
+                    <ToggleButton
+                        x:Name="Button_ConstructMove"
+                        Width="50"
+                        Margin="5,10"
+                        Click="Button_ConstructMove_Click"
+                        Content="&#xE759;"
                         FontFamily="Segoe MDL2 Assets"
                         FontWeight="Normal"
-                        Text="&#xE902;" />
-                    <Run Text=" " />
-                    <Run
-                        x:Name="AvatarsCount"
+                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
+
+                    <!--  Clone, not available while multi selection  -->
+                    <ToggleButton
+                        x:Name="Button_ConstructClone"
+                        Width="50"
+                        Margin="5,10"
+                        Click="Button_ConstructClone_Click"
+                        Content="&#xE8C8;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontWeight="Normal"
+                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
+                        Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}" />
+
+                    <!--  Upward  -->
+                    <Button
+                        x:Name="Button_ConstructBringForward"
+                        Width="50"
+                        Margin="5,10"
+                        Click="Button_ConstructBringForward_Click"
+                        Content="&#xE70E;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontWeight="Normal"
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+                    <!--  Downward  -->
+                    <Button
+                        x:Name="Button_ConstructSendBackward"
+                        Width="50"
+                        Margin="5,10"
+                        Click="Button_ConstructSendBackward_Click"
+                        Content="&#xE70D;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontWeight="Normal"
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+                    <!--  Enlarge  -->
+                    <Button
+                        x:Name="Button_ConstructScaleUp"
+                        Width="50"
+                        Margin="5,10"
+                        Click="Button_ConstructScaleUp_Click"
+                        Content="&#xE740;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontWeight="Normal"
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+                    <!--  Dwindle  -->
+                    <Button
+                        x:Name="Button_ConstructScaleDown"
+                        Width="50"
+                        Margin="5,10"
+                        Click="Button_ConstructScaleDown_Click"
+                        Content="&#xE73F;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontWeight="Normal"
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+                    <!--  Rotate  -->
+                    <Button
+                        x:Name="Button_ConstructRotate"
+                        Width="50"
+                        Margin="5,10"
+                        Click="Button_ConstructRotate_Click"
+                        Content="&#xE7AD;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontWeight="Normal"
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+                    <!--  Delete  -->
+                    <Button
+                        x:Name="Button_ConstructDelete"
+                        Width="50"
+                        Margin="5,10"
+                        Click="Button_ConstructDelete_Click"
+                        Content="&#xE74D;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontWeight="Normal"
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+                </WrapPanel>
+
+                <!--  Bottom middle message box, avatar images on left and right and send message button  -->
+                <StackPanel
+                    x:Name="MessagingControlsHolder"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Visibility="Collapsed">
+
+                    <!--  Message from avatar image  -->
+                    <ContentControl
+                        x:Name="MessagingFromAvatarHolder"
+                        Margin="5,10"
+                        VerticalAlignment="Center" />
+
+                    <!--  Message box  -->
+                    <TextBox
+                        x:Name="MessagingTextBox"
+                        Width="500"
+                        Margin="10"
+                        VerticalAlignment="Center"
                         FontSize="16"
-                        FontWeight="SemiBold" />
-                </TextBlock>
-            </ToggleButton.Content>
-        </ToggleButton>
+                        KeyDown="MessagingTextBox_KeyDown"
+                        Style="{StaticResource MaterialDesign_TextBox_Style}"
+                        TextWrapping="Wrap" />
 
-        <!--  Bottom right active avatars list  -->
-        <ContentControl
-            x:Name="ContentControl_ActiveAvatarsContainer"
-            Margin="20,20,20,100"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Style="{StaticResource MaterialDesign_Card_Style}"
-            Visibility="Collapsed">
-            <ScrollViewer
-                x:Name="ScrollViewer_ActiveAvatarsContainer"
-                Width="250"
-                Height="420"
-                HorizontalScrollBarVisibility="Disabled"
-                VerticalScrollBarVisibility="Auto" />
-        </ContentControl>
+                    <!--  Message to avatar image  -->
+                    <ContentControl
+                        x:Name="MessagingToAvatarHolder"
+                        Margin="5,10"
+                        VerticalAlignment="Center" />
 
-        <!--  Bottom left construct assets list  -->
+                    <!--  Send  -->
+                    <Button
+                        x:Name="Button_SendUnicastMessage"
+                        Width="70"
+                        Margin="10"
+                        Click="Button_SendUnicastMessage_Click"
+                        Content="&#xE724;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontWeight="Normal"
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+                </StackPanel>
+
+            </StackPanel>
+
+            <!--  Bottom right active avatars button  -->
+            <ToggleButton
+                x:Name="ToggleButton_ShowAvatars"
+                MinWidth="100"
+                Margin="20,20,20,30"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Click="ToggleButton_ShowAvatars_Click"
+                Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
+                <ToggleButton.Content>
+                    <TextBlock>
+                        <Run
+                            FontFamily="Segoe MDL2 Assets"
+                            FontWeight="Normal"
+                            Text="&#xE902;" />
+                        <Run Text=" " />
+                        <Run
+                            x:Name="AvatarsCount"
+                            FontSize="16"
+                            FontWeight="SemiBold" />
+                    </TextBlock>
+                </ToggleButton.Content>
+            </ToggleButton>
+
+            <!--  Bottom right active avatars list  -->
+            <ContentControl
+                x:Name="ContentControl_ActiveAvatarsContainer"
+                Margin="20,20,20,100"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Style="{StaticResource MaterialDesign_Card_Style}"
+                Visibility="Collapsed">
+                <ScrollViewer
+                    x:Name="ScrollViewer_ActiveAvatarsContainer"
+                    Width="250"
+                    Height="420"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto" />
+            </ContentControl>
+        </Grid>
+
+        <!--  Bottom wide construct assets list  -->
         <ContentControl
             x:Name="ContentControl_ConstructAssetsContainer"
-            Margin="20,20,20,100"
-            HorizontalAlignment="Left"
+            Grid.Row="1"
+            Margin="0"
+            HorizontalAlignment="Stretch"
             VerticalAlignment="Bottom"
             Style="{StaticResource MaterialDesign_Card_Style}"
             Visibility="Collapsed">
@@ -620,12 +628,12 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
 
-                <Grid.RowDefinitions>
+                <!--<Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
-                </Grid.RowDefinitions>
+                </Grid.RowDefinitions>-->
 
-                <Button
+                <!--<Button
                     x:Name="Button_CloseConstructAssetsContainer"
                     Grid.Row="0"
                     Margin="0"
@@ -640,13 +648,12 @@
                     Effect="{x:Null}"
                     FontSize="26"
                     Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                    Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}" />
+                    Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}" />-->
 
-                <ContentControl
+                <ContentPresenter
                     x:Name="ContentControl_ConstructAssetsControlContainer"
                     Grid.Row="1"
-                    Width="650"
-                    Height="720" />
+                    Height="350" />
 
             </Grid>
 

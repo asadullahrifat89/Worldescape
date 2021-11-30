@@ -62,24 +62,13 @@
 
             </Grid>
 
-            <StackPanel Margin="5" Orientation="Horizontal">
-
-                <!--  Found construct assets count  -->
-                <TextBlock
-                    x:Name="FoundConstructAssetsCountHolder"
-                    Margin="5,0"
-                    FontSize="16"
-                    FontWeight="SemiBold"
-                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
-
-                <!--  Selected construct category name  -->
-                <!--<TextBlock
-                    x:Name="SelectedCategoryNameHolder"
-                    FontSize="16"
-                    FontWeight="SemiBold"
-                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />-->
-
-            </StackPanel>
+            <!--  Found construct assets count  -->
+            <TextBlock
+                x:Name="FoundConstructAssetsCountHolder"
+                Margin="5,0"
+                FontSize="16"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
         </StackPanel>
 
         <ScrollViewer

@@ -91,48 +91,56 @@ namespace Worldescape
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
-                Height = 500
+                Height = 350
             };
+
+            var allConstructCategory = new ConstructCategory() { Name = "All" };
 
             // Add an All button first
-            var button_All = new Button()
-            {
-                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                Width = 150,
-                Height = 120,
-                Margin = new Thickness(3),
-                Tag = new ConstructCategory() { Name = "All" },
-                FontSize = 18
-            };
+            AddConstructCategoryMasonry(_masonryPanel, allConstructCategory);
+            //var button_All = new Button()
+            //{
+            //    Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+            //    Width = 150,
+            //    Height = 120,
+            //    Margin = new Thickness(3),
+            //    Tag = allConstructCategory,
+            //    FontSize = 18
+            //};
 
-            button_All.Click += ButtonConstructCategory_Click;
-            button_All.Content = "All";
+            //button_All.Click += ButtonConstructCategory_Click;
+            //button_All.Content = "All";
 
-            _masonryPanel.Children.Add(button_All);
+            //_masonryPanel.Children.Add(button_All);
 
             //Add all teh categories
-            foreach (var item in pagedData)
+            foreach (var constructCategory in pagedData)
             {
-                var button_Category = new Button()
-                {
-                    Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                    Width = 150,
-                    Height = 120,
-                    Margin = new Thickness(3),
-                    Tag = item,
-                    FontSize = 18
-                };
-
-                button_Category.Click += ButtonConstructCategory_Click;
-                button_Category.Content = item.Name;
-
-                _masonryPanel.Children.Add(button_Category);
+                AddConstructCategoryMasonry(_masonryPanel, constructCategory);
             }
 
             ContentScrollViewer.Content = _masonryPanel;
 
             _pageNumbers.Clear();
             PagesHolder.ItemsSource = _pageNumbers;
+        }
+
+        private void AddConstructCategoryMasonry(MasonryPanelWithProgressiveLoading _masonryPanel, ConstructCategory constructCategory)
+        {
+            var button_Category = new Button()
+            {
+                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Width = 120,
+                Height = 120,
+                Margin = new Thickness(3),
+                Tag = constructCategory,
+                FontSize = 16
+            };
+
+            button_Category.Click += ButtonConstructCategory_Click;
+            button_Category.Content = constructCategory.Name;
+
+            _masonryPanel.Children.Add(button_Category);
         }
 
         private void GetConstructAssets()
@@ -147,58 +155,63 @@ namespace Worldescape
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
-                Height = 500
+                Height = 350
             };
 
             foreach (var item in pagedData)
             {
-                var uri = _urlHelper.BuildAssetUrl(App.Token, item.ImageUrl);
-
-                item.ImageUrl = uri;
-
-                var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
-
-                var img = new Image()
-                {
-                    Source = bitmap,
-                    Stretch = Stretch.Uniform,
-                    Height = 160,
-                    Width = 160,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                };
-
-                var txt = new TextBlock()
-                {
-                    Text = item.Name,
-                    FontWeight = FontWeights.SemiBold,
-                    Foreground = Application.Current.Resources["MaterialDesign_DefaultAccentColor"] as SolidColorBrush,
-                    TextWrapping = TextWrapping.Wrap,
-                    FontSize = 14
-                };
-
-                var buttonConstructAsset = new Button()
-                {
-                    Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                    Height = 170,
-                    Width = 170,
-                    Margin = new Thickness(3),
-                    Tag = item,
-                };
-
-                StackPanel stackPanel = new StackPanel();
-                stackPanel.Children.Add(img);
-                stackPanel.Children.Add(txt);
-
-                buttonConstructAsset.Click += ButtonConstructAsset_Click;
-                buttonConstructAsset.Content = stackPanel;
-
-                _masonryPanel.Children.Add(buttonConstructAsset);
+                AddConstructAssetMasonry(_masonryPanel, item);
             }
 
             ContentScrollViewer.Content = _masonryPanel;
 
             _settingConstructAssets = false;
+        }
+
+        private void AddConstructAssetMasonry(MasonryPanelWithProgressiveLoading _masonryPanel, ConstructAsset item)
+        {
+            var uri = _urlHelper.BuildAssetUrl(App.Token, item.ImageUrl);
+
+            item.ImageUrl = uri;
+
+            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+            var img = new Image()
+            {
+                Source = bitmap,
+                Stretch = Stretch.Uniform,
+                Height = 120,
+                Width = 120,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+            };
+
+            var txt = new TextBlock()
+            {
+                Text = item.Name,
+                FontWeight = FontWeights.SemiBold,
+                Foreground = Application.Current.Resources["MaterialDesign_DefaultAccentColor"] as SolidColorBrush,
+                TextWrapping = TextWrapping.Wrap,
+                FontSize = 14
+            };
+
+            var buttonConstructAsset = new Button()
+            {
+                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Height = 130,
+                Width = 130,
+                Margin = new Thickness(3),
+                Tag = item,
+            };
+
+            StackPanel stackPanel = new StackPanel();
+            stackPanel.Children.Add(img);
+            stackPanel.Children.Add(txt);
+
+            buttonConstructAsset.Click += ButtonConstructAsset_Click;
+            buttonConstructAsset.Content = stackPanel;
+
+            _masonryPanel.Children.Add(buttonConstructAsset);
         }
 
         private void ShowConstructAssetsCount()
