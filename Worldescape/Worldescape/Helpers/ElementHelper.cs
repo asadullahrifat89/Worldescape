@@ -11,6 +11,9 @@ using Worldescape.Common;
 
 namespace Worldescape
 {
+    /// <summary>
+    /// A helper class that provides functions for element transformation.
+    /// </summary>
     public class ElementHelper
     {
         #region Fields
@@ -63,7 +66,6 @@ namespace Worldescape
             pointY = pointY / ((ScaleTransform)canvas.RenderTransform).ScaleY;
             return pointY;
         }
-
 
         /// <summary>
         /// Moves an UIElement to a new coordinate with the provided PointerRoutedEventArgs in canvas. Returns the tagged object of the uIElement.

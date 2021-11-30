@@ -140,38 +140,6 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
-
-                <!--  Pan canvas  -->
-                <ToggleButton
-                    x:Name="ToggleButton_PanCanvas"
-                    Width="50"
-                    Margin="5,0"
-                    Content="&#xECE9;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
-
-                <!--  Zoom in canvas  -->
-                <Button
-                    x:Name="ToggleButton_ZoomInCanvas"
-                    Width="50"
-                    Margin="5,0"
-                    Click="ToggleButton_ZoomInCanvas_Click"
-                    Content="&#xE740;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-                <!--  Zoom out canvas  -->
-                <Button
-                    x:Name="ToggleButton_ZoomOutCanvas"
-                    Width="50"
-                    Margin="5,0"
-                    Click="ToggleButton_ZoomOutCanvas_Click"
-                    Content="&#xE73F;"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
             </StackPanel>
 
             <!--  Bottom middle construct, messaging, status controls  -->
@@ -650,6 +618,47 @@
                     HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto" />
             </ContentControl>
+
+            <StackPanel
+                Margin="20"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal"
+                Visibility="{Binding ElementName=CurrentAvatarHolder, Path=Visibility, Mode=OneWay}">
+
+                <!--  Pan canvas  -->
+                <ToggleButton
+                    x:Name="ToggleButton_PanCanvas"
+                    Width="50"
+                    Margin="5,0"
+                    Content="&#xECE9;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
+                    Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
+
+                <!--  Zoom in canvas  -->
+                <Button
+                    x:Name="ToggleButton_ZoomInCanvas"
+                    Width="50"
+                    Margin="5,0"
+                    Click="ToggleButton_ZoomInCanvas_Click"
+                    Content="&#xE740;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+                <!--  Zoom out canvas  -->
+                <Button
+                    x:Name="ToggleButton_ZoomOutCanvas"
+                    Width="50"
+                    Margin="5,0"
+                    Click="ToggleButton_ZoomOutCanvas_Click"
+                    Content="&#xE73F;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+            </StackPanel>
         </Grid>
 
         <!--  Bottom wide construct assets list  -->

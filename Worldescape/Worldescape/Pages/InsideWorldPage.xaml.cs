@@ -361,11 +361,11 @@ namespace Worldescape
         {
             if (Button_ConstructMultiSelect.IsChecked.Value && MultiselectedConstructs.Any())
             {
-                await MoveMultiSelectedConstruct(e);
+                await MoveConstructs(e);
             }
             else
             {
-                await MoveSingleConstruct(e);
+                await MoveConstruct(e);
             }
         }
 
@@ -385,6 +385,9 @@ namespace Worldescape
             {
                 var pressedPoint = e.GetCurrentPoint(Canvas_Root);
 
+                var pointX = NormalizePointerX(pressedPoint);
+                var pointY = NormalizePointerY(pressedPoint);
+
                 var constructButton = GenerateConstructButton(
                     name: constructAsset.Name,
                     imageUrl: constructAsset.ImageUrl);
@@ -392,8 +395,8 @@ namespace Worldescape
                 // Add the construct on pressed point
                 var construct = AddConstructOnCanvas(
                     construct: constructButton,
-                    x: pressedPoint.Position.X,
-                    y: pressedPoint.Position.Y);
+                    x: pointX,
+                    y: pointY);
 
                 // Center the construct on pressed point
                 construct = CenterAlignNewConstructButton(pressedPoint, constructButton, construct);
@@ -425,6 +428,9 @@ namespace Worldescape
             {
                 var pressedPoint = e.GetCurrentPoint(Canvas_Root);
 
+                var pointX = NormalizePointerX(pressedPoint);
+                var pointY = NormalizePointerY(pressedPoint);
+
                 var constructButton = GenerateConstructButton(
                            name: constructAsset.Name,
                            imageUrl: constructAsset.ImageUrl);
@@ -432,8 +438,8 @@ namespace Worldescape
                 // Add the construct on pressed point
                 var construct = AddConstructOnCanvas(
                     construct: constructButton,
-                    x: pressedPoint.Position.X,
-                    y: pressedPoint.Position.Y);
+                    x: pointX,
+                    y: pointY);
 
                 // Center the construct on pressed point
                 construct = CenterAlignNewConstructButton(pressedPoint, constructButton, construct);
@@ -2734,7 +2740,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private async Task MoveMultiSelectedConstruct(PointerRoutedEventArgs e)
+        private async Task MoveConstructs(PointerRoutedEventArgs e)
         {
             var pressedPoint = e.GetCurrentPoint(Canvas_Root);
 
@@ -2801,7 +2807,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private async Task MoveSingleConstruct(PointerRoutedEventArgs e)
+        private async Task MoveConstruct(PointerRoutedEventArgs e)
         {
             if (_movingConstruct == null)
                 return;
