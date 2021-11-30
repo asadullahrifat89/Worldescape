@@ -54,11 +54,6 @@ namespace Worldescape
                 ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
             }
 
-            //_constructAssets = constructAssets;
-            //_constructCategories = constructCategories;
-
-            //_assetSelected = assetSelected;
-
             ShowConstructCategories();
 
         }
@@ -116,6 +111,8 @@ namespace Worldescape
 
         private void AddConstructCategoryMasonry(MasonryPanelWithProgressiveLoading _masonryPanel, ConstructCategory constructCategory)
         {
+            var buttonName = constructCategory.Name.Replace(" ", "");
+
             var button_Category = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
@@ -124,7 +121,8 @@ namespace Worldescape
                 Margin = new Thickness(3),
                 Tag = constructCategory,
                 FontSize = 16,
-                Content = constructCategory.Name
+                Content = constructCategory.Name,
+                Name = buttonName,
             };
 
             button_Category.Click += ButtonConstructCategory_Click;
@@ -156,11 +154,13 @@ namespace Worldescape
             _settingConstructAssets = false;
         }
 
-        private void AddConstructAssetMasonry(MasonryPanelWithProgressiveLoading _masonryPanel, ConstructAsset item)
+        private void AddConstructAssetMasonry(MasonryPanelWithProgressiveLoading _masonryPanel, ConstructAsset constructAsset)
         {
-            var uri = _urlHelper.BuildAssetUrl(App.Token, item.ImageUrl);
+            var buttonName = constructAsset.Name.Replace(" ", "");
 
-            item.ImageUrl = uri;
+            var uri = _urlHelper.BuildAssetUrl(App.Token, constructAsset.ImageUrl);
+
+            constructAsset.ImageUrl = uri;
 
             var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
 
@@ -176,7 +176,7 @@ namespace Worldescape
 
             var txt = new TextBlock()
             {
-                Text = item.Name,
+                Text = constructAsset.Name,
                 FontWeight = FontWeights.SemiBold,
                 Foreground = Application.Current.Resources["MaterialDesign_DefaultAccentColor"] as SolidColorBrush,
                 TextWrapping = TextWrapping.Wrap,
@@ -193,8 +193,9 @@ namespace Worldescape
                 Height = _constructAssetMasonrySize,
                 Width = _constructAssetMasonrySize,
                 Margin = new Thickness(3),
-                Tag = item,
-                Content = content
+                Tag = constructAsset,
+                Content = content,
+                Name = buttonName,
             };
             buttonConstructAsset.Click += ButtonConstructAsset_Click;
             _masonryPanel.Children.Add(buttonConstructAsset);

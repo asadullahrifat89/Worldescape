@@ -71,6 +71,7 @@ namespace WorldescapeWebService
             if (avatar != null)
             {
                 await UpdateAvatarDisconnectionTime(avatar.Id, DateTime.Now);
+                await UpdateAvatarActivityStatus(avatar.Id, (int)ActivityStatus.Away);
 
                 var group = GetUsersGroup(avatar);
 
@@ -88,6 +89,7 @@ namespace WorldescapeWebService
             if (avatar != null)
             {
                 await UpdateAvatarReconnectionTime(avatar.Id, DateTime.Now);
+                await UpdateAvatarActivityStatus(avatar.Id, (int)ActivityStatus.Idle);
 
                 var group = GetUsersGroup(avatar);
 

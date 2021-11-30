@@ -1417,6 +1417,8 @@ namespace Worldescape
                         avatarMessenger.IsLoggedIn = true;
                     }
 
+                    SetAvatarActivityStatus((Button)iElement, (Avatar)(((Button)iElement).Tag), ActivityStatus.Idle);
+
                     Console.WriteLine("<<HubService_AvatarReconnected: OK");
                 }
                 else
@@ -1436,9 +1438,11 @@ namespace Worldescape
 
                     if (avatarMessenger != null)
                     {
-                        avatarMessenger.ActivityStatus = ActivityStatus.Offline;
+                        avatarMessenger.ActivityStatus = ActivityStatus.Away;
                         avatarMessenger.IsLoggedIn = false;
                     }
+
+                    SetAvatarActivityStatus((Button)iElement, (Avatar)(((Button)iElement).Tag), ActivityStatus.Away);
 
                     Console.WriteLine("<<HubService_AvatarDisconnected: OK");
                 }
@@ -1761,7 +1765,8 @@ namespace Worldescape
                         // Get avatars and constructs
                         PopulateClouds();
                         await GetAvatars();
-                        await GetConstructs();
+                        ScrollIntoView(Avatar);
+                        GetConstructs();
                         PopulateClouds(true);
 
                         _isLoggedIn = true;
@@ -1770,7 +1775,6 @@ namespace Worldescape
                         ShowCurrentUserAvatar();
                         ShowCurrentWorld();
 
-                        ScrollIntoView(Avatar);
                         return true;
                     }
                     else
@@ -2438,7 +2442,7 @@ namespace Worldescape
         /// Get constructs for the current world.
         /// </summary>
         /// <returns></returns>
-        private async Task GetConstructs()
+        private async void GetConstructs()
         {
             // Get constructs count for this world
             var countResponse = await _httpServiceHelper.SendGetRequest<GetConstructsCountQueryResponse>(
@@ -2888,7 +2892,7 @@ namespace Worldescape
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromSeconds(100),
+                Duration = TimeSpan.FromSeconds(msg.Length * 2),
             };
 
             DoubleAnimation moveYAnimation = new DoubleAnimation()
