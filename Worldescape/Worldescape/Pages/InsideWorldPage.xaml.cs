@@ -1658,7 +1658,7 @@ namespace Worldescape
                     img.RenderTransform = new ScaleTransform() { ScaleX = -1 };
                 }
 
-                float distance = 8000;
+                float distance = 7500;
                 float unitPixel = 200f;
                 float timeToTravelunitPixel = new Random().Next(minValue: 1, maxValue: 5);
 
@@ -1667,7 +1667,7 @@ namespace Worldescape
                 var gotoXAnimation = new DoubleAnimation()
                 {
                     From = 0,
-                    To = 8000,
+                    To = distance,
                     Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
                     RepeatBehavior = RepeatBehavior.Forever,
                 };
