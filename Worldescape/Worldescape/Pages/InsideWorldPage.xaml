@@ -643,7 +643,7 @@
                     Width="50"
                     Margin="5,0"
                     Click="ToggleButton_ZoomInCanvas_Click"
-                    Content="&#xE740;"
+                    Content="&#xE8A3;"
                     FontFamily="Segoe MDL2 Assets"
                     FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
@@ -654,7 +654,7 @@
                     Width="50"
                     Margin="5,0"
                     Click="ToggleButton_ZoomOutCanvas_Click"
-                    Content="&#xE73F;"
+                    Content="&#xE71F;"
                     FontFamily="Segoe MDL2 Assets"
                     FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
