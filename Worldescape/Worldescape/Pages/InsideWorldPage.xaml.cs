@@ -1763,8 +1763,8 @@ namespace Worldescape
                         Canvas_Root.Children.Clear();
 
                         // Get avatars and constructs
-                        PopulateClouds();
                         await GetAvatars();
+                        PopulateClouds();                        
                         ScrollIntoView(Avatar);
                         GetConstructs();
                         PopulateClouds(true);
