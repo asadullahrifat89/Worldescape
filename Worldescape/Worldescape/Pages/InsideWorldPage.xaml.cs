@@ -73,7 +73,7 @@ namespace Worldescape
             _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
 
             SubscribeHub();
-            CommenseConnection();
+            SelectCharacterAndConnect();
         }
 
         #endregion
@@ -578,7 +578,7 @@ namespace Worldescape
         /// <param name="e"></param>
         private void Button_Connect_Click(object sender, RoutedEventArgs e)
         {
-            CommenseConnection();
+            SelectCharacterAndConnect();
         }
 
         /// <summary>
@@ -1623,6 +1623,48 @@ namespace Worldescape
 
         #region World
 
+        private async void PopulateClouds()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                var cloudImage = $"ms-appx:///Images/Defaults/cloud-{new Random().Next(3)}.png";
+
+                var bitmap = new BitmapImage(new Uri(cloudImage, UriKind.RelativeOrAbsolute));
+
+                var img = new Image() { Source = bitmap, Stretch = Stretch.None };
+
+                //Canvas.SetLeft(img, new Random().Next(8000));
+                Canvas.SetTop(img, new Random().Next(8000));
+
+                float distance = 8000;
+                float unitPixel = 200f;
+                float timeToTravelunitPixel = 0.5f;
+
+                float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
+
+                var gotoXAnimation = new DoubleAnimation()
+                {
+                    From = 0,
+                    To = 8000,
+                    Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                    RepeatBehavior = RepeatBehavior.Forever,
+                    //EasingFunction = _constructEaseOut,
+                };
+
+                Storyboard.SetTarget(gotoXAnimation, img);
+                Storyboard.SetTargetProperty(gotoXAnimation, new PropertyPath(Canvas.LeftProperty));
+
+                Storyboard moveStory = new Storyboard();
+                moveStory.Children.Add(gotoXAnimation);
+
+                Canvas_Root.Children.Add(img);
+
+                moveStory.Begin();
+
+                await Task.Delay(1000);
+            }
+        }
+
         /// <summary>
         /// Shows current world.
         /// </summary>
@@ -1724,10 +1766,9 @@ namespace Worldescape
             {
                 if (CanHubLogin())
                 {
-                    _mainPage.SetIsBusy(true);
                     var result = await HubService.Login(Avatar);
 
-                    if (result != null)
+                    if (result != null && result.Avatar != null && !result.Avatar.IsEmpty())
                     {
                         Console.WriteLine("LoginToHub: OK");
 
@@ -1739,12 +1780,10 @@ namespace Worldescape
                         // Clearing up canvas prior to login
                         AvatarMessengers.Clear();
                         Canvas_Root.Children.Clear();
-                        //_masonryPanel.Children.Clear();
 
+                        // Get avatars and constructs
+                        PopulateClouds();
                         await GetAvatars();
-
-                        _mainPage.SetIsBusy(false);
-
                         await GetConstructs();
 
                         _isLoggedIn = true;
@@ -1756,7 +1795,6 @@ namespace Worldescape
                     }
                     else
                     {
-                        _mainPage.SetIsBusy(false);
                         return false;
                     }
                 }
@@ -1915,7 +1953,7 @@ namespace Worldescape
 
             if (taggedObject is Avatar) // When avatar movement
             {
-                //THROEY:
+                //THEORY:
                 // If already on higher ground Y
                 //nowY=200  
                 //                   goToY=400
@@ -2084,7 +2122,7 @@ namespace Worldescape
         /// Prompts character selection and establishes communication to hub.
         /// </summary>
         /// <returns></returns>
-        private async void CommenseConnection()
+        private async void SelectCharacterAndConnect()
         {
             try
             {
