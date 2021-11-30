@@ -2091,6 +2091,13 @@ namespace Worldescape
         #endregion
 
         #region World
+
+        /// <summary>
+        /// Returns the provided world's image in a circular border.
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         private Border GetWorldPicture(World world, double size = 40)
         {
             return _worldHelper.GetWorldPicture(world: world, size: size);
@@ -2125,7 +2132,7 @@ namespace Worldescape
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
-                Height = 400
+                //Height = 400
             };
 
             foreach (Avatar avatar in AvatarMessengers.Select(x => x.Avatar))
