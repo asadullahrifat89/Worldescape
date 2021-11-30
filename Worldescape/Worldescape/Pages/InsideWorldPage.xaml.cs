@@ -992,10 +992,7 @@ namespace Worldescape
         {
             if (((Button)sender).Tag is Avatar avatar)
             {
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatar.Id) is UIElement iElement)
-                {
-                    CanvasScrollViewer.ScrollIntoView(element: (Button)iElement, horizontalMargin: 200, verticalMargin: 200, duration: new Duration(TimeSpan.FromSeconds(2)));
-                }
+                ScrollIntoView(avatar);
             }
         }
 
@@ -1033,10 +1030,7 @@ namespace Worldescape
         /// <param name="e"></param>
         private void Button_MyAvatar_Click(object sender, RoutedEventArgs e)
         {
-            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
-            {
-                CanvasScrollViewer.ScrollIntoView(element: (Button)iElement, horizontalMargin: 200, verticalMargin: 200, duration: new Duration(TimeSpan.FromSeconds(2)));
-            }
+            ScrollIntoView(Avatar);
         }
 
         /// <summary>
@@ -1775,6 +1769,8 @@ namespace Worldescape
                         // Set connected user's avatar image
                         ShowCurrentUserAvatar();
                         ShowCurrentWorld();
+
+                        ScrollIntoView(Avatar);
                         return true;
                     }
                     else
@@ -1870,23 +1866,6 @@ namespace Worldescape
         private object MoveElement(UIElement uIElement, PointerRoutedEventArgs e)
         {
             return _elementHelper.MoveElement(canvas: Canvas_Root, uIElement: uIElement, e: e);
-
-            //var pressedPoint = e.GetCurrentPoint(Canvas_Root);
-
-            //var button = (Button)uIElement;
-
-            //var offsetX = button.ActualWidth / 2;
-
-            //var goToX = pressedPoint.Position.X - offsetX;
-
-            //// If the UIElement is Avatar then move it to an Y coordinate so that it appears on top of the clicked point, if it's a construct then move the construct to the middle point. 
-            //var offsetY = button.Tag is Avatar ? button.ActualHeight : button.ActualHeight / 2;
-
-            //var goToY = pressedPoint.Position.Y - offsetY;
-
-            //var taggedObject = MoveElement(uIElement, goToX, goToY);
-
-            //return taggedObject;
         }
 
         /// <summary>
@@ -1899,207 +1878,6 @@ namespace Worldescape
         private object MoveElement(UIElement uIElement, double goToX, double goToY, int? gotoZ = null)
         {
             return _elementHelper.MoveElement(uIElement: uIElement, goToX: goToX, goToY: goToY, gotoZ: gotoZ, isCrafting: Button_ConstructCraft.IsChecked.Value);
-
-            //if (uIElement == null)
-            //    return null;
-
-            //var button = (Button)uIElement;
-
-            //var taggedObject = button.Tag;
-
-            //// Set moving status on start, if own avatar and if crafting mode is set then set crafting status
-            //if (taggedObject is Avatar avatar)
-            //{
-            //    if (Button_ConstructCraft.IsChecked.Value && avatar.Id == Avatar.Id)
-            //        SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
-            //    else
-            //        SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Moving);
-            //}
-
-            //var nowX = Canvas.GetLeft(uIElement);
-            //var nowY = Canvas.GetTop(uIElement);
-
-            //float distance = Vector3.Distance(
-            //    new Vector3(
-            //        (float)nowX,
-            //        (float)nowY,
-            //        0),
-            //    new Vector3(
-            //        (float)goToX,
-            //        (float)goToY,
-            //        0));
-
-            //float unitPixel = 200f;
-            //float timeToTravelunitPixel = 0.5f;
-
-            //float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
-
-            //Storyboard moveStory = new Storyboard();
-
-            //AnimationTimeline gotoXAnimation = null;
-            //AnimationTimeline gotoYAnimation = null;
-
-            //if (taggedObject is Avatar) // When avatar movement
-            //{
-            //    //THEORY:
-            //    // If already on higher ground Y
-            //    //nowY=200  
-            //    //                   goToY=400
-
-            //    // If already on lower ground Y
-            //    //                   goToY=200
-            //    //nowY=400
-
-            //    gotoXAnimation = new DoubleAnimation()
-            //    {
-            //        From = nowX,
-            //        To = goToX,
-            //        Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-            //        EasingFunction = _constructEaseOut,
-            //    };
-
-            //    if (goToX < nowX) // If going backward
-            //    {
-            //        button.RenderTransform = new ScaleTransform() { ScaleX = -1 };
-            //    }
-            //    else // If going forward
-            //    {
-            //        button.RenderTransform = new ScaleTransform() { ScaleX = 1 };
-            //    }
-
-            //    var halfTime = timeToTravelDistance / 2;
-
-            //    gotoYAnimation = new DoubleAnimationUsingKeyFrames();
-
-            //    var gotoYAnimationKeyFrames = (DoubleAnimationUsingKeyFrames)gotoYAnimation;
-
-            //    var easeOut = new ExponentialEase()
-            //    {
-            //        EasingMode = EasingMode.EaseOut,
-            //        Exponent = 5,
-            //    };
-
-            //    var easeIn = new ExponentialEase()
-            //    {
-            //        EasingMode = EasingMode.EaseIn,
-            //        Exponent = 5,
-            //    };
-
-            //    // Do half time animation Y
-            //    if (nowY < goToY) // From higher ground to lower ground
-            //    {
-            //        gotoYAnimationKeyFrames.KeyFrames.Add(new EasingDoubleKeyFrame()
-            //        {
-            //            KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime)),
-            //            Value = nowY - 100,
-            //            EasingFunction = easeOut,
-            //        });
-
-            //    }
-            //    else // From lower ground to higher ground
-            //    {
-            //        var middleY = nowY - goToY;
-            //        gotoYAnimationKeyFrames.KeyFrames.Add(new EasingDoubleKeyFrame()
-            //        {
-            //            KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime)),
-            //            Value = goToY - 100,
-            //            EasingFunction = easeOut,
-            //        });
-            //    }
-
-            //    // To final animation Y
-            //    gotoYAnimationKeyFrames.KeyFrames.Add(new EasingDoubleKeyFrame()
-            //    {
-            //        KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(halfTime += halfTime)),
-            //        Value = goToY,
-            //        EasingFunction = easeIn,
-            //    });
-
-            //    Storyboard.SetTarget(gotoYAnimation, uIElement);
-            //    Storyboard.SetTargetProperty(gotoYAnimation, new PropertyPath(Canvas.TopProperty));
-            //    moveStory.Children.Add(gotoYAnimation);
-            //}
-            //else // When avatar movement
-            //{
-            //    gotoXAnimation = new DoubleAnimation()
-            //    {
-            //        From = nowX,
-            //        To = goToX,
-            //        Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-            //        EasingFunction = _constructEaseOut,
-            //    };
-
-            //    gotoYAnimation = new DoubleAnimation()
-            //    {
-            //        From = nowY,
-            //        To = goToY,
-            //        Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
-            //        EasingFunction = _constructEaseOut,
-            //    };
-            //}
-
-            //gotoYAnimation.Completed += (object sender, EventArgs e) =>
-            //{
-            //    if (taggedObject is Avatar taggedAvatar)
-            //    {
-            //        if (Button_ConstructCraft.IsChecked.Value && taggedAvatar.Id == Avatar.Id)
-            //            SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
-            //        else
-            //            SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Idle);
-            //    }
-            //};
-
-            //Storyboard.SetTarget(gotoXAnimation, uIElement);
-            //Storyboard.SetTargetProperty(gotoXAnimation, new PropertyPath(Canvas.LeftProperty));
-
-            //Storyboard.SetTarget(gotoYAnimation, uIElement);
-            //Storyboard.SetTargetProperty(gotoYAnimation, new PropertyPath(Canvas.TopProperty));
-
-            //moveStory.Children.Add(gotoXAnimation);
-            //moveStory.Children.Add(gotoYAnimation);
-
-            //moveStory.Begin();
-
-            //if (taggedObject is Construct)
-            //{
-            //    var taggedConstruct = taggedObject as Construct;
-
-            //    taggedConstruct.Coordinate.X = goToX;
-            //    taggedConstruct.Coordinate.Y = goToY;
-
-            //    if (gotoZ.HasValue)
-            //    {
-            //        taggedConstruct.Coordinate.Z = (int)gotoZ;
-            //        Canvas.SetZIndex(uIElement, (int)gotoZ);
-            //    }
-            //    else
-            //    {
-            //        taggedConstruct.Coordinate.Z = Canvas.GetZIndex(uIElement);
-            //    }
-
-            //    taggedObject = taggedConstruct;
-            //}
-            //else if (button.Tag is Avatar)
-            //{
-            //    var taggedAvatar = taggedObject as Avatar;
-
-            //    taggedAvatar.Coordinate.X = goToX;
-            //    taggedAvatar.Coordinate.Y = goToY;
-
-            //    if (gotoZ.HasValue)
-            //    {
-            //        taggedAvatar.Coordinate.Z = (int)gotoZ;
-            //        Canvas.SetZIndex(uIElement, (int)gotoZ);
-            //    }
-            //    else
-            //    {
-            //        taggedAvatar.Coordinate.Z = Canvas.GetZIndex(uIElement);
-            //    }
-
-            //    taggedObject = taggedAvatar;
-            //}
-
-            //return taggedObject;
         }
 
         #endregion
@@ -2344,6 +2122,22 @@ namespace Worldescape
         #endregion
 
         #region Avatar
+
+        /// <summary>
+        /// Scroll the provided avatar into view.
+        /// </summary>
+        /// <param name="avatar"></param>
+        private void ScrollIntoView(Avatar avatar)
+        {
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatar.Id) is UIElement iElement)
+            {
+                CanvasScrollViewer.ScrollIntoView(
+                    element: (Button)iElement,
+                    horizontalMargin: (Window.Current.Bounds.Width / 2),
+                    verticalMargin: (Window.Current.Bounds.Height / 2) - 50,
+                    duration: new Duration(TimeSpan.FromSeconds(0)));
+            }
+        }
 
         /// <summary>
         /// Populate masonry panle to show active avatars in current world.
@@ -2768,7 +2562,6 @@ namespace Worldescape
         private void ClearMultiselectedConstructs()
         {
             Button_ConstructMultiSelect.IsChecked = false;
-            //Button_ConstructMultiSelect.Content = "Select";
             MultiSelectedConstructsHolder.Children.Clear();
             MultiselectedConstructs.Clear();
         }
@@ -2963,28 +2756,7 @@ namespace Worldescape
         /// <returns></returns>
         private object ScaleElement(UIElement uIElement, float scale)
         {
-            var button = (Button)uIElement;
-            button.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
-
-            if (button.Tag is Construct construct)
-            {
-                var scaleTransform = new CompositeTransform()
-                {
-                    ScaleX = scale,
-                    ScaleY = scale,
-                    Rotation = construct.Rotation,
-                };
-
-                button.RenderTransform = scaleTransform;
-
-                construct.Scale = scale;
-
-                return construct;
-            }
-            else
-            {
-                return null;
-            }
+            return _elementHelper.ScaleElement(uIElement, scale);
         }
 
         /// <summary>
@@ -2995,28 +2767,7 @@ namespace Worldescape
         /// <returns></returns>
         private object RotateElement(UIElement uIElement, float rotation)
         {
-            var button = (Button)uIElement;
-            button.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
-
-            if (button.Tag is Construct construct)
-            {
-                var rotateTransform = new CompositeTransform()
-                {
-                    ScaleX = construct.Scale,
-                    ScaleY = construct.Scale,
-                    Rotation = rotation,
-                };
-
-                button.RenderTransform = rotateTransform;
-
-                construct.Rotation = rotation;
-
-                return construct;
-            }
-            else
-            {
-                return null;
-            }
+            return _elementHelper.RotateElement(uIElement, rotation);
         }
 
         #endregion

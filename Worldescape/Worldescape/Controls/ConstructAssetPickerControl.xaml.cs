@@ -19,7 +19,7 @@ namespace Worldescape
         double _constructAssetMasonrySize = 130;
         double _constructCategoryMasonrySize = 130;
 
-        int _pageSize = 24;
+        int _pageSize = 48;
         int _pageIndex = 0;
         long _totalPageCount = 0;
 
@@ -94,7 +94,7 @@ namespace Worldescape
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
-                Height = 300
+                Height = 200
             };
 
             var allConstructCategory = new ConstructCategory() { Name = "All" };

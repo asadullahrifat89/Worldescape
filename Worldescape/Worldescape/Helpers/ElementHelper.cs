@@ -258,5 +258,69 @@ namespace Worldescape
 
             return taggedObject;
         }
+
+        /// <summary>
+        /// Scales an UIElement to the provided scale. Returns the tagged object of the uIElement.
+        /// </summary>
+        /// <param name="uIElement"></param>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        public object ScaleElement(UIElement uIElement, float scale)
+        {
+            var button = (Button)uIElement;
+            button.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
+
+            if (button.Tag is Construct construct)
+            {
+                var scaleTransform = new CompositeTransform()
+                {
+                    ScaleX = scale,
+                    ScaleY = scale,
+                    Rotation = construct.Rotation,
+                };
+
+                button.RenderTransform = scaleTransform;
+
+                construct.Scale = scale;
+
+                return construct;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Rotates an UIElement to the provided rotation. Returns the tagged object of the uIElement.
+        /// </summary>
+        /// <param name="uIElement"></param>
+        /// <param name="rotation"></param>
+        /// <returns></returns>
+        public object RotateElement(UIElement uIElement, float rotation)
+        {
+            var button = (Button)uIElement;
+            button.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
+
+            if (button.Tag is Construct construct)
+            {
+                var rotateTransform = new CompositeTransform()
+                {
+                    ScaleX = construct.Scale,
+                    ScaleY = construct.Scale,
+                    Rotation = rotation,
+                };
+
+                button.RenderTransform = rotateTransform;
+
+                construct.Rotation = rotation;
+
+                return construct;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
