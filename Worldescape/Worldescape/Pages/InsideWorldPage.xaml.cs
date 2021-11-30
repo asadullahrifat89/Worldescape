@@ -1464,23 +1464,22 @@ namespace Worldescape
 
         private void HubService_AvatarLoggedIn(Avatar avatar)
         {
-            // If an avatar already exists, ignore
+            // If an avatar already exists, remove that
             if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatar.Id) is UIElement iElement)
             {
-                Console.WriteLine("<<HubService_AvatarLoggedIn: IGNORE");
-            }
-            else
-            {
-                var avatarButton = GenerateAvatarButton(avatar);
-                AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
+                Canvas_Root.Children.Remove(iElement);
+                AvatarMessengers.Remove(AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatar.Id));               
+            }           
 
-                AvatarMessengers.Add(new AvatarMessenger() { Avatar = avatar, ActivityStatus = ActivityStatus.Idle, IsLoggedIn = true });
-                AvatarsCount.Text = AvatarMessengers.Count().ToString();
+            var avatarButton = GenerateAvatarButton(avatar);
+            AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
 
-                PopulateAvatarsInAvatarsContainer();
+            AvatarMessengers.Add(new AvatarMessenger() { Avatar = avatar, ActivityStatus = avatar.ActivityStatus, IsLoggedIn = true });
+            AvatarsCount.Text = AvatarMessengers.Count().ToString();
 
-                Console.WriteLine("<<HubService_AvatarLoggedIn: OK");
-            }
+            PopulateAvatarsInAvatarsContainer();
+
+            Console.WriteLine("<<HubService_AvatarLoggedIn: OK");
         }
 
         #endregion
@@ -1623,6 +1622,10 @@ namespace Worldescape
 
         #region World
 
+        /// <summary>
+        /// Adds random clouds to the canvas. If drawOver= true then adds the clouds on top of existing canvas elements.
+        /// </summary>
+        /// <param name="drawOver"></param>
         private async void PopulateClouds(bool drawOver = false)
         {
             for (int i = 0; i < 25; i++)
@@ -1634,7 +1637,7 @@ namespace Worldescape
                 var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, MaxHeight = 256, MaxWidth = 256 };
 
                 Canvas.SetTop(img, new Random().Next(8000));
-
+                                
                 if (drawOver)
                 {
                     Canvas.SetZIndex(img, 999);
@@ -1643,7 +1646,7 @@ namespace Worldescape
 
                 float distance = 8000;
                 float unitPixel = 200f;
-                float timeToTravelunitPixel = (float)(new Random().Next(minValue: 1, maxValue: 5));
+                float timeToTravelunitPixel = new Random().Next(minValue: 1, maxValue: 5);
 
                 float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
 
