@@ -43,11 +43,7 @@ namespace Worldescape
 
         readonly IHubService HubService;
 
-        EasingFunctionBase _constructEaseOut = new ExponentialEase()
-        {
-            EasingMode = EasingMode.EaseOut,
-            Exponent = 5,
-        };
+        readonly EasingFunctionBase _constructEaseOut = new ExponentialEase() { EasingMode = EasingMode.EaseOut, Exponent = 5, };
 
         readonly MainPage _mainPage;
         readonly AvatarHelper _avatarHelper;
@@ -130,7 +126,7 @@ namespace Worldescape
             if (!CanPerformWorldEvents())
                 return;
 
-            if (Button_ConstructAdd.IsChecked.Value && _addingConstruct != null)
+            if (/*Button_ConstructAdd.IsChecked.Value &&*/ _addingConstruct != null)
             {
                 await AddConstructOnPointerPressed(e); // Canvas_Root
             }
@@ -222,7 +218,7 @@ namespace Worldescape
 
             ShowSelectedConstruct(uielement); // Construct
 
-            if (Button_ConstructAdd.IsChecked.Value && _addingConstruct != null)
+            if (/*Button_ConstructAdd.IsChecked.Value &&*/ _addingConstruct != null)
             {
                 await AddConstructOnPointerPressed(e); // Construct
             }
@@ -510,6 +506,9 @@ namespace Worldescape
                 await HubService.BroadcastConstruct(construct);
 
                 Console.WriteLine("Construct added.");
+
+                // Turn off add mode
+                _addingConstruct = null;
             }
         }
 
@@ -642,16 +641,12 @@ namespace Worldescape
                 //Button_ConstructCraft.Content = Button_ConstructCraft.IsChecked.Value ? "Constructing" : "Construct";
 
                 Button_ConstructMove.IsChecked = false;
-                //Button_ConstructMove.Content = "Move";
 
                 Button_ConstructClone.IsChecked = false;
-                //Button_ConstructClone.Content = "Clone";
 
-                Button_ConstructAdd.IsChecked = false;
-                //Button_ConstructAdd.Content = "Add";
+                //Button_ConstructAdd.IsChecked = false;
 
                 Button_ConstructMultiSelect.IsChecked = false;
-                //Button_ConstructMultiSelect.Content = "Select";
 
                 if (Button_ConstructCraft.IsChecked.Value)
                 {
@@ -691,13 +686,9 @@ namespace Worldescape
                 if (_addingConstruct != null)
                 {
                     _addingConstruct = null;
-                    //Button_ConstructAdd.Content = "Add";
-                    Button_ConstructAdd.IsChecked = false;
-
+                    //Button_ConstructAdd.IsChecked = false;
                     return;
                 }
-
-                //Button_ConstructAdd.Content = "Adding";
 
                 if (!ConstructAssets.Any())
                 {
@@ -719,14 +710,13 @@ namespace Worldescape
                     });
 
                 // If the picker was closed without a selection of an asset, set the Button_ConstructAdd to default
-                constructAssetPicker.Closed += (s, e) =>
-                {
-                    if (_addingConstruct == null)
-                    {
-                        //Button_ConstructAdd.Content = "Add";
-                        Button_ConstructAdd.IsChecked = false;
-                    }
-                };
+                //constructAssetPicker.Closed += (s, e) =>
+                //{
+                //    if (_addingConstruct == null)
+                //    {
+                //        Button_ConstructAdd.IsChecked = false;
+                //    }
+                //};
 
                 constructAssetPicker.Show();
             }
@@ -1468,8 +1458,8 @@ namespace Worldescape
             if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatar.Id) is UIElement iElement)
             {
                 Canvas_Root.Children.Remove(iElement);
-                AvatarMessengers.Remove(AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatar.Id));               
-            }           
+                AvatarMessengers.Remove(AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatar.Id));
+            }
 
             var avatarButton = GenerateAvatarButton(avatar);
             AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
@@ -1637,7 +1627,7 @@ namespace Worldescape
                 var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, MaxHeight = 256, MaxWidth = 256 };
 
                 Canvas.SetTop(img, new Random().Next(8000));
-                                
+
                 if (drawOver)
                 {
                     Canvas.SetZIndex(img, 999);

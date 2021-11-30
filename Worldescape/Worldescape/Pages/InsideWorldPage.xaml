@@ -156,7 +156,7 @@
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
                     <!--  Add  -->
-                    <ToggleButton
+                    <Button
                         x:Name="Button_ConstructAdd"
                         Width="50"
                         Margin="5,10"
@@ -164,7 +164,7 @@
                         Content="&#xE948;"
                         FontFamily="Segoe MDL2 Assets"
                         FontWeight="Normal"
-                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}"
                         Visibility="Collapsed" />
 
                     <!--  Select  -->
