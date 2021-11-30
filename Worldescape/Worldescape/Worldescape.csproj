@@ -17,6 +17,7 @@
 		<ApplicationDefinition Include="App.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</ApplicationDefinition>
+		<Content Include="Images\Defaults\FloatingClouds.gif" />
 		<Content Include="Images\Defaults\World_1.png" />
 		<Content Include="Images\Defaults\World_2.png" />
 		<Content Include="Images\Defaults\World_3.png" />
@@ -125,6 +126,7 @@
 		<Compile Include="Helpers\PaginationHelper.cs" />
 		<Compile Include="Helpers\WorldHelper.cs" />
 		<Compile Include="Internals\FileOpenDialogPresenter.cs" />
+		<Compile Include="Internals\TiledBackground.cs" />
 		<Compile Include="Pages\AccountPage.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
