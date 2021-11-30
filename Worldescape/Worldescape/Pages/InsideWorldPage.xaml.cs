@@ -25,12 +25,6 @@ namespace Worldescape
     {
         #region Fields
 
-        //bool _isPointerCaptured;
-        //double _pointerX;
-        //double _pointerY;
-        //double _objectLeft;
-        //double _objectTop;
-
         bool _isLoggedIn;
 
         UIElement _selectedConstruct;
@@ -42,8 +36,6 @@ namespace Worldescape
         UIElement _messageToAvatar;
 
         readonly IHubService HubService;
-
-        readonly EasingFunctionBase _constructEaseOut = new ExponentialEase() { EasingMode = EasingMode.EaseOut, Exponent = 5, };
 
         readonly MainPage _mainPage;
         readonly AvatarHelper _avatarHelper;
@@ -168,23 +160,32 @@ namespace Worldescape
                 ClearMultiselectedConstructs();
                 HideAvatarActivityStatusHolder();
 
-                // Canvas_Root drag start
-                UIElement uielement = (UIElement)sender;
-                DragStart(Canvas_RootContainer, e, uielement);
+                if (ToggleButton_Pan.IsChecked.Value)
+                {
+                    // Canvas_Root drag start
+                    UIElement uielement = (UIElement)sender;
+                    DragStart(Canvas_RootContainer, e, uielement); 
+                }
             }
         }
 
         private void Canvas_Root_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            UIElement uielement = (UIElement)sender;
-            DragElement(Canvas_RootContainer, e, uielement);
+            if (ToggleButton_Pan.IsChecked.Value)
+            {
+                UIElement uielement = (UIElement)sender;
+                DragElement(Canvas_RootContainer, e, uielement); 
+            }
         }
 
         private void Canvas_Root_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            // Drag stop
-            UIElement uielement = (UIElement)sender;
-            DragRelease(e, uielement);
+            if (ToggleButton_Pan.IsChecked.Value)
+            {
+                // Drag stop
+                UIElement uielement = (UIElement)sender;
+                DragRelease(e, uielement); 
+            }
         }
 
         #endregion
@@ -587,47 +588,6 @@ namespace Worldescape
 
         #region Construct
 
-        private void Button_CloseConstructAssetsContainer_Click(object sender, RoutedEventArgs e)
-        {
-            HideConstructAssetsControl();
-            //Button_ConstructAdd.IsChecked = false;
-        }
-
-        /// <summary>
-        /// Sets selected construct details on side card.
-        /// </summary>
-        private void SetConstructDetailsOnSideCard()
-        {
-            if (_selectedConstruct == null)
-                return;
-
-            if (((Button)_selectedConstruct).Tag is Construct construct)
-            {
-                DetailsImageHolder.Content = GetImageFromUiElement(_selectedConstruct);
-                DetailsNameHolder.Text = construct.Name;
-                DetailsDateHolder.Text = $"{construct.CreatedOn.ToShortDateString()} - {construct.CreatedOn.ToShortTimeString()} by {construct.Creator.Name.Split(' ').FirstOrDefault()}";
-            }
-        }
-
-        /// <summary>
-        /// Activates multi selection of clicked constructs.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Button_ConstructMultiSelect_Click(object sender, RoutedEventArgs e)
-        {
-            //Button_ConstructMultiSelect.Content = Button_ConstructMultiSelect.IsChecked.Value ? "Selecting" : "Select";
-
-            if (Button_ConstructMultiSelect.IsChecked.Value)
-            {
-                ShowConstructOperationButtons();
-            }
-            else
-            {
-                HideConstructOperationButtons();
-            }
-        }
-
         /// <summary>
         /// Activates crafting mode. This enables operations buttons for a construct.
         /// </summary>
@@ -637,13 +597,13 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                //Button_ConstructCraft.Content = Button_ConstructCraft.IsChecked.Value ? "Constructing" : "Construct";
-
                 Button_ConstructMove.IsChecked = false;
 
                 Button_ConstructClone.IsChecked = false;
 
                 Button_ConstructAdd.IsChecked = false;
+
+                ToggleButton_Pan.IsChecked = false;
 
                 HideConstructAssetsControl();
 
@@ -731,6 +691,25 @@ namespace Worldescape
                 //};
 
                 //constructAssetPicker.Show();
+            }
+        }
+
+        /// <summary>
+        /// Activates multi selection of clicked constructs.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Button_ConstructMultiSelect_Click(object sender, RoutedEventArgs e)
+        {
+            //Button_ConstructMultiSelect.Content = Button_ConstructMultiSelect.IsChecked.Value ? "Selecting" : "Select";
+
+            if (Button_ConstructMultiSelect.IsChecked.Value)
+            {
+                ShowConstructOperationButtons();
+            }
+            else
+            {
+                HideConstructOperationButtons();
             }
         }
 
@@ -2986,6 +2965,26 @@ namespace Worldescape
             Canvas_Root.Children.Add(chatBubble);
 
             fadeStoryBoard.Begin();
+        }
+
+        #endregion
+
+        #region Details
+
+        /// <summary>
+        /// Sets selected construct details on side card.
+        /// </summary>
+        private void SetConstructDetailsOnSideCard()
+        {
+            if (_selectedConstruct == null)
+                return;
+
+            if (((Button)_selectedConstruct).Tag is Construct construct)
+            {
+                DetailsImageHolder.Content = GetImageFromUiElement(_selectedConstruct);
+                DetailsNameHolder.Text = construct.Name;
+                DetailsDateHolder.Text = $"{construct.CreatedOn.ToShortDateString()} - {construct.CreatedOn.ToShortTimeString()} by {construct.Creator.Name.Split(' ').FirstOrDefault()}";
+            }
         }
 
         #endregion

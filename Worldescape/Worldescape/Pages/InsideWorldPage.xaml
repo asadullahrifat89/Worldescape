@@ -135,6 +135,14 @@
                         </StackPanel>
                     </Button.Content>
                 </Button>
+                <ToggleButton
+                    x:Name="ToggleButton_Pan"
+                    Width="50"
+                    Margin="5,0"
+                    Content="&#xECE9;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontWeight="Normal"
+                    Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
             </StackPanel>
 
             <!--  Bottom middle construct, messaging, status controls  -->
@@ -625,39 +633,10 @@
             Style="{StaticResource MaterialDesign_Card_Style}"
             Visibility="Collapsed">
 
-            <Grid
-                Margin="10,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
-
-                <!--<Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>-->
-
-                <!--<Button
-                    x:Name="Button_CloseConstructAssetsContainer"
-                    Grid.Row="0"
-                    Margin="0"
-                    Padding="0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Background="Transparent"
-                    Click="Button_CloseConstructAssetsContainer_Click"
-                    Content="&#215;"
-                    Effect="{x:Null}"
-                    FontSize="26"
-                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
-                    Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}" />-->
-
-                <ContentPresenter
-                    x:Name="ContentControl_ConstructAssetsControlContainer"
-                    Grid.Row="1"
-                    Height="400" />
-
-            </Grid>
+            <ContentPresenter
+                x:Name="ContentControl_ConstructAssetsControlContainer"
+                Height="400"
+                Margin="10,0" />
 
         </ContentControl>
 
