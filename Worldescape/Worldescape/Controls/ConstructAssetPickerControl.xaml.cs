@@ -16,6 +16,9 @@ namespace Worldescape
     {
         #region Fields
 
+        double _constructAssetMasonrySize = 130;
+        double _constructCategoryMasonrySize = 130;
+
         int _pageSize = 24;
         int _pageIndex = 0;
         long _totalPageCount = 0;
@@ -98,20 +101,6 @@ namespace Worldescape
 
             // Add an All button first
             AddConstructCategoryMasonry(_masonryPanel, allConstructCategory);
-            //var button_All = new Button()
-            //{
-            //    Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-            //    Width = 150,
-            //    Height = 120,
-            //    Margin = new Thickness(3),
-            //    Tag = allConstructCategory,
-            //    FontSize = 18
-            //};
-
-            //button_All.Click += ButtonConstructCategory_Click;
-            //button_All.Content = "All";
-
-            //_masonryPanel.Children.Add(button_All);
 
             //Add all teh categories
             foreach (var constructCategory in pagedData)
@@ -130,16 +119,15 @@ namespace Worldescape
             var button_Category = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                Width = 120,
-                Height = 120,
+                Width = _constructCategoryMasonrySize,
+                Height = _constructCategoryMasonrySize,
                 Margin = new Thickness(3),
                 Tag = constructCategory,
-                FontSize = 16
+                FontSize = 16,
+                Content = constructCategory.Name
             };
 
             button_Category.Click += ButtonConstructCategory_Click;
-            button_Category.Content = constructCategory.Name;
-
             _masonryPanel.Children.Add(button_Category);
         }
 
@@ -180,8 +168,8 @@ namespace Worldescape
             {
                 Source = bitmap,
                 Stretch = Stretch.Uniform,
-                Height = 120,
-                Width = 120,
+                Height = _constructAssetMasonrySize - 10,
+                Width = _constructAssetMasonrySize - 10,
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
             };
@@ -195,22 +183,20 @@ namespace Worldescape
                 FontSize = 14
             };
 
+            StackPanel content = new StackPanel();
+            content.Children.Add(img);
+            content.Children.Add(txt);
+
             var buttonConstructAsset = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                Height = 130,
-                Width = 130,
+                Height = _constructAssetMasonrySize,
+                Width = _constructAssetMasonrySize,
                 Margin = new Thickness(3),
                 Tag = item,
+                Content = content
             };
-
-            StackPanel stackPanel = new StackPanel();
-            stackPanel.Children.Add(img);
-            stackPanel.Children.Add(txt);
-
             buttonConstructAsset.Click += ButtonConstructAsset_Click;
-            buttonConstructAsset.Content = stackPanel;
-
             _masonryPanel.Children.Add(buttonConstructAsset);
         }
 
