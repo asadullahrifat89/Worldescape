@@ -18,6 +18,7 @@ using Worldescape.Service;
 using Worldescape.Common;
 using Image = Windows.UI.Xaml.Controls.Image;
 using Windows.UI.Input;
+using System.Windows.Input;
 
 namespace Worldescape
 {
@@ -162,6 +163,8 @@ namespace Worldescape
 
                 if (ToggleButton_PanCanvas.IsChecked.Value)
                 {
+                    Canvas_RootContainer.Cursor = Cursors.SizeAll;
+
                     // Canvas_Root drag start
                     UIElement uielement = (UIElement)sender;
                     DragStart(Canvas_RootContainer, e, uielement);
@@ -182,6 +185,7 @@ namespace Worldescape
         {
             if (ToggleButton_PanCanvas.IsChecked.Value)
             {
+                Canvas_RootContainer.Cursor = Cursors.Arrow;
                 // Drag stop
                 UIElement uielement = (UIElement)sender;
                 DragRelease(e, uielement);
@@ -357,71 +361,11 @@ namespace Worldescape
         {
             if (Button_ConstructMultiSelect.IsChecked.Value && MultiselectedConstructs.Any())
             {
-                var currrentPoint = e.GetCurrentPoint(Canvas_Root);
-
-                // Align avatar to clicked point
-                AlignUsersAvatarFaceDirection(currrentPoint.Position.X);
-
-                //var maxX = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
-
-                //UIElement fe = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).FirstOrDefault(x => ((Construct)x.Tag).Coordinate.X >= maxX);
-
-                // var maxX = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
-
-                UIElement fe = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && c.Id == MultiselectedConstructs.FirstOrDefault().Id).FirstOrDefault();
-
-                List<Tuple<int, double, double>> distWrtFi = new();
-
-                var feConstruct = ((Button)fe).Tag as Construct;
-
-                var fex = feConstruct.Coordinate.X;
-                var fey = feConstruct.Coordinate.Y;
-
-                foreach (Construct element in MultiselectedConstructs)
-                {
-                    var xDis = feConstruct.Coordinate.X - element.Coordinate.X;
-                    var yDis = feConstruct.Coordinate.Y - element.Coordinate.Y;
-
-                    distWrtFi.Add(new Tuple<int, double, double>(element.Id, xDis, yDis));
-                }
-
-                foreach (Construct element in MultiselectedConstructs)
-                {
-                    var nowX = element.Coordinate.X;
-                    var nowY = element.Coordinate.Y;
-
-                    _movingConstruct = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == element.Id);
-
-                    double goToX = currrentPoint.Position.X - ((Button)_movingConstruct).ActualWidth / 2;
-                    double goToY = currrentPoint.Position.Y - ((Button)_movingConstruct).ActualHeight / 2;
-
-                    goToX += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item2;
-                    goToY += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item3;
-
-                    var taggedObject = MoveElement(_movingConstruct, goToX, goToY);
-
-                    var construct = taggedObject as Construct;
-
-                    await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
-
-                    Console.WriteLine("Construct moved.");
-                }
+                await MoveMultiSelectedConstruct(e);
             }
             else
             {
-                if (_movingConstruct == null)
-                    return;
-
-                var taggedObject = MoveElement(_movingConstruct, e);
-
-                var construct = taggedObject as Construct;
-
-                // Align avatar to construct point
-                AlignUsersAvatarFaceDirection(construct.Coordinate.X);
-
-                await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
-
-                Console.WriteLine("Construct moved.");
+                await MoveSingleConstruct(e);
             }
         }
 
@@ -2766,6 +2710,92 @@ namespace Worldescape
         private object RotateElement(UIElement uIElement, float rotation)
         {
             return _elementHelper.RotateElement(uIElement, rotation);
+        }
+
+        /// <summary>
+        /// Moves multi-selected constructs to the pointer position.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private async Task MoveMultiSelectedConstruct(PointerRoutedEventArgs e)
+        {
+            var currrentPoint = e.GetCurrentPoint(Canvas_Root);
+
+            var pointX = currrentPoint.Position.X;
+            var pointY = currrentPoint.Position.Y;
+
+            pointX = pointX / ((ScaleTransform)Canvas_Root.RenderTransform).ScaleX;
+            pointY = pointY / ((ScaleTransform)Canvas_Root.RenderTransform).ScaleY;
+
+            // Align avatar to clicked point
+            AlignUsersAvatarFaceDirection(pointX);
+
+            //var maxX = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
+
+            //UIElement fe = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).FirstOrDefault(x => ((Construct)x.Tag).Coordinate.X >= maxX);
+
+            // var maxX = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
+
+            UIElement fe = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && c.Id == MultiselectedConstructs.FirstOrDefault().Id).FirstOrDefault();
+
+            List<Tuple<int, double, double>> distWrtFi = new();
+
+            var feConstruct = ((Button)fe).Tag as Construct;
+
+            var fex = feConstruct.Coordinate.X;
+            var fey = feConstruct.Coordinate.Y;
+
+            foreach (Construct element in MultiselectedConstructs)
+            {
+                var xDis = feConstruct.Coordinate.X - element.Coordinate.X;
+                var yDis = feConstruct.Coordinate.Y - element.Coordinate.Y;
+
+                distWrtFi.Add(new Tuple<int, double, double>(element.Id, xDis, yDis));
+            }
+
+            foreach (Construct element in MultiselectedConstructs)
+            {
+                var nowX = element.Coordinate.X;
+                var nowY = element.Coordinate.Y;
+
+                _movingConstruct = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == element.Id);
+
+                double goToX = pointX - ((Button)_movingConstruct).ActualWidth / 2;
+                double goToY = pointY - ((Button)_movingConstruct).ActualHeight / 2;
+
+                goToX += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item2;
+                goToY += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item3;
+
+                var taggedObject = MoveElement(_movingConstruct, goToX, goToY);
+
+                var construct = taggedObject as Construct;
+
+                await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+
+                Console.WriteLine("Construct moved.");
+            }
+        }
+
+        /// <summary>
+        /// Moves selected construct to the pointer position.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private async Task MoveSingleConstruct(PointerRoutedEventArgs e)
+        {
+            if (_movingConstruct == null)
+                return;
+
+            var taggedObject = MoveElement(_movingConstruct, e);
+
+            var construct = taggedObject as Construct;
+
+            // Align avatar to construct point
+            AlignUsersAvatarFaceDirection(construct.Coordinate.X);
+
+            await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+
+            Console.WriteLine("Construct moved.");
         }
 
         #endregion

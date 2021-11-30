@@ -39,16 +39,22 @@ namespace Worldescape
         {
             var pressedPoint = e.GetCurrentPoint(canvas);
 
+            var pointX = pressedPoint.Position.X;
+            var pointY = pressedPoint.Position.Y;
+
+            pointX = pointX / ((ScaleTransform)canvas.RenderTransform).ScaleX;
+            pointY = pointY / ((ScaleTransform)canvas.RenderTransform).ScaleY;
+
             var button = (Button)uIElement;
 
             var offsetX = button.ActualWidth / 2;
 
-            var goToX = pressedPoint.Position.X - offsetX;
+            var goToX = pointX - offsetX;
 
             // If the UIElement is Avatar then move it to an Y coordinate so that it appears on top of the clicked point, if it's a construct then move the construct to the middle point. 
             var offsetY = button.Tag is Avatar ? button.ActualHeight : button.ActualHeight / 2;
 
-            var goToY = pressedPoint.Position.Y - offsetY;
+            var goToY = pointY - offsetY;
 
             var taggedObject = MoveElement(uIElement, goToX, goToY);
 

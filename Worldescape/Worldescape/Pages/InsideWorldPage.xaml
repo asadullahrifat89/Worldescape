@@ -18,6 +18,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Background="{StaticResource DefaultSkyColor}">
+
             <!--  Canvas host  -->
             <ScrollViewer
                 x:Name="CanvasScrollViewer"
@@ -27,9 +28,6 @@
                 VerticalScrollBarVisibility="Auto">
 
                 <Canvas x:Name="Canvas_RootContainer">
-                    <Canvas.RenderTransform>
-                        <ScaleTransform x:Name="Canvas_RootScaleTransform" ScaleX="1" ScaleY="1" />
-                    </Canvas.RenderTransform>
                     <Canvas
                         x:Name="Canvas_Root"
                         Width="8000"
@@ -38,7 +36,11 @@
                         Background="Transparent"
                         PointerMoved="Canvas_Root_PointerMoved"
                         PointerPressed="Canvas_Root_PointerPressed"
-                        PointerReleased="Canvas_Root_PointerReleased" />
+                        PointerReleased="Canvas_Root_PointerReleased">
+                        <Canvas.RenderTransform>
+                            <ScaleTransform x:Name="Canvas_RootScaleTransform" ScaleX="1" ScaleY="1" />
+                        </Canvas.RenderTransform>
+                    </Canvas>
                 </Canvas>
 
             </ScrollViewer>
