@@ -100,7 +100,7 @@ namespace Worldescape
                 {
                     if (canvas.Children.Any(x => x is Button button && button.Tag is Construct))
                     {
-                        var lastConstruct = ((Button)canvas.Children.Where(x => x is Button button && button.Tag is Construct).LastOrDefault()).Tag as Construct;
+                        var lastConstruct = canvas.Children.OfType<Button>().Where(x => x.Tag is Construct c).LastOrDefault().Tag as Construct;
 
                         if (lastConstruct != null)
                         {

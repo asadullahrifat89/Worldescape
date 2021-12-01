@@ -1169,7 +1169,7 @@ namespace Worldescape
         #region Construct
         private void HubService_NewBroadcastConstructMovement(int constructId, double x, double y, int z)
         {
-            if (Canvas_Root.Children.FirstOrDefault(c => c is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            if (_constructHelper.GetConstructButtonFromCanvas(canvas: Canvas_Root, constructId: constructId) is UIElement iElement)
             {
                 MoveElement(uIElement: iElement, goToX: x, goToY: y, gotoZ: z);
                 Console.WriteLine("<<HubService_NewBroadcastConstructMovement: OK");
@@ -1182,7 +1182,7 @@ namespace Worldescape
 
         private void HubService_NewBroadcastConstructScale(int constructId, float scale)
         {
-            if (Canvas_Root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            if (_constructHelper.GetConstructButtonFromCanvas(canvas: Canvas_Root, constructId: constructId) is UIElement iElement)
             {
                 ScaleElement(uIElement: iElement, scale: scale);
                 Console.WriteLine("<<HubService_NewBroadcastConstructScale: OK");
@@ -1200,7 +1200,7 @@ namespace Worldescape
 
         private void HubService_NewBroadcastConstructRotation(int constructId, float rotation)
         {
-            if (Canvas_Root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            if (_constructHelper.GetConstructButtonFromCanvas(canvas: Canvas_Root, constructId: constructId) is UIElement iElement)
             {
                 RotateElement(uIElement: iElement, rotation: rotation);
                 Console.WriteLine("<<HubService_NewBroadcastConstructRotation: OK");
@@ -1218,7 +1218,7 @@ namespace Worldescape
 
         private void HubService_NewBroadcastConstructPlacement(int constructId, int z)
         {
-            if (Canvas_Root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement iElement)
+            if (_constructHelper.GetConstructButtonFromCanvas(canvas: Canvas_Root, constructId: constructId) is UIElement iElement)
             {
                 Canvas.SetZIndex(element: iElement, value: z);
                 Console.WriteLine("<<HubService_NewBroadcastConstructPlacement: OK");
@@ -1231,7 +1231,7 @@ namespace Worldescape
 
         private void HubService_NewRemoveConstruct(int constructId)
         {
-            if (Canvas_Root.Children.FirstOrDefault(x => x is Button button && button.Tag is Construct taggedConstruct && taggedConstruct.Id == constructId) is UIElement constructUiElement)
+            if (_constructHelper.GetConstructButtonFromCanvas(canvas: Canvas_Root, constructId: constructId) is UIElement constructUiElement)
             {
                 RemoveConstructFromCanvas(constructUiElement);
                 Console.WriteLine("<<HubService_NewRemoveConstruct: OK");
