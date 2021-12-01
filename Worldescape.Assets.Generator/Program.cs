@@ -22,11 +22,17 @@ switch (choice)
     case "1":
         {
             WorldObjectsFileGenerator.GenerateMsAppxWorld_Objects(assetSourceLocation, outputFileLocation);
+
+            Console.WriteLine("==========================");
+            Console.WriteLine($"{outputFileLocation} file has been generated.");
         }
         break;
     case "2":
         {
             WorldObjectsFileGenerator.GenerateWebHttpWorld_Objects(assetSourceLocation, outputFileLocation);
+
+            Console.WriteLine("==========================");
+            Console.WriteLine($"{outputFileLocation} file has been generated.");
         }
         break;
     case "3":
@@ -67,13 +73,13 @@ switch (choice)
                 var tiler = new ImageTileGenerator(inputFile: inputFile, xSize: x, ySize: y, rows: row, columns: column);
                 tiler.GenerateTiles(outputPath: outputPath, outputFilePrefix: outputFilePrefix);
             }
+
+            Console.WriteLine("==========================");
+            Console.WriteLine($"{outputPath} files have been generated.");
         }
         break;
     default:
         break;
 }
-
-Console.WriteLine("==========================");
-Console.WriteLine($"{outputFileLocation} file has been generated.");
 
 Console.ReadLine();
