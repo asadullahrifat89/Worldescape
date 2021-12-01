@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Reflection;
+using Worldescape.Assets.Generator;
 using Worldescape.Common;
 
 var executingAssemblyLocation = Assembly.GetExecutingAssembly().Location;
@@ -9,6 +10,7 @@ Console.WriteLine("Welcom to Worldescape Asset Generator!");
 Console.WriteLine("What would you like to do?");
 Console.WriteLine("1. Generate Assets (ms-appx)");
 Console.WriteLine("2. Generate Assets (web-http)");
+Console.WriteLine("3. Generate Tiles");
 
 var choice = Console.ReadLine();
 
@@ -19,77 +21,47 @@ switch (choice)
 {
     case "1":
         {
-            // Generate assets
-            var host = "ms-appx:///Images/World_Objects";            
-
-            DirectoryInfo parentDirectory = new(assetSourceLocation);
-
-            List<ConstructAsset> constructs = new List<ConstructAsset>();
-
-            if (parentDirectory.Exists)
-            {
-                DirectoryInfo[] directories = parentDirectory.GetDirectories();
-
-                foreach (var directory in directories)
-                {
-                    FileInfo[] files = directory.GetFiles();
-
-                    foreach (FileInfo file in files)
-                    {
-                        var url = $"{host}/{directory.Name}/{file.Name}";
-
-                        var construct = new ConstructAsset()
-                        {
-                            Category = Constants.CamelToName(directory.Name),
-                            Name = Constants.CamelToName(file.Name).Replace(".png", ""),
-                            ImageUrl = url,
-                        };
-
-                        constructs.Add(construct);
-                    }
-                }
-
-                string json = System.Text.Json.JsonSerializer.Serialize(constructs, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true });
-
-                File.WriteAllText(outputFileLocation, json);                
-            }
+            WorldObjectsFileGenerator.GenerateMsAppxWorld_Objects(assetSourceLocation, outputFileLocation);
         }
         break;
     case "2":
         {
-            // Generate assets
-            var host = "World_Objects";            
+            WorldObjectsFileGenerator.GenerateWebHttpWorld_Objects(assetSourceLocation, outputFileLocation);
+        }
+        break;
+    case "3":
+        {
+            Console.WriteLine("Enter source image file Path:");
+            var inputFile = Console.ReadLine();
+            inputFile = inputFile.Trim('"');
 
-            DirectoryInfo parentDirectory = new(assetSourceLocation);
+            Console.WriteLine("Enter tile size: i.e 256x192");
+            var size = Console.ReadLine();
 
-            List<ConstructAsset> constructs = new List<ConstructAsset>();
+            if (size == null)
+                return;
 
-            if (parentDirectory.Exists)
+            var parts = size.Split('x');
+
+            var x = Convert.ToInt32(parts[0]);
+            var y = Convert.ToInt32( parts[1]);
+
+            Console.WriteLine("Enter number of tiles in source image in rowxcolumn: i.e 3x10");
+            var rowCols = Console.ReadLine();
+
+            parts = rowCols.Split('x');
+
+            var row = Convert.ToInt32(parts[0]);
+            var column = Convert.ToInt32(parts[1]);
+
+            Console.WriteLine("Enter output path:");
+            var outputPath = Console.ReadLine();
+            outputPath = outputPath.Trim('"'); ;
+
+            if (inputFile != null && outputPath != null)
             {
-                DirectoryInfo[] directories = parentDirectory.GetDirectories();
-
-                foreach (var directory in directories)
-                {
-                    FileInfo[] files = directory.GetFiles();
-
-                    foreach (FileInfo file in files)
-                    {
-                        var url = $"{host}\\{directory.Name}\\{file.Name}";
-
-                        var construct = new ConstructAsset()
-                        {
-                            Category = Constants.CamelToName(directory.Name),
-                            Name = Constants.CamelToName(file.Name).Replace(".png", ""),
-                            ImageUrl = url,
-                        };
-
-                        constructs.Add(construct);
-                    }
-                }
-
-                string json = System.Text.Json.JsonSerializer.Serialize(constructs, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true });
-
-                File.WriteAllText(outputFileLocation, json);             
+                var tiler = new ImageTileGenerator(inputFile: inputFile, xSize: x, ySize: y, rows: row, columns: column);
+                tiler.GenerateTiles(outputPath);
             }
         }
         break;
