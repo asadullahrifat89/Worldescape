@@ -1709,7 +1709,7 @@ namespace Worldescape
                         await GetAvatars();
                         PopulateClouds();
                         ScrollIntoView(Avatar);
-                        GetConstructs();
+                        await FetchConstructs();
                         PopulateClouds(true);
 
                         _isLoggedIn = true;
@@ -2398,6 +2398,116 @@ namespace Worldescape
 
         #region Construct
 
+        /// <summary>
+        /// Get constructs for the current world.
+        /// </summary>
+        /// <returns></returns>
+        private async Task FetchConstructs()
+        {
+            var count = await GetConstructsCount();
+
+            // If any constructs exist for this world start fetching asynchronously
+            if (count > 0)
+            {
+                var pageSize = 10;
+
+                var totalPageCount = _paginationHelper.GetTotalPageCount(pageSize: pageSize, dataCount: count);
+
+                var tasks = new List<Task>();
+
+                for (int pageIndex = 0; pageIndex < totalPageCount; pageIndex++)
+                {
+                    tasks.Add(GetConstructs(pageSize, pageIndex));
+                }
+
+                await Task.WhenAll(tasks.ToArray());
+
+                Console.WriteLine("LoginToHub: Completed fetching constructs.");
+            }
+        }
+
+        private async Task<long> GetConstructsCount()
+        {
+            // Get constructs count for this world
+            var countResponse = await _httpServiceHelper.SendGetRequest<GetConstructsCountQueryResponse>(
+                actionUri: Constants.Action_GetConstructsCount,
+                payload: new GetConstructsCountQueryRequest() { Token = App.Token, WorldId = App.World.Id });
+
+            if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
+            {
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: countResponse.ExternalError.ToString());
+                contentDialogue.Show();
+
+                _mainPage.SetIsBusy(false);
+            }
+
+            return countResponse.Count;
+        }
+
+        private async Task GetConstructs(int pageSize, int pageIndex)
+        {
+            // Get constructs in small packets
+            var response = await _httpServiceHelper.SendGetRequest<GetConstructsQueryResponse>(
+                actionUri: Constants.Action_GetConstructs,
+                payload: new GetConstructsQueryRequest() { Token = App.Token, PageIndex = pageIndex, PageSize = pageSize, WorldId = App.World.Id });
+
+            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
+            {
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
+                contentDialogue.Show();
+
+                _mainPage.SetIsBusy(false);
+            }
+
+            var constructs = response.Constructs;
+
+            if (constructs != null && constructs.Any())
+            {
+                var children = Canvas_Root.Children.OfType<Button>().Where(x => x.Tag is Construct);
+
+                foreach (var construct in constructs)
+                {
+                    // If a construct already exists then update that, this can happen as after avatar login, new constructs can start appearing thru HubService
+                    if (children != null && children.Count() > 0 && children.Any(x => ((Construct)x.Tag).Id == construct.Id))
+                    {
+                        if (children.FirstOrDefault(x => ((Construct)x.Tag).Id == construct.Id) is Button constructBtn)
+                        {
+                            constructBtn.Tag = construct;
+
+                            Canvas.SetLeft(constructBtn, construct.Coordinate.X);
+                            Canvas.SetTop(constructBtn, construct.Coordinate.Y);
+                            Canvas.SetZIndex(constructBtn, construct.Coordinate.Z);
+
+                            ScaleElement(constructBtn, construct.Scale);
+                            RotateElement(constructBtn, construct.Rotation);
+                        }
+                    }
+                    else // If construct doesn't exist then add that
+                    {
+                        var constructBtn = GenerateConstructButton(
+                           name: construct.Name,
+                           imageUrl: construct.ImageUrl,
+                           constructId: construct.Id,
+                           inWorld: construct.World,
+                           creator: construct.Creator,
+                           createdOn: construct.CreatedOn);
+
+                        AddConstructOnCanvas(
+                            construct: constructBtn,
+                            x: construct.Coordinate.X,
+                            y: construct.Coordinate.Y,
+                            z: construct.Coordinate.Z,
+                            disableOpacityAnimation: true);
+
+                        ScaleElement(constructBtn, construct.Scale);
+                        RotateElement(constructBtn, construct.Rotation);
+                    }
+                }
+            }
+
+            //await Task.Delay(millisecondsDelay: 500);
+        }
+
         private void ShowConstructAssetsControl()
         {
             if (ContentControl_ConstructAssetsControlContainer.Content == null)
@@ -2407,7 +2517,7 @@ namespace Worldescape
         }
 
         private void HideConstructAssetsControl()
-        {            
+        {
             ContentControl_ConstructAssetsContainer.Visibility = Visibility.Collapsed;
         }
 
@@ -2437,98 +2547,6 @@ namespace Worldescape
 
             _addingConstruct = constructBtn;
             ShowOperationalConstruct(_addingConstruct);
-        }
-
-        /// <summary>
-        /// Get constructs for the current world.
-        /// </summary>
-        /// <returns></returns>
-        private async void GetConstructs()
-        {
-            // Get constructs count for this world
-            var countResponse = await _httpServiceHelper.SendGetRequest<GetConstructsCountQueryResponse>(
-                actionUri: Constants.Action_GetConstructsCount,
-                payload: new GetConstructsCountQueryRequest() { Token = App.Token, WorldId = App.World.Id });
-
-            if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
-            {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: countResponse.ExternalError.ToString());
-                contentDialogue.Show();
-
-                _mainPage.SetIsBusy(false);
-            }
-
-            // If any constructs exist for this world start fetching asynchronously
-            if (countResponse.Count > 0)
-            {
-                var pageSize = 20;
-
-                var totalPageCount = _paginationHelper.GetTotalPageCount(pageSize: pageSize, dataCount: countResponse.Count);
-
-                for (int pageIndex = 0; pageIndex < totalPageCount; pageIndex++)
-                {
-                    // Get constructs in small packets
-                    var response = await _httpServiceHelper.SendGetRequest<GetConstructsQueryResponse>(
-                        actionUri: Constants.Action_GetConstructs,
-                        payload: new GetConstructsQueryRequest() { Token = App.Token, PageIndex = pageIndex, PageSize = pageSize, WorldId = App.World.Id });
-
-                    if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
-                    {
-                        var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
-                        contentDialogue.Show();
-
-                        _mainPage.SetIsBusy(false);
-                    }
-
-                    var constructs = response.Constructs;
-
-                    if (constructs != null && constructs.Any())
-                    {
-                        foreach (var construct in constructs)
-                        {
-                            // If a construct already exists then update that, this can happen as after avatar login, new constructs can start appearing thru HubService
-                            if (Canvas_Root.Children.OfType<Button>().Count(x => x.Tag is Construct) > 0
-                                && Canvas_Root.Children.OfType<Button>().Where(x => x.Tag is Construct).Any(x => ((Construct)x.Tag).Id == construct.Id))
-                            {
-                                if (Canvas_Root.Children.OfType<Button>().Where(x => x.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == construct.Id) is Button constructBtn)
-                                {
-                                    constructBtn.Tag = construct;
-
-                                    Canvas.SetLeft(constructBtn, construct.Coordinate.X);
-                                    Canvas.SetTop(constructBtn, construct.Coordinate.Y);
-                                    Canvas.SetZIndex(constructBtn, construct.Coordinate.Z);
-
-                                    ScaleElement(constructBtn, construct.Scale);
-                                    RotateElement(constructBtn, construct.Rotation);
-                                }
-                            }
-                            else // If construct doesn't exist then add that
-                            {
-                                var constructBtn = GenerateConstructButton(
-                                   name: construct.Name,
-                                   imageUrl: construct.ImageUrl,
-                                   constructId: construct.Id,
-                                   inWorld: construct.World,
-                                   creator: construct.Creator,
-                                   createdOn: construct.CreatedOn);
-
-                                AddConstructOnCanvas(
-                                    construct: constructBtn,
-                                    x: construct.Coordinate.X,
-                                    y: construct.Coordinate.Y,
-                                    z: construct.Coordinate.Z);
-
-                                ScaleElement(constructBtn, construct.Scale);
-                                RotateElement(constructBtn, construct.Rotation);
-                            }
-                        }
-                    }
-
-                    await Task.Delay(millisecondsDelay: 1000);
-                }
-
-                Console.WriteLine("LoginToHub: Completed fetching constructs.");
-            }
         }
 
         /// <summary>
@@ -2713,9 +2731,15 @@ namespace Worldescape
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-        private Construct AddConstructOnCanvas(UIElement construct, double x, double y, int? z = null)
+        private Construct AddConstructOnCanvas(UIElement construct, double x, double y, int? z = null, bool disableOpacityAnimation = false)
         {
-            return _constructHelper.AddConstructOnCanvas(construct, Canvas_Root, x, y, z);
+            return _constructHelper.AddConstructOnCanvas(
+                construct: construct,
+                canvas: Canvas_Root,
+                x: x,
+                y: y,
+                z: z,
+                disableOpacityAnimation: disableOpacityAnimation);
         }
 
         /// <summary>

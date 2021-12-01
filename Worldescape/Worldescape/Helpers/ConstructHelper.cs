@@ -81,7 +81,8 @@ namespace Worldescape
             Canvas canvas,
             double x,
             double y,
-            int? z = null)
+            int? z = null,
+            bool disableOpacityAnimation = false)
         {
             Canvas.SetLeft(construct, x);
             Canvas.SetTop(construct, y);
@@ -119,7 +120,8 @@ namespace Worldescape
             taggedConstruct.Coordinate.Y = y;
             taggedConstruct.Coordinate.Z = indexZ;
 
-            PerformOpacityAnimationOnConstruct(construct, 0, 1); // Add
+            if (!disableOpacityAnimation)
+                PerformOpacityAnimationOnConstruct(construct, 0, 1); // Add
 
             return taggedConstruct;
         }
