@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Numerics;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Media.Effects;
@@ -18,7 +17,6 @@ using Worldescape.Service;
 using Worldescape.Common;
 using Image = Windows.UI.Xaml.Controls.Image;
 using Windows.UI.Input;
-using System.Windows.Input;
 
 namespace Worldescape
 {
@@ -77,10 +75,6 @@ namespace Worldescape
         #endregion
 
         #region Properties
-
-        List<ConstructAsset> ConstructAssets { get; set; } = new List<ConstructAsset>();
-
-        List<ConstructCategory> ConstructCategories { get; set; } = new List<ConstructCategory>();
 
         List<Character> Characters { get; set; } = new List<Character>();
 
@@ -1547,6 +1541,15 @@ namespace Worldescape
 
         #region Hub Login
 
+        private bool CanHubLogin()
+        {
+            var result = Avatar != null && Avatar.User != null && HubService.IsConnected();
+
+            Console.WriteLine($"CanHubLogin: {result}");
+
+            return result;
+        }
+
         public async Task ConnectWithHubThenLogin()
         {
             if (await ConnectWithHub())
@@ -1560,7 +1563,6 @@ namespace Worldescape
                     if (result)
                         await ConnectWithHubThenLogin();
                 });
-
                 contentDialogue.Show();
             }
         }
@@ -1593,15 +1595,6 @@ namespace Worldescape
             }
         }
 
-        private bool CanHubLogin()
-        {
-            var result = Avatar != null && Avatar.User != null && HubService.IsConnected();
-
-            Console.WriteLine($"CanHubLogin: {result}");
-
-            return result;
-        }
-
         private async Task TryLoginToHub()
         {
             bool loggedIn = await LoginToHub();
@@ -1615,7 +1608,6 @@ namespace Worldescape
                     if (result)
                         await TryLoginToHub();
                 });
-
                 contentDialogue.Show();
             }
             else
@@ -1652,8 +1644,7 @@ namespace Worldescape
                         PopulateClouds();
                         await FetchConstructs();
                         PopulateClouds(true);
-
-                        ScrollIntoView(Avatar);
+                                                
                         _isLoggedIn = true;
 
                         // Set connected user's avatar image
@@ -1662,6 +1653,8 @@ namespace Worldescape
 
                         _mainPage.SetIsBusy(false);
                         Grid_Root.Visibility = Visibility.Visible;
+
+                        ScrollIntoView(Avatar);
 
                         return true;
                     }
@@ -1694,6 +1687,10 @@ namespace Worldescape
 
         #region Hub Logout
 
+        /// <summary>
+        /// Logout and disconnect current user from Hub.
+        /// </summary>
+        /// <returns></returns>
         private async Task LogoutFromHubThenDisconnect()
         {
             // If logged in then log out and disconnect from hub
@@ -2154,6 +2151,12 @@ namespace Worldescape
             PopulateAvatarsInAvatarsContainer();
         }
 
+        /// <summary>
+        /// Get avatars from server by pagination for the current world.
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
         private async Task GetAvatars(int pageSize, int pageIndex)
         {
             // Get Avatars in small packets
@@ -2197,6 +2200,10 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Get avatar count from server for the current world.
+        /// </summary>
+        /// <returns></returns>
         private async Task<long> GetAvatarsCount()
         {
             // Get Avatars count for this world
@@ -2396,6 +2403,10 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        ///  Get constructs count from server for the current world.
+        /// </summary>
+        /// <returns></returns>
         private async Task<long> GetConstructsCount()
         {
             // Get constructs count for this world
@@ -2414,6 +2425,12 @@ namespace Worldescape
             return countResponse.Count;
         }
 
+        /// <summary>
+        /// Get constructs from server by pagination for the current world.
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
         private async Task GetConstructs(int pageSize, int pageIndex)
         {
             // Get constructs in small packets
@@ -2476,6 +2493,9 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Shows the ConstructAssetPickerControl in it's asscociated container.
+        /// </summary>
         private void ShowConstructAssetsControl()
         {
             if (ContentControl_ConstructAssetsControlContainer.Content == null)
@@ -2484,11 +2504,17 @@ namespace Worldescape
             ContentControl_ConstructAssetsContainer.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Hides the ConstructAssetPickerControl in it's asscociated container.
+        /// </summary>
         private void HideConstructAssetsControl()
         {
             ContentControl_ConstructAssetsContainer.Visibility = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Unsubscribes from AssetSelected event of ConstructAssetPickerControl.
+        /// </summary>
         private void UnsubscribeConstructAssetPicker()
         {
             ConstructAssetPickerControl.AssetSelected -= ConstructAssetPickerControl_AssetSelected;

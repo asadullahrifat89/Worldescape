@@ -2,7 +2,7 @@
 
 namespace Worldescape.Common
 {
-    public class ChatMessageElement
+    public class ChatMessage
     {
         public string Message { get; set; }
         public string Author { get; set; }
