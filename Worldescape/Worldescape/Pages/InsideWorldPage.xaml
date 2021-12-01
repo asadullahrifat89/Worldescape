@@ -470,6 +470,7 @@
                             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
                         <!--  Clone, not available while multi selection  -->
+                        <!--  Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}"  -->
                         <ToggleButton
                             x:Name="Button_ConstructClone"
                             Width="50"
@@ -478,8 +479,7 @@
                             Content="&#xE8C8;"
                             FontFamily="Segoe MDL2 Assets"
                             FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
-                            Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}" />
+                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
                         <!--  Upward  -->
                         <Button

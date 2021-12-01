@@ -382,44 +382,13 @@ namespace Worldescape
         /// <returns></returns>
         private async Task CloneConstructOnPointerPressed(PointerRoutedEventArgs e)
         {
-            if (_cloningConstruct == null)
-                return;
-
-            var constructSource = ((Button)_cloningConstruct).Tag as Construct;
-
-            if (constructSource != null)
+            if (Button_ConstructMultiSelect.IsChecked.Value && MultiselectedConstructs.Any())
             {
-                var pressedPoint = e.GetCurrentPoint(Canvas_Root);
-
-                var pointX = NormalizePointerX(pressedPoint);
-                var pointY = NormalizePointerY(pressedPoint);
-
-                var constructButton = GenerateConstructButton(
-                    name: constructSource.Name,
-                    imageUrl: constructSource.ImageUrl);
-
-                // Add the construct on pressed point
-                var construct = AddConstructOnCanvas(
-                    construct: constructButton,
-                    x: pointX,
-                    y: pointY);
-
-                // Clone the scaling and rotation factors
-                construct = ScaleElement(constructButton, constructSource.Scale) as Construct;
-                construct = RotateElement(constructButton, constructSource.Rotation) as Construct;
-
-                // Center the construct on pressed point
-                construct = CenterAlignNewConstructButton(
-                    pressedPoint: pressedPoint,
-                    constructButton: constructButton,
-                    construct: construct);
-
-                // Align avatar to construct point
-                AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
-
-                await HubService.BroadcastConstruct(construct);
-
-                Console.WriteLine("Construct cloned.");
+                await CloneConstructs(e);
+            }
+            else
+            {
+                await CloneConstruct(e);
             }
         }
 
@@ -625,8 +594,6 @@ namespace Worldescape
                 if (_addingConstruct != null)
                 {
                     _addingConstruct = null;
-                    //Button_ConstructAdd.IsChecked = false;
-                    //return;
                 }
 
                 if (Button_ConstructAdd.IsChecked.Value)
@@ -637,38 +604,6 @@ namespace Worldescape
                 {
                     HideConstructAssetsControl();
                 }
-
-                //ConstructAssetPickerControl.ShowConstructCategories();
-
-                //if (!ConstructAssets.Any())
-                //{
-                //    ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Service.Properties.Resources.ConstructAssets).ToList();
-                //    ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
-                //}
-
-                //var constructAssetPicker = new ConstructAssetPickerWindow(
-                //    constructAssets: ConstructAssets,
-                //    constructCategories: ConstructCategories,
-                //    assetSelected: (constructAsset) =>
-                //    {
-                //        var constructBtn = GenerateConstructButton(
-                //            name: constructAsset.Name,
-                //            imageUrl: constructAsset.ImageUrl);
-
-                //        _addingConstruct = constructBtn;
-                //        ShowOperationalConstruct(_addingConstruct);
-                //    });
-
-                // If the picker was closed without a selection of an asset, set the Button_ConstructAdd to default
-                //constructAssetPicker.Closed += (s, e) =>
-                //{
-                //    if (_addingConstruct == null)
-                //    {
-                //        Button_ConstructAdd.IsChecked = false;
-                //    }
-                //};
-
-                //constructAssetPicker.Show();
             }
         }
 
@@ -698,18 +633,19 @@ namespace Worldescape
         /// <param name="e"></param>
         private void Button_ConstructMove_Click(object sender, RoutedEventArgs e)
         {
-            //Button_ConstructMove.Content = Button_ConstructMove.IsChecked.Value ? "Moving" : "Move";
-
-            if (!Button_ConstructMove.IsChecked.Value)
+            if (CanPerformWorldEvents())
             {
-                _movingConstruct = null;
-                ShowOperationalConstruct(null);
-            }
-            else
-            {
-                UIElement uielement = _selectedConstruct;
-                _movingConstruct = uielement;
-                ShowOperationalConstruct(_movingConstruct);
+                if (!Button_ConstructMove.IsChecked.Value)
+                {
+                    _movingConstruct = null;
+                    ShowOperationalConstruct(null);
+                }
+                else
+                {
+                    UIElement uielement = _selectedConstruct;
+                    _movingConstruct = uielement;
+                    ShowOperationalConstruct(_movingConstruct);
+                }
             }
         }
 
@@ -722,8 +658,6 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                // Button_ConstructClone.Content = Button_ConstructClone.IsChecked.Value ? "Cloning" : "Clone";
-
                 if (!Button_ConstructClone.IsChecked.Value)
                 {
                     _cloningConstruct = null;
@@ -1854,7 +1788,10 @@ namespace Worldescape
         /// <returns></returns>
         private object MoveElement(UIElement uIElement, PointerRoutedEventArgs e)
         {
-            return _elementHelper.MoveElement(canvas: Canvas_Root, uIElement: uIElement, e: e);
+            return _elementHelper.MoveElement(
+                canvas: Canvas_Root,
+                uIElement: uIElement,
+                e: e);
         }
 
         /// <summary>
@@ -1866,7 +1803,12 @@ namespace Worldescape
         /// <returns></returns>
         private object MoveElement(UIElement uIElement, double goToX, double goToY, int? gotoZ = null)
         {
-            return _elementHelper.MoveElement(uIElement: uIElement, goToX: goToX, goToY: goToY, gotoZ: gotoZ, isCrafting: Button_ConstructCraft.IsChecked.Value);
+            return _elementHelper.MoveElement(
+                uIElement: uIElement,
+                goToX: goToX,
+                goToY: goToY,
+                gotoZ: gotoZ,
+                isCrafting: Button_ConstructCraft.IsChecked.Value);
         }
 
         #endregion
@@ -2842,20 +2784,8 @@ namespace Worldescape
             var pointX = NormalizePointerX(pressedPoint);
             var pointY = NormalizePointerY(pressedPoint);
 
-            //var pointX = currrentPoint.Position.X;
-            //var pointY = currrentPoint.Position.Y;
-
-            //pointX = pointX / ((ScaleTransform)Canvas_Root.RenderTransform).ScaleX;
-            //pointY = pointY / ((ScaleTransform)Canvas_Root.RenderTransform).ScaleY;
-
             // Align avatar to clicked point
             AlignUsersAvatarFaceDirection(pointX);
-
-            //var maxX = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
-
-            //UIElement fe = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).FirstOrDefault(x => ((Construct)x.Tag).Coordinate.X >= maxX);
-
-            // var maxX = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && MultiselectedConstructs.Select(x => x.Id).Contains(c.Id)).Max(x => ((Construct)x.Tag).Coordinate.X);
 
             UIElement fe = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && c.Id == MultiselectedConstructs.FirstOrDefault().Id).FirstOrDefault();
 
@@ -2887,11 +2817,18 @@ namespace Worldescape
                 goToX += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item2;
                 goToY += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item3;
 
-                var taggedObject = MoveElement(_movingConstruct, goToX, goToY);
+                var taggedObject = MoveElement(
+                    uIElement: _movingConstruct,
+                    goToX: goToX,
+                    goToY: goToY);
 
                 var construct = taggedObject as Construct;
 
-                await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+                await HubService.BroadcastConstructMovement(
+                    constructId: construct.Id,
+                    x: construct.Coordinate.X,
+                    y: construct.Coordinate.Y,
+                    z: construct.Coordinate.Z);
 
                 Console.WriteLine("Construct moved.");
             }
@@ -2914,9 +2851,118 @@ namespace Worldescape
             // Align avatar to construct point
             AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
 
-            await HubService.BroadcastConstructMovement(construct.Id, construct.Coordinate.X, construct.Coordinate.Y, construct.Coordinate.Z);
+            await HubService.BroadcastConstructMovement(
+                construct.Id,
+                construct.Coordinate.X,
+                construct.Coordinate.Y,
+                construct.Coordinate.Z);
 
             Console.WriteLine("Construct moved.");
+        }
+
+        private async Task CloneConstructs(PointerRoutedEventArgs e)
+        {
+            var pressedPoint = e.GetCurrentPoint(Canvas_Root);
+
+            var pointX = NormalizePointerX(pressedPoint);
+            var pointY = NormalizePointerY(pressedPoint);
+
+            // Align avatar to clicked point
+            AlignUsersAvatarFaceDirection(pointX);
+
+            UIElement fe = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && c.Id == MultiselectedConstructs.FirstOrDefault().Id).FirstOrDefault();
+
+            List<Tuple<int, double, double>> distWrtFi = new();
+
+            var feConstruct = ((Button)fe).Tag as Construct;
+
+            var fex = feConstruct.Coordinate.X;
+            var fey = feConstruct.Coordinate.Y;
+
+            foreach (Construct element in MultiselectedConstructs)
+            {
+                var xDis = feConstruct.Coordinate.X - element.Coordinate.X;
+                var yDis = feConstruct.Coordinate.Y - element.Coordinate.Y;
+
+                distWrtFi.Add(new Tuple<int, double, double>(element.Id, xDis, yDis));
+            }
+
+            foreach (Construct element in MultiselectedConstructs)
+            {
+                var nowX = element.Coordinate.X;
+                var nowY = element.Coordinate.Y;
+
+                _cloningConstruct = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == element.Id);
+
+                double goToX = pointX - ((Button)_cloningConstruct).ActualWidth / 2;
+                double goToY = pointY - ((Button)_cloningConstruct).ActualHeight / 2;
+
+                goToX += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item2;
+                goToY += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item3;
+
+                var construct = CloneConstruct(
+                   cloningConstruct: _cloningConstruct,
+                   pressedPoint: pressedPoint,
+                   pointX: goToX,
+                   pointY: goToY);
+
+                await HubService.BroadcastConstruct(construct); 
+                Console.WriteLine("Construct cloned.");
+            }
+        }
+
+        /// <summary>
+        /// Clones selected construct to the pointer position.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private async Task CloneConstruct(PointerRoutedEventArgs e)
+        {
+            if (_cloningConstruct == null)
+                return;
+
+            var pressedPoint = e.GetCurrentPoint(Canvas_Root);
+
+            var pointX = NormalizePointerX(pressedPoint);
+            var pointY = NormalizePointerY(pressedPoint);
+
+            var construct = CloneConstruct(
+                cloningConstruct: _cloningConstruct,
+                pressedPoint: pressedPoint,
+                pointX: pointX,
+                pointY: pointY);
+
+            await HubService.BroadcastConstruct(construct);
+            Console.WriteLine("Construct cloned.");
+        }
+
+        private Construct CloneConstruct(UIElement cloningConstruct, PointerPoint pressedPoint, double pointX, double pointY)
+        {
+            var constructSource = ((Button)cloningConstruct).Tag as Construct;
+
+            var constructButton = GenerateConstructButton(
+                name: constructSource.Name,
+                imageUrl: constructSource.ImageUrl);
+
+            // Add the construct on pressed point
+            var construct = AddConstructOnCanvas(
+                construct: constructButton,
+                x: pointX,
+                y: pointY);
+
+            // Clone the scaling and rotation factors
+            construct = ScaleElement(constructButton, constructSource.Scale) as Construct;
+            construct = RotateElement(constructButton, constructSource.Rotation) as Construct;
+
+            // Center the construct on pressed point
+            construct = CenterAlignNewConstructButton(
+                pressedPoint: pressedPoint,
+                constructButton: constructButton,
+                construct: construct);
+
+            // Align avatar to construct point
+            AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
+            return construct;
         }
 
         /// <summary>
