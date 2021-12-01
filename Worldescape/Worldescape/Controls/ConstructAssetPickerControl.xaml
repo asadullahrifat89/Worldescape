@@ -26,7 +26,7 @@
                 Content="Categories"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
-            <!--  Apply selected category filter  -->
+            <!--  Show subcategories for selected category filter  -->
             <Button
                 x:Name="Button_ConstructCategory"
                 Grid.Column="0"

@@ -134,6 +134,8 @@ namespace Worldescape
 
             _pageNumbers.Clear();
             PagesHolder.ItemsSource = _pageNumbers;
+
+            TextBlock_FoundConstructAssetsCount.Text = $"Found { pagedData.Count() } categories...";
         }
 
         private void AddConstructCategoryMasonry(MasonryPanelWithProgressiveLoading _masonryPanel, ConstructCategory constructCategory)
@@ -177,6 +179,8 @@ namespace Worldescape
 
             _pageNumbers.Clear();
             PagesHolder.ItemsSource = _pageNumbers;
+
+            TextBlock_FoundConstructAssetsCount.Text = $"Found { pagedData.Count() } sub categories in {_pickedConstructCategory?.Name.ToLowerInvariant()}...";
         }
 
         private void AddConstructSubCategoryMasonry(MasonryPanelWithProgressiveLoading _masonryPanel, ConstructSubCategory constructSubCategory)
@@ -191,7 +195,7 @@ namespace Worldescape
                 Margin = new Thickness(3),
                 Tag = constructSubCategory,
                 FontSize = 16,
-                Content = constructSubCategory.Name,
+                Content = new TextBlock() { Text = constructSubCategory.Name, TextWrapping = TextWrapping.Wrap, FontWeight = FontWeights.SemiBold, FontSize = 16 },
                 Name = buttonName,
             };
 
@@ -364,7 +368,6 @@ namespace Worldescape
             else
             {
                 _constructCategoryFilter = categoryId;
-
 
                 Button_ConstructCategory.Content = _pickedConstructCategory.Name;
                 Button_ConstructCategory.Visibility = Visibility.Visible;
