@@ -66,6 +66,9 @@ namespace Worldescape
 
             ConstructAssetPickerControl = App.ServiceProvider.GetService(typeof(ConstructAssetPickerControl)) as ConstructAssetPickerControl;
 
+            // This is be visible after character select and Hub login
+            Grid_Root.Visibility = Visibility.Collapsed;
+
             SubscribeHub();
             SubscribeConstructAssetPicker();
             SelectCharacterAndConnect();
@@ -1705,12 +1708,11 @@ namespace Worldescape
                         AvatarMessengers.Clear();
                         Canvas_Root.Children.Clear();
 
-                        _mainPage.SetIsBusy(true);
-                        Canvas_Root.Visibility = Visibility.Collapsed;
+                        _mainPage.SetIsBusy(true, "Preparing world...");
 
                         // Get avatars and constructs
                         await FetchAvatars();
-                        PopulateClouds();                        
+                        PopulateClouds();
                         await FetchConstructs();
                         PopulateClouds(true);
 
@@ -1722,7 +1724,7 @@ namespace Worldescape
                         ShowCurrentWorld();
 
                         _mainPage.SetIsBusy(false);
-                        Canvas_Root.Visibility = Visibility.Visible;
+                        Grid_Root.Visibility = Visibility.Visible;
 
                         return true;
                     }
@@ -2527,8 +2529,6 @@ namespace Worldescape
                     }
                 }
             }
-
-            //await Task.Delay(millisecondsDelay: 500);
         }
 
         private void ShowConstructAssetsControl()
