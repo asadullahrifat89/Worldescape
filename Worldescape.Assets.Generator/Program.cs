@@ -93,6 +93,8 @@ switch (choice)
 
                 string json = System.Text.Json.JsonSerializer.Serialize(constructs, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true });
 
+                File.WriteAllText("World_Objects.json", json);
+
                 Console.WriteLine("==========================");
 
                 Console.WriteLine(json);
