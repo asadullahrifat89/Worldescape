@@ -9,73 +9,108 @@ namespace Worldescape.Assets.Generator
 {
     public static class WorldObjectsFileGenerator
     {
-        public static void GenerateMsAppxWorld_Objects(string assetSourceLocation, string outputFileLocation) 
+        public static void GenerateMsAppxWorld_Objects(string assetSourceLocation, string outputFileLocation)
         {
             // Generate assets
             var host = "ms-appx:///Images/World_Objects";
+            List<ConstructAsset> constructs = new List<ConstructAsset>();
 
             DirectoryInfo parentDirectory = new(assetSourceLocation);
 
-            List<ConstructAsset> constructs = new List<ConstructAsset>();
-
             if (parentDirectory.Exists)
             {
-                DirectoryInfo[] directories = parentDirectory.GetDirectories();
+                DirectoryInfo[] categoryDirectories = parentDirectory.GetDirectories();
 
-                foreach (var directory in directories)
+                foreach (var categoryDirectory in categoryDirectories)
                 {
-                    FileInfo[] files = directory.GetFiles();
+                    DirectoryInfo[] subcategoryDirectories = categoryDirectory.GetDirectories();
 
-                    foreach (FileInfo file in files)
+                    foreach (var subcategoryDirectory in subcategoryDirectories)
                     {
-                        var url = $"{host}/{directory.Name}/{file.Name}";
+                        FileInfo[] files = subcategoryDirectory.GetFiles();
 
-                        var construct = new ConstructAsset()
+                        foreach (FileInfo file in files)
                         {
-                            Category = Constants.CamelToName(directory.Name),
-                            Name = Constants.CamelToName(file.Name).Replace(".png", ""),
-                            ImageUrl = url,
-                        };
+                            var url = $"{host}/{categoryDirectory.Name}/{subcategoryDirectory.Name}/{file.Name}";
 
-                        constructs.Add(construct);
+                            var construct = new ConstructAsset()
+                            {
+                                Category = Constants.CamelToName(categoryDirectory.Name),
+                                SubCategory = Constants.CamelToName(subcategoryDirectory.Name),
+                                Name = Constants.CamelToName(file.Name).Replace(".png", ""),
+                                ImageUrl = url,
+                            };
+
+                            constructs.Add(construct);
+                        }
                     }
                 }
 
                 string json = System.Text.Json.JsonSerializer.Serialize(constructs, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true });
 
                 File.WriteAllText(outputFileLocation, json);
+
+                //DirectoryInfo[] directories = parentDirectory.GetDirectories();
+
+                //foreach (var directory in directories)
+                //{
+                //    FileInfo[] files = directory.GetFiles();
+
+                //    foreach (FileInfo file in files)
+                //    {
+                //        var url = $"{host}/{directory.Name}/{file.Name}";
+
+                //        var construct = new ConstructAsset()
+                //        {
+                //            Category = Constants.CamelToName(directory.Name),
+                //            Name = Constants.CamelToName(file.Name).Replace(".png", ""),
+                //            ImageUrl = url,
+                //        };
+
+                //        constructs.Add(construct);
+                //    }
+                //}
+
+                //string json = System.Text.Json.JsonSerializer.Serialize(constructs, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true });
+
+                //File.WriteAllText(outputFileLocation, json);
             }
         }
 
-        public static void GenerateWebHttpWorld_Objects(string assetSourceLocation, string outputFileLocation) 
+        public static void GenerateWebHttpWorld_Objects(string assetSourceLocation, string outputFileLocation)
         {
             // Generate assets
             var host = "World_Objects";
+            List<ConstructAsset> constructs = new List<ConstructAsset>();
 
             DirectoryInfo parentDirectory = new(assetSourceLocation);
 
-            List<ConstructAsset> constructs = new List<ConstructAsset>();
-
             if (parentDirectory.Exists)
             {
-                DirectoryInfo[] directories = parentDirectory.GetDirectories();
+                DirectoryInfo[] categoryDirectories = parentDirectory.GetDirectories();
 
-                foreach (var directory in directories)
+                foreach (var categoryDirectory in categoryDirectories)
                 {
-                    FileInfo[] files = directory.GetFiles();
+                    DirectoryInfo[] subcategoryDirectories = categoryDirectory.GetDirectories();
 
-                    foreach (FileInfo file in files)
+                    foreach (var subcategoryDirectory in subcategoryDirectories)
                     {
-                        var url = $"{host}\\{directory.Name}\\{file.Name}";
+                        FileInfo[] files = subcategoryDirectory.GetFiles();
 
-                        var construct = new ConstructAsset()
+                        foreach (FileInfo file in files)
                         {
-                            Category = Constants.CamelToName(directory.Name),
-                            Name = Constants.CamelToName(file.Name).Replace(".png", ""),
-                            ImageUrl = url,
-                        };
+                            var url = $"{host}\\{categoryDirectory.Name}\\{subcategoryDirectory.Name}\\{file.Name}";
 
-                        constructs.Add(construct);
+                            var construct = new ConstructAsset()
+                            {
+                                Category = Constants.CamelToName(categoryDirectory.Name),
+                                SubCategory = Constants.CamelToName(subcategoryDirectory.Name),
+                                Name = Constants.CamelToName(file.Name).Replace(".png", ""),
+                                ImageUrl = url,
+                            };
+
+                            constructs.Add(construct);
+                        }
                     }
                 }
 
