@@ -21,7 +21,7 @@ namespace Worldescape
         double _constructAssetMasonrySize = 130;
         double _constructCategoryMasonrySize = 130;
 
-        int _pageSize = 48;
+        int _pageSize = 20;
         int _pageIndex = 0;
         long _totalPageCount = 0;
 

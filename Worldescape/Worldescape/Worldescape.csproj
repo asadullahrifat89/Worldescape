@@ -35,9 +35,6 @@
 		  <SubType>Designer</SubType>
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
-		<Content Include="Windows\ConstructAssetPickerWindow.xaml">
-		  <Generator>MSBuild:Compile</Generator>
-		</Content>
 		<Content Include="Windows\CharacterPickerWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
@@ -141,7 +138,6 @@
 		  <SubType>Code</SubType>
 		</Compile>
 		<Compile Include="Windows\CharacterPickerWindow.xaml.cs" />
-		<Compile Include="Windows\ConstructAssetPickerWindow.xaml.cs" />
 		<Compile Include="Internals\MasonryPanel.cs" />
 		<Compile Include="Internals\MasonryPanelWithProgressiveLoading.cs" />
 		<Compile Include="MainPage.xaml.cs" />

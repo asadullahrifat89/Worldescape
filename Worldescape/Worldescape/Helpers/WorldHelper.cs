@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -12,6 +13,8 @@ namespace Worldescape
 {
     public class WorldHelper
     {
+        readonly double[] _cloudScales = { 1, 1.25, 1.50, 0.75, 0.50 };
+
         #region UI
 
         /// <summary>
@@ -67,14 +70,20 @@ namespace Worldescape
 
                 var bitmap = new BitmapImage(new Uri(cloudImage, UriKind.RelativeOrAbsolute));
 
-                var img = new Image() { Source = bitmap, Stretch = Stretch.Uniform, MaxHeight = 256, MaxWidth = 256 };
+                var img = new Image() { Source = bitmap, Stretch = Stretch.None };
 
                 Canvas.SetTop(img, new Random().Next(8000));
+
+                var cloudScale = _cloudScales[new Random().Next(0, _cloudScales.Count())];
 
                 if (drawOver)
                 {
                     Canvas.SetZIndex(img, 999);
-                    img.RenderTransform = new ScaleTransform() { ScaleX = -1 };
+                    img.RenderTransform = new ScaleTransform() { ScaleX = -1 * cloudScale, ScaleY = 1 * cloudScale };
+                }
+                else
+                {
+                    img.RenderTransform = new ScaleTransform() { ScaleX = 1 * cloudScale, ScaleY = 1 * cloudScale };
                 }
 
                 float distance = (float)canvas.ActualWidth - 300;
