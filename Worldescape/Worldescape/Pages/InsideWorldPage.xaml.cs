@@ -1705,8 +1705,11 @@ namespace Worldescape
                         AvatarMessengers.Clear();
                         Canvas_Root.Children.Clear();
 
+                        _mainPage.SetIsBusy(true);
+                        Canvas_Root.Visibility = Visibility.Collapsed;
+
                         // Get avatars and constructs
-                        await GetAvatars();
+                        await FetchAvatars();
                         PopulateClouds();
                         ScrollIntoView(Avatar);
                         await FetchConstructs();
@@ -1717,6 +1720,9 @@ namespace Worldescape
                         // Set connected user's avatar image
                         ShowCurrentUserAvatar();
                         ShowCurrentWorld();
+
+                        _mainPage.SetIsBusy(false);
+                        Canvas_Root.Visibility = Visibility.Visible;
 
                         return true;
                     }
@@ -2128,53 +2134,123 @@ namespace Worldescape
         /// </summary>
         private void PopulateAvatarsInAvatarsContainer()
         {
-            var _masonryPanel = new MasonryPanelWithProgressiveLoading()
+            if (AvatarMessengers.Count > 0)
             {
-                Margin = new Thickness(5),
-                Style = Application.Current.Resources["Panel_Style"] as Style,
-                //Height = 400
-            };
-
-            foreach (Avatar avatar in AvatarMessengers.Select(x => x.Avatar))
-            {
-                var userImage = GetAvatarUserPicture(avatar);
-                userImage.Margin = new Thickness(5, 0, 5, 0);
-
-                var activeAvatarButton = new Button()
+                var _masonryPanel = new MasonryPanelWithProgressiveLoading()
                 {
-                    Tag = avatar,
-                    Style = App.Current.TryFindResource("MaterialDesign_Button_Style_NoDropShadow") as Style,
                     Margin = new Thickness(5),
-                    HorizontalContentAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Center,
+                    Style = Application.Current.Resources["Panel_Style"] as Style,
+                    //Height = 400
                 };
 
-                var content = new StackPanel() { Orientation = Orientation.Horizontal };
-                content.Children.Add(userImage);
-                content.Children.Add(new TextBlock()
+                foreach (Avatar avatar in AvatarMessengers.Select(x => x.Avatar))
                 {
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Text = avatar.Name,
-                    FontWeight = FontWeights.SemiBold,
-                    FontSize = 16,
-                    Margin = new Thickness(5, 0, 5, 0),
-                    TextWrapping = TextWrapping.Wrap,
-                });
+                    var userImage = GetAvatarUserPicture(avatar);
+                    userImage.Margin = new Thickness(5, 0, 5, 0);
 
-                activeAvatarButton.Content = content;
-                activeAvatarButton.Click += ActiveAvatarButton_Click;
+                    var activeAvatarButton = new Button()
+                    {
+                        Tag = avatar,
+                        Style = App.Current.TryFindResource("MaterialDesign_Button_Style_NoDropShadow") as Style,
+                        Margin = new Thickness(5),
+                        HorizontalContentAlignment = HorizontalAlignment.Left,
+                        VerticalAlignment = VerticalAlignment.Center,
+                    };
 
-                _masonryPanel.Children.Add(activeAvatarButton);
+                    var content = new StackPanel() { Orientation = Orientation.Horizontal };
+                    content.Children.Add(userImage);
+                    content.Children.Add(new TextBlock()
+                    {
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Text = avatar.Name,
+                        FontWeight = FontWeights.SemiBold,
+                        FontSize = 16,
+                        Margin = new Thickness(5, 0, 5, 0),
+                        TextWrapping = TextWrapping.Wrap,
+                    });
+
+                    activeAvatarButton.Content = content;
+                    activeAvatarButton.Click += ActiveAvatarButton_Click;
+
+                    _masonryPanel.Children.Add(activeAvatarButton);
+                }
+
+                ScrollViewer_ActiveAvatarsContainer.Content = _masonryPanel;
             }
-
-            ScrollViewer_ActiveAvatarsContainer.Content = _masonryPanel;
         }
 
         /// <summary>
         /// Get avatars for the current world.
         /// </summary>
         /// <param name="avatars"></param>
-        private async Task GetAvatars()
+        private async Task FetchAvatars()
+        {
+            var count = await GetAvatarsCount();
+
+            // If any avatars exist for this world start fetching asynchronously
+            if (count > 0)
+            {
+                var pageSize = 10;
+
+                var totalPageCount = _paginationHelper.GetTotalPageCount(pageSize, count);
+
+                var tasks = new List<Task>();
+
+                for (int pageIndex = 0; pageIndex < totalPageCount; pageIndex++)
+                {
+                    tasks.Add(GetAvatars(pageSize, pageIndex));
+                }
+
+                await Task.WhenAll(tasks.ToArray());
+            }
+
+            PopulateAvatarsInAvatarsContainer();
+        }
+
+        private async Task GetAvatars(int pageSize, int pageIndex)
+        {
+            // Get Avatars in small packets
+            var response = await _httpServiceHelper.SendGetRequest<GetAvatarsQueryResponse>(
+                actionUri: Constants.Action_GetAvatars,
+                payload: new GetAvatarsQueryRequest() { Token = App.Token, PageIndex = pageIndex, PageSize = pageSize, WorldId = App.World.Id });
+
+            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
+            {
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
+                contentDialogue.Show();
+
+                _mainPage.SetIsBusy(false);
+            }
+
+            var avatars = response.Avatars;
+
+            if (avatars != null && avatars.Any())
+            {
+                Console.WriteLine("LoginToHub: avatars found: " + avatars.Count());
+
+                foreach (var avatar in avatars)
+                {
+                    var avatarButton = GenerateAvatarButton(avatar);
+
+                    SetAvatarActivityStatus(
+                        avatarButton: avatarButton,
+                        avatar: avatar,
+                        activityStatus: avatar.ActivityStatus);
+
+                    AddAvatarOnCanvas(
+                        avatar: avatarButton,
+                        x: avatar.Coordinate.X,
+                        y: avatar.Coordinate.Y,
+                        z: avatar.Coordinate.Z);
+
+                    AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
+                }
+
+                AvatarsCount.Text = AvatarMessengers.Count().ToString();
+            }
+        }
+
+        private async Task<long> GetAvatarsCount()
         {
             // Get Avatars count for this world
             var countResponse = await _httpServiceHelper.SendGetRequest<GetAvatarsCountQueryResponse>(
@@ -2189,60 +2265,7 @@ namespace Worldescape
                 _mainPage.SetIsBusy(false);
             }
 
-            // If any avatars exist for this world start fetching asynchronously
-            if (countResponse.Count > 0)
-            {
-                var pageSize = 20;
-
-                var totalPageCount = _paginationHelper.GetTotalPageCount(pageSize, countResponse.Count);
-
-                for (int pageIndex = 0; pageIndex < totalPageCount; pageIndex++)
-                {
-                    // Get Avatars in small packets
-                    var response = await _httpServiceHelper.SendGetRequest<GetAvatarsQueryResponse>(
-                        actionUri: Constants.Action_GetAvatars,
-                        payload: new GetAvatarsQueryRequest() { Token = App.Token, PageIndex = pageIndex, PageSize = pageSize, WorldId = App.World.Id });
-
-                    if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
-                    {
-                        var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
-                        contentDialogue.Show();
-
-                        _mainPage.SetIsBusy(false);
-                    }
-
-                    var avatars = response.Avatars;
-
-                    if (avatars != null && avatars.Any())
-                    {
-                        Console.WriteLine("LoginToHub: avatars found: " + avatars.Count());
-
-                        foreach (var avatar in avatars)
-                        {
-                            var avatarButton = GenerateAvatarButton(avatar);
-
-                            SetAvatarActivityStatus(
-                                avatarButton: avatarButton,
-                                avatar: avatar,
-                                activityStatus: avatar.ActivityStatus);
-
-                            AddAvatarOnCanvas(
-                                avatar: avatarButton,
-                                x: avatar.Coordinate.X,
-                                y: avatar.Coordinate.Y,
-                                z: avatar.Coordinate.Z);
-
-                            AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
-                        }
-
-                        AvatarsCount.Text = AvatarMessengers.Count().ToString();
-                    }
-
-                    await Task.Delay(millisecondsDelay: 1000);
-                }
-
-                PopulateAvatarsInAvatarsContainer();
-            }
+            return countResponse.Count;
         }
 
         /// <summary>
