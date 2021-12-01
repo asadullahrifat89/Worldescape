@@ -613,12 +613,12 @@
 
                 <!--  Bottom right active avatars button  -->
                 <ToggleButton
-                    x:Name="ToggleButton_ShowAvatars"
+                    x:Name="Button_ShowAvatars"
                     MinWidth="100"
                     Margin="20,20,20,10"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
-                    Click="ToggleButton_ShowAvatars_Click"
+                    Click="Button_ShowAvatars_Click"
                     Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
                     <ToggleButton.Content>
                         <TextBlock>
@@ -655,10 +655,10 @@
 
                     <!--  Zoom in canvas  -->
                     <Button
-                        x:Name="ToggleButton_ZoomInCanvas"
+                        x:Name="Button_ZoomInCanvas"
                         Width="50"
                         Margin="5,0"
-                        Click="ToggleButton_ZoomInCanvas_Click"
+                        Click="Button_ZoomInCanvas_Click"
                         Content="&#xE8A3;"
                         FontFamily="Segoe MDL2 Assets"
                         FontWeight="Normal"
@@ -666,10 +666,10 @@
 
                     <!--  Zoom out canvas  -->
                     <Button
-                        x:Name="ToggleButton_ZoomOutCanvas"
+                        x:Name="Button_ZoomOutCanvas"
                         Width="50"
                         Margin="5,0"
-                        Click="ToggleButton_ZoomOutCanvas_Click"
+                        Click="Button_ZoomOutCanvas_Click"
                         Content="&#xE71F;"
                         FontFamily="Segoe MDL2 Assets"
                         FontWeight="Normal"

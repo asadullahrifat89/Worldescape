@@ -477,9 +477,9 @@ namespace Worldescape
 
         #region World
 
-        private void ToggleButton_ShowAvatars_Click(object sender, RoutedEventArgs e)
+        private void Button_ShowAvatars_Click(object sender, RoutedEventArgs e)
         {
-            if (ToggleButton_ShowAvatars.IsChecked.Value)
+            if (Button_ShowAvatars.IsChecked.Value)
             {
                 ContentControl_ActiveAvatarsContainer.Visibility = Visibility.Visible;
                 PopulateAvatarsInAvatarsContainer();
@@ -495,13 +495,13 @@ namespace Worldescape
 
         }
 
-        private void ToggleButton_ZoomInCanvas_Click(object sender, RoutedEventArgs e)
+        private void Button_ZoomInCanvas_Click(object sender, RoutedEventArgs e)
         {
             Canvas_RootScaleTransform.ScaleX += 0.25;
             Canvas_RootScaleTransform.ScaleY += 0.25;
         }
 
-        private void ToggleButton_ZoomOutCanvas_Click(object sender, RoutedEventArgs e)
+        private void Button_ZoomOutCanvas_Click(object sender, RoutedEventArgs e)
         {
             Canvas_RootScaleTransform.ScaleX -= 0.25;
             Canvas_RootScaleTransform.ScaleY -= 0.25;
@@ -2559,6 +2559,9 @@ namespace Worldescape
             Button_ConstructMultiSelect.IsChecked = false;
             MultiSelectedConstructsHolder.Children.Clear();
             MultiselectedConstructs.Clear();
+
+            Button_ConstructClone.IsChecked = false;
+            Button_ConstructMove.IsChecked = false;
         }
 
         /// <summary>
@@ -2941,12 +2944,15 @@ namespace Worldescape
                 pointX: pointX,
                 pointY: pointY);
 
+            // Align avatar to construct point
+            AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
+
             await HubService.BroadcastConstruct(construct);
             Console.WriteLine("Construct cloned.");
         }
 
         /// <summary>
-        /// Clones prived construct to the pointer position.
+        /// Clones the provided construct to pointX and pointY.
         /// </summary>
         /// <param name="cloningConstruct"></param>
         /// <param name="pressedPoint"></param>
@@ -2955,11 +2961,9 @@ namespace Worldescape
         /// <returns></returns>
         private Construct CloneConstruct(Construct cloningConstruct, PointerPoint pressedPoint, double pointX, double pointY, bool disableCenterAlignToPointerPoint = false)
         {
-            var constructSource = cloningConstruct;
-
             var constructButton = GenerateConstructButton(
-                name: constructSource.Name,
-                imageUrl: constructSource.ImageUrl);
+                name: cloningConstruct.Name,
+                imageUrl: cloningConstruct.ImageUrl);
 
             // Add the construct on pressed point
             var construct = AddConstructOnCanvas(
@@ -2968,8 +2972,8 @@ namespace Worldescape
                 y: pointY);
 
             // Clone the scaling and rotation factors
-            construct = ScaleElement(constructButton, constructSource.Scale) as Construct;
-            construct = RotateElement(constructButton, constructSource.Rotation) as Construct;
+            construct = ScaleElement(constructButton, cloningConstruct.Scale) as Construct;
+            construct = RotateElement(constructButton, cloningConstruct.Rotation) as Construct;
 
             // Center the construct on pressed point
             if (!disableCenterAlignToPointerPoint)
@@ -2977,9 +2981,7 @@ namespace Worldescape
                     pressedPoint: pressedPoint,
                     constructButton: constructButton,
                     construct: construct);
-
-            // Align avatar to construct point
-            AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
+            
             return construct;
         }
 
