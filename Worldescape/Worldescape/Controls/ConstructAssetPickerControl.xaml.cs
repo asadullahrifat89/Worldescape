@@ -40,6 +40,8 @@ namespace Worldescape
         readonly PaginationHelper _paginationHelper;
 
         ConstructCategory _pickedConstructCategory = new ConstructCategory() { Name = "All" };
+        ConstructSubCategory _pickedConstructSubCategory = new ConstructSubCategory();
+
         RangeObservableCollection<PageNumber> _pageNumbers = new RangeObservableCollection<PageNumber>();
 
         #endregion
@@ -75,6 +77,17 @@ namespace Worldescape
         #region Methods
 
         #region Functionality
+
+        private int GetFilteredConstructAssetsCount()
+        {
+            int count = 0;
+
+            count = ConstructAssets.Count(x => (!_constructCategoryFilter.IsNullOrBlank() ? x.Category == _constructCategoryFilter : !x.Category.IsNullOrBlank())
+             && (!_constructSubCategoryFilter.IsNullOrBlank() ? x.SubCategory == _constructSubCategoryFilter : !x.SubCategory.IsNullOrBlank())
+             && (!TextBoxSearchConstructAssets.Text.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(TextBoxSearchConstructAssets.Text.ToLowerInvariant()) : !x.Name.IsNullOrBlank()));
+
+            return count;
+        }
 
         private IEnumerable<ConstructAsset> GetFilteredConstructAssets()
         {
@@ -140,6 +153,49 @@ namespace Worldescape
             };
 
             button_Category.Click += ButtonConstructCategory_Click;
+            _masonryPanel.Children.Add(button_Category);
+        }
+
+        private void ShowConstructSubCategories()
+        {
+            var pagedData = _constructCategoryFilter.IsNullOrBlank() ? ConstructSubCategories : ConstructSubCategories.Where(x => x.Category == _constructCategoryFilter);
+
+            var _masonryPanel = new MasonryPanelWithProgressiveLoading()
+            {
+                Margin = new Thickness(5),
+                Style = Application.Current.Resources["Panel_Style"] as Style,
+                // Height = _masonryPanelHeight
+            };
+
+            //Add all the categories
+            foreach (var ConstructSubCategory in pagedData)
+            {
+                AddConstructSubCategoryMasonry(_masonryPanel, ConstructSubCategory);
+            }
+
+            ContentScrollViewer.Content = _masonryPanel;
+
+            _pageNumbers.Clear();
+            PagesHolder.ItemsSource = _pageNumbers;
+        }
+
+        private void AddConstructSubCategoryMasonry(MasonryPanelWithProgressiveLoading _masonryPanel, ConstructSubCategory constructSubCategory)
+        {
+            var buttonName = constructSubCategory.Name.Replace(" ", "");
+
+            var button_Category = new Button()
+            {
+                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Width = _constructSubCategoryMasonrySize,
+                Height = _constructSubCategoryMasonrySize,
+                Margin = new Thickness(3),
+                Tag = constructSubCategory,
+                FontSize = 16,
+                Content = constructSubCategory.Name,
+                Name = buttonName,
+            };
+
+            button_Category.Click += ButtonConstructSubCategory_Click;
             _masonryPanel.Children.Add(button_Category);
         }
 
@@ -217,11 +273,11 @@ namespace Worldescape
 
         private void ShowConstructAssetsCount()
         {
-            var filteredData = GetFilteredConstructAssets();
+            var count = GetFilteredConstructAssetsCount();
 
-            _totalPageCount = _paginationHelper.GetTotalPageCount(_pageSize, filteredData.Count());
+            _totalPageCount = _paginationHelper.GetTotalPageCount(_pageSize, count);
 
-            FoundConstructAssetsCountHolder.Text = $"Found { filteredData?.Count().ToString() } constructs in {_pickedConstructCategory.Name.ToLowerInvariant()}{(TextBoxSearchConstructAssets.Text.IsNullOrBlank() ? "" : " matching " + TextBoxSearchConstructAssets.Text)}...";
+            FoundConstructAssetsCountHolder.Text = $"Found { count } constructs in {_pickedConstructCategory.Name.ToLowerInvariant()} / {_pickedConstructSubCategory.Name.ToLowerInvariant()}{(TextBoxSearchConstructAssets.Text.IsNullOrBlank() ? "" : " matching " + TextBoxSearchConstructAssets.Text)}...";
             PopulatePageNumbers(0);
         }
 
@@ -291,10 +347,17 @@ namespace Worldescape
 
             _constructCategoryFilter = !categoryId.Equals("All") ? categoryId : null;
 
+            ShowConstructSubCategories();
+        }
+
+        private void ButtonConstructSubCategory_Click(object sender, RoutedEventArgs e)
+        {
+            _pickedConstructSubCategory = ((Button)sender).Tag as ConstructSubCategory;
+            var subCategoryId = _pickedConstructSubCategory.Id;
+
+            _constructSubCategoryFilter = subCategoryId;
+
             _pageIndex = 0;
-
-            //TODO: Show sub categories
-
             ShowConstructAssetsCount();
             GetConstructAssets();
         }

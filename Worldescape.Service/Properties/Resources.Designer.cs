@@ -89,24 +89,22 @@ namespace Worldescape.Service.Properties {
         /// <summary>
         ///   Looks up a localized string similar to [
         ///  {
+        ///    &quot;Category&quot;: &quot;Blocks&quot;,
+        ///    &quot;SubCategory&quot;: &quot;Blocks\\Abstract&quot;,
         ///    &quot;Name&quot;: &quot;Abstract Tile 0 1 &quot;,
-        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Blocks\\abstractTile_01.png&quot;,
-        ///    &quot;Category&quot;: &quot;Blocks&quot;
+        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Blocks\\Abstract\\abstractTile_01.png&quot;
         ///  },
         ///  {
+        ///    &quot;Category&quot;: &quot;Blocks&quot;,
+        ///    &quot;SubCategory&quot;: &quot;Blocks\\Abstract&quot;,
         ///    &quot;Name&quot;: &quot;Abstract Tile 0 2 &quot;,
-        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Blocks\\abstractTile_02.png&quot;,
-        ///    &quot;Category&quot;: &quot;Blocks&quot;
+        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Blocks\\Abstract\\abstractTile_02.png&quot;
         ///  },
         ///  {
+        ///    &quot;Category&quot;: &quot;Blocks&quot;,
+        ///    &quot;SubCategory&quot;: &quot;Blocks\\Abstract&quot;,
         ///    &quot;Name&quot;: &quot;Abstract Tile 0 3 &quot;,
-        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Blocks\\abstractTile_03.png&quot;,
-        ///    &quot;Category&quot;: &quot;Blocks&quot;
-        ///  },
-        ///  {
-        ///    &quot;Name&quot;: &quot;Abstract Tile 0 4 &quot;,
-        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\Blocks\\abstractTile_04.png&quot;,
-        ///  [rest of string was truncated]&quot;;.
+        ///    &quot;ImageUrl&quot;: &quot;World_Objects\\ [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ConstructAssets {
             get {
