@@ -614,8 +614,6 @@ namespace Worldescape
         /// <param name="e"></param>
         private void Button_ConstructMultiSelect_Click(object sender, RoutedEventArgs e)
         {
-            //Button_ConstructMultiSelect.Content = Button_ConstructMultiSelect.IsChecked.Value ? "Selecting" : "Select";
-
             if (Button_ConstructMultiSelect.IsChecked.Value)
             {
                 ShowConstructOperationButtons();
@@ -623,6 +621,7 @@ namespace Worldescape
             else
             {
                 HideConstructOperationButtons();
+                ClearMultiselectedConstructs();
             }
         }
 
@@ -693,7 +692,7 @@ namespace Worldescape
                         }
                     }
 
-                    MultiselectedConstructs.Clear();
+                    ClearMultiselectedConstructs();
                 }
                 else
                 {
@@ -2860,6 +2859,11 @@ namespace Worldescape
             Console.WriteLine("Construct moved.");
         }
 
+        /// <summary>
+        /// Clones multi-selected constructs to the pointer position.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
         private async Task CloneConstructs(PointerRoutedEventArgs e)
         {
             var pressedPoint = e.GetCurrentPoint(Canvas_Root);
@@ -2900,13 +2904,16 @@ namespace Worldescape
                 goToX += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item2;
                 goToY += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item3;
 
+                var constructSource = ((Button)_cloningConstruct).Tag as Construct;
+
                 var construct = CloneConstruct(
-                   cloningConstruct: _cloningConstruct,
+                   cloningConstruct: constructSource,
                    pressedPoint: pressedPoint,
                    pointX: goToX,
-                   pointY: goToY);
+                   pointY: goToY,
+                   disableCenterAlignToPointerPoint: true);
 
-                await HubService.BroadcastConstruct(construct); 
+                await HubService.BroadcastConstruct(construct);
                 Console.WriteLine("Construct cloned.");
             }
         }
@@ -2926,8 +2933,10 @@ namespace Worldescape
             var pointX = NormalizePointerX(pressedPoint);
             var pointY = NormalizePointerY(pressedPoint);
 
+            var constructSource = ((Button)_cloningConstruct).Tag as Construct;
+
             var construct = CloneConstruct(
-                cloningConstruct: _cloningConstruct,
+                cloningConstruct: constructSource,
                 pressedPoint: pressedPoint,
                 pointX: pointX,
                 pointY: pointY);
@@ -2936,9 +2945,17 @@ namespace Worldescape
             Console.WriteLine("Construct cloned.");
         }
 
-        private Construct CloneConstruct(UIElement cloningConstruct, PointerPoint pressedPoint, double pointX, double pointY)
+        /// <summary>
+        /// Clones prived construct to the pointer position.
+        /// </summary>
+        /// <param name="cloningConstruct"></param>
+        /// <param name="pressedPoint"></param>
+        /// <param name="pointX"></param>
+        /// <param name="pointY"></param>
+        /// <returns></returns>
+        private Construct CloneConstruct(Construct cloningConstruct, PointerPoint pressedPoint, double pointX, double pointY, bool disableCenterAlignToPointerPoint = false)
         {
-            var constructSource = ((Button)cloningConstruct).Tag as Construct;
+            var constructSource = cloningConstruct;
 
             var constructButton = GenerateConstructButton(
                 name: constructSource.Name,
@@ -2955,10 +2972,11 @@ namespace Worldescape
             construct = RotateElement(constructButton, constructSource.Rotation) as Construct;
 
             // Center the construct on pressed point
-            construct = CenterAlignNewConstructButton(
-                pressedPoint: pressedPoint,
-                constructButton: constructButton,
-                construct: construct);
+            if (!disableCenterAlignToPointerPoint)
+                construct = CenterAlignNewConstructButton(
+                    pressedPoint: pressedPoint,
+                    constructButton: constructButton,
+                    construct: construct);
 
             // Align avatar to construct point
             AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);

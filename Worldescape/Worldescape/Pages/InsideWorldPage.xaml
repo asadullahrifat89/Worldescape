@@ -469,8 +469,7 @@
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
-                        <!--  Clone, not available while multi selection  -->
-                        <!--  Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}"  -->
+                        <!--  Clone  -->
                         <ToggleButton
                             x:Name="Button_ConstructClone"
                             Width="50"
