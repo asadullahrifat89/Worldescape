@@ -234,7 +234,7 @@ namespace Worldescape
         {
             if (!_settingConstructAssets)
             {
-                _pageIndex = _paginationHelper.GetPreviousPageNumber(_totalPageCount, _pageIndex);
+                _pageIndex = _paginationHelper.GetPreviousPageNumber(_pageIndex);
 
                 GetConstructAssets();
                 GeneratePageNumbers();

@@ -27,13 +27,11 @@ namespace Worldescape
             return pageIndex;
         }
 
-        public int GetPreviousPageNumber(
-            long totalPageCount,
-            int pageIndex)
+        public int GetPreviousPageNumber(int pageIndex)
         {
             pageIndex--;
 
-            if (pageIndex < totalPageCount - 1)
+            if (pageIndex < 0)
             {
                 pageIndex = 0;
             }

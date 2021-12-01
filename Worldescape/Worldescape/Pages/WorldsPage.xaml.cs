@@ -201,7 +201,7 @@ namespace Worldescape
         {
             if (!_settingWorlds)
             {
-                _pageIndex = _paginationHelper.GetPreviousPageNumber(_totalPageCount, _pageIndex);
+                _pageIndex = _paginationHelper.GetPreviousPageNumber(_pageIndex);
                 await GetWorlds();
                 GeneratePageNumbers();
             }
