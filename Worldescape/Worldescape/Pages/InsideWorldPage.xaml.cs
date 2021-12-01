@@ -385,9 +385,9 @@ namespace Worldescape
             if (_cloningConstruct == null)
                 return;
 
-            var constructAsset = ((Button)_cloningConstruct).Tag as Construct;
+            var constructSource = ((Button)_cloningConstruct).Tag as Construct;
 
-            if (constructAsset != null)
+            if (constructSource != null)
             {
                 var pressedPoint = e.GetCurrentPoint(Canvas_Root);
 
@@ -395,8 +395,8 @@ namespace Worldescape
                 var pointY = NormalizePointerY(pressedPoint);
 
                 var constructButton = GenerateConstructButton(
-                    name: constructAsset.Name,
-                    imageUrl: constructAsset.ImageUrl);
+                    name: constructSource.Name,
+                    imageUrl: constructSource.ImageUrl);
 
                 // Add the construct on pressed point
                 var construct = AddConstructOnCanvas(
@@ -405,8 +405,8 @@ namespace Worldescape
                     y: pointY);
 
                 // Clone the scaling and rotation factors
-                construct = ScaleElement(constructButton, constructAsset.Scale) as Construct;
-                construct = RotateElement(constructButton, constructAsset.Rotation) as Construct;
+                construct = ScaleElement(constructButton, constructSource.Scale) as Construct;
+                construct = RotateElement(constructButton, constructSource.Rotation) as Construct;
 
                 // Center the construct on pressed point
                 construct = CenterAlignNewConstructButton(
