@@ -22,14 +22,30 @@ namespace Worldescape.Common
         {
             get { return _name; }
             set { _name = value; RaisePropertyChanged("Name"); }
+        }       
+    }
+
+    public class ConstructSubCategory : INotifyPropertyChanged
+    {
+        #region PropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        string _imageUrl;
+        #endregion
 
-        public string ImageUrl
+        public string Category { get; set; }
+
+        string _name;
+
+        public string Name
         {
-            get { return _imageUrl; }
-            set { _imageUrl = value; RaisePropertyChanged("ImageUrl"); }
+            get { return _name; }
+            set { _name = value; RaisePropertyChanged("Name"); }
         }
     }
 }

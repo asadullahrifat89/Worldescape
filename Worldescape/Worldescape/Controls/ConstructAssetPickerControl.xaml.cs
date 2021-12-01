@@ -32,6 +32,7 @@ namespace Worldescape
 
         readonly List<ConstructAsset> ConstructAssets = new List<ConstructAsset>();
         readonly List<ConstructCategory> ConstructCategories = new List<ConstructCategory>();
+        readonly List<ConstructSubCategory> ConstructSubCategories = new List<ConstructSubCategory>();
 
         readonly UrlHelper _urlHelper;
         readonly PaginationHelper _paginationHelper;
@@ -50,7 +51,17 @@ namespace Worldescape
             _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
 
             ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Service.Properties.Resources.ConstructAssets).ToList();
-            ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
+
+            ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory()
+            {
+                Name = Constants.CamelToName(z)
+            }).ToList();
+
+            ConstructSubCategories = ConstructAssets.Select(x => x.SubCategory).Distinct().Select(z => new ConstructSubCategory()
+            {
+                Category = Constants.CamelToName(z.Split('\\')[0]),
+                Name = Constants.CamelToName(z.Split('\\')[1]),
+            }).ToList();
 
             ShowConstructCategories();
         }
