@@ -7,7 +7,7 @@ var executingAssemblyLocation = System.Reflection.Assembly.GetExecutingAssembly(
 Console.WriteLine("Welcom to Worldescape Asset Generator!");
 Console.WriteLine("What would you like to do?");
 Console.WriteLine("1. Generate Assets (ms-appx)");
-Console.WriteLine("2. Generate Assets (http)");
+Console.WriteLine("2. Generate Assets (web-http)");
 
 var choice = Console.ReadLine();
 
@@ -49,11 +49,10 @@ switch (choice)
 
                 string json = System.Text.Json.JsonSerializer.Serialize(constructs, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true });
 
-                Console.WriteLine("==========================");
-
-                Console.WriteLine(json);
+                File.WriteAllText("World_Objects.json", json);
 
                 Console.WriteLine("==========================");
+                Console.WriteLine("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\World_Objects.json file has been generated.");
             }
         }
         break;
@@ -96,10 +95,7 @@ switch (choice)
                 File.WriteAllText("World_Objects.json", json);
 
                 Console.WriteLine("==========================");
-
-                Console.WriteLine(json);
-
-                Console.WriteLine("==========================");
+                Console.WriteLine("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\World_Objects.json file has been generated.");                
             }
         }
         break;
