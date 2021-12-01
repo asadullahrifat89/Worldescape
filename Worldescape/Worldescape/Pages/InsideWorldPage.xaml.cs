@@ -1710,11 +1710,11 @@ namespace Worldescape
 
                         // Get avatars and constructs
                         await FetchAvatars();
-                        PopulateClouds();
-                        ScrollIntoView(Avatar);
+                        PopulateClouds();                        
                         await FetchConstructs();
                         PopulateClouds(true);
 
+                        ScrollIntoView(Avatar);
                         _isLoggedIn = true;
 
                         // Set connected user's avatar image
