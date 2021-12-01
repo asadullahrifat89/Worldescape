@@ -56,12 +56,16 @@ switch (choice)
 
             Console.WriteLine("Enter output path:");
             var outputPath = Console.ReadLine();
-            outputPath = outputPath.Trim('"'); ;
+            outputPath = outputPath.Trim('"');
+
+            Console.WriteLine("Enter output file name prefix:");
+            var outputFilePrefix = Console.ReadLine();
+            outputFilePrefix = outputFilePrefix.Trim('"');
 
             if (inputFile != null && outputPath != null)
             {
                 var tiler = new ImageTileGenerator(inputFile: inputFile, xSize: x, ySize: y, rows: row, columns: column);
-                tiler.GenerateTiles(outputPath);
+                tiler.GenerateTiles(outputPath: outputPath, outputFilePrefix: outputFilePrefix);
             }
         }
         break;

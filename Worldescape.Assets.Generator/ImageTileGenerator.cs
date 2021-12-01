@@ -27,7 +27,7 @@ namespace Worldescape.Assets.Generator
             this.columns = columns;
         }
 
-        public void GenerateTiles(string outputPath)
+        public void GenerateTiles(string outputPath, string outputFilePrefix)
         {
             int tileWidth = tileSize.Width;
             int tileHeight = tileSize.Height;
@@ -41,7 +41,7 @@ namespace Worldescape.Assets.Generator
             {
                 for (int y = 0; y < rows; y++)
                 {
-                    string outputFileName = Path.Combine(outputPath, string.Format("{0}_{1}.png", x, y));
+                    string outputFileName = Path.Combine(outputPath, $"{outputFilePrefix}_{x}_{y}.png");
 
                     Rectangle tileBounds = new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
                     Bitmap target = new Bitmap(tileWidth, tileHeight);
