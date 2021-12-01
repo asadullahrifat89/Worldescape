@@ -84,7 +84,7 @@ namespace Worldescape
 
             count = ConstructAssets.Count(x => (!_constructCategoryFilter.IsNullOrBlank() ? x.Category == _constructCategoryFilter : !x.Category.IsNullOrBlank())
              && (!_constructSubCategoryFilter.IsNullOrBlank() ? x.SubCategory == _constructSubCategoryFilter : !x.SubCategory.IsNullOrBlank())
-             && (!TextBoxSearchConstructAssets.Text.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(TextBoxSearchConstructAssets.Text.ToLowerInvariant()) : !x.Name.IsNullOrBlank()));
+             && (!TextBox_SearchConstructAssets.Text.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(TextBox_SearchConstructAssets.Text.ToLowerInvariant()) : !x.Name.IsNullOrBlank()));
 
             return count;
         }
@@ -96,7 +96,7 @@ namespace Worldescape
             filteredData.AddRange(ConstructAssets.Where(x =>
             (!_constructCategoryFilter.IsNullOrBlank() ? x.Category == _constructCategoryFilter : !x.Category.IsNullOrBlank())
             && (!_constructSubCategoryFilter.IsNullOrBlank() ? x.SubCategory == _constructSubCategoryFilter : !x.SubCategory.IsNullOrBlank())
-            && (!TextBoxSearchConstructAssets.Text.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(TextBoxSearchConstructAssets.Text.ToLowerInvariant()) : !x.Name.IsNullOrBlank())));
+            && (!TextBox_SearchConstructAssets.Text.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(TextBox_SearchConstructAssets.Text.ToLowerInvariant()) : !x.Name.IsNullOrBlank())));
 
             return filteredData;
         }
@@ -277,7 +277,7 @@ namespace Worldescape
 
             _totalPageCount = _paginationHelper.GetTotalPageCount(_pageSize, count);
 
-            FoundConstructAssetsCountHolder.Text = $"Found { count } constructs in {_pickedConstructCategory.Name.ToLowerInvariant()} / {_pickedConstructSubCategory.Name.ToLowerInvariant()}{(TextBoxSearchConstructAssets.Text.IsNullOrBlank() ? "" : " matching " + TextBoxSearchConstructAssets.Text)}...";
+            TextBlock_FoundConstructAssetsCount.Text = $"Found { count } constructs in {_pickedConstructCategory?.Name.ToLowerInvariant()} / {_pickedConstructSubCategory?.Name.ToLowerInvariant()}{(TextBox_SearchConstructAssets.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchConstructAssets.Text)}...";
             PopulatePageNumbers(0);
         }
 
@@ -297,9 +297,14 @@ namespace Worldescape
 
         #region Button Events
 
-        private void ButtonSearchConstructAssets_Click(object sender, RoutedEventArgs e)
+        private void Button_SearchConstructAssets_Click(object sender, RoutedEventArgs e)
         {
             SearchConstructAssets();
+        }
+
+        private void Button_ConstructCategory_Click(object sender, RoutedEventArgs e)
+        {
+            ShowConstructSubCategories();
         }
 
         private void ButtonPreview_Click(object sender, RoutedEventArgs e)
@@ -345,9 +350,27 @@ namespace Worldescape
             _pickedConstructCategory = ((Button)sender).Tag as ConstructCategory;
             var categoryId = _pickedConstructCategory.Id;
 
-            _constructCategoryFilter = !categoryId.Equals("All") ? categoryId : null;
+            if (categoryId.Equals("All"))
+            {
+                _constructSubCategoryFilter = null;
+                _pickedConstructSubCategory = null;
+                Button_ConstructCategory.Content = "";
+                Button_ConstructCategory.Visibility = Visibility.Collapsed;
 
-            ShowConstructSubCategories();
+                _pageIndex = 0;
+                ShowConstructAssetsCount();
+                GetConstructAssets();
+            }
+            else
+            {
+                _constructCategoryFilter = categoryId;
+
+
+                Button_ConstructCategory.Content = _pickedConstructCategory.Name;
+                Button_ConstructCategory.Visibility = Visibility.Visible;
+
+                ShowConstructSubCategories();
+            }
         }
 
         private void ButtonConstructSubCategory_Click(object sender, RoutedEventArgs e)
@@ -374,7 +397,7 @@ namespace Worldescape
 
         #region UX Events
 
-        private void TextBoxSearchConstructAssets_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void TextBox_SearchConstructAssets_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {

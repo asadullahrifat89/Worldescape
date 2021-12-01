@@ -19,34 +19,42 @@
 
             <!--  Select category  -->
             <Button
-                x:Name="CategoriesButton"
-                Grid.Column="0"
+                x:Name="Button_ConstructCategories"
                 Width="120"
                 Margin="5,0"
                 Click="ButtonShowCategories_Click"
                 Content="Categories"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
-            <!--  Search box for constructs  -->
+            <!--  Apply selected category filter  -->
+            <Button
+                x:Name="Button_ConstructCategory"
+                Grid.Column="0"
+                Width="120"
+                Margin="5,0"
+                Click="Button_ConstructCategory_Click"
+                Content="Sub-Category"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}"
+                Visibility="Collapsed" />
+
+            <!--  Search box for construct assets  -->
             <TextBox
-                x:Name="TextBoxSearchConstructAssets"
-                Grid.Column="1"
+                x:Name="TextBox_SearchConstructAssets"
                 Width="300"
                 Margin="5,0"
                 VerticalAlignment="Center"
                 FontSize="16"
-                KeyDown="TextBoxSearchConstructAssets_KeyDown"
+                KeyDown="TextBox_SearchConstructAssets_KeyDown"
                 PlaceholderText="Search constructs"
                 Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
                 TextAlignment="Left" />
 
-            <!--  Search worlds  -->
+            <!--  Search construct assets  -->
             <Button
-                x:Name="ButtonSearchConstructAssets"
-                Grid.Column="2"
+                x:Name="Button_SearchConstructAssets"
                 Width="50"
                 Margin="5,0"
-                Click="ButtonSearchConstructAssets_Click"
+                Click="Button_SearchConstructAssets_Click"
                 Content="&#xE721;"
                 FontFamily="Segoe MDL2 Assets"
                 FontWeight="Normal"
@@ -54,7 +62,7 @@
 
             <!--  Found construct assets count  -->
             <TextBlock
-                x:Name="FoundConstructAssetsCountHolder"
+                x:Name="TextBlock_FoundConstructAssetsCount"
                 Margin="5,0"
                 VerticalAlignment="Center"
                 FontSize="16"
