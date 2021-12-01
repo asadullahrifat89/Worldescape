@@ -20,7 +20,7 @@ namespace Worldescape
 
         double _constructAssetMasonrySize = 130;
         double _constructCategoryMasonrySize = 120;
-        double _masonryPanelHeight = 350;
+        //double _masonryPanelHeight = 350;
 
         int _pageSize = 20;
         int _pageIndex = 0;
@@ -49,15 +49,12 @@ namespace Worldescape
             _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
             _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
 
-            if (!ConstructAssets.Any())
-            {
-                ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Service.Properties.Resources.ConstructAssets).ToList();
-                ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
-            }
+            ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Service.Properties.Resources.ConstructAssets).ToList();
+            ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory() { ImageUrl = @$"ms-appx:///Images/World_Objects/{z}.png", Name = z }).ToList();
 
             ShowConstructCategories();
-
         }
+
         #endregion
 
         #region Methods

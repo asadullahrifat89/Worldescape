@@ -1,8 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Reflection;
 using Worldescape.Common;
 
-var executingAssemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location;
+var executingAssemblyLocation = Assembly.GetExecutingAssembly().Location;
 
 Console.WriteLine("Welcom to Worldescape Asset Generator!");
 Console.WriteLine("What would you like to do?");
@@ -11,16 +12,17 @@ Console.WriteLine("2. Generate Assets (web-http)");
 
 var choice = Console.ReadLine();
 
+var assetSourceLocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape.Assets\\Assets\\World_Objects");
+var outputFileLocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape.Assets.Generator\\World_Objects.json");
+
 switch (choice)
 {
     case "1":
         {
             // Generate assets
-            var host = "ms-appx:///Images/World_Objects";
+            var host = "ms-appx:///Images/World_Objects";            
 
-            var newlocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape.Assets\\Assets\\World_Objects");
-
-            DirectoryInfo parentDirectory = new(newlocation);
+            DirectoryInfo parentDirectory = new(assetSourceLocation);
 
             List<ConstructAsset> constructs = new List<ConstructAsset>();
 
@@ -49,21 +51,16 @@ switch (choice)
 
                 string json = System.Text.Json.JsonSerializer.Serialize(constructs, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true });
 
-                File.WriteAllText("World_Objects.json", json);
-
-                Console.WriteLine("==========================");
-                Console.WriteLine("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\World_Objects.json file has been generated.");
+                File.WriteAllText(outputFileLocation, json);                
             }
         }
         break;
     case "2":
         {
             // Generate assets
-            var host = "World_Objects";
+            var host = "World_Objects";            
 
-            var newlocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape.Assets\\Assets\\World_Objects");
-
-            DirectoryInfo parentDirectory = new(newlocation);
+            DirectoryInfo parentDirectory = new(assetSourceLocation);
 
             List<ConstructAsset> constructs = new List<ConstructAsset>();
 
@@ -92,15 +89,15 @@ switch (choice)
 
                 string json = System.Text.Json.JsonSerializer.Serialize(constructs, new System.Text.Json.JsonSerializerOptions() { WriteIndented = true });
 
-                File.WriteAllText("World_Objects.json", json);
-
-                Console.WriteLine("==========================");
-                Console.WriteLine("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\World_Objects.json file has been generated.");                
+                File.WriteAllText(outputFileLocation, json);             
             }
         }
         break;
     default:
         break;
 }
+
+Console.WriteLine("==========================");
+Console.WriteLine($"{outputFileLocation} file has been generated.");
 
 Console.ReadLine();
