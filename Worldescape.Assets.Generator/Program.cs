@@ -52,7 +52,7 @@ switch (choice)
             var x = Convert.ToInt32(parts[0]);
             var y = Convert.ToInt32( parts[1]);
 
-            Console.WriteLine("Enter number of tiles in source image in rowxcolumn: i.e 3x10");
+            Console.WriteLine("Enter number of rows and columns in the source image file: i.e 3x10");
             var rowCols = Console.ReadLine();
 
             parts = rowCols.Split('x');
