@@ -2,9 +2,10 @@
 
 using System.Reflection;
 using Worldescape.Assets.Generator;
-using Worldescape.Common;
 
 var executingAssemblyLocation = Assembly.GetExecutingAssembly().Location;
+var assetSourceLocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape.Assets\\Assets\\World_Objects");
+var outputFileLocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape.Assets.Generator\\World_Objects.json");
 
 Console.WriteLine("Welcom to Worldescape Asset Generator!");
 Console.WriteLine("What would you like to do?");
@@ -13,9 +14,6 @@ Console.WriteLine("2. Generate Assets (web-http)");
 Console.WriteLine("3. Generate Tiles");
 
 var choice = Console.ReadLine();
-
-var assetSourceLocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape.Assets\\Assets\\World_Objects");
-var outputFileLocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape.Assets.Generator\\World_Objects.json");
 
 switch (choice)
 {
