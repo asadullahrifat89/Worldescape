@@ -5021,6 +5021,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Assets\World_Objects\Blocks\" />
+	  <Folder Include="Assets\World_Objects\Tavern\" />
 	</ItemGroup>
 
 </Project>

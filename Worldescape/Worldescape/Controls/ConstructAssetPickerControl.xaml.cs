@@ -19,7 +19,8 @@ namespace Worldescape
         public event EventHandler<ConstructAsset> AssetSelected;
 
         double _constructAssetMasonrySize = 130;
-        double _constructCategoryMasonrySize = 130;
+        double _constructCategoryMasonrySize = 120;
+        double _masonryPanelHeight = 350;
 
         int _pageSize = 20;
         int _pageIndex = 0;
@@ -28,7 +29,7 @@ namespace Worldescape
         bool _settingConstructAssets = false;
 
         string _constructCategoryNameFilter = string.Empty;
-        
+
         readonly List<ConstructAsset> ConstructAssets = new List<ConstructAsset>();
         readonly List<ConstructCategory> ConstructCategories = new List<ConstructCategory>();
 
@@ -89,7 +90,7 @@ namespace Worldescape
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
-                Height = 200
+                // Height = _masonryPanelHeight
             };
 
             var allConstructCategory = new ConstructCategory() { Name = "All" };
@@ -141,7 +142,7 @@ namespace Worldescape
             {
                 Margin = new Thickness(5),
                 Style = Application.Current.Resources["Panel_Style"] as Style,
-                Height = 350
+                //Height = _masonryPanelHeight
             };
 
             foreach (var item in pagedData)

@@ -404,6 +404,10 @@ namespace Worldescape
                     x: pointX,
                     y: pointY);
 
+                // Clone the scaling and rotation factors
+                construct = ScaleElement(constructButton, constructAsset.Scale) as Construct;
+                construct = RotateElement(constructButton, constructAsset.Rotation) as Construct;
+
                 // Center the construct on pressed point
                 construct = CenterAlignNewConstructButton(
                     pressedPoint: pressedPoint,
