@@ -16,13 +16,15 @@ namespace Worldescape.Common
 
         #endregion
 
+        public string Id { get; set; }
+
         string _name;
 
         public string Name
         {
             get { return _name; }
             set { _name = value; RaisePropertyChanged("Name"); }
-        }       
+        }
     }
 
     public class ConstructSubCategory : INotifyPropertyChanged
@@ -37,6 +39,8 @@ namespace Worldescape.Common
         }
 
         #endregion
+
+        public string Id { get; set; }
 
         public string Category { get; set; }
 

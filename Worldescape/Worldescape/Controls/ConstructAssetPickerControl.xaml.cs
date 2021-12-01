@@ -20,6 +20,7 @@ namespace Worldescape
 
         double _constructAssetMasonrySize = 130;
         double _constructCategoryMasonrySize = 120;
+        double _constructSubCategoryMasonrySize = 120;
         //double _masonryPanelHeight = 350;
 
         int _pageSize = 20;
@@ -28,7 +29,8 @@ namespace Worldescape
 
         bool _settingConstructAssets = false;
 
-        string _constructCategoryNameFilter = string.Empty;
+        string _constructCategoryFilter = string.Empty;
+        string _constructSubCategoryFilter = string.Empty;
 
         readonly List<ConstructAsset> ConstructAssets = new List<ConstructAsset>();
         readonly List<ConstructCategory> ConstructCategories = new List<ConstructCategory>();
@@ -54,12 +56,14 @@ namespace Worldescape
 
             ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory()
             {
+                Id = z,
                 Name = Constants.CamelToName(z)
             }).ToList();
 
             ConstructSubCategories = ConstructAssets.Select(x => x.SubCategory).Distinct().Select(z => new ConstructSubCategory()
             {
-                Category = Constants.CamelToName(z.Split('\\')[0]),
+                Id = z,
+                Category = z.Split('\\')[0],
                 Name = Constants.CamelToName(z.Split('\\')[1]),
             }).ToList();
 
@@ -77,7 +81,8 @@ namespace Worldescape
             var filteredData = new List<ConstructAsset>();
 
             filteredData.AddRange(ConstructAssets.Where(x =>
-            (!_constructCategoryNameFilter.IsNullOrBlank() ? x.Category == _constructCategoryNameFilter : !x.Category.IsNullOrBlank())
+            (!_constructCategoryFilter.IsNullOrBlank() ? x.Category == _constructCategoryFilter : !x.Category.IsNullOrBlank())
+            && (!_constructSubCategoryFilter.IsNullOrBlank() ? x.SubCategory == _constructSubCategoryFilter : !x.SubCategory.IsNullOrBlank())
             && (!TextBoxSearchConstructAssets.Text.IsNullOrBlank() ? x.Name.ToLowerInvariant().Contains(TextBoxSearchConstructAssets.Text.ToLowerInvariant()) : !x.Name.IsNullOrBlank())));
 
             return filteredData;
@@ -101,12 +106,12 @@ namespace Worldescape
                 // Height = _masonryPanelHeight
             };
 
-            var allConstructCategory = new ConstructCategory() { Name = "All" };
+            var allConstructCategory = new ConstructCategory() { Id = "All", Name = "All" };
 
             // Add an All button first
             AddConstructCategoryMasonry(_masonryPanel, allConstructCategory);
 
-            //Add all teh categories
+            //Add all the categories
             foreach (var constructCategory in pagedData)
             {
                 AddConstructCategoryMasonry(_masonryPanel, constructCategory);
@@ -282,11 +287,14 @@ namespace Worldescape
         private void ButtonConstructCategory_Click(object sender, RoutedEventArgs e)
         {
             _pickedConstructCategory = ((Button)sender).Tag as ConstructCategory;
-            var categoryName = _pickedConstructCategory.Name;
+            var categoryId = _pickedConstructCategory.Id;
 
-            _constructCategoryNameFilter = !categoryName.Equals("All") ? categoryName : null;
+            _constructCategoryFilter = !categoryId.Equals("All") ? categoryId : null;
 
             _pageIndex = 0;
+
+            //TODO: Show sub categories
+
             ShowConstructAssetsCount();
             GetConstructAssets();
         }
