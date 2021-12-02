@@ -528,12 +528,32 @@
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
-                        <!--  Rotate  -->
+                        <!--  Rotate backward  -->
                         <Button
-                            x:Name="Button_ConstructRotate"
+                            x:Name="Button_ConstructRotateBackward"
                             Width="50"
                             Margin="5,10"
-                            Click="Button_ConstructRotate_Click"
+                            Click="Button_ConstructRotateBackward_Click"
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                            <Button.Content>
+                                <TextBlock
+                                    FontFamily="Segoe Fluent Icons"
+                                    FontWeight="Normal"
+                                    RenderTransformOrigin="0.5,0.5"
+                                    Text="&#xE7AD;">
+                                    <TextBlock.RenderTransform>
+                                        <CompositeTransform Rotation="-180" />
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                            </Button.Content>
+                        </Button>
+
+                        <!--  Rotate forward  -->
+                        <Button
+                            x:Name="Button_ConstructRotateForward"
+                            Width="50"
+                            Margin="5,10"
+                            Click="Button_ConstructRotateForward_Click"
                             Content="&#xE7AD;"
                             FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"

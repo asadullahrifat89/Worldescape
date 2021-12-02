@@ -918,11 +918,11 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Rotates the selected construct.
+        /// Rotates the selected construct forward.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Button_ConstructRotate_Click(object sender, RoutedEventArgs e)
+        private async void Button_ConstructRotateForward_Click(object sender, RoutedEventArgs e)
         {
             if (CanPerformWorldEvents())
             {
@@ -934,7 +934,7 @@ namespace Worldescape
 
                         if (_selectedConstruct != null)
                         {
-                            await BroadcastConstructRotate(_selectedConstruct);
+                            await BroadcastConstructRotate(selectedConstruct: _selectedConstruct);
                         }
                     }
                 }
@@ -942,7 +942,38 @@ namespace Worldescape
                 {
                     if (_selectedConstruct != null)
                     {
-                        await BroadcastConstructRotate(_selectedConstruct);
+                        await BroadcastConstructRotate(selectedConstruct: _selectedConstruct);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Rotates the selected construct backward.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void Button_ConstructRotateBackward_Click(object sender, RoutedEventArgs e)
+        {
+            if (CanPerformWorldEvents())
+            {
+                if (Button_ConstructMultiSelect.IsChecked.Value && MultiselectedConstructs.Any())
+                {
+                    foreach (var element in MultiselectedConstructs)
+                    {
+                        _selectedConstruct = _constructHelper.GetConstructButtonFromCanvas(canvas: Canvas_Root, constructId: element.Id);
+
+                        if (_selectedConstruct != null)
+                        {
+                            await BroadcastConstructRotate(selectedConstruct: _selectedConstruct, isBacward: true);
+                        }
+                    }
+                }
+                else
+                {
+                    if (_selectedConstruct != null)
+                    {
+                        await BroadcastConstructRotate(selectedConstruct: _selectedConstruct, isBacward: true);
                     }
                 }
             }
@@ -2782,17 +2813,17 @@ namespace Worldescape
         /// <summary>
         /// Broadcasts construct rotation operation.
         /// </summary>
-        /// <param name="_selectedConstruct"></param>
+        /// <param name="selectedConstruct"></param>
         /// <returns></returns>
-        private async Task BroadcastConstructRotate(UIElement _selectedConstruct)
+        private async Task BroadcastConstructRotate(UIElement selectedConstruct, bool isBacward = false)
         {
-            var button = (Button)_selectedConstruct;
+            var button = (Button)selectedConstruct;
 
             var construct = button.Tag as Construct;
 
-            var newRotation = construct.Rotation + 5;
+            var newRotation = isBacward ? construct.Rotation - 5 : construct.Rotation + 5;
 
-            construct = RotateElement(uIElement: _selectedConstruct, rotation: newRotation) as Construct;
+            construct = RotateElement(uIElement: selectedConstruct, rotation: newRotation) as Construct;
 
             // Align avatar to construct point
             AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
