@@ -699,7 +699,7 @@
                 x:Name="ContentControl_ConstructAssetsContainer"
                 Grid.Row="1"
                 Margin="85,5,85,0"
-                HorizontalAlignment="Stretch"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Style="{StaticResource MaterialDesign_Card_Style}"
                 Visibility="Collapsed">

@@ -40,7 +40,7 @@
             <!--  Search box for construct assets  -->
             <TextBox
                 x:Name="TextBox_SearchConstructAssets"
-                Width="300"
+                Width="350"
                 Margin="5,0"
                 VerticalAlignment="Center"
                 FontSize="16"
@@ -59,15 +59,6 @@
                 FontFamily="Segoe Fluent Icons"
                 FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-            <!--  Found construct assets count  -->
-            <TextBlock
-                x:Name="TextBlock_FoundConstructAssetsCount"
-                Margin="5,0"
-                VerticalAlignment="Center"
-                FontSize="16"
-                FontWeight="SemiBold"
-                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
 
         </StackPanel>
 

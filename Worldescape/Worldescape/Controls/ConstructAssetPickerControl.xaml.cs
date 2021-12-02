@@ -139,7 +139,7 @@ namespace Worldescape
             _pageNumbers.Clear();
             PagesHolder.ItemsSource = _pageNumbers;
 
-            TextBlock_FoundConstructAssetsCount.Text = $"Found { pagedData.Count() } categories...";
+            TextBox_SearchConstructAssets.PlaceholderText = $"{ pagedData.Count() } categories...";
         }
 
         private void AddConstructCategoryMasonry(MasonryPanelWithProgressiveLoading _masonryPanel, ConstructCategory constructCategory)
@@ -184,7 +184,7 @@ namespace Worldescape
             _pageNumbers.Clear();
             PagesHolder.ItemsSource = _pageNumbers;
 
-            TextBlock_FoundConstructAssetsCount.Text = $"Found { pagedData.Count() } sub categories in {_pickedConstructCategory?.Name.ToLowerInvariant()}...";
+            TextBox_SearchConstructAssets.PlaceholderText = $"{ pagedData.Count() } sub categories in {_pickedConstructCategory?.Name.ToLowerInvariant()}";
         }
 
         private void AddConstructSubCategoryMasonry(MasonryPanelWithProgressiveLoading _masonryPanel, ConstructSubCategory constructSubCategory)
@@ -285,7 +285,7 @@ namespace Worldescape
 
             _totalPageCount = _paginationHelper.GetTotalPageCount(_pageSize, count);
 
-            TextBlock_FoundConstructAssetsCount.Text = $"Found { count } constructs in {_pickedConstructCategory?.Name.ToLowerInvariant()} / {_pickedConstructSubCategory?.Name.ToLowerInvariant()}{(TextBox_SearchConstructAssets.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchConstructAssets.Text)}...";
+            TextBox_SearchConstructAssets.PlaceholderText = $"{ count } constructs in {_pickedConstructCategory?.Name.ToLowerInvariant()}/{_pickedConstructSubCategory?.Name.ToLowerInvariant()}{(TextBox_SearchConstructAssets.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchConstructAssets.Text)}";
             PopulatePageNumbers(0);
         }
 

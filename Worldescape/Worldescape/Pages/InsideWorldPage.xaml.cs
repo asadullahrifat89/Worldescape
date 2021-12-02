@@ -32,6 +32,7 @@ namespace Worldescape
         UIElement _addingConstruct;
         UIElement _movingConstruct;
         UIElement _cloningConstruct;
+
         Image _pointerImage;
 
         UIElement _selectedAvatar;
@@ -1883,6 +1884,9 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Releases the assigned image from pointer movement.
+        /// </summary>
         private void ReleaseAssignedPointerElement()
         {
             if (_pointerImage != null)
