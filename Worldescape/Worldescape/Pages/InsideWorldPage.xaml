@@ -188,7 +188,7 @@
                                 Width="50"
                                 Margin="5,10"
                                 Click="Button_ConstructAdd_Click"
-                                Content="&#xE948;"
+                                Content="&#xEA86;"
                                 FontFamily="Segoe MDL2 Assets"
                                 FontWeight="Normal"
                                 Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
@@ -281,7 +281,7 @@
                                         Width="70"
                                         Margin="5,10"
                                         Click="Button_CreatePost_Click"
-                                        Content="&#xE8F3;"
+                                        Content="&#xE72D;"
                                         FontFamily="Segoe MDL2 Assets"
                                         FontWeight="Normal"
                                         Style="{StaticResource MaterialDesign_RoundButton_Style}" />
@@ -292,7 +292,7 @@
                                         Width="70"
                                         Margin="5,10"
                                         Click="Button_MessageAll_Click"
-                                        Content="&#xE8F3;"
+                                        Content="&#xE789;"
                                         FontFamily="Segoe MDL2 Assets"
                                         FontWeight="Normal"
                                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />

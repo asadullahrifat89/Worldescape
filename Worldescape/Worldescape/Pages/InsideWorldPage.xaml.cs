@@ -1205,6 +1205,7 @@ namespace Worldescape
         private void HideMessagingControls()
         {
             MessagingControlsHolder.Visibility = Visibility.Collapsed;
+            Button_MessageAll.IsChecked = false;
         }
 
         #endregion
@@ -3124,7 +3125,7 @@ namespace Worldescape
             if (!CanPerformWorldEvents())
                 return;
 
-            //Check if a valid message was typed and the recepient exists in canvas
+            //Check if a valid message was typed
             if (!MessagingTextBox.Text.IsNullOrBlank())
             {
                 await _hubService.SendBroadcastMessage(MessagingTextBox.Text);
@@ -3132,7 +3133,7 @@ namespace Worldescape
                 // Add message bubble to own avatar
                 if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
                 {
-                    AddChatBubbleToCanvas(MessagingTextBox.Text, iElement); // send message
+                    AddChatBubbleToCanvas(msg: MessagingTextBox.Text, avatar: iElement); // send message
 
                     // If activity status is not Greeting then update it
                     if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Greeting)
