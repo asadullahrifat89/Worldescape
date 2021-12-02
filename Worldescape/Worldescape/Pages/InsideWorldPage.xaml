@@ -183,19 +183,19 @@
                                 FontSize="20"
                                 Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
-                            <!--  Add  -->
+                            <!--  Add, open construct picker  -->
                             <ToggleButton
                                 x:Name="Button_ConstructAdd"
                                 Width="50"
                                 Margin="5,10"
                                 Click="Button_ConstructAdd_Click"
-                                Content="&#xEA86;"
+                                Content="&#xebd2;"
                                 FontFamily="Segoe Fluent Icons"
                                 FontWeight="Normal"
                                 Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
                                 Visibility="Collapsed" />
 
-                            <!--  Select  -->
+                            <!--  Select, toggle multi selection mode  -->
                             <ToggleButton
                                 x:Name="Button_ConstructMultiSelect"
                                 Width="50"

@@ -48,7 +48,16 @@ namespace Worldescape
 
         readonly ConstructAssetPickerControl _constructAssetPickerControl;
 
-        readonly Color[] _backgroundColors = new Color[] { Color.FromRgb(235, 157, 96), Color.FromRgb(198, 213, 217), Color.FromRgb(203, 167, 163), Color.FromRgb(37, 35, 88), Color.FromRgb(106, 101, 107), Color.FromRgb(157, 192, 142) };
+        readonly Color[] _backgroundColors = new Color[]
+        {
+            Color.FromRgb(235, 157, 96),
+            Color.FromRgb(224, 180, 221),
+            Color.FromRgb(203, 167, 163),
+            Color.FromRgb(37, 35, 88),
+            Color.FromRgb(106, 101, 107),
+            Color.FromRgb(157, 192, 142),
+            Color.FromRgb(255, 196, 0),
+        };
 
         #endregion
 
@@ -151,15 +160,6 @@ namespace Worldescape
 
             Canvas_Root.Children.Clear();
 
-            //var buttons = Canvas_Root.Children.OfType<Button>()?.ToList();
-
-            //if (buttons != null && buttons.Any())
-            //{
-            //    foreach (var button in buttons)
-            //    {
-            //        Canvas_Root.Children.Remove(button);
-            //    }
-            //}
             PopulateClouds();
             PopulateClouds(drawOver: true);
             SelectCharacterAndConnect();
@@ -1870,7 +1870,7 @@ namespace Worldescape
                 var pressedPoint = e.GetCurrentPoint(Canvas_Root);
 
                 var offsetX = _pointerImage.ActualWidth / 2;
-                var offsetY = _pointerImage.ActualHeight + 3; // Adjustment to actual image that will be placed in canvas
+                var offsetY = _pointerImage.ActualHeight + 3; // Adjustment to actual image that will be placed in canvas, as glass button style has Padding = 3
 
                 var pointX = _elementHelper.NormalizePointerX(Canvas_Root, pressedPoint);
                 var pointY = _elementHelper.NormalizePointerY(Canvas_Root, pressedPoint);

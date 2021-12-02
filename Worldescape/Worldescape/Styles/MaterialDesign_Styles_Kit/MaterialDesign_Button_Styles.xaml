@@ -5,7 +5,7 @@
          </ResourceDictionary.MergedDictionaries>-->
     <!--  Requires MaterialDesign_CommonResources  -->
 
-    <!--#region Normal Buttons-->
+    <!--  Normal Buttons  -->
     <Style x:Key="MaterialDesign_ColoredButton_Style" TargetType="Button">
         <Setter Property="Background" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="Foreground" Value="White" />
@@ -339,9 +339,8 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--#endregion-->
 
-    <!--#region Button for Hyperlinks-->
+    <!--  Button for Hyperlinks  -->
     <Style x:Key="MaterialDesign_HyperlinkButton_Style" TargetType="Button">
         <!--<Setter Property="Height" Value="50" />-->
         <Setter Property="Background" Value="Transparent" />
@@ -498,9 +497,9 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--#endregion-->
 
-    <!--#region Round buttons-->
+
+    <!--  Round buttons  -->
     <Style x:Key="MaterialDesign_RoundButton_Style" TargetType="Button">
         <Setter Property="Height" Value="50" />
         <Setter Property="Background" Value="White" />
@@ -677,9 +676,9 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--#endregion-->
 
-    <!--#region Toggle buttons-->
+
+    <!--  Toggle buttons  -->
     <Style x:Key="MaterialDesign_ToggleButton_Style" TargetType="ToggleButton">
         <Setter Property="Height" Value="50" />
         <Setter Property="Background" Value="White" />
@@ -1088,6 +1087,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--#endregion-->
+
 
 </ResourceDictionary>
