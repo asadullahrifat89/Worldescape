@@ -10,10 +10,7 @@
     Loaded="Page_Loaded"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
-    <Grid
-        x:Name="Grid_Root"
-        Grid.Row="0"
-        Background="{StaticResource DefaultSkyColor}">
+    <Grid x:Name="Grid_Root">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -394,17 +391,13 @@
                             VerticalAlignment="Center"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
-                            Style="{StaticResource MaterialDesign_Card_Style}"
+                            Style="{StaticResource MaterialDesign_SideCard_Style}"
                             Visibility="Collapsed">
 
-                            <Grid
-                                Margin="5"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch">
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
                                 <Button
                                     x:Name="Button_CloseSideCard"
-                                    Padding="0"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Top"
                                     HorizontalContentAlignment="Center"
@@ -417,7 +410,7 @@
                                     Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
                                     Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}" />
 
-                                <StackPanel MinWidth="180">
+                                <StackPanel>
 
                                     <!--  Selected avatar or constructs image holder  -->
                                     <ContentControl
@@ -430,7 +423,7 @@
                                     <!--  Selected avatar or constructs name holder  -->
                                     <TextBlock
                                         x:Name="DetailsNameHolder"
-                                        Margin="20,5,20,10"
+                                        Margin="10,5,10,10"
                                         FontSize="18"
                                         FontWeight="SemiBold"
                                         Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
@@ -448,7 +441,7 @@
                                     <!--  Selected avatar or constructs created on holder  -->
                                     <TextBlock
                                         x:Name="DetailsDateHolder"
-                                        Margin="20,2,20,20"
+                                        Margin="10,2,10,20"
                                         FontSize="15"
                                         FontWeight="SemiBold"
                                         Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"

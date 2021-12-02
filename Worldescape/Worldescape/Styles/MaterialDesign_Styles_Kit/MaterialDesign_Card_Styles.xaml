@@ -47,6 +47,49 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="MaterialDesign_SideCard_Style" TargetType="ContentControl">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border
+                        x:Name="InnerBorder"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="5">
+                        <Border.Effect>
+                            <DropShadowEffect
+                                x:Name="DropShadowEffect"
+                                BlurRadius="6"
+                                Direction="-30"
+                                Opacity="0.4"
+                                ShadowDepth="0"
+                                Color="Gray" />
+                        </Border.Effect>
+                        <ContentControl
+                            x:Name="ContentPresenter"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Background="{TemplateBinding Background}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            FontSize="{TemplateBinding FontSize}"
+                            FontWeight="{TemplateBinding FontWeight}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--  Card Header  -->
     <Style x:Key="MaterialDesign_CardHeader_Style" TargetType="ContentControl">
         <Setter Property="Background" Value="#FFF9F9F9" />

@@ -48,6 +48,8 @@ namespace Worldescape
 
         readonly ConstructAssetPickerControl _constructAssetPickerControl;
 
+        readonly Color[] _backgroundColors = new Color[] { Color.FromRgb(235, 157, 96), Color.FromRgb(198, 213, 217), Color.FromRgb(203, 167, 163), Color.FromRgb(37, 35, 88), Color.FromRgb(106, 101, 107), Color.FromRgb(157, 192, 142) };
+
         #endregion
 
         #region Ctor
@@ -115,6 +117,12 @@ namespace Worldescape
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            //TODO: add a random background color
+
+            Color color = _backgroundColors[new Random().Next(0, _backgroundColors.Count())];
+            Background = new SolidColorBrush(color);
+
+
             Grid_Root.Visibility = Visibility.Collapsed;
 
             Button_ConstructMove.IsChecked = false;
