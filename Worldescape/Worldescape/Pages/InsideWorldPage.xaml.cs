@@ -3407,7 +3407,7 @@ namespace Worldescape
             {
                 Margin = new Thickness(5, 12, 5, 0),
                 FontWeight = FontWeights.Regular,
-                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                FontFamily = new FontFamily("Segoe Fluent Icons"),
                 TextWrapping = TextWrapping.Wrap,
                 Foreground = new SolidColorBrush(Colors.Black),
                 VerticalAlignment = VerticalAlignment.Top,

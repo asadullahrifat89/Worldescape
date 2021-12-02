@@ -27,7 +27,7 @@
                 Margin="5,0"
                 Click="ToggleButton_UsersWorldsOnly_Click"
                 Content="&#xE928;"
-                FontFamily="Segoe MDL2 Assets"
+                FontFamily="Segoe Fluent Icons"
                 FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
@@ -51,7 +51,7 @@
                 Margin="5,0"
                 Click="Button_SearchWorld_Click"
                 Content="&#xE721;"
-                FontFamily="Segoe MDL2 Assets"
+                FontFamily="Segoe Fluent Icons"
                 FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
@@ -100,7 +100,7 @@
                 Margin="5"
                 Click="ButtonPreview_Click"
                 Content="&#xF743;"
-                FontFamily="Segoe MDL2 Assets"
+                FontFamily="Segoe Fluent Icons"
                 FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
@@ -141,7 +141,7 @@
                 Margin="5"
                 Click="ButtonNext_Click"
                 Content="&#xF745;"
-                FontFamily="Segoe MDL2 Assets"
+                FontFamily="Segoe Fluent Icons"
                 FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
