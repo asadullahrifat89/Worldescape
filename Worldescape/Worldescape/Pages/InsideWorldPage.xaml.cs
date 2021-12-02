@@ -615,6 +615,8 @@ namespace Worldescape
 
                 Button_ConstructMultiSelect.IsChecked = false;
 
+                ReleaseAssignedPointerElement();
+
                 if (Button_ConstructCraft.IsChecked.Value)
                 {
                     Button_ConstructAdd.Visibility = Visibility.Visible;
@@ -673,14 +675,16 @@ namespace Worldescape
         /// <param name="e"></param>
         private void Button_ConstructMultiSelect_Click(object sender, RoutedEventArgs e)
         {
+            ClearMultiselectedConstructs();
+            ReleaseAssignedPointerElement();
+
             if (Button_ConstructMultiSelect.IsChecked.Value)
             {
                 ShowConstructOperationButtons();
             }
             else
             {
-                HideConstructOperationButtons();
-                ClearMultiselectedConstructs();
+                HideConstructOperationButtons();               
             }
         }
 
@@ -1840,7 +1844,7 @@ namespace Worldescape
                 var pressedPoint = e.GetCurrentPoint(Canvas_Root);
 
                 var offsetX = _pointerImage.ActualWidth / 2;
-                var offsetY = _pointerImage.ActualHeight /*/ 2*/+ 2;
+                var offsetY = _pointerImage.ActualHeight + 3; // Adjustment to actual image that will be placed in canvas
 
                 var pointX = _elementHelper.NormalizePointerX(Canvas_Root, pressedPoint);
                 var pointY = _elementHelper.NormalizePointerY(Canvas_Root, pressedPoint);
@@ -2989,7 +2993,7 @@ namespace Worldescape
                 _movingConstruct = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == element.Id);
 
                 double goToX = pointX - ((Button)_movingConstruct).ActualWidth / 2;
-                double goToY = pointY - ((Button)_movingConstruct).ActualHeight /*/ 2*/;
+                double goToY = pointY - ((Button)_movingConstruct).ActualHeight;
 
                 goToX += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item2;
                 goToY += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item3;
@@ -3077,7 +3081,7 @@ namespace Worldescape
                 _cloningConstruct = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == element.Id);
 
                 double goToX = pointX - ((Button)_cloningConstruct).ActualWidth / 2;
-                double goToY = pointY - ((Button)_cloningConstruct).ActualHeight /*/ 2*/;
+                double goToY = pointY - ((Button)_cloningConstruct).ActualHeight;
 
                 goToX += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item2;
                 goToY += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item3;
