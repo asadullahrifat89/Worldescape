@@ -286,6 +286,17 @@
                                         FontWeight="Normal"
                                         Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
+                                    <!--  Toggles broadcast message mode, activates messaging UI, broadcasts message to all users in this world  -->
+                                    <ToggleButton
+                                        x:Name="Button_MessageAll"
+                                        Width="70"
+                                        Margin="5,10"
+                                        Click="Button_MessageAll_Click"
+                                        Content="&#xE8F3;"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        FontWeight="Normal"
+                                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
+
                                     <!--  Show statuses  -->
                                     <ToggleButton
                                         x:Name="Button_SelectStatus"
@@ -589,7 +600,19 @@
                             Content="&#xE724;"
                             FontFamily="Segoe MDL2 Assets"
                             FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}"
+                            Visibility="{Binding ElementName=Button_MessageAll, Path=IsChecked, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}" />
+
+                        <Button
+                            x:Name="Button_SendBroadcastMessage"
+                            Width="70"
+                            Margin="10"
+                            Click="Button_SendBroadcastMessage_Click"
+                            Content="&#xE724;"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontWeight="Normal"
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}"
+                            Visibility="{Binding ElementName=Button_MessageAll, Path=IsChecked, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
                     </StackPanel>
 

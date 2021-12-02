@@ -61,7 +61,7 @@ namespace Worldescape
         {
             InitializeComponent();
 
-            _hubService = hubService;            
+            _hubService = hubService;
             _avatarHelper = avatarHelper;
             _worldHelper = worldHelper;
             _constructHelper = constructHelper;
@@ -182,7 +182,7 @@ namespace Worldescape
                 ShowSelectedAvatar(null);
 
                 _messageToAvatar = null;
-                ShowMessagingAvatar(null);
+                ShowMessagingAvatars(null);
 
                 HideConstructOperationButtons();
                 HideAvatarOperationButtons();
@@ -458,7 +458,7 @@ namespace Worldescape
                     construct: construct);
 
                 // Align avatar to construct point
-                AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
+                AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
 
                 await _hubService.BroadcastConstruct(construct);
 
@@ -486,7 +486,7 @@ namespace Worldescape
                 _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(canvas: Canvas_Root, avatarId: avatar.Id);
                 _selectedAvatar = _messageToAvatar;
 
-                ShowMessagingAvatar(_messageToAvatar);
+                ShowMessagingAvatars(_messageToAvatar);
                 ShowMessagingControls();
 
                 ShowSelectedAvatar(_selectedAvatar);
@@ -973,19 +973,6 @@ namespace Worldescape
         #region Message
 
         /// <summary>
-        /// Event fired upon key press inside the chat box.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void MessagingTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter)
-            {
-                await SendUnicastMessage();
-            }
-        }
-
-        /// <summary>
         /// Activates Messaging controls.
         /// </summary>
         /// <param name="sender"></param>
@@ -1002,11 +989,39 @@ namespace Worldescape
             if (((Button)_selectedAvatar).Tag is Avatar avatar)
             {
                 _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(canvas: Canvas_Root, avatarId: avatar.Id);
-                ShowMessagingAvatar(_messageToAvatar);
+                ShowMessagingAvatars(_messageToAvatar);
                 ShowMessagingControls();
                 SetAvatarDetailsOnSideCard();
 
                 MessagingTextBox.Focus();
+            }
+        }
+
+        private void Button_MessageAll_Click(object sender, RoutedEventArgs e)
+        {
+            if (!CanPerformWorldEvents())
+                return;
+
+            _messageToAvatar = null;
+            ShowMessagingAvatars();
+            ShowMessagingControls();
+
+            MessagingTextBox.Focus();
+        }
+
+        /// <summary>
+        /// Event fired upon key press inside the chat box.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MessagingTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                if (Button_MessageAll.IsChecked.Value)
+                    await SendBroadcastMessage();
+                else
+                    await SendUnicastMessage();
             }
         }
 
@@ -1018,6 +1033,11 @@ namespace Worldescape
         private async void Button_SendUnicastMessage_Click(object sender, RoutedEventArgs e)
         {
             await SendUnicastMessage();
+        }
+
+        private async void Button_SendBroadcastMessage_Click(object sender, RoutedEventArgs e)
+        {
+            await SendBroadcastMessage();
         }
 
         /// <summary>
@@ -1155,22 +1175,19 @@ namespace Worldescape
         /// Show avatar character images in and around message controls.
         /// </summary>
         /// <param name="receiverUiElement"></param>
-        private void ShowMessagingAvatar(UIElement receiverUiElement)
+        private void ShowMessagingAvatars(UIElement receiverUiElement = null)
         {
+            MessagingFromAvatarHolder.Content = _avatarHelper.GetAvatarUserPicture(Avatar);
+
             if (receiverUiElement == null)
             {
                 MessagingToAvatarHolder.Content = null;
-                MessagingFromAvatarHolder.Content = null;
             }
             else
             {
                 var receiver = ((Button)receiverUiElement).Tag as Avatar;
-
-                // If receiver avatar is forward from current avatar
-                AlignUsersAvatarFaceDirection(receiver.Coordinate.X);
-
-                MessagingFromAvatarHolder.Content = _avatarHelper.GetAvatarUserPicture(Avatar);// GetImageFromUiElement(_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id));
-                MessagingToAvatarHolder.Content = _avatarHelper.GetAvatarUserPicture(receiver);//GetImageFromUiElement(receiverUiElement);
+                AlignAvatarFaceDirectionWrtX(receiver.Coordinate.X);
+                MessagingToAvatarHolder.Content = _avatarHelper.GetAvatarUserPicture(receiver);
             }
         }
 
@@ -1489,11 +1506,10 @@ namespace Worldescape
                     switch (mt)
                     {
                         case MessageType.Broadcast:
+                            AddChatBubbleToCanvas(msg, senderAvatarUiElement); // receive broadcast message
                             break;
                         case MessageType.Unicast:
-                            {
-                                AddChatBubbleToCanvas(msg, senderAvatarUiElement); // receive message
-                            }
+                            AddChatBubbleToCanvas(msg, senderAvatarUiElement); // receive unicast message
                             break;
                         default:
                             break;
@@ -1734,9 +1750,9 @@ namespace Worldescape
                 App.World = new World();
 
                 if (_hubService.IsConnected())
-                {                    
+                {
                     await _hubService.DisconnectAsync();
-                }               
+                }
 
                 _mainPage.SetIsBusy(false);
             }
@@ -2290,10 +2306,10 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Aligns facing direction of current avatar wrt provided x.
+        /// Aligns facing direction of logged in user's avatar wrt provided x.
         /// </summary>
         /// <param name="construct"></param>
-        private void AlignUsersAvatarFaceDirection(double x)
+        private void AlignAvatarFaceDirectionWrtX(double x)
         {
             _avatarHelper.AlignAvatarFaceDirection(x, Canvas_Root, Avatar.Id);
         }
@@ -2637,7 +2653,7 @@ namespace Worldescape
             construct = RotateElement(uIElement: _selectedConstruct, rotation: newRotation) as Construct;
 
             // Align avatar to construct point
-            AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
 
             await _hubService.BroadcastConstructRotation(constructId: construct.Id, rotation: construct.Rotation);
 
@@ -2665,7 +2681,7 @@ namespace Worldescape
             construct = ScaleElement(uIElement: _selectedConstruct, scale: newScale) as Construct;
 
             // Align avatar to construct point
-            AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
 
             await _hubService.BroadcastConstructScale(constructId: construct.Id, scale: construct.Scale);
 
@@ -2688,7 +2704,7 @@ namespace Worldescape
             construct = ScaleElement(uIElement: _selectedConstruct, scale: newScale) as Construct;
 
             // Align avatar to construct point
-            AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
 
             await _hubService.BroadcastConstructScale(constructId: construct.Id, scale: construct.Scale);
 
@@ -2709,7 +2725,7 @@ namespace Worldescape
             var construct = ((Button)_selectedConstruct).Tag as Construct;
 
             // Align avatar to construct point
-            AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
 
             await _hubService.BroadcastConstructPlacement(construct.Id, zIndex);
         }
@@ -2728,7 +2744,7 @@ namespace Worldescape
             var construct = ((Button)_selectedConstruct).Tag as Construct;
 
             // Align avatar to construct point
-            AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
 
             await _hubService.BroadcastConstructPlacement(construct.Id, zIndex);
         }
@@ -2743,7 +2759,7 @@ namespace Worldescape
             var construct = ((Button)_selectedConstruct).Tag as Construct;
 
             // Align avatar to construct point
-            AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
 
             RemoveConstructFromCanvas(_selectedConstruct);
 
@@ -2844,7 +2860,7 @@ namespace Worldescape
             var pointY = NormalizePointerY(pressedPoint);
 
             // Align avatar to clicked point
-            AlignUsersAvatarFaceDirection(pointX);
+            AlignAvatarFaceDirectionWrtX(pointX);
 
             UIElement fe = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && c.Id == MultiselectedConstructs.FirstOrDefault().Id).FirstOrDefault();
 
@@ -2908,7 +2924,7 @@ namespace Worldescape
             var construct = taggedObject as Construct;
 
             // Align avatar to construct point
-            AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
 
             await _hubService.BroadcastConstructMovement(
                 construct.Id,
@@ -2932,7 +2948,7 @@ namespace Worldescape
             var pointY = NormalizePointerY(pressedPoint);
 
             // Align avatar to clicked point
-            AlignUsersAvatarFaceDirection(pointX);
+            AlignAvatarFaceDirectionWrtX(pointX);
 
             UIElement fe = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct c && c.Id == MultiselectedConstructs.FirstOrDefault().Id).FirstOrDefault();
 
@@ -3002,7 +3018,7 @@ namespace Worldescape
                 pointY: pointY);
 
             // Align avatar to construct point
-            AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
 
             await _hubService.BroadcastConstruct(construct);
             Console.WriteLine("Construct cloned.");
@@ -3100,6 +3116,36 @@ namespace Worldescape
         }
 
         /// <summary>
+        /// Send broadcast message to all avatars.
+        /// </summary>
+        /// <returns></returns>
+        private async Task SendBroadcastMessage()
+        {
+            if (!CanPerformWorldEvents())
+                return;
+
+            //Check if a valid message was typed and the recepient exists in canvas
+            if (!MessagingTextBox.Text.IsNullOrBlank())
+            {
+                await _hubService.SendBroadcastMessage(MessagingTextBox.Text);
+
+                // Add message bubble to own avatar
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
+                {
+                    AddChatBubbleToCanvas(MessagingTextBox.Text, iElement); // send message
+
+                    // If activity status is not Greeting then update it
+                    if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Greeting)
+                    {
+                        await BroadcastAvatarActivityStatus(ActivityStatus.Greeting);
+                    }
+                }
+
+                MessagingTextBox.Text = string.Empty;
+            }
+        }
+
+        /// <summary>
         /// Adds a chat bubble to canvas on top of the avatar who sent it.
         /// </summary>
         /// <param name="msg"></param>
@@ -3140,10 +3186,13 @@ namespace Worldescape
             // If sent message then image on the left
             if (taggedAvatar.Id == Avatar.Id)
             {
-                var receiver = ((Button)_messageToAvatar).Tag as Avatar;
+                if (_messageToAvatar != null)
+                {
+                    var receiver = ((Button)_messageToAvatar).Tag as Avatar;
 
-                // If receiver avatar is forward from current avatar
-                AlignUsersAvatarFaceDirection(receiver.Coordinate.X);
+                    // If receiver avatar is forward from current avatar
+                    AlignAvatarFaceDirectionWrtX(receiver.Coordinate.X);
+                }
 
                 chatContent.Children.Add(userImageHolder);
                 chatContent.Children.Add(messageHolder);
