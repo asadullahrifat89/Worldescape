@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -24,7 +25,7 @@ namespace Worldescape
 
         readonly AvatarHelper _avatarHelper;
         readonly EasingFunctionBase _constructEaseOut = new ExponentialEase() { EasingMode = EasingMode.EaseOut, Exponent = 5, };
-
+        PointerPoint _pointerPoint;
         #endregion
 
         #region Ctor
@@ -395,7 +396,7 @@ namespace Worldescape
             uielement.CapturePointer(e.Pointer);
 
             _isPointerCaptured = true;
-        }
+        }     
 
         /// <summary>
         /// Drags an UIElement.

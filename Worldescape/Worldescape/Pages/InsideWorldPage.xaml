@@ -39,7 +39,9 @@
                 Height="8000"
                 AllowDrop="True"
                 Background="Transparent"
-                PointerPressed="Canvas_Root_PointerPressed">
+                PointerMoved="Canvas_Root_PointerMoved"
+                PointerPressed="Canvas_Root_PointerPressed"
+                PointerReleased="Canvas_Root_PointerReleased">
                 <Canvas.RenderTransform>
                     <ScaleTransform x:Name="Canvas_RootScaleTransform" ScaleX="1" ScaleY="1" />
                 </Canvas.RenderTransform>

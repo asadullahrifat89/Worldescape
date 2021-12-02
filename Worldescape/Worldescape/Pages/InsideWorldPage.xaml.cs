@@ -17,6 +17,7 @@ using Worldescape.Service;
 using Worldescape.Common;
 using Image = Windows.UI.Xaml.Controls.Image;
 using Windows.UI.Input;
+using System.Windows.Input;
 
 namespace Worldescape
 {
@@ -30,8 +31,9 @@ namespace Worldescape
         UIElement _addingConstruct;
         UIElement _movingConstruct;
         UIElement _cloningConstruct;
-        UIElement _selectedAvatar;
+        Image _pointerImage;
 
+        UIElement _selectedAvatar;
         UIElement _messageToAvatar;
 
         readonly IHubService _hubService;
@@ -226,25 +228,54 @@ namespace Worldescape
             }
         }
 
-        //private void Canvas_Root_PointerMoved(object sender, PointerRoutedEventArgs e)
-        //{
-        //    if (ToggleButton_PanCanvas.IsChecked.Value)
-        //    {
-        //        UIElement uielement = (UIElement)sender;
-        //        DragElement(Canvas_RootContainer, e, uielement);
-        //    }
-        //}
+        private void Canvas_Root_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (_pointerImage != null)
+            {
+                if ((bool)_pointerImage.Tag == false)
+                {
+                    Canvas_Root.Children.Add(_pointerImage);
+                    Canvas.SetZIndex(_pointerImage, 999);
+                    _pointerImage.Tag = true;
+                }
 
-        //private void Canvas_Root_PointerReleased(object sender, PointerRoutedEventArgs e)
-        //{
-        //    if (ToggleButton_PanCanvas.IsChecked.Value)
-        //    {
-        //        Canvas_RootContainer.Cursor = Cursors.Arrow;
-        //        // Drag stop
-        //        UIElement uielement = (UIElement)sender;
-        //        DragRelease(e, uielement);
-        //    }
-        //}
+                var pressedPoint = e.GetCurrentPoint(Canvas_Root);
+
+                var offsetX = _pointerImage.ActualWidth / 2;
+                var offsetY = _pointerImage.ActualHeight / 2;
+
+                var pointX = _elementHelper.NormalizePointerX(Canvas_Root, pressedPoint);
+                var pointY = _elementHelper.NormalizePointerY(Canvas_Root, pressedPoint);
+
+                var goToX = pointX - offsetX;
+                var goToY = pointY - offsetY;
+
+                Canvas.SetLeft(_pointerImage, goToX);
+                Canvas.SetTop(_pointerImage, goToY);
+            }
+
+            //    if (ToggleButton_PanCanvas.IsChecked.Value)
+            //    {
+            //        UIElement uielement = (UIElement)sender;
+            //        DragElement(Canvas_RootContainer, e, uielement);
+            //    }
+        }
+
+        private void Canvas_Root_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (_pointerImage != null)
+            {
+                Canvas_Root.Children.Remove(_pointerImage);
+                _pointerImage = null;
+            }
+            //if (ToggleButton_PanCanvas.IsChecked.Value)
+            //{
+            //    Canvas_RootContainer.Cursor = Cursors.Arrow;
+            //    // Drag stop
+            //    UIElement uielement = (UIElement)sender;
+            //    DragRelease(e, uielement);
+            //}
+        }
 
         #endregion
 
@@ -374,9 +405,7 @@ namespace Worldescape
         private async void Construct_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             if (Button_ConstructMove.IsChecked.Value)
-            {
                 return;
-            }
 
             if (Button_ConstructCraft.IsChecked.Value)
             {
@@ -2624,6 +2653,21 @@ namespace Worldescape
 
             _addingConstruct = constructBtn;
             ShowOperationalConstruct(_addingConstruct);
+
+            if (constructBtn is Button button && button.Content is Image image && image.Source is BitmapImage bitmapImage)
+            {
+                var bitmap = new BitmapImage(new Uri(bitmapImage.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
+
+                var img = new Image()
+                {
+                    Source = bitmap,
+                    Stretch = image.Stretch,
+                };
+
+                _pointerImage = img;
+                _pointerImage.Opacity = 0.5;
+                _pointerImage.Tag = false;
+            }
         }
 
         /// <summary>
