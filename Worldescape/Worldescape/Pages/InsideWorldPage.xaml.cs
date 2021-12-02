@@ -230,29 +230,7 @@ namespace Worldescape
 
         private void Canvas_Root_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_pointerImage != null)
-            {
-                if ((bool)_pointerImage.Tag == false)
-                {
-                    Canvas_Root.Children.Add(_pointerImage);
-                    Canvas.SetZIndex(_pointerImage, 999);
-                    _pointerImage.Tag = true;
-                }
-
-                var pressedPoint = e.GetCurrentPoint(Canvas_Root);
-
-                var offsetX = _pointerImage.ActualWidth / 2;
-                var offsetY = _pointerImage.ActualHeight / 2;
-
-                var pointX = _elementHelper.NormalizePointerX(Canvas_Root, pressedPoint);
-                var pointY = _elementHelper.NormalizePointerY(Canvas_Root, pressedPoint);
-
-                var goToX = pointX - offsetX;
-                var goToY = pointY - offsetY;
-
-                Canvas.SetLeft(_pointerImage, goToX);
-                Canvas.SetTop(_pointerImage, goToY);
-            }
+            MoveAssignedPointerElement(e);
 
             //    if (ToggleButton_PanCanvas.IsChecked.Value)
             //    {
@@ -263,11 +241,6 @@ namespace Worldescape
 
         private void Canvas_Root_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (_pointerImage != null)
-            {
-                Canvas_Root.Children.Remove(_pointerImage);
-                _pointerImage = null;
-            }
             //if (ToggleButton_PanCanvas.IsChecked.Value)
             //{
             //    Canvas_RootContainer.Cursor = Cursors.Arrow;
@@ -453,7 +426,7 @@ namespace Worldescape
             else
             {
                 await MoveConstruct(e);
-            }
+            }            
         }
 
         /// <summary>
@@ -470,7 +443,7 @@ namespace Worldescape
             else
             {
                 await CloneConstruct(e);
-            }
+            }            
         }
 
         /// <summary>
@@ -519,6 +492,8 @@ namespace Worldescape
 
                 // Turn off add mode
                 _addingConstruct = null;
+
+                ReleaseAssignedPointerElement();
             }
         }
 
@@ -722,12 +697,15 @@ namespace Worldescape
                 {
                     _movingConstruct = null;
                     ShowOperationalConstruct(null);
+                    ReleaseAssignedPointerElement();
                 }
                 else
                 {
                     UIElement uielement = _selectedConstruct;
                     _movingConstruct = uielement;
                     ShowOperationalConstruct(_movingConstruct);
+
+                    AssignPointerElement(uielement);
                 }
             }
         }
@@ -745,12 +723,15 @@ namespace Worldescape
                 {
                     _cloningConstruct = null;
                     ShowOperationalConstruct(null);
+                    ReleaseAssignedPointerElement();
                 }
                 else
                 {
                     UIElement uielement = _selectedConstruct;
                     _cloningConstruct = uielement;
                     ShowOperationalConstruct(_cloningConstruct);
+
+                    AssignPointerElement(uielement);
                 }
             }
         }
@@ -1827,6 +1808,60 @@ namespace Worldescape
 
         #region Element
 
+        private void AssignPointerElement(UIElement uiElement)
+        {
+            if (uiElement is Button button && button.Content is Image image && image.Source is BitmapImage bitmapImage)
+            {
+                var bitmap = new BitmapImage(new Uri(bitmapImage.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
+
+                var img = new Image()
+                {
+                    Source = bitmap,
+                    Stretch = image.Stretch,
+                };
+
+                _pointerImage = img;
+                _pointerImage.Opacity = 0.8;
+                _pointerImage.Tag = false;
+            }
+        }
+
+        private void MoveAssignedPointerElement(PointerRoutedEventArgs e)
+        {
+            if (_pointerImage != null)
+            {
+                if ((bool)_pointerImage.Tag == false)
+                {
+                    Canvas_Root.Children.Add(_pointerImage);
+                    Canvas.SetZIndex(_pointerImage, 999);
+                    _pointerImage.Tag = true;
+                }
+
+                var pressedPoint = e.GetCurrentPoint(Canvas_Root);
+
+                var offsetX = _pointerImage.ActualWidth / 2;
+                var offsetY = _pointerImage.ActualHeight / 2;
+
+                var pointX = _elementHelper.NormalizePointerX(Canvas_Root, pressedPoint);
+                var pointY = _elementHelper.NormalizePointerY(Canvas_Root, pressedPoint);
+
+                var goToX = pointX - offsetX;
+                var goToY = pointY - offsetY;
+
+                Canvas.SetLeft(_pointerImage, goToX);
+                Canvas.SetTop(_pointerImage, goToY);
+            }
+        }
+
+        private void ReleaseAssignedPointerElement()
+        {
+            if (_pointerImage != null)
+            {
+                Canvas_Root.Children.Remove(_pointerImage);
+                _pointerImage = null;
+            }
+        }
+
         /// <summary>
         /// Starts dragging an UIElement.
         /// </summary>
@@ -2654,20 +2689,7 @@ namespace Worldescape
             _addingConstruct = constructBtn;
             ShowOperationalConstruct(_addingConstruct);
 
-            if (constructBtn is Button button && button.Content is Image image && image.Source is BitmapImage bitmapImage)
-            {
-                var bitmap = new BitmapImage(new Uri(bitmapImage.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
-
-                var img = new Image()
-                {
-                    Source = bitmap,
-                    Stretch = image.Stretch,
-                };
-
-                _pointerImage = img;
-                _pointerImage.Opacity = 0.5;
-                _pointerImage.Tag = false;
-            }
+            AssignPointerElement(constructBtn);
         }
 
         /// <summary>
