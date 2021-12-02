@@ -1987,8 +1987,6 @@ namespace Worldescape
         {
             try
             {
-                Console.WriteLine("Button_Connect_Click");
-
                 if (Character.IsEmpty())
                 {
                     Characters = Characters.Any() ? Characters : JsonSerializer.Deserialize<Character[]>(Service.Properties.Resources.CharacterAssets).ToList();

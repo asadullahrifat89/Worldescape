@@ -60,14 +60,14 @@
                 Orientation="Horizontal">
 
                 <!--  Connect  -->
-                <Button
+                <!--<Button
                     x:Name="Button_Connect"
                     MinWidth="110"
                     Margin="10"
                     Click="Button_Connect_Click"
                     Content="Connect"
                     FontSize="20"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />-->
 
                 <!--  World  -->
                 <Button
