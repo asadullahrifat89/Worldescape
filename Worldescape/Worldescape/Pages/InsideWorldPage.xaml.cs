@@ -26,6 +26,7 @@ namespace Worldescape
         #region Fields
 
         bool _isLoggedIn;
+        float zoomFactor = 0.15f;
 
         UIElement _selectedConstruct;
         UIElement _addingConstruct;
@@ -559,14 +560,14 @@ namespace Worldescape
 
         private void Button_ZoomInCanvas_Click(object sender, RoutedEventArgs e)
         {
-            Canvas_RootScaleTransform.ScaleX += 0.25;
-            Canvas_RootScaleTransform.ScaleY += 0.25;
+            Canvas_RootScaleTransform.ScaleX += zoomFactor;
+            Canvas_RootScaleTransform.ScaleY += zoomFactor;
         }
 
         private void Button_ZoomOutCanvas_Click(object sender, RoutedEventArgs e)
         {
-            Canvas_RootScaleTransform.ScaleX -= 0.25;
-            Canvas_RootScaleTransform.ScaleY -= 0.25;
+            Canvas_RootScaleTransform.ScaleX -= zoomFactor;
+            Canvas_RootScaleTransform.ScaleY -= zoomFactor;
         }
 
         #endregion

@@ -22,7 +22,7 @@
             VerticalAlignment="Center"
             FontSize="16"
             PlaceholderText="Name of your world"
-            Style="{StaticResource MaterialDesign_TextBox_Style}" />
+            Style="{StaticResource MaterialDesign_RoundTextBox_Style}" />
 
         <StackPanel
             Grid.Row="1"

@@ -102,11 +102,13 @@
                 <!--  Leave  -->
                 <Button
                     x:Name="Button_Leave"
-                    MinWidth="110"
+                    Width="70"
                     Margin="10"
                     Click="Button_Leave_Click"
-                    Content="Leave"
+                    Content="&#xe89b;"
+                    FontFamily="Segoe Fluent Icons"
                     FontSize="20"
+                    FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
 
@@ -325,7 +327,7 @@
                                         Width="70"
                                         Margin="0,10"
                                         Click="Button_MessageAvatar_Click"
-                                        Content="&#xE8F2;"
+                                        Content="&#xe8f2;"
                                         FontFamily="Segoe Fluent Icons"
                                         FontWeight="Normal"
                                         Style="{StaticResource MaterialDesign_RoundButton_Style}" />
@@ -388,7 +390,6 @@
                         <ContentControl
                             x:Name="SideCard"
                             Margin="10"
-                            Padding="5"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
                             HorizontalContentAlignment="Stretch"
@@ -396,17 +397,13 @@
                             Style="{StaticResource MaterialDesign_Card_Style}"
                             Visibility="Collapsed">
 
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
+                            <Grid
+                                Margin="5"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
 
                                 <Button
                                     x:Name="Button_CloseSideCard"
-                                    Grid.Row="0"
-                                    Margin="0"
                                     Padding="0"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Top"
@@ -420,7 +417,7 @@
                                     Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
                                     Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}" />
 
-                                <StackPanel Grid.Row="1" MinWidth="180">
+                                <StackPanel MinWidth="180">
 
                                     <!--  Selected avatar or constructs image holder  -->
                                     <ContentControl
