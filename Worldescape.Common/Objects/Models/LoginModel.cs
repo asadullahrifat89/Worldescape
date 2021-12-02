@@ -10,10 +10,6 @@ namespace Worldescape.Common
             get { return _Email; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new Exception("Email cannot be empty.");
-                }
                 _Email = value;
                 RaisePropertyChanged("Email");
             }
@@ -25,10 +21,6 @@ namespace Worldescape.Common
             get { return _Password; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new Exception("Password cannot be empty.");
-                }
                 _Password = value;
                 RaisePropertyChanged("Password");
             }

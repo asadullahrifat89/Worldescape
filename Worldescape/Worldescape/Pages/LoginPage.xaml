@@ -52,11 +52,10 @@
                     <TextBox
                         x:Name="TextBox_Email"
                         Margin="10,5,10,10"
-                        BindingValidationError="Control_BindingValidationError"
                         FontSize="16"
                         LostFocus="Control_LostFocus"
                         Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
-                        Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                        Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         TextAlignment="Left" />
 
                     <TextBlock
@@ -68,11 +67,10 @@
                     <PasswordBox
                         x:Name="PasswordBox_Pasword"
                         Margin="10,5,10,10"
-                        BindingValidationError="Control_BindingValidationError"
                         FontSize="16"
                         KeyDown="PasswordBox_Pasword_KeyDown"
                         LostFocus="Control_LostFocus"
-                        Password="{Binding Password, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                        Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Style="{StaticResource MaterialDesign_RoundPasswordBox_Style}" />
 
                     <!--  Login  -->

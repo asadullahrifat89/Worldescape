@@ -101,12 +101,11 @@
                                 x:Name="TextBox_FirstName"
                                 Width="200"
                                 Margin="10,5,10,10"
-                                BindingValidationError="Control_BindingValidationError"
                                 FontSize="16"
                                 LostFocus="Control_LostFocus"
                                 PlaceholderText="Jhon"
                                 Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
-                                Text="{Binding FirstName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                                Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 TextAlignment="Left" />
 
                         </StackPanel>
@@ -123,12 +122,11 @@
                                 x:Name="TextBox_LastName"
                                 Width="200"
                                 Margin="10,5,10,10"
-                                BindingValidationError="Control_BindingValidationError"
                                 FontSize="16"
                                 LostFocus="Control_LostFocus"
                                 PlaceholderText="Doe"
                                 Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
-                                Text="{Binding LastName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                                Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 TextAlignment="Left" />
 
                         </StackPanel>
@@ -144,12 +142,11 @@
                     <TextBox
                         x:Name="TextBox_Email"
                         Margin="10,5,10,10"
-                        BindingValidationError="Control_BindingValidationError"
                         FontSize="16"
                         LostFocus="Control_LostFocus"
                         PlaceholderText="username@usermail.com"
                         Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
-                        Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                        Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         TextAlignment="Left" />
 
                     <TextBlock
@@ -161,10 +158,9 @@
                     <PasswordBox
                         x:Name="PasswordBox_Pasword"
                         Margin="10,5,10,10"
-                        BindingValidationError="Control_BindingValidationError"
                         FontSize="16"
                         LostFocus="Control_LostFocus"
-                        Password="{Binding Password, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                        Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Style="{StaticResource MaterialDesign_RoundPasswordBox_Style}" />
 
                     <TextBlock
@@ -176,10 +172,9 @@
                     <DatePicker
                         x:Name="DatePicker_DateOfBirth"
                         Margin="10,5,10,10"
-                        BindingValidationError="Control_BindingValidationError"
                         FontSize="16"
                         LostFocus="Control_LostFocus"
-                        SelectedDate="{Binding DateOfBirth, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnLoad=True}"
+                        SelectedDate="{Binding DateOfBirth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Style="{StaticResource MaterialDesign_RoundDatePicker_Style}" />
 
                     <TextBlock

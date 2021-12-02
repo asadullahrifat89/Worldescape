@@ -10,10 +10,6 @@ namespace Worldescape.Common
             get { return _FirstName; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new Exception("FirstName cannot be empty.");
-                }
                 _FirstName = value;
                 RaisePropertyChanged("FirstName");
             }
@@ -25,10 +21,6 @@ namespace Worldescape.Common
             get { return _LastName; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new Exception("LastName cannot be empty.");
-                }
                 _LastName = value;
                 RaisePropertyChanged("LastName");
             }
@@ -40,10 +32,6 @@ namespace Worldescape.Common
             get { return _Email; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new Exception("Email cannot be empty.");
-                }
                 _Email = value;
                 RaisePropertyChanged("Email");
             }
@@ -55,10 +43,6 @@ namespace Worldescape.Common
             get { return _Password; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new Exception("Password cannot be empty.");
-                }
                 _Password = value;
                 RaisePropertyChanged("Password");
             }
@@ -70,10 +54,6 @@ namespace Worldescape.Common
             get { return _DateOfBirth; }
             set
             {
-                if (value == null || DateTime.MinValue == value)
-                {
-                    throw new Exception("DateOfBirth cannot be empty or invalid.");
-                }
                 _DateOfBirth = value;
                 RaisePropertyChanged("DateOfBirth");
             }
