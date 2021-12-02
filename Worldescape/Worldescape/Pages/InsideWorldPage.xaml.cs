@@ -483,6 +483,9 @@ namespace Worldescape
             // reply to the selected message and show Messaging controls
             if (((Button)sender).Tag is Avatar avatar)
             {
+                // Turn of broadcast mode as replying to this user's conversation.
+                Button_MessageAll.IsChecked = false;
+
                 _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(canvas: Canvas_Root, avatarId: avatar.Id);
                 _selectedAvatar = _messageToAvatar;
 
@@ -982,10 +985,13 @@ namespace Worldescape
             if (!CanPerformWorldEvents())
                 return;
 
+            // Turn off broadcast mode
+            Button_MessageAll.IsChecked = false;
+
             if (_selectedAvatar == null)
                 return;
 
-            // show messenge from and to avatars and show Messaging controls
+            // Show messenge from and to avatars and show Messaging controls
             if (((Button)_selectedAvatar).Tag is Avatar avatar)
             {
                 _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(canvas: Canvas_Root, avatarId: avatar.Id);
@@ -1035,6 +1041,11 @@ namespace Worldescape
             await SendUnicastMessage();
         }
 
+        /// <summary>
+        ///  Sends broadcast message to all avatars.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Button_SendBroadcastMessage_Click(object sender, RoutedEventArgs e)
         {
             await SendBroadcastMessage();
@@ -1507,10 +1518,10 @@ namespace Worldescape
                     switch (mt)
                     {
                         case MessageType.Broadcast:
-                            AddChatBubbleToCanvas(msg, senderAvatarUiElement); // receive broadcast message
+                            AddChatBubbleToCanvas(msg: msg, avatar: senderAvatarUiElement, messageType: mt); // receive broadcast message
                             break;
                         case MessageType.Unicast:
-                            AddChatBubbleToCanvas(msg, senderAvatarUiElement); // receive unicast message
+                            AddChatBubbleToCanvas(msg: msg, avatar: senderAvatarUiElement, messageType: mt); // receive unicast message
                             break;
                         default:
                             break;
@@ -2143,7 +2154,7 @@ namespace Worldescape
                     var activeAvatarButton = new Button()
                     {
                         Tag = avatar,
-                        Style = App.Current.TryFindResource("MaterialDesign_Button_Style_NoDropShadow") as Style,
+                        Style = Application.Current.TryFindResource("MaterialDesign_Button_Style_NoDropShadow") as Style,
                         Margin = new Thickness(5),
                         HorizontalContentAlignment = HorizontalAlignment.Left,
                         VerticalAlignment = VerticalAlignment.Center,
@@ -3103,7 +3114,7 @@ namespace Worldescape
                 // Add message bubble to own avatar
                 if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
                 {
-                    AddChatBubbleToCanvas(MessagingTextBox.Text, iElement); // send message
+                    AddChatBubbleToCanvas(msg: MessagingTextBox.Text, avatar: iElement, messageType: MessageType.Unicast); // send message
 
                     // If activity status is not Messaging then update it
                     if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Messaging)
@@ -3133,7 +3144,7 @@ namespace Worldescape
                 // Add message bubble to own avatar
                 if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
                 {
-                    AddChatBubbleToCanvas(msg: MessagingTextBox.Text, avatar: iElement); // send message
+                    AddChatBubbleToCanvas(msg: MessagingTextBox.Text, avatar: iElement, messageType: MessageType.Broadcast); // send message
 
                     // If activity status is not Greeting then update it
                     if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Greeting)
@@ -3151,12 +3162,12 @@ namespace Worldescape
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="avatar"></param>
-        private void AddChatBubbleToCanvas(string msg, UIElement avatar)
+        private void AddChatBubbleToCanvas(string msg, UIElement avatar, MessageType messageType)
         {
             var avatarButton = avatar as Button;
             var taggedAvatar = avatarButton.Tag as Avatar;
 
-            Button chatBubble = new Button()
+            Button btnChatBubble = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
                 FontWeight = FontWeights.Regular,
@@ -3168,12 +3179,10 @@ namespace Worldescape
             var x = taggedAvatar.Coordinate.X - (avatarButton.ActualWidth / 2);
             var y = taggedAvatar.Coordinate.Y - (avatarButton.ActualHeight / 2);
 
-            // Prepare content            
-            StackPanel chatContent = new StackPanel() { Orientation = Orientation.Horizontal };
-            Border userImageHolder = GetAvatarUserPicture(taggedAvatar);
+            TextBlock tbMsg = null;
 
             // Textblock containing the message
-            var messageHolder = new TextBlock()
+            tbMsg = new TextBlock()
             {
                 Text = msg,
                 Margin = new Thickness(5, 0, 5, 0),
@@ -3184,19 +3193,23 @@ namespace Worldescape
                 VerticalAlignment = VerticalAlignment.Center,
             };
 
+            StackPanel spUserImageAndMessage = new StackPanel() { Orientation = Orientation.Horizontal };
+            Border brUserImage = GetAvatarUserPicture(taggedAvatar);
+            brUserImage.VerticalAlignment = VerticalAlignment.Top;
+
             // If sent message then image on the left
             if (taggedAvatar.Id == Avatar.Id)
             {
                 if (_messageToAvatar != null)
                 {
                     var receiver = ((Button)_messageToAvatar).Tag as Avatar;
-
-                    // If receiver avatar is forward from current avatar
                     AlignAvatarFaceDirectionWrtX(receiver.Coordinate.X);
                 }
 
-                chatContent.Children.Add(userImageHolder);
-                chatContent.Children.Add(messageHolder);
+                spUserImageAndMessage.Children.Add(brUserImage);
+                // Add icon of message type
+                AddMessageTypeIconText(messageType, spUserImageAndMessage);
+                spUserImageAndMessage.Children.Add(tbMsg);
             }
             else // If received message then image on the right
             {
@@ -3208,53 +3221,51 @@ namespace Worldescape
 
                 // If sender avatar is forward from current avatar
                 if (sender.Coordinate.X > receiver.Coordinate.X)
-                {
                     senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
-                }
                 else
-                {
                     senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
-                }
 
-                chatBubble.Tag = taggedAvatar;
-                chatBubble.PointerPressed += ChatBubble_PointerPressed;
+                btnChatBubble.Tag = taggedAvatar;
+                btnChatBubble.PointerPressed += ChatBubble_PointerPressed;
 
-                chatContent.Children.Add(messageHolder);
-                chatContent.Children.Add(userImageHolder);
+                spUserImageAndMessage.Children.Add(tbMsg);
+                // Add icon of message type
+                AddMessageTypeIconText(messageType, spUserImageAndMessage);
+                spUserImageAndMessage.Children.Add(brUserImage);
             }
 
-            chatBubble.Content = chatContent;
+            btnChatBubble.Content = spUserImageAndMessage;
 
             // Set opacity animation according to the length of the message
             DoubleAnimation opacityAnimation = new DoubleAnimation()
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromSeconds(msg.Length * 2),
+                Duration = TimeSpan.FromMinutes(2)//TimeSpan.FromSeconds(msg.Length * 2).Add(TimeSpan.FromMilliseconds(300)),
             };
 
             DoubleAnimation moveYAnimation = new DoubleAnimation()
             {
                 From = y,
-                To = y - 300,
+                To = y - 400,
                 Duration = TimeSpan.FromSeconds(100),
                 EasingFunction = new ExponentialEase()
                 {
                     EasingMode = EasingMode.EaseOut,
-                    Exponent = 10,
+                    Exponent = 5,
                 }
             };
 
             // after opacity reaches zero delete this from canvas
             opacityAnimation.Completed += (s, e) =>
             {
-                Canvas_Root.Children.Remove(chatBubble);
+                Canvas_Root.Children.Remove(btnChatBubble);
             };
 
-            Storyboard.SetTarget(opacityAnimation, chatBubble);
+            Storyboard.SetTarget(opacityAnimation, btnChatBubble);
             Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(OpacityProperty));
 
-            Storyboard.SetTarget(moveYAnimation, chatBubble);
+            Storyboard.SetTarget(moveYAnimation, btnChatBubble);
             Storyboard.SetTargetProperty(moveYAnimation, new PropertyPath(Canvas.TopProperty));
 
             Storyboard fadeStoryBoard = new Storyboard();
@@ -3262,16 +3273,52 @@ namespace Worldescape
             fadeStoryBoard.Children.Add(moveYAnimation);
 
             // Add to canvas
-            Canvas.SetLeft(chatBubble, x);
-            Canvas.SetTop(chatBubble, y);
-            Canvas.SetZIndex(chatBubble, 999);
+            Canvas.SetLeft(btnChatBubble, x);
+            Canvas.SetTop(btnChatBubble, y);
+            Canvas.SetZIndex(btnChatBubble, 999);
 
             // Add a shadow effect to the chat bubble
-            chatBubble.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
+            btnChatBubble.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
 
-            Canvas_Root.Children.Add(chatBubble);
+            Canvas_Root.Children.Add(btnChatBubble);
 
             fadeStoryBoard.Begin();
+        }
+
+        /// <summary>
+        /// Add an icon to the message content according to message type.
+        /// </summary>
+        /// <param name="messageType"></param>
+        /// <param name="spUserImageAndMessage"></param>
+        private void AddMessageTypeIconText(MessageType messageType, StackPanel spUserImageAndMessage)
+        {
+            var tbIconText = new TextBlock()
+            {
+                Margin = new Thickness(5, 12, 5, 0),
+                FontWeight = FontWeights.Regular,
+                FontFamily = new FontFamily("Segoe MDL2 Assets"),
+                TextWrapping = TextWrapping.Wrap,
+                Foreground = new SolidColorBrush(Colors.Black),
+                VerticalAlignment = VerticalAlignment.Top,
+            };
+
+            switch (messageType)
+            {
+                case MessageType.Broadcast:
+                    {
+                        tbIconText.Text = "\uE789";
+                    }
+                    break;
+                case MessageType.Unicast:
+                    {
+                        tbIconText.Text = "\uE8F2";
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            spUserImageAndMessage.Children.Add(tbIconText);
         }
 
         #endregion
