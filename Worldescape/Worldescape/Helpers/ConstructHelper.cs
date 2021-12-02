@@ -98,14 +98,12 @@ namespace Worldescape
                 // If Z index is not proved then assign max Z index to this construct button
                 if (canvas.Children != null && canvas.Children.Any())
                 {
-                    if (canvas.Children.Any(x => x is Button button && button.Tag is Construct))
-                    {
-                        var lastConstruct = canvas.Children.OfType<Button>().Where(x => x.Tag is Construct c).LastOrDefault().Tag as Construct;
+                    var children = canvas.Children.OfType<Button>();
 
-                        if (lastConstruct != null)
-                        {
-                            indexZ = lastConstruct.Coordinate.Z + 1;
-                        }
+                    if (children != null && children.Any(x => x.Tag is Construct))
+                    {                        
+                        var maxZ = children.Where(x => x.Tag is Construct).Select(z => (Construct)z.Tag).Max(x => x.Coordinate.Z);
+                        indexZ = maxZ + 1;
                     }
                 }
             }
