@@ -205,7 +205,7 @@ namespace Worldescape
             Canvas canvas)
         {
             var offsetX = constructButton.ActualWidth / 2;
-            var offsetY = constructButton.ActualHeight / 2;
+            var offsetY = constructButton.ActualHeight /*/ 2*/;
 
             var pointX = _elementHelper.NormalizePointerX(canvas, pressedPoint);
             var pointY = _elementHelper.NormalizePointerY(canvas, pressedPoint);

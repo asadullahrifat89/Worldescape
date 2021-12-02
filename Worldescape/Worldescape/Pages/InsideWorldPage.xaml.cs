@@ -426,7 +426,7 @@ namespace Worldescape
             else
             {
                 await MoveConstruct(e);
-            }            
+            }
         }
 
         /// <summary>
@@ -443,7 +443,7 @@ namespace Worldescape
             else
             {
                 await CloneConstruct(e);
-            }            
+            }
         }
 
         /// <summary>
@@ -1840,7 +1840,7 @@ namespace Worldescape
                 var pressedPoint = e.GetCurrentPoint(Canvas_Root);
 
                 var offsetX = _pointerImage.ActualWidth / 2;
-                var offsetY = _pointerImage.ActualHeight / 2;
+                var offsetY = _pointerImage.ActualHeight /*/ 2*/+ 2;
 
                 var pointX = _elementHelper.NormalizePointerX(Canvas_Root, pressedPoint);
                 var pointY = _elementHelper.NormalizePointerY(Canvas_Root, pressedPoint);
@@ -2989,7 +2989,7 @@ namespace Worldescape
                 _movingConstruct = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == element.Id);
 
                 double goToX = pointX - ((Button)_movingConstruct).ActualWidth / 2;
-                double goToY = pointY - ((Button)_movingConstruct).ActualHeight / 2;
+                double goToY = pointY - ((Button)_movingConstruct).ActualHeight /*/ 2*/;
 
                 goToX += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item2;
                 goToY += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item3;
@@ -3077,7 +3077,7 @@ namespace Worldescape
                 _cloningConstruct = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == element.Id);
 
                 double goToX = pointX - ((Button)_cloningConstruct).ActualWidth / 2;
-                double goToY = pointY - ((Button)_cloningConstruct).ActualHeight / 2;
+                double goToY = pointY - ((Button)_cloningConstruct).ActualHeight /*/ 2*/;
 
                 goToX += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item2;
                 goToY += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item3;
