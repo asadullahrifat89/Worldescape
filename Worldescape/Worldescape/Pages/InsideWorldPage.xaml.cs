@@ -114,6 +114,29 @@ namespace Worldescape
         {
             Grid_Root.Visibility = Visibility.Collapsed;
 
+            Button_ConstructMove.IsChecked = false;
+
+            Button_ConstructClone.IsChecked = false;
+
+            Button_ConstructAdd.IsChecked = false;
+
+            Button_ConstructCraft.IsChecked = false;
+
+            HideConstructAssetsControl();
+
+            Button_ConstructMultiSelect.IsChecked = false;
+
+            Button_ConstructAdd.Visibility = Visibility.Collapsed;
+            Button_ConstructMultiSelect.Visibility = Visibility.Collapsed;
+
+            HideConstructOperationButtons();
+
+            _movingConstruct = null;
+            _cloningConstruct = null;
+            _addingConstruct = null;
+
+            ShowOperationalConstruct(null);
+
             var buttons = Canvas_Root.Children.OfType<Button>()?.ToList();
 
             if (buttons != null && buttons.Any())
