@@ -6,6 +6,7 @@
     xmlns:local="using:Worldescape"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     FontFamily="Segoe UI"
+    Loaded="Page_Loaded"
     mc:Ignorable="d">
 
     <ScrollViewer

@@ -47,12 +47,16 @@ namespace Worldescape
         #endregion
 
         #region Ctor
-        public ConstructAssetPickerControl()
+        public ConstructAssetPickerControl(
+            UrlHelper urlHelper,
+            PaginationHelper paginationHelper)
         {
             InitializeComponent();
+            _urlHelper = urlHelper;
+            _paginationHelper = paginationHelper;
 
-            _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
-            _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
+            //_urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
+            //_paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
 
             ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Service.Properties.Resources.ConstructAssets).ToList();
 

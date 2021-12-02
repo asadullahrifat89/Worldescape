@@ -30,16 +30,25 @@ namespace Worldescape
 
         #region Ctor
 
-        public WorldsPage()
+        public WorldsPage(
+            HttpServiceHelper httpServiceHelper,            
+            WorldHelper worldHelper,
+            PaginationHelper paginationHelper,
+            MainPage mainPage)
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
-            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-            _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
-            _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
+            _httpServiceHelper = httpServiceHelper;
+            _worldHelper = worldHelper;            
+            _paginationHelper = paginationHelper;
+            _mainPage = mainPage;
 
             SearchWorlds();
+
+            //_httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
+            //_mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+            //_worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
+            //_paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;           
         }
 
         #endregion
@@ -164,6 +173,15 @@ namespace Worldescape
         {
             _pageNumbers = _paginationHelper.PopulatePageNumbers(_totalPageCount, pageIndex ?? _pageIndex, _pageNumbers);
             PagesHolder.ItemsSource = _pageNumbers;
+        }
+
+        #endregion
+
+        #region Page Events
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+
         }
 
         #endregion

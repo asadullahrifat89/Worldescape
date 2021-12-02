@@ -18,13 +18,20 @@ namespace Worldescape
 
         #region Ctor
 
-        public SignupPage()
+        public SignupPage(
+            HttpServiceHelper httpServiceHelper, 
+            MainPage mainPage)
         {
             InitializeComponent();
+            
+            _httpServiceHelper = httpServiceHelper;
+            _mainPage = mainPage;
+            
             SignUpModelHolder.DataContext = SignUpModel;
-            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
-            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-            CheckIfModelValid();
+
+            //_httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
+            //_mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+            
         }
 
         #endregion
@@ -94,6 +101,15 @@ namespace Worldescape
 
         #endregion
 
+        #region Page Events
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
+        #endregion
+
         #region UX Events
 
         private void Control_BindingValidationError(object sender, ValidationErrorEventArgs e)
@@ -121,10 +137,10 @@ namespace Worldescape
         private void Button_Login_Click(object sender, RoutedEventArgs e)
         {
             NavigateToLoginPage();
-        } 
+        }
 
         #endregion
 
-        #endregion
+        #endregion        
     }
 }

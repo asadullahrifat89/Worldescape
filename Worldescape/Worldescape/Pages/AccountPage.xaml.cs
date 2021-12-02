@@ -20,18 +20,25 @@ namespace Worldescape
 
         #region Ctor
 
-        public AccountPage()
+        public AccountPage(
+            HttpServiceHelper httpServiceHelper,            
+            ImageHelper imageHelper,
+            UrlHelper urlHelper,
+            MainPage mainPage)
         {
             InitializeComponent();
+            
+            _httpServiceHelper = httpServiceHelper;
+            _imageHelper = imageHelper;
+            _urlHelper = urlHelper;
+            _mainPage = mainPage;
+
             AccountModelHolder.DataContext = AccountModel;
 
-            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
-            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-            _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
-            _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
-
-            LoadUserDetails();
-            CheckIfModelValid();
+            //_httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
+            //_mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+            //_imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
+            //_urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;           
         }
 
         private void LoadUserDetails()
@@ -139,6 +146,16 @@ namespace Worldescape
 
         #endregion
 
+        #region Page Events
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadUserDetails();
+            CheckIfModelValid();
+        }
+
+        #endregion
+
         #region UX Events
 
         private void Control_BindingValidationError(object sender, ValidationErrorEventArgs e)
@@ -165,12 +182,7 @@ namespace Worldescape
 
             imagePickerWindow.Show();
         }
-
-        /// <summary>
-        /// Remove the existing image url for user.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+                
         private void Button_RemoveImageUrl_Click(object sender, RoutedEventArgs e)
         {
             string defaultImageUrl = null;
@@ -216,8 +228,8 @@ namespace Worldescape
             }
         }
 
-        #endregion
+        #endregion        
 
-        #endregion      
+        #endregion
     }
 }

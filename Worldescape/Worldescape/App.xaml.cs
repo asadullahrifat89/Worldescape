@@ -69,13 +69,14 @@ namespace Worldescape
 
             // Pages
             services.AddSingleton<MainPage>();
+
+            services.AddSingleton<WorldsPage>();
             services.AddSingleton<InsideWorldPage>();
 
-            //services.AddSingleton<AccountPage>();
+            services.AddSingleton<LoginPage>();
+            services.AddSingleton<SignupPage>();
 
-            //services.AddSingleton<LoginPage>();
-            //services.AddSingleton<SignupPage>();
-            //services.AddSingleton<WorldsPage>();
+            services.AddSingleton<AccountPage>();            
 
             // Controls
             services.AddSingleton<ConstructAssetPickerControl>();

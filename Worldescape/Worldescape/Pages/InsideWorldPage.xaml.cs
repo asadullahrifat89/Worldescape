@@ -50,25 +50,25 @@ namespace Worldescape
         #region Ctor
         public InsideWorldPage(
             IHubService hubService,
-            MainPage mainPage,
             AvatarHelper avatarHelper,
             WorldHelper worldHelper,
             ConstructHelper constructHelper,
             HttpServiceHelper httpServiceHelper,
             PaginationHelper paginationHelper,
             ElementHelper elementHelper,
+            MainPage mainPage,
             ConstructAssetPickerControl constructAssetPickerControl)
         {
             InitializeComponent();
 
-            _hubService = hubService;
-            _mainPage = mainPage;
+            _hubService = hubService;            
             _avatarHelper = avatarHelper;
             _worldHelper = worldHelper;
             _constructHelper = constructHelper;
             _httpServiceHelper = httpServiceHelper;
             _paginationHelper = paginationHelper;
             _elementHelper = elementHelper;
+            _mainPage = mainPage;
             _constructAssetPickerControl = constructAssetPickerControl;
 
             //HubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
@@ -116,14 +116,14 @@ namespace Worldescape
 
             var buttons = Canvas_Root.Children.OfType<Button>()?.ToList();
 
-            if (buttons!= null && buttons.Any())
+            if (buttons != null && buttons.Any())
             {
                 foreach (var button in buttons)
                 {
                     Canvas_Root.Children.Remove(button);
-                } 
+                }
             }
-            
+
             SelectCharacterAndConnect();
         }
 
@@ -1731,12 +1731,12 @@ namespace Worldescape
 
                 await _hubService.Logout();
 
-                if (_hubService.IsConnected())
-                {
-                    await _hubService.DisconnectAsync();
-                }
-
                 App.World = new World();
+
+                if (_hubService.IsConnected())
+                {                    
+                    await _hubService.DisconnectAsync();
+                }               
 
                 _mainPage.SetIsBusy(false);
             }
