@@ -24,15 +24,15 @@ namespace Worldescape
             )
         {
             InitializeComponent();
-            
+
             //_httpServiceHelper = httpServiceHelper;
             //_mainPage = mainPage;
-            
+
             SignUpModelHolder.DataContext = SignUpModel;
 
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-            
+
         }
 
         #endregion
@@ -49,12 +49,13 @@ namespace Worldescape
 
         private bool CheckIfModelValid()
         {
+            //SignUpModel.Password = PasswordBox_Pasword.Password;
+
             if (!SignUpModel.FirstName.IsNullOrBlank()
                 && !SignUpModel.LastName.IsNullOrBlank()
                 && !SignUpModel.Email.IsNullOrBlank()
-                && !SignUpModel.Password.IsNullOrBlank()
-                && SignUpModel.DateOfBirth != null
-                && SignUpModel.DateOfBirth != DateTime.MinValue
+                && !SignUpModel.Password.IsNullOrBlank() && SignUpModel.Password.Length <= 12
+                && SignUpModel.DateOfBirth != null && SignUpModel.DateOfBirth != DateTime.MinValue
                 && (RadioButton_Male.IsChecked.GetValueOrDefault() || RadioButton_Female.IsChecked.GetValueOrDefault() || RadioButton_Other.IsChecked.GetValueOrDefault()))
                 Button_Signup.IsEnabled = true;
             else
@@ -90,7 +91,7 @@ namespace Worldescape
             {
                 var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
                 contentDialogue.Show();
-                
+
                 _mainPage.SetIsBusy(false);
             }
             else
@@ -126,14 +127,14 @@ namespace Worldescape
         #endregion
 
         #region Button Events
-        
+
         private async void Button_Signup_Click(object sender, RoutedEventArgs e)
         {
             if (!CheckIfModelValid())
                 return;
 
             await SignUp();
-        }        
+        }
 
         private void Button_Login_Click(object sender, RoutedEventArgs e)
         {
@@ -142,6 +143,6 @@ namespace Worldescape
 
         #endregion
 
-        #endregion        
+        #endregion       
     }
 }

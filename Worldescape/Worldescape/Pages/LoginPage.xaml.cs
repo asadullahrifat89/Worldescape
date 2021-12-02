@@ -23,7 +23,7 @@ namespace Worldescape
             )
         {
             InitializeComponent();
-                        
+
             //_httpServiceHelper = httpServiceHelper;
             //_mainPage = mainPage;
 
@@ -31,7 +31,7 @@ namespace Worldescape
 
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-          
+
         }
 
         #endregion
@@ -48,7 +48,7 @@ namespace Worldescape
 
         private bool CheckIfModelValid()
         {
-            if (!LoginModel.Email.IsNullOrBlank() && !LoginModel.Password.IsNullOrBlank())
+            if (!LoginModel.Email.IsNullOrBlank() && !LoginModel.Password.IsNullOrBlank() && LoginModel.Password.Length <= 12)
                 Button_Login.IsEnabled = true;
             else
                 Button_Login.IsEnabled = false;
@@ -147,8 +147,6 @@ namespace Worldescape
 
         private async void PasswordBox_Pasword_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            CheckIfModelValid();
-
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 await Login();
@@ -157,6 +155,6 @@ namespace Worldescape
 
         #endregion
 
-        #endregion        
+        #endregion       
     }
 }

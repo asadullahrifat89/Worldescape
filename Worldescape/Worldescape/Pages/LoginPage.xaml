@@ -70,6 +70,7 @@
                         FontSize="16"
                         KeyDown="PasswordBox_Pasword_KeyDown"
                         LostFocus="Control_LostFocus"
+                        MaxLength="12"
                         Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Style="{StaticResource MaterialDesign_RoundPasswordBox_Style}" />
 

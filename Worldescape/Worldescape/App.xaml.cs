@@ -83,14 +83,8 @@ namespace Worldescape
 
         private void App_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-
-#if DEBUG
-            MessageBox.Show(e.ExceptionObject.ToString());
-            e.Handled = true;
-#else
             Console.WriteLine(e.ExceptionObject.Message);            
             e.Handled = true;
-#endif
         }
 
         #endregion

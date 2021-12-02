@@ -28,7 +28,7 @@ namespace Worldescape
             )
         {
             InitializeComponent();
-            
+
             //_httpServiceHelper = httpServiceHelper;
             //_imageHelper = imageHelper;
             //_urlHelper = urlHelper;
@@ -36,7 +36,7 @@ namespace Worldescape
 
             AccountModelHolder.DataContext = AccountModel;
 
-            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;            
+            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
             _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
@@ -50,6 +50,7 @@ namespace Worldescape
             AccountModel.FirstName = App.User.FirstName;
             AccountModel.LastName = App.User.LastName;
             AccountModel.Password = App.User.Password;
+            //PasswordBox_Pasword.Password = AccountModel.Password;
 
             switch (App.User.Gender)
             {
@@ -85,12 +86,13 @@ namespace Worldescape
 
         private bool CheckIfModelValid()
         {
+            //AccountModel.Password = PasswordBox_Pasword.Password;
+
             if (!AccountModel.FirstName.IsNullOrBlank()
                 && !AccountModel.LastName.IsNullOrBlank()
                 && !AccountModel.Email.IsNullOrBlank()
-                && !AccountModel.Password.IsNullOrBlank()
-                && AccountModel.DateOfBirth != null
-                && AccountModel.DateOfBirth != DateTime.MinValue
+                && !AccountModel.Password.IsNullOrBlank() && AccountModel.Password.Length <= 12
+                && AccountModel.DateOfBirth != null && AccountModel.DateOfBirth != DateTime.MinValue
                 && (RadioButton_Male.IsChecked.GetValueOrDefault() || RadioButton_Female.IsChecked.GetValueOrDefault() || RadioButton_Other.IsChecked.GetValueOrDefault()))
                 Button_UpdateAccount.IsEnabled = true;
             else
@@ -183,7 +185,7 @@ namespace Worldescape
 
             imagePickerWindow.Show();
         }
-                
+
         private void Button_RemoveImageUrl_Click(object sender, RoutedEventArgs e)
         {
             string defaultImageUrl = null;
@@ -229,8 +231,8 @@ namespace Worldescape
             }
         }
 
-        #endregion        
-
         #endregion
+
+        #endregion      
     }
 }
