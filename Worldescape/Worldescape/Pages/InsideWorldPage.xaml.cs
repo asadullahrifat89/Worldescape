@@ -675,7 +675,9 @@ namespace Worldescape
         /// <param name="e"></param>
         private void Button_ConstructMultiSelect_Click(object sender, RoutedEventArgs e)
         {
-            ClearMultiselectedConstructs();
+            MultiSelectedConstructsHolder.Children.Clear();
+            MultiselectedConstructs.Clear();
+
             ReleaseAssignedPointerElement();
 
             if (Button_ConstructMultiSelect.IsChecked.Value)
@@ -684,7 +686,10 @@ namespace Worldescape
             }
             else
             {
-                HideConstructOperationButtons();               
+                HideConstructOperationButtons();
+                Button_ConstructClone.IsChecked = false;
+                Button_ConstructMove.IsChecked = false;
+                ShowOperationalConstruct(null);
             }
         }
 
@@ -1153,7 +1158,7 @@ namespace Worldescape
             {
                 Button_ObjectDetails.Visibility = Visibility.Visible;
 
-                var image = GetImageFromUiElement(uielement, 70);
+                var image = GetImageFromUiElement(uielement: uielement, size: 70);
 
                 SelectedConstructHolder.Content = image;
                 SelectedConstructHolder.Visibility = Visibility.Visible;
@@ -1166,7 +1171,7 @@ namespace Worldescape
         /// Shows the operational construct when adding, moving, cloning.
         /// </summary>
         /// <param name="uielement"></param>
-        private void ShowOperationalConstruct(UIElement uielement)
+        private void ShowOperationalConstruct(UIElement uielement, string label = null)
         {
             if (uielement == null)
             {
@@ -1175,8 +1180,14 @@ namespace Worldescape
             }
             else
             {
-                var image = GetImageFromUiElement(uielement);
-                OperationalConstructHolder.Content = image;
+                var image = GetImageFromUiElement(uielement: uielement, size: 90);
+
+                StackPanel spContent = new StackPanel();
+                spContent.Children.Add(image);
+                if (!label.IsNullOrBlank())
+                    spContent.Children.Add(new Label() { Content = label });
+
+                OperationalConstructHolder.Content = spContent;
                 OperationalConstructHolder.Visibility = Visibility.Visible;
             }
         }
