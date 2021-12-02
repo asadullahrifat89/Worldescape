@@ -122,14 +122,15 @@ namespace Worldescape
 
             Button_ConstructCraft.IsChecked = false;
 
-            HideConstructAssetsControl();
-
             Button_ConstructMultiSelect.IsChecked = false;
 
             Button_ConstructAdd.Visibility = Visibility.Collapsed;
             Button_ConstructMultiSelect.Visibility = Visibility.Collapsed;
+            ClearMultiselectedConstructs();
 
+            HideConstructAssetsControl();
             HideConstructOperationButtons();
+            HideMessagingControls();
 
             _movingConstruct = null;
             _cloningConstruct = null;
