@@ -88,8 +88,8 @@ namespace Worldescape
             SubscribeHub();
             SubscribeConstructAssetPicker();
 
-            PopulateClouds();
-            PopulateClouds(drawOver: true);
+            //PopulateClouds();
+            //PopulateClouds(drawOver: true);
         }
 
         #endregion
@@ -140,16 +140,19 @@ namespace Worldescape
 
             ShowOperationalConstruct(null);
 
-            var buttons = Canvas_Root.Children.OfType<Button>()?.ToList();
+            Canvas_Root.Children.Clear();
 
-            if (buttons != null && buttons.Any())
-            {
-                foreach (var button in buttons)
-                {
-                    Canvas_Root.Children.Remove(button);
-                }
-            }
+            //var buttons = Canvas_Root.Children.OfType<Button>()?.ToList();
 
+            //if (buttons != null && buttons.Any())
+            //{
+            //    foreach (var button in buttons)
+            //    {
+            //        Canvas_Root.Children.Remove(button);
+            //    }
+            //}
+            PopulateClouds();
+            PopulateClouds(drawOver: true);
             SelectCharacterAndConnect();
         }
 
@@ -492,7 +495,7 @@ namespace Worldescape
 
                 // Turn off add mode
                 _addingConstruct = null;
-
+                ShowOperationalConstruct(null);
                 ReleaseAssignedPointerElement();
             }
         }
@@ -664,6 +667,8 @@ namespace Worldescape
                 else
                 {
                     HideConstructAssetsControl();
+                    ShowOperationalConstruct(null);
+                    ReleaseAssignedPointerElement();
                 }
             }
         }
@@ -712,7 +717,7 @@ namespace Worldescape
                 {
                     UIElement uielement = _selectedConstruct;
                     _movingConstruct = uielement;
-                    ShowOperationalConstruct(_movingConstruct);
+                    ShowOperationalConstruct(_movingConstruct, "Moving...");
 
                     AssignPointerElement(uielement);
                 }
@@ -738,7 +743,7 @@ namespace Worldescape
                 {
                     UIElement uielement = _selectedConstruct;
                     _cloningConstruct = uielement;
-                    ShowOperationalConstruct(_cloningConstruct);
+                    ShowOperationalConstruct(_cloningConstruct, "Cloning...");
 
                     AssignPointerElement(uielement);
                 }
@@ -1184,8 +1189,9 @@ namespace Worldescape
 
                 StackPanel spContent = new StackPanel();
                 spContent.Children.Add(image);
+
                 if (!label.IsNullOrBlank())
-                    spContent.Children.Add(new Label() { Content = label });
+                    spContent.Children.Add(new Label() { Content = label, HorizontalAlignment = HorizontalAlignment.Center });
 
                 OperationalConstructHolder.Content = spContent;
                 OperationalConstructHolder.Visibility = Visibility.Visible;
@@ -2697,12 +2703,14 @@ namespace Worldescape
         /// <param name="constructAsset"></param>
         private void ConstructAssetPickerControl_AssetSelected(object sender, ConstructAsset constructAsset)
         {
+            ReleaseAssignedPointerElement();
+
             var constructBtn = GenerateConstructButton(
                 name: constructAsset.Name,
                 imageUrl: constructAsset.ImageUrl);
 
             _addingConstruct = constructBtn;
-            ShowOperationalConstruct(_addingConstruct);
+            ShowOperationalConstruct(_addingConstruct, "Adding...");
 
             AssignPointerElement(constructBtn);
         }
