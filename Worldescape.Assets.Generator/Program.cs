@@ -35,36 +35,27 @@ switch (choice)
         break;
     case "3":
         {
-            Console.WriteLine("Enter source image file Path:");
-            var inputFile = Console.ReadLine();
-            inputFile = inputFile.Trim('"');
-
-            Console.WriteLine("Enter tile size: i.e 256x192");
-            var size = Console.ReadLine();
-
-            if (size == null)
+            Console.WriteLine("Enter InputFilePath ~ TileSize(256x192) ~ RowsColumnsInInputFile(3x10) ~ OutputPath ~ OutputPrefix");
+            var input = Console.ReadLine();
+            
+            if (input == null)
                 return;
 
-            var parts = size.Split('x');
+            var parts = input.Split('~');
 
+            var inputFile = parts[0].Trim('"', ' ');
+            var size = parts[1].Trim(' ');
+            var rowCols = parts[2].Trim(' ');
+            var outputPath = parts[3].Trim('"', ' ');
+            var outputFilePrefix = parts[4].Trim('"', ' ');
+
+            parts = size.Split('x');
             var x = Convert.ToInt32(parts[0]);
-            var y = Convert.ToInt32( parts[1]);
-
-            Console.WriteLine("Enter number of rows and columns in the source image file: i.e 3x10");
-            var rowCols = Console.ReadLine();
+            var y = Convert.ToInt32(parts[1]);
 
             parts = rowCols.Split('x');
-
             var row = Convert.ToInt32(parts[0]);
             var column = Convert.ToInt32(parts[1]);
-
-            Console.WriteLine("Enter output path:");
-            var outputPath = Console.ReadLine();
-            outputPath = outputPath.Trim('"');
-
-            Console.WriteLine("Enter output file name prefix:");
-            var outputFilePrefix = Console.ReadLine();
-            outputFilePrefix = outputFilePrefix.Trim('"');
 
             if (inputFile != null && outputPath != null)
             {
@@ -74,6 +65,7 @@ switch (choice)
 
             Console.WriteLine("==========================");
             Console.WriteLine($"{outputPath} files have been generated.");
+
         }
         break;
     default:
