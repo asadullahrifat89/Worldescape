@@ -18,18 +18,19 @@ namespace Worldescape
         #region Ctor
 
         public LoginPage(
-            HttpServiceHelper httpServiceHelper,
-            MainPage mainPage)
+            //HttpServiceHelper httpServiceHelper,
+            //MainPage mainPage
+            )
         {
             InitializeComponent();
-            
-            _mainPage = mainPage;
-            _httpServiceHelper = httpServiceHelper;
+                        
+            //_httpServiceHelper = httpServiceHelper;
+            //_mainPage = mainPage;
 
             LoginModelHolder.DataContext = LoginModel;
 
-            //_httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
-            //_mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
+            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
           
         }
 

@@ -21,24 +21,25 @@ namespace Worldescape
         #region Ctor
 
         public AccountPage(
-            HttpServiceHelper httpServiceHelper,            
-            ImageHelper imageHelper,
-            UrlHelper urlHelper,
-            MainPage mainPage)
+            //HttpServiceHelper httpServiceHelper,            
+            //ImageHelper imageHelper,
+            //UrlHelper urlHelper,
+            //MainPage mainPage
+            )
         {
             InitializeComponent();
             
-            _httpServiceHelper = httpServiceHelper;
-            _imageHelper = imageHelper;
-            _urlHelper = urlHelper;
-            _mainPage = mainPage;
+            //_httpServiceHelper = httpServiceHelper;
+            //_imageHelper = imageHelper;
+            //_urlHelper = urlHelper;
+            //_mainPage = mainPage;
 
             AccountModelHolder.DataContext = AccountModel;
 
-            //_httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
-            //_mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-            //_imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
-            //_urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;           
+            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;            
+            _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
+            _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
+            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
         }
 
         private void LoadUserDetails()

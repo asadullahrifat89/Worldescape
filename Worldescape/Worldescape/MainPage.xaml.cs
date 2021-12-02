@@ -117,21 +117,21 @@ namespace Worldescape
                         PageContainerFrame.Content = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as Page;
                     }
                     break;
-                case Constants.Page_LoginPage:
-                    {
-                        PageContainerFrame.Content = App.ServiceProvider.GetService(typeof(LoginPage)) as Page;
-                    }
-                    break;
-                case Constants.Page_SignupPage:
-                    {
-                        PageContainerFrame.Content = App.ServiceProvider.GetService(typeof(SignupPage)) as Page;
-                    }
-                    break;
-                case Constants.Page_AccountPage:
-                    {
-                        PageContainerFrame.Content = App.ServiceProvider.GetService(typeof(AccountPage)) as Page;
-                    }
-                    break;
+                //case Constants.Page_LoginPage:
+                //    {
+                //        PageContainerFrame.Content = App.ServiceProvider.GetService(typeof(LoginPage)) as Page;
+                //    }
+                //    break;
+                //case Constants.Page_SignupPage:
+                //    {
+                //        PageContainerFrame.Content = App.ServiceProvider.GetService(typeof(SignupPage)) as Page;
+                //    }
+                //    break;
+                //case Constants.Page_AccountPage:
+                //    {
+                //        PageContainerFrame.Content = App.ServiceProvider.GetService(typeof(AccountPage)) as Page;
+                //    }
+                //    break;
                 default:
                     {
                         Uri uri = new Uri(targetUri, UriKind.Relative);
