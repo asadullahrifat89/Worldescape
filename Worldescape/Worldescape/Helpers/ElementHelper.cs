@@ -83,8 +83,8 @@ namespace Worldescape
 
             var offsetX = button.ActualWidth / 2;
             var offsetY = button.ActualHeight;
-            
-            var goToX = pointX - offsetX;            
+
+            var goToX = pointX - offsetX;
             var goToY = pointY - offsetY;
 
             var taggedObject = MoveElement(uIElement, goToX, goToY);
@@ -311,10 +311,9 @@ namespace Worldescape
         /// <returns></returns>
         public object ScaleElement(UIElement uIElement, float scale)
         {
-            var button = (Button)uIElement;
-            button.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
+            uIElement.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
 
-            if (button.Tag is Construct construct)
+            if (uIElement is Button button && button.Tag is Construct construct)
             {
                 var scaleTransform = new CompositeTransform()
                 {
@@ -331,6 +330,21 @@ namespace Worldescape
             }
             else
             {
+                CompositeTransform composite = null;
+
+                // If an exiting transformation already exits
+                if (uIElement.RenderTransform != null && uIElement.RenderTransform is CompositeTransform cc)
+                    composite = cc;
+
+                var scaleTransform = new CompositeTransform()
+                {
+                    ScaleX = scale,
+                    ScaleY = scale,
+                    Rotation = composite?.Rotation ?? 0,
+                };
+
+                uIElement.RenderTransform = scaleTransform;
+
                 return null;
             }
         }
@@ -343,10 +357,9 @@ namespace Worldescape
         /// <returns></returns>
         public object RotateElement(UIElement uIElement, float rotation)
         {
-            var button = (Button)uIElement;
-            button.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
+            uIElement.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
 
-            if (button.Tag is Construct construct)
+            if (uIElement is Button button && button.Tag is Construct construct)
             {
                 var rotateTransform = new CompositeTransform()
                 {
@@ -363,6 +376,21 @@ namespace Worldescape
             }
             else
             {
+                CompositeTransform composite = null;
+
+                // If an exiting transformation already exits
+                if (uIElement.RenderTransform != null && uIElement.RenderTransform is CompositeTransform cc)
+                    composite = cc;
+
+                var scaleTransform = new CompositeTransform()
+                {
+                    ScaleX = composite?.ScaleX ?? 1,
+                    ScaleY = composite?.ScaleY ?? 1,
+                    Rotation = rotation,
+                };
+
+                uIElement.RenderTransform = scaleTransform;
+
                 return null;
             }
         }
@@ -387,7 +415,7 @@ namespace Worldescape
             uielement.CapturePointer(e.Pointer);
 
             _isPointerCaptured = true;
-        }     
+        }
 
         /// <summary>
         /// Drags an UIElement.

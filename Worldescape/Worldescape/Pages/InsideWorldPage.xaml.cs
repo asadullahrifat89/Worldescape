@@ -1851,6 +1851,12 @@ namespace Worldescape
                     Stretch = image.Stretch,
                 };
 
+                if (button.Tag is Construct construct)
+                {
+                    ScaleElement(img, construct.Scale);
+                    RotateElement(img, construct.Rotation);
+                }
+
                 _pointerImage = img;
                 _pointerImage.Opacity = 0.8;
                 _pointerImage.Tag = false;
