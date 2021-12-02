@@ -69,9 +69,10 @@ namespace Worldescape
 
             // Pages
             services.AddSingleton<MainPage>();
+            services.AddSingleton<InsideWorldPage>();
 
             //services.AddSingleton<AccountPage>();
-            //services.AddSingleton<InsideWorldPage>();
+
             //services.AddSingleton<LoginPage>();
             //services.AddSingleton<SignupPage>();
             //services.AddSingleton<WorldsPage>();

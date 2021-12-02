@@ -34,7 +34,7 @@ namespace Worldescape
 
         UIElement _messageToAvatar;
 
-        readonly IHubService HubService;
+        readonly IHubService _hubService;
         readonly MainPage _mainPage;
         readonly AvatarHelper _avatarHelper;
         readonly ConstructHelper _constructHelper;
@@ -43,33 +43,51 @@ namespace Worldescape
         readonly PaginationHelper _paginationHelper;
         readonly ElementHelper _elementHelper;
 
-        readonly ConstructAssetPickerControl ConstructAssetPickerControl;
+        readonly ConstructAssetPickerControl _constructAssetPickerControl;
 
         #endregion
 
         #region Ctor
-        public InsideWorldPage()
+        public InsideWorldPage(
+            IHubService hubService,
+            MainPage mainPage,
+            AvatarHelper avatarHelper,
+            WorldHelper worldHelper,
+            ConstructHelper constructHelper,
+            HttpServiceHelper httpServiceHelper,
+            PaginationHelper paginationHelper,
+            ElementHelper elementHelper,
+            ConstructAssetPickerControl constructAssetPickerControl)
         {
             InitializeComponent();
 
-            HubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
+            _hubService = hubService;
+            _mainPage = mainPage;
+            _avatarHelper = avatarHelper;
+            _worldHelper = worldHelper;
+            _constructHelper = constructHelper;
+            _httpServiceHelper = httpServiceHelper;
+            _paginationHelper = paginationHelper;
+            _elementHelper = elementHelper;
+            _constructAssetPickerControl = constructAssetPickerControl;
 
-            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-            _avatarHelper = App.ServiceProvider.GetService(typeof(AvatarHelper)) as AvatarHelper;
-            _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
-            _constructHelper = App.ServiceProvider.GetService(typeof(ConstructHelper)) as ConstructHelper;
-            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
-            _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
-            _elementHelper = App.ServiceProvider.GetService(typeof(ElementHelper)) as ElementHelper;
+            //HubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
 
-            ConstructAssetPickerControl = App.ServiceProvider.GetService(typeof(ConstructAssetPickerControl)) as ConstructAssetPickerControl;
+            //_mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+            //_avatarHelper = App.ServiceProvider.GetService(typeof(AvatarHelper)) as AvatarHelper;
+            //_worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
+            //_constructHelper = App.ServiceProvider.GetService(typeof(ConstructHelper)) as ConstructHelper;
+            //_httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
+            //_paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
+            //_elementHelper = App.ServiceProvider.GetService(typeof(ElementHelper)) as ElementHelper;
 
-            // This is be visible after character select and Hub login
-            Grid_Root.Visibility = Visibility.Collapsed;
+            //ConstructAssetPickerControl = App.ServiceProvider.GetService(typeof(ConstructAssetPickerControl)) as ConstructAssetPickerControl;
 
             SubscribeHub();
             SubscribeConstructAssetPicker();
-            SelectCharacterAndConnect();
+
+            PopulateClouds();
+            PopulateClouds(drawOver: true);
         }
 
         #endregion
@@ -92,6 +110,23 @@ namespace Worldescape
 
         #region Page Events
 
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Grid_Root.Visibility = Visibility.Collapsed;
+
+            var buttons = Canvas_Root.Children.OfType<Button>()?.ToList();
+
+            if (buttons!= null && buttons.Any())
+            {
+                foreach (var button in buttons)
+                {
+                    Canvas_Root.Children.Remove(button);
+                } 
+            }
+            
+            SelectCharacterAndConnect();
+        }
+
         /// <summary>
         /// Event fired when this page is unloaded. Logs out the current user from hub, disconnects from hub and unsubscribes from all hub events.
         /// </summary>
@@ -99,11 +134,10 @@ namespace Worldescape
         /// <param name="e"></param>
         private async void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            if (HubService != null)
+            if (_hubService != null)
             {
                 await LogoutFromHubThenDisconnect();
-                UnsubscribeHub();
-                UnsubscribeConstructAssetPicker();
+                Character = new Character();
             }
         }
 
@@ -342,7 +376,7 @@ namespace Worldescape
                 construct.Coordinate.Y = y;
                 construct.Coordinate.Z = z;
 
-                await HubService.BroadcastConstructMovement(
+                await _hubService.BroadcastConstructMovement(
                     constructId: construct.Id,
                     x: construct.Coordinate.X,
                     y: construct.Coordinate.Y,
@@ -426,7 +460,7 @@ namespace Worldescape
                 // Align avatar to construct point
                 AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
 
-                await HubService.BroadcastConstruct(construct);
+                await _hubService.BroadcastConstruct(construct);
 
                 Console.WriteLine("Construct added.");
 
@@ -1495,7 +1529,7 @@ namespace Worldescape
 
         private async void HubService_ConnectionReconnected()
         {
-            _ = await HubService.Login(Avatar);
+            _ = await _hubService.Login(Avatar);
             _isLoggedIn = true;
             Console.WriteLine("<<HubService_ConnectionReconnected");
         }
@@ -1543,7 +1577,7 @@ namespace Worldescape
 
         private bool CanHubLogin()
         {
-            var result = Avatar != null && Avatar.User != null && HubService.IsConnected();
+            var result = Avatar != null && Avatar.User != null && _hubService.IsConnected();
 
             Console.WriteLine($"CanHubLogin: {result}");
 
@@ -1576,13 +1610,13 @@ namespace Worldescape
 
                 Console.WriteLine("TryConnect: ATTEMP");
 
-                if (HubService.IsConnected())
+                if (_hubService.IsConnected())
                 {
                     Console.WriteLine("TryConnect: OK");
                     return true;
                 }
 
-                await HubService.ConnectAsync();
+                await _hubService.ConnectAsync();
 
                 Console.WriteLine("TryConnect: OK.");
 
@@ -1622,7 +1656,7 @@ namespace Worldescape
             {
                 if (CanHubLogin())
                 {
-                    var result = await HubService.Login(Avatar);
+                    var result = await _hubService.Login(Avatar);
 
                     if (result != null && result.Avatar != null && !result.Avatar.IsEmpty())
                     {
@@ -1635,16 +1669,13 @@ namespace Worldescape
 
                         // Clearing up canvas prior to login
                         AvatarMessengers.Clear();
-                        Canvas_Root.Children.Clear();
 
                         _mainPage.SetIsBusy(true, "Preparing world...");
 
                         // Get avatars and constructs
                         await FetchAvatars();
-                        PopulateClouds();
                         await FetchConstructs();
-                        PopulateClouds(true);
-                                                
+
                         _isLoggedIn = true;
 
                         // Set connected user's avatar image
@@ -1698,11 +1729,11 @@ namespace Worldescape
             {
                 _mainPage.SetIsBusy(true);
 
-                await HubService.Logout();
+                await _hubService.Logout();
 
-                if (HubService.IsConnected())
+                if (_hubService.IsConnected())
                 {
-                    await HubService.DisconnectAsync();
+                    await _hubService.DisconnectAsync();
                 }
 
                 App.World = new World();
@@ -1871,53 +1902,53 @@ namespace Worldescape
         {
             #region Hub Connectivity
 
-            HubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
-            HubService.ConnectionReconnected += HubService_ConnectionReconnected;
-            HubService.ConnectionClosed += HubService_ConnectionClosed;
+            _hubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
+            _hubService.ConnectionReconnected += HubService_ConnectionReconnected;
+            _hubService.ConnectionClosed += HubService_ConnectionClosed;
 
             #endregion
 
             #region Avatar World Events
 
-            HubService.NewBroadcastAvatarMovement += HubService_NewBroadcastAvatarMovement;
-            HubService.NewBroadcastAvatarActivityStatus += HubService_NewBroadcastAvatarActivityStatus;
+            _hubService.NewBroadcastAvatarMovement += HubService_NewBroadcastAvatarMovement;
+            _hubService.NewBroadcastAvatarActivityStatus += HubService_NewBroadcastAvatarActivityStatus;
 
             #endregion
 
             #region Avatar Connectivity
 
-            HubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
-            HubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
-            HubService.AvatarDisconnected += HubService_AvatarDisconnected;
-            HubService.AvatarReconnected += HubService_AvatarReconnected;
+            _hubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
+            _hubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
+            _hubService.AvatarDisconnected += HubService_AvatarDisconnected;
+            _hubService.AvatarReconnected += HubService_AvatarReconnected;
 
             #endregion
 
             #region Construct World Events
 
-            HubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
+            _hubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
             //HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
 
-            HubService.NewRemoveConstruct += HubService_NewRemoveConstruct;
+            _hubService.NewRemoveConstruct += HubService_NewRemoveConstruct;
             //HubService.NewRemoveConstructs += HubService_NewRemoveConstructs;
 
-            HubService.NewBroadcastConstructPlacement += HubService_NewBroadcastConstructPlacement;
+            _hubService.NewBroadcastConstructPlacement += HubService_NewBroadcastConstructPlacement;
 
-            HubService.NewBroadcastConstructRotation += HubService_NewBroadcastConstructRotation;
+            _hubService.NewBroadcastConstructRotation += HubService_NewBroadcastConstructRotation;
             //HubService.NewBroadcastConstructRotations += HubService_NewBroadcastConstructRotations;
 
-            HubService.NewBroadcastConstructScale += HubService_NewBroadcastConstructScale;
+            _hubService.NewBroadcastConstructScale += HubService_NewBroadcastConstructScale;
             //HubService.NewBroadcastConstructScales += HubService_NewBroadcastConstructScales;
 
-            HubService.NewBroadcastConstructMovement += HubService_NewBroadcastConstructMovement;
+            _hubService.NewBroadcastConstructMovement += HubService_NewBroadcastConstructMovement;
 
             #endregion
 
             #region Avatar Messaging
 
-            HubService.AvatarTyping += HubService_AvatarTyping;
-            HubService.NewTextMessage += HubService_NewTextMessage;
-            HubService.NewImageMessage += HubService_NewImageMessage;
+            _hubService.AvatarTyping += HubService_AvatarTyping;
+            _hubService.NewTextMessage += HubService_NewTextMessage;
+            _hubService.NewImageMessage += HubService_NewImageMessage;
 
             #endregion
 
@@ -1931,53 +1962,53 @@ namespace Worldescape
         {
             #region Hub Connectivity
 
-            HubService.ConnectionReconnecting -= HubService_ConnectionReconnecting;
-            HubService.ConnectionReconnected -= HubService_ConnectionReconnected;
-            HubService.ConnectionClosed -= HubService_ConnectionClosed;
+            _hubService.ConnectionReconnecting -= HubService_ConnectionReconnecting;
+            _hubService.ConnectionReconnected -= HubService_ConnectionReconnected;
+            _hubService.ConnectionClosed -= HubService_ConnectionClosed;
 
             #endregion
 
             #region Avatar World Events
 
-            HubService.NewBroadcastAvatarMovement -= HubService_NewBroadcastAvatarMovement;
-            HubService.NewBroadcastAvatarActivityStatus -= HubService_NewBroadcastAvatarActivityStatus;
+            _hubService.NewBroadcastAvatarMovement -= HubService_NewBroadcastAvatarMovement;
+            _hubService.NewBroadcastAvatarActivityStatus -= HubService_NewBroadcastAvatarActivityStatus;
 
             #endregion
 
             #region Avatar Connectivity
 
-            HubService.AvatarLoggedIn -= HubService_AvatarLoggedIn;
-            HubService.AvatarLoggedOut -= HubService_AvatarLoggedOut;
-            HubService.AvatarDisconnected -= HubService_AvatarDisconnected;
-            HubService.AvatarReconnected -= HubService_AvatarReconnected;
+            _hubService.AvatarLoggedIn -= HubService_AvatarLoggedIn;
+            _hubService.AvatarLoggedOut -= HubService_AvatarLoggedOut;
+            _hubService.AvatarDisconnected -= HubService_AvatarDisconnected;
+            _hubService.AvatarReconnected -= HubService_AvatarReconnected;
 
             #endregion
 
             #region Construct World Events
 
-            HubService.NewBroadcastConstruct -= HubService_NewBroadcastConstruct;
+            _hubService.NewBroadcastConstruct -= HubService_NewBroadcastConstruct;
             //HubService.NewBroadcastConstructs -= HubService_NewBroadcastConstructs;
 
-            HubService.NewRemoveConstruct -= HubService_NewRemoveConstruct;
+            _hubService.NewRemoveConstruct -= HubService_NewRemoveConstruct;
             //HubService.NewRemoveConstructs -= HubService_NewRemoveConstructs;
 
-            HubService.NewBroadcastConstructPlacement -= HubService_NewBroadcastConstructPlacement;
+            _hubService.NewBroadcastConstructPlacement -= HubService_NewBroadcastConstructPlacement;
 
-            HubService.NewBroadcastConstructRotation -= HubService_NewBroadcastConstructRotation;
+            _hubService.NewBroadcastConstructRotation -= HubService_NewBroadcastConstructRotation;
             //HubService.NewBroadcastConstructRotations -= HubService_NewBroadcastConstructRotations;
 
-            HubService.NewBroadcastConstructScale -= HubService_NewBroadcastConstructScale;
+            _hubService.NewBroadcastConstructScale -= HubService_NewBroadcastConstructScale;
             //HubService.NewBroadcastConstructScales -= HubService_NewBroadcastConstructScales;
 
-            HubService.NewBroadcastConstructMovement -= HubService_NewBroadcastConstructMovement;
+            _hubService.NewBroadcastConstructMovement -= HubService_NewBroadcastConstructMovement;
 
             #endregion
 
             #region Avatar Messaging
 
-            HubService.AvatarTyping -= HubService_AvatarTyping;
-            HubService.NewTextMessage -= HubService_NewTextMessage;
-            HubService.NewImageMessage -= HubService_NewImageMessage;
+            _hubService.AvatarTyping -= HubService_AvatarTyping;
+            _hubService.NewTextMessage -= HubService_NewTextMessage;
+            _hubService.NewImageMessage -= HubService_NewImageMessage;
 
             #endregion
 
@@ -2013,7 +2044,7 @@ namespace Worldescape
         /// <returns></returns>
         private bool CanPerformWorldEvents()
         {
-            var result = HubService.IsConnected() && _isLoggedIn;
+            var result = _hubService.IsConnected() && _isLoggedIn;
             Console.WriteLine("CanPerformWorldEvents: " + result);
             return result;
         }
@@ -2307,7 +2338,7 @@ namespace Worldescape
 
                 var z = Canvas.GetZIndex(iElement);
 
-                await HubService.BroadcastAvatarMovement(avatarId: Avatar.Id, x: movedAvatar.Coordinate.X, y: movedAvatar.Coordinate.Y, z: z);
+                await _hubService.BroadcastAvatarMovement(avatarId: Avatar.Id, x: movedAvatar.Coordinate.X, y: movedAvatar.Coordinate.Y, z: z);
 
                 Console.WriteLine("Avatar moved.");
             }
@@ -2330,7 +2361,7 @@ namespace Worldescape
                     avatar: taggedAvatar,
                     activityStatus: activityStatus);
 
-                await HubService.BroadcastAvatarActivityStatus(avatarId: taggedAvatar.Id, activityStatus: (int)activityStatus);
+                await _hubService.BroadcastAvatarActivityStatus(avatarId: taggedAvatar.Id, activityStatus: (int)activityStatus);
 
                 Console.WriteLine("Avatar status updated.");
             }
@@ -2499,7 +2530,7 @@ namespace Worldescape
         private void ShowConstructAssetsControl()
         {
             if (ContentControl_ConstructAssetsControlContainer.Content == null)
-                ContentControl_ConstructAssetsControlContainer.Content = ConstructAssetPickerControl;
+                ContentControl_ConstructAssetsControlContainer.Content = _constructAssetPickerControl;
 
             ContentControl_ConstructAssetsContainer.Visibility = Visibility.Visible;
         }
@@ -2517,7 +2548,7 @@ namespace Worldescape
         /// </summary>
         private void UnsubscribeConstructAssetPicker()
         {
-            ConstructAssetPickerControl.AssetSelected -= ConstructAssetPickerControl_AssetSelected;
+            _constructAssetPickerControl.AssetSelected -= ConstructAssetPickerControl_AssetSelected;
         }
 
         /// <summary>
@@ -2525,7 +2556,7 @@ namespace Worldescape
         /// </summary>
         private void SubscribeConstructAssetPicker()
         {
-            ConstructAssetPickerControl.AssetSelected += ConstructAssetPickerControl_AssetSelected;
+            _constructAssetPickerControl.AssetSelected += ConstructAssetPickerControl_AssetSelected;
         }
 
         /// <summary>
@@ -2608,7 +2639,7 @@ namespace Worldescape
             // Align avatar to construct point
             AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
 
-            await HubService.BroadcastConstructRotation(constructId: construct.Id, rotation: construct.Rotation);
+            await _hubService.BroadcastConstructRotation(constructId: construct.Id, rotation: construct.Rotation);
 
             Console.WriteLine("Construct rotated.");
         }
@@ -2636,7 +2667,7 @@ namespace Worldescape
             // Align avatar to construct point
             AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
 
-            await HubService.BroadcastConstructScale(constructId: construct.Id, scale: construct.Scale);
+            await _hubService.BroadcastConstructScale(constructId: construct.Id, scale: construct.Scale);
 
             Console.WriteLine("Construct scaled down.");
         }
@@ -2659,7 +2690,7 @@ namespace Worldescape
             // Align avatar to construct point
             AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
 
-            await HubService.BroadcastConstructScale(constructId: construct.Id, scale: construct.Scale);
+            await _hubService.BroadcastConstructScale(constructId: construct.Id, scale: construct.Scale);
 
             Console.WriteLine("Construct scaled up.");
         }
@@ -2680,7 +2711,7 @@ namespace Worldescape
             // Align avatar to construct point
             AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
 
-            await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
+            await _hubService.BroadcastConstructPlacement(construct.Id, zIndex);
         }
 
         /// <summary>
@@ -2699,7 +2730,7 @@ namespace Worldescape
             // Align avatar to construct point
             AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
 
-            await HubService.BroadcastConstructPlacement(construct.Id, zIndex);
+            await _hubService.BroadcastConstructPlacement(construct.Id, zIndex);
         }
 
         /// <summary>
@@ -2718,7 +2749,7 @@ namespace Worldescape
 
             ShowSelectedConstruct(null); // Construct delete
 
-            await HubService.RemoveConstruct(construct.Id);
+            await _hubService.RemoveConstruct(construct.Id);
         }
 
         /// <summary>
@@ -2852,7 +2883,7 @@ namespace Worldescape
 
                 var construct = taggedObject as Construct;
 
-                await HubService.BroadcastConstructMovement(
+                await _hubService.BroadcastConstructMovement(
                     constructId: construct.Id,
                     x: construct.Coordinate.X,
                     y: construct.Coordinate.Y,
@@ -2879,7 +2910,7 @@ namespace Worldescape
             // Align avatar to construct point
             AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
 
-            await HubService.BroadcastConstructMovement(
+            await _hubService.BroadcastConstructMovement(
                 construct.Id,
                 construct.Coordinate.X,
                 construct.Coordinate.Y,
@@ -2942,7 +2973,7 @@ namespace Worldescape
                    pointY: goToY,
                    disableCenterAlignToPointerPoint: true);
 
-                await HubService.BroadcastConstruct(construct);
+                await _hubService.BroadcastConstruct(construct);
                 Console.WriteLine("Construct cloned.");
             }
         }
@@ -2973,7 +3004,7 @@ namespace Worldescape
             // Align avatar to construct point
             AlignUsersAvatarFaceDirection(x: construct.Coordinate.X);
 
-            await HubService.BroadcastConstruct(construct);
+            await _hubService.BroadcastConstruct(construct);
             Console.WriteLine("Construct cloned.");
         }
 
@@ -3007,7 +3038,7 @@ namespace Worldescape
                     pressedPoint: pressedPoint,
                     constructButton: constructButton,
                     construct: construct);
-            
+
             return construct;
         }
 
@@ -3050,7 +3081,7 @@ namespace Worldescape
             //Check if a valid message was typed and the recepient exists in canvas
             if (((Button)_messageToAvatar).Tag is Avatar avatar && !MessagingTextBox.Text.IsNullOrBlank() && Canvas_Root.Children.OfType<Button>().Any(x => x.Tag is Avatar avatar1 && avatar1.Id == avatar.Id))
             {
-                await HubService.SendUnicastMessage(avatar.Id, MessagingTextBox.Text);
+                await _hubService.SendUnicastMessage(avatar.Id, MessagingTextBox.Text);
 
                 // Add message bubble to own avatar
                 if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
@@ -3217,6 +3248,6 @@ namespace Worldescape
 
         #endregion
 
-        #endregion
+        #endregion       
     }
 }

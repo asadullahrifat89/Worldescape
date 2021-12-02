@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:worldescape="clr-namespace:Worldescape"
     FontFamily="Segoe UI"
+    Loaded="Page_Loaded"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
     <Grid

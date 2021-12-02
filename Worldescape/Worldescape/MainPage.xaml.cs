@@ -87,6 +87,11 @@ namespace Worldescape
             Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(LoggedInUserModel.ProfileImageUrl);
         }
 
+        /// <summary>
+        /// Sets the busy indicator to busy status with a busy message.
+        /// </summary>
+        /// <param name="isBusy"></param>
+        /// <param name="busyMessage"></param>
         public void SetIsBusy(bool isBusy, string busyMessage = null)
         {
             Grid_Root.IsEnabled = !isBusy;
@@ -100,8 +105,20 @@ namespace Worldescape
         /// <param name="targetUri"></param>
         public void NavigateToPage(string targetUri)
         {
-            Uri uri = new Uri(targetUri, UriKind.Relative);
-            PageContainerFrame.Source = uri;
+            switch (targetUri)
+            {
+                case Constants.Page_InsideWorldPage:
+                    {
+                        PageContainerFrame.Content = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as Page;
+                    }
+                    break;
+                default:
+                    {
+                        Uri uri = new Uri(targetUri, UriKind.Relative);
+                        PageContainerFrame.Source = uri;
+                    }
+                    break;
+            };
         }
 
         #endregion
@@ -122,7 +139,7 @@ namespace Worldescape
                         ProfileDetails();
                 });
 
-                contentDialogue.Show();               
+                contentDialogue.Show();
             }
         }
 
