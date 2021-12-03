@@ -40,7 +40,7 @@
             <!--  Search box for construct assets  -->
             <TextBox
                 x:Name="TextBox_SearchConstructAssets"
-                Width="350"
+                Width="320"
                 Margin="5,0"
                 VerticalAlignment="Center"
                 FontSize="16"

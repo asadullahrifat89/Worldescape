@@ -171,31 +171,26 @@ namespace Worldescape
         /// <returns></returns>
         public Button GenerateAvatarButton(Avatar avatar)
         {
-            var uri = avatar.ImageUrl;
-
-            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
-
-            var img = new Image()
+            var imgCharacter = new Image()
             {
-                Source = bitmap,
+                Source = new BitmapImage(new Uri(avatar.ImageUrl, UriKind.RelativeOrAbsolute)),
                 Stretch = Stretch.Uniform,
                 Height = 100,
                 Width = 100,
             };
 
-            Button obj = new Button()
+            Button btnAvatar = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
             };
 
-            obj.RenderTransformOrigin = new Windows.Foundation.Point(0.5f, 0.5f);
-            obj.RenderTransform = new ScaleTransform();
+            btnAvatar.RenderTransformOrigin = new Windows.Foundation.Point(0.5f, 0.5f);
+            btnAvatar.RenderTransform = new ScaleTransform();
 
-            obj.Content = img;
-            obj.Tag = avatar;
+            btnAvatar.Content = imgCharacter;
+            btnAvatar.Tag = avatar;
 
-            //img.Effect = new DropShadowEffect() { ShadowDepth = 10, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5, Direction = -90 };
-            return obj;
+            return btnAvatar;
         }
 
         /// <summary>
@@ -212,7 +207,7 @@ namespace Worldescape
             if (canvas == null)
                 return null;
 
-            return canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == avatarId);
+            return canvas.Children.OfType<Button>().Where(x => x.Tag is Avatar).FirstOrDefault(x => x.Tag is Avatar avatar && avatar.Id == avatarId);
         }
 
         #endregion
