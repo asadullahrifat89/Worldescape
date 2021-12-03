@@ -238,8 +238,6 @@ namespace Worldescape
 
             var uri = _urlHelper.BuildAssetUrl(App.Token, constructAsset.ImageUrl);
 
-            constructAsset.ImageUrl = uri;
-
             var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
 
             var img = new Image()

@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Common;
+using Worldescape.Service;
 using Image = Windows.UI.Xaml.Controls.Image;
 
 namespace Worldescape
@@ -14,10 +15,14 @@ namespace Worldescape
     public class ConstructHelper
     {
         readonly ElementHelper _elementHelper;
+        readonly UrlHelper _urlHelper;
 
-        public ConstructHelper(ElementHelper elementHelper)
+        public ConstructHelper(
+            ElementHelper elementHelper,
+            UrlHelper urlHelper)
         {
             _elementHelper = elementHelper;
+            _urlHelper = urlHelper;
         }
 
         #region UI
@@ -138,7 +143,7 @@ namespace Worldescape
             Creator creator = null,
             DateTime? createdOn = null)
         {
-            var uri = imageUrl;
+            var uri = _urlHelper.BuildAssetUrl(App.Token, imageUrl);
 
             var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
 
@@ -161,7 +166,7 @@ namespace Worldescape
                 {
                     Id = id,
                     Name = name,
-                    ImageUrl = uri,
+                    ImageUrl = imageUrl,
                     Creator = creator ?? new Creator() { Id = App.User.Id, Name = App.User.Name, ImageUrl = App.User.ImageUrl },
                     World = inWorld ?? new InWorld() { Id = App.World.Id, Name = App.World.Name },
                     CreatedOn = createdOn ?? DateTime.Now,
