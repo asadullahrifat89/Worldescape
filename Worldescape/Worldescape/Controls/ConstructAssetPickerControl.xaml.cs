@@ -39,7 +39,7 @@ namespace Worldescape
         readonly UrlHelper _urlHelper;
         readonly PaginationHelper _paginationHelper;
 
-        ConstructCategory _pickedConstructCategory = new ConstructCategory() { Name = "All" };
+        ConstructCategory _pickedConstructCategory = new ConstructCategory() /*{ Name = "All" }*/;
         ConstructSubCategory _pickedConstructSubCategory = new ConstructSubCategory();
 
         RangeObservableCollection<PageNumber> _pageNumbers = new RangeObservableCollection<PageNumber>();
@@ -123,10 +123,10 @@ namespace Worldescape
                 // Height = _masonryPanelHeight
             };
 
-            var allConstructCategory = new ConstructCategory() { Id = "All", Name = "All" };
+            //var allConstructCategory = new ConstructCategory() { Id = "All", Name = "All" };
 
-            // Add an All button first
-            AddConstructCategoryMasonry(_masonryPanel, allConstructCategory);
+            //// Add an All button first
+            //AddConstructCategoryMasonry(_masonryPanel, allConstructCategory);
 
             //Add all the categories
             foreach (var constructCategory in pagedData)
@@ -358,26 +358,26 @@ namespace Worldescape
             _pickedConstructCategory = ((Button)sender).Tag as ConstructCategory;
             var categoryId = _pickedConstructCategory.Id;
 
-            if (categoryId.Equals("All"))
-            {
-                _constructSubCategoryFilter = null;
-                _pickedConstructSubCategory = null;
-                Button_ConstructCategory.Content = "";
-                Button_ConstructCategory.Visibility = Visibility.Collapsed;
+            //if (categoryId.Equals("All"))
+            //{
+            //    _constructSubCategoryFilter = null;
+            //    _pickedConstructSubCategory = null;
+            //    Button_ConstructCategory.Content = "";
+            //    Button_ConstructCategory.Visibility = Visibility.Collapsed;
 
-                _pageIndex = 0;
-                ShowConstructAssetsCount();
-                GetConstructAssets();
-            }
-            else
-            {
-                _constructCategoryFilter = categoryId;
+            //    _pageIndex = 0;
+            //    ShowConstructAssetsCount();
+            //    GetConstructAssets();
+            //}
+            //else
+            //{
+            _constructCategoryFilter = categoryId;
 
-                Button_ConstructCategory.Content = _pickedConstructCategory.Name;
-                Button_ConstructCategory.Visibility = Visibility.Visible;
+            Button_ConstructCategory.Content = _pickedConstructCategory.Name;
+            Button_ConstructCategory.Visibility = Visibility.Visible;
 
-                ShowConstructSubCategories();
-            }
+            ShowConstructSubCategories();
+            //}
         }
 
         private void ButtonConstructSubCategory_Click(object sender, RoutedEventArgs e)

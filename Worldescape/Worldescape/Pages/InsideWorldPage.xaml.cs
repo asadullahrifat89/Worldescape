@@ -127,11 +127,8 @@ namespace Worldescape
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            //TODO: add a random background color
-
             Color color = _backgroundColors[new Random().Next(0, _backgroundColors.Count())];
             Background = new SolidColorBrush(color);
-
 
             Grid_Root.Visibility = Visibility.Collapsed;
 
@@ -688,6 +685,8 @@ namespace Worldescape
             MultiselectedConstructs.Clear();
 
             ReleaseAssignedPointerElement();
+            Button_ConstructMove.IsChecked = false;
+            Button_ConstructClone.IsChecked = false;
 
             if (Button_ConstructMultiSelect.IsChecked.Value)
             {
@@ -2352,7 +2351,7 @@ namespace Worldescape
             // If any avatars exist for this world start fetching asynchronously
             if (count > 0)
             {
-                var pageSize = 10;
+                var pageSize = 15;
 
                 var totalPageCount = _paginationHelper.GetTotalPageCount(pageSize, count);
 
@@ -2604,7 +2603,7 @@ namespace Worldescape
             // If any constructs exist for this world start fetching asynchronously
             if (count > 0)
             {
-                var pageSize = 10;
+                var pageSize = 20;
 
                 var totalPageCount = _paginationHelper.GetTotalPageCount(pageSize: pageSize, dataCount: count);
 

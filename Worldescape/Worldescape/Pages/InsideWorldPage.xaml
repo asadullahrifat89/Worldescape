@@ -28,8 +28,7 @@
             IsTabStop="False"
             VerticalScrollBarVisibility="Auto">
 
-            <!--  PointerMoved="Canvas_Root_PointerMoved"  -->
-            <!--  PointerReleased="Canvas_Root_PointerReleased"  -->
+            <!--<Canvas x:Name="Canvas_Background">-->
             <Canvas
                 x:Name="Canvas_Root"
                 Width="8000"
@@ -43,6 +42,7 @@
                     <ScaleTransform x:Name="Canvas_RootScaleTransform" ScaleX="1" ScaleY="1" />
                 </Canvas.RenderTransform>
             </Canvas>
+            <!--</Canvas>-->
 
         </ScrollViewer>
 
