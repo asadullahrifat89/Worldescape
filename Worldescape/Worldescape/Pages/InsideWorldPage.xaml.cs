@@ -1870,6 +1870,10 @@ namespace Worldescape
 
         #region Element
 
+        /// <summary>
+        /// Atach an image with pointer movement.
+        /// </summary>
+        /// <param name="uiElement"></param>
         private void AssignPointerElement(UIElement uiElement)
         {
             if (uiElement is Button button && button.Content is Image image && image.Source is BitmapImage bitmapImage)
@@ -1894,6 +1898,10 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Move assigned image with pointer.
+        /// </summary>
+        /// <param name="e"></param>
         private void MoveAssignedPointerElement(PointerRoutedEventArgs e)
         {
             if (_pointerImage != null)
