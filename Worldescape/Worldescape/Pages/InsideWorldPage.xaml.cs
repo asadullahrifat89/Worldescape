@@ -656,7 +656,7 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Activates adding a construct. Shows the asset picker for picking a construct and upon selection keeps adding the construct until untoggled.
+        /// Activates adding a construct. Shows the asset picker for picking a construct.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -664,12 +664,6 @@ namespace Worldescape
         {
             if (CanPerformWorldEvents())
             {
-                //// Turn off add mode if previously triggered
-                //if (_addingConstruct != null)
-                //{
-                //    _addingConstruct = null;
-                //}
-
                 if (Button_ConstructAdd.IsChecked.Value)
                 {
                     ShowConstructAssetsControl();
@@ -3156,7 +3150,7 @@ namespace Worldescape
                 _cloningConstruct = Canvas_Root.Children.OfType<Button>().Where(z => z.Tag is Construct).FirstOrDefault(x => ((Construct)x.Tag).Id == element.Id);
 
                 double goToX = pointX - ((Button)_cloningConstruct).ActualWidth / 2;
-                double goToY = pointY - ((Button)_cloningConstruct).ActualHeight/2;
+                double goToY = pointY - ((Button)_cloningConstruct).ActualHeight / 2;
 
                 goToX += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item2;
                 goToY += distWrtFi.FirstOrDefault(x => x.Item1 == element.Id).Item3;
