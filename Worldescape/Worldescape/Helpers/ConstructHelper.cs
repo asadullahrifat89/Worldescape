@@ -101,7 +101,7 @@ namespace Worldescape
                     var children = canvas.Children.OfType<Button>();
 
                     if (children != null && children.Any(x => x.Tag is Construct))
-                    {                        
+                    {
                         var maxZ = children.Where(x => x.Tag is Construct).Select(z => (Construct)z.Tag).Max(x => x.Coordinate.Z);
                         indexZ = maxZ + 1;
                     }
@@ -205,7 +205,7 @@ namespace Worldescape
             Canvas canvas)
         {
             var offsetX = constructButton.ActualWidth / 2;
-            var offsetY = constructButton.ActualHeight;
+            var offsetY = constructButton.ActualHeight / 2;
 
             var pointX = _elementHelper.NormalizePointerX(canvas, pressedPoint);
             var pointY = _elementHelper.NormalizePointerY(canvas, pressedPoint);

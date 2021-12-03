@@ -82,7 +82,8 @@ namespace Worldescape
             var button = (Button)uIElement;
 
             var offsetX = button.ActualWidth / 2;
-            var offsetY = button.ActualHeight;
+            // If the UIElement is Avatar then move it to an Y coordinate so that it appears on top of the clicked point, if it's a construct then move the construct to the middle point. 
+            var offsetY = button.Tag is Avatar ? button.ActualHeight : button.ActualHeight / 2;
 
             var goToX = pointX - offsetX;
             var goToY = pointY - offsetY;
