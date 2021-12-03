@@ -25,7 +25,7 @@ namespace Worldescape
 
         readonly AvatarHelper _avatarHelper;
         readonly EasingFunctionBase _constructEaseOut = new ExponentialEase() { EasingMode = EasingMode.EaseOut, Exponent = 5, };
-        PointerPoint _pointerPoint;
+        
         #endregion
 
         #region Ctor
@@ -45,7 +45,7 @@ namespace Worldescape
         /// <param name="canvas"></param>
         /// <param name="pressedPoint"></param>
         /// <returns></returns>
-        public double NormalizePointerX(Canvas canvas, Windows.UI.Input.PointerPoint pressedPoint)
+        public double NormalizePointerX(Canvas canvas, PointerPoint pressedPoint)
         {
             var pointX = pressedPoint.Position.X;
             pointX = pointX / ((ScaleTransform)canvas.RenderTransform).ScaleX;
@@ -58,7 +58,7 @@ namespace Worldescape
         /// <param name="canvas"></param>
         /// <param name="pressedPoint"></param>
         /// <returns></returns>
-        public double NormalizePointerY(Canvas canvas, Windows.UI.Input.PointerPoint pressedPoint)
+        public double NormalizePointerY(Canvas canvas, PointerPoint pressedPoint)
         {
             var pointY = pressedPoint.Position.Y;
             pointY = pointY / ((ScaleTransform)canvas.RenderTransform).ScaleY;
