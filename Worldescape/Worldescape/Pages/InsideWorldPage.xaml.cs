@@ -1402,7 +1402,7 @@ namespace Worldescape
 
         private void HubService_NewBroadcastConstruct(Construct construct)
         {
-            var constructBtn = GenerateConstructButton(
+            var btnConstruct = GenerateConstructButton(
                 name: construct.Name,
                 imageUrl: construct.ImageUrl,
                 constructId: construct.Id,
@@ -1411,13 +1411,13 @@ namespace Worldescape
                 createdOn: construct.CreatedOn);
 
             AddConstructOnCanvas(
-                construct: constructBtn,
+                construct: btnConstruct,
                 x: construct.Coordinate.X,
                 y: construct.Coordinate.Y,
                 z: construct.Coordinate.Z);
 
-            ScaleElement(uIElement: constructBtn, scale: construct.Scale);
-            RotateElement(uIElement: constructBtn, rotation: construct.Rotation);
+            ScaleElement(uIElement: btnConstruct, scale: construct.Scale);
+            RotateElement(uIElement: btnConstruct, rotation: construct.Rotation);
 
             Console.WriteLine("<<HubService_NewBroadcastConstruct: OK");
         }
@@ -2681,21 +2681,21 @@ namespace Worldescape
                     // If a construct already exists then update that, this can happen as after avatar login, new constructs can start appearing thru HubService
                     if (children != null && children.Count() > 0 && children.Any(x => ((Construct)x.Tag).Id == construct.Id))
                     {
-                        if (children.FirstOrDefault(x => ((Construct)x.Tag).Id == construct.Id) is Button constructBtn)
+                        if (children.FirstOrDefault(x => ((Construct)x.Tag).Id == construct.Id) is Button btnConstruct)
                         {
-                            constructBtn.Tag = construct;
+                            btnConstruct.Tag = construct;
 
-                            Canvas.SetLeft(constructBtn, construct.Coordinate.X);
-                            Canvas.SetTop(constructBtn, construct.Coordinate.Y);
-                            Canvas.SetZIndex(constructBtn, construct.Coordinate.Z);
+                            Canvas.SetLeft(btnConstruct, construct.Coordinate.X);
+                            Canvas.SetTop(btnConstruct, construct.Coordinate.Y);
+                            Canvas.SetZIndex(btnConstruct, construct.Coordinate.Z);
 
-                            ScaleElement(constructBtn, construct.Scale);
-                            RotateElement(constructBtn, construct.Rotation);
+                            ScaleElement(btnConstruct, construct.Scale);
+                            RotateElement(btnConstruct, construct.Rotation);
                         }
                     }
                     else // If construct doesn't exist then add that
                     {
-                        var constructBtn = GenerateConstructButton(
+                        var btnConstruct = GenerateConstructButton(
                            name: construct.Name,
                            imageUrl: construct.ImageUrl,
                            constructId: construct.Id,
@@ -2704,14 +2704,14 @@ namespace Worldescape
                            createdOn: construct.CreatedOn);
 
                         AddConstructOnCanvas(
-                            construct: constructBtn,
+                            construct: btnConstruct,
                             x: construct.Coordinate.X,
                             y: construct.Coordinate.Y,
                             z: construct.Coordinate.Z,
                             disableOpacityAnimation: true);
 
-                        ScaleElement(constructBtn, construct.Scale);
-                        RotateElement(constructBtn, construct.Rotation);
+                        ScaleElement(btnConstruct, construct.Scale);
+                        RotateElement(btnConstruct, construct.Rotation);
                     }
                 }
             }
@@ -2761,14 +2761,14 @@ namespace Worldescape
         {
             ReleaseAssignedPointerElement();
 
-            var constructBtn = GenerateConstructButton(
+            var btnConstruct = GenerateConstructButton(
                 name: constructAsset.Name,
                 imageUrl: constructAsset.ImageUrl);
 
-            _addingConstruct = constructBtn;
+            _addingConstruct = btnConstruct;
             ShowOperationalConstruct(_addingConstruct, "Adding...");
 
-            AssignPointerElement(constructBtn);
+            AssignPointerElement(btnConstruct);
         }
 
         /// <summary>
