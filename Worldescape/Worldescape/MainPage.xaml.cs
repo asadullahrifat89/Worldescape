@@ -95,7 +95,8 @@ namespace Worldescape
         public void SetIsBusy(bool isBusy, string busyMessage = null)
         {
             Grid_Root.IsEnabled = !isBusy;
-            Grid_Root.Opacity = Grid_Root.IsEnabled ? 1 : 0.5;
+
+            //Grid_Root.Opacity = Grid_Root.IsEnabled ? 1 : 0.5;
             BusyMessageHolder.Text = Grid_Root.IsEnabled ? "" : busyMessage ?? "Loading...";
         }
 

@@ -109,11 +109,10 @@
         </Grid>
 
         <!--  Busy indicator  -->
-        <ContentControl
-            Width="200"
-            Height="100"
+        <Border
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
             Background="{StaticResource DefaultBackgroundColor}"
-            Style="{StaticResource Card_Style}"
             Visibility="{Binding ElementName=Grid_Root, Path=IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}">
             <TextBlock
                 x:Name="BusyMessageHolder"
@@ -122,7 +121,7 @@
                 VerticalAlignment="Center"
                 FontSize="20"
                 FontWeight="SemiBold" />
-        </ContentControl>
+        </Border>
 
     </Grid>
 
