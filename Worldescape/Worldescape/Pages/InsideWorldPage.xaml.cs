@@ -17,7 +17,6 @@ using Worldescape.Service;
 using Worldescape.Common;
 using Image = Windows.UI.Xaml.Controls.Image;
 using Windows.UI.Input;
-using System.Windows.Input;
 
 namespace Worldescape
 {

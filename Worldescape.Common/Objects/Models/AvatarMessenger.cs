@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Worldescape.Common;
 
 namespace Worldescape.Common
 {

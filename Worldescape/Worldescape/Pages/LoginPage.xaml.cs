@@ -10,7 +10,6 @@ namespace Worldescape
     {
         #region Fields
 
-        readonly HttpServiceHelper _httpServiceHelper;
         readonly ApiTokenRepository _apiTokenRepository;
         readonly UserRepository _userRepository;        
         readonly MainPage _mainPage;
@@ -20,18 +19,15 @@ namespace Worldescape
         #region Ctor
 
         public LoginPage(
-            //HttpServiceHelper httpServiceHelper,
             //MainPage mainPage
             )
         {
             InitializeComponent();
 
-            //_httpServiceHelper = httpServiceHelper;
             //_mainPage = mainPage;
 
             LoginModelHolder.DataContext = LoginModel;
 
-            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _apiTokenRepository = App.ServiceProvider.GetService(typeof(ApiTokenRepository)) as ApiTokenRepository;
             _userRepository = App.ServiceProvider.GetService(typeof(UserRepository)) as UserRepository;            
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Worldescape.Common;
 
 namespace Worldescape.Service
@@ -16,10 +13,10 @@ namespace Worldescape.Service
         }
 
         /// <summary>
-        /// Get ApiToken for the provided credentials.
+        /// Get ApiToken from the provided credentials.
         /// </summary>
-        /// <param name="pageSize"></param>
-        /// <param name="pageIndex"></param>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
         /// <returns></returns>
         public async Task<RepositoryResponse> GetApiToken(string email, string password)
         {
