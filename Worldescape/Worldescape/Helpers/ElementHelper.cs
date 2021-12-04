@@ -25,7 +25,7 @@ namespace Worldescape
 
         readonly AvatarHelper _avatarHelper;
         readonly EasingFunctionBase _constructEaseOut = new ExponentialEase() { EasingMode = EasingMode.EaseOut, Exponent = 5, };
-        
+
         #endregion
 
         #region Ctor
@@ -135,6 +135,9 @@ namespace Worldescape
             float timeToTravelunitPixel = 0.5f;
 
             float timeToTravelDistance = distance / unitPixel * timeToTravelunitPixel;
+
+            if (timeToTravelDistance > 2)
+                timeToTravelDistance = 2;
 
             Storyboard moveStory = new Storyboard();
 
