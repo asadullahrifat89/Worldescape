@@ -166,6 +166,67 @@
                     </WrapPanel>
                 </ContentControl>
 
+                <!--  Commands for other avatar  -->
+                <WrapPanel
+                    x:Name="OtherAvatarActionsHolder"
+                    Canvas.ZIndex="2"
+                    Orientation="Vertical"
+                    Visibility="Collapsed">
+
+                    <!--  Message, activates messaging UI  -->
+                    <Button
+                        x:Name="Button_MessageAvatar"
+                        Width="70"
+                        Click="Button_MessageAvatar_Click"
+                        Content="&#xe8f2;"
+                        FontFamily="Segoe Fluent Icons"
+                        FontWeight="Normal"
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+                </WrapPanel>
+
+                <!--  Commands for own avatar  -->
+                <WrapPanel
+                    x:Name="OwnAvatarActionsHolder"
+                    Canvas.ZIndex="3"
+                    Orientation="Vertical"
+                    Visibility="Collapsed">
+
+                    <!--  Create post, shows a child window to create a post  -->
+                    <Button
+                        x:Name="Button_CreatePost"
+                        Width="70"
+                        Margin="5"
+                        Click="Button_CreatePost_Click"
+                        Content="&#xE72D;"
+                        FontFamily="Segoe Fluent Icons"
+                        FontWeight="Normal"
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+
+                    <!--  Toggles broadcast message mode, activates messaging UI, broadcasts message to all users in this world  -->
+                    <ToggleButton
+                        x:Name="Button_MessageAll"
+                        Width="70"
+                        Margin="5"
+                        Click="Button_MessageAll_Click"
+                        Content="&#xE789;"
+                        FontFamily="Segoe Fluent Icons"
+                        FontWeight="Normal"
+                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
+
+                    <!--  Show statuses  -->
+                    <ToggleButton
+                        x:Name="Button_SelectStatus"
+                        Width="70"
+                        Margin="5"
+                        Click="Button_SelectStatus_Click"
+                        Content="&#xEDE3;"
+                        FontFamily="Segoe Fluent Icons"
+                        FontWeight="Normal"
+                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
+
+                </WrapPanel>
+
             </Canvas>
 
 
@@ -363,70 +424,7 @@
                             Visibility="Collapsed" />
 
                         <!--  Selected avatar commands  -->
-                        <StackPanel HorizontalAlignment="Center">
-
-                            <!--  Commands for own avatar  -->
-                            <WrapPanel
-                                x:Name="OwnAvatarActionsHolder"
-                                Orientation="Vertical"
-                                Visibility="Collapsed">
-
-                                <!--  Create post, shows a child window to create a post  -->
-                                <Button
-                                    x:Name="Button_CreatePost"
-                                    Width="70"
-                                    Margin="5,10"
-                                    Click="Button_CreatePost_Click"
-                                    Content="&#xE72D;"
-                                    FontFamily="Segoe Fluent Icons"
-                                    FontWeight="Normal"
-                                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-                                <!--  Toggles broadcast message mode, activates messaging UI, broadcasts message to all users in this world  -->
-                                <ToggleButton
-                                    x:Name="Button_MessageAll"
-                                    Width="70"
-                                    Margin="5,10"
-                                    Click="Button_MessageAll_Click"
-                                    Content="&#xE789;"
-                                    FontFamily="Segoe Fluent Icons"
-                                    FontWeight="Normal"
-                                    Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
-
-                                <!--  Show statuses  -->
-                                <ToggleButton
-                                    x:Name="Button_SelectStatus"
-                                    Width="70"
-                                    Margin="5,10"
-                                    Click="Button_SelectStatus_Click"
-                                    Content="&#xEDE3;"
-                                    FontFamily="Segoe Fluent Icons"
-                                    FontWeight="Normal"
-                                    Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
-
-                            </WrapPanel>
-
-                            <!--  Commands for other avatar  -->
-                            <WrapPanel
-                                x:Name="OtherAvatarActionsHolder"
-                                Margin="5,0"
-                                Orientation="Vertical"
-                                Visibility="Collapsed">
-
-                                <!--  Message, activates messaging UI  -->
-                                <Button
-                                    x:Name="Button_MessageAvatar"
-                                    Width="70"
-                                    Margin="0,10"
-                                    Click="Button_MessageAvatar_Click"
-                                    Content="&#xe8f2;"
-                                    FontFamily="Segoe Fluent Icons"
-                                    FontWeight="Normal"
-                                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
-
-                            </WrapPanel>
-
-                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center" />
 
                         <!--  Set own status commands  -->
                         <ContentControl

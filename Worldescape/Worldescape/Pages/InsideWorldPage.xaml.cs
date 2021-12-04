@@ -270,19 +270,27 @@ namespace Worldescape
 
             ShowSelectedAvatar(uielement);
 
-            if (((Button)uielement).Tag is Avatar avatar)
+            if (uielement is Button button && button.Tag is Avatar avatar)
             {
                 // If selected own avatar
                 if (avatar.Id == Avatar.Id)
                 {
+                    // Show commands for self
+                    PopElementContextCommands(e, OwnAvatarActionsHolder);
                     OwnAvatarActionsHolder.Visibility = Visibility.Visible;
-                    OtherAvatarActionsHolder.Visibility = Visibility.Collapsed;
+
+                    HideOtherAvatarActions();
                 }
                 else
                 {
-                    OwnAvatarActionsHolder.Visibility = Visibility.Collapsed;
+                    // Show commands for other
+                    PopElementContextCommands(e, OtherAvatarActionsHolder);
                     OtherAvatarActionsHolder.Visibility = Visibility.Visible;
+
+                    HideOwnAvatarActions();
+
                     Button_SelectStatus.IsChecked = false;
+                    // Hide activity status menu items
                     HideAvatarActivityStatusHolder();
                 }
             }
@@ -1080,6 +1088,7 @@ namespace Worldescape
                 SetAvatarDetailsOnSideCard();
 
                 MessagingTextBox.Focus();
+                HideOtherAvatarActions();
             }
         }
 
@@ -2034,6 +2043,17 @@ namespace Worldescape
                 isCrafting: Button_ConstructCraft.IsChecked.Value);
         }
 
+        private void PopElementContextCommands(PointerRoutedEventArgs e, UIElement uIElement)
+        {
+            var pressedPoint = e.GetCurrentPoint(Canvas_RootHost);
+
+            var pointX = pressedPoint.Position.X + 3;
+            var pointY = pressedPoint.Position.Y + 3;
+
+            Canvas.SetLeft(uIElement, pointX);
+            Canvas.SetTop(uIElement, pointY);
+        }
+
         #endregion
 
         #region Connection
@@ -2596,14 +2616,21 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Hides avatar opearional buttons.
+        /// Hides command buttons for self and non self avatars.
         /// </summary>
         private void HideAvatarOperationButtons()
         {
-            OwnAvatarActionsHolder.Visibility = Visibility.Collapsed;
-            OtherAvatarActionsHolder.Visibility = Visibility.Collapsed;
+            HideOwnAvatarActions();
+            HideOtherAvatarActions();
         }
 
+        /// <summary>
+        /// Hides command buttons for self avatar.
+        /// </summary>
+        private void HideOwnAvatarActions()
+        {
+            OwnAvatarActionsHolder.Visibility = Visibility.Collapsed;
+        }
         #endregion
 
         #region Construct
@@ -3016,14 +3043,7 @@ namespace Worldescape
         {
             if (_selectedConstruct != null && _selectedConstruct is Button button && button.Tag is Construct)
             {
-                var pressedPoint = e.GetCurrentPoint(Canvas_RootHost);
-
-                var pointX = pressedPoint.Position.X + 3;
-                var pointY = pressedPoint.Position.Y + 3;
-
-                Canvas.SetLeft(ConstructOperationalCommandsHolder, pointX);
-                Canvas.SetTop(ConstructOperationalCommandsHolder, pointY);
-
+                PopElementContextCommands(e, ConstructOperationalCommandsHolder);
                 ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
             }
         }
@@ -3292,6 +3312,14 @@ namespace Worldescape
         #endregion
 
         #region Message
+
+        /// <summary>
+        /// Hides command buttons for non self avatar.
+        /// </summary>
+        private void HideOtherAvatarActions()
+        {
+            OtherAvatarActionsHolder.Visibility = Visibility.Collapsed;
+        }
 
         /// <summary>
         /// Send unicast message to selected avatar.
