@@ -50,5 +50,24 @@ namespace Worldescape.Service
                    result: response.Worlds,
                    error: response.ExternalError);
         }
+
+        public async Task<RepositoryResponse> AddWorld(string token, string name, string imageUrl)
+        {
+            var command = new AddWorldCommandRequest
+            {
+                Token = token,
+                Name = name,
+                ImageUrl = imageUrl
+            };
+
+            var world = await _httpServiceHelper.SendPostRequest<World>(
+               actionUri: Constants.Action_AddWorld,
+               payload: command);
+
+            return RepositoryResponse.BuildResponse(
+                success: world != null && world.Id > 0,
+                result: world,
+                error: world != null && world.Id > 0 ? null : "Failed to create your world. This shouldn't be happening. Try again.");
+        }
     }
 }

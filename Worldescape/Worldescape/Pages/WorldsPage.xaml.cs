@@ -270,7 +270,7 @@ namespace Worldescape
                 return System.Linq.Enumerable.Empty<World>();
             }
 
-            var worlds = (IEnumerable<World>)response.Result;
+            var worlds = response.Result as IEnumerable<World>;
             return worlds;
         }
 
