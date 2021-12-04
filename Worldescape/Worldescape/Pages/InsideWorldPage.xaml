@@ -45,7 +45,7 @@
                     </Canvas.RenderTransform>
                 </Canvas>
 
-                <!--  Bottom middle construct operation buttons  -->
+                <!--  construct operation buttons  -->
                 <ContentControl
                     x:Name="ConstructOperationalCommandsHolder"
                     Padding="5"
