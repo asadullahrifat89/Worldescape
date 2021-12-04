@@ -13,7 +13,6 @@ namespace Worldescape
         World _world;
 
         readonly MainPage _mainPage;
-        readonly HttpServiceHelper _httpServiceHelper;
         readonly WorldRepository _worldRepository;
 
         public WorldCreatorWindow(
@@ -27,7 +26,6 @@ namespace Worldescape
 
             Title = _world.IsEmpty() ? "Create world" : "Update world";
 
-            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _worldRepository = App.ServiceProvider.GetService( typeof(WorldRepository)) as WorldRepository;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
         }
@@ -51,31 +49,30 @@ namespace Worldescape
         {
             _mainPage.SetIsBusy(true, "Saving your world...");
 
-            var command = new UpdateWorldCommandRequest
-            {
-                Token = App.Token,
-                Name = WorldNameHolder.Text,
-                Id = _world.Id,
-            };
+            var response = await _worldRepository.UpdateWorld(
+               token: App.Token,
+               name: WorldNameHolder.Text,
+               id: _world.Id);
 
-            var world = await _httpServiceHelper.SendPostRequest<World>(
-               actionUri: Constants.Action_UpdateWorld,
-               payload: command);
-
-            if (world != null && world.Id > 0)
+            if (!response.Success)
             {
-                _mainPage.SetIsBusy(false);
-
-                _wordSaved?.Invoke(world);
-                this.DialogResult = true;
-            }
-            else
-            {
-                var contentDialogue = new ContentDialogueWindow(title: "Failed!", message: "Failed to save your world. This shouldn't be happening. Try again.");
+                var contentDialogue = new ContentDialogueWindow(title: "Failed!", message: response.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);
             }
+            else
+            {
+                var world = response.Result as World;
+
+                if (world != null && world.Id > 0)
+                {
+                    _mainPage.SetIsBusy(false);
+
+                    _wordSaved?.Invoke(world);
+                    this.DialogResult = true;
+                }
+            }            
         }
 
         private async Task AddWorld()
@@ -108,33 +105,6 @@ namespace Worldescape
                     this.DialogResult = true;
                 }
             }
-
-            //var command = new AddWorldCommandRequest
-            //{
-            //    Token = App.Token,
-            //    Name = WorldNameHolder.Text,
-            //    ImageUrl = defaultWorldImageUrl
-            //};
-
-            //var world = await _httpServiceHelper.SendPostRequest<World>(
-            //   actionUri: Constants.Action_AddWorld,
-            //   payload: command);
-
-            //if (world != null && world.Id > 0)
-            //{
-            //    _mainPage.SetIsBusy(false);
-
-            //    _wordSaved?.Invoke(world);
-            //    this.DialogResult = true;
-
-            //}
-            //else
-            //{
-            //    var contentDialogue = new ContentDialogueWindow(title: "Failed!", message: "Failed to create your world. This shouldn't be happening. Try again.");
-            //    contentDialogue.Show();
-
-            //    _mainPage.SetIsBusy(false);
-            //}
         }
 
         private void Button_Cancel_Click(object sender, RoutedEventArgs e)

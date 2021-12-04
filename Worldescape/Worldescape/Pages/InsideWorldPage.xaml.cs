@@ -2433,7 +2433,7 @@ namespace Worldescape
                 return Enumerable.Empty<Avatar>();
             }
 
-            var avatars = (IEnumerable<Avatar>)response.Result;
+            var avatars = response.Result as IEnumerable<Avatar>;
 
             return avatars;
         }
@@ -2712,7 +2712,7 @@ namespace Worldescape
                 return Enumerable.Empty<Construct>();
             }
 
-            var constructs = (IEnumerable<Construct>)response.Result;
+            var constructs = response.Result as IEnumerable<Construct>;
 
             return constructs;
         }

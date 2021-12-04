@@ -51,6 +51,13 @@ namespace Worldescape.Service
                    error: response.ExternalError);
         }
 
+        /// <summary>
+        /// Adds a world.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="name"></param>
+        /// <param name="imageUrl"></param>
+        /// <returns></returns>
         public async Task<RepositoryResponse> AddWorld(string token, string name, string imageUrl)
         {
             var command = new AddWorldCommandRequest
@@ -68,6 +75,32 @@ namespace Worldescape.Service
                 success: world != null && world.Id > 0,
                 result: world,
                 error: world != null && world.Id > 0 ? null : "Failed to create your world. This shouldn't be happening. Try again.");
+        }
+
+        /// <summary>
+        /// Updates a world.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<RepositoryResponse> UpdateWorld(string token, string name, int id)
+        {
+            var command = new UpdateWorldCommandRequest
+            {
+                Token = token,
+                Name = name,
+                Id = id
+            };
+
+            var world = await _httpServiceHelper.SendPostRequest<World>(
+               actionUri: Constants.Action_UpdateWorld,
+               payload: command);
+
+            return RepositoryResponse.BuildResponse(
+                success: world != null && world.Id > 0,
+                result: world,
+                error: world != null && world.Id > 0 ? null : "Failed to save your world. This shouldn't be happening. Try again.");
         }
     }
 }
