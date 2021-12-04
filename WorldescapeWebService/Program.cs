@@ -162,7 +162,7 @@ app.MapGet(pattern: Constants.Action_GetAsset, handler: async (string token, str
 
     string fileN = fileName.Replace('\\', '_');
 
-    var resultFile = Microsoft.AspNetCore.Http.Results.File(file, "text/plain", fileN);
+    var resultFile = Microsoft.AspNetCore.Http.Results.File(fileContents: file, contentType: "image/*", fileDownloadName: fileN);
 
     return resultFile;
 
@@ -191,7 +191,7 @@ app.MapGet(pattern: Constants.Action_GetBlob, handler: async (string token, int 
 
     string fileN = id.ToString();
 
-    var resultFile = Microsoft.AspNetCore.Http.Results.File(file, "text/plain", fileN);
+    var resultFile = Microsoft.AspNetCore.Http.Results.File(fileContents: file, contentType: "text/plain", fileDownloadName: fileN);
 
     return resultFile;
 
