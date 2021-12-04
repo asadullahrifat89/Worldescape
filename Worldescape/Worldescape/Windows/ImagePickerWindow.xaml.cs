@@ -16,6 +16,7 @@ namespace Worldescape
         readonly ImageHelper _imageHelper;
         readonly UrlHelper _urlHelper;
         readonly HttpServiceHelper _httpServiceHelper;
+        readonly BlobRepository _blobRepository;
 
         #endregion
 
@@ -30,6 +31,7 @@ namespace Worldescape
             _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
             _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
+            _blobRepository = App.ServiceProvider.GetService(typeof(BlobRepository)) as BlobRepository;
 
             if (!imageUrl.IsNullOrBlank())
             {
@@ -42,27 +44,20 @@ namespace Worldescape
 
         #region Methods
 
+        #region Button Events
+
         private async void Button_OK_Click(object sender, RoutedEventArgs e)
         {
-            var command = new SaveBlobCommandRequest()
-            {
-                Id = UidGenerator.New(),
-                DataUrl = _selectedDataUrl,
-                Token = App.Token
-            };
+            var response = await _blobRepository.SaveBlob(App.Token, _selectedDataUrl);
 
-            var response = await _httpServiceHelper.SendPostRequest<SaveBlobCommandResponse>(
-              actionUri: Constants.Action_SaveBlob,
-              payload: command);
-
-            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
+            if (!response.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
             }
             else
             {
-                _blobId?.Invoke(response.Id.ToString());
+                _blobId?.Invoke(((int)response.Result).ToString());
                 this.DialogResult = true;
             }
         }
@@ -80,19 +75,9 @@ namespace Worldescape
                 return;
 
             Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_selectedDataUrl);
-
-            //var base64String = e.DataURL;
-            //base64String = base64String.Substring(base64String.IndexOf(',') + 1);
-
-            //byte[] byteBuffer = Convert.FromBase64String(base64String);
-
-            //using (MemoryStream memoryStream = new MemoryStream(byteBuffer))
-            //{
-            //    var bitmapImage = new BitmapImage();
-            //    bitmapImage.SetSource(memoryStream);
-            //    Image_ProfileImageUrl.Source = bitmapImage;
-            //}
         }
+
+        #endregion
 
         #endregion
     }
