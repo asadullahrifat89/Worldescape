@@ -11,7 +11,8 @@ namespace Worldescape
         #region Fields
 
         readonly HttpServiceHelper _httpServiceHelper;
-        readonly UserRepository _userRepository;
+        readonly ApiTokenRepository _apiTokenRepository;
+        readonly UserRepository _userRepository;        
         readonly MainPage _mainPage;
 
         #endregion
@@ -31,7 +32,8 @@ namespace Worldescape
             LoginModelHolder.DataContext = LoginModel;
 
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
-            _userRepository = App.ServiceProvider.GetService(typeof(UserRepository)) as UserRepository;
+            _apiTokenRepository = App.ServiceProvider.GetService(typeof(ApiTokenRepository)) as ApiTokenRepository;
+            _userRepository = App.ServiceProvider.GetService(typeof(UserRepository)) as UserRepository;            
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
 
         }
@@ -65,20 +67,18 @@ namespace Worldescape
 
             _mainPage.SetIsBusy(true);
 
-            var response = await _httpServiceHelper.SendGetRequest<StringResponse>(
-               actionUri: Constants.Action_GetApiToken,
-               payload: new GetApiTokenQueryRequest { Password = LoginModel.Password, Email = LoginModel.Email, });
+            var apiTokenResponse = await _apiTokenRepository.GetApiToken(email: LoginModel.Email, password: LoginModel.Password);
 
-            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
+            if (!apiTokenResponse.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: apiTokenResponse.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);
             }
             else
             {
-                var token = response.Response;
+                var token = apiTokenResponse.Result as string;
 
                 if (token.IsNullOrBlank())
                 {
@@ -101,8 +101,7 @@ namespace Worldescape
                     var contentDialogue = new ContentDialogueWindow(title: "Error!", message: loginResponse.Error);
                     contentDialogue.Show();
 
-                    _mainPage.SetIsBusy(false);
-                    return;
+                    _mainPage.SetIsBusy(false);                    
                 }
                 else
                 {

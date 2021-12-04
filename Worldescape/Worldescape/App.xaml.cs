@@ -68,6 +68,7 @@ namespace Worldescape
             services.AddSingleton<ElementHelper>();
 
             // Repositories
+            services.AddSingleton<ApiTokenRepository>();
             services.AddSingleton<ConstructRepository>();
             services.AddSingleton<AvatarRepository>();
             services.AddSingleton<WorldRepository>();
