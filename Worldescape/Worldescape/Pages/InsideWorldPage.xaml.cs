@@ -43,7 +43,6 @@ namespace Worldescape
         readonly AvatarHelper _avatarHelper;
         readonly ConstructHelper _constructHelper;
         readonly WorldHelper _worldHelper;
-        readonly HttpServiceHelper _httpServiceHelper;
         readonly PaginationHelper _paginationHelper;
         readonly ElementHelper _elementHelper;
 
@@ -71,7 +70,6 @@ namespace Worldescape
             AvatarHelper avatarHelper,
             WorldHelper worldHelper,
             ConstructHelper constructHelper,
-            HttpServiceHelper httpServiceHelper,
             PaginationHelper paginationHelper,
             ElementHelper elementHelper,
             ConstructRepository constructRepository,
@@ -85,25 +83,12 @@ namespace Worldescape
             _avatarHelper = avatarHelper;
             _worldHelper = worldHelper;
             _constructHelper = constructHelper;
-            _httpServiceHelper = httpServiceHelper;
             _paginationHelper = paginationHelper;
             _elementHelper = elementHelper;
             _mainPage = mainPage;
             _constructRepository = constructRepository;
             _avatarRepository = avatarRepository;
             _constructAssetPickerControl = constructAssetPickerControl;
-
-            //HubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
-
-            //_mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-            //_avatarHelper = App.ServiceProvider.GetService(typeof(AvatarHelper)) as AvatarHelper;
-            //_worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
-            //_constructHelper = App.ServiceProvider.GetService(typeof(ConstructHelper)) as ConstructHelper;
-            //_httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
-            //_paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
-            //_elementHelper = App.ServiceProvider.GetService(typeof(ElementHelper)) as ElementHelper;
-
-            //ConstructAssetPickerControl = App.ServiceProvider.GetService(typeof(ConstructAssetPickerControl)) as ConstructAssetPickerControl;
 
             SubscribeHub();
             SubscribeConstructAssetPicker();

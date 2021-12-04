@@ -21,7 +21,6 @@ namespace Worldescape
         bool _settingWorlds = false;
 
         readonly MainPage _mainPage;
-        readonly HttpServiceHelper _httpServiceHelper;
         readonly WorldHelper _worldHelper;
         readonly PaginationHelper _paginationHelper;
 
@@ -34,7 +33,6 @@ namespace Worldescape
         #region Ctor
 
         public WorldsPage(
-            HttpServiceHelper httpServiceHelper,
             WorldHelper worldHelper,
             PaginationHelper paginationHelper,
             WorldRepository worldRepository,
@@ -42,25 +40,121 @@ namespace Worldescape
         {
             InitializeComponent();
 
-            _httpServiceHelper = httpServiceHelper;
             _worldHelper = worldHelper;
             _paginationHelper = paginationHelper;
 
             _worldRepository = worldRepository;
 
-            _mainPage = mainPage;
-
-            SearchWorlds();
-
-            //_httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
-            //_mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-            //_worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
-            //_paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;           
+            _mainPage = mainPage;                          
         }
 
         #endregion
 
         #region Methods
+
+        #region Page Events
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            SearchWorlds();
+        }
+
+        #endregion
+
+        #region Button Events
+
+        private void ToggleButton_UsersWorldsOnly_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox_SearchWorldsText.PlaceholderText = ToggleButton_UsersWorldsOnly.IsChecked.Value ? "Search my worlds..." : "Search all worlds...";
+            SearchWorlds();
+        }
+
+        private void Button_SearchWorld_Click(object sender, RoutedEventArgs e)
+        {
+            SearchWorlds();
+        }
+
+        private void ButtonWorld_Click(object sender, RoutedEventArgs e)
+        {
+            var world = ((Button)sender).Tag as World;
+
+            var contentDialogue = new ContentDialogueWindow(title: $"Go to {world.Name}", message: "Would you like to go to this world?", result: (result) =>
+            {
+                if (result)
+                {
+                    App.World = world;
+                    _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
+                }
+            });
+
+            contentDialogue.Show();
+        }
+
+        private async void ButtonPreview_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_settingWorlds)
+            {
+                _pageIndex = _paginationHelper.GetPreviousPageNumber(_pageIndex);
+                await FetchWorlds();
+                GeneratePageNumbers();
+            }
+        }
+
+        private async void ButtonNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_settingWorlds)
+            {
+                _pageIndex = _paginationHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
+                await FetchWorlds();
+                GeneratePageNumbers();
+            }
+        }
+
+        private async void ButtonPageIndex_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_settingWorlds)
+            {
+                _pageIndex = Convert.ToInt32(((Button)sender).Content);
+                await FetchWorlds();
+                GeneratePageNumbers();
+            }
+        }
+
+        private void Button_CreateWorld_Click(object sender, RoutedEventArgs e)
+        {
+            WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow((world) =>
+            {
+                var contentDialogue = new ContentDialogueWindow($"Teleport", "Would you like to teleport to your created world now?", (result) =>
+                {
+                    if (result)
+                    {
+                        App.World = world;
+                        _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
+                    }
+                    else
+                    {
+                        SearchWorlds();
+                    }
+                });
+
+                contentDialogue.Show();
+            });
+            worldCreatorWindow.Show();
+        }
+
+        #endregion
+
+        #region UX Events
+
+        private void TextBox_SearchWorldsText_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                SearchWorlds();
+            }
+        }
+
+        #endregion
 
         #region Functionality
 
@@ -190,110 +284,6 @@ namespace Worldescape
         {
             _pageNumbers = _paginationHelper.PopulatePageNumbers(_totalPageCount, pageIndex ?? _pageIndex, _pageNumbers);
             PagesHolder.ItemsSource = _pageNumbers;
-        }
-
-        #endregion
-
-        #region Page Events
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        #endregion
-
-        #region Button Events
-
-        private void ToggleButton_UsersWorldsOnly_Click(object sender, RoutedEventArgs e)
-        {
-            TextBox_SearchWorldsText.PlaceholderText = ToggleButton_UsersWorldsOnly.IsChecked.Value ? "Search my worlds..." : "Search all worlds...";
-            SearchWorlds();
-        }
-
-        private void Button_SearchWorld_Click(object sender, RoutedEventArgs e)
-        {
-            SearchWorlds();
-        }
-
-        private void ButtonWorld_Click(object sender, RoutedEventArgs e)
-        {
-            var world = ((Button)sender).Tag as World;
-
-            var contentDialogue = new ContentDialogueWindow(title: $"Go to {world.Name}", message: "Would you like to go to this world?", result: (result) =>
-            {
-                if (result)
-                {
-                    App.World = world;
-                    _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
-                }
-            });
-
-            contentDialogue.Show();
-        }
-
-        private async void ButtonPreview_Click(object sender, RoutedEventArgs e)
-        {
-            if (!_settingWorlds)
-            {
-                _pageIndex = _paginationHelper.GetPreviousPageNumber(_pageIndex);
-                await FetchWorlds();
-                GeneratePageNumbers();
-            }
-        }
-
-        private async void ButtonNext_Click(object sender, RoutedEventArgs e)
-        {
-            if (!_settingWorlds)
-            {
-                _pageIndex = _paginationHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
-                await FetchWorlds();
-                GeneratePageNumbers();
-            }
-        }
-
-        private async void ButtonPageIndex_Click(object sender, RoutedEventArgs e)
-        {
-            if (!_settingWorlds)
-            {
-                _pageIndex = Convert.ToInt32(((Button)sender).Content);
-                await FetchWorlds();
-                GeneratePageNumbers();
-            }
-        }
-
-        private void Button_CreateWorld_Click(object sender, RoutedEventArgs e)
-        {
-            WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow((world) =>
-            {
-                var contentDialogue = new ContentDialogueWindow($"Teleport", "Would you like to teleport to your created world now?", (result) =>
-                {
-                    if (result)
-                    {
-                        App.World = world;
-                        _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
-                    }
-                    else
-                    {
-                        SearchWorlds();
-                    }
-                });
-
-                contentDialogue.Show();
-            });
-            worldCreatorWindow.Show();
-        }
-
-        #endregion
-
-        #region UX Events
-
-        private void TextBox_SearchWorldsText_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter)
-            {
-                SearchWorlds();
-            }
         }
 
         #endregion
