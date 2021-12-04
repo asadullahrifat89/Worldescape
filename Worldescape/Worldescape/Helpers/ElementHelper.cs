@@ -227,7 +227,7 @@ namespace Worldescape
                 {
                     From = nowX,
                     To = goToX,
-                    Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                    Duration = new Duration(TimeSpan.FromMilliseconds(550)),
                     EasingFunction = _constructEaseOut,
                 };
 
@@ -235,7 +235,7 @@ namespace Worldescape
                 {
                     From = nowY,
                     To = goToY,
-                    Duration = new Duration(TimeSpan.FromSeconds(timeToTravelDistance)),
+                    Duration = new Duration(TimeSpan.FromMilliseconds(550)),
                     EasingFunction = _constructEaseOut,
                 };
             }
