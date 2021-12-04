@@ -2687,7 +2687,9 @@ namespace Worldescape
         /// <returns></returns>
         private async Task<long> GetConstructsCount()
         {
-            var response = await _constructRepository.GetConstructsCount(token: App.Token, worldId: App.World.Id);
+            var response = await _constructRepository.GetConstructsCount(
+                token: App.Token,
+                worldId: App.World.Id);
 
             if (!response.Success)
             {
@@ -2710,7 +2712,11 @@ namespace Worldescape
         private async Task<IEnumerable<Construct>> GetConstructs(int pageSize, int pageIndex)
         {
             // Get constructs in small packets
-            var response = await _constructRepository.GetConstructs(token: App.Token, worldId: App.World.Id, pageIndex: pageIndex, pageSize: pageSize);
+            var response = await _constructRepository.GetConstructs(
+                token: App.Token,
+                pageIndex: pageIndex,
+                pageSize: pageSize,
+                worldId: App.World.Id);
 
             if (!response.Success)
             {

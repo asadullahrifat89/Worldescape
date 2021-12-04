@@ -38,7 +38,7 @@ namespace Worldescape.Service
         /// <param name="pageSize"></param>
         /// <param name="pageIndex"></param>
         /// <returns></returns>
-        public async Task<RepositoryResponse> GetConstructs(string token, int worldId, int pageIndex, int pageSize)
+        public async Task<RepositoryResponse> GetConstructs(string token, int pageIndex, int pageSize, int worldId)
         {
             // Get constructs in small packets
             var response = await _httpServiceHelper.SendGetRequest<GetConstructsQueryResponse>(
