@@ -11,14 +11,13 @@
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
     <Grid x:Name="Grid_Root">
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!--  Canvas host  -->
+        <!--  Canvas  -->
         <ScrollViewer
             x:Name="CanvasScrollViewer"
             Grid.Row="0"
@@ -36,7 +35,8 @@
                 Background="Transparent"
                 PointerMoved="Canvas_Root_PointerMoved"
                 PointerPressed="Canvas_Root_PointerPressed"
-                PointerReleased="Canvas_Root_PointerReleased">
+                PointerReleased="Canvas_Root_PointerReleased"
+                VirtualizingStackPanel.VirtualizationMode="Recycling">
                 <Canvas.RenderTransform>
                     <ScaleTransform x:Name="Canvas_RootScaleTransform" ScaleX="1" ScaleY="1" />
                 </Canvas.RenderTransform>
@@ -146,7 +146,7 @@
             </StackPanel>
         </Grid>
 
-        <!--  Bottom wide construct assets list  -->
+        <!--  Middle left construct assets list  -->
         <ContentControl
             x:Name="ContentControl_ConstructAssetsContainer"
             Grid.Row="1"
@@ -163,7 +163,7 @@
 
         </ContentControl>
 
-        <!--  Bottom right active avatars list  -->
+        <!--  Middle right active avatars list  -->
         <ContentControl
             x:Name="ContentControl_ActiveAvatarsContainer"
             Grid.Row="1"
