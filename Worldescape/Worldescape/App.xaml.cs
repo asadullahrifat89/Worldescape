@@ -69,6 +69,7 @@ namespace Worldescape
 
             // Repositories
             services.AddSingleton<ConstructRepository>();
+            services.AddSingleton<AvatarRepository>();
 
             // Pages
             services.AddSingleton<MainPage>();

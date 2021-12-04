@@ -48,6 +48,7 @@ namespace Worldescape
         readonly ElementHelper _elementHelper;
 
         readonly ConstructRepository _constructRepository;
+        readonly AvatarRepository _avatarRepository;
 
         readonly ConstructAssetPickerControl _constructAssetPickerControl;
 
@@ -74,6 +75,7 @@ namespace Worldescape
             PaginationHelper paginationHelper,
             ElementHelper elementHelper,
             ConstructRepository constructRepository,
+            AvatarRepository avatarRepository,
             MainPage mainPage,
             ConstructAssetPickerControl constructAssetPickerControl)
         {
@@ -88,6 +90,7 @@ namespace Worldescape
             _elementHelper = elementHelper;
             _mainPage = mainPage;
             _constructRepository = constructRepository;
+            _avatarRepository = avatarRepository;
             _constructAssetPickerControl = constructAssetPickerControl;
 
             //HubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
@@ -2359,66 +2362,44 @@ namespace Worldescape
 
                 var totalPageCount = _paginationHelper.GetTotalPageCount(pageSize, count);
 
-                var tasks = new List<Task>();
+                var fetchedAvatars = new List<Avatar>();
 
                 for (int pageIndex = 0; pageIndex < totalPageCount; pageIndex++)
                 {
-                    tasks.Add(GetAvatars(pageSize, pageIndex));
+                    var avatars = await GetAvatars(pageSize, pageIndex);
+                    if (avatars != null && avatars.Any())
+                    {
+                        fetchedAvatars.AddRange(avatars);
+                    }
                 }
 
-                await Task.WhenAll(tasks.ToArray());
+                if (fetchedAvatars.Any())
+                {
+                    Console.WriteLine("LoginToHub: avatars found: " + fetchedAvatars.Count());
+
+                    foreach (var avatar in fetchedAvatars)
+                    {
+                        var avatarButton = GenerateAvatarButton(avatar);
+
+                        SetAvatarActivityStatus(
+                            avatarButton: avatarButton,
+                            avatar: avatar,
+                            activityStatus: avatar.ActivityStatus);
+
+                        AddAvatarOnCanvas(
+                            avatar: avatarButton,
+                            x: avatar.Coordinate.X,
+                            y: avatar.Coordinate.Y,
+                            z: avatar.Coordinate.Z);
+
+                        AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
+                    }
+
+                    AvatarsCount.Text = AvatarMessengers.Count().ToString();
+                }
             }
 
             PopulateAvatarsInAvatarsContainer();
-        }
-
-        /// <summary>
-        /// Get avatars from server by pagination for the current world.
-        /// </summary>
-        /// <param name="pageSize"></param>
-        /// <param name="pageIndex"></param>
-        /// <returns></returns>
-        private async Task GetAvatars(int pageSize, int pageIndex)
-        {
-            // Get Avatars in small packets
-            var response = await _httpServiceHelper.SendGetRequest<GetAvatarsQueryResponse>(
-                actionUri: Constants.Action_GetAvatars,
-                payload: new GetAvatarsQueryRequest() { Token = App.Token, PageIndex = pageIndex, PageSize = pageSize, WorldId = App.World.Id });
-
-            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
-            {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
-                contentDialogue.Show();
-
-                _mainPage.SetIsBusy(false);
-            }
-
-            var avatars = response.Avatars;
-
-            if (avatars != null && avatars.Any())
-            {
-                Console.WriteLine("LoginToHub: avatars found: " + avatars.Count());
-
-                foreach (var avatar in avatars)
-                {
-                    var avatarButton = GenerateAvatarButton(avatar);
-
-                    SetAvatarActivityStatus(
-                        avatarButton: avatarButton,
-                        avatar: avatar,
-                        activityStatus: avatar.ActivityStatus);
-
-                    AddAvatarOnCanvas(
-                        avatar: avatarButton,
-                        x: avatar.Coordinate.X,
-                        y: avatar.Coordinate.Y,
-                        z: avatar.Coordinate.Z);
-
-                    AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
-                }
-
-                AvatarsCount.Text = AvatarMessengers.Count().ToString();
-            }
         }
 
         /// <summary>
@@ -2428,19 +2409,43 @@ namespace Worldescape
         private async Task<long> GetAvatarsCount()
         {
             // Get Avatars count for this world
-            var countResponse = await _httpServiceHelper.SendGetRequest<GetAvatarsCountQueryResponse>(
-                actionUri: Constants.Action_GetAvatarsCount,
-                payload: new GetAvatarsCountQueryRequest() { Token = App.Token, WorldId = App.World.Id });
+            var response = await _avatarRepository.GetAvatarsCount(token: App.Token, worldId: App.World.Id);
 
-            if (countResponse.HttpStatusCode != System.Net.HttpStatusCode.OK || !countResponse.ExternalError.IsNullOrBlank())
+            if (!response.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: countResponse.ExternalError.ToString());
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);
+                return 0;
             }
 
-            return countResponse.Count;
+            return (long)response.Result;
+        }
+
+        /// <summary>
+        /// Get avatars from server by pagination for the current world.
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
+        private async Task<IEnumerable<Avatar>> GetAvatars(int pageSize, int pageIndex)
+        {
+            // Get Avatars in small packets
+            var response = await _avatarRepository.GetAvatars(token: App.Token, worldId: App.World.Id, pageIndex: pageIndex, pageSize: pageSize);
+
+            if (!response.Success)
+            {
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
+                contentDialogue.Show();
+
+                _mainPage.SetIsBusy(false);
+                return Enumerable.Empty<Avatar>();
+            }
+
+            var avatars = (IEnumerable<Avatar>)response.Result;
+
+            return avatars;
         }
 
         /// <summary>
@@ -2619,7 +2624,7 @@ namespace Worldescape
 
                     if (constructs != null && constructs.Any())
                     {
-                        fetchedConstructs.AddRange(constructs);                      
+                        fetchedConstructs.AddRange(constructs);
                     }
                 }
 
