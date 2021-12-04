@@ -64,7 +64,7 @@ namespace Worldescape
         /// <param name="drawOver"></param>
         public async Task PopulateClouds(Canvas canvas, bool drawOver = false)
         {
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 17; i++)
             {
                 var cloudImage = $"ms-appx:///Images/Defaults/cloud-{new Random().Next(minValue: 0, maxValue: 2)}.png";
 

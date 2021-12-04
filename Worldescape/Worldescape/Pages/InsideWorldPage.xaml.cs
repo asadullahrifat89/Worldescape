@@ -1689,6 +1689,8 @@ namespace Worldescape
                 Button_World.Visibility = Visibility.Visible;
                 WorldImageHolder.Content = GetWorldPicture(App.World);
                 WorldNameHolder.Text = App.World.Name;
+
+                Console.WriteLine($"ShowCurrentWorld:OK");
             }
         }
 
@@ -2291,6 +2293,8 @@ namespace Worldescape
                     horizontalMargin: (Window.Current.Bounds.Width / 2),
                     verticalMargin: (Window.Current.Bounds.Height / 2) - 50,
                     duration: new Duration(TimeSpan.FromSeconds(0)));
+
+                Console.WriteLine("ScrollIntoView:OK");
             }
         }
 
@@ -2372,9 +2376,9 @@ namespace Worldescape
 
                 if (fetchedAvatars.Any())
                 {
-                    Console.WriteLine("LoginToHub: avatars found: " + fetchedAvatars.Count());
+                    Console.WriteLine("FetchAvatars: avatars found: " + fetchedAvatars.Count());
 
-                    foreach (var avatar in fetchedAvatars)
+                    Parallel.ForEach(fetchedAvatars, avatar =>
                     {
                         var avatarButton = GenerateAvatarButton(avatar);
 
@@ -2390,7 +2394,9 @@ namespace Worldescape
                             z: avatar.Coordinate.Z);
 
                         AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
-                    }
+                    });
+
+                    Console.WriteLine("FetchAvatars: completed loading avatars in canvas.");
 
                     AvatarsCount.Text = AvatarMessengers.Count().ToString();
                 }
@@ -2478,6 +2484,8 @@ namespace Worldescape
                 AvatarImageHolder.Content = GetAvatarCharacterPicture(avatar);
                 CurrentAvatarHolder.Visibility = Visibility.Visible;
                 AvatarNameHolder.Text = avatar.Character.Name.Replace("_", " ");
+
+                Console.WriteLine($"ShowCurrentUserAvatar:OK");
             }
         }
 
@@ -2629,7 +2637,9 @@ namespace Worldescape
                 {
                     var children = Canvas_Root.Children.OfType<Button>().Where(x => x.Tag is Construct);
 
-                    foreach (var construct in fetchedConstructs)
+                    Console.WriteLine($"FetchConstructs: Found {fetchedConstructs.Count} constructs.");
+
+                    Parallel.ForEach(fetchedConstructs, construct =>
                     {
                         // If a construct already exists then update that, this can happen as after avatar login, new constructs can start appearing thru HubService
                         if (children != null && children.Count() > 0 && children.Any(x => ((Construct)x.Tag).Id == construct.Id))
@@ -2666,10 +2676,10 @@ namespace Worldescape
                             ScaleElement(btnConstruct, construct.Scale);
                             RotateElement(btnConstruct, construct.Rotation);
                         }
-                    }
+                    });
                 }
 
-                Console.WriteLine("LoginToHub: Completed fetching constructs.");
+                Console.WriteLine("FetchConstructs: Completed loading constructs in canvas.");
             }
         }
 
