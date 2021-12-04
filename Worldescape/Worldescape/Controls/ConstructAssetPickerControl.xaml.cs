@@ -55,9 +55,6 @@ namespace Worldescape
             _urlHelper = urlHelper;
             _paginationHelper = paginationHelper;
 
-            //_urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
-            //_paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
-            
             ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Service.Properties.Resources.ConstructAssets).ToList();
 
             ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory()
@@ -122,11 +119,6 @@ namespace Worldescape
                 Style = Application.Current.Resources["Panel_Style"] as Style,
                 // Height = _masonryPanelHeight
             };
-
-            //var allConstructCategory = new ConstructCategory() { Id = "All", Name = "All" };
-
-            //// Add an All button first
-            //AddConstructCategoryMasonry(_masonryPanel, allConstructCategory);
 
             //Add all the categories
             foreach (var constructCategory in pagedData)
@@ -283,7 +275,11 @@ namespace Worldescape
 
             _totalPageCount = _paginationHelper.GetTotalPageCount(_pageSize, count);
 
-            TextBox_SearchConstructAssets.PlaceholderText = $"{ count } constructs in {_pickedConstructCategory?.Name.ToLowerInvariant()}/{_pickedConstructSubCategory?.Name.ToLowerInvariant()}{(TextBox_SearchConstructAssets.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchConstructAssets.Text)}";
+            var can = _pickedConstructCategory?.Name.ToLowerInvariant();
+            var ccn = _pickedConstructSubCategory?.Name.ToLowerInvariant();
+            var match = TextBox_SearchConstructAssets.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchConstructAssets.Text;
+
+            TextBox_SearchConstructAssets.PlaceholderText = $"{ count } constructs in {can}/{ccn}{match}";
             PopulatePageNumbers(0);
         }
 

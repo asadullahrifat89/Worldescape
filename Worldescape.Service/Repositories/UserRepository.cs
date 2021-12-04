@@ -26,10 +26,12 @@ namespace Worldescape.Service
                    actionUri: Constants.Action_GetUser,
                    payload: new GetUserQueryRequest() { Token = token, Email = email, Password = password });
 
+            var success = user != null && !user.IsEmpty();
+
             return RepositoryResponse.BuildResponse(
-                   success: user != null && !user.IsEmpty(),
+                   success: success,
                    result: user,
-                   error: user != null && !user.IsEmpty() ? null : "Failed to login.");
+                   error: success ? null : "Failed to login.");
         }
       
         /// <summary>
@@ -64,7 +66,6 @@ namespace Worldescape.Service
             var response = await _httpServiceHelper.SendPostRequest<ServiceResponse>(
                 actionUri: Constants.Action_AddUser,
                 payload: command);
-
 
             return RepositoryResponse.BuildResponse(
                    success: response.HttpStatusCode == System.Net.HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),
@@ -113,7 +114,6 @@ namespace Worldescape.Service
             var response = await _httpServiceHelper.SendPostRequest<ServiceResponse>(
                 actionUri: Constants.Action_UpdateUser,
                 payload: command);
-
 
             return RepositoryResponse.BuildResponse(
                    success: response.HttpStatusCode == System.Net.HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),

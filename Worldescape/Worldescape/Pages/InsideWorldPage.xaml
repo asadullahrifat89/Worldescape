@@ -150,8 +150,7 @@
         <ContentControl
             x:Name="ContentControl_ConstructAssetsContainer"
             Grid.Row="1"
-            Grid.RowSpan="2"
-            Margin="20,20,30,70"
+            Margin="20,20,30,20"
             HorizontalAlignment="Left"
             VerticalAlignment="Bottom"
             Style="{StaticResource MaterialDesign_Card_Style}"
@@ -159,7 +158,7 @@
 
             <ContentPresenter
                 x:Name="ContentControl_ConstructAssetsControlContainer"
-                Height="400"
+                Height="500"
                 Margin="10,10,10,0" />
 
         </ContentControl>
@@ -189,62 +188,6 @@
                 Margin="20,20,20,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom">
-
-                <!--  Craft and Add buttons  -->
-                <StackPanel
-                    x:Name="ConstructCraftingButtonsHolder"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Visibility="Collapsed">
-
-                    <!--  Construct, Add, Select buttons  -->
-                    <StackPanel Orientation="Horizontal">
-
-                        <!--  Construct  -->
-                        <ToggleButton
-                            x:Name="Button_ConstructCraft"
-                            MinWidth="110"
-                            Margin="5,10"
-                            Click="Button_ConstructCraft_Click"
-                            Content="Construct"
-                            FontSize="20"
-                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
-
-                        <!--  Add, open construct picker  -->
-                        <ToggleButton
-                            x:Name="Button_ConstructAdd"
-                            Width="50"
-                            Margin="5,10"
-                            Click="Button_ConstructAdd_Click"
-                            Content="&#xebd2;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
-                            Visibility="Collapsed" />
-
-                        <!--  Select, toggle multi selection mode  -->
-                        <ToggleButton
-                            x:Name="Button_ConstructMultiSelect"
-                            Width="50"
-                            Margin="5,10"
-                            Click="Button_ConstructMultiSelect_Click"
-                            Content="&#xE762;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
-                            Visibility="Collapsed" />
-
-                    </StackPanel>
-
-                    <!--  Multi selected constructs  -->
-                    <ContentControl
-                        Padding="5"
-                        Style="{StaticResource MaterialDesign_Card_Style}"
-                        Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <StackPanel x:Name="MultiSelectedConstructsHolder" Orientation="Horizontal" />
-                    </ContentControl>
-
-                </StackPanel>
 
                 <!--  Selected & operational constructs & avatar images, side card, avatar commands  -->
                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
@@ -479,6 +422,62 @@
 
                         </Grid>
 
+                    </ContentControl>
+
+                </StackPanel>
+
+                <!--  Craft and Add buttons  -->
+                <StackPanel
+                    x:Name="ConstructCraftingButtonsHolder"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Visibility="Collapsed">
+
+                    <!--  Construct, Add, Select buttons  -->
+                    <StackPanel Orientation="Horizontal">
+
+                        <!--  Construct  -->
+                        <ToggleButton
+                            x:Name="Button_ConstructCraft"
+                            MinWidth="110"
+                            Margin="5,10"
+                            Click="Button_ConstructCraft_Click"
+                            Content="Construct"
+                            FontSize="20"
+                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
+
+                        <!--  Add, open construct picker  -->
+                        <ToggleButton
+                            x:Name="Button_ConstructAdd"
+                            Width="50"
+                            Margin="5,10"
+                            Click="Button_ConstructAdd_Click"
+                            Content="&#xebd2;"
+                            FontFamily="Segoe Fluent Icons"
+                            FontWeight="Normal"
+                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
+                            Visibility="Collapsed" />
+
+                        <!--  Select, toggle multi selection mode  -->
+                        <ToggleButton
+                            x:Name="Button_ConstructMultiSelect"
+                            Width="50"
+                            Margin="5,10"
+                            Click="Button_ConstructMultiSelect_Click"
+                            Content="&#xE762;"
+                            FontFamily="Segoe Fluent Icons"
+                            FontWeight="Normal"
+                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
+                            Visibility="Collapsed" />
+
+                    </StackPanel>
+
+                    <!--  Multi selected constructs  -->
+                    <ContentControl
+                        Padding="5"
+                        Style="{StaticResource MaterialDesign_Card_Style}"
+                        Visibility="{Binding ElementName=Button_ConstructMultiSelect, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel x:Name="MultiSelectedConstructsHolder" Orientation="Horizontal" />
                     </ContentControl>
 
                 </StackPanel>
