@@ -52,7 +52,10 @@ public static class Extensions
 
         #region User
 
-        app.MapGet(pattern: Constants.Action_GetApiToken, handler: async (string email, string password, IMediator mediator) =>
+        app.MapGet(pattern: Constants.Action_GetApiToken, handler: async (
+            string email,
+            string password,
+            IMediator mediator) =>
            {
                return await mediator.Send(new GetApiTokenQuery()
                {
@@ -62,7 +65,11 @@ public static class Extensions
 
            }).WithName(Constants.GetActionName(Constants.Action_GetApiToken));
 
-        app.MapGet(pattern: Constants.Action_GetUser, handler: async (string token, string email, string password, IMediator mediator) =>
+        app.MapGet(pattern: Constants.Action_GetUser, handler: async (
+            string token,
+            string email,
+            string password,
+            IMediator mediator) =>
         {
             return await mediator.Send(new GetUserQuery()
             {
@@ -77,7 +84,11 @@ public static class Extensions
 
         #region World
 
-        app.MapGet(pattern: Constants.Action_GetWorldsCount, handler: async (string token, string searchString, int creatorId, IMediator mediator) =>
+        app.MapGet(pattern: Constants.Action_GetWorldsCount, handler: async (
+            string token,
+            string searchString,
+            int creatorId,
+            IMediator mediator) =>
           {
               return await mediator.Send(new GetWorldsCountQuery()
               {
@@ -88,7 +99,13 @@ public static class Extensions
 
           }).WithName(Constants.GetActionName(Constants.Action_GetWorldsCount));
 
-        app.MapGet(pattern: Constants.Action_GetWorlds, handler: async (string token, int pageIndex, int pageSize, string searchString, int creatorId, IMediator mediator) =>
+        app.MapGet(pattern: Constants.Action_GetWorlds, handler: async (
+            string token,
+            int pageIndex,
+            int pageSize,
+            string searchString,
+            int creatorId,
+            IMediator mediator) =>
         {
             return await mediator.Send(new GetWorldsQuery()
             {
@@ -105,7 +122,10 @@ public static class Extensions
 
         #region Construct
 
-        app.MapGet(pattern: Constants.Action_GetConstructsCount, handler: async (string token, int worldId, IMediator mediator) =>
+        app.MapGet(pattern: Constants.Action_GetConstructsCount, handler: async (
+            string token,
+            int worldId,
+            IMediator mediator) =>
           {
               return await mediator.Send(new GetConstructsCountQuery()
               {
@@ -115,7 +135,12 @@ public static class Extensions
 
           }).WithName(Constants.GetActionName(Constants.Action_GetConstructsCount));
 
-        app.MapGet(pattern: Constants.Action_GetConstructs, handler: async (string token, int pageIndex, int pageSize, int worldId, IMediator mediator) =>
+        app.MapGet(pattern: Constants.Action_GetConstructs, handler: async (
+            string token,
+            int pageIndex,
+            int pageSize,
+            int worldId,
+            IMediator mediator) =>
         {
             return await mediator.Send(new GetConstructsQuery()
             {
@@ -131,7 +156,10 @@ public static class Extensions
 
         #region Avatar
 
-        app.MapGet(pattern: Constants.Action_GetAvatarsCount, handler: async (string token, int worldId, IMediator mediator) =>
+        app.MapGet(pattern: Constants.Action_GetAvatarsCount, handler: async (
+            string token,
+            int worldId,
+            IMediator mediator) =>
            {
                return await mediator.Send(new GetAvatarsCountQuery()
                {
@@ -141,7 +169,12 @@ public static class Extensions
 
            }).WithName(Constants.GetActionName(Constants.Action_GetAvatarsCount));
 
-        app.MapGet(pattern: Constants.Action_GetAvatars, handler: async (string token, int pageIndex, int pageSize, int worldId, IMediator mediator) =>
+        app.MapGet(pattern: Constants.Action_GetAvatars, handler: async (
+            string token,
+            int pageIndex,
+            int pageSize,
+            int worldId,
+            IMediator mediator) =>
         {
             return await mediator.Send(new GetAvatarsQuery()
             {
@@ -157,7 +190,11 @@ public static class Extensions
 
         #region Blob
 
-        app.MapGet(pattern: Constants.Action_GetAsset, handler: async (string token, string fileName, IMediator mediator, ICacheService cacheService) =>
+        app.MapGet(pattern: Constants.Action_GetAsset, handler: async (
+            string token,
+            string fileName,
+            IMediator mediator,
+            ICacheService cacheService) =>
            {
                // Cache each asset so that redundant reading can be minimized.
                string key = fileName;
@@ -181,13 +218,17 @@ public static class Extensions
 
                string fileN = fileName.Replace('\\', '_');
 
-               var resultFile = Microsoft.AspNetCore.Http.Results.File(fileContents: file, contentType: "image/*", fileDownloadName: fileN);
+               var resultFile = Results.File(fileContents: file, contentType: "image/*", fileDownloadName: fileN);
 
                return resultFile;
 
            }).WithName(Constants.GetActionName(Constants.Action_GetAsset));
 
-        app.MapGet(pattern: Constants.Action_GetBlob, handler: async (string token, int id, IMediator mediator, ICacheService cacheService) =>
+        app.MapGet(pattern: Constants.Action_GetBlob, handler: async (
+            string token,
+            int id,
+            IMediator mediator,
+            ICacheService cacheService) =>
         {
             // Cache each blob per token so that redundant reading can be minimized.
             string key = token + id;
@@ -211,7 +252,7 @@ public static class Extensions
 
             string fileN = id.ToString();
 
-            var resultFile = Microsoft.AspNetCore.Http.Results.File(fileContents: file, contentType: "text/plain", fileDownloadName: fileN);
+            var resultFile = Results.File(fileContents: file, contentType: "text/plain", fileDownloadName: fileN);
 
             return resultFile;
 
@@ -225,7 +266,9 @@ public static class Extensions
 
         #region User
 
-        app.MapPost(pattern: Constants.Action_AddUser, handler: async (AddUserCommandRequest command, IMediator mediator) =>
+        app.MapPost(pattern: Constants.Action_AddUser, handler: async (
+            AddUserCommandRequest command,
+            IMediator mediator) =>
           {
               return await mediator.Send(new AddUserCommand
               {
@@ -243,7 +286,9 @@ public static class Extensions
 
           }).WithName(Constants.GetActionName(Constants.Action_AddUser));
 
-        app.MapPost(pattern: Constants.Action_UpdateUser, handler: async (UpdateUserCommandRequest command, IMediator mediator) =>
+        app.MapPost(pattern: Constants.Action_UpdateUser, handler: async (
+            UpdateUserCommandRequest command,
+            IMediator mediator) =>
         {
             return await mediator.Send(new UpdateUserCommand
             {
@@ -268,7 +313,9 @@ public static class Extensions
 
         #region World
 
-        app.MapPost(pattern: Constants.Action_AddWorld, handler: async (AddWorldCommandRequest command, IMediator mediator) =>
+        app.MapPost(pattern: Constants.Action_AddWorld, handler: async (
+            AddWorldCommandRequest command,
+            IMediator mediator) =>
            {
                return await mediator.Send(new AddWorldCommand
                {
@@ -279,7 +326,9 @@ public static class Extensions
 
            }).WithName(Constants.GetActionName(Constants.Action_AddWorld));
 
-        app.MapPost(pattern: Constants.Action_UpdateWorld, handler: async (UpdateWorldCommandRequest command, IMediator mediator) =>
+        app.MapPost(pattern: Constants.Action_UpdateWorld, handler: async (
+            UpdateWorldCommandRequest command,
+            IMediator mediator) =>
         {
             return await mediator.Send(new UpdateWorldCommand
             {
@@ -296,7 +345,9 @@ public static class Extensions
 
         #region Blob
 
-        app.MapPost(pattern: Constants.Action_SaveBlob, handler: async (SaveBlobCommandRequest command, IMediator mediator) =>
+        app.MapPost(pattern: Constants.Action_SaveBlob, handler: async (
+            SaveBlobCommandRequest command,
+            IMediator mediator) =>
            {
                return await mediator.Send(new SaveBlobCommand
                {
