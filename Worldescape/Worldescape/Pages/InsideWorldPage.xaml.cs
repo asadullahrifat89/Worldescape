@@ -332,6 +332,8 @@ namespace Worldescape
                     MultiSelectedConstructsHolder.Children.Add(GetImageFromUiElement(_selectedConstruct));
                     MultiselectedConstructs.Add(construct);
                 }
+
+                ShowConstructOperationButtons(e); // Multi select
             }
             else if (Button_ConstructCraft.IsChecked.Value)
             {
@@ -341,7 +343,7 @@ namespace Worldescape
                     return;
                 }
 
-                ShowConstructOperationButtons();
+                ShowConstructOperationButtons(e); // Construct selection
 
                 DragStart(Canvas_Root, e, uielement);
 
@@ -428,6 +430,8 @@ namespace Worldescape
             {
                 await MoveConstruct(e);
             }
+
+            ShowConstructOperationButtons(e); // Move
         }
 
         /// <summary>
@@ -445,6 +449,8 @@ namespace Worldescape
             {
                 await CloneConstruct(e);
             }
+
+            ShowConstructOperationButtons(e); // Clone
         }
 
         /// <summary>
@@ -683,18 +689,14 @@ namespace Worldescape
             ReleaseAssignedPointerElement();
             Button_ConstructMove.IsChecked = false;
             Button_ConstructClone.IsChecked = false;
-
-            if (Button_ConstructMultiSelect.IsChecked.Value)
-            {
-                ShowConstructOperationButtons();
-            }
-            else
+                        
+            if (!Button_ConstructMultiSelect.IsChecked.Value)
             {
                 HideConstructOperationButtons();
                 Button_ConstructClone.IsChecked = false;
                 Button_ConstructMove.IsChecked = false;
                 ShowOperationalConstruct(null);
-            }
+            }            
         }
 
         /// <summary>
@@ -3010,9 +3012,23 @@ namespace Worldescape
         /// <summary>
         /// Shows construct operational buttons on the UI.
         /// </summary>
-        private void ShowConstructOperationButtons()
+        private void ShowConstructOperationButtons(PointerRoutedEventArgs e)
         {
-            ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
+            if (_selectedConstruct != null)
+            {
+                var pressedPoint = e.GetCurrentPoint(Canvas_Root);               
+
+                if (_selectedConstruct is Button button && button.Tag is Construct)
+                {
+                    var pointX = NormalizePointerX(pressedPoint) + 5;
+                    var pointY = NormalizePointerY(pressedPoint) + 5;
+
+                    Canvas.SetLeft(ConstructOperationalCommandsHolder, pointX);
+                    Canvas.SetTop(ConstructOperationalCommandsHolder, pointY);
+                    ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
+                }
+
+            }
         }
 
         /// <summary>
