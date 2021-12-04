@@ -7,7 +7,7 @@
 
     <!--  ContextMenu  -->
     <Style x:Key="MaterialDesign_ContextMenu_Style" TargetType="ContextMenu">
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="FontWeight" Value="Bold" />
@@ -87,7 +87,7 @@
 
     <!--  ContextMenuItem  -->
     <Style x:Key="MaterialDesign_ContextMenuItem_Style" TargetType="MenuItem">
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="BorderThickness" Value="0" />

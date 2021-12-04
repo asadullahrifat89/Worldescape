@@ -53,7 +53,7 @@
 
     <!--  ComboBoxItem  -->
     <Style x:Key="MaterialDesign_ComboBoxItem_Style" TargetType="ComboBoxItem">
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="3" />
@@ -138,7 +138,7 @@
 
     <!--  ComboBoxes  -->
     <Style x:Key="MaterialDesign_ComboBox_Style" TargetType="ComboBox">
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="Padding" Value="10,5,40,5" />
@@ -203,7 +203,7 @@
                         </ContentControl>
                         <Popup x:Name="Popup" IsOpen="False">
                             <Border
-                                Background="White"
+                                Background="{StaticResource DefaultBackgroundColor}"
                                 BorderBrush="Black"
                                 BorderThickness="1">
                                 <ScrollViewer

@@ -24,7 +24,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ContentControl">
-                        <Border Background="White" CornerRadius="6">
+                        <Border Background="{StaticResource DefaultBackgroundColor}" CornerRadius="6">
                             <Border.Effect>
                                 <DropShadowEffect
                                     BlurRadius="10"
@@ -170,7 +170,7 @@
                             Height="500"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                            <Border Background="White" CornerRadius="16">
+                            <Border Background="{StaticResource DefaultBackgroundColor}" CornerRadius="16">
                                 <Border.Effect>
                                     <DropShadowEffect
                                         BlurRadius="16"
@@ -292,7 +292,7 @@
                             Height="300"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                            <Border Background="White" CornerRadius="16">
+                            <Border Background="{StaticResource DefaultBackgroundColor}" CornerRadius="16">
                                 <Border.Effect>
                                     <DropShadowEffect
                                         BlurRadius="16"

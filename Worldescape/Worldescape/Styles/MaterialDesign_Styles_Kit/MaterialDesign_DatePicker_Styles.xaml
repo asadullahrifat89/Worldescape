@@ -11,7 +11,7 @@
     <Style x:Key="MaterialDesign_DatePicker_Style" TargetType="DatePicker">
         <Setter Property="BorderBrush" Value="Gray" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -25,7 +25,7 @@
                             x:Name="TextBox"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Background="White"
+                            Background="{StaticResource DefaultBackgroundColor}"
                             BorderThickness="2"
                             Style="{StaticResource MaterialDesign_TextBox_Style}" />
                         <Button
@@ -54,7 +54,7 @@
         <Setter Property="Height" Value="50" />
         <Setter Property="BorderBrush" Value="Gray" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -68,7 +68,7 @@
                             x:Name="TextBox"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            Background="White"
+                            Background="{StaticResource DefaultBackgroundColor}"
                             BorderThickness="2"
                             Style="{StaticResource MaterialDesign_RoundTextBox_Style}" />
                         <Button

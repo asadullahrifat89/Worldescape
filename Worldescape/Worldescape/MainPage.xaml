@@ -112,7 +112,7 @@
         <ContentControl
             Width="200"
             Height="100"
-            Background="White"
+            Background="{StaticResource DefaultBackgroundColor}"
             Style="{StaticResource Card_Style}"
             Visibility="{Binding ElementName=Grid_Root, Path=IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}">
             <TextBlock

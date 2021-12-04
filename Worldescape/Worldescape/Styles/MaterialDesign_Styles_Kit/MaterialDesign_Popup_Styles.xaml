@@ -7,7 +7,7 @@
 
     <!--  Popup with cross to close  -->
     <Style x:Key="MaterialDesign_PopupContentWithCross_Style" TargetType="ContentControl">
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="20,15" />
@@ -66,7 +66,7 @@
     </Style>
 
     <Style x:Key="MaterialDesign_PopupContent_Style" TargetType="ContentControl">
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="20,15" />

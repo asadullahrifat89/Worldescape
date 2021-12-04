@@ -10,7 +10,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="BorderBrush" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="Template">
             <Setter.Value>
@@ -69,7 +69,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="BorderBrush" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="Template">
             <Setter.Value>

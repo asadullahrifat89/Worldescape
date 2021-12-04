@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Name="MaterialDesign_DataGridColumnHeader_Style" TargetType="DataGridColumnHeader">
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="7,5" />
         <Setter Property="FontSize" Value="10" />
@@ -26,11 +26,11 @@
     </Style>
 
     <Style x:Key="MaterialDesign_DataGrid_Style" TargetType="DataGrid">
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="Foreground" Value="Black" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="AutoGenerateColumns" Value="False" />
-        <Setter Property="AlternatingRowBackground" Value="White" />
+        <Setter Property="AlternatingRowBackground" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="HorizontalGridLinesBrush" Value="LightGray" />
         <Setter Property="VerticalCellPadding" Value="1" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />

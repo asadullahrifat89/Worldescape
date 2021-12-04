@@ -4,7 +4,7 @@
     <Style x:Key="MaterialDesign_Expander_Style" TargetType="Expander">
         <Setter Property="Padding" Value="7,10" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Expander">

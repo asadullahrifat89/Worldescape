@@ -7,7 +7,7 @@
 
     <!--  Card  -->
     <Style x:Key="MaterialDesign_Card_Style" TargetType="ContentControl">
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="BorderThickness" Value="0" />
@@ -49,7 +49,7 @@
     </Style>
 
     <Style x:Key="MaterialDesign_SideCard_Style" TargetType="ContentControl">
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="Foreground" Value="{StaticResource MaterialDesign_DefaultAccentColor}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="BorderThickness" Value="0" />
@@ -130,7 +130,7 @@
     </Style>
     <!--  Card Body  -->
     <Style x:Key="MaterialDesign_CardBody_Style" TargetType="ContentControl">
-        <Setter Property="Background" Value="White" />
+        <Setter Property="Background" Value="{StaticResource DefaultBackgroundColor}" />
         <Setter Property="Foreground" Value="Black" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="BorderThickness" Value="0,0,0,1" />
