@@ -68,10 +68,12 @@ namespace Worldescape.Service
                actionUri: Constants.Action_AddWorld,
                payload: command);
 
+            var success = world != null && world.Id > 0;
+
             return RepositoryResponse.BuildResponse(
-                success: world != null && world.Id > 0,
+                success: success,
                 result: world,
-                error: world != null && world.Id > 0 ? null : "Failed to create your world. This shouldn't be happening. Try again.");
+                error: success ? null : "Failed to create your world. This shouldn't be happening. Try again.");
         }
 
         /// <summary>
@@ -94,10 +96,12 @@ namespace Worldescape.Service
                actionUri: Constants.Action_UpdateWorld,
                payload: command);
 
+            var success = world != null && world.Id > 0;
+
             return RepositoryResponse.BuildResponse(
-                success: world != null && world.Id > 0,
+                success: success,
                 result: world,
-                error: world != null && world.Id > 0 ? null : "Failed to save your world. This shouldn't be happening. Try again.");
+                error: success ? null : "Failed to save your world. This shouldn't be happening. Try again.");
         }
     }
 }
