@@ -121,7 +121,7 @@ namespace Worldescape
             Color color = _backgroundColors[new Random().Next(0, _backgroundColors.Count())];
             Background = new SolidColorBrush(color);
 
-            Grid_Root.Visibility = Visibility.Collapsed;
+            Visibility = Visibility.Collapsed;
 
             Button_ConstructMove.IsChecked = false;
 
@@ -1804,7 +1804,7 @@ namespace Worldescape
                         ShowCurrentWorld();
 
                         _mainPage.SetIsBusy(false);
-                        Grid_Root.Visibility = Visibility.Visible;
+                        Visibility = Visibility.Visible;
 
                         ScrollIntoView(Avatar);
 
