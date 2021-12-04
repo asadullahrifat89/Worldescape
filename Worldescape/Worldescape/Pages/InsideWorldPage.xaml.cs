@@ -1215,13 +1215,21 @@ namespace Worldescape
             }
             else
             {
-                var image = GetImageFromUiElement(uielement: uielement, size: 90);
+                var image = GetImageFromUiElement(uielement: uielement, size: 70);
 
-                StackPanel spContent = new StackPanel();
+                StackPanel spContent = new StackPanel()
+                {
+                    Orientation = Orientation.Horizontal
+                };
                 spContent.Children.Add(image);
 
                 if (!label.IsNullOrBlank())
-                    spContent.Children.Add(new Label() { Content = label, HorizontalAlignment = HorizontalAlignment.Center });
+                    spContent.Children.Add(new Label()
+                    {
+                        Content = label,
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        VerticalAlignment = VerticalAlignment.Center
+                    });
 
                 OperationalConstructHolder.Content = spContent;
                 OperationalConstructHolder.Visibility = Visibility.Visible;
