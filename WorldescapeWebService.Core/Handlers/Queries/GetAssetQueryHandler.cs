@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
-using Worldescape.Assets;
 using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
@@ -32,7 +31,7 @@ public class GetAssetQueryHandler : IRequestHandler<GetAssetQuery, byte[]>
 
     #region Methods
 
-   
+
 
     public async Task<byte[]> Handle(
         GetAssetQuery request,
@@ -43,18 +42,8 @@ public class GetAssetQueryHandler : IRequestHandler<GetAssetQuery, byte[]>
             var validationResult = await _validator.ValidateAsync(request, cancellationToken);
             validationResult.EnsureValidResult();
 
-            var location = typeof(GetAssetQuery).Assembly.Location;
-
-            string environment = null;
-#if DEBUG
-            environment = "Debug";
-#else
-            environment = "Release";
-#endif
-            var newlocation = location.Replace($"WorldescapeWebService\\bin\\{environment}\\net6.0\\WorldescapeWebService.Core.dll", "Worldescape.Assets");
-
-            var path = Path.Combine(newlocation, "Assets", request.FileName);
-
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "Assets", request.FileName);
+            
             byte[] bytes = new byte[] { };
 
             if (File.Exists(path))

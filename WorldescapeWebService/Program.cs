@@ -141,7 +141,7 @@ app.MapGet(pattern: Constants.Action_GetAvatars, handler: async (string token, i
 
 app.MapGet(pattern: Constants.Action_GetAsset, handler: async (string token, string fileName, IMediator mediator, ICacheService cacheService) =>
 {
-    string key = token + fileName;
+    string key = fileName;
 
     byte[] file = new byte[] { };
 

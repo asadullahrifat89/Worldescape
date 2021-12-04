@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Worldescape.Assets\Worldescape.Assets.csproj" />
     <ProjectReference Include="..\Worldescape.Common\Worldescape.Common.csproj" />
   </ItemGroup>
 
