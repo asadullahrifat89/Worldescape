@@ -150,15 +150,14 @@
         <ContentControl
             x:Name="ContentControl_ConstructAssetsContainer"
             Grid.Row="1"
-            Margin="20,20,30,20"
+            Margin="20,20,30,100"
             HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
             Style="{StaticResource MaterialDesign_Card_Style}"
             Visibility="Collapsed">
 
             <ContentPresenter
                 x:Name="ContentControl_ConstructAssetsControlContainer"
-                Height="500"
+                Height="700"
                 Margin="10,10,10,0" />
 
         </ContentControl>
@@ -169,13 +168,12 @@
             Grid.Row="1"
             Margin="20,20,30,70"
             HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
             Style="{StaticResource MaterialDesign_Card_Style}"
             Visibility="Collapsed">
             <ScrollViewer
                 x:Name="ScrollViewer_ActiveAvatarsContainer"
                 Width="250"
-                MaxHeight="400"
+                Height="700"
                 HorizontalScrollBarVisibility="Disabled"
                 VerticalScrollBarVisibility="Auto" />
         </ContentControl>
@@ -439,7 +437,7 @@
                         <!--  Add, open construct picker  -->
                         <ToggleButton
                             x:Name="Button_ConstructAdd"
-                            Width="50"
+                            Width="70"
                             Margin="5,10"
                             Click="Button_ConstructAdd_Click"
                             Content="&#xebd2;"
@@ -461,7 +459,7 @@
                         <!--  Select, toggle multi selection mode  -->
                         <ToggleButton
                             x:Name="Button_ConstructMultiSelect"
-                            Width="50"
+                            Width="70"
                             Margin="5,10"
                             Click="Button_ConstructMultiSelect_Click"
                             Content="&#xE762;"

@@ -115,12 +115,13 @@
             Background="{StaticResource DefaultBackgroundColor}"
             Visibility="{Binding ElementName=Grid_Root, Path=IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}">
             <TextBlock
-                x:Name="BusyMessageHolder"
+                x:Name="TextBlock_BusyMessageHolder"
                 Margin="20"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                FontSize="20"
-                FontWeight="SemiBold" />
+                FontSize="50"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
         </Border>
 
     </Grid>

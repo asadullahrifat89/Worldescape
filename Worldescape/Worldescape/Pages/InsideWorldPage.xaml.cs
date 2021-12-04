@@ -1206,7 +1206,7 @@ namespace Worldescape
         /// Shows the operational construct when adding, moving, cloning.
         /// </summary>
         /// <param name="uielement"></param>
-        private void ShowOperationalConstruct(UIElement uielement, string label = null)
+        private void ShowOperationalConstruct(UIElement uielement, string message = null)
         {
             if (uielement == null)
             {
@@ -1223,10 +1223,10 @@ namespace Worldescape
                 };
                 spContent.Children.Add(image);
 
-                if (!label.IsNullOrBlank())
+                if (!message.IsNullOrBlank())
                     spContent.Children.Add(new Label()
                     {
-                        Content = label,
+                        Content = message,
                         HorizontalAlignment = HorizontalAlignment.Right,
                         VerticalAlignment = VerticalAlignment.Center
                     });
