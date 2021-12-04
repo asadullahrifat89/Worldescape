@@ -689,14 +689,14 @@ namespace Worldescape
             ReleaseAssignedPointerElement();
             Button_ConstructMove.IsChecked = false;
             Button_ConstructClone.IsChecked = false;
-                        
+
             if (!Button_ConstructMultiSelect.IsChecked.Value)
             {
                 HideConstructOperationButtons();
                 Button_ConstructClone.IsChecked = false;
                 Button_ConstructMove.IsChecked = false;
                 ShowOperationalConstruct(null);
-            }            
+            }
         }
 
         /// <summary>
@@ -3014,20 +3014,16 @@ namespace Worldescape
         /// </summary>
         private void ShowConstructOperationButtons(PointerRoutedEventArgs e)
         {
-            if (_selectedConstruct != null)
+            if (_selectedConstruct != null && _selectedConstruct is Button button && button.Tag is Construct)
             {
-                var pressedPoint = e.GetCurrentPoint(Canvas_Root);               
+                var pressedPoint = e.GetCurrentPoint(Canvas_Root);
 
-                if (_selectedConstruct is Button button && button.Tag is Construct)
-                {
-                    var pointX = NormalizePointerX(pressedPoint) + 5;
-                    var pointY = NormalizePointerY(pressedPoint) + 5;
+                var pointX = NormalizePointerX(pressedPoint) + 3;
+                var pointY = NormalizePointerY(pressedPoint) + 3;
 
-                    Canvas.SetLeft(ConstructOperationalCommandsHolder, pointX);
-                    Canvas.SetTop(ConstructOperationalCommandsHolder, pointY);
-                    ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
-                }
-
+                Canvas.SetLeft(ConstructOperationalCommandsHolder, pointX);
+                Canvas.SetTop(ConstructOperationalCommandsHolder, pointY);
+                ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
             }
         }
 
