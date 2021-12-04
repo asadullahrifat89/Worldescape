@@ -22,7 +22,7 @@
 
             <!--  Profile image, name  -->
             <StackPanel
-                Margin="20"
+                Margin="10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top">
 

@@ -21,13 +21,13 @@
 
             <StackPanel Margin="20" VerticalAlignment="Top">
                 <TextBlock
-                    Margin="10"
+                    Margin="5"
                     FontSize="50"
                     Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
                     Text="Worldescape"
                     TextAlignment="Center" />
                 <TextBlock
-                    Margin="10"
+                    Margin="5"
                     FontSize="30"
                     Text="Your worldescaping journey starts here..."
                     TextAlignment="Center"
