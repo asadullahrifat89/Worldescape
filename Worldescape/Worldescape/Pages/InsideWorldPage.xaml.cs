@@ -3016,13 +3016,14 @@ namespace Worldescape
         {
             if (_selectedConstruct != null && _selectedConstruct is Button button && button.Tag is Construct)
             {
-                var pressedPoint = e.GetCurrentPoint(Canvas_Root);
+                var pressedPoint = e.GetCurrentPoint(Canvas_RootHost);
 
-                var pointX = NormalizePointerX(pressedPoint) + 3;
-                var pointY = NormalizePointerY(pressedPoint) + 3;
+                var pointX = pressedPoint.Position.X + 3;
+                var pointY = pressedPoint.Position.Y + 3;
 
                 Canvas.SetLeft(ConstructOperationalCommandsHolder, pointX);
                 Canvas.SetTop(ConstructOperationalCommandsHolder, pointY);
+
                 ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
             }
         }
