@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
+using Worldescape.Assets;
 using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
@@ -30,6 +32,8 @@ public class GetAssetQueryHandler : IRequestHandler<GetAssetQuery, byte[]>
 
     #region Methods
 
+   
+
     public async Task<byte[]> Handle(
         GetAssetQuery request,
         CancellationToken cancellationToken)
@@ -41,7 +45,13 @@ public class GetAssetQueryHandler : IRequestHandler<GetAssetQuery, byte[]>
 
             var location = typeof(GetAssetQuery).Assembly.Location;
 
-            var newlocation = location.Replace("WorldescapeWebService\\bin\\Debug\\net6.0\\WorldescapeWebService.Core.dll", "Worldescape.Assets");
+            string environment = null;
+#if DEBUG
+            environment = "Debug";
+#else
+            environment = "Release";
+#endif
+            var newlocation = location.Replace($"WorldescapeWebService\\bin\\{environment}\\net6.0\\WorldescapeWebService.Core.dll", "Worldescape.Assets");
 
             var path = Path.Combine(newlocation, "Assets", request.FileName);
 
@@ -49,6 +59,8 @@ public class GetAssetQueryHandler : IRequestHandler<GetAssetQuery, byte[]>
 
             if (File.Exists(path))
                 bytes = await File.ReadAllBytesAsync(path);
+            else
+                _logger.LogError($"{request.FileName} not found at {path}.");
 
             return bytes;
         }

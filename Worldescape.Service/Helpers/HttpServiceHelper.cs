@@ -10,6 +10,17 @@ namespace Worldescape.Service
         {
             _httpService = httpService;
         }
+                
+        public string GetHubServiceUrl()
+        {
+#if DEBUG
+            return Properties.Resources.DevHubService;
+            //return Properties.Resources.ProdHubService;
+#else
+            return Properties.Resources.ProdHubService;
+            //return Properties.Resources.DevHubService;
+#endif
+        }
 
         public string GetWebServiceUrl()
         {
@@ -18,6 +29,7 @@ namespace Worldescape.Service
             //return Properties.Resources.ProdWebService;
 #else
             return Properties.Resources.ProdWebService;
+            //return Properties.Resources.DevWebService;
 #endif
         }
 

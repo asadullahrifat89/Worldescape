@@ -52,9 +52,9 @@ namespace Worldescape.Service
 
         #region Ctor
 
-        public HubService()
+        public HubService(HttpServiceHelper httpServiceHelper)
         {
-            string url = GetHubServiceUrl();
+            string url = httpServiceHelper.GetHubServiceUrl();
 
             _connection = new HubConnectionBuilder().WithUrl(url, options =>
             {
@@ -102,15 +102,7 @@ namespace Worldescape.Service
             ServicePointManager.DefaultConnectionLimit = 10;
         }
 
-        private static string GetHubServiceUrl()
-        {
-#if DEBUG
-            return Properties.Resources.DevHubService;
-            //return Properties.Resources.ProdHubService;
-#else
-            return Properties.Resources.ProdHubService;
-#endif
-        }
+
 
         #endregion
 

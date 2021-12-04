@@ -44,8 +44,11 @@ public class GetBlobQueryHandler : IRequestHandler<GetBlobQuery, byte[]>
 
             var blob = await _databaseService.FindById<Blob>(request.Id);
 
-            if (blob == null)
+            if (blob == null || blob.DataUrl.IsNullOrBlank())
+            {
+                _logger.LogError($"Blod: {request.Id} not found.");
                 return bytes;
+            }
 
             if (!blob.DataUrl.IsNullOrBlank())
             {
@@ -53,7 +56,7 @@ public class GetBlobQueryHandler : IRequestHandler<GetBlobQuery, byte[]>
                 base64String = base64String.Substring(base64String.IndexOf(',') + 1);
 
                 bytes = Convert.FromBase64String(base64String);
-            }                
+            }
 
             return bytes;
         }
