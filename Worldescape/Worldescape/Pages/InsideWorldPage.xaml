@@ -436,16 +436,6 @@
                     <!--  Construct, Add, Select buttons  -->
                     <StackPanel Orientation="Horizontal">
 
-                        <!--  Construct  -->
-                        <ToggleButton
-                            x:Name="Button_ConstructCraft"
-                            MinWidth="110"
-                            Margin="5,10"
-                            Click="Button_ConstructCraft_Click"
-                            Content="Construct"
-                            FontSize="20"
-                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
-
                         <!--  Add, open construct picker  -->
                         <ToggleButton
                             x:Name="Button_ConstructAdd"
@@ -457,6 +447,16 @@
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
                             Visibility="Collapsed" />
+
+                        <!--  Construct  -->
+                        <ToggleButton
+                            x:Name="Button_ConstructCraft"
+                            MinWidth="110"
+                            Margin="5,10"
+                            Click="Button_ConstructCraft_Click"
+                            Content="Construct"
+                            FontSize="20"
+                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
                         <!--  Select, toggle multi selection mode  -->
                         <ToggleButton

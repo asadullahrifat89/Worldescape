@@ -317,40 +317,28 @@ namespace Worldescape
         {
             uIElement.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
 
+            CompositeTransform composite = null;
+
+            // If an exiting transformation already exits
+            if (uIElement.RenderTransform != null && uIElement.RenderTransform is CompositeTransform cc)
+                composite = cc;
+
+            var scaleTransform = new CompositeTransform()
+            {
+                ScaleX = scale,
+                ScaleY = scale,
+                Rotation = composite?.Rotation ?? 0,
+            };
+
+            uIElement.RenderTransform = scaleTransform;
+
             if (uIElement is Button button && button.Tag is Construct construct)
             {
-                var scaleTransform = new CompositeTransform()
-                {
-                    ScaleX = scale,
-                    ScaleY = scale,
-                    Rotation = construct.Rotation,
-                };
-
-                button.RenderTransform = scaleTransform;
-
                 construct.Scale = scale;
-
                 return construct;
             }
             else
-            {
-                CompositeTransform composite = null;
-
-                // If an exiting transformation already exits
-                if (uIElement.RenderTransform != null && uIElement.RenderTransform is CompositeTransform cc)
-                    composite = cc;
-
-                var scaleTransform = new CompositeTransform()
-                {
-                    ScaleX = scale,
-                    ScaleY = scale,
-                    Rotation = composite?.Rotation ?? 0,
-                };
-
-                uIElement.RenderTransform = scaleTransform;
-
                 return null;
-            }
         }
 
         /// <summary>
@@ -363,40 +351,28 @@ namespace Worldescape
         {
             uIElement.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
 
+            CompositeTransform composite = null;
+
+            // If an exiting transformation already exits
+            if (uIElement.RenderTransform != null && uIElement.RenderTransform is CompositeTransform cc)
+                composite = cc;
+
+            var scaleTransform = new CompositeTransform()
+            {
+                ScaleX = composite?.ScaleX ?? 1,
+                ScaleY = composite?.ScaleY ?? 1,
+                Rotation = rotation,
+            };
+
+            uIElement.RenderTransform = scaleTransform;
+
             if (uIElement is Button button && button.Tag is Construct construct)
             {
-                var rotateTransform = new CompositeTransform()
-                {
-                    ScaleX = construct.Scale,
-                    ScaleY = construct.Scale,
-                    Rotation = rotation,
-                };
-
-                button.RenderTransform = rotateTransform;
-
                 construct.Rotation = rotation;
-
                 return construct;
             }
             else
-            {
-                CompositeTransform composite = null;
-
-                // If an exiting transformation already exits
-                if (uIElement.RenderTransform != null && uIElement.RenderTransform is CompositeTransform cc)
-                    composite = cc;
-
-                var scaleTransform = new CompositeTransform()
-                {
-                    ScaleX = composite?.ScaleX ?? 1,
-                    ScaleY = composite?.ScaleY ?? 1,
-                    Rotation = rotation,
-                };
-
-                uIElement.RenderTransform = scaleTransform;
-
-                return null;
-            }
+                return null;            
         }
 
         /// <summary>
