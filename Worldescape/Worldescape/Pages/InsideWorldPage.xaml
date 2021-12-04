@@ -565,7 +565,7 @@
                             Width="70"
                             Margin="5,10"
                             Click="Button_ConstructAdd_Click"
-                            Content="&#xebd2;"
+                            Content="&#xe8f1;"
                             FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
@@ -574,11 +574,12 @@
                         <!--  Construct  -->
                         <ToggleButton
                             x:Name="Button_ConstructCraft"
-                            MinWidth="110"
+                            Width="70"
                             Margin="5,10"
                             Click="Button_ConstructCraft_Click"
-                            Content="Construct"
-                            FontSize="20"
+                            Content="&#xebd2;"
+                            FontFamily="Segoe Fluent Icons"
+                            FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
                         <!--  Select, toggle multi selection mode  -->

@@ -13,9 +13,11 @@ public static class Extensions
 {
     public static WebApplicationBuilder MapServices(this WebApplicationBuilder builder)
     {
+        // TODO: CorsPolicy: AllowAnyOrigin() -> this is risky, should fix this after real time host
+
         // Add cors policy
         builder.Services.AddCors(o => o.AddPolicy("CorsPolicy", builder => builder
-        .AllowAnyOrigin() // TODO: CorsPolicy: AllowAnyOrigin() -> this is risky, should fix this after real time host
+        .AllowAnyOrigin()
         .AllowAnyMethod()
         .AllowAnyHeader()));
 
