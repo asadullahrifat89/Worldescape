@@ -57,7 +57,7 @@ namespace Worldescape
 
             //_urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
             //_paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
-
+            
             ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Service.Properties.Resources.ConstructAssets).ToList();
 
             ConstructCategories = ConstructAssets.Select(x => x.Category).Distinct().Select(z => new ConstructCategory()
