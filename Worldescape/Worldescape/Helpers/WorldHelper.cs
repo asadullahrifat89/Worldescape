@@ -64,6 +64,8 @@ namespace Worldescape
         /// <param name="drawOver"></param>
         public async Task PopulateClouds(Canvas canvas, bool drawOver = false)
         {
+            double canvasSize = Constants.Canvas_Size;
+
             for (int i = 0; i < 17; i++)
             {
                 var cloudImage = $"ms-appx:///Images/Defaults/cloud-{new Random().Next(minValue: 0, maxValue: 2)}.png";
@@ -72,7 +74,7 @@ namespace Worldescape
 
                 var img = new Image() { Source = bitmap, Stretch = Stretch.None };
 
-                Canvas.SetTop(img, new Random().Next(0, 8000));
+                Canvas.SetTop(img, new Random().Next(0, (int)canvasSize));
 
                 var cloudScale = _cloudScales[new Random().Next(0, _cloudScales.Count())];
 
@@ -86,7 +88,7 @@ namespace Worldescape
                     img.RenderTransform = new ScaleTransform() { ScaleX = 1 * cloudScale, ScaleY = 1 * cloudScale };
                 }
 
-                float distance = 8000 - 300;
+                float distance = (float)canvasSize - 300;
                 float unitPixel = 200f;
                 float timeToTravelunitPixel = new Random().Next(minValue: 1, maxValue: 5);
 

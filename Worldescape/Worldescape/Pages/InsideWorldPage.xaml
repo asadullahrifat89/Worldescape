@@ -29,8 +29,8 @@
 
             <Canvas
                 x:Name="Canvas_Root"
-                Width="8000"
-                Height="8000"
+                Width="5000"
+                Height="5000"
                 AllowDrop="True"
                 Background="Transparent"
                 PointerMoved="Canvas_Root_PointerMoved"

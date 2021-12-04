@@ -11,4 +11,5 @@
     <!--<SolidColorBrush x:Key="DefaultSkyColor" Color="#6bdfff" />-->
     <SolidColorBrush x:Key="DefaultSkyColor" Color="#00c8ff" />
     <SolidColorBrush x:Key="DefaultBackgroundColor" Color="White" />
+
 </ResourceDictionary>

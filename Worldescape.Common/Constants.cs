@@ -159,5 +159,11 @@ namespace Worldescape.Common
         public const string Page_WorldsPage = "/WorldsPage";
 
         #endregion
+
+        #region Canvas
+
+        public const double Canvas_Size = 5000;
+
+        #endregion
     }
 }
