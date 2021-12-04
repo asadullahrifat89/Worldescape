@@ -35,28 +35,11 @@
             </Border>
 
             <!--  Image file upload presenter  -->
-            <Button
+            <local:ImagePickerButton
                 Width="100"
                 Margin="5"
                 HorizontalAlignment="Center"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}">
-                <Button.Content>
-                    <Grid>
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
-                            Text="&#xe898;" />
-                        <extensions:FileOpenDialogPresenter
-                            x:Name="FileOpenDialogPresenter_ImageUrl"
-                            FileOpened="FileOpenDialogPresenter_ImageUrl_FileOpened"
-                            Filter="(.jpg;*.png)|*.jpg;*.png"
-                            Opacity="0"
-                            ResultKind="DataURL" />
-                    </Grid>
-                </Button.Content>
-            </Button>
+                FileOpened="FileOpenDialogPresenter_ImageUrl_FileOpened" />
 
         </StackPanel>
 
