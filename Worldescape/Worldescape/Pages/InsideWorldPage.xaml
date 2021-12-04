@@ -22,13 +22,12 @@
         <ScrollViewer
             x:Name="CanvasScrollViewer"
             Grid.Row="0"
-            Grid.RowSpan="4"
+            Grid.RowSpan="3"
             Background="Transparent"
             HorizontalScrollBarVisibility="Auto"
             IsTabStop="False"
             VerticalScrollBarVisibility="Auto">
 
-            <!--<Canvas x:Name="Canvas_Background">-->
             <Canvas
                 x:Name="Canvas_Root"
                 Width="8000"
@@ -42,7 +41,6 @@
                     <ScaleTransform x:Name="Canvas_RootScaleTransform" ScaleX="1" ScaleY="1" />
                 </Canvas.RenderTransform>
             </Canvas>
-            <!--</Canvas>-->
 
         </ScrollViewer>
 

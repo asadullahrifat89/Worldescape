@@ -579,6 +579,11 @@ namespace Worldescape
 
         private void Button_ZoomOutCanvas_Click(object sender, RoutedEventArgs e)
         {
+            if (Canvas_RootScaleTransform.ScaleX == 0.25f)
+            {
+                return;
+            }
+
             Canvas_RootScaleTransform.ScaleX -= zoomFactor;
             Canvas_RootScaleTransform.ScaleY -= zoomFactor;
         }
