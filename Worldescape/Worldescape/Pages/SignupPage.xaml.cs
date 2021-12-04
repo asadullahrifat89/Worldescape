@@ -11,15 +11,14 @@ namespace Worldescape
     {
         #region Fields
 
-        private readonly HttpServiceHelper _httpServiceHelper;
-        private readonly MainPage _mainPage;
+        readonly UserRepository _userRepository;
+        readonly MainPage _mainPage;
 
         #endregion
 
         #region Ctor
 
         public SignupPage(
-            //HttpServiceHelper httpServiceHelper, 
             //MainPage mainPage
             )
         {
@@ -30,7 +29,7 @@ namespace Worldescape
 
             SignUpModelHolder.DataContext = SignUpModel;
 
-            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
+            _userRepository = App.ServiceProvider.GetService(typeof(UserRepository)) as UserRepository;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
 
         }
@@ -49,8 +48,6 @@ namespace Worldescape
 
         private bool CheckIfModelValid()
         {
-            //SignUpModel.Password = PasswordBox_Pasword.Password;
-
             if (!SignUpModel.FirstName.IsNullOrBlank()
                 && !SignUpModel.LastName.IsNullOrBlank()
                 && !SignUpModel.Email.IsNullOrBlank()
@@ -72,24 +69,18 @@ namespace Worldescape
         private async Task SignUp()
         {
             _mainPage.SetIsBusy(true, "Creating your account...");
-            var command = new AddUserCommandRequest
-            {
-                Email = SignUpModel.Email,
-                Password = SignUpModel.Password,
-                DateOfBirth = SignUpModel.DateOfBirth,
-                Gender = RadioButton_Male.IsChecked.Value ? Gender.Male : RadioButton_Female.IsChecked.Value ? Gender.Female : RadioButton_Other.IsChecked.Value ? Gender.Other : Gender.Other,
-                FirstName = SignUpModel.FirstName,
-                LastName = SignUpModel.LastName,
-                Name = SignUpModel.FirstName + " " + SignUpModel.LastName,
-            };
 
-            var response = await _httpServiceHelper.SendPostRequest<ServiceResponse>(
-               actionUri: Constants.Action_AddUser,
-               payload: command);
+            var response = await _userRepository.AddUser(
+                email: SignUpModel.Email,
+                password: SignUpModel.Password,
+                dateofbirth: SignUpModel.DateOfBirth,
+                gender: RadioButton_Male.IsChecked.Value ? Gender.Male : RadioButton_Female.IsChecked.Value ? Gender.Female : RadioButton_Other.IsChecked.Value ? Gender.Other : Gender.Other,
+                firstname: SignUpModel.FirstName,
+                lastname: SignUpModel.LastName);
 
-            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
+            if (!response.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);

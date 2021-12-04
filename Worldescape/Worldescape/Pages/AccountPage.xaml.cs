@@ -10,18 +10,19 @@ namespace Worldescape
     public partial class AccountPage : Page
     {
         #region Fields
-
-        readonly MainPage _mainPage;
-        readonly HttpServiceHelper _httpServiceHelper;
+                
         readonly ImageHelper _imageHelper;
         readonly UrlHelper _urlHelper;
+
+        readonly UserRepository _userRepository;
+
+        readonly MainPage _mainPage;
 
         #endregion
 
         #region Ctor
 
         public AccountPage(
-            //HttpServiceHelper httpServiceHelper,            
             //ImageHelper imageHelper,
             //UrlHelper urlHelper,
             //MainPage mainPage
@@ -29,16 +30,15 @@ namespace Worldescape
         {
             InitializeComponent();
 
-            //_httpServiceHelper = httpServiceHelper;
             //_imageHelper = imageHelper;
             //_urlHelper = urlHelper;
             //_mainPage = mainPage;
 
             AccountModelHolder.DataContext = AccountModel;
 
-            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
             _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
+            _userRepository = App.ServiceProvider.GetService(typeof(UserRepository)) as UserRepository;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
         }
 
@@ -114,28 +114,21 @@ namespace Worldescape
         private async Task UpdateUser()
         {
             _mainPage.SetIsBusy(true, "Saving your account...");
-            var command = new UpdateUserCommandRequest
-            {
-                Token = App.Token,
-                //Phone = AccountModel.Phone,
-                Id = AccountModel.Id,
-                Email = AccountModel.Email,
-                Password = AccountModel.Password,
-                DateOfBirth = AccountModel.DateOfBirth,
-                Gender = RadioButton_Male.IsChecked.Value ? Gender.Male : RadioButton_Female.IsChecked.Value ? Gender.Female : RadioButton_Other.IsChecked.Value ? Gender.Other : Gender.Other,
-                FirstName = AccountModel.FirstName,
-                LastName = AccountModel.LastName,
-                Name = AccountModel.FirstName + " " + AccountModel.LastName,
-                ImageUrl = AccountModel.ImageUrl,
-            };
 
-            var response = await _httpServiceHelper.SendPostRequest<ServiceResponse>(
-               actionUri: Constants.Action_UpdateUser,
-               payload: command);
+            var response = await _userRepository.UpdateUser(
+               token: App.Token,
+               id: AccountModel.Id,
+               email: AccountModel.Email,
+               password: AccountModel.Password,
+               dateofbirth: AccountModel.DateOfBirth,
+               gender: RadioButton_Male.IsChecked.Value ? Gender.Male : RadioButton_Female.IsChecked.Value ? Gender.Female : RadioButton_Other.IsChecked.Value ? Gender.Other : Gender.Other,
+               firstname: AccountModel.FirstName,
+               lastname: AccountModel.LastName,
+               imageUrl: AccountModel.ImageUrl);
 
-            if (response.HttpStatusCode != System.Net.HttpStatusCode.OK || !response.ExternalError.IsNullOrBlank())
+            if (!response.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.ExternalError.ToString());
+                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);

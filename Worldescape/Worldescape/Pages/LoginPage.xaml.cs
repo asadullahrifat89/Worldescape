@@ -10,8 +10,9 @@ namespace Worldescape
     {
         #region Fields
 
-        private readonly HttpServiceHelper _httpServiceHelper;
-        private readonly MainPage _mainPage;
+        readonly HttpServiceHelper _httpServiceHelper;
+        readonly UserRepository _userRepository;
+        readonly MainPage _mainPage;
 
         #endregion
 
@@ -30,6 +31,7 @@ namespace Worldescape
             LoginModelHolder.DataContext = LoginModel;
 
             _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
+            _userRepository = App.ServiceProvider.GetService(typeof(UserRepository)) as UserRepository;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
 
         }
@@ -89,24 +91,27 @@ namespace Worldescape
 
                 App.Token = token;
 
-                var user = await _httpServiceHelper.SendGetRequest<User>(
-                   actionUri: Constants.Action_GetUser,
-                   payload: new GetUserQueryRequest() { Token = token, Email = LoginModel.Email, Password = LoginModel.Password });
+                var loginResponse = await _userRepository.GetUser(
+                    token: token,
+                    email: LoginModel.Email,
+                    password: LoginModel.Password);
 
-                if (user == null || user.IsEmpty())
+                if (!loginResponse.Success)
                 {
-                    var contentDialogue = new ContentDialogueWindow(title: "Error!", message: "Failed to login.");
+                    var contentDialogue = new ContentDialogueWindow(title: "Error!", message: loginResponse.Error);
                     contentDialogue.Show();
 
                     _mainPage.SetIsBusy(false);
                     return;
                 }
+                else
+                {
+                    App.User = loginResponse.Result as User;
 
-                App.User = user;
-
-                _mainPage.SetLoggedInUserModel();
-                _mainPage.NavigateToPage(Constants.Page_WorldsPage);
-                _mainPage.SetIsBusy(false);
+                    _mainPage.SetLoggedInUserModel();
+                    _mainPage.NavigateToPage(Constants.Page_WorldsPage);
+                    _mainPage.SetIsBusy(false);
+                }
             }
         }
 
