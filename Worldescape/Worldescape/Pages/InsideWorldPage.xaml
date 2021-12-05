@@ -566,11 +566,10 @@
                             Width="70"
                             Margin="5,10"
                             Click="Button_ConstructAdd_Click"
-                            Content="&#xe8f1;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
-                            Visibility="Collapsed" />
+                            Visibility="Collapsed">
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/space_dashboard_black_24dp.svg" />
+                        </ToggleButton>
 
                         <!--  Construct  -->
                         <ToggleButton
@@ -579,7 +578,7 @@
                             Margin="5,10"
                             Click="Button_ConstructCraft_Click"
                             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
-                            <Image Source="ms-appx:///Worldescape/Assets/Icons/build_black_24dp.svg" />
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/create_black_24dp.svg" />
                         </ToggleButton>
 
                         <!--  Select, toggle multi selection mode  -->

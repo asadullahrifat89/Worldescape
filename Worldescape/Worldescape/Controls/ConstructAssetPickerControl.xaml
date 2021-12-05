@@ -20,11 +20,12 @@
             <!--  Select category  -->
             <Button
                 x:Name="Button_ConstructCategories"
-                Width="120"
+                Width="50"
                 Margin="5,0"
                 Click="ButtonShowCategories_Click"
-                Content="Categories"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                <Image Source="ms-appx:///Worldescape/Assets/Icons/category_black_24dp.svg" />
+            </Button>
 
             <!--  Show subcategories for selected category filter  -->
             <Button
