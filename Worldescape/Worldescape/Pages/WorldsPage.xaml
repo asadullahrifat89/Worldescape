@@ -26,10 +26,10 @@
                 Width="50"
                 Margin="5,0"
                 Click="ToggleButton_UsersWorldsOnly_Click"
-                Content="🌑"
+                Content="&#xE928;"
+                FontFamily="Segoe Fluent Icons"
                 FontWeight="Normal"
-                Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
-                ToolTipService.ToolTip="My worlds" />
+                Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
             <!--  Search box for worlds  -->
             <TextBox
@@ -50,22 +50,21 @@
                 Width="50"
                 Margin="5,0"
                 Click="Button_SearchWorld_Click"
-                Content="🔍"
+                Content="&#xE721;"
+                FontFamily="Segoe Fluent Icons"
                 FontWeight="Normal"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}"
-                ToolTipService.ToolTip="Search worlds" />
+                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
             <!--  Create world  -->
             <Button
                 x:Name="Button_CreateWorld"
                 Grid.Column="1"
-                Width="50"
+                Width="140"
                 Margin="5,0"
                 Click="Button_CreateWorld_Click"
-                Content="➕"
-                FontWeight="Normal"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}"
-                ToolTipService.ToolTip="Add a world" />
+                Content="Create World"
+                FontSize="16"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
         </StackPanel>
 
@@ -100,7 +99,8 @@
                 Width="70"
                 Margin="5"
                 Click="ButtonPreview_Click"
-                Content="❮"
+                Content="&#xF743;"
+                FontFamily="Segoe Fluent Icons"
                 FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
@@ -140,7 +140,8 @@
                 Width="70"
                 Margin="5"
                 Click="ButtonNext_Click"
-                Content="❯"
+                Content="&#xF745;"
+                FontFamily="Segoe Fluent Icons"
                 FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
