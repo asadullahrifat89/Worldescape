@@ -26,10 +26,10 @@
                 Width="50"
                 Margin="5,0"
                 Click="ToggleButton_UsersWorldsOnly_Click"
-                Content="&#xE928;"
-                FontFamily="{StaticResource SegoeFluentIcons}"
                 FontWeight="Normal"
-                Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
+                Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
+                <Image Source="ms-appx:///Worldescape/Assets/Icons/fingerprint_black_24dp.svg" />
+            </ToggleButton>
 
             <!--  Search box for worlds  -->
             <TextBox
@@ -50,10 +50,10 @@
                 Width="50"
                 Margin="5,0"
                 Click="Button_SearchWorld_Click"
-                Content="&#xE721;"
-                FontFamily="{StaticResource SegoeFluentIcons}"
                 FontWeight="Normal"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                <Image Source="ms-appx:///Worldescape/Assets/Icons/search_black_24dp.svg" />
+            </Button>
 
             <!--  Create world  -->
             <Button
@@ -100,7 +100,7 @@
                 Margin="5"
                 Click="ButtonPreview_Click"
                 Content="&#xF743;"
-                FontFamily="{StaticResource SegoeFluentIcons}"
+                FontFamily="Segoe Fluent Icons"
                 FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
@@ -141,7 +141,7 @@
                 Margin="5"
                 Click="ButtonNext_Click"
                 Content="&#xF745;"
-                FontFamily="{StaticResource SegoeFluentIcons}"
+                FontFamily="Segoe Fluent Icons"
                 FontWeight="Normal"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 

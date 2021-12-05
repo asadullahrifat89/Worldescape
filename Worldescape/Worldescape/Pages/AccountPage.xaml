@@ -52,7 +52,7 @@
                             Margin="5"
                             Click="Button_RemoveImageUrl_Click"
                             Content="&#xE74D;"
-                            FontFamily="{StaticResource SegoeFluentIcons}"
+                            FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundButton_Style}" />
                         <Button
@@ -61,7 +61,7 @@
                             Margin="5"
                             Click="Button_UploadImageUrl_Click"
                             Content="&#xE722;"
-                            FontFamily="{StaticResource SegoeFluentIcons}"
+                            FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundButton_Style}" />
                     </StackPanel>

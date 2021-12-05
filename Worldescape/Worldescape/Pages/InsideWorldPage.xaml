@@ -61,8 +61,8 @@
                             Width="50"
                             Margin="5"
                             Click="Button_ConstructMove_Click"
-                            Content="&#xE759;"
-                            FontFamily="{StaticResource SegoeFluentIcons}"
+                            Content="&#xE7C2;"
+                            FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
@@ -73,7 +73,7 @@
                             Margin="5"
                             Click="Button_ConstructClone_Click"
                             Content="&#xE8C8;"
-                            FontFamily="{StaticResource SegoeFluentIcons}"
+                            FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
@@ -84,7 +84,7 @@
                             Margin="5"
                             Click="Button_ConstructBringForward_Click"
                             Content="&#xE70E;"
-                            FontFamily="{StaticResource SegoeFluentIcons}"
+                            FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
@@ -95,7 +95,7 @@
                             Margin="5"
                             Click="Button_ConstructSendBackward_Click"
                             Content="&#xE70D;"
-                            FontFamily="{StaticResource SegoeFluentIcons}"
+                            FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
@@ -106,7 +106,7 @@
                             Margin="5"
                             Click="Button_ConstructScaleUp_Click"
                             Content="&#xE740;"
-                            FontFamily="{StaticResource SegoeFluentIcons}"
+                            FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
@@ -117,7 +117,7 @@
                             Margin="5"
                             Click="Button_ConstructScaleDown_Click"
                             Content="&#xE73F;"
-                            FontFamily="{StaticResource SegoeFluentIcons}"
+                            FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
@@ -130,7 +130,7 @@
                             Style="{StaticResource MaterialDesign_RoundButton_Style}">
                             <Button.Content>
                                 <TextBlock
-                                    FontFamily="{StaticResource SegoeFluentIcons}"
+                                    FontFamily="Segoe Fluent Icons"
                                     FontWeight="Normal"
                                     RenderTransformOrigin="0.5,0.5"
                                     Text="&#xE7AD;">
@@ -148,7 +148,7 @@
                             Margin="5,10"
                             Click="Button_ConstructRotateForward_Click"
                             Content="&#xE7AD;"
-                            FontFamily="{StaticResource SegoeFluentIcons}"
+                            FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
@@ -159,7 +159,7 @@
                             Margin="5,10"
                             Click="Button_ConstructDelete_Click"
                             Content="&#xE74D;"
-                            FontFamily="{StaticResource SegoeFluentIcons}"
+                            FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
@@ -179,7 +179,7 @@
                         Width="70"
                         Click="Button_MessageAvatar_Click"
                         Content="&#xe8f2;"
-                        FontFamily="{StaticResource SegoeFluentIcons}"
+                        FontFamily="Segoe Fluent Icons"
                         FontWeight="Normal"
                         Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
@@ -199,7 +199,7 @@
                         Margin="5"
                         Click="Button_CreatePost_Click"
                         Content="&#xE72D;"
-                        FontFamily="{StaticResource SegoeFluentIcons}"
+                        FontFamily="Segoe Fluent Icons"
                         FontWeight="Normal"
                         Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
@@ -210,7 +210,7 @@
                         Margin="5"
                         Click="Button_MessageAll_Click"
                         Content="&#xE789;"
-                        FontFamily="{StaticResource SegoeFluentIcons}"
+                        FontFamily="Segoe Fluent Icons"
                         FontWeight="Normal"
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
@@ -221,7 +221,7 @@
                         Margin="5"
                         Click="Button_SelectStatus_Click"
                         Content="&#xEDE3;"
-                        FontFamily="{StaticResource SegoeFluentIcons}"
+                        FontFamily="Segoe Fluent Icons"
                         FontWeight="Normal"
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
@@ -289,7 +289,7 @@
                     Margin="10"
                     Click="Button_Leave_Click"
                     Content="&#xe89b;"
-                    FontFamily="{StaticResource SegoeFluentIcons}"
+                    FontFamily="Segoe Fluent Icons"
                     FontSize="20"
                     FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
@@ -566,7 +566,7 @@
                             Margin="5,10"
                             Click="Button_ConstructAdd_Click"
                             Content="&#xe8f1;"
-                            FontFamily="{StaticResource SegoeFluentIcons}"
+                            FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
                             Visibility="Collapsed" />
@@ -578,7 +578,7 @@
                             Margin="5,10"
                             Click="Button_ConstructCraft_Click"
                             Content="&#xebd2;"
-                            FontFamily="{StaticResource SegoeFluentIcons}"
+                            FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
 
@@ -589,7 +589,7 @@
                             Margin="5,10"
                             Click="Button_ConstructMultiSelect_Click"
                             Content="&#xE762;"
-                            FontFamily="{StaticResource SegoeFluentIcons}"
+                            FontFamily="Segoe Fluent Icons"
                             FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
                             Visibility="Collapsed" />
@@ -644,7 +644,7 @@
                         Margin="10"
                         Click="Button_SendUnicastMessage_Click"
                         Content="&#xE724;"
-                        FontFamily="{StaticResource SegoeFluentIcons}"
+                        FontFamily="Segoe Fluent Icons"
                         FontWeight="Normal"
                         Style="{StaticResource MaterialDesign_RoundButton_Style}"
                         Visibility="{Binding ElementName=Button_MessageAll, Path=IsChecked, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}" />
@@ -655,7 +655,7 @@
                         Margin="10"
                         Click="Button_SendBroadcastMessage_Click"
                         Content="&#xE724;"
-                        FontFamily="{StaticResource SegoeFluentIcons}"
+                        FontFamily="Segoe Fluent Icons"
                         FontWeight="Normal"
                         Style="{StaticResource MaterialDesign_RoundButton_Style}"
                         Visibility="{Binding ElementName=Button_MessageAll, Path=IsChecked, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -680,7 +680,7 @@
                     <ToggleButton.Content>
                         <TextBlock>
                             <Run
-                                FontFamily="{StaticResource SegoeFluentIcons}"
+                                FontFamily="Segoe Fluent Icons"
                                 FontWeight="Normal"
                                 Text="&#xE902;" />
                             <Run Text=" " />
@@ -699,7 +699,7 @@
                     Margin="5,0"
                     Click="Button_ZoomInCanvas_Click"
                     Content="&#xE8A3;"
-                    FontFamily="{StaticResource SegoeFluentIcons}"
+                    FontFamily="Segoe Fluent Icons"
                     FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
@@ -710,7 +710,7 @@
                     Margin="5,0"
                     Click="Button_ZoomOutCanvas_Click"
                     Content="&#xE71F;"
-                    FontFamily="{StaticResource SegoeFluentIcons}"
+                    FontFamily="Segoe Fluent Icons"
                     FontWeight="Normal"
                     Style="{StaticResource MaterialDesign_RoundButton_Style}" />
             </StackPanel>

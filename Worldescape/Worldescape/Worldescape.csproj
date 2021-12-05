@@ -17,7 +17,6 @@
 		<ApplicationDefinition Include="App.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</ApplicationDefinition>
-		<Content Include="Assets\Fonts\WinSymbols1.ttf" />
 		<Content Include="Assets\Images\Defaults\cloud-0.png" />
 		<Content Include="Assets\Images\Defaults\cloud-1.png" />
 		<Content Include="Assets\Images\Defaults\World_1.png" />
@@ -563,6 +562,26 @@
 
 	<ItemGroup>
 	  <Folder Include="Properties\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\fingerprint_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\search_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\file_upload_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\account_circle_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\logout_black_24dp.svg" />
 	</ItemGroup>
 
 	<!-- Removing bin\$(Configuration) and obj\$(Configuration) -->

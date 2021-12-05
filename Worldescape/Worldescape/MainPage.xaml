@@ -78,28 +78,26 @@
                     Visibility="{Binding ElementName=MyAcountButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel>
                         <MenuItem Click="MenuItem_ProfileDetails_Click" Style="{StaticResource MaterialDesign_ContextMenuItem_Style}">
-                            <TextBlock Foreground="{StaticResource MaterialDesign_DefaultAccentColor}">
-                                <Run
-                                    FontFamily="{StaticResource SegoeFluentIcons}"
-                                    FontWeight="Normal"
-                                    Text="&#xE910;" />
-                                <Run
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="ms-appx:///Worldescape/Assets/Icons/account_circle_black_24dp.svg" />
+                                <TextBlock
                                     Margin="5,0"
                                     FontWeight="SemiBold"
+                                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
                                     Text="Profile" />
-                            </TextBlock>
+                            </StackPanel>
+
                         </MenuItem>
                         <MenuItem Click="MenuItem_Logout_Click" Style="{StaticResource MaterialDesign_ContextMenuItem_Style}">
-                            <TextBlock Foreground="{StaticResource MaterialDesign_DefaultAccentColor}">
-                                <Run
-                                    FontFamily="{StaticResource SegoeFluentIcons}"
-                                    FontWeight="Normal"
-                                    Text="&#xF3B1;" />
-                                <Run
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="ms-appx:///Worldescape/Assets/Icons/logout_black_24dp.svg" />
+                                <TextBlock
                                     Margin="5,0"
                                     FontWeight="SemiBold"
+                                    Foreground="{StaticResource MaterialDesign_DefaultAccentColor}"
                                     Text="Logout" />
-                            </TextBlock>
+                            </StackPanel>
+
                         </MenuItem>
                     </StackPanel>
                 </ContentControl>
