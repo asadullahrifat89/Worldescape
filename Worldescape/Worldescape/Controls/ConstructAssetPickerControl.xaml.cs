@@ -28,6 +28,7 @@ namespace Worldescape
         long _totalPageCount = 0;
 
         bool _settingConstructAssets = false;
+        public bool FirstHit = false;
 
         string _constructCategoryFilter = string.Empty;
         string _constructSubCategoryFilter = string.Empty;
@@ -47,13 +48,11 @@ namespace Worldescape
         #endregion
 
         #region Ctor
-        public ConstructAssetPickerControl(
-            UrlHelper urlHelper,
-            PaginationHelper paginationHelper)
+        public ConstructAssetPickerControl()
         {
             InitializeComponent();
-            _urlHelper = urlHelper;
-            _paginationHelper = paginationHelper;
+            _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
+            _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
 
             ConstructAssets = JsonSerializer.Deserialize<ConstructAsset[]>(Service.Properties.Resources.ConstructAssets).ToList();
 
@@ -70,7 +69,7 @@ namespace Worldescape
                 Name = Constants.CamelToName(z.Split('\\')[1]),
             }).ToList();
 
-            ShowConstructCategories();
+            //ShowConstructCategories();
         }
 
         #endregion
@@ -109,7 +108,7 @@ namespace Worldescape
             GetConstructAssets();
         }
 
-        private void ShowConstructCategories()
+        public void ShowConstructCategories()
         {
             var pagedData = ConstructCategories;
 

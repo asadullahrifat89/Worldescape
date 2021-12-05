@@ -48,8 +48,6 @@ namespace Worldescape
         readonly ConstructRepository _constructRepository;
         readonly AvatarRepository _avatarRepository;
 
-        readonly ConstructAssetPickerControl _constructAssetPickerControl;
-
         readonly Color[] _backgroundColors = new Color[]
         {
             Color.FromRgb(235, 157, 96),
@@ -73,8 +71,7 @@ namespace Worldescape
             ElementHelper elementHelper,
             ConstructRepository constructRepository,
             AvatarRepository avatarRepository,
-            MainPage mainPage,
-            ConstructAssetPickerControl constructAssetPickerControl)
+            MainPage mainPage)
         {
             InitializeComponent();
 
@@ -87,10 +84,8 @@ namespace Worldescape
             _mainPage = mainPage;
             _constructRepository = constructRepository;
             _avatarRepository = avatarRepository;
-            _constructAssetPickerControl = constructAssetPickerControl;
 
             SubscribeHub();
-            SubscribeConstructAssetPicker();
 
             //PopulateClouds();
             //PopulateClouds(drawOver: true);
@@ -2768,10 +2763,13 @@ namespace Worldescape
         /// </summary>
         private void ShowConstructAssetsControl()
         {
-            if (ContentControl_ConstructAssetsControlContainer.Content == null)
-                ContentControl_ConstructAssetsControlContainer.Content = _constructAssetPickerControl;
-
             ContentControl_ConstructAssetsContainer.Visibility = Visibility.Visible;
+
+            if (!ConstructAssetPickerControl.FirstHit)
+            {
+                ConstructAssetPickerControl.ShowConstructCategories();
+                ConstructAssetPickerControl.FirstHit = true;
+            }            
         }
 
         /// <summary>
@@ -2780,22 +2778,6 @@ namespace Worldescape
         private void HideConstructAssetsControl()
         {
             ContentControl_ConstructAssetsContainer.Visibility = Visibility.Collapsed;
-        }
-
-        /// <summary>
-        /// Unsubscribes from AssetSelected event of ConstructAssetPickerControl.
-        /// </summary>
-        private void UnsubscribeConstructAssetPicker()
-        {
-            _constructAssetPickerControl.AssetSelected -= ConstructAssetPickerControl_AssetSelected;
-        }
-
-        /// <summary>
-        /// Subscribes to AssetSelected event of ConstructAssetPickerControl.
-        /// </summary>
-        private void SubscribeConstructAssetPicker()
-        {
-            _constructAssetPickerControl.AssetSelected += ConstructAssetPickerControl_AssetSelected;
         }
 
         /// <summary>

@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Worldescape"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:worldescape="clr-namespace:Worldescape"
     FontFamily="Segoe UI"
@@ -343,10 +342,12 @@
             Style="{StaticResource MaterialDesign_Card_Style}"
             Visibility="Collapsed">
 
-            <ContentPresenter
-                x:Name="ContentControl_ConstructAssetsControlContainer"
+            <worldescape:ConstructAssetPickerControl
+                x:Name="ConstructAssetPickerControl"
                 Height="700"
-                Margin="10,10,10,0" />
+                Margin="10,10,10,0"
+                AssetSelected="ConstructAssetPickerControl_AssetSelected"
+                Visibility="{Binding ElementName=ContentControl_ConstructAssetsContainer, Path=Visibility, Mode=OneWay}" />
 
         </ContentControl>
 

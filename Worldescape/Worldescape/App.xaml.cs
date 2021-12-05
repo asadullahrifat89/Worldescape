@@ -85,8 +85,6 @@ namespace Worldescape
             //services.AddSingleton<SignupPage>();
             //services.AddSingleton<AccountPage>();            
 
-            // Controls
-            services.AddSingleton<ConstructAssetPickerControl>();
         }
 
         private void App_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
