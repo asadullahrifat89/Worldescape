@@ -650,6 +650,25 @@
 	  <Content Include="Assets\Icons\people_black_24dp.svg" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Include="Assets\Icons\content_copy_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\move_down_black_24dp.svg" />
+	  <Content Include="Assets\Icons\move_up_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\rotate_left_black_24dp.svg" />
+	  <Content Include="Assets\Icons\rotate_right_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\zoom_in_map_black_24dp.svg" />
+	  <Content Include="Assets\Icons\zoom_out_map_black_24dp.svg" />
+	</ItemGroup>
+
 	<!-- Removing bin\$(Configuration) and obj\$(Configuration) -->
 	<Target Name="FullClean" AfterTargets="Clean">
 		<RemoveDir Directories="$(ProjectDir)$(BaseOutputPath)$(Configuration)\" />

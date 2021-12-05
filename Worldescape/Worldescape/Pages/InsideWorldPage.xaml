@@ -70,10 +70,9 @@
                             Width="50"
                             Margin="5"
                             Click="Button_ConstructClone_Click"
-                            Content="&#xE8C8;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
+                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/content_copy_black_24dp.svg" />
+                        </ToggleButton>
 
                         <!--  Upward  -->
                         <Button
@@ -81,10 +80,9 @@
                             Width="50"
                             Margin="5"
                             Click="Button_ConstructBringForward_Click"
-                            Content="&#xE70E;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/move_up_black_24dp.svg" />
+                        </Button>
 
                         <!--  Downward  -->
                         <Button
@@ -92,10 +90,9 @@
                             Width="50"
                             Margin="5"
                             Click="Button_ConstructSendBackward_Click"
-                            Content="&#xE70D;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/move_down_black_24dp.svg" />
+                        </Button>
 
                         <!--  Enlarge  -->
                         <Button
@@ -103,10 +100,9 @@
                             Width="50"
                             Margin="5"
                             Click="Button_ConstructScaleUp_Click"
-                            Content="&#xE740;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/zoom_out_map_black_24dp.svg" />
+                        </Button>
 
                         <!--  Dwindle  -->
                         <Button
@@ -114,41 +110,29 @@
                             Width="50"
                             Margin="5"
                             Click="Button_ConstructScaleDown_Click"
-                            Content="&#xE73F;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/zoom_in_map_black_24dp.svg" />
+                        </Button>
 
-                        <!--  Rotate backward  -->
+                        <!--  Rotate left  -->
                         <Button
                             x:Name="Button_ConstructRotateBackward"
                             Width="50"
                             Margin="5"
                             Click="Button_ConstructRotateBackward_Click"
                             Style="{StaticResource MaterialDesign_RoundButton_Style}">
-                            <Button.Content>
-                                <TextBlock
-                                    FontFamily="Segoe Fluent Icons"
-                                    FontWeight="Normal"
-                                    RenderTransformOrigin="0.5,0.5"
-                                    Text="&#xE7AD;">
-                                    <TextBlock.RenderTransform>
-                                        <CompositeTransform Rotation="-180" />
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
-                            </Button.Content>
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/rotate_left_black_24dp.svg" />
                         </Button>
 
-                        <!--  Rotate forward  -->
+                        <!--  Rotate right  -->
                         <Button
                             x:Name="Button_ConstructRotateForward"
                             Width="50"
                             Margin="5,10"
                             Click="Button_ConstructRotateForward_Click"
-                            Content="&#xE7AD;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/rotate_right_black_24dp.svg" />
+                        </Button>
 
                         <!--  Delete  -->
                         <Button
@@ -156,10 +140,9 @@
                             Width="50"
                             Margin="5,10"
                             Click="Button_ConstructDelete_Click"
-                            Content="&#xE74D;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/delete_black_24dp.svg" />
+                        </Button>
 
                     </WrapPanel>
                 </ContentControl>
