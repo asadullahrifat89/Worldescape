@@ -642,6 +642,14 @@
 	  <Content Include="Assets\Icons\person_pin_black_24dp.svg" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Include="Assets\Icons\chat_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\people_black_24dp.svg" />
+	</ItemGroup>
+
 	<!-- Removing bin\$(Configuration) and obj\$(Configuration) -->
 	<Target Name="FullClean" AfterTargets="Clean">
 		<RemoveDir Directories="$(ProjectDir)$(BaseOutputPath)$(Configuration)\" />

@@ -628,28 +628,27 @@
                         Margin="5,10"
                         VerticalAlignment="Center" />
 
-                    <!--  Send  -->
+                    <!--  Send unicast message  -->
                     <Button
                         x:Name="Button_SendUnicastMessage"
                         Width="70"
                         Margin="10"
                         Click="Button_SendUnicastMessage_Click"
-                        Content="&#xE724;"
-                        FontFamily="Segoe Fluent Icons"
-                        FontWeight="Normal"
                         Style="{StaticResource MaterialDesign_RoundButton_Style}"
-                        Visibility="{Binding ElementName=Button_MessageAll, Path=IsChecked, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}" />
+                        Visibility="{Binding ElementName=Button_MessageAll, Path=IsChecked, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=inverse}">
+                        <Image Source="ms-appx:///Worldescape/Assets/Icons/chat_black_24dp.svg" />
+                    </Button>
 
+                    <!--  Send broadcast message  -->
                     <Button
                         x:Name="Button_SendBroadcastMessage"
                         Width="70"
                         Margin="10"
                         Click="Button_SendBroadcastMessage_Click"
-                        Content="&#xE724;"
-                        FontFamily="Segoe Fluent Icons"
-                        FontWeight="Normal"
                         Style="{StaticResource MaterialDesign_RoundButton_Style}"
-                        Visibility="{Binding ElementName=Button_MessageAll, Path=IsChecked, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        Visibility="{Binding ElementName=Button_MessageAll, Path=IsChecked, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Image Source="ms-appx:///Worldescape/Assets/Icons/quickreply_black_24dp.svg" />
+                    </Button>
 
                 </StackPanel>
 
@@ -669,17 +668,14 @@
                     Click="Button_ShowAvatars_Click"
                     Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
                     <ToggleButton.Content>
-                        <TextBlock>
-                            <Run
-                                FontFamily="Segoe Fluent Icons"
-                                FontWeight="Normal"
-                                Text="&#xE902;" />
-                            <Run Text=" " />
-                            <Run
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/people_black_24dp.svg" />
+                            <TextBlock
                                 x:Name="AvatarsCount"
                                 FontSize="16"
                                 FontWeight="SemiBold" />
-                        </TextBlock>
+                        </StackPanel>
+
                     </ToggleButton.Content>
                 </ToggleButton>
 
