@@ -578,10 +578,9 @@
                             Width="70"
                             Margin="5,10"
                             Click="Button_ConstructCraft_Click"
-                            Content="&#xebd2;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}" />
+                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/build_black_24dp.svg" />
+                        </ToggleButton>
 
                         <!--  Select, toggle multi selection mode  -->
                         <ToggleButton
@@ -589,11 +588,10 @@
                             Width="70"
                             Margin="5,10"
                             Click="Button_ConstructMultiSelect_Click"
-                            Content="&#xE762;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
                             Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
-                            Visibility="Collapsed" />
+                            Visibility="Collapsed">
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/check_box_black_24dp.svg" />
+                        </ToggleButton>
 
                     </StackPanel>
 
@@ -699,10 +697,9 @@
                     Width="50"
                     Margin="5,0"
                     Click="Button_ZoomInCanvas_Click"
-                    Content="&#xE8A3;"
-                    FontFamily="Segoe Fluent Icons"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                    <Image Source="ms-appx:///Worldescape/Assets/Icons/zoom_in_black_24dp.svg" />
+                </Button>
 
                 <!--  Zoom out canvas  -->
                 <Button
@@ -710,10 +707,9 @@
                     Width="50"
                     Margin="5,0"
                     Click="Button_ZoomOutCanvas_Click"
-                    Content="&#xE71F;"
-                    FontFamily="Segoe Fluent Icons"
-                    FontWeight="Normal"
-                    Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                    Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                    <Image Source="ms-appx:///Worldescape/Assets/Icons/zoom_out_black_24dp.svg" />
+                </Button>
             </StackPanel>
         </Grid>
     </Grid>
