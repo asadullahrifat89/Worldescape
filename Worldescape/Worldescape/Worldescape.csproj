@@ -584,6 +584,19 @@
 	  <Content Include="Assets\Icons\logout_black_24dp.svg" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Include="Assets\Icons\arrow_back_ios_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\arrow_forward_ios_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\chevron_left_black_24dp.svg" />
+	  <Content Include="Assets\Icons\chevron_right_black_24dp.svg" />
+	</ItemGroup>
+
 	<!-- Removing bin\$(Configuration) and obj\$(Configuration) -->
 	<Target Name="FullClean" AfterTargets="Clean">
 		<RemoveDir Directories="$(ProjectDir)$(BaseOutputPath)$(Configuration)\" />

@@ -99,10 +99,9 @@
                 Width="70"
                 Margin="5"
                 Click="ButtonPreview_Click"
-                Content="&#xF743;"
-                FontFamily="Segoe Fluent Icons"
-                FontWeight="Normal"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                <Image Source="ms-appx:///Worldescape/Assets/Icons/chevron_left_black_24dp.svg" />
+            </Button>
 
             <!--  page number Buttons  -->
             <ItemsControl
@@ -140,10 +139,9 @@
                 Width="70"
                 Margin="5"
                 Click="ButtonNext_Click"
-                Content="&#xF745;"
-                FontFamily="Segoe Fluent Icons"
-                FontWeight="Normal"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                <Image Source="ms-appx:///Worldescape/Assets/Icons/chevron_right_black_24dp.svg" />
+            </Button>
 
         </StackPanel>
 
