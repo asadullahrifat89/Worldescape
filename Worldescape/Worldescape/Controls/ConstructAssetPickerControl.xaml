@@ -55,10 +55,9 @@
                 Width="50"
                 Margin="5,0"
                 Click="Button_SearchConstructAssets_Click"
-                Content="&#xE721;"
-                FontFamily="Segoe Fluent Icons"
-                FontWeight="Normal"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                <Image Source="ms-appx:///Worldescape/Assets/Icons/search_black_24dp.svg" />
+            </Button>
 
         </StackPanel>
 
@@ -80,10 +79,9 @@
                 Width="70"
                 Margin="5"
                 Click="ButtonPreview_Click"
-                Content="&#xF743;"
-                FontFamily="Segoe Fluent Icons"
-                FontWeight="Normal"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                <Image Source="ms-appx:///Worldescape/Assets/Icons/chevron_left_black_24dp.svg" />
+            </Button>
 
             <!--  page number Buttons  -->
             <ItemsControl
@@ -121,10 +119,9 @@
                 Width="70"
                 Margin="5"
                 Click="ButtonNext_Click"
-                Content="&#xF745;"
-                FontFamily="Segoe Fluent Icons"
-                FontWeight="Normal"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                <Image Source="ms-appx:///Worldescape/Assets/Icons/chevron_right_black_24dp.svg" />
+            </Button>
 
         </StackPanel>
 
