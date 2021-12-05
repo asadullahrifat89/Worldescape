@@ -100,7 +100,7 @@
                 Margin="5"
                 Click="ButtonPreview_Click"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}">
-                <Image Source="ms-appx:///Worldescape/Assets/Icons/chevron_left_black_24dp.svg" />
+                <Image Source="ms-appx:///Worldescape/Assets/Icons/navigate_before_black_24dp.svg" />
             </Button>
 
             <!--  page number Buttons  -->
@@ -140,7 +140,7 @@
                 Margin="5"
                 Click="ButtonNext_Click"
                 Style="{StaticResource MaterialDesign_RoundButton_Style}">
-                <Image Source="ms-appx:///Worldescape/Assets/Icons/chevron_right_black_24dp.svg" />
+                <Image Source="ms-appx:///Worldescape/Assets/Icons/navigate_next_black_24dp.svg" />
             </Button>
 
         </StackPanel>

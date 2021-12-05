@@ -51,19 +51,17 @@
                             Width="50"
                             Margin="5"
                             Click="Button_RemoveImageUrl_Click"
-                            Content="&#xE74D;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/delete_black_24dp.svg" />
+                        </Button>
                         <Button
                             x:Name="Button_UploadImageUrl"
                             Width="50"
                             Margin="5"
                             Click="Button_UploadImageUrl_Click"
-                            Content="&#xE722;"
-                            FontFamily="Segoe Fluent Icons"
-                            FontWeight="Normal"
-                            Style="{StaticResource MaterialDesign_RoundButton_Style}" />
+                            Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/portrait_black_24dp.svg" />
+                        </Button>
                     </StackPanel>
 
                 </StackPanel>

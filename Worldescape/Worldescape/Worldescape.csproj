@@ -585,8 +585,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="Assets\Icons\chevron_left_black_24dp.svg" />
-	  <Content Include="Assets\Icons\chevron_right_black_24dp.svg" />
+	  <Content Include="Assets\Icons\delete_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\portrait_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\navigate_before_black_24dp.svg" />
+	  <Content Include="Assets\Icons\navigate_next_black_24dp.svg" />
 	</ItemGroup>
 
 	<!-- Removing bin\$(Configuration) and obj\$(Configuration) -->
