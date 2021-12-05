@@ -16,8 +16,12 @@ namespace Worldescape
             Style = Application.Current.TryFindResource("MaterialDesign_RoundButton_Style") as Style;
 
             var content = new Grid();
-           
-            content.Children.Add(new Image() { Source = new BitmapImage(new Uri("ms-appx:///Worldescape/Assets/Icons/file_upload_black_24dp.svg")) });
+
+            content.Children.Add(new Image()
+            {
+                Source = new BitmapImage(new Uri("ms-appx:///Worldescape/Assets/Icons/file_upload_black_24dp.svg")),
+                Height = 50,
+            });
 
             var fileOpener = new FileOpenDialogPresenter()
             {
