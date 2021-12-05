@@ -2769,7 +2769,7 @@ namespace Worldescape
             {
                 ConstructAssetPickerControl.ShowConstructCategories();
                 ConstructAssetPickerControl.FirstHit = true;
-            }            
+            }
         }
 
         /// <summary>
@@ -3501,33 +3501,25 @@ namespace Worldescape
         /// <param name="spUserImageAndMessage"></param>
         private void AddMessageTypeIconText(MessageType messageType, StackPanel spUserImageAndMessage)
         {
-            var tbIconText = new TextBlock()
-            {
-                Margin = new Thickness(5, 12, 5, 0),
-                FontWeight = FontWeights.Regular,
-                FontFamily = new FontFamily("Segoe Fluent Icons"),
-                TextWrapping = TextWrapping.Wrap,
-                Foreground = new SolidColorBrush(Colors.Black),
-                VerticalAlignment = VerticalAlignment.Top,
-            };
+            var icon = new Image() { Margin = new Thickness(5, 5, 5, 0) };
 
             switch (messageType)
             {
                 case MessageType.Broadcast:
                     {
-                        tbIconText.Text = "\uE789";
+                        icon.Source = new BitmapImage(new Uri("ms-appx:///Worldescape/Assets/Icons/quickreply_black_24dp.svg"));
                     }
                     break;
                 case MessageType.Unicast:
                     {
-                        tbIconText.Text = "\uE8F2";
+                        icon.Source = new BitmapImage(new Uri("ms-appx:///Worldescape/Assets/Icons/chat_black_24dp.svg"));
                     }
                     break;
                 default:
                     break;
             }
 
-            spUserImageAndMessage.Children.Add(tbIconText);
+            spUserImageAndMessage.Children.Add(icon);
         }
 
         #endregion
