@@ -36,12 +36,13 @@
                             BorderThickness="0"
                             Foreground="{TemplateBinding Foreground}"
                             Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}">
-                            <Path
+                            <!--<Path
                                 Width="20"
                                 Height="20"
                                 Data="M 0,1 L7,1 7,0 8,0 7,1 12,1 12,0 13,0 13,1 20,1 20,19 19,20 1,20 0,19 0,1 M 1,5 19,5 19,19 1,19 1,5 M 4,8 L 16,8 M 4,11 L 16,11 M 4,14 L 16,14"
                                 Fill="{TemplateBinding Foreground}"
-                                Stroke="{TemplateBinding Foreground}" />
+                                Stroke="{TemplateBinding Foreground}" />-->
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/calendar_month_black_24dp.svg" />
                         </Button>
                         <Popup x:Name="Popup" VerticalAlignment="Bottom" />
                     </Grid>
@@ -79,12 +80,13 @@
                             BorderThickness="0"
                             Foreground="{TemplateBinding Foreground}"
                             Style="{StaticResource MaterialDesign_Button_Style_NoDropShadow}">
-                            <Path
+                            <!--<Path
                                 Width="20"
                                 Height="20"
                                 Data="M 0,1 L7,1 7,0 8,0 7,1 12,1 12,0 13,0 13,1 20,1 20,19 19,20 1,20 0,19 0,1 M 1,5 19,5 19,19 1,19 1,5 M 4,8 L 16,8 M 4,11 L 16,11 M 4,14 L 16,14"
                                 Fill="{TemplateBinding Foreground}"
-                                Stroke="{TemplateBinding Foreground}" />
+                                Stroke="{TemplateBinding Foreground}" />-->
+                            <Image Source="ms-appx:///Worldescape/Assets/Icons/calendar_month_black_24dp.svg" />
                         </Button>
                         <Popup x:Name="Popup" VerticalAlignment="Bottom" />
                     </Grid>

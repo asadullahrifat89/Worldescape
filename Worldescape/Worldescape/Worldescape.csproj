@@ -665,6 +665,14 @@
 	  <Content Include="Assets\Icons\zoom_out_map_black_24dp.svg" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Include="Assets\Icons\calendar_month_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\add_location_alt_black_24dp.svg" />
+	</ItemGroup>
+
 	<!-- Removing bin\$(Configuration) and obj\$(Configuration) -->
 	<Target Name="FullClean" AfterTargets="Clean">
 		<RemoveDir Directories="$(ProjectDir)$(BaseOutputPath)$(Configuration)\" />
