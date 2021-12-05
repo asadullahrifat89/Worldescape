@@ -79,7 +79,7 @@ namespace Worldescape
         {
             _mainPage.SetIsBusy(true, "Creating your world...");
 
-            var defaultWorldImageUrl = $"ms-appx:///Images/Defaults/World_{new Random().Next(0, 9)}.png";
+            var defaultWorldImageUrl = $"ms-appx:///Assets/Images/Defaults/World_{new Random().Next(0, 9)}.png";
 
             var response = await _worldRepository.AddWorld(
                 token: App.Token,

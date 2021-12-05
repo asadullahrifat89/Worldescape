@@ -7,7 +7,7 @@ namespace Worldescape.Assets.Generator
         public static void GenerateMsAppxWorld_Objects(string assetSourceLocation, string outputFileLocation)
         {
             // Generate assets
-            var host = "ms-appx:///Images/World_Objects";
+            var host = "ms-appx:///Assets/Images/World_Objects";
             List<ConstructAsset> constructs = new List<ConstructAsset>();
 
             DirectoryInfo parentDirectory = new(assetSourceLocation);

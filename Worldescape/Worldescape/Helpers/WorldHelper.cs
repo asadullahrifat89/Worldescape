@@ -68,7 +68,7 @@ namespace Worldescape
 
             for (int i = 0; i < 17; i++)
             {
-                var cloudImage = $"ms-appx:///Images/Defaults/cloud-{new Random().Next(minValue: 0, maxValue: 2)}.png";
+                var cloudImage = $"ms-appx:///Assets/Images/Defaults/cloud-{new Random().Next(minValue: 0, maxValue: 2)}.png";
 
                 var bitmap = new BitmapImage(new Uri(cloudImage, UriKind.RelativeOrAbsolute));
 

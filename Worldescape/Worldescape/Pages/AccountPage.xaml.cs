@@ -187,13 +187,13 @@ namespace Worldescape
             switch (App.User.Gender)
             {
                 case Gender.Male:
-                    defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Male.png";
+                    defaultImageUrl = "ms-appx:///Assets/Images/Defaults/ProfileImage_Male.png";
                     break;
                 case Gender.Female:
-                    defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Female.png";
+                    defaultImageUrl = "ms-appx:///Assets/Images/Defaults/ProfileImage_Female.png";
                     break;
                 case Gender.Other:
-                    defaultImageUrl = "ms-appx:///Images/Defaults/ProfileImage_Other.png";
+                    defaultImageUrl = "ms-appx:///Assets/Images/Defaults/ProfileImage_Other.png";
                     break;
                 default:
                     break;

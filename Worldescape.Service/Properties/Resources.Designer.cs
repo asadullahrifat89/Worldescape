@@ -66,19 +66,19 @@ namespace Worldescape.Service.Properties {
         ///		&quot;StatusBoundImageUrls&quot;: [
         ///			{
         ///				&quot;Status&quot;: 0,
-        ///				&quot;ImageUrl&quot;: &quot;ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png&quot;
+        ///				&quot;ImageUrl&quot;: &quot;ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png&quot;
         ///			},
         ///			{
         ///				&quot;Status&quot;: 1,
-        ///				&quot;ImageUrl&quot;: &quot;ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_attackKick.png&quot;
+        ///				&quot;ImageUrl&quot;: &quot;ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_attackKick.png&quot;
         ///			},
         ///			{
         ///				&quot;Status&quot;: 2,
-        ///				&quot;ImageUrl&quot;: &quot;ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_drag.png&quot;
+        ///				&quot;ImageUrl&quot;: &quot;ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_drag.png&quot;
         ///			},
         ///			{
         ///				&quot;Status&quot;: 3,
-        ///				&quot;ImageUrl&quot;: &quot;ms-app [rest of string was truncated]&quot;;.
+        ///		 [rest of string was truncated]&quot;;.
         /// </summary>
         public static string CharacterAssets {
             get {

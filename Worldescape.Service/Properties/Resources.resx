@@ -123,562 +123,562 @@
 		"StatusBoundImageUrls": [
 			{
 				"Status": 0,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png"
 			},
 			{
 				"Status": 1,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_attackKick.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_attackKick.png"
 			},
 			{
 				"Status": 2,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_drag.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_drag.png"
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_duck.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_duck.png"
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_down.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_down.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_wide.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_wide.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_cheer0.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_cheer0.png"
 			},
 			{
 				"Status": 7,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_talk.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_talk.png"
 			},
 			{
 				"Status": 8,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_back.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_back.png"
 			},
 			{
 				"Status": 9,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_behindBack.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_behindBack.png"
 			},
 			{
 				"Status": 10,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_show.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_show.png"
 			}
 		],		
 		"Id": 1,
 		"Name": "Jenna_The_Adventurer",
-		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png"
+		"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Jenna_The_Adventurer/character_femaleAdventurer_idle.png"
 	},
 	{
 		"StatusBoundImageUrls": [
 			{
 				"Status": 0,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png"
 			},
 			{
 				"Status": 1,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_attackKick.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_attackKick.png"
 			},
 			{
 				"Status": 2,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_drag.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_drag.png"
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_duck.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_duck.png"
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_down.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_down.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_wide.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_wide.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_cheer0.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_cheer0.png"
 			},
 			{
 				"Status": 7,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_talk.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_talk.png"
 			},
 			{
 				"Status": 8,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_back.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_back.png"
 			},
 			{
 				"Status": 9,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_behindBack.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_behindBack.png"
 			},
 			{
 				"Status": 10,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_show.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_show.png"
 			}
 		],		
 		"Id": 2,
 		"Name": "John_The_Seer",
-		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png"
+		"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/John_The_Seer/character_maleAdventurer_idle.png"
 	},
 	{
 		"StatusBoundImageUrls": [
 			{
 				"Status": 0,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_idle.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_idle.png"
 			},
 			{
 				"Status": 1,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_attackKick.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_attackKick.png"
 			},
 			{
 				"Status": 2,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_drag.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_drag.png"
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_duck.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_duck.png"
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_down.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_down.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_wide.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_wide.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_cheer0.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_cheer0.png"
 			},
 			{
 				"Status": 7,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_talk.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_talk.png"
 			},
 			{
 				"Status": 8,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_back.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_back.png"
 			},
 			{
 				"Status": 9,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_behindBack.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_behindBack.png"
 			},
 			{
 				"Status": 10,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_show.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_show.png"
 			}
 		],		
 		"Id": 3,
 		"Name": "Rodney_The_Messenger",
-		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_idle.png"
+		"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rodney_The_Messenger/character_femalePerson_idle.png"
 	},
 	{
 		"StatusBoundImageUrls": [
 			{
 				"Status": 0,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_idle.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_idle.png"
 			},
 			{
 				"Status": 1,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_attackKick.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_attackKick.png"
 			},
 			{
 				"Status": 2,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_drag.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_drag.png"
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_duck.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_duck.png"
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_down.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_down.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_wide.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_wide.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_cheer0.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_cheer0.png"
 			},
 			{
 				"Status": 7,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_talk.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_talk.png"
 			},
 			{
 				"Status": 8,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_back.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_back.png"
 			},
 			{
 				"Status": 9,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_behindBack.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_behindBack.png"
 			},
 			{
 				"Status": 10,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_show.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_show.png"
 			}
 		],		
 		"Id": 4,
 		"Name": "Robert_The_Guardian",
-		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_idle.png"
+		"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Robert_The_Guardian/character_malePerson_idle.png"
 	},
 	{
 		"StatusBoundImageUrls": [
 			{
 				"Status": 0,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_idle.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rob_The_Robot/character_robot_idle.png"
 			},
 			{
 				"Status": 1,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_attackKick.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rob_The_Robot/character_robot_attackKick.png"
 			},
 			{
 				"Status": 2,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_drag.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rob_The_Robot/character_robot_drag.png"
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_duck.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rob_The_Robot/character_robot_duck.png"
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_down.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rob_The_Robot/character_robot_down.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_wide.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rob_The_Robot/character_robot_wide.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_cheer0.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rob_The_Robot/character_robot_cheer0.png"
 			},
 			{
 				"Status": 7,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_talk.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rob_The_Robot/character_robot_talk.png"
 			},
 			{
 				"Status": 8,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_back.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rob_The_Robot/character_robot_back.png"
 			},
 			{
 				"Status": 9,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_behindBack.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rob_The_Robot/character_robot_behindBack.png"
 			},
 			{
 				"Status": 10,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_show.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rob_The_Robot/character_robot_show.png"
 			}
 		],		
 		"Id": 5,
 		"Name": "Rob_The_Robot",
-		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Rob_The_Robot/character_robot_idle.png"
+		"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Rob_The_Robot/character_robot_idle.png"
 	},
 	{
 		"StatusBoundImageUrls": [
 			{
 				"Status": 0,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_idle.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_idle.png"
 			},
 			{
 				"Status": 1,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_attackKick.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_attackKick.png"
 			},
 			{
 				"Status": 2,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_drag.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_drag.png"
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_duck.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_duck.png"
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_down.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_down.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_wide.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_wide.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_cheer0.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_cheer0.png"
 			},
 			{
 				"Status": 7,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_talk.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_talk.png"
 			},
 			{
 				"Status": 8,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_back.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_back.png"
 			},
 			{
 				"Status": 9,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_behindBack.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_behindBack.png"
 			},
 			{
 				"Status": 10,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_show.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_show.png"
 			}
 		],		
 		"Id": 6,
 		"Name": "Zack_The_Zombie",
-		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_idle.png"
+		"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Zack_The_Zombie/character_zombie_idle.png"
 	},
 	{
 		"StatusBoundImageUrls": [
 			{
 				"Status": 0,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_idle.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anna_The_Maiden/female_idle.png"
 			},
 			{
 				"Status": 1,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_slide.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anna_The_Maiden/female_slide.png"
 			},
 			{
 				"Status": 2,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_hold2.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anna_The_Maiden/female_hold2.png"
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_duck.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anna_The_Maiden/female_duck.png"
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_stand.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anna_The_Maiden/female_stand.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_cheer1.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anna_The_Maiden/female_cheer1.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_cheer2.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anna_The_Maiden/female_cheer2.png"
 			},
 			{
 				"Status": 7,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_talk.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anna_The_Maiden/female_talk.png"
 			},
 			{
 				"Status": 8,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_back.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anna_The_Maiden/female_back.png"
 			},
 			{
 				"Status": 9,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_stand.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anna_The_Maiden/female_stand.png"
 			},
 			{
 				"Status": 10,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_hang.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anna_The_Maiden/female_hang.png"
 			}
 		],		
 		"Id": 7,
 		"Name": "Anna_The_Maiden",
-		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anna_The_Maiden/female_idle.png"
+		"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anna_The_Maiden/female_idle.png"
 	},
 	{
 		"StatusBoundImageUrls": [
 			{
 				"Status": 0,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_idle.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anthony_The_Scout/adventurer_idle.png"
 			},
 			{
 				"Status": 1,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_slide.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anthony_The_Scout/adventurer_slide.png"
 			},
 			{
 				"Status": 2,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_hold2.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anthony_The_Scout/adventurer_hold2.png"
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_duck.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anthony_The_Scout/adventurer_duck.png"
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_stand.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anthony_The_Scout/adventurer_stand.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_cheer1.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anthony_The_Scout/adventurer_cheer1.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_cheer2.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anthony_The_Scout/adventurer_cheer2.png"
 			},
 			{
 				"Status": 7,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_talk.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anthony_The_Scout/adventurer_talk.png"
 			},
 			{
 				"Status": 8,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_back.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anthony_The_Scout/adventurer_back.png"
 			},
 			{
 				"Status": 9,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_stand.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anthony_The_Scout/adventurer_stand.png"
 			},
 			{
 				"Status": 10,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_hang.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anthony_The_Scout/adventurer_hang.png"
 			}
 		],		
 		"Id": 8,
 		"Name": "Anthony_The_Scout",
-		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Anthony_The_Scout/adventurer_idle.png"
+		"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Anthony_The_Scout/adventurer_idle.png"
 	},
 	{
 		"StatusBoundImageUrls": [
 			{
 				"Status": 0,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_idle.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Michel_The_Gamer/player_idle.png"
 			},
 			{
 				"Status": 1,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_slide.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Michel_The_Gamer/player_slide.png"
 			},
 			{
 				"Status": 2,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_hold2.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Michel_The_Gamer/player_hold2.png"
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_duck.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Michel_The_Gamer/player_duck.png"
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_stand.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Michel_The_Gamer/player_stand.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_cheer1.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Michel_The_Gamer/player_cheer1.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_cheer2.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Michel_The_Gamer/player_cheer2.png"
 			},
 			{
 				"Status": 7,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_talk.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Michel_The_Gamer/player_talk.png"
 			},
 			{
 				"Status": 8,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_back.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Michel_The_Gamer/player_back.png"
 			},
 			{
 				"Status": 9,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_stand.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Michel_The_Gamer/player_stand.png"
 			},
 			{
 				"Status": 10,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_hang.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Michel_The_Gamer/player_hang.png"
 			}
 		],		
 		"Id": 9,
 		"Name": "Michel_The_Gamer",
-		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Michel_The_Gamer/player_idle.png"
+		"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Michel_The_Gamer/player_idle.png"
 	},
 	{
 		"StatusBoundImageUrls": [
 			{
 				"Status": 0,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_idle.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Morag_The_Soldier/soldier_idle.png"
 			},
 			{
 				"Status": 1,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_slide.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Morag_The_Soldier/soldier_slide.png"
 			},
 			{
 				"Status": 2,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_hold2.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Morag_The_Soldier/soldier_hold2.png"
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_duck.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Morag_The_Soldier/soldier_duck.png"
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_stand.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Morag_The_Soldier/soldier_stand.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_cheer1.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Morag_The_Soldier/soldier_cheer1.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_cheer2.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Morag_The_Soldier/soldier_cheer2.png"
 			},
 			{
 				"Status": 7,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_talk.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Morag_The_Soldier/soldier_talk.png"
 			},
 			{
 				"Status": 8,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_back.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Morag_The_Soldier/soldier_back.png"
 			},
 			{
 				"Status": 9,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_stand.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Morag_The_Soldier/soldier_stand.png"
 			},
 			{
 				"Status": 10,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_hang.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Morag_The_Soldier/soldier_hang.png"
 			}
 		],		
 		"Id": 10,
 		"Name": "Morag_The_Soldier",
-		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Morag_The_Soldier/soldier_idle.png"
+		"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Morag_The_Soldier/soldier_idle.png"
 	},
 	{
 		"StatusBoundImageUrls": [
 			{
 				"Status": 0,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_idle.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Ubba_The_Undead/zombie_idle.png"
 			},
 			{
 				"Status": 1,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_slide.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Ubba_The_Undead/zombie_slide.png"
 			},
 			{
 				"Status": 2,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_hold2.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Ubba_The_Undead/zombie_hold2.png"
 			},
 			{
 				"Status": 3,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_duck.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Ubba_The_Undead/zombie_duck.png"
 			},
 			{
 				"Status": 4,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_stand.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Ubba_The_Undead/zombie_stand.png"
 			},
 			{
 				"Status": 5,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_cheer1.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Ubba_The_Undead/zombie_cheer1.png"
 			},
 			{
 				"Status": 6,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_cheer2.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Ubba_The_Undead/zombie_cheer2.png"
 			},
 			{
 				"Status": 7,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_talk.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Ubba_The_Undead/zombie_talk.png"
 			},
 			{
 				"Status": 8,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_back.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Ubba_The_Undead/zombie_back.png"
 			},
 			{
 				"Status": 9,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_stand.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Ubba_The_Undead/zombie_stand.png"
 			},
 			{
 				"Status": 10,
-				"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_hang.png"
+				"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Ubba_The_Undead/zombie_hang.png"
 			}
 		],		
 		"Id": 11,
 		"Name": "Ubba_The_Undead",
-		"ImageUrl": "ms-appx:///Images/Avatar_Profiles/Ubba_The_Undead/zombie_idle.png"
+		"ImageUrl": "ms-appx:///Assets/Images/Avatar_Profiles/Ubba_The_Undead/zombie_idle.png"
 	}
 ]</value>
   </data>
