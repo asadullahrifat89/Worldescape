@@ -17,7 +17,7 @@
 		<ApplicationDefinition Include="App.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</ApplicationDefinition>
-		<Content Include="Assets\Fonts\WinSymbols3.ttf" />
+		<Content Include="Assets\Fonts\WinSymbols1.ttf" />
 		<Content Include="Assets\Images\Defaults\cloud-0.png" />
 		<Content Include="Assets\Images\Defaults\cloud-1.png" />
 		<Content Include="Assets\Images\Defaults\World_1.png" />

@@ -61,7 +61,8 @@
                                 PlaceholderText="Jhon"
                                 Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
                                 Text="{Binding FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                TextAlignment="Left" />
+                                TextAlignment="Left"
+                                TextChanged="TextBox_TextChanged" />
 
                         </StackPanel>
 
@@ -82,7 +83,8 @@
                                 PlaceholderText="Doe"
                                 Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
                                 Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                TextAlignment="Left" />
+                                TextAlignment="Left"
+                                TextChanged="TextBox_TextChanged" />
 
                         </StackPanel>
 
@@ -102,7 +104,8 @@
                         PlaceholderText="username@usermail.com"
                         Style="{StaticResource MaterialDesign_RoundTextBox_Style}"
                         Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        TextAlignment="Left" />
+                        TextAlignment="Left"
+                        TextChanged="TextBox_TextChanged" />
 
                     <TextBlock
                         Margin="10,5"
@@ -117,6 +120,7 @@
                         LostFocus="Control_LostFocus"
                         MaxLength="12"
                         Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        PasswordChanged="PasswordBox_Pasword_PasswordChanged"
                         Style="{StaticResource MaterialDesign_RoundPasswordBox_Style}" />
 
                     <TextBlock
@@ -131,6 +135,7 @@
                         FontSize="16"
                         LostFocus="Control_LostFocus"
                         SelectedDate="{Binding DateOfBirth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedDateChanged="DatePicker_DateOfBirth_SelectedDateChanged"
                         Style="{StaticResource MaterialDesign_RoundDatePicker_Style}" />
 
                     <TextBlock
@@ -143,6 +148,7 @@
                         <RadioButton
                             x:Name="RadioButton_Male"
                             Margin="10"
+                            Click="RadioButton_Click"
                             Content="Male"
                             LostFocus="Control_LostFocus"
                             Style="{StaticResource MaterialDesign_RadioButton_Style}" />
@@ -150,6 +156,7 @@
                         <RadioButton
                             x:Name="RadioButton_Female"
                             Margin="10"
+                            Click="RadioButton_Click"
                             Content="Female"
                             LostFocus="Control_LostFocus"
                             Style="{StaticResource MaterialDesign_RadioButton_Style}" />
@@ -157,6 +164,7 @@
                         <RadioButton
                             x:Name="RadioButton_Other"
                             Margin="10"
+                            Click="RadioButton_Click"
                             Content="Other"
                             LostFocus="Control_LostFocus"
                             Style="{StaticResource MaterialDesign_RadioButton_Style}" />

@@ -150,11 +150,16 @@ namespace Worldescape
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 await Login();
-            }
+            }           
         }
 
         #endregion
 
-        #endregion       
+        #endregion
+
+        private void PasswordBox_Pasword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            CheckIfModelValid();
+        }
     }
 }

@@ -72,6 +72,7 @@
                         LostFocus="Control_LostFocus"
                         MaxLength="12"
                         Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        PasswordChanged="PasswordBox_Pasword_PasswordChanged"
                         Style="{StaticResource MaterialDesign_RoundPasswordBox_Style}" />
 
                     <!--  Login  -->

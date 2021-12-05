@@ -164,6 +164,26 @@ namespace Worldescape
             CheckIfModelValid();
         }
 
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
+        private void PasswordBox_Pasword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
+        private void DatePicker_DateOfBirth_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
+        private void RadioButton_Click(object sender, RoutedEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
         #endregion
 
         #region Button Events

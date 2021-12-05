@@ -80,7 +80,7 @@
                         <MenuItem Click="MenuItem_ProfileDetails_Click" Style="{StaticResource MaterialDesign_ContextMenuItem_Style}">
                             <TextBlock Foreground="{StaticResource MaterialDesign_DefaultAccentColor}">
                                 <Run
-                                    FontFamily="Segoe Fluent Icons"
+                                    FontFamily="{StaticResource SegoeFluentIcons}"
                                     FontWeight="Normal"
                                     Text="&#xE910;" />
                                 <Run
@@ -92,7 +92,7 @@
                         <MenuItem Click="MenuItem_Logout_Click" Style="{StaticResource MaterialDesign_ContextMenuItem_Style}">
                             <TextBlock Foreground="{StaticResource MaterialDesign_DefaultAccentColor}">
                                 <Run
-                                    FontFamily="Segoe Fluent Icons"
+                                    FontFamily="{StaticResource SegoeFluentIcons}"
                                     FontWeight="Normal"
                                     Text="&#xF3B1;" />
                                 <Run
