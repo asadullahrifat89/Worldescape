@@ -1801,9 +1801,9 @@ namespace Worldescape
 
                         _mainPage.SetIsBusy(true, "Preparing world...");
 
-                        // Get avatars and constructs
-                        await FetchAvatars();
+                        // Get constructs and avatars
                         await FetchConstructs();
+                        await FetchAvatars();
 
                         _isLoggedIn = true;
 
@@ -2538,7 +2538,7 @@ namespace Worldescape
         /// <param name="avatar"></param>
         private Avatar AddAvatarOnCanvas(UIElement avatar, double x, double y, int? z = null)
         {
-            return _avatarHelper.AddAvatarOnCanvas(avatar, Canvas_Root, x, y, z);
+            return _avatarHelper.AddAvatarOnCanvas(avatar: avatar, canvas: Canvas_Root, x: x, y: y, z: z);
         }
 
         /// <summary>

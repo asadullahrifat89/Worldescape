@@ -312,8 +312,7 @@
             Grid.Row="1"
             Margin="20,20,30,100"
             HorizontalAlignment="Left"
-            Background="Transparent"
-            Style="{StaticResource MaterialDesign_Card_Style}"
+            Style="{StaticResource MaterialDesign_TransparentCard_Style}"
             Visibility="{Binding ElementName=ConstructAssetPickerControl, Path=Visibility, Mode=OneWay}">
             <worldescape:ConstructAssetPickerControl
                 x:Name="ConstructAssetPickerControl"
