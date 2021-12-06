@@ -2538,7 +2538,12 @@ namespace Worldescape
         /// <param name="avatar"></param>
         private Avatar AddAvatarOnCanvas(UIElement avatar, double x, double y, int? z = null)
         {
-            return _avatarHelper.AddAvatarOnCanvas(avatar: avatar, canvas: Canvas_Root, x: x, y: y, z: z);
+            return _avatarHelper.AddAvatarOnCanvas(
+                avatar: avatar,
+                canvas: Canvas_Root,
+                x: x,
+                y: y,
+                z: z);
         }
 
         /// <summary>

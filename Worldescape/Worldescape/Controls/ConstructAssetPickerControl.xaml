@@ -15,6 +15,7 @@
         <StackPanel
             Grid.Row="0"
             Margin="5"
+            HorizontalAlignment="Center"
             Orientation="Horizontal">
 
             <!--  Select category  -->
@@ -30,7 +31,7 @@
             <!--  Search box for construct assets  -->
             <TextBox
                 x:Name="TextBox_SearchConstructAssets"
-                MinWidth="300"
+                MinWidth="370"
                 Margin="5,0"
                 VerticalAlignment="Center"
                 FontSize="16"

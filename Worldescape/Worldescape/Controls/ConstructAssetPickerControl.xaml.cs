@@ -19,9 +19,7 @@ namespace Worldescape
         public event EventHandler<ConstructAsset> AssetSelected;
 
         double _constructAssetMasonrySize = 130;
-        double _constructCategoryMasonrySize = 120;
-        double _constructSubCategoryMasonrySize = 120;
-        //double _masonryPanelHeight = 350;
+        double _constructCategoryMasonrySize = 130;        
 
         int _pageSize = 20;
         int _pageIndex = 0;
@@ -140,8 +138,8 @@ namespace Worldescape
             var button_Category = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                Width = _constructCategoryMasonrySize,
-                Height = _constructCategoryMasonrySize,
+                Width = _constructCategoryMasonrySize + 30,
+                Height = _constructCategoryMasonrySize - 40,
                 Margin = new Thickness(3),
                 Tag = constructCategory,
                 FontSize = 16,
@@ -185,8 +183,8 @@ namespace Worldescape
             var button_Category = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                Width = _constructSubCategoryMasonrySize,
-                Height = _constructSubCategoryMasonrySize,
+                Width = _constructCategoryMasonrySize + 30,
+                Height = _constructCategoryMasonrySize - 40,
                 Margin = new Thickness(3),
                 Tag = constructSubCategory,
                 FontSize = 16,
