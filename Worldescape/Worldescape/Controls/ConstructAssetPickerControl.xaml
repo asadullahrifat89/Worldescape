@@ -27,17 +27,6 @@
                 <Image Source="ms-appx:///Worldescape/Assets/Icons/category_black_24dp.svg" />
             </Button>
 
-            <!--  Show subcategories for selected category filter  -->
-            <Button
-                x:Name="Button_ConstructCategory"
-                Grid.Column="0"
-                Width="120"
-                Margin="5,0"
-                Click="Button_ConstructCategory_Click"
-                Content="Sub-Category"
-                Style="{StaticResource MaterialDesign_RoundButton_Style}"
-                Visibility="Collapsed" />
-
             <!--  Search box for construct assets  -->
             <TextBox
                 x:Name="TextBox_SearchConstructAssets"
@@ -73,6 +62,17 @@
             Margin="5"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
+
+            <!--  Show subcategories for selected category filter  -->
+            <Button
+                x:Name="Button_ConstructCategory"
+                Grid.Column="0"
+                Width="120"
+                Margin="5,0"
+                Click="Button_ConstructCategory_Click"
+                Content="Sub-Category"
+                Style="{StaticResource MaterialDesign_RoundButton_Style}"
+                Visibility="Collapsed" />
 
             <!--  Previous button  -->
             <Button

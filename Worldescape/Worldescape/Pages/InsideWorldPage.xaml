@@ -312,16 +312,15 @@
             Grid.Row="1"
             Margin="20,20,30,100"
             HorizontalAlignment="Left"
+            Background="Transparent"
             Style="{StaticResource MaterialDesign_Card_Style}"
-            Visibility="Collapsed">
-
+            Visibility="{Binding ElementName=ConstructAssetPickerControl, Path=Visibility, Mode=OneWay}">
             <worldescape:ConstructAssetPickerControl
                 x:Name="ConstructAssetPickerControl"
                 Height="700"
                 Margin="10,10,10,0"
                 AssetSelected="ConstructAssetPickerControl_AssetSelected"
-                Visibility="{Binding ElementName=ContentControl_ConstructAssetsContainer, Path=Visibility, Mode=OneWay}" />
-
+                Visibility="Collapsed" />
         </ContentControl>
 
         <!--  Middle right active avatars list  -->

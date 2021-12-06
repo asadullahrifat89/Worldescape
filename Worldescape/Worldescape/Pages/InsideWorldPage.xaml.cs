@@ -2759,11 +2759,11 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Shows the ConstructAssetPickerControl in it's asscociated container.
+        /// Shows the ConstructAssetPickerControl.
         /// </summary>
         private void ShowConstructAssetsControl()
         {
-            ContentControl_ConstructAssetsContainer.Visibility = Visibility.Visible;
+            ConstructAssetPickerControl.Visibility = Visibility.Visible;
 
             if (!ConstructAssetPickerControl.FirstHit)
             {
@@ -2773,11 +2773,11 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Hides the ConstructAssetPickerControl in it's asscociated container.
+        /// Hides the ConstructAssetPickerControl.
         /// </summary>
         private void HideConstructAssetsControl()
         {
-            ContentControl_ConstructAssetsContainer.Visibility = Visibility.Collapsed;
+            ConstructAssetPickerControl.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
