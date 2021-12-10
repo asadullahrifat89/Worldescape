@@ -191,7 +191,7 @@ namespace Worldescape
 
                     img.Margin = new Thickness(10, 15, 10, 10);
 
-                    var spContent = new StackPanel() { Margin = new Thickness(10) };
+                    var spContent = new StackPanel() { Margin = new Thickness(5) };
                     spContent.Children.Add(img);
                     spContent.Children.Add(new TextBlock()
                     {
@@ -200,15 +200,7 @@ namespace Worldescape
                         TextAlignment = TextAlignment.Center,
                         Text = world.Name,
                         Margin = new Thickness(5),
-                    });
-                    //stackPanel.Children.Add(new TextBlock()
-                    //{
-                    //    FontSize = 15,
-                    //    FontWeight = FontWeights.SemiBold,
-                    //    TextAlignment = TextAlignment.Center,
-                    //    Text = "By " + world.Creator.Name,
-                    //    Margin = new Thickness(5),
-                    //});
+                    });                 
 
                     var buttonWorld = new Button()
                     {

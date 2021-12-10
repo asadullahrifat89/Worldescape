@@ -24,17 +24,16 @@ namespace Worldescape
 
         #region UI
 
-        public Button GenerateWorldButton(World world, double size)
+        public Button GenerateWorldButton(World world, double size, double fontSize = 14)
         {
             var img = GetWorldPicture(world: world, size: size);
-
             img.Margin = new Thickness(5, 5, 5, 5);
 
             var spContent = new StackPanel();
             spContent.Children.Add(img);
             spContent.Children.Add(new TextBlock()
             {
-                FontSize = 14,
+                FontSize = fontSize,
                 FontWeight = FontWeights.SemiBold,
                 TextAlignment = TextAlignment.Center,
                 Text = world.Name,
