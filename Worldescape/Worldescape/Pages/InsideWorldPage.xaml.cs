@@ -1750,7 +1750,7 @@ namespace Worldescape
 
         private Button GeneratePortalButton(World world)
         {
-            var btn= _portalHelper.GeneratePortalButton(world);
+            var btn = _portalHelper.GeneratePortalButton(world);
             btn.PointerPressed += Portal_PointerPressed;
             return btn;
         }
@@ -1976,25 +1976,44 @@ namespace Worldescape
         /// <param name="uiElement"></param>
         private void AttachPointerElement(UIElement uiElement)
         {
-            if (uiElement is Button button && button.Content is Image image && image.Source is BitmapImage bitmapImage)
+            if (uiElement is Button button)
             {
-                var bitmap = new BitmapImage(new Uri(bitmapImage.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
-
-                var img = new Image()
-                {
-                    Source = bitmap,
-                    Stretch = image.Stretch,
-                };
-
                 if (button.Tag is Construct construct)
                 {
-                    ScaleElement(img, construct.Scale);
-                    RotateElement(img, construct.Rotation);
-                }
+                    if (button.Content is Image image && image.Source is BitmapImage bitmapImage)
+                    {
+                        var bitmap = new BitmapImage(new Uri(bitmapImage.UriSource.OriginalString, UriKind.RelativeOrAbsolute));
 
-                _pointerImage = img;
-                _pointerImage.Opacity = 0.8;
-                _pointerImage.Tag = false;
+                        var img = new Image()
+                        {
+                            Source = bitmap,
+                            Stretch = image.Stretch,
+                        };
+
+                        ScaleElement(img, construct.Scale);
+                        RotateElement(img, construct.Rotation);
+
+                        _pointerImage = img;
+                        _pointerImage.Opacity = 0.8;
+                        _pointerImage.Tag = false;
+                    }
+                }
+                else if (button.Tag is Portal portal)
+                {
+                    var bitmap = new BitmapImage(new Uri(portal.World.ImageUrl, UriKind.RelativeOrAbsolute));
+
+                    var img = new Image()
+                    {
+                        Source = bitmap,
+                        Height = 70,
+                        Width = 70,
+                        Stretch = Stretch.UniformToFill,
+                    };
+
+                    _pointerImage = img;
+                    _pointerImage.Opacity = 0.8;
+                    _pointerImage.Tag = false;
+                }
             }
         }
 
