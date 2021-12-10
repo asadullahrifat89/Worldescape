@@ -41,14 +41,14 @@ namespace Worldescape
 
             return GeneratePortalButton(
                 world: world,
-                size: 70,
-                fontSize: 14,
+                //size: 70,
+                fontSize: 15,
                 img: img);
         }
 
         private Button GeneratePortalButton(
             World world,
-            double size,
+            //double size,
             double fontSize,
             Border img)
         {
@@ -60,14 +60,14 @@ namespace Worldescape
                 FontWeight = FontWeights.SemiBold,
                 TextAlignment = TextAlignment.Center,
                 Text = world.Name,
-                Margin = new Thickness(5),
+                Margin = new Thickness(3),
             });
 
             var buttonWorld = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
-                Height = size,
-                Width = size,
+                //Height = size,
+                //Width = size,
                 Tag = new Portal() { World = world },
             };
 
