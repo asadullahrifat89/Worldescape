@@ -173,14 +173,14 @@
                     Visibility="Collapsed">
 
                     <!--  Create post, shows a child window to create a post  -->
-                    <Button
+                    <!--<Button
                         x:Name="Button_CreatePost"
                         Width="70"
                         Margin="5"
                         Click="Button_CreatePost_Click"
                         Style="{StaticResource MaterialDesign_RoundButton_Style}">
                         <Image Source="ms-appx:///Worldescape/Assets/Icons/post_add_black_24dp.svg" />
-                    </Button>
+                    </Button>-->
 
                     <!--  Create world  -->
                     <Button
@@ -557,42 +557,37 @@
                     VerticalAlignment="Center"
                     Visibility="Collapsed">
 
-                    <!--  Construct, Add, Select buttons  -->
-                    <StackPanel Orientation="Horizontal">
+                    <!--  Add, open construct picker  -->
+                    <ToggleButton
+                        x:Name="Button_ConstructAdd"
+                        Width="70"
+                        Margin="5,10"
+                        Click="Button_ConstructAdd_Click"
+                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
+                        Visibility="Collapsed">
+                        <Image Source="ms-appx:///Worldescape/Assets/Icons/space_dashboard_black_24dp.svg" />
+                    </ToggleButton>
 
-                        <!--  Add, open construct picker  -->
-                        <ToggleButton
-                            x:Name="Button_ConstructAdd"
-                            Width="70"
-                            Margin="5,10"
-                            Click="Button_ConstructAdd_Click"
-                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
-                            Visibility="Collapsed">
-                            <Image Source="ms-appx:///Worldescape/Assets/Icons/space_dashboard_black_24dp.svg" />
-                        </ToggleButton>
+                    <!--  Construct  -->
+                    <ToggleButton
+                        x:Name="Button_ConstructCraft"
+                        Width="70"
+                        Margin="5,10"
+                        Click="Button_ConstructCraft_Click"
+                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
+                        <Image Source="ms-appx:///Worldescape/Assets/Icons/create_black_24dp.svg" />
+                    </ToggleButton>
 
-                        <!--  Construct  -->
-                        <ToggleButton
-                            x:Name="Button_ConstructCraft"
-                            Width="70"
-                            Margin="5,10"
-                            Click="Button_ConstructCraft_Click"
-                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
-                            <Image Source="ms-appx:///Worldescape/Assets/Icons/create_black_24dp.svg" />
-                        </ToggleButton>
-
-                        <!--  Select, toggle multi selection mode  -->
-                        <ToggleButton
-                            x:Name="Button_ConstructMultiSelect"
-                            Width="70"
-                            Margin="5,10"
-                            Click="Button_ConstructMultiSelect_Click"
-                            Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
-                            Visibility="Collapsed">
-                            <Image Source="ms-appx:///Worldescape/Assets/Icons/check_box_black_24dp.svg" />
-                        </ToggleButton>
-
-                    </StackPanel>
+                    <!--  Select, toggle multi selection mode  -->
+                    <ToggleButton
+                        x:Name="Button_ConstructMultiSelect"
+                        Width="70"
+                        Margin="5,10"
+                        Click="Button_ConstructMultiSelect_Click"
+                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}"
+                        Visibility="Collapsed">
+                        <Image Source="ms-appx:///Worldescape/Assets/Icons/check_box_black_24dp.svg" />
+                    </ToggleButton>
 
                     <!--  Multi selected constructs  -->
                     <ContentControl

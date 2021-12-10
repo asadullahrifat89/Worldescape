@@ -23,6 +23,7 @@ namespace Worldescape
         readonly MainPage _mainPage;
         readonly WorldHelper _worldHelper;
         readonly PaginationHelper _paginationHelper;
+
         readonly WorldRepository _worldRepository;
 
         RangeObservableCollection<PageNumber> _pageNumbers = new RangeObservableCollection<PageNumber>();

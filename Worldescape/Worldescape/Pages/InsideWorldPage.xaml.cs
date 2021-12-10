@@ -1791,6 +1791,23 @@ namespace Worldescape
 
         #endregion
 
+        #region Portal
+
+        private void HubService_NewBroadcastPortal(Portal portal)
+        {
+            var btnPortal = GeneratePortalButton(world: portal.World);
+
+            AddPortalOnCanvas(
+                portal: btnPortal,
+                x: portal.Coordinate.X,
+                y: portal.Coordinate.Y,
+                z: portal.Coordinate.Z);
+
+            Console.WriteLine("<<HubService_NewBroadcastPortal: OK");
+        }
+
+        #endregion
+
         #endregion
 
         #region Functionality
@@ -2400,19 +2417,6 @@ namespace Worldescape
             Console.WriteLine("++SubscribeHub: OK");
         }
 
-        private void HubService_NewBroadcastPortal(Portal portal)
-        {
-            var btnPortal = GeneratePortalButton(world: portal.World);
-
-            AddPortalOnCanvas(
-                portal: btnPortal,
-                x: portal.Coordinate.X,
-                y: portal.Coordinate.Y,
-                z: portal.Coordinate.Z);
-
-            Console.WriteLine("<<HubService_NewBroadcastPortal: OK");
-        }
-
         /// <summary>
         /// Unsubscribe from hub and stop listening to hub events.
         /// </summary>
@@ -2470,14 +2474,10 @@ namespace Worldescape
 
             #endregion
 
-            #region Portal
-
             #region Portal Events
 
             _hubService.NewBroadcastPortal -= HubService_NewBroadcastPortal;
-
-            #endregion
-
+                        
             #endregion
 
             Console.WriteLine("++UnsubscribeHub: OK");

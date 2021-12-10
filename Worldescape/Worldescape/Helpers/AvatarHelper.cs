@@ -27,7 +27,10 @@ namespace Worldescape
         /// <param name="avatar"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public Border GetAvatarUserPicture(Avatar avatar, double size = 40, Color? background = null)
+        public Border GetAvatarUserPicture(
+            Avatar avatar,
+            double size = 40,
+            Color? background = null)
         {
             var bitmapImage = new BitmapImage(new Uri(avatar.User.ImageUrl.Contains("ms-appx:") ? avatar.User.ImageUrl : _urlHelper.BuildBlobUrl(App.Token, avatar.User.ImageUrl)));
             return PrepareRoundImage(size, bitmapImage, background);
@@ -39,7 +42,10 @@ namespace Worldescape
         /// <param name="avatar"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public Border GetAvatarCharacterPicture(Avatar avatar, double size = 40, Color? background = null)
+        public Border GetAvatarCharacterPicture(
+            Avatar avatar,
+            double size = 40,
+            Color? background = null)
         {
             var bitmapImage = new BitmapImage(new Uri(avatar.Character.ImageUrl));
             return PrepareRoundImage(size, bitmapImage, background);
@@ -51,7 +57,10 @@ namespace Worldescape
         /// <param name="size"></param>
         /// <param name="bitmapImage"></param>
         /// <returns></returns>
-        private Border PrepareRoundImage(double size, BitmapImage bitmapImage, Color? background = null)
+        private Border PrepareRoundImage(
+            double size,
+            BitmapImage bitmapImage,
+            Color? background = null)
         {
             var imageBorder = new Border()
             {

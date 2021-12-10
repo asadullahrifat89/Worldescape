@@ -37,7 +37,7 @@ namespace Worldescape
             var img = _worldHelper.GetWorldPicture(
                 world: world,
                 margin: new Thickness(5),
-                size: 70);
+                size: 60);
 
             return GeneratePortalButton(
                 world: world,
@@ -119,7 +119,7 @@ namespace Worldescape
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromMinutes(4)
+                Duration = TimeSpan.FromMinutes(3)
             };
 
             // after opacity reaches zero delete this from canvas
