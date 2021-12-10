@@ -173,13 +173,24 @@
                     Visibility="Collapsed">
 
                     <!--  Create post, shows a child window to create a post  -->
-                    <Button
+                    <!--<Button
                         x:Name="Button_CreatePost"
                         Width="70"
                         Margin="5"
                         Click="Button_CreatePost_Click"
                         Style="{StaticResource MaterialDesign_RoundButton_Style}">
                         <Image Source="ms-appx:///Worldescape/Assets/Icons/post_add_black_24dp.svg" />
+                    </Button>-->
+
+                    <!--  Create world  -->
+                    <Button
+                        x:Name="Button_CreatePortal"
+                        Grid.Column="1"
+                        Width="70"
+                        Margin="5"
+                        Click="Button_CreatePortal_Click"
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                        <Image Source="ms-appx:///Worldescape/Assets/Icons/room_black_24dp.svg" />
                     </Button>
 
                     <!--  Toggles broadcast message mode, activates messaging UI, broadcasts message to all users in this world  -->

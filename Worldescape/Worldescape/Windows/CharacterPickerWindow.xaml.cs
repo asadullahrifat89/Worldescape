@@ -11,25 +11,20 @@ namespace Worldescape
     public partial class CharacterPickerWindow : ChildWindow
     {
         #region Fields
-        
+
         List<Character> _characters = new List<Character>();
-        Action<Character> _characterSelected; 
+        public event EventHandler<Character> CharacterSelected;
 
         #endregion
 
         #region Ctor
 
-        public CharacterPickerWindow(
-           List<Character> characters,
-           Action<Character> characterSelected)
+        public CharacterPickerWindow(List<Character> characters)
         {
             InitializeComponent();
-
             _characters = characters;
-            _characterSelected = characterSelected;
-
             ShowCharacters();
-        } 
+        }
 
         #endregion
 
@@ -73,9 +68,9 @@ namespace Worldescape
         private void ButtonCharacter_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
-            var Character = button.Tag as Character;
+            var character = button.Tag as Character;
 
-            _characterSelected?.Invoke(Character);
+            CharacterSelected?.Invoke(this, character);
             this.DialogResult = true;
         }
 

@@ -10,7 +10,7 @@ using Worldescape.Service;
 
 namespace Worldescape
 {
-    public partial class WorldsPage : Page
+    public partial class WorldPickerWindow : ChildWindow
     {
         #region Fields
 
@@ -20,7 +20,6 @@ namespace Worldescape
 
         bool _settingWorlds = false;
 
-        readonly MainPage _mainPage;
         readonly WorldHelper _worldHelper;
         readonly PaginationHelper _paginationHelper;
 
@@ -28,22 +27,21 @@ namespace Worldescape
 
         RangeObservableCollection<PageNumber> _pageNumbers = new RangeObservableCollection<PageNumber>();
 
+        public event EventHandler<World> WorldSelected;
+
         #endregion
 
         #region Ctor
 
-        public WorldsPage(
-            WorldHelper worldHelper,
-            PaginationHelper paginationHelper,
-            WorldRepository worldRepository,
-            MainPage mainPage)
+        public WorldPickerWindow()
         {
             InitializeComponent();
 
-            _worldHelper = worldHelper;
-            _paginationHelper = paginationHelper;
-            _worldRepository = worldRepository;
-            _mainPage = mainPage;
+            _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
+            _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
+            _worldRepository = App.ServiceProvider.GetService(typeof(WorldRepository)) as WorldRepository;
+
+            SearchWorlds();
         }
 
         #endregion
@@ -61,12 +59,6 @@ namespace Worldescape
 
         #region Button Events
 
-        private void ToggleButton_UsersWorldsOnly_Click(object sender, RoutedEventArgs e)
-        {
-            TextBox_SearchWorldsText.PlaceholderText = ToggleButton_UsersWorldsOnly.IsChecked.Value ? "Search my worlds..." : "Search all worlds...";
-            SearchWorlds();
-        }
-
         private void Button_SearchWorld_Click(object sender, RoutedEventArgs e)
         {
             SearchWorlds();
@@ -74,18 +66,9 @@ namespace Worldescape
 
         private void ButtonWorld_Click(object sender, RoutedEventArgs e)
         {
-            var world = ((Button)sender).Tag as World;
-
-            var contentDialogue = new ContentDialogueWindow(title: $"Go to {world.Name}", message: "Would you like to go to this world?", result: (result) =>
-            {
-                if (result)
-                {
-                    App.World = world;
-                    _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
-                }
-            });
-
-            contentDialogue.Show();
+            var world = ((Button)sender).Tag as World;            
+            WorldSelected?.Invoke(this, world);
+            this.DialogResult = true;
         }
 
         private async void ButtonPreview_Click(object sender, RoutedEventArgs e)
@@ -116,28 +99,6 @@ namespace Worldescape
                 await FetchWorlds();
                 GeneratePageNumbers();
             }
-        }
-
-        private void Button_CreateWorld_Click(object sender, RoutedEventArgs e)
-        {
-            WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow((world) =>
-            {
-                var contentDialogue = new ContentDialogueWindow($"Teleport", "Would you like to teleport to your created world now?", (result) =>
-                {
-                    if (result)
-                    {
-                        App.World = world;
-                        _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
-                    }
-                    else
-                    {
-                        SearchWorlds();
-                    }
-                });
-
-                contentDialogue.Show();
-            });
-            worldCreatorWindow.Show();
         }
 
         #endregion
@@ -183,7 +144,7 @@ namespace Worldescape
                     MinHeight = 600
                 };
 
-                var size = 220;
+                var size = 120;
 
                 foreach (var world in worlds)
                 {
@@ -195,20 +156,12 @@ namespace Worldescape
                     stackPanel.Children.Add(img);
                     stackPanel.Children.Add(new TextBlock()
                     {
-                        FontSize = 20,
+                        FontSize = 14,
                         FontWeight = FontWeights.SemiBold,
                         TextAlignment = TextAlignment.Center,
                         Text = world.Name,
                         Margin = new Thickness(5),
-                    });
-                    //stackPanel.Children.Add(new TextBlock()
-                    //{
-                    //    FontSize = 15,
-                    //    FontWeight = FontWeights.SemiBold,
-                    //    TextAlignment = TextAlignment.Center,
-                    //    Text = "By " + world.Creator.Name,
-                    //    Margin = new Thickness(5),
-                    //});
+                    });                   
 
                     var buttonWorld = new Button()
                     {
@@ -236,14 +189,12 @@ namespace Worldescape
             var response = await _worldRepository.GetWorldsCount(
                 token: App.Token,
                 searchString: TextBox_SearchWorldsText.Text,
-                creatorId: ToggleButton_UsersWorldsOnly.IsChecked.Value ? App.User.Id : 0);
+                creatorId: App.User.Id);
 
             if (!response.Success)
             {
                 var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
-
-                _mainPage.SetIsBusy(false);
                 return 0;
             }
 
@@ -257,14 +208,13 @@ namespace Worldescape
                                    pageIndex: _pageIndex,
                                    pageSize: _pageSize,
                                    searchString: TextBox_SearchWorldsText.Text,
-                                   creatorId: ToggleButton_UsersWorldsOnly.IsChecked.Value ? App.User.Id : 0);
+                                   creatorId: App.User.Id);
 
             if (!response.Success)
             {
                 var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
-                _mainPage.SetIsBusy(false);
                 return System.Linq.Enumerable.Empty<World>();
             }
 
@@ -289,3 +239,4 @@ namespace Worldescape
         #endregion        
     }
 }
+

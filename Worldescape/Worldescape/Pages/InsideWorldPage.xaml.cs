@@ -951,6 +951,16 @@ namespace Worldescape
 
         #region Avatar
 
+        private void Button_CreatePortal_Click(object sender, RoutedEventArgs e)
+        {
+            WorldPickerWindow worldPickerWindow = new WorldPickerWindow();
+            worldPickerWindow.WorldSelected += (sender, world) =>
+            {
+                //TODO: drop portal in map
+            };
+            worldPickerWindow.Show();
+        }
+
         private void ActiveAvatarButton_Click(object sender, RoutedEventArgs e)
         {
             if (((Button)sender).Tag is Avatar avatar)
@@ -2056,17 +2066,16 @@ namespace Worldescape
                 {
                     Characters = Characters.Any() ? Characters : JsonSerializer.Deserialize<Character[]>(Service.Properties.Resources.CharacterAssets).ToList();
 
-                    var characterPicker = new CharacterPickerWindow(
-                        characters: Characters,
-                        characterSelected: async (character) =>
-                        {
-                            Character = character;
-                            SetAvatarData();
-                            _mainPage.SetLoggedInUserModel();
+                    var characterPicker = new CharacterPickerWindow(characters: Characters);
 
-                            await Connect();
-                        });
+                    characterPicker.CharacterSelected += async (sender, character) =>
+                    {
+                        Character = character;
+                        SetAvatarData();
+                        _mainPage.SetLoggedInUserModel();
 
+                        await Connect();
+                    };
                     characterPicker.Show();
                 }
                 else
@@ -3542,6 +3551,6 @@ namespace Worldescape
 
         #endregion
 
-        #endregion
+        #endregion       
     }
 }

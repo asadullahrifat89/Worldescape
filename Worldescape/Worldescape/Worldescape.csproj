@@ -106,6 +106,9 @@
 		<Page Include="Styles\Styles.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
+		<Content Include="Windows\WorldPickerWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</Content>
 		<Content Include="Controls\ConstructAssetPickerControl.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
@@ -151,6 +154,7 @@
 		<Compile Include="Converters\DoubleToCornerRadiusConverter.cs" />
 		<Compile Include="Converters\TextToPlaceholderTextVisibilityConverter.cs" />
 		<Compile Include="Windows\WorldCreatorWindow.xaml.cs" />
+		<Compile Include="Windows\WorldPickerWindow.xaml.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -671,6 +675,10 @@
 
 	<ItemGroup>
 	  <Content Include="Assets\Icons\add_location_alt_black_24dp.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Assets\Icons\room_black_24dp.svg" />
 	</ItemGroup>
 
 	<!-- Removing bin\$(Configuration) and obj\$(Configuration) -->
