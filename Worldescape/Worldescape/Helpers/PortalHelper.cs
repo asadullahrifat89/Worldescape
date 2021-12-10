@@ -41,14 +41,12 @@ namespace Worldescape
 
             return GeneratePortalButton(
                 world: world,
-                //size: 70,
                 fontSize: 15,
                 img: img);
         }
 
         private Button GeneratePortalButton(
             World world,
-            //double size,
             double fontSize,
             Border img)
         {
@@ -60,14 +58,13 @@ namespace Worldescape
                 FontWeight = FontWeights.SemiBold,
                 TextAlignment = TextAlignment.Center,
                 Text = world.Name,
-                Margin = new Thickness(3),
+                Margin = new Thickness(0),
+                Foreground = new SolidColorBrush(Colors.White)
             });
 
             var buttonWorld = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
-                //Height = size,
-                //Width = size,
                 Tag = new Portal() { World = world },
             };
 
@@ -122,7 +119,7 @@ namespace Worldescape
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromMinutes(3)
+                Duration = TimeSpan.FromMinutes(4)
             };
 
             // after opacity reaches zero delete this from canvas

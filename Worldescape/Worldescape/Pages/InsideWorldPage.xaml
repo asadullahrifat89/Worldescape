@@ -150,7 +150,7 @@
                 <!--  Commands for other avatar  -->
                 <WrapPanel
                     x:Name="OtherAvatarActionsHolder"
-                    Canvas.ZIndex="2"
+                    Canvas.ZIndex="3"
                     Orientation="Vertical"
                     Visibility="Collapsed">
 
@@ -173,14 +173,14 @@
                     Visibility="Collapsed">
 
                     <!--  Create post, shows a child window to create a post  -->
-                    <!--<Button
+                    <Button
                         x:Name="Button_CreatePost"
                         Width="70"
                         Margin="5"
                         Click="Button_CreatePost_Click"
                         Style="{StaticResource MaterialDesign_RoundButton_Style}">
                         <Image Source="ms-appx:///Worldescape/Assets/Icons/post_add_black_24dp.svg" />
-                    </Button>-->
+                    </Button>
 
                     <!--  Create world  -->
                     <Button
@@ -212,6 +212,23 @@
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
                         <Image Source="ms-appx:///Worldescape/Assets/Icons/person_pin_black_24dp.svg" />
                     </ToggleButton>
+
+                </WrapPanel>
+
+                <WrapPanel
+                    x:Name="PortalActionsHolder"
+                    Canvas.ZIndex="4"
+                    Orientation="Vertical"
+                    Visibility="Collapsed">
+
+                    <!--  Teleport, go to the new world  -->
+                    <Button
+                        x:Name="Button_Teleport"
+                        Width="70"
+                        Click="Button_Teleport_Click"
+                        Style="{StaticResource MaterialDesign_RoundButton_Style}">
+                        <Image Source="ms-appx:///Worldescape/Assets/Icons/logout_black_24dp.svg" />
+                    </Button>
 
                 </WrapPanel>
 

@@ -683,6 +683,10 @@
 	  <Content Include="Assets\Icons\room_black_24dp.svg" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Include="Assets\Icons\login_black_24dp.svg" />
+	</ItemGroup>
+
 	<!-- Removing bin\$(Configuration) and obj\$(Configuration) -->
 	<Target Name="FullClean" AfterTargets="Clean">
 		<RemoveDir Directories="$(ProjectDir)$(BaseOutputPath)$(Configuration)\" />

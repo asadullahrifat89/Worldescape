@@ -39,6 +39,8 @@ namespace Worldescape
         UIElement _selectedAvatar;
         UIElement _messageToAvatar;
 
+        UIElement _selectedPortal;
+
         readonly IHubService _hubService;
         readonly MainPage _mainPage;
         readonly AvatarHelper _avatarHelper;
@@ -119,7 +121,23 @@ namespace Worldescape
 
         #region Page Events
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        /// <summary>
+        ///  Event fired when this page is loaded.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Page_Loaded(
+            object sender,
+            RoutedEventArgs e)
+        {
+            SetDefault();
+
+            PopulateClouds();
+            PopulateClouds(drawOver: true);
+            SelectCharacterAndConnect();
+        }
+
+        private void SetDefault()
         {
             Color color = _backgroundColors[new Random().Next(0, _backgroundColors.Count())];
             Background = new SolidColorBrush(color);
@@ -143,18 +161,16 @@ namespace Worldescape
             HideConstructAssetsControl();
             HideConstructOperationButtons();
             HideMessagingControls();
+            HidePortalActionsHolder();
 
             _movingConstruct = null;
             _cloningConstruct = null;
             _addingConstruct = null;
+            _addingPortal = null;
 
             ShowOperationalConstruct(null);
 
             Canvas_Root.Children.Clear();
-
-            PopulateClouds();
-            PopulateClouds(drawOver: true);
-            SelectCharacterAndConnect();
         }
 
         /// <summary>
@@ -162,7 +178,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Page_Unloaded(object sender, RoutedEventArgs e)
+        private async void Page_Unloaded(
+            object sender,
+            RoutedEventArgs e)
         {
             if (_hubService != null)
             {
@@ -182,7 +200,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Canvas_Root_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private async void Canvas_Root_PointerPressed(
+            object sender,
+            PointerRoutedEventArgs e)
         {
             if (!CanPerformWorldEvents())
                 return;
@@ -221,13 +241,16 @@ namespace Worldescape
                 HideConstructOperationButtons();
                 HideAvatarOperationButtons();
                 HideMessagingControls();
+                HidePortalActionsHolder();
 
                 ClearMultiselectedConstructs();
                 HideAvatarActivityStatusHolder();
             }
         }
 
-        private void Canvas_Root_PointerMoved(object sender, PointerRoutedEventArgs e)
+        private void Canvas_Root_PointerMoved(
+            object sender,
+            PointerRoutedEventArgs e)
         {
             MoveAttachedPointerElement(e);
         }
@@ -241,7 +264,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Avatar_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void Avatar_PointerPressed(
+            object sender,
+            PointerRoutedEventArgs e)
         {
             if (!CanPerformWorldEvents())
                 return;
@@ -258,16 +283,16 @@ namespace Worldescape
                 {
                     // Show commands for self
                     PopElementContextCommands(e, OwnAvatarActionsHolder);
-                    OwnAvatarActionsHolder.Visibility = Visibility.Visible;
 
+                    ShowOwnAvatarActionsHolder();
                     HideOtherAvatarActions();
                 }
                 else
                 {
                     // Show commands for other
                     PopElementContextCommands(e, OtherAvatarActionsHolder);
-                    OtherAvatarActionsHolder.Visibility = Visibility.Visible;
 
+                    ShowOtherAvatarActionsHolder();
                     HideOwnAvatarActions();
 
                     Button_SelectStatus.IsChecked = false;
@@ -286,7 +311,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Construct_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private async void Construct_PointerPressed(
+            object sender,
+            PointerRoutedEventArgs e)
         {
             if (!CanPerformWorldEvents())
                 return;
@@ -354,7 +381,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Construct_PointerMoved(object sender, PointerRoutedEventArgs e)
+        private void Construct_PointerMoved(
+            object sender,
+            PointerRoutedEventArgs e)
         {
             if (Button_ConstructCraft.IsChecked.Value)
             {
@@ -371,7 +400,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Construct_PointerReleased(object sender, PointerRoutedEventArgs e)
+        private async void Construct_PointerReleased(
+            object sender,
+            PointerRoutedEventArgs e)
         {
             if (Button_ConstructMove.IsChecked.Value)
                 return;
@@ -506,7 +537,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ChatBubble_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void ChatBubble_PointerPressed(
+            object sender,
+            PointerRoutedEventArgs e)
         {
             // reply to the selected message and show Messaging controls
             if (((Button)sender).Tag is Avatar avatar)
@@ -532,9 +565,14 @@ namespace Worldescape
 
         #region Portal
 
-        private void Portal_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void Portal_PointerPressed(
+            object sender,
+            PointerRoutedEventArgs e)
         {
-            // TODO: show portal context action buttons, own buttons will have teleport and remove and other than self will just see teleport button
+            _selectedPortal = (UIElement)sender;
+
+            PopElementContextCommands(e, PortalActionsHolder);
+            ShowPortalActionsHolder();
         }
 
         private async Task AddPortalOnPointerPressed(PointerRoutedEventArgs e)
@@ -1228,6 +1266,41 @@ namespace Worldescape
 
         #endregion
 
+        #region Portal
+
+        private void Button_Teleport_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedPortal == null)
+                return;
+
+            var portal = ((Button)_selectedPortal).Tag as Portal;
+
+            var contentDialogue = new ContentDialogueWindow(title: "Teleport!", message: $"Would you like to go to {portal.World.Name}?", result: async (result) =>
+            {
+                if (result)
+                {
+                    if (await LogoutFromHub())
+                    {
+                        SetDefault();
+                        App.World = portal.World;
+                        SetAvatarData();
+
+                        _mainPage.SetIsBusy(true, "Teleporting to world...");
+
+                        if (await LoginToHub())
+                        {   
+                            _mainPage.SetIsBusy(false);
+                        }
+                    }
+                }
+
+                HidePortalActionsHolder();
+            });
+            contentDialogue.Show();
+        }
+
+        #endregion
+
         #endregion
 
         #region Construct Images
@@ -1753,6 +1826,17 @@ namespace Worldescape
 
         #region Portal
 
+        private void ShowPortalActionsHolder()
+        {
+            PortalActionsHolder.Visibility = Visibility.Visible;
+        }
+
+        private void HidePortalActionsHolder()
+        {
+            PortalActionsHolder.Visibility = Visibility.Collapsed;
+            _selectedPortal = null;
+        }
+
         private Button GeneratePortalButton(World world)
         {
             var btn = _portalHelper.GeneratePortalButton(world);
@@ -2072,7 +2156,10 @@ namespace Worldescape
         /// </summary>
         /// <param name="e"></param>
         /// <param name="uielement"></param>
-        private void DragStart(Canvas canvas, PointerRoutedEventArgs e, UIElement uielement)
+        private void DragStart(
+            Canvas canvas,
+            PointerRoutedEventArgs e,
+            UIElement uielement)
         {
             _elementHelper.DragStart(canvas, e, uielement);
         }
@@ -2082,7 +2169,10 @@ namespace Worldescape
         /// </summary>
         /// <param name="e"></param>
         /// <param name="uielement"></param>
-        private void DragElement(Canvas canvas, PointerRoutedEventArgs e, UIElement uielement)
+        private void DragElement(
+            Canvas canvas,
+            PointerRoutedEventArgs e,
+            UIElement uielement)
         {
             _elementHelper.DragElement(canvas, e, uielement);
         }
@@ -2092,7 +2182,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="e"></param>
         /// <param name="uielement"></param>
-        private void DragRelease(PointerRoutedEventArgs e, UIElement uielement)
+        private void DragRelease(
+            PointerRoutedEventArgs e,
+            UIElement uielement)
         {
             _elementHelper.DragRelease(e, uielement);
         }
@@ -2102,7 +2194,10 @@ namespace Worldescape
         /// </summary>
         /// <param name="uielement"></param>
         /// <returns></returns>
-        private Image GetImageFromUiElement(UIElement uielement, double size = 50, Stretch stretch = Stretch.Uniform)
+        private Image GetImageFromUiElement(
+            UIElement uielement,
+            double size = 50,
+            Stretch stretch = Stretch.Uniform)
         {
             if (uielement == null)
                 return null;
@@ -2134,7 +2229,9 @@ namespace Worldescape
         /// <param name="goToX"></param>
         /// <param name="goToY"></param>
         /// <returns></returns>
-        private object MoveElement(UIElement uIElement, PointerRoutedEventArgs e)
+        private object MoveElement(
+            UIElement uIElement,
+            PointerRoutedEventArgs e)
         {
             return _elementHelper.MoveElement(
                 canvas: Canvas_Root,
@@ -2149,7 +2246,11 @@ namespace Worldescape
         /// <param name="goToX"></param>
         /// <param name="goToY"></param>
         /// <returns></returns>
-        private object MoveElement(UIElement uIElement, double goToX, double goToY, int? gotoZ = null)
+        private object MoveElement(
+            UIElement uIElement,
+            double goToX,
+            double goToY,
+            int? gotoZ = null)
         {
             return _elementHelper.MoveElement(
                 uIElement: uIElement,
@@ -2164,7 +2265,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="e"></param>
         /// <param name="uIElement"></param>
-        private void PopElementContextCommands(PointerRoutedEventArgs e, UIElement uIElement)
+        private void PopElementContextCommands(
+            PointerRoutedEventArgs e,
+            UIElement uIElement)
         {
             var pressedPoint = e.GetCurrentPoint(Canvas_RootHost);
 
@@ -2442,7 +2545,9 @@ namespace Worldescape
         /// <param name="world"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        private Border GetWorldPicture(World world, double size = 40)
+        private Border GetWorldPicture(
+            World world,
+            double size = 40)
         {
             return _worldHelper.GetWorldPicture(world: world, size: size);
         }
@@ -2450,6 +2555,68 @@ namespace Worldescape
         #endregion
 
         #region Avatar
+
+        private void ShowOtherAvatarActionsHolder()
+        {
+            OtherAvatarActionsHolder.Visibility = Visibility.Visible;
+        }
+
+        private void ShowOwnAvatarActionsHolder()
+        {
+            OwnAvatarActionsHolder.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Shows current user's avatar.
+        /// </summary>
+        private void ShowCurrentUserAvatar()
+        {
+            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
+            {
+                var avatar = _avatarHelper.GetTaggedAvatar(iElement);
+
+                Button_MyAvatar.Tag = avatar;
+                AvatarImageHolder.Content = GetAvatarCharacterPicture(avatar);
+                CurrentAvatarHolder.Visibility = Visibility.Visible;
+                AvatarNameHolder.Text = avatar.Character.Name.Replace("_", " ");
+
+                Console.WriteLine($"ShowCurrentUserAvatar:OK");
+            }
+        }
+
+        /// <summary>
+        /// Shows avatar status activity options.
+        /// </summary>
+        private void ShowAvatarActivityStatusHolder()
+        {
+            AvatarActivityStatusHolder.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Hides avatar activity status holder.
+        /// </summary>
+        private void HideAvatarActivityStatusHolder()
+        {
+            AvatarActivityStatusHolder.Visibility = Visibility.Collapsed;
+            Button_SelectStatus.IsChecked = false;
+        }
+
+        /// <summary>
+        /// Hides command buttons for self and non self avatars.
+        /// </summary>
+        private void HideAvatarOperationButtons()
+        {
+            HideOwnAvatarActions();
+            HideOtherAvatarActions();
+        }
+
+        /// <summary>
+        /// Hides command buttons for self avatar.
+        /// </summary>
+        private void HideOwnAvatarActions()
+        {
+            OwnAvatarActionsHolder.Visibility = Visibility.Collapsed;
+        }
 
         /// <summary>
         /// Scroll the provided avatar into view.
@@ -2603,7 +2770,9 @@ namespace Worldescape
         /// <param name="pageSize"></param>
         /// <param name="pageIndex"></param>
         /// <returns></returns>
-        private async Task<IEnumerable<Avatar>> GetAvatars(int pageSize, int pageIndex)
+        private async Task<IEnumerable<Avatar>> GetAvatars(
+            int pageSize,
+            int pageIndex)
         {
             // Get Avatars in small packets
             var response = await _avatarRepository.GetAvatars(token: App.Token, worldId: App.World.Id, pageIndex: pageIndex, pageSize: pageSize);
@@ -2627,7 +2796,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="avatar"></param>
         /// <returns></returns>
-        private Border GetAvatarUserPicture(Avatar avatar, double size = 40)
+        private Border GetAvatarUserPicture(
+            Avatar avatar,
+            double size = 40)
         {
             return _avatarHelper.GetAvatarUserPicture(avatar, size);
         }
@@ -2637,27 +2808,11 @@ namespace Worldescape
         /// </summary>
         /// <param name="avatar"></param>
         /// <returns></returns>
-        private Border GetAvatarCharacterPicture(Avatar avatar, double size = 40)
+        private Border GetAvatarCharacterPicture(
+            Avatar avatar,
+            double size = 40)
         {
             return _avatarHelper.GetAvatarCharacterPicture(avatar: avatar, size: size, background: Colors.BlanchedAlmond);
-        }
-
-        /// <summary>
-        /// Shows current user's avatar.
-        /// </summary>
-        private void ShowCurrentUserAvatar()
-        {
-            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
-            {
-                var avatar = _avatarHelper.GetTaggedAvatar(iElement);
-
-                Button_MyAvatar.Tag = avatar;
-                AvatarImageHolder.Content = GetAvatarCharacterPicture(avatar);
-                CurrentAvatarHolder.Visibility = Visibility.Visible;
-                AvatarNameHolder.Text = avatar.Character.Name.Replace("_", " ");
-
-                Console.WriteLine($"ShowCurrentUserAvatar:OK");
-            }
         }
 
         /// <summary>
@@ -2670,27 +2825,14 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Shows avatar status activity options.
-        /// </summary>
-        private void ShowAvatarActivityStatusHolder()
-        {
-            AvatarActivityStatusHolder.Visibility = Visibility.Visible;
-        }
-
-        /// <summary>
-        /// Hides avatar activity status holder.
-        /// </summary>
-        private void HideAvatarActivityStatusHolder()
-        {
-            AvatarActivityStatusHolder.Visibility = Visibility.Collapsed;
-            Button_SelectStatus.IsChecked = false;
-        }
-
-        /// <summary>
         /// Adds an avatar on canvas.
         /// </summary>
         /// <param name="avatar"></param>
-        private Avatar AddAvatarOnCanvas(UIElement avatar, double x, double y, int? z = null)
+        private Avatar AddAvatarOnCanvas(
+            UIElement avatar,
+            double x,
+            double y,
+            int? z = null)
         {
             return _avatarHelper.AddAvatarOnCanvas(
                 avatar: avatar,
@@ -2749,7 +2891,10 @@ namespace Worldescape
         /// <param name="avatarButton"></param>
         /// <param name="avatar"></param>
         /// <param name="activityStatus"></param>
-        public void SetAvatarActivityStatus(Button avatarButton, Avatar avatar, ActivityStatus activityStatus)
+        public void SetAvatarActivityStatus(
+            Button avatarButton,
+            Avatar avatar,
+            ActivityStatus activityStatus)
         {
             _avatarHelper.SetAvatarActivityStatus(
                 avatarButton: avatarButton,
@@ -2769,22 +2914,6 @@ namespace Worldescape
             return obj;
         }
 
-        /// <summary>
-        /// Hides command buttons for self and non self avatars.
-        /// </summary>
-        private void HideAvatarOperationButtons()
-        {
-            HideOwnAvatarActions();
-            HideOtherAvatarActions();
-        }
-
-        /// <summary>
-        /// Hides command buttons for self avatar.
-        /// </summary>
-        private void HideOwnAvatarActions()
-        {
-            OwnAvatarActionsHolder.Visibility = Visibility.Collapsed;
-        }
         #endregion
 
         #region Construct
@@ -2894,7 +3023,9 @@ namespace Worldescape
         /// <param name="pageSize"></param>
         /// <param name="pageIndex"></param>
         /// <returns></returns>
-        private async Task<IEnumerable<Construct>> GetConstructs(int pageSize, int pageIndex)
+        private async Task<IEnumerable<Construct>> GetConstructs(
+            int pageSize,
+            int pageIndex)
         {
             // Get constructs in small packets
             var response = await _constructRepository.GetConstructs(
@@ -2944,7 +3075,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="constructAsset"></param>
-        private void ConstructAssetPickerControl_AssetSelected(object sender, ConstructAsset constructAsset)
+        private void ConstructAssetPickerControl_AssetSelected(
+            object sender,
+            ConstructAsset constructAsset)
         {
             ReleaseAttachedPointerElement();
 
@@ -2965,7 +3098,10 @@ namespace Worldescape
         /// <param name="constructButton"></param>
         /// <param name="construct"></param>
         /// <returns></returns>
-        private Construct CenterAlignNewConstructButton(PointerPoint pressedPoint, Button constructButton, Construct construct)
+        private Construct CenterAlignNewConstructButton(
+            PointerPoint pressedPoint,
+            Button constructButton,
+            Construct construct)
         {
             return _constructHelper.CenterAlignNewConstructButton(
                 pressedPoint: pressedPoint,
@@ -3010,7 +3146,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="selectedConstruct"></param>
         /// <returns></returns>
-        private async Task BroadcastConstructRotate(UIElement selectedConstruct, bool isBacward = false)
+        private async Task BroadcastConstructRotate(
+            UIElement selectedConstruct,
+            bool isBacward = false)
         {
             var button = (Button)selectedConstruct;
 
@@ -3214,7 +3352,9 @@ namespace Worldescape
         /// <param name="uIElement"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-        private object ScaleElement(UIElement uIElement, float scale)
+        private object ScaleElement(
+            UIElement uIElement,
+            float scale)
         {
             return _elementHelper.ScaleElement(uIElement, scale);
         }
@@ -3225,7 +3365,9 @@ namespace Worldescape
         /// <param name="uIElement"></param>
         /// <param name="rotation"></param>
         /// <returns></returns>
-        private object RotateElement(UIElement uIElement, float rotation)
+        private object RotateElement(
+            UIElement uIElement,
+            float rotation)
         {
             return _elementHelper.RotateElement(uIElement, rotation);
         }
@@ -3415,7 +3557,12 @@ namespace Worldescape
         /// <param name="pointX"></param>
         /// <param name="pointY"></param>
         /// <returns></returns>
-        private Construct CloneConstruct(Construct cloningConstruct, PointerPoint pressedPoint, double pointX, double pointY, bool disableCenterAlignToPointerPoint = false)
+        private Construct CloneConstruct(
+            Construct cloningConstruct,
+            PointerPoint pressedPoint,
+            double pointX,
+            double pointY,
+            bool disableCenterAlignToPointerPoint = false)
         {
             var constructButton = GenerateConstructButton(
                 name: cloningConstruct.Name,
@@ -3542,7 +3689,10 @@ namespace Worldescape
         /// <param name="msg"></param>
         /// <param name="avatar"></param>
         /// <param name="messageType"></param>
-        private void AddChatBubbleToCanvas(string msg, UIElement avatar, MessageType messageType)
+        private void AddChatBubbleToCanvas(
+            string msg,
+            UIElement avatar,
+            MessageType messageType)
         {
             var avatarButton = avatar as Button;
             var taggedAvatar = avatarButton.Tag as Avatar;
@@ -3558,7 +3708,7 @@ namespace Worldescape
             if (taggedAvatar.Id != Avatar.Id)
             {
                 btnChatBubble.PointerPressed += ChatBubble_PointerPressed;
-            }            
+            }
         }
 
         #endregion
