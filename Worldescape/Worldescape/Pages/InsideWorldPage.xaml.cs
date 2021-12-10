@@ -3552,8 +3552,11 @@ namespace Worldescape
                 var currentPoint = e.GetCurrentPoint(this);
                 var matrix = Canvas_CompositeTransform;
 
+                //CanvasScrollViewer.ScrollToHorizontalOffset(currentPoint.Position.X + _last.Position.X);
+                //CanvasScrollViewer.ScrollToVerticalOffset(currentPoint.Position.Y + _last.Position.Y);
+
                 matrix.TranslateX = currentPoint.Position.X - _last.Position.X;
-                matrix.TranslateY = currentPoint.Position.Y - _last.Position.Y;                
+                matrix.TranslateY = currentPoint.Position.Y - _last.Position.Y;
             }
 
             // TODO: drag canvas
@@ -3563,8 +3566,8 @@ namespace Worldescape
         {
             if (Button_PanCanvas.IsChecked == true)
             {
-                //var currentPoint = e.GetCurrentPoint(this);
-                //_last = currentPoint;
+                var currentPoint = e.GetCurrentPoint(this);
+                _last = currentPoint;
 
                 isDragged = false;
                 //Canvas_Root.ReleasePointerCapture(e.Pointer);
