@@ -14,9 +14,11 @@ namespace Worldescape
     {
         #region Fields
 
-        int _pageSize = 18;
+        int _pageSize = 21;
         int _pageIndex = 0;
         long _totalPageCount = 0;
+
+        double _masonSize = 190;
 
         bool _settingWorlds = false;
 
@@ -178,20 +180,18 @@ namespace Worldescape
 
                 var _masonryPanel = new MasonryPanelWithProgressiveLoading()
                 {
-                    Margin = new Thickness(20, 0, 20, 0),
+                    Margin = new Thickness(10, 0, 10, 0),
                     Style = Application.Current.Resources["Panel_Style"] as Style,
                     MinHeight = 600
                 };
-
-                var size = 220;
 
                 foreach (var world in worlds)
                 {
                     var buttonWorld = _worldHelper.GenerateWorldButton(
                         world: world,
-                        size: size,
+                        size: _masonSize,
                         imageMargin: new Thickness(10, 15, 10, 10),
-                        fontSize: 20);
+                        fontSize: 18);
 
                     buttonWorld.Click += ButtonWorld_Click;
 

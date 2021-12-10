@@ -17,7 +17,7 @@
         <!--  World search, create controls  -->
         <StackPanel
             Grid.Row="0"
-            Margin="20,20,20,10"
+            Margin="20,20,20,5"
             Orientation="Horizontal">
 
             <!--  Current user's worlds only  -->
