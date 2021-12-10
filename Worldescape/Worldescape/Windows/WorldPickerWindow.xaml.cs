@@ -138,19 +138,18 @@ namespace Worldescape
                 IEnumerable<World> worlds = await GetWorlds();
 
                 var _masonryPanel = new MasonryPanelWithProgressiveLoading()
-                {
-                    Margin = new Thickness(20, 0, 20, 0),
+                {                    
                     Style = Application.Current.Resources["Panel_Style"] as Style,
-                    MinHeight = 600
+                    Height = 500
                 };
 
-                var size = 120;
+                var size = 100;
 
                 foreach (var world in worlds)
                 {
                     var img = _worldHelper.GetWorldPicture(world: world, size: size);
 
-                    img.Margin = new Thickness(10, 15, 10, 10);
+                    img.Margin = new Thickness(5, 10, 5, 10);
 
                     var stackPanel = new StackPanel() { Margin = new Thickness(10) };
                     stackPanel.Children.Add(img);

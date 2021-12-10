@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Worldescape"
     Title="WorldPickerWindow"
-    Width="610"
+    Width="700"
     Height="600"
     Style="{StaticResource MaterialDesign_ChildWindow_Style}">
 
