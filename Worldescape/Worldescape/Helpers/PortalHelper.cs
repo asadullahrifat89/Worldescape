@@ -27,6 +27,11 @@ namespace Worldescape
             _elementHelper = elementHelper;
         }
 
+        /// <summary>
+        /// Generates a portal button with a rounded world image and the world's name.
+        /// </summary>
+        /// <param name="world"></param>
+        /// <returns></returns>
         public Button GeneratePortalButton(World world)
         {
             var img = _worldHelper.GetWorldPicture(
@@ -70,6 +75,15 @@ namespace Worldescape
             return buttonWorld;
         }
 
+        /// <summary>
+        /// Adds the portal button to the provided canvas.
+        /// </summary>
+        /// <param name="portal"></param>
+        /// <param name="canvas"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <returns></returns>
         public Portal AddPortalOnCanvas(
             UIElement portal,
             Canvas canvas,
@@ -103,6 +117,23 @@ namespace Worldescape
 
             Canvas.SetZIndex(portal, indexZ);
 
+            // Set opacity animation
+            DoubleAnimation opacityAnimation = new DoubleAnimation()
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromMinutes(3)
+            };
+
+            // after opacity reaches zero delete this from canvas
+            opacityAnimation.Completed += (s, e) =>
+            {
+                canvas.Children.Remove(portal);
+            };
+
+            Storyboard.SetTarget(opacityAnimation, portal);
+            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(Button.OpacityProperty));
+
             canvas.Children.Add(portal);
 
             var taggedPortal = ((Button)portal).Tag as Portal;
@@ -111,7 +142,9 @@ namespace Worldescape
             taggedPortal.Coordinate.Y = y;
             taggedPortal.Coordinate.Z = indexZ;
 
-            //TODO: remove portal after one min
+            Storyboard fadeStoryBoard = new Storyboard();
+            fadeStoryBoard.Children.Add(opacityAnimation);
+            fadeStoryBoard.Begin();
 
             return taggedPortal;
         }
