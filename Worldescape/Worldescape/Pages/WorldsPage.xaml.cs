@@ -191,9 +191,9 @@ namespace Worldescape
 
                     img.Margin = new Thickness(10, 15, 10, 10);
 
-                    var stackPanel = new StackPanel() { Margin = new Thickness(10) };
-                    stackPanel.Children.Add(img);
-                    stackPanel.Children.Add(new TextBlock()
+                    var spContent = new StackPanel() { Margin = new Thickness(10) };
+                    spContent.Children.Add(img);
+                    spContent.Children.Add(new TextBlock()
                     {
                         FontSize = 20,
                         FontWeight = FontWeights.SemiBold,
@@ -220,7 +220,7 @@ namespace Worldescape
                     };
 
                     buttonWorld.Click += ButtonWorld_Click;
-                    buttonWorld.Content = stackPanel;
+                    buttonWorld.Content = spContent;
 
                     _masonryPanel.Children.Add(buttonWorld);
                 }

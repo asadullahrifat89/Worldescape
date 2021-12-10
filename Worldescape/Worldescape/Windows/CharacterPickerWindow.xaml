@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:Worldescape"
-    Title="CharacterPickerWindow"
+    Title="Select a character"
     Width="610"
     Height="600"
     FontWeight="SemiBold"

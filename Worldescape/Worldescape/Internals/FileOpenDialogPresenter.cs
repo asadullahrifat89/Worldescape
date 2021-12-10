@@ -157,11 +157,11 @@ namespace CSHTML5.Extensions.FileOpenDialog
 
     public class FileOpenedEventArgs : EventArgs
     {
-        /// <summary>
-        /// Only available if the property "ResultKind" was set to "Text"
-        /// </summary>
-        [Obsolete]
-        public readonly string PlainTextContent;
+        ///// <summary>
+        ///// Only available if the property "ResultKind" was set to "Text"
+        ///// </summary>
+        //[Obsolete]
+        //public readonly string PlainTextContent;
 
         /// <summary>
         /// Only available if the property "ResultKind" was set to "Text".
@@ -177,7 +177,7 @@ namespace CSHTML5.Extensions.FileOpenDialog
         {
             if (resultKind == ResultKind.Text)
             {
-                this.Text = this.PlainTextContent = (result ?? "").ToString();
+                this.Text = /*this.PlainTextContent =*/ (result ?? "").ToString();
             }
             else if (resultKind == ResultKind.DataURL)
             {

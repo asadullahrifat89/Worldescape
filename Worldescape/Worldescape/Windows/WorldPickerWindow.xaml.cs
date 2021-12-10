@@ -144,7 +144,7 @@ namespace Worldescape
                     Height = 500
                 };
 
-                var size = 110;
+                var size = 100;
 
                 foreach (var world in worlds)
                 {
@@ -152,9 +152,9 @@ namespace Worldescape
 
                     img.Margin = new Thickness(5, 5, 5, 5);
 
-                    var stackPanel = new StackPanel() { Margin = new Thickness(5) };
-                    stackPanel.Children.Add(img);
-                    stackPanel.Children.Add(new TextBlock()
+                    var spContent = new StackPanel();
+                    spContent.Children.Add(img);
+                    spContent.Children.Add(new TextBlock()
                     {
                         FontSize = 14,
                         FontWeight = FontWeights.SemiBold,
@@ -173,7 +173,7 @@ namespace Worldescape
                     };
 
                     buttonWorld.Click += ButtonWorld_Click;
-                    buttonWorld.Content = stackPanel;
+                    buttonWorld.Content = spContent;
 
                     _masonryPanel.Children.Add(buttonWorld);
                 }
