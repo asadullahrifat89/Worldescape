@@ -212,38 +212,12 @@ namespace Worldescape
 
                 ClearMultiselectedConstructs();
                 HideAvatarActivityStatusHolder();
-
-                //if (ToggleButton_PanCanvas.IsChecked.Value)
-                //{
-                //    Canvas_RootContainer.Cursor = Cursors.SizeAll;
-
-                //    // Canvas_Root drag start
-                //    UIElement uielement = (UIElement)sender;
-                //    DragStart(Canvas_RootContainer, e, uielement);
-                //}
             }
         }
 
         private void Canvas_Root_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
             MoveAssignedPointerElement(e);
-
-            //    if (ToggleButton_PanCanvas.IsChecked.Value)
-            //    {
-            //        UIElement uielement = (UIElement)sender;
-            //        DragElement(Canvas_RootContainer, e, uielement);
-            //    }
-        }
-
-        private void Canvas_Root_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            //if (ToggleButton_PanCanvas.IsChecked.Value)
-            //{
-            //    Canvas_RootContainer.Cursor = Cursors.Arrow;
-            //    // Drag stop
-            //    UIElement uielement = (UIElement)sender;
-            //    DragRelease(e, uielement);
-            //}
         }
 
         #endregion
@@ -3551,6 +3525,51 @@ namespace Worldescape
 
         #endregion
 
-        #endregion       
+        #endregion
+
+        PointerPoint _last;
+        bool isDragged;
+
+        private void Page_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (Button_PanCanvas.IsChecked == true)
+            {
+                //TODO: start canvas drag
+                _last = e.GetCurrentPoint(this);
+                isDragged = true;
+
+                //Canvas_Root.CapturePointer(e.Pointer);
+            }
+        }
+
+        private void Page_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (Button_PanCanvas.IsChecked == true)
+            {
+                if (isDragged == false)
+                    return;
+
+                var currentPoint = e.GetCurrentPoint(this);
+                var matrix = Canvas_CompositeTransform;
+                matrix.TranslateX = currentPoint.Position.X - _last.Position.X;
+                matrix.TranslateY = currentPoint.Position.Y - _last.Position.Y;
+                //_last = currentPoint; 
+            }
+
+            // TODO: drag canvas
+        }
+
+        private void Page_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (Button_PanCanvas.IsChecked == true)
+            {
+                var currentPoint = e.GetCurrentPoint(this);
+                _last = currentPoint; 
+
+                isDragged = false;
+                //Canvas_Root.ReleasePointerCapture(e.Pointer);
+                //TODO: release canvas drag 
+            }
+        }
     }
 }

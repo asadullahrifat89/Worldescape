@@ -7,6 +7,9 @@
     xmlns:worldescape="clr-namespace:Worldescape"
     FontFamily="Segoe UI"
     Loaded="Page_Loaded"
+    PointerMoved="Page_PointerMoved"
+    PointerPressed="Page_PointerPressed"
+    PointerReleased="Page_PointerReleased"
     Unloaded="Page_Unloaded"
     mc:Ignorable="d">
     <Grid x:Name="Grid_Root">
@@ -37,7 +40,6 @@
                     Canvas.ZIndex="1"
                     PointerMoved="Canvas_Root_PointerMoved"
                     PointerPressed="Canvas_Root_PointerPressed"
-                    PointerReleased="Canvas_Root_PointerReleased"
                     VirtualizingStackPanel.VirtualizationMode="Recycling">
                     <Canvas.RenderTransform>
                         <CompositeTransform
@@ -654,8 +656,16 @@
                                 FontSize="16"
                                 FontWeight="SemiBold" />
                         </StackPanel>
-
                     </ToggleButton.Content>
+                </ToggleButton>
+
+                <!--  pan canvas  -->
+                <ToggleButton
+                    x:Name="Button_PanCanvas"
+                    Width="50"
+                    Margin="5,0"
+                    Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
+                    <Image Source="ms-appx:///Worldescape/Assets/Icons/zoom_in_black_24dp.svg" />
                 </ToggleButton>
 
                 <!--  Zoom in canvas  -->
