@@ -1799,20 +1799,20 @@ namespace Worldescape
                 }
                 else
                 {
-                    Console.WriteLine("HubLogin: FAILED");
+                    Console.WriteLine("LoginToHub: FAILED");
 
                     if (await ConnectWithHub())
                     {
                         return await LoginToHub();
                     }
 
-                    Console.WriteLine("HubLogin: FAILED");
+                    Console.WriteLine("LoginToHub: FAILED");
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("HubLogin: ERROR " + "\n" + ex.Message);
+                Console.WriteLine("LoginToHub: ERROR " + "\n" + ex.Message);
                 return false;
             }
         }
@@ -1828,20 +1828,32 @@ namespace Worldescape
         private async Task LogoutFromHubThenDisconnect()
         {
             // If logged in then log out and disconnect from hub
-            if (_isLoggedIn)
+            if (await LogoutFromHub())
             {
-                _mainPage.SetIsBusy(true);
+                await _hubService.DisconnectAsync();
+            }
+        }
 
-                await _hubService.Logout();
-
-                App.World = new World();
-
-                if (_hubService.IsConnected())
+        /// <summary>
+        /// Logout current user from Hub.
+        /// </summary>
+        /// <returns></returns>
+        private async Task<bool> LogoutFromHub()
+        {
+            try
+            {
+                if (_isLoggedIn && _hubService.IsConnected())
                 {
-                    await _hubService.DisconnectAsync();
+                    await _hubService.Logout();
+                    App.World = new World();
                 }
 
-                _mainPage.SetIsBusy(false);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("LogoutFromHub: ERROR " + "\n" + ex.Message);
+                return false;
             }
         }
 
