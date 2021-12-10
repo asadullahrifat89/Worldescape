@@ -25,9 +25,9 @@
             HorizontalScrollBarVisibility="Auto"
             IsTabStop="False"
             VerticalScrollBarVisibility="Auto">
-
             <Canvas x:Name="Canvas_RootHost">
 
+                <!--  Canvas  -->
                 <Canvas
                     x:Name="Canvas_Root"
                     Width="5000"
@@ -40,7 +40,10 @@
                     PointerReleased="Canvas_Root_PointerReleased"
                     VirtualizingStackPanel.VirtualizationMode="Recycling">
                     <Canvas.RenderTransform>
-                        <ScaleTransform x:Name="Canvas_RootScaleTransform" ScaleX="1" ScaleY="1" />
+                        <CompositeTransform
+                            x:Name="Canvas_CompositeTransform"
+                            ScaleX="1"
+                            ScaleY="1" />
                     </Canvas.RenderTransform>
                 </Canvas>
 
@@ -202,8 +205,6 @@
                 </WrapPanel>
 
             </Canvas>
-
-
         </ScrollViewer>
 
         <!--  Top  -->

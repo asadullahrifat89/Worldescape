@@ -566,19 +566,19 @@ namespace Worldescape
 
         private void Button_ZoomInCanvas_Click(object sender, RoutedEventArgs e)
         {
-            Canvas_RootScaleTransform.ScaleX += zoomFactor;
-            Canvas_RootScaleTransform.ScaleY += zoomFactor;
+            Canvas_CompositeTransform.ScaleX += zoomFactor;
+            Canvas_CompositeTransform.ScaleY += zoomFactor;
         }
 
         private void Button_ZoomOutCanvas_Click(object sender, RoutedEventArgs e)
         {
-            if (Canvas_RootScaleTransform.ScaleX == 0.25f)
+            if (Canvas_CompositeTransform.ScaleX == 0.25f)
             {
                 return;
             }
 
-            Canvas_RootScaleTransform.ScaleX -= zoomFactor;
-            Canvas_RootScaleTransform.ScaleY -= zoomFactor;
+            Canvas_CompositeTransform.ScaleX -= zoomFactor;
+            Canvas_CompositeTransform.ScaleY -= zoomFactor;
         }
 
         #endregion
@@ -1923,8 +1923,8 @@ namespace Worldescape
                 var offsetX = _pointerImage.ActualWidth / 2;
                 var offsetY = _pointerImage.ActualHeight / 2;/*+ 3*/
 
-                var pointX = _elementHelper.NormalizePointerX(Canvas_Root, pressedPoint);
-                var pointY = _elementHelper.NormalizePointerY(Canvas_Root, pressedPoint);
+                var pointX = NormalizePointerX(pressedPoint);
+                var pointY = NormalizePointerY(pressedPoint);
 
                 var goToX = pointX - offsetX;
                 var goToY = pointY - offsetY;

@@ -48,7 +48,7 @@ namespace Worldescape
         public double NormalizePointerX(Canvas canvas, PointerPoint pressedPoint)
         {
             var pointX = pressedPoint.Position.X;
-            pointX = pointX / ((ScaleTransform)canvas.RenderTransform).ScaleX;
+            pointX = pointX / ((CompositeTransform)canvas.RenderTransform).ScaleX;
             return pointX;
         }
 
@@ -61,7 +61,7 @@ namespace Worldescape
         public double NormalizePointerY(Canvas canvas, PointerPoint pressedPoint)
         {
             var pointY = pressedPoint.Position.Y;
-            pointY = pointY / ((ScaleTransform)canvas.RenderTransform).ScaleY;
+            pointY = pointY / ((CompositeTransform)canvas.RenderTransform).ScaleY;
             return pointY;
         }
 
