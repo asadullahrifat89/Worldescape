@@ -50,7 +50,8 @@ namespace Worldescape
             double fontSize,
             Border img)
         {
-            var spContent = new StackPanel();
+            var spContent = new StackPanel() { Margin = new Thickness(5) };
+
             spContent.Children.Add(img);
             spContent.Children.Add(new TextBlock()
             {
@@ -58,7 +59,6 @@ namespace Worldescape
                 FontWeight = FontWeights.SemiBold,
                 TextAlignment = TextAlignment.Center,
                 Text = world.Name,
-                Margin = new Thickness(0),
                 Foreground = new SolidColorBrush(Colors.White)
             });
 
