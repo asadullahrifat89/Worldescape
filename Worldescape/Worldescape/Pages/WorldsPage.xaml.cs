@@ -15,17 +15,14 @@ namespace Worldescape
         #region Fields
 
         int _pageSize = 21;
-        int _pageIndex = 0;
-        long _totalPageCount = 0;
-
+        int _pageIndex = 0;        
         double _masonSize = 190;
-
+        long _totalPageCount = 0;
         bool _settingWorlds = false;
-
+        
         readonly MainPage _mainPage;
         readonly WorldHelper _worldHelper;
         readonly PaginationHelper _paginationHelper;
-
         readonly WorldRepository _worldRepository;
 
         RangeObservableCollection<PageNumber> _pageNumbers = new RangeObservableCollection<PageNumber>();
