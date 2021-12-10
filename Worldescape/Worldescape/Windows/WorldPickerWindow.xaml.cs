@@ -148,7 +148,10 @@ namespace Worldescape
 
                 foreach (var world in worlds)
                 {
-                    var buttonWorld = _worldHelper.GenerateWorldButton(world: world, size: size);
+                    var buttonWorld = _worldHelper.GenerateWorldButton(
+                        world: world,
+                        size: size);
+
                     buttonWorld.Click += ButtonWorld_Click;
                     _masonryPanel.Children.Add(buttonWorld);
                 }

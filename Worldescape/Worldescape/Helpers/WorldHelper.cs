@@ -24,7 +24,10 @@ namespace Worldescape
 
         #region UI
 
-        public Button GenerateWorldButton(World world, double size, double fontSize = 14)
+        public Button GenerateWorldButton(
+            World world,
+            double size,
+            double fontSize = 14)
         {
             var img = GetWorldPicture(
                 world: world,
@@ -38,7 +41,11 @@ namespace Worldescape
                 img: img);
         }
 
-        public Button GenerateWorldButton(World world, double size, Thickness imageMargin, double fontSize = 14)
+        public Button GenerateWorldButton(
+            World world,
+            double size,
+            Thickness imageMargin,
+            double fontSize = 14)
         {
             var img = GetWorldPicture(
                 world: world,
@@ -52,7 +59,11 @@ namespace Worldescape
                 img: img);
         }
 
-        private Button GenerateWorldButton(World world, double size, double fontSize, Border img)
+        private Button GenerateWorldButton(
+            World world,
+            double size,
+            double fontSize,
+            Border img)
         {
             var spContent = new StackPanel();
             spContent.Children.Add(img);

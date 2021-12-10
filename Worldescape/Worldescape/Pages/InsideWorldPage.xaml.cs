@@ -531,7 +531,7 @@ namespace Worldescape
 
         private void Portal_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            // TODO: show consent window then travel thru portal
+            // TODO: show portal context action buttons
         }
 
         private async Task AddPortalOnPointerPressed(PointerRoutedEventArgs e)

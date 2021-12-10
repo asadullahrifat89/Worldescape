@@ -60,10 +60,9 @@ namespace Worldescape
 
             var buttonWorld = new Button()
             {
-                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style,
                 Height = size,
                 Width = size,
-                Margin = new Thickness(5),
                 Tag = new Portal() { World = world },
             };
 
