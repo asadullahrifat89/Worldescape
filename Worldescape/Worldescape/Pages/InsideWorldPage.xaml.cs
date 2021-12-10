@@ -32,6 +32,8 @@ namespace Worldescape
         UIElement _movingConstruct;
         UIElement _cloningConstruct;
 
+        UIElement _addingWorld;
+
         Image _pointerImage;
 
         UIElement _selectedAvatar;
@@ -179,7 +181,11 @@ namespace Worldescape
             if (!CanPerformWorldEvents())
                 return;
 
-            if (/*Button_ConstructAdd.IsChecked.Value &&*/ _addingConstruct != null)
+            if (_addingWorld != null)
+            {
+                //TODO: add portal on map
+            }
+            else if (_addingConstruct != null)
             {
                 await AddConstructOnPointerPressed(e); // Canvas_Root
             }
@@ -284,7 +290,11 @@ namespace Worldescape
 
             ShowSelectedConstruct(uielement); // Construct
 
-            if (/*Button_ConstructAdd.IsChecked.Value &&*/ _addingConstruct != null)
+            if (_addingWorld != null)
+            {
+                //TODO: add portal in map
+            }
+            else if (_addingConstruct != null)
             {
                 await AddConstructOnPointerPressed(e); // Construct
             }
@@ -511,6 +521,27 @@ namespace Worldescape
                 MessagingTextBox.Focus();
             }
         }
+
+        #endregion
+
+        #region Portal
+
+        private void Portal_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            // TODO: show consent window then travel thru portal
+        }
+
+        private async Task AddPortalOnPointerPressed(PointerRoutedEventArgs e)
+        {
+            if (_addingWorld == null)
+                return;
+
+            var button = (Button)_addingWorld;
+            var pressedPoint = e.GetCurrentPoint(Canvas_Root);
+            var pointX = NormalizePointerX(pressedPoint);
+            var pointY = NormalizePointerY(pressedPoint);
+        }
+
 
         #endregion
 
@@ -956,9 +987,10 @@ namespace Worldescape
             WorldPickerWindow worldPickerWindow = new WorldPickerWindow();
             worldPickerWindow.WorldSelected += (sender, world) =>
             {
-                //TODO: drop portal in map
+                //Button btnWorld = GeneratePortalButton(world);
 
-                
+                //_addingWorld = btnWorld;
+                //AssignPointerElement(btnWorld);
             };
             worldPickerWindow.Show();
         }
@@ -1685,6 +1717,17 @@ namespace Worldescape
                 Console.WriteLine($"ShowCurrentWorld:OK");
             }
         }
+
+        #endregion
+
+        #region Portal
+
+        //private Button GeneratePortalButton(World world)
+        //{
+        //    var btn = _worldHelper.GenerateWorldButton(world: world, size: 70);
+        //    btn.PointerPressed += Portal_PointerPressed;
+        //    return btn;
+        //}
 
         #endregion
 
@@ -3010,7 +3053,7 @@ namespace Worldescape
         /// <returns></returns>
         private Button GenerateConstructButton(string name, string imageUrl, int? constructId = null, InWorld inWorld = null, Creator creator = null, DateTime? createdOn = null)
         {
-            var obj = _constructHelper.GenerateConstructButton(
+            var btn = _constructHelper.GenerateConstructButton(
                 name: name,
                 imageUrl: imageUrl,
                 constructId: constructId,
@@ -3018,11 +3061,11 @@ namespace Worldescape
                 creator: creator,
                 createdOn: createdOn);
 
-            obj.PointerPressed += Construct_PointerPressed;
-            obj.PointerMoved += Construct_PointerMoved;
-            obj.PointerReleased += Construct_PointerReleased;
+            btn.PointerPressed += Construct_PointerPressed;
+            btn.PointerMoved += Construct_PointerMoved;
+            btn.PointerReleased += Construct_PointerReleased;
 
-            return obj;
+            return btn;
         }
 
         /// <summary>

@@ -127,6 +127,7 @@
 		<Compile Include="Helpers\ConstructHelper.cs" />
 		<Compile Include="Helpers\ElementHelper.cs" />
 		<Compile Include="Helpers\ImageHelper.cs" />
+		<Compile Include="Helpers\PortalHelper.cs" />
 		<Compile Include="Internals\ImagePickerButton.cs" />
 		<Compile Include="Internals\PageNumber.cs" />
 		<Compile Include="Helpers\PaginationHelper.cs" />

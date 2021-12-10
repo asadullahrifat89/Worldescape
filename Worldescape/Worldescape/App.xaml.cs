@@ -66,6 +66,7 @@ namespace Worldescape
             services.AddSingleton<PaginationHelper>();
             services.AddSingleton<ImageHelper>();
             services.AddSingleton<ElementHelper>();
+            services.AddSingleton<PortalHelper>();
 
             // Repositories
             services.AddSingleton<ApiTokenRepository>();

@@ -26,9 +26,34 @@ namespace Worldescape
 
         public Button GenerateWorldButton(World world, double size, double fontSize = 14)
         {
-            var img = GetWorldPicture(world: world, size: size);
-            img.Margin = new Thickness(5, 5, 5, 5);
+            var img = GetWorldPicture(
+                world: world,
+                margin: new Thickness(5),
+                size: size);
 
+            return GenerateWorldButton(
+                world: world,
+                size: size,
+                fontSize: fontSize,
+                img: img);
+        }
+
+        public Button GenerateWorldButton(World world, double size, Thickness imageMargin, double fontSize = 14)
+        {
+            var img = GetWorldPicture(
+                world: world,
+                margin: imageMargin,
+                size: size);
+
+            return GenerateWorldButton(
+                world: world,
+                size: size,
+                fontSize: fontSize,
+                img: img);
+        }
+
+        private Button GenerateWorldButton(World world, double size, double fontSize, Border img)
+        {
             var spContent = new StackPanel();
             spContent.Children.Add(img);
             spContent.Children.Add(new TextBlock()
@@ -50,7 +75,6 @@ namespace Worldescape
             };
 
             buttonWorld.Content = spContent;
-
             return buttonWorld;
         }
 
@@ -64,6 +88,21 @@ namespace Worldescape
         {
             var bitmapImage = new BitmapImage(new Uri(world.ImageUrl));
             return PrepareRoundImage(size, bitmapImage);
+        }
+
+        /// <summary>
+        ///  Gets the world image in a circular border from the provided world with the margin.
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="margin"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public Border GetWorldPicture(World world, Thickness margin, double size = 40)
+        {
+            var bitmapImage = new BitmapImage(new Uri(world.ImageUrl));
+            var border = PrepareRoundImage(size, bitmapImage);
+            border.Margin = margin;
+            return border;
         }
 
         /// <summary>
