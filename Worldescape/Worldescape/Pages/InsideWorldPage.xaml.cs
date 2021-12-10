@@ -1572,7 +1572,7 @@ namespace Worldescape
 
                     SetAvatarActivityStatus(
                         avatarButton: (Button)iElement,
-                        avatar: (Avatar)(((Button)iElement).Tag),
+                        avatar: (Avatar)((Button)iElement).Tag,
                         activityStatus: ActivityStatus.Idle);
 
                     Console.WriteLine("<<HubService_AvatarReconnected: OK");
@@ -1600,7 +1600,7 @@ namespace Worldescape
 
                     SetAvatarActivityStatus(
                         avatarButton: (Button)iElement,
-                        avatar: (Avatar)(((Button)iElement).Tag),
+                        avatar: (Avatar)((Button)iElement).Tag,
                         activityStatus: ActivityStatus.Away);
 
                     Console.WriteLine("<<HubService_AvatarDisconnected: OK");
@@ -2630,7 +2630,7 @@ namespace Worldescape
             {
                 CanvasScrollViewer.ScrollIntoView(
                     element: (Button)iElement,
-                    horizontalMargin: (Window.Current.Bounds.Width / 2),
+                    horizontalMargin: Window.Current.Bounds.Width / 2,
                     verticalMargin: (Window.Current.Bounds.Height / 2) - 50,
                     duration: new Duration(TimeSpan.FromSeconds(0)));
 

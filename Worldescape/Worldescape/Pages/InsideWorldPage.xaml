@@ -420,7 +420,7 @@
         <!--  Bottom  -->
         <Grid Grid.Row="2" Margin="0,0,0,20">
 
-            <!--  Bottom middle construct, messaging, status controls  -->
+            <!--  Bottom middle construct images, messaging, own avatar status, side card controls  -->
             <StackPanel
                 Margin="20,20,20,0"
                 HorizontalAlignment="Center"

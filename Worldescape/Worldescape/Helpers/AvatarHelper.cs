@@ -33,7 +33,10 @@ namespace Worldescape
             Color? background = null)
         {
             var bitmapImage = new BitmapImage(new Uri(avatar.User.ImageUrl.Contains("ms-appx:") ? avatar.User.ImageUrl : _urlHelper.BuildBlobUrl(App.Token, avatar.User.ImageUrl)));
-            return PrepareRoundImage(size, bitmapImage, background);
+            return PrepareRoundImage(
+                size: size,
+                bitmapImage: bitmapImage,
+                background: background);
         }
 
         /// <summary>
@@ -48,7 +51,10 @@ namespace Worldescape
             Color? background = null)
         {
             var bitmapImage = new BitmapImage(new Uri(avatar.Character.ImageUrl));
-            return PrepareRoundImage(size, bitmapImage, background);
+            return PrepareRoundImage(
+                size: size,
+                bitmapImage: bitmapImage,
+                background: background);
         }
 
         /// <summary>
@@ -192,6 +198,14 @@ namespace Worldescape
             {
                 Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
             };
+
+            ToolTipService.SetToolTip(btnAvatar, avatar.Name);
+
+            //var toolTip = ToolTipService.GetToolTip(btnAvatar) as ToolTip;
+            //if (toolTip!= null)
+            //{
+            //    ToolTipService.SetPlacement(toolTip, Windows.UI.Xaml.Controls.Primitives.PlacementMode.Bottom);
+            //}            
 
             btnAvatar.RenderTransformOrigin = new Windows.Foundation.Point(0.5f, 0.5f);
             btnAvatar.RenderTransform = new ScaleTransform();
