@@ -38,7 +38,6 @@ namespace Worldescape.Service
 
         // Construct World Events
         public event Action<Construct> NewBroadcastConstruct;
-        //public event Action<Construct[]> NewBroadcastConstructs;
         public event Action<int> NewRemoveConstruct;
         //public event Action<int[]> NewRemoveConstructs;
         public event Action<int, int> NewBroadcastConstructPlacement;
@@ -47,6 +46,10 @@ namespace Worldescape.Service
         public event Action<int, float> NewBroadcastConstructScale;
         //public event Action<int[], float> NewBroadcastConstructScales;
         public event Action<int, double, double, int> NewBroadcastConstructMovement;
+
+
+        // Portal
+        public event Action<Portal> NewBroadcastPortal;
 
         #endregion
 
@@ -84,7 +87,6 @@ namespace Worldescape.Service
 
             // Construct
             _connection.On<Construct>(Constants.BroadcastedConstruct, (construct) => NewBroadcastConstruct?.Invoke(construct));
-            //_connection.On<Construct[]>(Constants.BroadcastedConstructs, (constructs) => NewBroadcastConstructs?.Invoke(constructs));
             _connection.On<int>(Constants.RemovedConstruct, (constructId) => NewRemoveConstruct?.Invoke(constructId));
             //_connection.On<int[]>(Constants.RemovedConstructs, (constructIds) => NewRemoveConstructs?.Invoke(constructIds));
             _connection.On<int, int>(Constants.BroadcastedConstructPlacement, (constructId, z) => NewBroadcastConstructPlacement?.Invoke(constructId, z));
@@ -94,6 +96,9 @@ namespace Worldescape.Service
             //_connection.On<int[], float>(Constants.BroadcastedConstructScales, (constructIds, scale) => NewBroadcastConstructScales?.Invoke(constructIds, scale));
             _connection.On<int, double, double, int>(Constants.BroadcastedConstructMovement, (constructId, x, y, z) => NewBroadcastConstructMovement?.Invoke(constructId, x, y, z));
 
+            // Portal
+            _connection.On<Portal>(Constants.BroadcastedPortal, (portal) => NewBroadcastPortal?.Invoke(portal));
+
             // Connection
             _connection.Reconnecting += Connection_Reconnecting;
             _connection.Reconnected += Connection_Reconnected;
@@ -101,8 +106,6 @@ namespace Worldescape.Service
 
             ServicePointManager.DefaultConnectionLimit = 10;
         }
-
-
 
         #endregion
 
@@ -281,6 +284,16 @@ namespace Worldescape.Service
         {
             Console.WriteLine(">>HubService: BroadcastConstructMovementAsync");
             await _connection.SendAsync(Constants.BroadcastConstructMovement, constructId, x, y, z);
+        }
+
+        #endregion
+
+        #region Portal
+
+        public async Task BroadcastPortal(Portal portal)
+        {
+            Console.WriteLine(">>HubService: BroadcastPortalAsync");
+            await _connection.SendAsync(Constants.BroadcastPortal, portal);
         }
 
         #endregion

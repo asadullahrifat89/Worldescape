@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI;
+using Windows.UI.Input;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,40 +17,35 @@ namespace Worldescape
     public class PortalHelper
     {
         readonly WorldHelper _worldHelper;
-        public PortalHelper(WorldHelper worldHelper)
+        readonly ElementHelper _elementHelper;
+
+        public PortalHelper(
+            WorldHelper worldHelper,
+            ElementHelper elementHelper)
         {
             _worldHelper = worldHelper;
+            _elementHelper = elementHelper;
         }
 
-        public Button GeneratePortalButton(World world, double size, double fontSize = 14)
+        public Button GeneratePortalButton(World world)
         {
             var img = _worldHelper.GetWorldPicture(
                 world: world,
                 margin: new Thickness(5),
-                size: size);
+                size: 70);
 
             return GeneratePortalButton(
                 world: world,
-                size: size,
-                fontSize: fontSize,
+                size: 70,
+                fontSize: 14,
                 img: img);
         }
 
-        public Button GeneratePortalButton(World world, double size, Thickness imageMargin, double fontSize = 14)
-        {
-            var img = _worldHelper.GetWorldPicture(
-                world: world,
-                margin: imageMargin,
-                size: size);
-
-            return GeneratePortalButton(
-                world: world,
-                size: size,
-                fontSize: fontSize,
-                img: img);
-        }
-
-        private Button GeneratePortalButton(World world, double size, double fontSize, Border img)
+        private Button GeneratePortalButton(
+            World world,
+            double size,
+            double fontSize,
+            Border img)
         {
             var spContent = new StackPanel();
             spContent.Children.Add(img);
@@ -68,7 +64,7 @@ namespace Worldescape
                 Height = size,
                 Width = size,
                 Margin = new Thickness(5),
-                Tag = world,
+                Tag = new Portal() { World = world },
             };
 
             buttonWorld.Content = spContent;
@@ -76,15 +72,15 @@ namespace Worldescape
         }
 
         public Portal AddPortalOnCanvas(
-        UIElement world,
-        Canvas canvas,
-        double x,
-        double y,
-        int? z = null,
-        bool disableOpacityAnimation = false)
+            UIElement portal,
+            Canvas canvas,
+            double x,
+            double y,
+            int? z = null,
+            bool disableOpacityAnimation = false)
         {
-            Canvas.SetLeft(world, x);
-            Canvas.SetTop(world, y);
+            Canvas.SetLeft(portal, x);
+            Canvas.SetTop(portal, y);
 
             int indexZ = 9;
 
@@ -94,7 +90,7 @@ namespace Worldescape
             }
             else
             {
-                // If Z index is not proved then assign max Z index to this construct button
+                // If Z index is not proved then assign max Z index to this portal button
                 if (canvas.Children != null && canvas.Children.Any())
                 {
                     var children = canvas.Children.OfType<Button>();
@@ -107,11 +103,11 @@ namespace Worldescape
                 }
             }
 
-            Canvas.SetZIndex(world, indexZ);
+            Canvas.SetZIndex(portal, indexZ);
 
-            canvas.Children.Add(world);
+            canvas.Children.Add(portal);
 
-            var taggedPortal = ((Button)world).Tag as Portal;
+            var taggedPortal = ((Button)portal).Tag as Portal;
 
             taggedPortal.Coordinate.X = x;
             taggedPortal.Coordinate.Y = y;
@@ -121,6 +117,26 @@ namespace Worldescape
             //    PerformOpacityAnimationOnConstruct(world, 0, 1); // Add
 
             return taggedPortal;
+        }
+
+        public Portal CenterAlignNewPortalButton(PointerPoint pressedPoint, Button portalButton, Portal portal, Canvas canvas)
+        {
+            var offsetX = portalButton.ActualWidth / 2;
+            var offsetY = portalButton.ActualHeight / 2;
+
+            var pointX = _elementHelper.NormalizePointerX(canvas, pressedPoint);
+            var pointY = _elementHelper.NormalizePointerY(canvas, pressedPoint);
+
+            var goToX = pointX - offsetX;
+            var goToY = pointY - offsetY;
+
+            Canvas.SetLeft(portalButton, goToX);
+            Canvas.SetTop(portalButton, goToY);
+
+            portal.Coordinate.X = goToX;
+            portal.Coordinate.Y = goToY;
+
+            return portal;
         }
     }
 }

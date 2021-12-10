@@ -96,6 +96,8 @@ namespace Worldescape.Common
         public const string BroadcastedConstructScales = "BroadcastedConstructScales";
         public const string BroadcastedConstructMovement = "BroadcastConstructMovement";
 
+        public const string BroadcastedPortal = "BroadcastedPortal";
+
         #endregion
 
         #region Methods Invoked From Client To Server
@@ -123,6 +125,8 @@ namespace Worldescape.Common
         public const string BroadcastConstructScale = "BroadcastConstructScale";
         public const string BroadcastConstructScales = "BroadcastConstructScales";
         public const string BroadcastConstructMovement = "BroadcastConstructMovement";
+
+        public const string BroadcastPortal = "BroadcastPortal";
         #endregion
 
         #region WebService Endpoints

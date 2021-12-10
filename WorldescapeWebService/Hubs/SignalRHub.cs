@@ -492,6 +492,23 @@ namespace WorldescapeWebService
 
         #endregion
 
+        #region Portal World Events
+
+        [HubMethodName(Constants.BroadcastPortal)]
+        public async Task BroadcastPortal(Portal portal)
+        {
+            if (portal.Id > 0)
+            {
+                var group = GetUsersGroup(await GetCallingUser());
+                await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedPortal, portal);
+
+                //await AddOrUpdatePortalInPortals(portal);
+                _logger.LogInformation($"<> {portal.Id} BroadcastPortal - {DateTime.Now} World: {group}");
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Concurrent Avatars

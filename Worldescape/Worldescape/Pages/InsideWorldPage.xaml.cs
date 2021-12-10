@@ -32,7 +32,7 @@ namespace Worldescape
         UIElement _movingConstruct;
         UIElement _cloningConstruct;
 
-        UIElement _addingWorld;
+        UIElement _addingPortal;
 
         Image _pointerImage;
 
@@ -44,6 +44,7 @@ namespace Worldescape
         readonly AvatarHelper _avatarHelper;
         readonly ConstructHelper _constructHelper;
         readonly WorldHelper _worldHelper;
+        readonly PortalHelper _portalHelper;
         readonly PaginationHelper _paginationHelper;
         readonly ElementHelper _elementHelper;
 
@@ -68,6 +69,7 @@ namespace Worldescape
             IHubService hubService,
             AvatarHelper avatarHelper,
             WorldHelper worldHelper,
+            PortalHelper portalHelper,
             ConstructHelper constructHelper,
             PaginationHelper paginationHelper,
             ElementHelper elementHelper,
@@ -80,6 +82,7 @@ namespace Worldescape
             _hubService = hubService;
             _avatarHelper = avatarHelper;
             _worldHelper = worldHelper;
+            _portalHelper = portalHelper;
             _constructHelper = constructHelper;
             _paginationHelper = paginationHelper;
             _elementHelper = elementHelper;
@@ -181,9 +184,9 @@ namespace Worldescape
             if (!CanPerformWorldEvents())
                 return;
 
-            if (_addingWorld != null)
+            if (_addingPortal != null)
             {
-                //TODO: add portal on map
+                await AddPortalOnPointerPressed(e);
             }
             else if (_addingConstruct != null)
             {
@@ -223,7 +226,7 @@ namespace Worldescape
 
         private void Canvas_Root_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            MoveAssignedPointerElement(e);
+            MoveAttachedPointerElement(e);
         }
 
         #endregion
@@ -290,9 +293,9 @@ namespace Worldescape
 
             ShowSelectedConstruct(uielement); // Construct
 
-            if (_addingWorld != null)
+            if (_addingPortal != null)
             {
-                //TODO: add portal in map
+                await AddPortalOnPointerPressed(e);
             }
             else if (_addingConstruct != null)
             {
@@ -487,7 +490,7 @@ namespace Worldescape
                 // Turn off add mode
                 _addingConstruct = null;
                 ShowOperationalConstruct(null);
-                ReleaseAssignedPointerElement();
+                ReleaseAttachedPointerElement();
             }
         }
 
@@ -533,15 +536,39 @@ namespace Worldescape
 
         private async Task AddPortalOnPointerPressed(PointerRoutedEventArgs e)
         {
-            if (_addingWorld == null)
+            if (_addingPortal == null)
                 return;
 
-            var button = (Button)_addingWorld;
+            var button = (Button)_addingPortal;
+
             var pressedPoint = e.GetCurrentPoint(Canvas_Root);
+
             var pointX = NormalizePointerX(pressedPoint);
             var pointY = NormalizePointerY(pressedPoint);
-        }
 
+            // Add the portal on pressed point
+            var portal = AddPortalOnCanvas(
+                portal: button,
+                x: pointX,
+                y: pointY);
+
+            // Center the portal on pressed point
+            portal = CenterAlignNewPortalButton(
+                pressedPoint: pressedPoint,
+                portalButton: button,
+                portal: portal);
+
+            // Align avatar to portal point
+            AlignAvatarFaceDirectionWrtX(x: portal.Coordinate.X);
+
+            await _hubService.BroadcastPortal(portal);
+
+            Console.WriteLine("Portal added.");
+
+            // Turn off add mode
+            _addingPortal = null;
+            ReleaseAttachedPointerElement();
+        }
 
         #endregion
 
@@ -635,7 +662,7 @@ namespace Worldescape
 
                 Button_ConstructMultiSelect.IsChecked = false;
 
-                ReleaseAssignedPointerElement();
+                ReleaseAttachedPointerElement();
 
                 if (Button_ConstructCraft.IsChecked.Value)
                 {
@@ -694,7 +721,7 @@ namespace Worldescape
             MultiSelectedConstructsHolder.Children.Clear();
             MultiselectedConstructs.Clear();
 
-            ReleaseAssignedPointerElement();
+            ReleaseAttachedPointerElement();
             Button_ConstructMove.IsChecked = false;
             Button_ConstructClone.IsChecked = false;
 
@@ -720,7 +747,7 @@ namespace Worldescape
                 {
                     _movingConstruct = null;
                     ShowOperationalConstruct(null);
-                    ReleaseAssignedPointerElement();
+                    ReleaseAttachedPointerElement();
                 }
                 else
                 {
@@ -728,7 +755,7 @@ namespace Worldescape
                     _movingConstruct = uielement;
                     ShowOperationalConstruct(_movingConstruct, "Moving...");
 
-                    AssignPointerElement(uielement);
+                    AttachPointerElement(uielement);
                 }
             }
         }
@@ -746,7 +773,7 @@ namespace Worldescape
                 {
                     _cloningConstruct = null;
                     ShowOperationalConstruct(null);
-                    ReleaseAssignedPointerElement();
+                    ReleaseAttachedPointerElement();
                 }
                 else
                 {
@@ -754,7 +781,7 @@ namespace Worldescape
                     _cloningConstruct = uielement;
                     ShowOperationalConstruct(_cloningConstruct, "Cloning...");
 
-                    AssignPointerElement(uielement);
+                    AttachPointerElement(uielement);
                 }
             }
         }
@@ -987,10 +1014,9 @@ namespace Worldescape
             WorldPickerWindow worldPickerWindow = new WorldPickerWindow();
             worldPickerWindow.WorldSelected += (sender, world) =>
             {
-                //Button btnWorld = GeneratePortalButton(world);
-
-                //_addingWorld = btnWorld;
-                //AssignPointerElement(btnWorld);
+                Button btnPortal = GeneratePortalButton(world);
+                _addingPortal = btnPortal;
+                AttachPointerElement(btnPortal);
             };
             worldPickerWindow.Show();
         }
@@ -1722,12 +1748,40 @@ namespace Worldescape
 
         #region Portal
 
-        //private Button GeneratePortalButton(World world)
-        //{
-        //    var btn = _worldHelper.GenerateWorldButton(world: world, size: 70);
-        //    btn.PointerPressed += Portal_PointerPressed;
-        //    return btn;
-        //}
+        private Button GeneratePortalButton(World world)
+        {
+            var btn= _portalHelper.GeneratePortalButton(world);
+            btn.PointerPressed += Portal_PointerPressed;
+            return btn;
+        }
+
+        private Portal AddPortalOnCanvas(
+            UIElement portal,
+            double x,
+            double y,
+            int? z = null,
+            bool disableOpacityAnimation = false)
+        {
+            return _portalHelper.AddPortalOnCanvas(
+                portal: portal,
+                canvas: Canvas_Root,
+                x: x,
+                y: y,
+                z: z,
+                disableOpacityAnimation: disableOpacityAnimation);
+        }
+
+        private Portal CenterAlignNewPortalButton(
+            PointerPoint pressedPoint,
+            Button portalButton,
+            Portal portal)
+        {
+            return _portalHelper.CenterAlignNewPortalButton(
+                pressedPoint: pressedPoint,
+                portalButton: portalButton,
+                portal: portal,
+                canvas: Canvas_Root);
+        }
 
         #endregion
 
@@ -1917,10 +1971,10 @@ namespace Worldescape
         #region Element
 
         /// <summary>
-        /// Atach an image with pointer movement.
+        /// Attach an image with pointer movement.
         /// </summary>
         /// <param name="uiElement"></param>
-        private void AssignPointerElement(UIElement uiElement)
+        private void AttachPointerElement(UIElement uiElement)
         {
             if (uiElement is Button button && button.Content is Image image && image.Source is BitmapImage bitmapImage)
             {
@@ -1945,10 +1999,10 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Move assigned image with pointer.
+        /// Move attached image with pointer.
         /// </summary>
         /// <param name="e"></param>
-        private void MoveAssignedPointerElement(PointerRoutedEventArgs e)
+        private void MoveAttachedPointerElement(PointerRoutedEventArgs e)
         {
             if (_pointerImage != null)
             {
@@ -1976,9 +2030,9 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Releases the assigned image from pointer movement.
+        /// Releases the attached image from pointer movement.
         /// </summary>
-        private void ReleaseAssignedPointerElement()
+        private void ReleaseAttachedPointerElement()
         {
             if (_pointerImage != null)
             {
@@ -2154,7 +2208,7 @@ namespace Worldescape
         /// </summary>
         private void SubscribeHub()
         {
-            #region Hub Connectivity
+            #region Hub Connectivity Events
 
             _hubService.ConnectionReconnecting += HubService_ConnectionReconnecting;
             _hubService.ConnectionReconnected += HubService_ConnectionReconnected;
@@ -2162,14 +2216,14 @@ namespace Worldescape
 
             #endregion
 
-            #region Avatar World Events
+            #region Avatar Events
 
             _hubService.NewBroadcastAvatarMovement += HubService_NewBroadcastAvatarMovement;
             _hubService.NewBroadcastAvatarActivityStatus += HubService_NewBroadcastAvatarActivityStatus;
 
             #endregion
 
-            #region Avatar Connectivity
+            #region Avatar Connectivity Events
 
             _hubService.AvatarLoggedIn += HubService_AvatarLoggedIn;
             _hubService.AvatarLoggedOut += HubService_AvatarLoggedOut;
@@ -2178,7 +2232,7 @@ namespace Worldescape
 
             #endregion
 
-            #region Construct World Events
+            #region Construct Events
 
             _hubService.NewBroadcastConstruct += HubService_NewBroadcastConstruct;
             //HubService.NewBroadcastConstructs += HubService_NewBroadcastConstructs;
@@ -2198,7 +2252,7 @@ namespace Worldescape
 
             #endregion
 
-            #region Avatar Messaging
+            #region Avatar Messaging Events
 
             _hubService.AvatarTyping += HubService_AvatarTyping;
             _hubService.NewTextMessage += HubService_NewTextMessage;
@@ -2206,7 +2260,26 @@ namespace Worldescape
 
             #endregion
 
+            #region Portal Events
+
+            _hubService.NewBroadcastPortal += HubService_NewBroadcastPortal;
+
+            #endregion
+
             Console.WriteLine("++SubscribeHub: OK");
+        }
+
+        private void HubService_NewBroadcastPortal(Portal portal)
+        {
+            var btnPortal = GeneratePortalButton(world: portal.World);
+
+            AddPortalOnCanvas(
+                portal: btnPortal,
+                x: portal.Coordinate.X,
+                y: portal.Coordinate.Y,
+                z: portal.Coordinate.Z);
+
+            Console.WriteLine("<<HubService_NewBroadcastPortal: OK");
         }
 
         /// <summary>
@@ -2222,14 +2295,14 @@ namespace Worldescape
 
             #endregion
 
-            #region Avatar World Events
+            #region Avatar Events
 
             _hubService.NewBroadcastAvatarMovement -= HubService_NewBroadcastAvatarMovement;
             _hubService.NewBroadcastAvatarActivityStatus -= HubService_NewBroadcastAvatarActivityStatus;
 
             #endregion
 
-            #region Avatar Connectivity
+            #region Avatar Connectivity Events
 
             _hubService.AvatarLoggedIn -= HubService_AvatarLoggedIn;
             _hubService.AvatarLoggedOut -= HubService_AvatarLoggedOut;
@@ -2238,7 +2311,7 @@ namespace Worldescape
 
             #endregion
 
-            #region Construct World Events
+            #region Construct Events
 
             _hubService.NewBroadcastConstruct -= HubService_NewBroadcastConstruct;
             //HubService.NewBroadcastConstructs -= HubService_NewBroadcastConstructs;
@@ -2258,11 +2331,21 @@ namespace Worldescape
 
             #endregion
 
-            #region Avatar Messaging
+            #region Avatar Messaging Events
 
             _hubService.AvatarTyping -= HubService_AvatarTyping;
             _hubService.NewTextMessage -= HubService_NewTextMessage;
             _hubService.NewImageMessage -= HubService_NewImageMessage;
+
+            #endregion
+
+            #region Portal
+
+            #region Portal Events
+
+            _hubService.NewBroadcastPortal -= HubService_NewBroadcastPortal;
+
+            #endregion
 
             #endregion
 
@@ -2837,7 +2920,7 @@ namespace Worldescape
         /// <param name="constructAsset"></param>
         private void ConstructAssetPickerControl_AssetSelected(object sender, ConstructAsset constructAsset)
         {
-            ReleaseAssignedPointerElement();
+            ReleaseAttachedPointerElement();
 
             var btnConstruct = GenerateConstructButton(
                 name: constructAsset.Name,
@@ -2846,7 +2929,7 @@ namespace Worldescape
             _addingConstruct = btnConstruct;
             ShowOperationalConstruct(_addingConstruct, "Adding...");
 
-            AssignPointerElement(btnConstruct);
+            AttachPointerElement(btnConstruct);
         }
 
         /// <summary>
@@ -3034,7 +3117,12 @@ namespace Worldescape
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-        private Construct AddConstructOnCanvas(UIElement construct, double x, double y, int? z = null, bool disableOpacityAnimation = false)
+        private Construct AddConstructOnCanvas(
+            UIElement construct,
+            double x,
+            double y,
+            int? z = null,
+            bool disableOpacityAnimation = false)
         {
             return _constructHelper.AddConstructOnCanvas(
                 construct: construct,
@@ -3051,7 +3139,13 @@ namespace Worldescape
         /// <param name="construct"></param>
         /// <param name="constructId"></param>
         /// <returns></returns>
-        private Button GenerateConstructButton(string name, string imageUrl, int? constructId = null, InWorld inWorld = null, Creator creator = null, DateTime? createdOn = null)
+        private Button GenerateConstructButton(
+            string name,
+            string imageUrl,
+            int? constructId = null,
+            InWorld inWorld = null,
+            Creator creator = null,
+            DateTime? createdOn = null)
         {
             var btn = _constructHelper.GenerateConstructButton(
                 name: name,

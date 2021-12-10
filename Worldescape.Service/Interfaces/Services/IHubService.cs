@@ -30,7 +30,6 @@ namespace Worldescape.Service
 
         // Construct
         event Action<Construct> NewBroadcastConstruct;
-        //event Action<Construct[]> NewBroadcastConstructs;
         event Action<int> NewRemoveConstruct;
         //event Action<int[]> NewRemoveConstructs;
         event Action<int, int> NewBroadcastConstructPlacement;
@@ -39,6 +38,9 @@ namespace Worldescape.Service
         event Action<int, float> NewBroadcastConstructScale;
         //event Action<int[], float> NewBroadcastConstructScales;
         event Action<int, double, double, int> NewBroadcastConstructMovement;
+
+        // Portal
+        event Action<Portal> NewBroadcastPortal;
 
         #endregion
 
@@ -88,8 +90,6 @@ namespace Worldescape.Service
 
         Task BroadcastConstruct(Construct construct);
 
-        //Task BroadcastConstructs(Construct[] constructs);
-
         Task RemoveConstruct(int constructId);
 
         //Task RemoveConstructs(int[] constructIds);
@@ -105,6 +105,12 @@ namespace Worldescape.Service
         //Task BroadcastConstructScales(int[] constructIds, float scale);
 
         Task BroadcastConstructMovement(int constructId, double x, double y, int z);
+
+        #endregion
+
+        #region Portal
+
+        Task BroadcastPortal(Portal portal);
 
         #endregion
     }
