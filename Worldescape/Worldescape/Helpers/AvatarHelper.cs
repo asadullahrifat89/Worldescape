@@ -93,7 +93,7 @@ namespace Worldescape
         /// Aligns facing direction of current avatar wrt provided x.
         /// </summary>
         /// <param name="construct"></param>
-        public void AlignAvatarFaceDirection(
+        public void AlignAvatarFaceDirectionWrtX(
             double x,
             Canvas canvas,
             int avatarId)

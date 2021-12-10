@@ -60,7 +60,7 @@ namespace Worldescape
 
             var buttonWorld = new Button()
             {
-                Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style,
+                Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
                 Height = size,
                 Width = size,
                 Tag = new Portal() { World = world },
@@ -75,8 +75,7 @@ namespace Worldescape
             Canvas canvas,
             double x,
             double y,
-            int? z = null,
-            bool disableOpacityAnimation = false)
+            int? z = null)
         {
             Canvas.SetLeft(portal, x);
             Canvas.SetTop(portal, y);
@@ -94,9 +93,9 @@ namespace Worldescape
                 {
                     var children = canvas.Children.OfType<Button>();
 
-                    if (children != null && children.Any(x => x.Tag is Portal))
+                    if (children != null && children.Any(x => x.Tag is Construct))
                     {
-                        var maxZ = children.Where(x => x.Tag is Portal).Select(z => (Portal)z.Tag).Max(x => x.Coordinate.Z);
+                        var maxZ = children.Where(x => x.Tag is Construct).Select(z => (Construct)z.Tag).Max(x => x.Coordinate.Z);
                         indexZ = maxZ + 1;
                     }
                 }
@@ -112,8 +111,7 @@ namespace Worldescape
             taggedPortal.Coordinate.Y = y;
             taggedPortal.Coordinate.Z = indexZ;
 
-            //if (!disableOpacityAnimation)
-            //    PerformOpacityAnimationOnConstruct(world, 0, 1); // Add
+            //TODO: remove portal after one min
 
             return taggedPortal;
         }

@@ -124,6 +124,7 @@
 		<Compile Include="App.xaml.cs" />
 		<Compile Include="Converters\BooleanToVisibilityConverter.cs" />
 		<Compile Include="Helpers\AvatarHelper.cs" />
+		<Compile Include="Helpers\ChatBubbleHelper.cs" />
 		<Compile Include="Helpers\ConstructHelper.cs" />
 		<Compile Include="Helpers\ElementHelper.cs" />
 		<Compile Include="Helpers\ImageHelper.cs" />

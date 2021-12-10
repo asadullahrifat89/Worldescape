@@ -34,7 +34,7 @@ namespace Worldescape
 
         UIElement _addingPortal;
 
-        Image _pointerImage;
+        Border _pointerImage;
 
         UIElement _selectedAvatar;
         UIElement _messageToAvatar;
@@ -47,6 +47,7 @@ namespace Worldescape
         readonly PortalHelper _portalHelper;
         readonly PaginationHelper _paginationHelper;
         readonly ElementHelper _elementHelper;
+        readonly ChatBubbleHelper _chatBubbleHelper;
 
         readonly ConstructRepository _constructRepository;
         readonly AvatarRepository _avatarRepository;
@@ -73,6 +74,7 @@ namespace Worldescape
             ConstructHelper constructHelper,
             PaginationHelper paginationHelper,
             ElementHelper elementHelper,
+            ChatBubbleHelper chatBubbleHelper,
             ConstructRepository constructRepository,
             AvatarRepository avatarRepository,
             MainPage mainPage)
@@ -86,6 +88,7 @@ namespace Worldescape
             _constructHelper = constructHelper;
             _paginationHelper = paginationHelper;
             _elementHelper = elementHelper;
+            _chatBubbleHelper = chatBubbleHelper;
             _mainPage = mainPage;
             _constructRepository = constructRepository;
             _avatarRepository = avatarRepository;
@@ -531,7 +534,7 @@ namespace Worldescape
 
         private void Portal_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            // TODO: show portal context action buttons
+            // TODO: show portal context action buttons, own buttons will have teleport and remove and other than self will just see teleport button
         }
 
         private async Task AddPortalOnPointerPressed(PointerRoutedEventArgs e)
@@ -568,6 +571,8 @@ namespace Worldescape
             // Turn off add mode
             _addingPortal = null;
             ReleaseAttachedPointerElement();
+
+            HideAvatarOperationButtons();
         }
 
         #endregion
@@ -1759,16 +1764,14 @@ namespace Worldescape
             UIElement portal,
             double x,
             double y,
-            int? z = null,
-            bool disableOpacityAnimation = false)
+            int? z = null)
         {
             return _portalHelper.AddPortalOnCanvas(
                 portal: portal,
                 canvas: Canvas_Root,
                 x: x,
                 y: y,
-                z: z,
-                disableOpacityAnimation: disableOpacityAnimation);
+                z: z);
         }
 
         private Portal CenterAlignNewPortalButton(
@@ -1993,22 +1996,26 @@ namespace Worldescape
                         ScaleElement(img, construct.Scale);
                         RotateElement(img, construct.Rotation);
 
-                        _pointerImage = img;
+                        _pointerImage = new Border();
+
+                        _pointerImage.Child = img;
                         _pointerImage.Opacity = 0.8;
                         _pointerImage.Tag = false;
                     }
                 }
                 else if (button.Tag is Portal portal)
                 {
-                    var bitmap = new BitmapImage(new Uri(portal.World.ImageUrl, UriKind.RelativeOrAbsolute));
+                    //var bitmap = new BitmapImage(new Uri(portal.World.ImageUrl, UriKind.RelativeOrAbsolute));
 
-                    var img = new Image()
-                    {
-                        Source = bitmap,
-                        Height = 70,
-                        Width = 70,
-                        Stretch = Stretch.UniformToFill,
-                    };
+                    //var img = new Image()
+                    //{
+                    //    Source = bitmap,
+                    //    Height = 70,
+                    //    Width = 70,
+                    //    Stretch = Stretch.UniformToFill,
+                    //};
+
+                    var img = GetWorldPicture(portal.World, 70);
 
                     _pointerImage = img;
                     _pointerImage.Opacity = 0.8;
@@ -2659,7 +2666,7 @@ namespace Worldescape
         /// <param name="construct"></param>
         private void AlignAvatarFaceDirectionWrtX(double x)
         {
-            _avatarHelper.AlignAvatarFaceDirection(x, Canvas_Root, Avatar.Id);
+            _avatarHelper.AlignAvatarFaceDirectionWrtX(x: x, canvas: Canvas_Root, avatarId: Avatar.Id);
         }
 
         /// <summary>
@@ -3484,12 +3491,12 @@ namespace Worldescape
                 await _hubService.SendUnicastMessage(avatar.Id, MessagingTextBox.Text);
 
                 // Add message bubble to own avatar
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement selfAvatarUiElement)
                 {
-                    AddChatBubbleToCanvas(msg: MessagingTextBox.Text, avatar: iElement, messageType: MessageType.Unicast); // send message
+                    AddChatBubbleToCanvas(msg: MessagingTextBox.Text, avatar: selfAvatarUiElement, messageType: MessageType.Unicast); // send message
 
                     // If activity status is not Messaging then update it
-                    if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Messaging)
+                    if (((Button)selfAvatarUiElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Messaging)
                     {
                         await BroadcastAvatarActivityStatus(ActivityStatus.Messaging);
                     }
@@ -3514,12 +3521,12 @@ namespace Worldescape
                 await _hubService.SendBroadcastMessage(MessagingTextBox.Text);
 
                 // Add message bubble to own avatar
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement selfAvatarUiElement)
                 {
-                    AddChatBubbleToCanvas(msg: MessagingTextBox.Text, avatar: iElement, messageType: MessageType.Broadcast); // send message
+                    AddChatBubbleToCanvas(msg: MessagingTextBox.Text, avatar: selfAvatarUiElement, messageType: MessageType.Broadcast); // send message
 
                     // If activity status is not Greeting then update it
-                    if (((Button)iElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Greeting)
+                    if (((Button)selfAvatarUiElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Greeting)
                     {
                         await BroadcastAvatarActivityStatus(ActivityStatus.Greeting);
                     }
@@ -3534,155 +3541,24 @@ namespace Worldescape
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="avatar"></param>
+        /// <param name="messageType"></param>
         private void AddChatBubbleToCanvas(string msg, UIElement avatar, MessageType messageType)
         {
             var avatarButton = avatar as Button;
             var taggedAvatar = avatarButton.Tag as Avatar;
 
-            Button btnChatBubble = new Button()
+            var btnChatBubble = _chatBubbleHelper.AddChatBubbleToCanvas(
+                 msg: msg,
+                 targetAvatar: avatar,
+                 messageType: messageType,
+                 messageToAvatar: _messageToAvatar,
+                 canvas: Canvas_Root,
+                 avatar: Avatar);
+
+            if (taggedAvatar.Id != Avatar.Id)
             {
-                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                FontWeight = FontWeights.Regular,
-                FontFamily = new FontFamily("Segoe UI"),
-                MaxWidth = 600,
-                Height = double.PositiveInfinity,
-            };
-
-            var x = taggedAvatar.Coordinate.X - (avatarButton.ActualWidth / 2);
-            var y = taggedAvatar.Coordinate.Y - (avatarButton.ActualHeight / 2);
-
-            TextBlock tbMsg = null;
-
-            // Textblock containing the message
-            tbMsg = new TextBlock()
-            {
-                Text = msg,
-                Margin = new Thickness(5, 0, 5, 0),
-                FontWeight = FontWeights.Regular,
-                FontFamily = new FontFamily("Segoe UI"),
-                TextWrapping = TextWrapping.Wrap,
-                Foreground = new SolidColorBrush(Colors.Black),
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-
-            StackPanel spUserImageAndMessage = new StackPanel() { Orientation = Orientation.Horizontal };
-            Border brUserImage = GetAvatarUserPicture(taggedAvatar);
-            brUserImage.VerticalAlignment = VerticalAlignment.Top;
-
-            // If sent message then image on the left
-            if (taggedAvatar.Id == Avatar.Id)
-            {
-                if (_messageToAvatar != null)
-                {
-                    var receiver = ((Button)_messageToAvatar).Tag as Avatar;
-                    AlignAvatarFaceDirectionWrtX(receiver.Coordinate.X);
-                }
-
-                spUserImageAndMessage.Children.Add(brUserImage);
-                // Add icon of message type
-                AddMessageTypeIconText(messageType, spUserImageAndMessage);
-                spUserImageAndMessage.Children.Add(tbMsg);
-            }
-            else // If received message then image on the right
-            {
-                Button meUiElement = Canvas_Root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == Avatar.Id);
-                Button senderUiElement = Canvas_Root.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar senderAvatar && senderAvatar.Id == taggedAvatar.Id);
-
-                var receiver = meUiElement.Tag as Avatar;
-                var sender = taggedAvatar;
-
-                // If sender avatar is forward from current avatar
-                if (sender.Coordinate.X > receiver.Coordinate.X)
-                    senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
-                else
-                    senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
-
-                btnChatBubble.Tag = taggedAvatar;
                 btnChatBubble.PointerPressed += ChatBubble_PointerPressed;
-
-                spUserImageAndMessage.Children.Add(tbMsg);
-                // Add icon of message type
-                AddMessageTypeIconText(messageType, spUserImageAndMessage);
-                spUserImageAndMessage.Children.Add(brUserImage);
-            }
-
-            btnChatBubble.Content = spUserImageAndMessage;
-
-            // Set opacity animation according to the length of the message
-            DoubleAnimation opacityAnimation = new DoubleAnimation()
-            {
-                From = 1,
-                To = 0,
-                Duration = TimeSpan.FromMinutes(2)//TimeSpan.FromSeconds(msg.Length * 2).Add(TimeSpan.FromMilliseconds(300)),
-            };
-
-            DoubleAnimation moveYAnimation = new DoubleAnimation()
-            {
-                From = y,
-                To = y - 400,
-                Duration = TimeSpan.FromSeconds(100),
-                EasingFunction = new ExponentialEase()
-                {
-                    EasingMode = EasingMode.EaseOut,
-                    Exponent = 5,
-                }
-            };
-
-            // after opacity reaches zero delete this from canvas
-            opacityAnimation.Completed += (s, e) =>
-            {
-                Canvas_Root.Children.Remove(btnChatBubble);
-            };
-
-            Storyboard.SetTarget(opacityAnimation, btnChatBubble);
-            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(OpacityProperty));
-
-            Storyboard.SetTarget(moveYAnimation, btnChatBubble);
-            Storyboard.SetTargetProperty(moveYAnimation, new PropertyPath(Canvas.TopProperty));
-
-            Storyboard fadeStoryBoard = new Storyboard();
-            fadeStoryBoard.Children.Add(opacityAnimation);
-            fadeStoryBoard.Children.Add(moveYAnimation);
-
-            // Add to canvas
-            Canvas.SetLeft(btnChatBubble, x);
-            Canvas.SetTop(btnChatBubble, y);
-            Canvas.SetZIndex(btnChatBubble, 999);
-
-            // Add a shadow effect to the chat bubble
-            btnChatBubble.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
-
-            Canvas_Root.Children.Add(btnChatBubble);
-
-            fadeStoryBoard.Begin();
-        }
-
-        /// <summary>
-        /// Add an icon to the message content according to message type.
-        /// </summary>
-        /// <param name="messageType"></param>
-        /// <param name="spUserImageAndMessage"></param>
-        private void AddMessageTypeIconText(MessageType messageType, StackPanel spUserImageAndMessage)
-        {
-            var icon = new Image() { Margin = new Thickness(5, 5, 5, 0) };
-
-            switch (messageType)
-            {
-                case MessageType.Broadcast:
-                    {
-                        icon.Source = new BitmapImage(new Uri("ms-appx:///Worldescape/Assets/Icons/quickreply_black_24dp.svg"));
-                    }
-                    break;
-                case MessageType.Unicast:
-                    {
-                        icon.Source = new BitmapImage(new Uri("ms-appx:///Worldescape/Assets/Icons/chat_black_24dp.svg"));
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            spUserImageAndMessage.Children.Add(icon);
+            }            
         }
 
         #endregion

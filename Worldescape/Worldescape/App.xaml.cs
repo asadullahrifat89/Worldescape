@@ -67,6 +67,7 @@ namespace Worldescape
             services.AddSingleton<ImageHelper>();
             services.AddSingleton<ElementHelper>();
             services.AddSingleton<PortalHelper>();
+            services.AddSingleton<ChatBubbleHelper>();
 
             // Repositories
             services.AddSingleton<ApiTokenRepository>();
