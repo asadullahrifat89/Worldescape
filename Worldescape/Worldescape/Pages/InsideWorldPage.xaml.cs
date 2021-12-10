@@ -282,7 +282,7 @@ namespace Worldescape
                 if (avatar.Id == Avatar.Id)
                 {
                     // Show commands for self
-                    PopElementContextCommands(e, OwnAvatarActionsHolder);
+                    PopElementContextCommands(e: e, uIElement: OwnAvatarActionsHolder);
 
                     ShowOwnAvatarActionsHolder();
                     HideOtherAvatarActions();
@@ -290,7 +290,7 @@ namespace Worldescape
                 else
                 {
                     // Show commands for other
-                    PopElementContextCommands(e, OtherAvatarActionsHolder);
+                    PopElementContextCommands(e: e, uIElement: OtherAvatarActionsHolder);
 
                     ShowOtherAvatarActionsHolder();
                     HideOwnAvatarActions();
@@ -571,7 +571,7 @@ namespace Worldescape
         {
             _selectedPortal = (UIElement)sender;
 
-            PopElementContextCommands(e, PortalActionsHolder);
+            PopElementContextCommands(e: e, uIElement: PortalActionsHolder);
             ShowPortalActionsHolder();
         }
 
@@ -1288,7 +1288,7 @@ namespace Worldescape
                         _mainPage.SetIsBusy(true, "Teleporting to world...");
 
                         if (await LoginToHub())
-                        {   
+                        {
                             _mainPage.SetIsBusy(false);
                         }
                     }
@@ -2267,12 +2267,14 @@ namespace Worldescape
         /// <param name="uIElement"></param>
         private void PopElementContextCommands(
             PointerRoutedEventArgs e,
-            UIElement uIElement)
+            UIElement uIElement,
+            double offsetX = 0,
+            double offSetY = 0)
         {
             var pressedPoint = e.GetCurrentPoint(Canvas_RootHost);
 
-            var pointX = pressedPoint.Position.X + 3;
-            var pointY = pressedPoint.Position.Y + 3;
+            var pointX = pressedPoint.Position.X + 3 + offsetX;
+            var pointY = pressedPoint.Position.Y + 3 + offSetY;
 
             Canvas.SetLeft(uIElement, pointX);
             Canvas.SetTop(uIElement, pointY);
@@ -3333,7 +3335,7 @@ namespace Worldescape
         {
             if (_selectedConstruct != null && _selectedConstruct is Button button && button.Tag is Construct)
             {
-                PopElementContextCommands(e, ConstructOperationalCommandsHolder);
+                PopElementContextCommands(e: e, uIElement: ConstructOperationalCommandsHolder, offsetX: 50, offSetY: 50);
                 ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
             }
         }

@@ -28,7 +28,7 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Generates a portal button with a rounded world image and the world's name.
+        /// Generates a portal button with a rounded world image and the world's name below it.
         /// </summary>
         /// <param name="world"></param>
         /// <returns></returns>
@@ -146,7 +146,19 @@ namespace Worldescape
             return taggedPortal;
         }
 
-        public Portal CenterAlignNewPortalButton(PointerPoint pressedPoint, Button portalButton, Portal portal, Canvas canvas)
+        /// <summary>
+        /// Center aligns the portal button wrt the provided PointerPoint.
+        /// </summary>
+        /// <param name="pressedPoint"></param>
+        /// <param name="portalButton"></param>
+        /// <param name="portal"></param>
+        /// <param name="canvas"></param>
+        /// <returns></returns>
+        public Portal CenterAlignNewPortalButton(
+            PointerPoint pressedPoint,
+            Button portalButton,
+            Portal portal,
+            Canvas canvas)
         {
             var offsetX = portalButton.ActualWidth / 2;
             var offsetY = portalButton.ActualHeight / 2;
