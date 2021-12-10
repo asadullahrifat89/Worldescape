@@ -957,6 +957,8 @@ namespace Worldescape
             worldPickerWindow.WorldSelected += (sender, world) =>
             {
                 //TODO: drop portal in map
+
+                
             };
             worldPickerWindow.Show();
         }

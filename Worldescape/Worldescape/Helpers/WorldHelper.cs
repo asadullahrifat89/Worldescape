@@ -2,12 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Common;
+using Worldescape.Service;
 
 namespace Worldescape
 {
@@ -15,7 +17,43 @@ namespace Worldescape
     {
         readonly double[] _cloudScales = { 1, 1.25, 1.35, 0.75, 0.50 };
 
+        public WorldHelper()
+        {
+
+        }
+
         #region UI
+
+        public Button GenerateWorldButton(World world, double size)
+        {
+            var img = GetWorldPicture(world: world, size: size);
+
+            img.Margin = new Thickness(5, 5, 5, 5);
+
+            var spContent = new StackPanel();
+            spContent.Children.Add(img);
+            spContent.Children.Add(new TextBlock()
+            {
+                FontSize = 14,
+                FontWeight = FontWeights.SemiBold,
+                TextAlignment = TextAlignment.Center,
+                Text = world.Name,
+                Margin = new Thickness(5),
+            });
+
+            var buttonWorld = new Button()
+            {
+                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Height = size,
+                Width = size,
+                Margin = new Thickness(5),
+                Tag = world,
+            };
+
+            buttonWorld.Content = spContent;
+
+            return buttonWorld;
+        }
 
         /// <summary>
         /// Gets the world image in a circular border from the provided world.

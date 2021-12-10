@@ -148,33 +148,8 @@ namespace Worldescape
 
                 foreach (var world in worlds)
                 {
-                    var img = _worldHelper.GetWorldPicture(world: world, size: size);
-
-                    img.Margin = new Thickness(5, 5, 5, 5);
-
-                    var spContent = new StackPanel();
-                    spContent.Children.Add(img);
-                    spContent.Children.Add(new TextBlock()
-                    {
-                        FontSize = 14,
-                        FontWeight = FontWeights.SemiBold,
-                        TextAlignment = TextAlignment.Center,
-                        Text = world.Name,
-                        Margin = new Thickness(5),
-                    });
-
-                    var buttonWorld = new Button()
-                    {
-                        Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                        Height = size,
-                        Width = size,
-                        Margin = new Thickness(5),
-                        Tag = world,
-                    };
-
+                    var buttonWorld = _worldHelper.GenerateWorldButton(world: world, size: size);
                     buttonWorld.Click += ButtonWorld_Click;
-                    buttonWorld.Content = spContent;
-
                     _masonryPanel.Children.Add(buttonWorld);
                 }
 
