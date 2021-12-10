@@ -2012,6 +2012,11 @@ namespace Worldescape
                 isCrafting: Button_ConstructCraft.IsChecked.Value);
         }
 
+        /// <summary>
+        /// Makes the provided UIElement appear on the pointer coordinate.
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="uIElement"></param>
         private void PopElementContextCommands(PointerRoutedEventArgs e, UIElement uIElement)
         {
             var pressedPoint = e.GetCurrentPoint(Canvas_RootHost);
@@ -3526,53 +3531,5 @@ namespace Worldescape
         #endregion
 
         #endregion
-
-        PointerPoint _last;
-        bool isDragged;
-
-        private void Page_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (Button_PanCanvas.IsChecked == true)
-            {
-                //TODO: start canvas drag
-                _last = e.GetCurrentPoint(this);
-                isDragged = true;
-
-                //Canvas_Root.CapturePointer(e.Pointer);
-            }
-        }
-
-        private void Page_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            if (Button_PanCanvas.IsChecked == true)
-            {
-                if (isDragged == false)
-                    return;
-
-                var currentPoint = e.GetCurrentPoint(this);
-                var matrix = Canvas_CompositeTransform;
-
-                //CanvasScrollViewer.ScrollToHorizontalOffset(currentPoint.Position.X + _last.Position.X);
-                //CanvasScrollViewer.ScrollToVerticalOffset(currentPoint.Position.Y + _last.Position.Y);
-
-                matrix.TranslateX = currentPoint.Position.X - _last.Position.X;
-                matrix.TranslateY = currentPoint.Position.Y - _last.Position.Y;
-            }
-
-            // TODO: drag canvas
-        }
-
-        private void Page_PointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            if (Button_PanCanvas.IsChecked == true)
-            {
-                var currentPoint = e.GetCurrentPoint(this);
-                _last = currentPoint;
-
-                isDragged = false;
-                //Canvas_Root.ReleasePointerCapture(e.Pointer);
-                //TODO: release canvas drag 
-            }
-        }
     }
 }
