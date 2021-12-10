@@ -71,16 +71,13 @@
         </StackPanel>
 
         <!--  Found wordls count  -->
-        <StackPanel Grid.Row="1" Margin="20,0">
-
-            <TextBlock
-                x:Name="TextBox_FoundWorldsCount"
-                Margin="10"
-                FontSize="16"
-                FontWeight="SemiBold"
-                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
-
-        </StackPanel>
+        <TextBlock
+            x:Name="TextBox_FoundWorldsCount"
+            Grid.Row="1"
+            Margin="20,10"
+            FontSize="16"
+            FontWeight="SemiBold"
+            Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
 
         <!--  Loaded worlds  -->
         <ScrollViewer

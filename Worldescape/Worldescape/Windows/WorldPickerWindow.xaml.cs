@@ -66,7 +66,7 @@ namespace Worldescape
 
         private void ButtonWorld_Click(object sender, RoutedEventArgs e)
         {
-            var world = ((Button)sender).Tag as World;            
+            var world = ((Button)sender).Tag as World;
             WorldSelected?.Invoke(this, world);
             this.DialogResult = true;
         }
@@ -138,20 +138,21 @@ namespace Worldescape
                 IEnumerable<World> worlds = await GetWorlds();
 
                 var _masonryPanel = new MasonryPanelWithProgressiveLoading()
-                {                    
+                {
+                    Margin = new Thickness(10, 0, 10, 0),
                     Style = Application.Current.Resources["Panel_Style"] as Style,
                     Height = 500
                 };
 
-                var size = 100;
+                var size = 110;
 
                 foreach (var world in worlds)
                 {
                     var img = _worldHelper.GetWorldPicture(world: world, size: size);
 
-                    img.Margin = new Thickness(5, 10, 5, 10);
+                    img.Margin = new Thickness(5, 5, 5, 5);
 
-                    var stackPanel = new StackPanel() { Margin = new Thickness(10) };
+                    var stackPanel = new StackPanel() { Margin = new Thickness(5) };
                     stackPanel.Children.Add(img);
                     stackPanel.Children.Add(new TextBlock()
                     {
@@ -160,7 +161,7 @@ namespace Worldescape
                         TextAlignment = TextAlignment.Center,
                         Text = world.Name,
                         Margin = new Thickness(5),
-                    });                   
+                    });
 
                     var buttonWorld = new Button()
                     {
