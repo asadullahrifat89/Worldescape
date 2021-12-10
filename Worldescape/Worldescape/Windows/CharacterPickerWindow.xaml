@@ -11,11 +11,6 @@
 
     <Grid x:Name="LayoutRoot" Margin="2">
 
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
         <ScrollViewer
             x:Name="ContentScrollViewer"
             HorizontalScrollBarVisibility="Disabled"
