@@ -77,7 +77,6 @@ namespace Worldescape
 
             // Pages
             services.AddSingleton<MainPage>();
-
             services.AddSingleton<WorldsPage>();
             services.AddSingleton<InsideWorldPage>();
 

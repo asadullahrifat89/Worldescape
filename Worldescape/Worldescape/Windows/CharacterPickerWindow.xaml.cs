@@ -76,7 +76,7 @@ namespace Worldescape
             var Character = button.Tag as Character;
 
             _characterSelected?.Invoke(Character);
-            Close();
+            this.DialogResult = true;
         }
 
         #endregion
