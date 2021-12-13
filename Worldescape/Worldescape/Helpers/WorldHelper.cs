@@ -85,16 +85,31 @@ namespace Worldescape
 
             if (world.PopulationCount > 0)
             {
-                string populationCount = (world.PopulationCount > 0 ? world.PopulationCount >= 1000 ? string.Format("{0:#,0, K}", world.PopulationCount.ToString()) : string.Format("{0:#,0}", world.PopulationCount.ToString()) : "");
+                var format = world.PopulationCount >= 1000 ? "{0:#,0, K}" : "{0:#,0}";
+                string populationCount = string.Format(format, world.PopulationCount.ToString());
 
                 spText.Children.Add(new TextBlock()
                 {
                     FontSize = fontSize,
-                    Foreground = new SolidColorBrush(Colors.ForestGreen),
+                    Foreground = new SolidColorBrush(Color.FromRgb(99, 89, 148)),
                     FontWeight = FontWeights.Normal,
                     TextAlignment = TextAlignment.Left,
-                    Text = "⦿" + (populationCount.IsNullOrBlank() ? "" : " " + populationCount),
-                    Margin = new Thickness(5),
+                    Text = "👣",
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(3),
+                });
+
+                spText.Children.Add(new TextBlock()
+                {
+                    FontSize = 14,
+                    Foreground = new SolidColorBrush(Color.FromRgb(99, 89, 148)),
+                    FontWeight = FontWeights.SemiBold,
+                    TextAlignment = TextAlignment.Left,
+                    Text = populationCount,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Bottom,
+                    Margin = new Thickness(2),
                 });
             }
 
