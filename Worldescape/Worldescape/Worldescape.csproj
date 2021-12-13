@@ -112,7 +112,7 @@
 		<Content Include="Controls\ConstructAssetPickerControl.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
-		<Content Include="Windows\ContentDialogueWindow.xaml">
+		<Content Include="Windows\MessageDialogueWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
 		<Content Include="Windows\WorldCreatorWindow.xaml">
@@ -139,7 +139,7 @@
 		</Compile>
 		<Compile Include="Pages\WorldsPage.xaml.cs" />
 		<Compile Include="Controls\ConstructAssetPickerControl.xaml.cs" />
-		<Compile Include="Windows\ContentDialogueWindow.xaml.cs" />
+		<Compile Include="Windows\MessageDialogueWindow.xaml.cs" />
 		<Compile Include="Windows\ImagePickerWindow.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>

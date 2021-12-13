@@ -67,7 +67,7 @@ namespace Worldescape
 
             if (!apiTokenResponse.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: apiTokenResponse.Error);
+                var contentDialogue = new MessageDialogueWindow(title: "Error!", message: apiTokenResponse.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);
@@ -78,7 +78,7 @@ namespace Worldescape
 
                 if (token.IsNullOrBlank())
                 {
-                    var contentDialogue = new ContentDialogueWindow(title: "Error!", message: "Failed to login.");
+                    var contentDialogue = new MessageDialogueWindow(title: "Error!", message: "Failed to login.");
                     contentDialogue.Show();
 
                     _mainPage.SetIsBusy(false);
@@ -94,7 +94,7 @@ namespace Worldescape
 
                 if (!loginResponse.Success)
                 {
-                    var contentDialogue = new ContentDialogueWindow(title: "Error!", message: loginResponse.Error);
+                    var contentDialogue = new MessageDialogueWindow(title: "Error!", message: loginResponse.Error);
                     contentDialogue.Show();
 
                     _mainPage.SetIsBusy(false);                    

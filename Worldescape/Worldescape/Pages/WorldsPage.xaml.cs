@@ -76,7 +76,7 @@ namespace Worldescape
         {
             var world = ((Button)sender).Tag as World;
 
-            var contentDialogue = new ContentDialogueWindow(title: $"Go to {world.Name}", message: "Would you like to go to this world?", result: (result) =>
+            var contentDialogue = new MessageDialogueWindow(title: $"Go to {world.Name}", message: "Would you like to go to this world?", result: (result) =>
             {
                 if (result)
                 {
@@ -122,7 +122,7 @@ namespace Worldescape
         {
             WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow((world) =>
             {
-                var contentDialogue = new ContentDialogueWindow($"Teleport", "Would you like to teleport to your created world now?", (result) =>
+                var contentDialogue = new MessageDialogueWindow($"Teleport", "Would you like to teleport to your created world now?", (result) =>
                 {
                     if (result)
                     {
@@ -211,7 +211,7 @@ namespace Worldescape
 
             if (!response.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
+                var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);
@@ -232,7 +232,7 @@ namespace Worldescape
 
             if (!response.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
+                var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);

@@ -4,11 +4,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace Worldescape
 {
-    public partial class ContentDialogueWindow : ChildWindow
+    public partial class MessageDialogueWindow : ChildWindow
     {
         readonly Action<bool> _result;
 
-        public ContentDialogueWindow(string title, string message, Action<bool> result = null)
+        public MessageDialogueWindow(string title, string message, Action<bool> result = null)
         {
             InitializeComponent();
             _result = result;

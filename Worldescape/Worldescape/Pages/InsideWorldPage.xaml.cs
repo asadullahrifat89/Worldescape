@@ -1275,7 +1275,7 @@ namespace Worldescape
 
             var portal = ((Button)_selectedPortal).Tag as Portal;
 
-            var contentDialogue = new ContentDialogueWindow(title: "Teleport!", message: $"Would you like to go to {portal.World.Name}?", result: async (result) =>
+            var contentDialogue = new MessageDialogueWindow(title: "Teleport!", message: $"Would you like to go to {portal.World.Name}?", result: async (result) =>
             {
                 if (result)
                 {
@@ -1908,7 +1908,7 @@ namespace Worldescape
             }
             else
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Connection failure!", message: "Would you like to try again?", result: async (result) =>
+                var contentDialogue = new MessageDialogueWindow(title: "Connection failure!", message: "Would you like to try again?", result: async (result) =>
                 {
                     if (result)
                         await ConnectWithHubThenLogin();
@@ -1953,7 +1953,7 @@ namespace Worldescape
             {
                 Console.WriteLine("TryHubLogin: FAILED");
 
-                var contentDialogue = new ContentDialogueWindow(title: "Login failure!", message: "Would you like to try again?", result: async (result) =>
+                var contentDialogue = new MessageDialogueWindow(title: "Login failure!", message: "Would you like to try again?", result: async (result) =>
                 {
                     if (result)
                         await TryLoginToHub();
@@ -2342,7 +2342,7 @@ namespace Worldescape
         /// <returns></returns>
         private void LeaveWorld()
         {
-            var contentDialogue = new ContentDialogueWindow(title: "Leaving!", message: "Are you sure you want to leave this world?", result: (result) =>
+            var contentDialogue = new MessageDialogueWindow(title: "Leaving!", message: "Are you sure you want to leave this world?", result: (result) =>
             {
                 if (result)
                     _mainPage.NavigateToPage(Constants.Page_WorldsPage);
@@ -2756,7 +2756,7 @@ namespace Worldescape
 
             if (!response.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
+                var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);
@@ -2781,7 +2781,7 @@ namespace Worldescape
 
             if (!response.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
+                var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);
@@ -3009,7 +3009,7 @@ namespace Worldescape
 
             if (!response.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
+                var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);
@@ -3038,7 +3038,7 @@ namespace Worldescape
 
             if (!response.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
+                var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);

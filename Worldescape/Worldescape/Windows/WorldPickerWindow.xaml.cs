@@ -171,7 +171,7 @@ namespace Worldescape
 
             if (!response.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
+                var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
                 return 0;
             }
@@ -190,7 +190,7 @@ namespace Worldescape
 
             if (!response.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Error!", message: response.Error);
+                var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
                 return System.Linq.Enumerable.Empty<World>();

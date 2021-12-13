@@ -56,7 +56,7 @@ namespace Worldescape
 
             if (!response.Success)
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Failed!", message: response.Error);
+                var contentDialogue = new MessageDialogueWindow(title: "Failed!", message: response.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);
@@ -88,7 +88,7 @@ namespace Worldescape
 
             if (!response.Success) 
             {
-                var contentDialogue = new ContentDialogueWindow(title: "Failed!", message: response.Error);
+                var contentDialogue = new MessageDialogueWindow(title: "Failed!", message: response.Error);
                 contentDialogue.Show();
 
                 _mainPage.SetIsBusy(false);
