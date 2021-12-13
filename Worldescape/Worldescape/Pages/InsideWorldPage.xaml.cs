@@ -137,42 +137,6 @@ namespace Worldescape
             SelectCharacterAndConnect();
         }
 
-        private void SetDefault()
-        {
-            Color color = _backgroundColors[new Random().Next(0, _backgroundColors.Count())];
-            Background = new SolidColorBrush(color);
-
-            Visibility = Visibility.Collapsed;
-
-            Button_ConstructMove.IsChecked = false;
-
-            Button_ConstructClone.IsChecked = false;
-
-            Button_ConstructAdd.IsChecked = false;
-
-            Button_ConstructCraft.IsChecked = false;
-
-            Button_ConstructMultiSelect.IsChecked = false;
-
-            Button_ConstructAdd.Visibility = Visibility.Collapsed;
-            Button_ConstructMultiSelect.Visibility = Visibility.Collapsed;
-            ClearMultiselectedConstructs();
-
-            HideConstructAssetsControl();
-            HideConstructOperationButtons();
-            HideMessagingControls();
-            HidePortalActionsHolder();
-
-            _movingConstruct = null;
-            _cloningConstruct = null;
-            _addingConstruct = null;
-            _addingPortal = null;
-
-            ShowOperationalConstruct(null);
-
-            Canvas_Root.Children.Clear();
-        }
-
         /// <summary>
         /// Event fired when this page is unloaded. Logs out the current user from hub, disconnects from hub and unsubscribes from all hub events.
         /// </summary>
@@ -1817,6 +1781,49 @@ namespace Worldescape
 
         #region Functionality
 
+        #region Page
+
+        /// <summary>
+        /// Sets the page to it's defaults.
+        /// </summary>
+        private void SetDefault()
+        {
+            Color color = _backgroundColors[new Random().Next(0, _backgroundColors.Count())];
+            Background = new SolidColorBrush(color);
+
+            Visibility = Visibility.Collapsed;
+
+            Button_ConstructMove.IsChecked = false;
+
+            Button_ConstructClone.IsChecked = false;
+
+            Button_ConstructAdd.IsChecked = false;
+
+            Button_ConstructCraft.IsChecked = false;
+
+            Button_ConstructMultiSelect.IsChecked = false;
+
+            Button_ConstructAdd.Visibility = Visibility.Collapsed;
+            Button_ConstructMultiSelect.Visibility = Visibility.Collapsed;
+            ClearMultiselectedConstructs();
+
+            HideConstructAssetsControl();
+            HideConstructOperationButtons();
+            HideMessagingControls();
+            HidePortalActionsHolder();
+
+            _movingConstruct = null;
+            _cloningConstruct = null;
+            _addingConstruct = null;
+            _addingPortal = null;
+
+            ShowOperationalConstruct(null);
+
+            Canvas_Root.Children.Clear();
+        }
+
+        #endregion
+
         #region World
 
         /// <summary>
@@ -1842,6 +1849,19 @@ namespace Worldescape
 
                 Console.WriteLine($"ShowCurrentWorld:OK");
             }
+        }
+
+        /// <summary>
+        /// Returns the provided world's image in a circular border.
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        private Border GetWorldPicture(
+            World world,
+            double size = 40)
+        {
+            return _worldHelper.GetWorldPicture(world: world, size: size);
         }
 
         #endregion
@@ -2540,23 +2560,6 @@ namespace Worldescape
             }
 
             ConstructCraftingButtonsHolder.Visibility = CanPerformWorldEvents() ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        #endregion
-
-        #region World
-
-        /// <summary>
-        /// Returns the provided world's image in a circular border.
-        /// </summary>
-        /// <param name="world"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        private Border GetWorldPicture(
-            World world,
-            double size = 40)
-        {
-            return _worldHelper.GetWorldPicture(world: world, size: size);
         }
 
         #endregion
