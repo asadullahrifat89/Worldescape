@@ -1146,7 +1146,7 @@ namespace Worldescape
         #region Message
 
         /// <summary>
-        /// Activates Messaging controls.
+        /// Activates unicast messaging controls.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1161,7 +1161,7 @@ namespace Worldescape
             if (_selectedAvatar == null)
                 return;
 
-            // Show messenge from and to avatars and show Messaging controls
+            // Show messenge from and to avatars and show messaging controls
             if (((Button)_selectedAvatar).Tag is Avatar avatar)
             {
                 _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(canvas: Canvas_Root, avatarId: avatar.Id);
@@ -1174,6 +1174,11 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Activcates broadcast messaging controls.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_MessageAll_Click(object sender, RoutedEventArgs e)
         {
             if (!CanPerformWorldEvents())
