@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Media.Effects;
 using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
-using Worldescape.Service;
 using Worldescape.Common;
 using Image = Windows.UI.Xaml.Controls.Image;
-using Windows.UI.Input;
 
 namespace Worldescape
 {
@@ -72,12 +65,10 @@ namespace Worldescape
             if (fromTaggedAvatar.Id == loggedInAvatar.Id)
             {
                 if (toAvatar != null)
-                {
                     _avatarHelper.AlignAvatarFaceDirectionWrtX(
                         x: toTaggedAvatar.Coordinate.X,
                         canvas: canvas,
                         avatarId: loggedInAvatar.Id);
-                }
 
                 AddReplyMessageToChatBubble(
                     replyToChatMessage: replyToChatMessage,
@@ -94,18 +85,16 @@ namespace Worldescape
             }
             else // If received message then image on the right
             {
-                StackPanel spUserImageAndMessage = new StackPanel() { Orientation = Orientation.Horizontal };
-
                 Button meAvatarButton = canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == loggedInAvatar.Id);
                 var receiver = meAvatarButton.Tag as Avatar;
+
+                // This is later used when replying to the sender.
+                btnChatBubble.Tag = chatMessage;
 
                 _avatarHelper.AlignAvatarFaceDirectionWrtX(
                       x: receiver.Coordinate.X,
                       canvas: canvas,
                       avatarId: fromTaggedAvatar.Id);
-
-                // This is later used when replying to the sender.
-                btnChatBubble.Tag = chatMessage;
 
                 AddReplyMessageToChatBubble(
                     replyToChatMessage: replyToChatMessage,
@@ -117,7 +106,7 @@ namespace Worldescape
                     chatMessage: chatMessage,
                     messageType: messageType,
                     spContent: spContent,
-                     taggedAvatar: fromTaggedAvatar,
+                    taggedAvatar: fromTaggedAvatar,
                     loggedInAvatar: loggedInAvatar);
             }
 
@@ -250,7 +239,7 @@ namespace Worldescape
                 }
                 else
                 {
-                    spUserImageAndMessageReply.HorizontalAlignment = HorizontalAlignment.Right;                    
+                    spUserImageAndMessageReply.HorizontalAlignment = HorizontalAlignment.Right;
                     spUserImageAndMessageReply.Children.Add(tbReplyMsg);
                     spUserImageAndMessageReply.Children.Add(brUserImageReply);
                 }

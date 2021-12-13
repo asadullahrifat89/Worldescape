@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Input;
 using Windows.UI.Text;
@@ -8,9 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Common;
-using Worldescape.Service;
 
 namespace Worldescape
 {

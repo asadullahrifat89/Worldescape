@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Worldescape.Common
+﻿namespace Worldescape.Common
 {
     /// <summary>
     /// Represents a chat message.

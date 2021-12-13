@@ -1,6 +1,5 @@
 ﻿using CSHTML5.Extensions.FileOpenDialog;
 using System;
-using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
