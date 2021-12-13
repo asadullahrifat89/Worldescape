@@ -2,14 +2,25 @@
 
 namespace Worldescape.Common
 {
+    /// <summary>
+    /// Represents a chat message.
+    /// </summary>
     public class ChatMessage
     {
+        /// <summary>
+        /// Used for text messages.
+        /// </summary>
         public string Message { get; set; }
-        public string Author { get; set; }
-        public DateTime Time { get; set; }
+
+        /// <summary>
+        /// Used for image messages. DataUrl is passed here.
+        /// </summary>
         public string Picture { get; set; }
-        public bool IsOriginNative { get; set; }
-        public string AuthorProfilePictureUrl { get; set; }
+
+        /// <summary>
+        /// Time when this message was generated.
+        /// </summary>
+        public DateTime Time { get; set; } = DateTime.Now;
     }
 
     public enum MessageType

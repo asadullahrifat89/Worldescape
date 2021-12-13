@@ -33,21 +33,21 @@ namespace Worldescape
         /// Adds a chat bubble to canvas on top of the avatar who sent it.
         /// </summary>
         /// <param name="msg"></param>
-        /// <param name="targetAvatar"></param>
+        /// <param name="fromAvatar"></param>
         /// <param name="messageType"></param>
-        /// <param name="messageToAvatar"></param>
+        /// <param name="toAvatar"></param>
         /// <param name="canvas"></param>
-        /// <param name="avatar"></param>
+        /// <param name="loggedInAvatar"></param>
         /// <returns></returns>
         public Button AddChatBubbleToCanvas(
             string msg,
-            UIElement targetAvatar,
+            UIElement fromAvatar,
             MessageType messageType,
-            UIElement messageToAvatar,
+            UIElement toAvatar,
             Canvas canvas,
-            Avatar avatar)
+            Avatar loggedInAvatar)
         {
-            var avatarButton = targetAvatar as Button;
+            var avatarButton = fromAvatar as Button;
             var taggedAvatar = avatarButton.Tag as Avatar;
 
             Button btnChatBubble = new Button()
@@ -81,22 +81,23 @@ namespace Worldescape
             brUserImage.VerticalAlignment = VerticalAlignment.Top;
 
             // If sent message then image on the left
-            if (taggedAvatar.Id == avatar.Id)
+            if (taggedAvatar.Id == loggedInAvatar.Id)
             {
-                if (messageToAvatar != null)
+                if (toAvatar != null)
                 {
-                    var receiver = ((Button)messageToAvatar).Tag as Avatar;
-                    _avatarHelper.AlignAvatarFaceDirectionWrtX(x: receiver.Coordinate.X, canvas: canvas, avatarId: avatar.Id);
+                    var receiver = ((Button)toAvatar).Tag as Avatar;
+                    _avatarHelper.AlignAvatarFaceDirectionWrtX(x: receiver.Coordinate.X, canvas: canvas, avatarId: loggedInAvatar.Id);
                 }
 
                 spUserImageAndMessage.Children.Add(brUserImage);
+
                 // Add icon of message type
                 AddMessageTypeIconText(messageType, spUserImageAndMessage);
                 spUserImageAndMessage.Children.Add(tbMsg);
             }
             else // If received message then image on the right
             {
-                Button meUiElement = canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == avatar.Id);
+                Button meUiElement = canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == loggedInAvatar.Id);
                 Button senderUiElement = canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar senderAvatar && senderAvatar.Id == taggedAvatar.Id);
 
                 var receiver = meUiElement.Tag as Avatar;
@@ -108,10 +109,10 @@ namespace Worldescape
                 else
                     senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
 
-                btnChatBubble.Tag = taggedAvatar;
-                //btnChatBubble.PointerPressed += ChatBubble_PointerPressed; //TODO: do this in UI
+                btnChatBubble.Tag = taggedAvatar;                
 
                 spUserImageAndMessage.Children.Add(tbMsg);
+
                 // Add icon of message type
                 AddMessageTypeIconText(messageType, spUserImageAndMessage);
                 spUserImageAndMessage.Children.Add(brUserImage);

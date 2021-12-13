@@ -74,9 +74,9 @@ namespace Worldescape.Service
             _connection.On<int>(Constants.AvatarReconnected, (senderId) => AvatarReconnected?.Invoke(senderId));
 
             // Texting
-            _connection.On<int, string>(Constants.BroadcastedTextMessage, (senderId, message) => NewTextMessage?.Invoke(senderId, message, MessageType.Broadcast));
+            _connection.On<int, string>(Constants.BroadcastedMessage, (senderId, message) => NewTextMessage?.Invoke(senderId, message, MessageType.Broadcast));
             _connection.On<int, byte[]>(Constants.BroadcastedPictureMessage, (senderId, img) => NewImageMessage?.Invoke(senderId, img, MessageType.Broadcast));
-            _connection.On<int, string>(Constants.UnicastedTextMessage, (senderId, message) => NewTextMessage?.Invoke(senderId, message, MessageType.Unicast));
+            _connection.On<int, string>(Constants.UnicastedMessage, (senderId, message) => NewTextMessage?.Invoke(senderId, message, MessageType.Unicast));
             _connection.On<int, byte[]>(Constants.UnicastedPictureMessage, (senderId, img) => NewImageMessage?.Invoke(senderId, img, MessageType.Unicast));
             _connection.On<int>(Constants.AvatarTyped, (senderId) => AvatarTyping?.Invoke(senderId, MessageType.Unicast));
             _connection.On<int>(Constants.AvatarBroadcastTyped, (senderId) => AvatarTyping?.Invoke(senderId, MessageType.Broadcast));
@@ -173,7 +173,7 @@ namespace Worldescape.Service
         public async Task SendBroadcastMessage(string msg)
         {
             Console.WriteLine(">>HubService: SendBroadcastMessageAsync");
-            await _connection.SendAsync(Constants.BroadcastTextMessage, msg);
+            await _connection.SendAsync(Constants.BroadcastMessage, msg);
         }
 
         public async Task SendBroadcastMessage(byte[] img)
@@ -185,7 +185,7 @@ namespace Worldescape.Service
         public async Task SendUnicastMessage(int recepientId, string msg)
         {
             Console.WriteLine(">>HubService: SendUnicastMessageAsync");
-            await _connection.SendAsync(Constants.UnicastTextMessage, recepientId, msg);
+            await _connection.SendAsync(Constants.UnicastMessage, recepientId, msg);
         }
 
         public async Task SendUnicastMessage(int recepientId, byte[] img)

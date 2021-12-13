@@ -198,7 +198,7 @@ namespace WorldescapeWebService
 
         #region Messaging
 
-        [HubMethodName(Constants.BroadcastTextMessage)]
+        [HubMethodName(Constants.BroadcastMessage)]
         public async Task BroadcastTextMessage(string message)
         {
             if (!string.IsNullOrEmpty(message))
@@ -206,7 +206,7 @@ namespace WorldescapeWebService
                 Avatar sender = await GetCallingUser();
 
                 var group = GetUsersGroup(sender);
-                await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedTextMessage, sender.Id, message);
+                await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedMessage, sender.Id, message);
 
                 _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastTextMessage - {DateTime.Now} World: {group}");
             }
@@ -228,7 +228,7 @@ namespace WorldescapeWebService
         }
 
 
-        [HubMethodName(Constants.UnicastTextMessage)]
+        [HubMethodName(Constants.UnicastMessage)]
         public async Task UnicastTextMessage(int recepientId, string message)
         {
             Avatar sender = await GetCallingUser();
@@ -240,7 +240,7 @@ namespace WorldescapeWebService
             {
                 if (await AvatarExists(recepientId, recipientConnectionId))
                 {
-                    await Clients.Client(recipientConnectionId).SendAsync(Constants.UnicastedTextMessage, sender.Id, message);
+                    await Clients.Client(recipientConnectionId).SendAsync(Constants.UnicastedMessage, sender.Id, message);
 
                     _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastTextMessage - {DateTime.Now} World: {sender.World.Id}");
                 }
