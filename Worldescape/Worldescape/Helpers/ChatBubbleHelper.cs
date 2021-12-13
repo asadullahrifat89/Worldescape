@@ -191,14 +191,14 @@ namespace Worldescape
             {
                 spUserImageAndMessage.HorizontalAlignment = HorizontalAlignment.Left;
                 spUserImageAndMessage.Children.Add(brUserImage);
-                AddMessageTypeIconText(messageType, spUserImageAndMessage);
+                AddMessageTypeIconText(messageType: messageType, spUserImageAndMessage: spUserImageAndMessage);
                 spUserImageAndMessage.Children.Add(tbMsg);
             }
             else
             {
                 spUserImageAndMessage.HorizontalAlignment = HorizontalAlignment.Right;
                 spUserImageAndMessage.Children.Add(tbMsg);
-                AddMessageTypeIconText(messageType, spUserImageAndMessage);
+                AddMessageTypeIconText(messageType: messageType, spUserImageAndMessage: spUserImageAndMessage);
                 spUserImageAndMessage.Children.Add(brUserImage);
             }
 
