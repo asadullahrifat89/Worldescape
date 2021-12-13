@@ -128,8 +128,14 @@ namespace WorldescapeWebService
                 // Remove old instance
                 await RemoveAvatar(avatar);
 
+                // Update world population count
+                await UpdateWorldPopulationCount(existingAvatar.World.Id);
+
                 // Add new instance            
                 await AddAvatar(avatar);
+
+                // Update world population count
+                await UpdateWorldPopulationCount(avatar.World.Id);
 
                 var group = GetUsersGroup(avatar);
                 await Groups.AddToGroupAsync(Context.ConnectionId, group);
@@ -149,6 +155,9 @@ namespace WorldescapeWebService
                 // Save the new avatar                
                 await AddAvatar(avatar);
 
+                // Update world population count
+                await UpdateWorldPopulationCount(avatar.World.Id);
+
                 var group = avatar.World.Id.ToString();
                 await Groups.AddToGroupAsync(Context.ConnectionId, group);
 
@@ -158,9 +167,6 @@ namespace WorldescapeWebService
 
             // Find own avatar
             var newSelf = await GetAvatar(avatar.Id);
-
-            // Update world population count
-            await UpdateWorldPopulationCount(avatar.World.Id);
 
             // Return the curated avatar
             return new HubLoginResponse()

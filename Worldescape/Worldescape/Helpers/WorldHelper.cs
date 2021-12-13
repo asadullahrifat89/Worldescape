@@ -97,7 +97,7 @@ namespace Worldescape
                     Text = "👣",
                     HorizontalAlignment = HorizontalAlignment.Left,
                     VerticalAlignment = VerticalAlignment.Center,
-                    Margin = new Thickness(3),
+                    Margin = new Thickness(1),
                 });
 
                 spText.Children.Add(new TextBlock()
@@ -109,7 +109,7 @@ namespace Worldescape
                     Text = populationCount,
                     HorizontalAlignment = HorizontalAlignment.Left,
                     VerticalAlignment = VerticalAlignment.Bottom,
-                    Margin = new Thickness(2),
+                    Margin = new Thickness(1),
                 });
             }
 

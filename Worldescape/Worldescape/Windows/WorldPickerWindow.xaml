@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Worldescape"
     Title="Select your world"
-    Width="600"
-    Height="600"
+    Width="610"
+    Height="700"
     Style="{StaticResource MaterialDesign_ChildWindow_Style}">
 
     <Grid x:Name="LayoutRoot" Margin="2">

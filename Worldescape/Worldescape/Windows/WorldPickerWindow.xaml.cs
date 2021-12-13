@@ -144,7 +144,7 @@ namespace Worldescape
                     Height = 500
                 };
 
-                var size = 120;
+                var size = 130;
 
                 foreach (var world in worlds)
                 {
