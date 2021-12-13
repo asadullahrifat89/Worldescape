@@ -128,13 +128,13 @@ namespace WorldescapeWebService
                 // Remove old instance
                 await RemoveAvatar(avatar);
 
-                // Update world population count
+                // Update world population count from already logged in user's world
                 await UpdateWorldPopulationCount(existingAvatar.World.Id);
 
                 // Add new instance            
                 await AddAvatar(avatar);
 
-                // Update world population count
+                // Update world population count for the world the user is logging in
                 await UpdateWorldPopulationCount(avatar.World.Id);
 
                 var group = GetUsersGroup(avatar);
@@ -191,7 +191,6 @@ namespace WorldescapeWebService
                 await Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedOut, avatar.Id);
 
                 _logger.LogInformation($"-- ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Logout-> WorldId {avatar.World.Id} - {DateTime.Now} World: {group}");
-
             }
         }
 
