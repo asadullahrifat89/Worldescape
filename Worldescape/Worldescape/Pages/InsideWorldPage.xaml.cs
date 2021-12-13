@@ -506,12 +506,12 @@ namespace Worldescape
             PointerRoutedEventArgs e)
         {
             // reply to the selected message and show Messaging controls
-            if (((Button)sender).Tag is Avatar avatar)
+            if (((Button)sender).Tag is ChatMessage chatMessage)
             {
                 // Turn of broadcast mode as replying to this user's conversation.
                 Button_MessageAll.IsChecked = false;
 
-                _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(canvas: Canvas_Root, avatarId: avatar.Id);
+                _messageToAvatar = _avatarHelper.GetAvatarButtonFromCanvas(canvas: Canvas_Root, avatarId: chatMessage.SenderId);
                 _selectedAvatar = _messageToAvatar;
 
                 ShowMessagingAvatars(_messageToAvatar);
@@ -1686,12 +1686,7 @@ namespace Worldescape
         {
 
         }
-
-        //private void HubService_NewImageMessage(int avatarId, byte[] pic, MessageType mt)
-        //{
-
-        //}
-
+             
         private void HubService_NewMessage(/*int avatarId, string msg,*/ ChatMessage chatMessage, MessageType mt)
         {
             var avatarId = chatMessage.SenderId;
@@ -1711,10 +1706,10 @@ namespace Worldescape
                     switch (mt)
                     {
                         case MessageType.Broadcast:
-                            AddChatBubbleToCanvas(msg: msg, fromAvatar: senderAvatarUiElement, messageType: mt); // receive broadcast message
+                            AddChatBubbleToCanvas(chatMessage: chatMessage, fromAvatar: senderAvatarUiElement, messageType: mt); // receive broadcast message
                             break;
                         case MessageType.Unicast:
-                            AddChatBubbleToCanvas(msg: msg, fromAvatar: senderAvatarUiElement, messageType: mt); // receive unicast message
+                            AddChatBubbleToCanvas(chatMessage: chatMessage, fromAvatar: senderAvatarUiElement, messageType: mt); // receive unicast message
                             break;
                         default:
                             break;
@@ -3648,12 +3643,14 @@ namespace Worldescape
             //Check if a valid message was typed and the recepient exists in canvas
             if (((Button)_messageToAvatar).Tag is Avatar recipientAvatar && !MessagingTextBox.Text.IsNullOrBlank() && Canvas_Root.Children.OfType<Button>().Any(x => x.Tag is Avatar avatar1 && avatar1.Id == recipientAvatar.Id))
             {
-                await _hubService.SendUnicastMessage(new ChatMessage() { SenderId = Avatar.Id, RecipientId = recipientAvatar.Id, Message = MessagingTextBox.Text });
+                var chatMessage = new ChatMessage() { SenderId = Avatar.Id, RecipientId = recipientAvatar.Id, Message = MessagingTextBox.Text };
+
+                await _hubService.SendUnicastMessage(chatMessage);
 
                 // Add message bubble to own avatar
                 if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement selfAvatarUiElement)
                 {
-                    AddChatBubbleToCanvas(msg: MessagingTextBox.Text, fromAvatar: selfAvatarUiElement, messageType: MessageType.Unicast); // send message
+                    AddChatBubbleToCanvas(chatMessage: chatMessage, fromAvatar: selfAvatarUiElement, messageType: MessageType.Unicast); // send message
 
                     // If activity status is not Messaging then update it
                     if (((Button)selfAvatarUiElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Messaging)
@@ -3678,12 +3675,14 @@ namespace Worldescape
             //Check if a valid message was typed
             if (!MessagingTextBox.Text.IsNullOrBlank())
             {
-                await _hubService.SendBroadcastMessage(new ChatMessage() { Message = MessagingTextBox.Text, SenderId = Avatar.Id });
+                var chatMessage = new ChatMessage() { Message = MessagingTextBox.Text, SenderId = Avatar.Id };
+
+                await _hubService.SendBroadcastMessage(chatMessage);
 
                 // Add message bubble to own avatar
                 if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement selfAvatarUiElement)
                 {
-                    AddChatBubbleToCanvas(msg: MessagingTextBox.Text, fromAvatar: selfAvatarUiElement, messageType: MessageType.Broadcast); // send message
+                    AddChatBubbleToCanvas(chatMessage: chatMessage, fromAvatar: selfAvatarUiElement, messageType: MessageType.Broadcast); // send message
 
                     // If activity status is not Greeting then update it
                     if (((Button)selfAvatarUiElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Greeting)
@@ -3703,7 +3702,7 @@ namespace Worldescape
         /// <param name="fromAvatar"></param>
         /// <param name="messageType"></param>
         private void AddChatBubbleToCanvas(
-            string msg,
+            ChatMessage chatMessage,
             UIElement fromAvatar,
             MessageType messageType)
         {
@@ -3711,7 +3710,7 @@ namespace Worldescape
             var taggedAvatar = avatarButton.Tag as Avatar;
 
             var btnChatBubble = _chatBubbleHelper.AddChatBubbleToCanvas(
-                 msg: msg,
+                 chatMessage: chatMessage,
                  fromAvatar: fromAvatar,
                  messageType: messageType,
                  toAvatar: _messageToAvatar,

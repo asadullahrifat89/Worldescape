@@ -32,7 +32,7 @@ namespace Worldescape
         /// <summary>
         /// Adds a chat bubble to canvas on top of the avatar who sent it.
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="chatMessage"></param>
         /// <param name="fromAvatar"></param>
         /// <param name="messageType"></param>
         /// <param name="toAvatar"></param>
@@ -40,7 +40,7 @@ namespace Worldescape
         /// <param name="loggedInAvatar"></param>
         /// <returns></returns>
         public Button AddChatBubbleToCanvas(
-            string msg,
+            ChatMessage chatMessage,
             UIElement fromAvatar,
             MessageType messageType,
             UIElement toAvatar,
@@ -67,7 +67,7 @@ namespace Worldescape
             // Textblock containing the message
             tbMsg = new TextBlock()
             {
-                Text = msg,
+                Text = chatMessage.Message,
                 Margin = new Thickness(5, 0, 5, 0),
                 FontWeight = FontWeights.Regular,
                 FontFamily = new FontFamily("Segoe UI"),
@@ -97,8 +97,10 @@ namespace Worldescape
             }
             else // If received message then image on the right
             {
-                Button meUiElement = canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == loggedInAvatar.Id);
-                Button senderUiElement = canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar senderAvatar && senderAvatar.Id == taggedAvatar.Id);
+                var buttons = canvas.Children.OfType<Button>();
+
+                Button meUiElement = buttons.FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == loggedInAvatar.Id);
+                Button senderUiElement = buttons.FirstOrDefault(x => x.Tag is Avatar senderAvatar && senderAvatar.Id == taggedAvatar.Id);
 
                 var receiver = meUiElement.Tag as Avatar;
                 var sender = taggedAvatar;
@@ -109,7 +111,8 @@ namespace Worldescape
                 else
                     senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
 
-                btnChatBubble.Tag = taggedAvatar;                
+                // This is later used when replying to the sender.
+                btnChatBubble.Tag = chatMessage;
 
                 spUserImageAndMessage.Children.Add(tbMsg);
 
