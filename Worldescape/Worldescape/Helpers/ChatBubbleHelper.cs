@@ -49,7 +49,10 @@ namespace Worldescape
             ChatMessage replyToChatMessage = null)
         {
             var fromAvatarButton = fromAvatar as Button;
-            var fromTaggedAvatar = fromAvatarButton.Tag as Avatar;
+            var fromTaggedAvatar = fromAvatarButton?.Tag as Avatar;
+
+            var toAvatarButton = toAvatar as Button;
+            var toTaggedAvatar = toAvatarButton?.Tag as Avatar;
 
             Button btnChatBubble = new Button()
             {
@@ -77,8 +80,10 @@ namespace Worldescape
                 VerticalAlignment = VerticalAlignment.Center,
             };
 
+            StackPanel spContent = new StackPanel();
+
             StackPanel spUserImageAndMessage = new StackPanel() { Orientation = Orientation.Horizontal };
-            
+
             Border brUserImage = _avatarHelper.GetAvatarUserPicture(fromTaggedAvatar);
             brUserImage.VerticalAlignment = VerticalAlignment.Top;
 
@@ -97,6 +102,17 @@ namespace Worldescape
                 AddMessageTypeIconText(messageType, spUserImageAndMessage);
 
                 spUserImageAndMessage.Children.Add(tbMsg);
+
+                if (replyToChatMessage != null)
+                {
+                    AddReplyMessageToChatBubble(
+                        replyToChatMessage: replyToChatMessage,
+                        taggedAvatar: toTaggedAvatar,
+                        spContent: spContent,
+                        loggedInAvatar: loggedInAvatar);
+                }
+
+                spContent.Children.Add(spUserImageAndMessage);
             }
             else // If received message then image on the right
             {
@@ -105,11 +121,11 @@ namespace Worldescape
                 Button meUiElement = buttons.FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == loggedInAvatar.Id);
                 Button senderUiElement = buttons.FirstOrDefault(x => x.Tag is Avatar senderAvatar && senderAvatar.Id == fromTaggedAvatar.Id);
 
-                var receiver = meUiElement.Tag as Avatar;
-                var sender = fromTaggedAvatar;
+                var receiverAvatar = meUiElement.Tag as Avatar;
+                var senderAvatar = fromTaggedAvatar;
 
                 // If sender avatar is forward from current avatar
-                if (sender.Coordinate.X > receiver.Coordinate.X)
+                if (senderAvatar.Coordinate.X > receiverAvatar.Coordinate.X)
                     senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
                 else
                     senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
@@ -123,9 +139,20 @@ namespace Worldescape
                 AddMessageTypeIconText(messageType, spUserImageAndMessage);
 
                 spUserImageAndMessage.Children.Add(brUserImage);
+
+                if (replyToChatMessage != null)
+                {
+                    AddReplyMessageToChatBubble(
+                        replyToChatMessage: replyToChatMessage,
+                        taggedAvatar: receiverAvatar,
+                        spContent: spContent,
+                        loggedInAvatar: loggedInAvatar);
+                }
+
+                spContent.Children.Add(spUserImageAndMessage);
             }
 
-            btnChatBubble.Content = spUserImageAndMessage;
+            btnChatBubble.Content = spContent;
 
             // Set opacity animation according to the length of the message
             DoubleAnimation opacityAnimation = new DoubleAnimation()
@@ -176,6 +203,49 @@ namespace Worldescape
             fadeStoryBoard.Begin();
 
             return btnChatBubble;
+        }
+
+        private void AddReplyMessageToChatBubble(
+            ChatMessage replyToChatMessage,
+            Avatar taggedAvatar,
+            StackPanel spContent,
+            Avatar loggedInAvatar)
+        {
+            if (taggedAvatar != null)
+            {
+                StackPanel spUserImageAndMessageReply = new StackPanel() { Orientation = Orientation.Horizontal };
+
+                Border brUserImageReply = _avatarHelper.GetAvatarUserPicture(taggedAvatar, 20);
+                brUserImageReply.VerticalAlignment = VerticalAlignment.Top;
+
+                // Textblock containing the reply message
+                var tbReplyMsg = new TextBlock()
+                {
+                    Text = replyToChatMessage.Message,
+                    Margin = new Thickness(5, 0, 5, 0),
+                    FontWeight = FontWeights.Regular,
+                    FontFamily = new FontFamily("Segoe UI"),
+                    TextWrapping = TextWrapping.Wrap,
+                    Foreground = new SolidColorBrush(Colors.Black),
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                };
+
+                if (loggedInAvatar.Id == taggedAvatar.Id)
+                {
+                    spUserImageAndMessageReply.HorizontalAlignment = HorizontalAlignment.Left;
+                    spUserImageAndMessageReply.Children.Add(brUserImageReply);
+                    spUserImageAndMessageReply.Children.Add(tbReplyMsg);
+                }
+                else
+                {
+                    spUserImageAndMessageReply.HorizontalAlignment = HorizontalAlignment.Right;
+                    spUserImageAndMessageReply.Children.Add(tbReplyMsg);
+                    spUserImageAndMessageReply.Children.Add(brUserImageReply);
+                }
+
+                spContent.Children.Add(spUserImageAndMessageReply);
+            }
         }
 
         /// <summary>
