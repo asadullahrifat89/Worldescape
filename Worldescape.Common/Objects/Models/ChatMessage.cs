@@ -8,9 +8,9 @@ namespace Worldescape.Common
     public class ChatMessage
     {
         /// <summary>
-        /// The user's id which generated this message.
+        /// The avatar's id.
         /// </summary>
-        public int UserId { get; set; }
+        public int AvatarId { get; set; }
 
         /// <summary>
         /// Used for text messages.
