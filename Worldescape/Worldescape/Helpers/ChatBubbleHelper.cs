@@ -49,7 +49,7 @@ namespace Worldescape
 
             Button btnChatBubble = new Button()
             {
-                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Style = Application.Current.Resources["MaterialDesign_ChatButton_Style"] as Style,
                 FontWeight = FontWeights.Regular,
                 FontFamily = new FontFamily("Segoe UI"),
                 MaxWidth = 600,
@@ -170,7 +170,7 @@ namespace Worldescape
             StackPanel spContent,
             Avatar loggedInAvatar)
         {
-            StackPanel spUserImageAndMessage = new StackPanel() { Orientation = Orientation.Horizontal };
+            StackPanel spPlaceholder = new StackPanel() { Orientation = Orientation.Horizontal };
 
             Border brUserImage = _avatarHelper.GetAvatarUserPicture(taggedAvatar);
             brUserImage.VerticalAlignment = VerticalAlignment.Top;
@@ -189,20 +189,20 @@ namespace Worldescape
 
             if (loggedInAvatar.Id == taggedAvatar.Id)
             {
-                spUserImageAndMessage.HorizontalAlignment = HorizontalAlignment.Left;
-                spUserImageAndMessage.Children.Add(brUserImage);
-                AddMessageTypeIconText(messageType: messageType, spUserImageAndMessage: spUserImageAndMessage);
-                spUserImageAndMessage.Children.Add(tbMsg);
+                spPlaceholder.HorizontalAlignment = HorizontalAlignment.Left;
+                spPlaceholder.Children.Add(brUserImage);
+                AddMessageTypeIconText(messageType: messageType, spUserImageAndMessage: spPlaceholder);
+                spPlaceholder.Children.Add(tbMsg);
             }
             else
             {
-                spUserImageAndMessage.HorizontalAlignment = HorizontalAlignment.Right;
-                spUserImageAndMessage.Children.Add(tbMsg);
-                AddMessageTypeIconText(messageType: messageType, spUserImageAndMessage: spUserImageAndMessage);
-                spUserImageAndMessage.Children.Add(brUserImage);
+                spPlaceholder.HorizontalAlignment = HorizontalAlignment.Right;
+                spPlaceholder.Children.Add(brUserImage);
+                spPlaceholder.Children.Add(tbMsg);
+                AddMessageTypeIconText(messageType: messageType, spUserImageAndMessage: spPlaceholder);
             }
 
-            spContent.Children.Add(spUserImageAndMessage);
+            spContent.Children.Add(spPlaceholder);
         }
 
         private void AddReplyMessageToChatBubble(
@@ -213,38 +213,39 @@ namespace Worldescape
         {
             if (taggedAvatar != null && replyToChatMessage != null)
             {
-                StackPanel spUserImageAndMessageReply = new StackPanel() { Orientation = Orientation.Horizontal };
+                StackPanel spPlaceholder = new StackPanel() { Orientation = Orientation.Horizontal, Margin = new Thickness(-5, 5, 5, 5) };
 
-                Border brUserImageReply = _avatarHelper.GetAvatarUserPicture(taggedAvatar, 20);
-                brUserImageReply.VerticalAlignment = VerticalAlignment.Top;
+                Border brUserImage = _avatarHelper.GetAvatarUserPicture(taggedAvatar, 30);
+                brUserImage.VerticalAlignment = VerticalAlignment.Top;
 
                 // Textblock containing the reply message
-                var tbReplyMsg = new TextBlock()
+                var tbMsg = new TextBlock()
                 {
                     Text = replyToChatMessage.Message,
                     Margin = new Thickness(5, 0, 5, 0),
                     FontWeight = FontWeights.Regular,
                     FontFamily = new FontFamily("Segoe UI"),
+                    FontSize = 14,
                     TextWrapping = TextWrapping.Wrap,
                     Foreground = new SolidColorBrush(Colors.Black),
                     VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Right,
                 };
 
-                if (loggedInAvatar.Id == taggedAvatar.Id)
-                {
-                    spUserImageAndMessageReply.HorizontalAlignment = HorizontalAlignment.Left;
-                    spUserImageAndMessageReply.Children.Add(brUserImageReply);
-                    spUserImageAndMessageReply.Children.Add(tbReplyMsg);
-                }
-                else
-                {
-                    spUserImageAndMessageReply.HorizontalAlignment = HorizontalAlignment.Right;
-                    spUserImageAndMessageReply.Children.Add(tbReplyMsg);
-                    spUserImageAndMessageReply.Children.Add(brUserImageReply);
-                }
+                //if (loggedInAvatar.Id == taggedAvatar.Id)
+                //{
+                //    spPlaceholder.HorizontalAlignment = HorizontalAlignment.Left;
+                //    spPlaceholder.Children.Add(brUserImage);
+                //    spPlaceholder.Children.Add(tbMsg);
+                //}
+                //else
+                //{
+                spPlaceholder.HorizontalAlignment = HorizontalAlignment.Left;
+                spPlaceholder.Children.Add(brUserImage);
+                spPlaceholder.Children.Add(tbMsg);
+                //}
 
-                spContent.Children.Add(spUserImageAndMessageReply);
+                spContent.Children.Add(spPlaceholder);
             }
         }
 
