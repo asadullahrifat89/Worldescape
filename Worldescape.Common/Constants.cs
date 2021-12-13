@@ -76,9 +76,7 @@ namespace Worldescape.Common
         public const string AvatarLoggedOut = "AvatarLoggedOut";
 
         public const string BroadcastedMessage = "BroadcastedTextMessage";
-        //public const string BroadcastedPictureMessage = "BroadcastedPictureMessage";
         public const string UnicastedMessage = "UnicastedTextMessage";
-        //public const string UnicastedPictureMessage = "UnicastedPictureMessage";
         public const string AvatarTyped = "AvatarTyped";
         public const string AvatarBroadcastTyped = "AvatarBroadcastTyped";
 
@@ -86,14 +84,10 @@ namespace Worldescape.Common
         public const string BroadcastedAvatarActivityStatus = "BroadcastedAvatarActivityStatus";
 
         public const string BroadcastedConstruct = "BroadcastedConstruct";
-        public const string BroadcastedConstructs = "BroadcastedConstructs";
         public const string RemovedConstruct = "RemovedConstruct";
-        public const string RemovedConstructs = "RemovedConstructs";
         public const string BroadcastedConstructPlacement = "BroadcastedConstructPlacement";
         public const string BroadcastedConstructRotation = "BroadcastedConstructRotation";
-        public const string BroadcastedConstructRotations = "BroadcastedConstructRotations";
         public const string BroadcastedConstructScale = "BroadcastedConstructScale";
-        public const string BroadcastedConstructScales = "BroadcastedConstructScales";
         public const string BroadcastedConstructMovement = "BroadcastConstructMovement";
 
         public const string BroadcastedPortal = "BroadcastedPortal";
@@ -106,9 +100,7 @@ namespace Worldescape.Common
         public const string Logout = "Logout";
 
         public const string BroadcastMessage = "BroadcastTextMessage";
-        //public const string BroadcastImageMessage = "BroadcastImageMessage";
         public const string UnicastMessage = "UnicastTextMessage";
-        //public const string UnicastImageMessage = "UnicastImageMessage";
         public const string Typing = "Typing";
         public const string BroadcastTyping = "BroadcastTyping";
 
@@ -116,14 +108,10 @@ namespace Worldescape.Common
         public const string BroadcastAvatarActivityStatus = "BroadcastAvatarActivityStatus";
 
         public const string BroadcastConstruct = "BroadcastConstruct";
-        public const string BroadcastConstructs = "BroadcastConstructs";
         public const string RemoveConstruct = "RemoveConstruct";
-        public const string RemoveConstructs = "RemoveConstructs";
         public const string BroadcastConstructPlacement = "BroadcastConstructPlacement";
         public const string BroadcastConstructRotation = "BroadcastConstructRotation";
-        public const string BroadcastConstructRotations = "BroadcastConstructRotations";
         public const string BroadcastConstructScale = "BroadcastConstructScale";
-        public const string BroadcastConstructScales = "BroadcastConstructScales";
         public const string BroadcastConstructMovement = "BroadcastConstructMovement";
 
         public const string BroadcastPortal = "BroadcastPortal";

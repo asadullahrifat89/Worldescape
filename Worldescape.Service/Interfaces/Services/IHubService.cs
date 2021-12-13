@@ -21,7 +21,6 @@ namespace Worldescape.Service
 
         // Texting
         event Action<int, string, MessageType> NewMessage;
-        //event Action<int, byte[], MessageType> NewImageMessage;
         event Action<int, MessageType> AvatarTyping;
 
         // Avatar
@@ -31,12 +30,9 @@ namespace Worldescape.Service
         // Construct
         event Action<Construct> NewBroadcastConstruct;
         event Action<int> NewRemoveConstruct;
-        //event Action<int[]> NewRemoveConstructs;
         event Action<int, int> NewBroadcastConstructPlacement;
         event Action<int, float> NewBroadcastConstructRotation;
-        //event Action<ConcurrentDictionary<int, float>> NewBroadcastConstructRotations;
         event Action<int, float> NewBroadcastConstructScale;
-        //event Action<int[], float> NewBroadcastConstructScales;
         event Action<int, double, double, int> NewBroadcastConstructMovement;
 
         // Portal
