@@ -49,7 +49,7 @@ namespace Worldescape
 
             Button btnChatBubble = new Button()
             {
-                Style = Application.Current.Resources["MaterialDesign_ChatButton_Style"] as Style,
+                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
                 FontWeight = FontWeights.Regular,
                 FontFamily = new FontFamily("Segoe UI"),
                 MaxWidth = 600,
