@@ -74,7 +74,10 @@ namespace Worldescape
                 if (toAvatar != null)
                 {
                     var receiver = ((Button)toAvatar).Tag as Avatar;
-                    _avatarHelper.AlignAvatarFaceDirectionWrtX(x: receiver.Coordinate.X, canvas: canvas, avatarId: loggedInAvatar.Id);
+                    _avatarHelper.AlignAvatarFaceDirectionWrtX(
+                        x: receiver.Coordinate.X,
+                        canvas: canvas,
+                        avatarId: loggedInAvatar.Id);
                 }
 
                 if (replyToChatMessage != null)
@@ -100,14 +103,19 @@ namespace Worldescape
                 Button meUiElement = buttons.FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == loggedInAvatar.Id);
                 Button senderUiElement = buttons.FirstOrDefault(x => x.Tag is Avatar senderAvatar && senderAvatar.Id == fromTaggedAvatar.Id);
 
-                var receiverAvatar = meUiElement.Tag as Avatar;
-                var senderAvatar = fromTaggedAvatar;
+                var receiver = meUiElement.Tag as Avatar;
+                var sender = fromTaggedAvatar;
 
-                // If sender avatar is forward from current avatar
-                if (senderAvatar.Coordinate.X > receiverAvatar.Coordinate.X)
-                    senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
-                else
-                    senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
+                //// If sender avatar is forward from current avatar
+                //if (sender.Coordinate.X > receiver.Coordinate.X)
+                //    senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
+                //else
+                //    senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
+
+                _avatarHelper.AlignAvatarFaceDirectionWrtX(
+                      x: receiver.Coordinate.X,
+                      canvas: canvas,
+                      avatarId: sender.Id);
 
                 // This is later used when replying to the sender.
                 btnChatBubble.Tag = chatMessage;
@@ -115,7 +123,7 @@ namespace Worldescape
                 if (replyToChatMessage != null)
                     AddReplyMessageToChatBubble(
                         replyToChatMessage: replyToChatMessage,
-                        taggedAvatar: receiverAvatar,
+                        taggedAvatar: receiver,
                         spContent: spContent,
                         loggedInAvatar: loggedInAvatar);
 

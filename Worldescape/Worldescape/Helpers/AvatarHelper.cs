@@ -116,7 +116,7 @@ namespace Worldescape
             Button senderUiElement = canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId);
             var sender = senderUiElement.Tag as Avatar;
 
-            // If adding construct is forward from current avatar
+            // If x is forward from current avatar
             if (x > sender.Coordinate.X)
             {
                 senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
