@@ -201,12 +201,6 @@ namespace Worldescape
 
             ToolTipService.SetToolTip(btnAvatar, avatar.Name);
 
-            //var toolTip = ToolTipService.GetToolTip(btnAvatar) as ToolTip;
-            //if (toolTip!= null)
-            //{
-            //    ToolTipService.SetPlacement(toolTip, Windows.UI.Xaml.Controls.Primitives.PlacementMode.Bottom);
-            //}            
-
             btnAvatar.RenderTransformOrigin = new Windows.Foundation.Point(0.5f, 0.5f);
             btnAvatar.RenderTransform = new ScaleTransform();
 
