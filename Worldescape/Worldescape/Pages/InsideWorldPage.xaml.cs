@@ -523,7 +523,7 @@ namespace Worldescape
                 SetAvatarDetailsOnSideCard();
                 OtherAvatarActionsHolder.Visibility = Visibility.Visible;
 
-                MessagingTextBox.Focus();
+                //MessagingTextBox.Focus();
             }
         }
 
@@ -3747,7 +3747,7 @@ namespace Worldescape
             var avatarButton = fromAvatar as Button;
             var taggedAvatar = avatarButton.Tag as Avatar;
 
-            var btnChatBubble = _chatBubbleHelper.AddChatBubbleToCanvas(
+            var brChatBubble = _chatBubbleHelper.AddChatBubbleToCanvas(
                  chatMessage: chatMessage,
                  fromAvatar: fromAvatar,
                  messageType: messageType,
@@ -3758,7 +3758,7 @@ namespace Worldescape
 
             if (taggedAvatar.Id != Avatar.Id)
             {
-                btnChatBubble.PointerPressed += ChatBubble_PointerPressed;
+                brChatBubble.PointerPressed += ChatBubble_PointerPressed;
             }
         }
 

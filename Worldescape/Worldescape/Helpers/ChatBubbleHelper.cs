@@ -183,6 +183,7 @@ namespace Worldescape
                 FontWeight = FontWeights.Regular,
                 FontFamily = new FontFamily("Segoe UI"),
                 TextWrapping = TextWrapping.Wrap,
+                FontSize = 16,
                 Foreground = new SolidColorBrush(Colors.Black),
                 VerticalAlignment = VerticalAlignment.Center,
             };
@@ -213,7 +214,7 @@ namespace Worldescape
         {
             if (taggedAvatar != null && replyToChatMessage != null)
             {
-                StackPanel spPlaceholder = new StackPanel() { Orientation = Orientation.Horizontal, Margin = new Thickness(-5, 5, 5, 5) };
+                StackPanel spPlaceholder = new StackPanel() { Orientation = Orientation.Horizontal, Margin = new Thickness(40, 5, 5, 5) };
 
                 Border brUserImage = _avatarHelper.GetAvatarUserPicture(taggedAvatar, 30);
                 brUserImage.VerticalAlignment = VerticalAlignment.Top;
@@ -232,18 +233,9 @@ namespace Worldescape
                     HorizontalAlignment = HorizontalAlignment.Right,
                 };
 
-                //if (loggedInAvatar.Id == taggedAvatar.Id)
-                //{
-                //    spPlaceholder.HorizontalAlignment = HorizontalAlignment.Left;
-                //    spPlaceholder.Children.Add(brUserImage);
-                //    spPlaceholder.Children.Add(tbMsg);
-                //}
-                //else
-                //{
                 spPlaceholder.HorizontalAlignment = HorizontalAlignment.Left;
                 spPlaceholder.Children.Add(brUserImage);
                 spPlaceholder.Children.Add(tbMsg);
-                //}
 
                 spContent.Children.Add(spPlaceholder);
             }
@@ -256,7 +248,7 @@ namespace Worldescape
         /// <param name="spUserImageAndMessage"></param>
         private void AddMessageTypeIconText(MessageType messageType, StackPanel spUserImageAndMessage)
         {
-            var icon = new Image() { Margin = new Thickness(5, 5, 5, 0) };
+            var icon = new Image() { Margin = new Thickness(5, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center };
 
             switch (messageType)
             {

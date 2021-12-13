@@ -50,7 +50,7 @@
                 <!--  construct operation buttons  -->
                 <WrapPanel
                     x:Name="ConstructOperationalCommandsHolder"
-                    MaxWidth="120"
+                    Width="120"
                     Canvas.ZIndex="2"
                     Orientation="Horizontal"
                     Visibility="Collapsed">
