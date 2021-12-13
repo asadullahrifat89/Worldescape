@@ -91,6 +91,7 @@
                 Grid.Row="1"
                 HorizontalScrollBarVisibility="Disabled"
                 VerticalScrollBarVisibility="Auto" />
+
         </Grid>
 
         <!--  Next, page numbers, and previous buttons  -->

@@ -474,9 +474,6 @@
                             Style="{StaticResource MaterialDesign_Card_Style}"
                             Visibility="Collapsed" />
 
-                        <!--  Selected avatar commands  -->
-                        <StackPanel HorizontalAlignment="Center" />
-
                         <!--  Set own status commands  -->
                         <ContentControl
                             x:Name="AvatarActivityStatusHolder"
