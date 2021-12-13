@@ -9,7 +9,6 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -70,25 +69,33 @@
 
         </StackPanel>
 
-        <!--  Found wordls count  -->
-        <TextBlock
-            x:Name="TextBox_FoundWorldsCount"
-            Grid.Row="1"
-            Margin="20,10"
-            FontSize="16"
-            FontWeight="SemiBold"
-            Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
+        <Grid Grid.Row="1">
 
-        <!--  Loaded worlds  -->
-        <ScrollViewer
-            x:Name="ContentScrollViewer"
-            Grid.Row="2"
-            HorizontalScrollBarVisibility="Disabled"
-            VerticalScrollBarVisibility="Auto" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--  Found wordls count  -->
+            <TextBlock
+                x:Name="TextBox_FoundWorldsCount"
+                Grid.Row="0"
+                Margin="20,10"
+                FontSize="16"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource MaterialDesign_DefaultAccentColor}" />
+
+            <!--  Loaded worlds  -->
+            <ScrollViewer
+                x:Name="ContentScrollViewer"
+                Grid.Row="1"
+                HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto" />
+        </Grid>
 
         <!--  Next, page numbers, and previous buttons  -->
         <StackPanel
-            Grid.Row="3"
+            Grid.Row="2"
             Margin="10"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
