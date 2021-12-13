@@ -66,26 +66,7 @@ namespace Worldescape
             var x = fromTaggedAvatar.Coordinate.X - (fromAvatarButton.ActualWidth / 2);
             var y = fromTaggedAvatar.Coordinate.Y - (fromAvatarButton.ActualHeight / 2);
 
-            TextBlock tbMsg = null;
-
-            // Textblock containing the message
-            tbMsg = new TextBlock()
-            {
-                Text = chatMessage.Message,
-                Margin = new Thickness(5, 0, 5, 0),
-                FontWeight = FontWeights.Regular,
-                FontFamily = new FontFamily("Segoe UI"),
-                TextWrapping = TextWrapping.Wrap,
-                Foreground = new SolidColorBrush(Colors.Black),
-                VerticalAlignment = VerticalAlignment.Center,
-            };
-
             StackPanel spContent = new StackPanel();
-
-            StackPanel spUserImageAndMessage = new StackPanel() { Orientation = Orientation.Horizontal };
-
-            Border brUserImage = _avatarHelper.GetAvatarUserPicture(fromTaggedAvatar);
-            brUserImage.VerticalAlignment = VerticalAlignment.Top;
 
             // If sent message then image on the left
             if (fromTaggedAvatar.Id == loggedInAvatar.Id)
@@ -96,26 +77,24 @@ namespace Worldescape
                     _avatarHelper.AlignAvatarFaceDirectionWrtX(x: receiver.Coordinate.X, canvas: canvas, avatarId: loggedInAvatar.Id);
                 }
 
-                spUserImageAndMessage.Children.Add(brUserImage);
-
-                // Add icon of message type
-                AddMessageTypeIconText(messageType, spUserImageAndMessage);
-
-                spUserImageAndMessage.Children.Add(tbMsg);
-
                 if (replyToChatMessage != null)
-                {
                     AddReplyMessageToChatBubble(
                         replyToChatMessage: replyToChatMessage,
                         taggedAvatar: toTaggedAvatar,
                         spContent: spContent,
                         loggedInAvatar: loggedInAvatar);
-                }
 
-                spContent.Children.Add(spUserImageAndMessage);
+                AddMessageToChatBubble(
+                    chatMessage: chatMessage,
+                    messageType: messageType,
+                    spContent: spContent,
+                    taggedAvatar: fromTaggedAvatar,
+                    loggedInAvatar: loggedInAvatar);
             }
             else // If received message then image on the right
             {
+                StackPanel spUserImageAndMessage = new StackPanel() { Orientation = Orientation.Horizontal };
+
                 var buttons = canvas.Children.OfType<Button>();
 
                 Button meUiElement = buttons.FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == loggedInAvatar.Id);
@@ -133,23 +112,19 @@ namespace Worldescape
                 // This is later used when replying to the sender.
                 btnChatBubble.Tag = chatMessage;
 
-                spUserImageAndMessage.Children.Add(tbMsg);
-
-                // Add icon of message type
-                AddMessageTypeIconText(messageType, spUserImageAndMessage);
-
-                spUserImageAndMessage.Children.Add(brUserImage);
-
                 if (replyToChatMessage != null)
-                {
                     AddReplyMessageToChatBubble(
                         replyToChatMessage: replyToChatMessage,
                         taggedAvatar: receiverAvatar,
                         spContent: spContent,
                         loggedInAvatar: loggedInAvatar);
-                }
 
-                spContent.Children.Add(spUserImageAndMessage);
+                AddMessageToChatBubble(
+                    chatMessage: chatMessage,
+                    messageType: messageType,
+                    spContent: spContent,
+                     taggedAvatar: fromTaggedAvatar,
+                    loggedInAvatar: loggedInAvatar);
             }
 
             btnChatBubble.Content = spContent;
@@ -205,6 +180,50 @@ namespace Worldescape
             return btnChatBubble;
         }
 
+        private void AddMessageToChatBubble(
+            ChatMessage chatMessage,
+            Avatar taggedAvatar,
+            MessageType messageType,
+            StackPanel spContent,
+            Avatar loggedInAvatar)
+        {
+            StackPanel spUserImageAndMessage = new StackPanel() { Orientation = Orientation.Horizontal };
+
+            Border brUserImage = _avatarHelper.GetAvatarUserPicture(taggedAvatar);
+            brUserImage.VerticalAlignment = VerticalAlignment.Top;
+
+            // Textblock containing the message
+            var tbMsg = new TextBlock()
+            {
+                Text = chatMessage.Message,
+                Margin = new Thickness(5, 0, 5, 0),
+                FontWeight = FontWeights.Regular,
+                FontFamily = new FontFamily("Segoe UI"),
+                TextWrapping = TextWrapping.Wrap,
+                Foreground = new SolidColorBrush(Colors.Black),
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+
+            if (loggedInAvatar.Id == taggedAvatar.Id)
+            {
+                spUserImageAndMessage.HorizontalAlignment = HorizontalAlignment.Left;
+                spUserImageAndMessage.Children.Add(brUserImage);
+                // Add icon of message type
+                AddMessageTypeIconText(messageType, spUserImageAndMessage);
+                spUserImageAndMessage.Children.Add(tbMsg);
+            }
+            else
+            {
+                spUserImageAndMessage.HorizontalAlignment = HorizontalAlignment.Right;
+                spUserImageAndMessage.Children.Add(tbMsg);
+                // Add icon of message type
+                AddMessageTypeIconText(messageType, spUserImageAndMessage);
+                spUserImageAndMessage.Children.Add(brUserImage);
+            }
+           
+            spContent.Children.Add(spUserImageAndMessage);
+        }
+
         private void AddReplyMessageToChatBubble(
             ChatMessage replyToChatMessage,
             Avatar taggedAvatar,
@@ -240,8 +259,8 @@ namespace Worldescape
                 else
                 {
                     spUserImageAndMessageReply.HorizontalAlignment = HorizontalAlignment.Right;
-                    spUserImageAndMessageReply.Children.Add(tbReplyMsg);
                     spUserImageAndMessageReply.Children.Add(brUserImageReply);
+                    spUserImageAndMessageReply.Children.Add(tbReplyMsg);
                 }
 
                 spContent.Children.Add(spUserImageAndMessageReply);
