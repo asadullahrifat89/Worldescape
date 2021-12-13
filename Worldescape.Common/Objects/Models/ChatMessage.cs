@@ -8,9 +8,19 @@ namespace Worldescape.Common
     public class ChatMessage
     {
         /// <summary>
-        /// The avatar's id.
+        /// Id of the message. This is used to track replies.
         /// </summary>
-        public int AvatarId { get; set; }
+        public int Id { get; set; } = UidGenerator.New();
+
+        /// <summary>
+        /// The sender avatar's id.
+        /// </summary>
+        public int SenderId { get; set; }
+
+        /// <summary>
+        /// The recipient avatar's id.
+        /// </summary>
+        public int RecipientId { get; set; }
 
         /// <summary>
         /// Used for text messages.
@@ -21,6 +31,11 @@ namespace Worldescape.Common
         /// Used for image messages. DataUrl is passed here.
         /// </summary>
         public string Picture { get; set; }
+
+        /// <summary>
+        /// Id of the message to which this message is a reply.
+        /// </summary>
+        public int ReplyToMessageId { get; set; }
     }
 
     public enum MessageType

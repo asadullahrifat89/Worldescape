@@ -28,7 +28,7 @@ namespace Worldescape.Service
         public event Action<int> AvatarLoggedOut;
 
         // Texting
-        public event Action<int, string, MessageType> NewMessage;        
+        public event Action<ChatMessage, MessageType> NewMessage;
         public event Action<int, MessageType> AvatarTyping;
 
         // Avatar World Events
@@ -37,10 +37,10 @@ namespace Worldescape.Service
 
         // Construct World Events
         public event Action<Construct> NewBroadcastConstruct;
-        public event Action<int> NewRemoveConstruct;        
+        public event Action<int> NewRemoveConstruct;
         public event Action<int, int> NewBroadcastConstructPlacement;
-        public event Action<int, float> NewBroadcastConstructRotation;        
-        public event Action<int, float> NewBroadcastConstructScale;        
+        public event Action<int, float> NewBroadcastConstructRotation;
+        public event Action<int, float> NewBroadcastConstructScale;
         public event Action<int, double, double, int> NewBroadcastConstructMovement;
 
 
@@ -70,8 +70,9 @@ namespace Worldescape.Service
             _connection.On<int>(Constants.AvatarReconnected, (senderId) => AvatarReconnected?.Invoke(senderId));
 
             // Texting
-            _connection.On<int, string>(Constants.BroadcastedMessage, (senderId, message) => NewMessage?.Invoke(senderId, message, MessageType.Broadcast));            
-            _connection.On<int, string>(Constants.UnicastedMessage, (senderId, message) => NewMessage?.Invoke(senderId, message, MessageType.Unicast));            
+            _connection.On<ChatMessage>(Constants.BroadcastedMessage, (message) => NewMessage?.Invoke(message, MessageType.Broadcast));
+            _connection.On<ChatMessage>(Constants.UnicastedMessage, (message) => NewMessage?.Invoke(message, MessageType.Unicast));
+
             _connection.On<int>(Constants.AvatarTyped, (senderId) => AvatarTyping?.Invoke(senderId, MessageType.Unicast));
             _connection.On<int>(Constants.AvatarBroadcastTyped, (senderId) => AvatarTyping?.Invoke(senderId, MessageType.Broadcast));
 
@@ -161,17 +162,17 @@ namespace Worldescape.Service
 
         #region Texting
 
-        public async Task SendBroadcastMessage(string msg)
+        public async Task SendBroadcastMessage(ChatMessage chatMessage)
         {
             Console.WriteLine(">>HubService: SendBroadcastMessageAsync");
-            await _connection.SendAsync(Constants.BroadcastMessage, msg);
+            await _connection.SendAsync(Constants.BroadcastMessage, chatMessage);
         }
 
-        public async Task SendUnicastMessage(int recepientId, string msg)
+        public async Task SendUnicastMessage(ChatMessage chatMessage)
         {
             Console.WriteLine(">>HubService: SendUnicastMessageAsync");
-            await _connection.SendAsync(Constants.UnicastMessage, recepientId, msg);
-        }      
+            await _connection.SendAsync(Constants.UnicastMessage, chatMessage);
+        }
 
         public async Task Typing(int recepientId)
         {

@@ -1692,8 +1692,11 @@ namespace Worldescape
 
         //}
 
-        private void HubService_NewMessage(int avatarId, string msg, MessageType mt)
+        private void HubService_NewMessage(/*int avatarId, string msg,*/ ChatMessage chatMessage, MessageType mt)
         {
+            var avatarId = chatMessage.SenderId;
+            var msg = chatMessage.Message;
+
             if (avatarId > 0)
             {
                 if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatarId) is UIElement iElement)
@@ -3643,9 +3646,9 @@ namespace Worldescape
                 return;
 
             //Check if a valid message was typed and the recepient exists in canvas
-            if (((Button)_messageToAvatar).Tag is Avatar avatar && !MessagingTextBox.Text.IsNullOrBlank() && Canvas_Root.Children.OfType<Button>().Any(x => x.Tag is Avatar avatar1 && avatar1.Id == avatar.Id))
+            if (((Button)_messageToAvatar).Tag is Avatar recipientAvatar && !MessagingTextBox.Text.IsNullOrBlank() && Canvas_Root.Children.OfType<Button>().Any(x => x.Tag is Avatar avatar1 && avatar1.Id == recipientAvatar.Id))
             {
-                await _hubService.SendUnicastMessage(avatar.Id, MessagingTextBox.Text);
+                await _hubService.SendUnicastMessage(new ChatMessage() { SenderId = Avatar.Id, RecipientId = recipientAvatar.Id, Message = MessagingTextBox.Text });
 
                 // Add message bubble to own avatar
                 if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement selfAvatarUiElement)
@@ -3675,7 +3678,7 @@ namespace Worldescape
             //Check if a valid message was typed
             if (!MessagingTextBox.Text.IsNullOrBlank())
             {
-                await _hubService.SendBroadcastMessage(MessagingTextBox.Text);
+                await _hubService.SendBroadcastMessage(new ChatMessage() { Message = MessagingTextBox.Text, SenderId = Avatar.Id });
 
                 // Add message bubble to own avatar
                 if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement selfAvatarUiElement)

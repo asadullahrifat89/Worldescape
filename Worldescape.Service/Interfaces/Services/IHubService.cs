@@ -20,7 +20,7 @@ namespace Worldescape.Service
         event Action<int> AvatarLoggedOut;
 
         // Texting
-        event Action<int, string, MessageType> NewMessage;
+        event Action<ChatMessage, MessageType> NewMessage;
         event Action<int, MessageType> AvatarTyping;
 
         // Avatar
@@ -60,13 +60,10 @@ namespace Worldescape.Service
 
         #region Texting
 
-        Task SendBroadcastMessage(string msg);
+        Task SendBroadcastMessage(ChatMessage chatMessage);
 
-        //Task SendBroadcastMessage(byte[] img);
+        Task SendUnicastMessage(ChatMessage chatMessage);
 
-        Task SendUnicastMessage(int recepientId, string msg);
-
-        //Task SendUnicastMessage(int recepientId, byte[] img);
 
         Task Typing(int recepientId);
 

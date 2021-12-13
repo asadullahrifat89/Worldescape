@@ -199,32 +199,32 @@ namespace WorldescapeWebService
         #region Messaging
 
         [HubMethodName(Constants.BroadcastMessage)]
-        public async Task BroadcastTextMessage(string message)
+        public async Task BroadcastTextMessage(ChatMessage chatMessage)
         {
-            if (!string.IsNullOrEmpty(message))
+            if (!string.IsNullOrEmpty(chatMessage.Message))
             {
-                Avatar sender = await GetCallingUser();
+                Avatar sender = await GetCallingUser(chatMessage.SenderId);
 
                 var group = GetUsersGroup(sender);
-                await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedMessage, sender.Id, message);
+                await Clients.OthersInGroup(group).SendAsync(Constants.BroadcastedMessage, chatMessage);
 
                 _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} BroadcastTextMessage - {DateTime.Now} World: {group}");
             }
         }
 
         [HubMethodName(Constants.UnicastMessage)]
-        public async Task UnicastTextMessage(int recepientId, string message)
+        public async Task UnicastTextMessage(ChatMessage chatMessage)
         {
-            Avatar sender = await GetCallingUser();
-            string recipientConnectionId = await GetUserConnectionId(recepientId);
+            Avatar sender = await GetCallingUser(chatMessage.SenderId);
+            string recipientConnectionId = await GetUserConnectionId(chatMessage.RecipientId);
 
             if (sender != null
-                && recepientId != sender.Id
-                && !string.IsNullOrEmpty(message))
+                && chatMessage.RecipientId != sender.Id
+                && !string.IsNullOrEmpty(chatMessage.Message))
             {
-                if (await AvatarExists(recepientId, recipientConnectionId))
+                if (await AvatarExists(chatMessage.RecipientId, recipientConnectionId))
                 {
-                    await Clients.Client(recipientConnectionId).SendAsync(Constants.UnicastedMessage, sender.Id, message);
+                    await Clients.Client(recipientConnectionId).SendAsync(Constants.UnicastedMessage, chatMessage);
 
                     _logger.LogInformation($"<> ConnectionId: {Context.ConnectionId} AvatarId: {sender.Id} UnicastTextMessage - {DateTime.Now} World: {sender.World.Id}");
                 }
