@@ -2477,7 +2477,7 @@ namespace Worldescape
             #region Portal Events
 
             _hubService.NewBroadcastPortal -= HubService_NewBroadcastPortal;
-                        
+
             #endregion
 
             Console.WriteLine("++UnsubscribeHub: OK");
@@ -3335,7 +3335,7 @@ namespace Worldescape
         {
             if (_selectedConstruct != null && _selectedConstruct is Button button && button.Tag is Construct)
             {
-                PopElementContextCommands(e: e, uIElement: ConstructOperationalCommandsHolder, offsetX: 50, offSetY: 50);
+                PopElementContextCommands(e: e, uIElement: ConstructOperationalCommandsHolder, offsetX: button.ActualWidth / 2, offSetY: button.ActualHeight / 4);
                 ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
             }
         }
