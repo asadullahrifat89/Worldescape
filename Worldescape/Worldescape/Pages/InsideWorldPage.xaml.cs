@@ -521,9 +521,6 @@ namespace Worldescape
 
                 ShowSelectedAvatar(_selectedAvatar);
                 SetAvatarDetailsOnSideCard();
-                OtherAvatarActionsHolder.Visibility = Visibility.Visible;
-
-                //MessagingTextBox.Focus();
             }
         }
 
@@ -2823,7 +2820,9 @@ namespace Worldescape
             Avatar avatar,
             double size = 40)
         {
-            return _avatarHelper.GetAvatarUserPicture(avatar, size);
+            return _avatarHelper.GetAvatarUserPicture(
+                avatar: avatar,
+                size: size);
         }
 
         /// <summary>
@@ -2835,7 +2834,10 @@ namespace Worldescape
             Avatar avatar,
             double size = 40)
         {
-            return _avatarHelper.GetAvatarCharacterPicture(avatar: avatar, size: size, background: Colors.BlanchedAlmond);
+            return _avatarHelper.GetAvatarCharacterPicture(
+                avatar: avatar,
+                size: size,
+                background: Colors.BlanchedAlmond);
         }
 
         /// <summary>
@@ -2844,7 +2846,10 @@ namespace Worldescape
         /// <param name="construct"></param>
         private void AlignAvatarFaceDirectionWrtX(double x)
         {
-            _avatarHelper.AlignAvatarFaceDirectionWrtX(x: x, canvas: Canvas_Root, avatarId: Avatar.Id);
+            _avatarHelper.AlignAvatarFaceDirectionWrtX(
+                x: x,
+                canvas: Canvas_Root,
+                avatarId: Avatar.Id);
         }
 
         /// <summary>

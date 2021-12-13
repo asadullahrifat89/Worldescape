@@ -8,8 +8,6 @@ namespace Worldescape
 {
     public sealed partial class App : Application
     {
-        private readonly MainPage _mainPage;
-
         #region Ctor
 
         public App()
@@ -21,8 +19,8 @@ namespace Worldescape
             ServiceCollection services = new ServiceCollection();
             ConfigureServices(services);
             ServiceProvider = services.BuildServiceProvider();
-                        
-            _mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+
+            var _mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             Window.Current.Content = _mainPage;
 
             _mainPage.NavigateToPage(Constants.Page_LoginPage);
@@ -90,7 +88,7 @@ namespace Worldescape
 
         private void App_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            Console.WriteLine(e.ExceptionObject.Message);            
+            Console.WriteLine(e.ExceptionObject.Message);
             e.Handled = true;
         }
 
