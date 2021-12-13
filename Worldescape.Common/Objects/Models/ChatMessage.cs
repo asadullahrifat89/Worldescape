@@ -8,6 +8,11 @@ namespace Worldescape.Common
     public class ChatMessage
     {
         /// <summary>
+        /// The user's id which generated this message.
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
         /// Used for text messages.
         /// </summary>
         public string Message { get; set; }
@@ -16,11 +21,6 @@ namespace Worldescape.Common
         /// Used for image messages. DataUrl is passed here.
         /// </summary>
         public string Picture { get; set; }
-
-        /// <summary>
-        /// Time when this message was generated.
-        /// </summary>
-        public DateTime Time { get; set; } = DateTime.Now;
     }
 
     public enum MessageType

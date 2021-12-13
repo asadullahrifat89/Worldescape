@@ -28,8 +28,7 @@ namespace Worldescape.Service
         public event Action<int> AvatarLoggedOut;
 
         // Texting
-        public event Action<int, string, MessageType> NewTextMessage;
-        public event Action<int, byte[], MessageType> NewImageMessage;
+        public event Action<int, string, MessageType> NewMessage;        
         public event Action<int, MessageType> AvatarTyping;
 
         // Avatar World Events
@@ -38,13 +37,10 @@ namespace Worldescape.Service
 
         // Construct World Events
         public event Action<Construct> NewBroadcastConstruct;
-        public event Action<int> NewRemoveConstruct;
-        //public event Action<int[]> NewRemoveConstructs;
+        public event Action<int> NewRemoveConstruct;        
         public event Action<int, int> NewBroadcastConstructPlacement;
-        public event Action<int, float> NewBroadcastConstructRotation;
-        //public event Action<ConcurrentDictionary<int, float>> NewBroadcastConstructRotations;
-        public event Action<int, float> NewBroadcastConstructScale;
-        //public event Action<int[], float> NewBroadcastConstructScales;
+        public event Action<int, float> NewBroadcastConstructRotation;        
+        public event Action<int, float> NewBroadcastConstructScale;        
         public event Action<int, double, double, int> NewBroadcastConstructMovement;
 
 
@@ -74,10 +70,8 @@ namespace Worldescape.Service
             _connection.On<int>(Constants.AvatarReconnected, (senderId) => AvatarReconnected?.Invoke(senderId));
 
             // Texting
-            _connection.On<int, string>(Constants.BroadcastedMessage, (senderId, message) => NewTextMessage?.Invoke(senderId, message, MessageType.Broadcast));
-            _connection.On<int, byte[]>(Constants.BroadcastedPictureMessage, (senderId, img) => NewImageMessage?.Invoke(senderId, img, MessageType.Broadcast));
-            _connection.On<int, string>(Constants.UnicastedMessage, (senderId, message) => NewTextMessage?.Invoke(senderId, message, MessageType.Unicast));
-            _connection.On<int, byte[]>(Constants.UnicastedPictureMessage, (senderId, img) => NewImageMessage?.Invoke(senderId, img, MessageType.Unicast));
+            _connection.On<int, string>(Constants.BroadcastedMessage, (senderId, message) => NewMessage?.Invoke(senderId, message, MessageType.Broadcast));            
+            _connection.On<int, string>(Constants.UnicastedMessage, (senderId, message) => NewMessage?.Invoke(senderId, message, MessageType.Unicast));            
             _connection.On<int>(Constants.AvatarTyped, (senderId) => AvatarTyping?.Invoke(senderId, MessageType.Unicast));
             _connection.On<int>(Constants.AvatarBroadcastTyped, (senderId) => AvatarTyping?.Invoke(senderId, MessageType.Broadcast));
 
@@ -88,12 +82,9 @@ namespace Worldescape.Service
             // Construct
             _connection.On<Construct>(Constants.BroadcastedConstruct, (construct) => NewBroadcastConstruct?.Invoke(construct));
             _connection.On<int>(Constants.RemovedConstruct, (constructId) => NewRemoveConstruct?.Invoke(constructId));
-            //_connection.On<int[]>(Constants.RemovedConstructs, (constructIds) => NewRemoveConstructs?.Invoke(constructIds));
             _connection.On<int, int>(Constants.BroadcastedConstructPlacement, (constructId, z) => NewBroadcastConstructPlacement?.Invoke(constructId, z));
             _connection.On<int, float>(Constants.BroadcastedConstructRotation, (constructId, rotation) => NewBroadcastConstructRotation?.Invoke(constructId, rotation));
-            //_connection.On<ConcurrentDictionary<int, float>>(Constants.BroadcastedConstructRotations, (constructIds) => NewBroadcastConstructRotations?.Invoke(constructIds));
             _connection.On<int, float>(Constants.BroadcastedConstructScale, (constructId, scale) => NewBroadcastConstructScale?.Invoke(constructId, scale));
-            //_connection.On<int[], float>(Constants.BroadcastedConstructScales, (constructIds, scale) => NewBroadcastConstructScales?.Invoke(constructIds, scale));
             _connection.On<int, double, double, int>(Constants.BroadcastedConstructMovement, (constructId, x, y, z) => NewBroadcastConstructMovement?.Invoke(constructId, x, y, z));
 
             // Portal
@@ -176,23 +167,11 @@ namespace Worldescape.Service
             await _connection.SendAsync(Constants.BroadcastMessage, msg);
         }
 
-        public async Task SendBroadcastMessage(byte[] img)
-        {
-            Console.WriteLine(">>HubService: SendBroadcastMessageAsync");
-            await _connection.SendAsync(Constants.BroadcastImageMessage, img);
-        }
-
         public async Task SendUnicastMessage(int recepientId, string msg)
         {
             Console.WriteLine(">>HubService: SendUnicastMessageAsync");
             await _connection.SendAsync(Constants.UnicastMessage, recepientId, msg);
-        }
-
-        public async Task SendUnicastMessage(int recepientId, byte[] img)
-        {
-            Console.WriteLine(">>HubService: SendUnicastMessageAsync");
-            await _connection.SendAsync(Constants.UnicastImageMessage, recepientId, img);
-        }
+        }      
 
         public async Task Typing(int recepientId)
         {
@@ -232,23 +211,11 @@ namespace Worldescape.Service
             await _connection.SendAsync(Constants.BroadcastConstruct, construct);
         }
 
-        //public async Task BroadcastConstructs(Construct[] constructs)
-        //{
-        //    Console.WriteLine(">>HubService: BroadcastConstructsAsync");
-        //    await _connection.SendAsync(Constants.BroadcastConstructs, constructs);
-        //}
-
         public async Task RemoveConstruct(int constructId)
         {
             Console.WriteLine(">>HubService: RemoveConstructAsync");
             await _connection.SendAsync(Constants.RemoveConstruct, constructId);
         }
-
-        //public async Task RemoveConstructs(int[] constructIds)
-        //{
-        //    Console.WriteLine(">>HubService: RemoveConstructsAsync");
-        //    await _connection.SendAsync(Constants.RemoveConstructs, constructIds);
-        //}
 
         public async Task BroadcastConstructPlacement(int constructId, int z)
         {
@@ -262,23 +229,11 @@ namespace Worldescape.Service
             await _connection.SendAsync(Constants.BroadcastConstructRotation, constructId, rotation);
         }
 
-        //public async Task BroadcastConstructRotations(ConcurrentDictionary<int, float> constructIds)
-        //{
-        //    Console.WriteLine(">>HubService: BroadcastConstructRotationsAsync");
-        //    await _connection.SendAsync(Constants.BroadcastConstructRotations, constructIds);
-        //}
-
         public async Task BroadcastConstructScale(int constructId, float scale)
         {
             Console.WriteLine(">>HubService: BroadcastConstructScaleAsync");
             await _connection.SendAsync(Constants.BroadcastConstructScale, constructId, scale);
         }
-
-        //public async Task BroadcastConstructScales(int[] constructIds, float scale)
-        //{
-        //    Console.WriteLine(">>HubService: BroadcastConstructScalesAsync");
-        //    await _connection.SendAsync(Constants.BroadcastConstructScales, constructIds, scale);
-        //}
 
         public async Task BroadcastConstructMovement(int constructId, double x, double y, int z)
         {

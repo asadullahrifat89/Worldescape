@@ -76,9 +76,9 @@ namespace Worldescape.Common
         public const string AvatarLoggedOut = "AvatarLoggedOut";
 
         public const string BroadcastedMessage = "BroadcastedTextMessage";
-        public const string BroadcastedPictureMessage = "BroadcastedPictureMessage";
+        //public const string BroadcastedPictureMessage = "BroadcastedPictureMessage";
         public const string UnicastedMessage = "UnicastedTextMessage";
-        public const string UnicastedPictureMessage = "UnicastedPictureMessage";
+        //public const string UnicastedPictureMessage = "UnicastedPictureMessage";
         public const string AvatarTyped = "AvatarTyped";
         public const string AvatarBroadcastTyped = "AvatarBroadcastTyped";
 
@@ -106,9 +106,9 @@ namespace Worldescape.Common
         public const string Logout = "Logout";
 
         public const string BroadcastMessage = "BroadcastTextMessage";
-        public const string BroadcastImageMessage = "BroadcastImageMessage";
+        //public const string BroadcastImageMessage = "BroadcastImageMessage";
         public const string UnicastMessage = "UnicastTextMessage";
-        public const string UnicastImageMessage = "UnicastImageMessage";
+        //public const string UnicastImageMessage = "UnicastImageMessage";
         public const string Typing = "Typing";
         public const string BroadcastTyping = "BroadcastTyping";
 

@@ -1687,12 +1687,12 @@ namespace Worldescape
 
         }
 
-        private void HubService_NewImageMessage(int avatarId, byte[] pic, MessageType mt)
-        {
+        //private void HubService_NewImageMessage(int avatarId, byte[] pic, MessageType mt)
+        //{
 
-        }
+        //}
 
-        private void HubService_NewTextMessage(int avatarId, string msg, MessageType mt)
+        private void HubService_NewMessage(int avatarId, string msg, MessageType mt)
         {
             if (avatarId > 0)
             {
@@ -2428,8 +2428,8 @@ namespace Worldescape
             #region Avatar Messaging Events
 
             _hubService.AvatarTyping += HubService_AvatarTyping;
-            _hubService.NewTextMessage += HubService_NewTextMessage;
-            _hubService.NewImageMessage += HubService_NewImageMessage;
+            _hubService.NewMessage += HubService_NewMessage;
+            //_hubService.NewImageMessage += HubService_NewImageMessage;
 
             #endregion
 
@@ -2494,8 +2494,8 @@ namespace Worldescape
             #region Avatar Messaging Events
 
             _hubService.AvatarTyping -= HubService_AvatarTyping;
-            _hubService.NewTextMessage -= HubService_NewTextMessage;
-            _hubService.NewImageMessage -= HubService_NewImageMessage;
+            _hubService.NewMessage -= HubService_NewMessage;
+            //_hubService.NewImageMessage -= HubService_NewImageMessage;
 
             #endregion
 
