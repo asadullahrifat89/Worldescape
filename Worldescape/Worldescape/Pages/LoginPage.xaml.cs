@@ -63,7 +63,9 @@ namespace Worldescape
 
             _mainPage.SetIsBusy(true);
 
-            var apiTokenResponse = await _apiTokenRepository.GetApiToken(email: LoginModel.Email, password: LoginModel.Password);
+            var apiTokenResponse = await _apiTokenRepository.GetApiToken(
+                email: LoginModel.Email,
+                password: LoginModel.Password);
 
             if (!apiTokenResponse.Success)
             {
@@ -135,6 +137,11 @@ namespace Worldescape
 
         #region UX Events
 
+        private void PasswordBox_Pasword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
         private void Control_BindingValidationError(object sender, ValidationErrorEventArgs e)
         {
             CheckIfModelValid();
@@ -155,11 +162,6 @@ namespace Worldescape
 
         #endregion
 
-        #endregion
-
-        private void PasswordBox_Pasword_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            CheckIfModelValid();
-        }
+        #endregion        
     }
 }

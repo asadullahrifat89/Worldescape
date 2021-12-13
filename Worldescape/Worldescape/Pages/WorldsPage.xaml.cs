@@ -224,11 +224,11 @@ namespace Worldescape
         private async Task<IEnumerable<World>> GetWorlds()
         {
             var response = await _worldRepository.GetWorlds(
-                                   token: App.Token,
-                                   pageIndex: _pageIndex,
-                                   pageSize: _pageSize,
-                                   searchString: TextBox_SearchWorldsText.Text,
-                                   creatorId: ToggleButton_UsersWorldsOnly.IsChecked.Value ? App.User.Id : 0);
+                token: App.Token,
+                pageIndex: _pageIndex,
+                pageSize: _pageSize,
+                searchString: TextBox_SearchWorldsText.Text,
+                creatorId: ToggleButton_UsersWorldsOnly.IsChecked.Value ? App.User.Id : 0);
 
             if (!response.Success)
             {

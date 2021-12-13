@@ -14,5 +14,10 @@
         {
             return Name.IsNullOrBlank() && (Creator == null || Creator.Id <= 0);
         }
+
+        /// <summary>
+        /// This increases as users log in and decreases as users log out.
+        /// </summary>
+        public int PopulationCount { get; set; } = 0;
     }
 }

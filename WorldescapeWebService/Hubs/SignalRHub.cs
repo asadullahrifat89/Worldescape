@@ -159,6 +159,9 @@ namespace WorldescapeWebService
             // Find own avatar
             var newSelf = await GetAvatar(avatar.Id);
 
+            // Update world population count
+            await UpdateWorldPopulationCount(avatar.World.Id);
+
             // Return the curated avatar
             return new HubLoginResponse()
             {
@@ -173,15 +176,16 @@ namespace WorldescapeWebService
 
             if (avatar != null && !avatar.IsEmpty())
             {
-                //if (await AvatarExists(avatar))
-                //{
                 await RemoveAvatar(avatar);
+
+                // Update world population count
+                await UpdateWorldPopulationCount(avatar.World.Id);
 
                 var group = avatar.World.Id.ToString();
                 await Clients.OthersInGroup(group).SendAsync(Constants.AvatarLoggedOut, avatar.Id);
 
                 _logger.LogInformation($"-- ConnectionId: {Context.ConnectionId} AvatarId: {avatar.Id} Logout-> WorldId {avatar.World.Id} - {DateTime.Now} World: {group}");
-                //}
+
             }
         }
 
@@ -641,6 +645,21 @@ namespace WorldescapeWebService
             {
                 var update = Builders<Construct>.Update.Set(x => x.Coordinate.X, x).Set(x => x.Coordinate.Y, y).Set(x => x.Coordinate.Z, z);
                 await _databaseService.UpdateById(update, construct.Id);
+            }
+        }
+
+        #endregion
+
+        #region Concurrent Worlds
+
+        private async Task UpdateWorldPopulationCount(int worldId)
+        {
+            if (await _databaseService.FindById<World>(worldId) is World world)
+            {
+                var count = await _databaseService.CountDocuments(Builders<Avatar>.Filter.Eq(x => x.World.Id, worldId));
+
+                var update = Builders<World>.Update.Set(x => x.PopulationCount, count);
+                await _databaseService.UpdateById(update, worldId);
             }
         }
 

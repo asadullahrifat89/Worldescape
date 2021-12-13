@@ -67,14 +67,38 @@ namespace Worldescape
         {
             var spContent = new StackPanel();
             spContent.Children.Add(img);
-            spContent.Children.Add(new TextBlock()
+
+            var spText = new StackPanel()
+            {
+                Orientation = Orientation.Horizontal,
+                HorizontalAlignment = HorizontalAlignment.Center
+            };
+
+            spText.Children.Add(new TextBlock()
             {
                 FontSize = fontSize,
                 FontWeight = FontWeights.SemiBold,
-                TextAlignment = TextAlignment.Center,
+                TextAlignment = TextAlignment.Left,
                 Text = world.Name,
                 Margin = new Thickness(5),
             });
+
+            if (world.PopulationCount > 0)
+            {
+                string populationCount = (world.PopulationCount > 0 ? world.PopulationCount >= 1000 ? string.Format("{0:#,0, K}", world.PopulationCount.ToString()) : string.Format("{0:#,0}", world.PopulationCount.ToString()) : "");
+
+                spText.Children.Add(new TextBlock()
+                {
+                    FontSize = fontSize,
+                    Foreground = new SolidColorBrush(Colors.ForestGreen),
+                    FontWeight = FontWeights.Normal,
+                    TextAlignment = TextAlignment.Left,
+                    Text = "⦿" + (populationCount.IsNullOrBlank() ? "" : " " + populationCount),
+                    Margin = new Thickness(5),
+                });
+            }
+
+            spContent.Children.Add(spText);
 
             var buttonWorld = new Button()
             {
