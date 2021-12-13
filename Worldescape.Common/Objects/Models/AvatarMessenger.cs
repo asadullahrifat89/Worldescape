@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Worldescape.Common
 {
@@ -24,14 +25,14 @@ namespace Worldescape.Common
         #endregion
 
         #region ActivityStatus
-        public ActivityStatus ActivityStatus
-        {
-            get { return Avatar.ActivityStatus; }
-            set
-            {
-                Avatar.ActivityStatus = value; RaisePropertyChanged("ActivityStatus");
-            }
-        }
+        //public ActivityStatus ActivityStatus
+        //{
+        //    get { return Avatar.ActivityStatus; }
+        //    set
+        //    {
+        //        Avatar.ActivityStatus = value; RaisePropertyChanged("ActivityStatus");
+        //    }
+        //}
         #endregion
 
         #region IsTyping
@@ -91,8 +92,14 @@ namespace Worldescape.Common
         #endregion
 
         #region Chatter
+        
+        private ObservableCollection<ChatMessage> _Chatter = new();
 
-       // public RangeObservableCollection<ChatMessageElement> Chatter { get; set; } = new RangeObservableCollection<ChatMessageElement>();
+        public ObservableCollection<ChatMessage> Chatter
+        {
+            get { return _Chatter; }
+            set { _Chatter = value; RaisePropertyChanged("Chatter"); }
+        }
 
         #endregion
 

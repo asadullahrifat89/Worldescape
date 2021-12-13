@@ -45,10 +45,11 @@ namespace Worldescape
             MessageType messageType,
             UIElement toAvatar,
             Canvas canvas,
-            Avatar loggedInAvatar)
+            Avatar loggedInAvatar,
+            ChatMessage replyToChatMessage = null)
         {
-            var avatarButton = fromAvatar as Button;
-            var taggedAvatar = avatarButton.Tag as Avatar;
+            var fromAvatarButton = fromAvatar as Button;
+            var fromTaggedAvatar = fromAvatarButton.Tag as Avatar;
 
             Button btnChatBubble = new Button()
             {
@@ -59,8 +60,8 @@ namespace Worldescape
                 Height = double.PositiveInfinity,
             };
 
-            var x = taggedAvatar.Coordinate.X - (avatarButton.ActualWidth / 2);
-            var y = taggedAvatar.Coordinate.Y - (avatarButton.ActualHeight / 2);
+            var x = fromTaggedAvatar.Coordinate.X - (fromAvatarButton.ActualWidth / 2);
+            var y = fromTaggedAvatar.Coordinate.Y - (fromAvatarButton.ActualHeight / 2);
 
             TextBlock tbMsg = null;
 
@@ -77,11 +78,12 @@ namespace Worldescape
             };
 
             StackPanel spUserImageAndMessage = new StackPanel() { Orientation = Orientation.Horizontal };
-            Border brUserImage = _avatarHelper.GetAvatarUserPicture(taggedAvatar);
+            
+            Border brUserImage = _avatarHelper.GetAvatarUserPicture(fromTaggedAvatar);
             brUserImage.VerticalAlignment = VerticalAlignment.Top;
 
             // If sent message then image on the left
-            if (taggedAvatar.Id == loggedInAvatar.Id)
+            if (fromTaggedAvatar.Id == loggedInAvatar.Id)
             {
                 if (toAvatar != null)
                 {
@@ -93,6 +95,7 @@ namespace Worldescape
 
                 // Add icon of message type
                 AddMessageTypeIconText(messageType, spUserImageAndMessage);
+
                 spUserImageAndMessage.Children.Add(tbMsg);
             }
             else // If received message then image on the right
@@ -100,10 +103,10 @@ namespace Worldescape
                 var buttons = canvas.Children.OfType<Button>();
 
                 Button meUiElement = buttons.FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == loggedInAvatar.Id);
-                Button senderUiElement = buttons.FirstOrDefault(x => x.Tag is Avatar senderAvatar && senderAvatar.Id == taggedAvatar.Id);
+                Button senderUiElement = buttons.FirstOrDefault(x => x.Tag is Avatar senderAvatar && senderAvatar.Id == fromTaggedAvatar.Id);
 
                 var receiver = meUiElement.Tag as Avatar;
-                var sender = taggedAvatar;
+                var sender = fromTaggedAvatar;
 
                 // If sender avatar is forward from current avatar
                 if (sender.Coordinate.X > receiver.Coordinate.X)
@@ -118,6 +121,7 @@ namespace Worldescape
 
                 // Add icon of message type
                 AddMessageTypeIconText(messageType, spUserImageAndMessage);
+
                 spUserImageAndMessage.Children.Add(brUserImage);
             }
 

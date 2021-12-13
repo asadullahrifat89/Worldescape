@@ -41,6 +41,8 @@ namespace Worldescape
 
         UIElement _selectedPortal;
 
+        ChatMessage _replyToChatMessage;
+
         readonly IHubService _hubService;
         readonly MainPage _mainPage;
         readonly AvatarHelper _avatarHelper;
@@ -200,7 +202,7 @@ namespace Worldescape
                 ShowSelectedAvatar(null);
 
                 _messageToAvatar = null;
-                ShowMessagingAvatars(null);
+                ShowMessagingAvatars();
 
                 HideConstructOperationButtons();
                 HideAvatarOperationButtons();
@@ -508,6 +510,8 @@ namespace Worldescape
             // reply to the selected message and show Messaging controls
             if (((Button)sender).Tag is ChatMessage chatMessage)
             {
+                _replyToChatMessage = chatMessage;
+
                 // Turn of broadcast mode as replying to this user's conversation.
                 Button_MessageAll.IsChecked = false;
 
@@ -1383,6 +1387,7 @@ namespace Worldescape
             if (receiverUiElement == null)
             {
                 MessagingToAvatarHolder.Content = null;
+                _replyToChatMessage = null;
             }
             else
             {
@@ -1535,7 +1540,7 @@ namespace Worldescape
 
                     if (avatarMessenger != null)
                     {
-                        avatarMessenger.ActivityStatus = ActivityStatus.Idle;
+                        //avatarMessenger.ActivityStatus = ActivityStatus.Idle;
                         avatarMessenger.IsLoggedIn = true;
                     }
 
@@ -1563,7 +1568,7 @@ namespace Worldescape
 
                     if (avatarMessenger != null)
                     {
-                        avatarMessenger.ActivityStatus = ActivityStatus.Away;
+                        //avatarMessenger.ActivityStatus = ActivityStatus.Away;
                         avatarMessenger.IsLoggedIn = false;
                     }
 
@@ -1608,20 +1613,29 @@ namespace Worldescape
         private void HubService_AvatarLoggedIn(Avatar avatar)
         {
             // If an avatar already exists, remove that
-            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatar.Id) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(canvas: Canvas_Root, avatarId: avatar.Id) is UIElement iElement)
             {
                 Canvas_Root.Children.Remove(iElement);
                 AvatarMessengers.Remove(AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatar.Id));
             }
 
             var avatarButton = GenerateAvatarButton(avatar);
-            AddAvatarOnCanvas(avatarButton, avatar.Coordinate.X, avatar.Coordinate.Y, avatar.Coordinate.Z);
 
-            AvatarMessengers.Add(new AvatarMessenger() { Avatar = avatar, ActivityStatus = avatar.ActivityStatus, IsLoggedIn = true });
+            AddAvatarOnCanvas(
+                avatar: avatarButton,
+                x: avatar.Coordinate.X,
+                y: avatar.Coordinate.Y,
+                z: avatar.Coordinate.Z);
+
+            AvatarMessengers.Add(new AvatarMessenger()
+            {
+                Avatar = avatar,
+                //ActivityStatus = avatar.ActivityStatus,
+                IsLoggedIn = true
+            });
+
             AvatarsCount.Text = AvatarMessengers.Count().ToString();
-
             PopulateAvatarsInAvatarsContainer();
-
             Console.WriteLine("<<HubService_AvatarLoggedIn: OK");
         }
 
@@ -1635,10 +1649,10 @@ namespace Worldescape
             {
                 if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatarId) is UIElement iElement)
                 {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
+                    //var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
-                    if (avatarMessenger != null)
-                        avatarMessenger.ActivityStatus = (ActivityStatus)activityStatus;
+                    //if (avatarMessenger != null)
+                    //    avatarMessenger.ActivityStatus = (ActivityStatus)activityStatus;
 
                     var avatarButton = (Button)iElement;
 
@@ -1662,10 +1676,10 @@ namespace Worldescape
             {
                 if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatarId) is UIElement iElement)
                 {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
+                    //var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
 
-                    if (avatarMessenger != null)
-                        avatarMessenger.ActivityStatus = ActivityStatus.Idle;
+                    //if (avatarMessenger != null)
+                    //    avatarMessenger.ActivityStatus = ActivityStatus.Idle;
 
                     MoveElement(uIElement: iElement, goToX: x, goToY: y);
 
@@ -1686,30 +1700,33 @@ namespace Worldescape
         {
 
         }
-             
-        private void HubService_NewMessage(/*int avatarId, string msg,*/ ChatMessage chatMessage, MessageType mt)
+
+        private void HubService_NewMessage(ChatMessage chatMessage, MessageType mt)
         {
-            var avatarId = chatMessage.SenderId;
+            var senderAvatarId = chatMessage.SenderId;
             var msg = chatMessage.Message;
 
-            if (avatarId > 0)
+            if (senderAvatarId > 0)
             {
-                if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatarId) is UIElement iElement)
+                if (_avatarHelper.GetAvatarButtonFromCanvas(canvas: Canvas_Root, avatarId: senderAvatarId) is UIElement iElement)
                 {
-                    var avatarMessenger = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == avatarId);
-
-                    if (avatarMessenger != null)
-                        avatarMessenger.ActivityStatus = ActivityStatus.Idle;
-
                     var senderAvatarUiElement = (Button)iElement;
+
+                    AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == senderAvatarId)?.Chatter.Add(chatMessage);
 
                     switch (mt)
                     {
                         case MessageType.Broadcast:
-                            AddChatBubbleToCanvas(chatMessage: chatMessage, fromAvatar: senderAvatarUiElement, messageType: mt); // receive broadcast message
+                            {
+                                AddChatBubbleToCanvas(chatMessage: chatMessage, fromAvatar: senderAvatarUiElement, messageType: mt); // receive broadcast message
+                            }
                             break;
                         case MessageType.Unicast:
-                            AddChatBubbleToCanvas(chatMessage: chatMessage, fromAvatar: senderAvatarUiElement, messageType: mt); // receive unicast message
+                            {
+                                var replyToMessage = AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == this.Avatar.Id)?.Chatter.FirstOrDefault(x => x.Id == chatMessage.ReplyToMessageId);
+
+                                AddChatBubbleToCanvas(chatMessage: chatMessage, fromAvatar: senderAvatarUiElement, messageType: mt, replyToChatMessage: replyToMessage); // receive unicast message
+                            }
                             break;
                         default:
                             break;
@@ -3643,14 +3660,23 @@ namespace Worldescape
             //Check if a valid message was typed and the recepient exists in canvas
             if (((Button)_messageToAvatar).Tag is Avatar recipientAvatar && !MessagingTextBox.Text.IsNullOrBlank() && Canvas_Root.Children.OfType<Button>().Any(x => x.Tag is Avatar avatar1 && avatar1.Id == recipientAvatar.Id))
             {
-                var chatMessage = new ChatMessage() { SenderId = Avatar.Id, RecipientId = recipientAvatar.Id, Message = MessagingTextBox.Text };
+                var chatMessage = new ChatMessage()
+                {
+                    SenderId = Avatar.Id,
+                    RecipientId = recipientAvatar.Id,
+                    Message = MessagingTextBox.Text,
+                    ReplyToMessageId = _replyToChatMessage != null ? _replyToChatMessage.Id : 0
+                };
 
                 await _hubService.SendUnicastMessage(chatMessage);
 
                 // Add message bubble to own avatar
                 if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement selfAvatarUiElement)
                 {
-                    AddChatBubbleToCanvas(chatMessage: chatMessage, fromAvatar: selfAvatarUiElement, messageType: MessageType.Unicast); // send message
+                    AddChatBubbleToCanvas(chatMessage: chatMessage, fromAvatar: selfAvatarUiElement, messageType: MessageType.Unicast, replyToChatMessage: _replyToChatMessage); // send unicast message
+
+                    // Add message to own chatter
+                    AddChatMessageToOwnChatter(chatMessage);
 
                     // If activity status is not Messaging then update it
                     if (((Button)selfAvatarUiElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Messaging)
@@ -3660,7 +3686,13 @@ namespace Worldescape
                 }
 
                 MessagingTextBox.Text = string.Empty;
+                _replyToChatMessage = null;
             }
+        }
+
+        private void AddChatMessageToOwnChatter(ChatMessage chatMessage)
+        {
+            AvatarMessengers.FirstOrDefault(x => x.Avatar.Id == this.Avatar.Id)?.Chatter.Add(chatMessage);
         }
 
         /// <summary>
@@ -3675,14 +3707,21 @@ namespace Worldescape
             //Check if a valid message was typed
             if (!MessagingTextBox.Text.IsNullOrBlank())
             {
-                var chatMessage = new ChatMessage() { Message = MessagingTextBox.Text, SenderId = Avatar.Id };
+                var chatMessage = new ChatMessage()
+                {
+                    Message = MessagingTextBox.Text,
+                    SenderId = Avatar.Id
+                };
 
                 await _hubService.SendBroadcastMessage(chatMessage);
 
                 // Add message bubble to own avatar
                 if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement selfAvatarUiElement)
                 {
-                    AddChatBubbleToCanvas(chatMessage: chatMessage, fromAvatar: selfAvatarUiElement, messageType: MessageType.Broadcast); // send message
+                    AddChatBubbleToCanvas(chatMessage: chatMessage, fromAvatar: selfAvatarUiElement, messageType: MessageType.Broadcast); // send broadcast message
+
+                    // Add message to own chatter
+                    AddChatMessageToOwnChatter(chatMessage);
 
                     // If activity status is not Greeting then update it
                     if (((Button)selfAvatarUiElement).Tag is Avatar taggedAvatar && taggedAvatar.ActivityStatus != ActivityStatus.Greeting)
@@ -3704,7 +3743,8 @@ namespace Worldescape
         private void AddChatBubbleToCanvas(
             ChatMessage chatMessage,
             UIElement fromAvatar,
-            MessageType messageType)
+            MessageType messageType,
+            ChatMessage replyToChatMessage = null)
         {
             var avatarButton = fromAvatar as Button;
             var taggedAvatar = avatarButton.Tag as Avatar;
@@ -3715,7 +3755,8 @@ namespace Worldescape
                  messageType: messageType,
                  toAvatar: _messageToAvatar,
                  canvas: Canvas_Root,
-                 loggedInAvatar: Avatar);
+                 loggedInAvatar: Avatar,
+                 replyToChatMessage: replyToChatMessage);
 
             if (taggedAvatar.Id != Avatar.Id)
             {
