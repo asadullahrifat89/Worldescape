@@ -28,7 +28,7 @@ namespace Worldescape
             double size,
             double fontSize = 14)
         {
-            var img = GetWorldPicture(
+            var img = GetWorldPictureFrame(
                 world: world,
                 margin: new Thickness(5),
                 size: size);
@@ -46,7 +46,7 @@ namespace Worldescape
             Thickness imageMargin,
             double fontSize = 14)
         {
-            var img = GetWorldPicture(
+            var img = GetWorldPictureFrame(
                 world: world,
                 margin: imageMargin,
                 size: size);
@@ -146,7 +146,7 @@ namespace Worldescape
         /// <param name="margin"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public Border GetWorldPicture(World world, Thickness margin, double size = 40)
+        public Border GetWorldPictureFrame(World world, Thickness margin, double size = 40)
         {
             var bitmapImage = new BitmapImage(new Uri(world.ImageUrl));
             var border = PrepareRoundImage(size, bitmapImage);

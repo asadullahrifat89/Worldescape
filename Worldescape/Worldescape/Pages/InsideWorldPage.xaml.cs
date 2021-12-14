@@ -52,18 +52,7 @@ namespace Worldescape
         readonly ChatBubbleHelper _chatBubbleHelper;
 
         readonly ConstructRepository _constructRepository;
-        readonly AvatarRepository _avatarRepository;
-
-        readonly Color[] _backgroundColors = new Color[]
-        {
-            Color.FromRgb(235, 157, 96),
-            Color.FromRgb(224, 180, 221),
-            Color.FromRgb(203, 167, 163),
-            Color.FromRgb(37, 35, 88),
-            Color.FromRgb(106, 101, 107),
-            Color.FromRgb(157, 192, 142),
-            Color.FromRgb(255, 196, 0),
-        };
+        readonly AvatarRepository _avatarRepository;       
 
         #endregion
 
@@ -212,6 +201,11 @@ namespace Worldescape
             }
         }
 
+        /// <summary>
+        /// Event fired on pointer movement on canvas.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Canvas_Root_PointerMoved(
             object sender,
             PointerRoutedEventArgs e)
@@ -1388,7 +1382,7 @@ namespace Worldescape
         /// <param name="receiverUiElement"></param>
         private void ShowMessagingAvatars(UIElement receiverUiElement = null)
         {
-            MessagingFromAvatarHolder.Content = _avatarHelper.GetAvatarUserPicture(Avatar);
+            MessagingFromAvatarHolder.Content = _avatarHelper.GetAvatarUserPictureFrame(Avatar);
 
             if (receiverUiElement == null)
             {
@@ -1399,7 +1393,7 @@ namespace Worldescape
             {
                 var receiver = ((Button)receiverUiElement).Tag as Avatar;
                 AlignAvatarFaceDirectionWrtX(receiver.Coordinate.X);
-                MessagingToAvatarHolder.Content = _avatarHelper.GetAvatarUserPicture(receiver);
+                MessagingToAvatarHolder.Content = _avatarHelper.GetAvatarUserPictureFrame(receiver);
             }
         }
 
@@ -1809,7 +1803,7 @@ namespace Worldescape
         /// </summary>
         private void SetDefault()
         {
-            Color color = _backgroundColors[new Random().Next(0, _backgroundColors.Count())];
+            Color color = App.BackgroundColors[new Random().Next(0, App.BackgroundColors.Count())];
             Background = new SolidColorBrush(color);
 
             Visibility = Visibility.Collapsed;
@@ -1853,7 +1847,9 @@ namespace Worldescape
         /// <param name="drawOver"></param>
         private async void PopulateClouds(bool drawOver = false)
         {
-            await _worldHelper.PopulateClouds(canvas: Canvas_Root, drawOver: drawOver);
+            await _worldHelper.PopulateClouds(
+                canvas: Canvas_Root,
+                drawOver: drawOver);
         }
 
         /// <summary>
@@ -2150,16 +2146,6 @@ namespace Worldescape
                 }
                 else if (button.Tag is Portal portal)
                 {
-                    //var bitmap = new BitmapImage(new Uri(portal.World.ImageUrl, UriKind.RelativeOrAbsolute));
-
-                    //var img = new Image()
-                    //{
-                    //    Source = bitmap,
-                    //    Height = 70,
-                    //    Width = 70,
-                    //    Stretch = Stretch.UniformToFill,
-                    //};
-
                     var img = GetWorldPicture(portal.World, 70);
 
                     _pointerImage = img;
@@ -2585,11 +2571,17 @@ namespace Worldescape
 
         #region Avatar
 
+        /// <summary>
+        /// Shows actions for other avatar.
+        /// </summary>
         private void ShowOtherAvatarActionsHolder()
         {
             OtherAvatarActionsHolder.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Shows own avatar actions.
+        /// </summary>
         private void ShowOwnAvatarActionsHolder()
         {
             OwnAvatarActionsHolder.Visibility = Visibility.Visible;
@@ -2653,7 +2645,7 @@ namespace Worldescape
         /// <param name="avatar"></param>
         private void ScrollIntoView(Avatar avatar)
         {
-            if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, avatar.Id) is UIElement iElement)
+            if (_avatarHelper.GetAvatarButtonFromCanvas(canvas: Canvas_Root, avatarId: avatar.Id) is UIElement iElement)
             {
                 CanvasScrollViewer.ScrollIntoView(
                     element: (Button)iElement,
@@ -2728,7 +2720,7 @@ namespace Worldescape
             {
                 var pageSize = 15;
 
-                var totalPageCount = _paginationHelper.GetTotalPageCount(pageSize, count);
+                var totalPageCount = _paginationHelper.GetTotalPageCount(pageSize: pageSize, dataCount: count);
 
                 var fetchedAvatars = new List<Avatar>();
 
@@ -2747,7 +2739,7 @@ namespace Worldescape
 
                     Parallel.ForEach(fetchedAvatars, avatar =>
                     {
-                        var avatarButton = GenerateAvatarButton(avatar);
+                        var avatarButton = GenerateAvatarButton(avatar: avatar);
 
                         SetAvatarActivityStatus(
                             avatarButton: avatarButton,
@@ -2779,7 +2771,9 @@ namespace Worldescape
         private async Task<long> GetAvatarsCount()
         {
             // Get Avatars count for this world
-            var response = await _avatarRepository.GetAvatarsCount(token: App.Token, worldId: App.World.Id);
+            var response = await _avatarRepository.GetAvatarsCount(
+                token: App.Token,
+                worldId: App.World.Id);
 
             if (!response.Success)
             {
@@ -2804,7 +2798,11 @@ namespace Worldescape
             int pageIndex)
         {
             // Get Avatars in small packets
-            var response = await _avatarRepository.GetAvatars(token: App.Token, worldId: App.World.Id, pageIndex: pageIndex, pageSize: pageSize);
+            var response = await _avatarRepository.GetAvatars(
+                token: App.Token,
+                worldId: App.World.Id,
+                pageIndex: pageIndex,
+                pageSize: pageSize);
 
             if (!response.Success)
             {
@@ -2829,7 +2827,7 @@ namespace Worldescape
             Avatar avatar,
             double size = 40)
         {
-            return _avatarHelper.GetAvatarUserPicture(
+            return _avatarHelper.GetAvatarUserPictureFrame(
                 avatar: avatar,
                 size: size);
         }
@@ -2843,7 +2841,7 @@ namespace Worldescape
             Avatar avatar,
             double size = 40)
         {
-            return _avatarHelper.GetAvatarCharacterPicture(
+            return _avatarHelper.GetAvatarCharacterPictureFrame(
                 avatar: avatar,
                 size: size,
                 background: Colors.BlanchedAlmond);
@@ -2893,7 +2891,11 @@ namespace Worldescape
 
                 var z = Canvas.GetZIndex(iElement);
 
-                await _hubService.BroadcastAvatarMovement(avatarId: Avatar.Id, x: movedAvatar.Coordinate.X, y: movedAvatar.Coordinate.Y, z: z);
+                await _hubService.BroadcastAvatarMovement(
+                    avatarId: Avatar.Id,
+                    x: movedAvatar.Coordinate.X,
+                    y: movedAvatar.Coordinate.Y,
+                    z: z);
 
                 Console.WriteLine("Avatar moved.");
             }
@@ -2916,7 +2918,9 @@ namespace Worldescape
                     avatar: taggedAvatar,
                     activityStatus: activityStatus);
 
-                await _hubService.BroadcastAvatarActivityStatus(avatarId: taggedAvatar.Id, activityStatus: (int)activityStatus);
+                await _hubService.BroadcastAvatarActivityStatus(
+                    avatarId: taggedAvatar.Id,
+                    activityStatus: (int)activityStatus);
 
                 Console.WriteLine("Avatar status updated.");
             }

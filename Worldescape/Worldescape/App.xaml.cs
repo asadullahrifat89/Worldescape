@@ -3,6 +3,7 @@ using System;
 using Windows.UI.Xaml;
 using Worldescape.Service;
 using Worldescape.Common;
+using Windows.UI;
 
 namespace Worldescape
 {
@@ -42,6 +43,18 @@ namespace Worldescape
         public static World World { get; set; } = new World();
 
         public static string Token { get; set; } = string.Empty;
+
+        public static readonly Color[] BackgroundColors = new Color[]
+        {
+            Color.FromRgb(235, 157, 96), // Sandy Brown
+            Color.FromRgb(224, 180, 221), // Pink Lavender
+            Color.FromRgb(203, 167, 163), // Tuscany
+            Color.FromRgb(37, 35, 88), // Space Cadet
+            Color.FromRgb(106, 101, 107), // Dim Gray
+            Color.FromRgb(157, 192, 142), // Dark Sea Green
+            Color.FromRgb(255, 196, 0), // Mikado Yellow
+            Color.FromRgb(189, 28, 108), // Maroon X 11
+        };
 
         #endregion
 

@@ -166,7 +166,7 @@ namespace Worldescape
 
             var count = await GetWorldsCount();
 
-            _totalPageCount = _paginationHelper.GetTotalPageCount(_pageSize, count);
+            _totalPageCount = _paginationHelper.GetTotalPageCount(pageSize: _pageSize, dataCount: count);
 
             TextBox_FoundWorldsCount.Text = $"Found {count} worlds{(TextBox_SearchWorldsText.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchWorldsText.Text)}...";
             PopulatePageNumbers(0);

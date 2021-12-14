@@ -270,7 +270,7 @@ namespace Worldescape
         {
             var count = GetFilteredConstructAssetsCount();
 
-            _totalPageCount = _paginationHelper.GetTotalPageCount(_pageSize, count);
+            _totalPageCount = _paginationHelper.GetTotalPageCount(pageSize: _pageSize, dataCount: count);
 
             var can = _pickedConstructCategory?.Name.ToLowerInvariant();
             var ccn = _pickedConstructSubCategory?.Name.ToLowerInvariant();

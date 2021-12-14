@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using Worldescape.Common;
 
 namespace Worldescape
@@ -31,17 +32,24 @@ namespace Worldescape
         /// <returns></returns>
         public Button GeneratePortalButton(World world)
         {
-            var img = _worldHelper.GetWorldPicture(
+            var img = _worldHelper.GetWorldPictureFrame(
                 world: world,
                 margin: new Thickness(5),
-                size: 60);
+                size: 40);
 
             return GeneratePortalButton(
                 world: world,
-                fontSize: 15,
+                fontSize: 14,
                 img: img);
         }
 
+        /// <summary>
+        /// Generate a portal button.
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="fontSize"></param>
+        /// <param name="img"></param>
+        /// <returns></returns>
         private Button GeneratePortalButton(
             World world,
             double fontSize,
@@ -49,7 +57,6 @@ namespace Worldescape
         {
             var spContent = new StackPanel() { Margin = new Thickness(5) };
 
-            spContent.Children.Add(img);
             spContent.Children.Add(new TextBlock()
             {
                 FontSize = fontSize,
@@ -58,15 +65,35 @@ namespace Worldescape
                 Text = world.Name,
                 Foreground = new SolidColorBrush(Colors.White)
             });
+            spContent.Children.Add(img);
+            spContent.Children.Add(GeneratalPortalImage());           
 
             var buttonWorld = new Button()
             {
-                Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
+                Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style,
                 Tag = new Portal() { World = world },
             };
 
             buttonWorld.Content = spContent;
             return buttonWorld;
+        }
+
+        /// <summary>
+        /// Generates a random portal image.
+        /// </summary>
+        /// <returns></returns>
+        private Image GeneratalPortalImage()
+        {
+            var portalImage = $"ms-appx:///Assets/Images/Defaults/Portal-{new Random().Next(minValue: 0, maxValue: 3)}.gif";
+            var bitmap = new BitmapImage(new Uri(portalImage, UriKind.RelativeOrAbsolute));
+            var portalImg = new Image()
+            {
+                Source = bitmap,
+                Stretch = Stretch.Uniform,
+                Height = 100,
+                Width = 100,
+            };
+            return portalImg;
         }
 
         /// <summary>

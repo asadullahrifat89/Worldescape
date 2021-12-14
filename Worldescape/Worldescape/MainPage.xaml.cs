@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Worldescape.Common;
 using Worldescape.Service;
 
@@ -95,6 +98,13 @@ namespace Worldescape
         public void SetIsBusy(bool isBusy, string busyMessage = null)
         {
             Grid_Root.IsEnabled = !isBusy;
+
+            //if (isBusy)
+            //{
+            //    Color color = App.BackgroundColors[new Random().Next(0, App.BackgroundColors.Count())];
+            //    BorderBusyIndicator.Background = new SolidColorBrush(color); 
+            //}
+
             TextBlock_BusyMessageHolder.Text = Grid_Root.IsEnabled ? "" : busyMessage ?? "Loading...";
         }
 

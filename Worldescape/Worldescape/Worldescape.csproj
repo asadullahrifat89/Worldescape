@@ -19,6 +19,9 @@
 		</ApplicationDefinition>
 		<Content Include="Assets\Images\Defaults\cloud-0.png" />
 		<Content Include="Assets\Images\Defaults\cloud-1.png" />
+		<Content Include="Assets\Images\Defaults\Portal-1.gif" />
+		<Content Include="Assets\Images\Defaults\Portal-0.gif" />
+		<Content Include="Assets\Images\Defaults\Portal-2.gif" />
 		<Content Include="Assets\Images\Defaults\World_1.png" />
 		<Content Include="Assets\Images\Defaults\World_2.png" />
 		<Content Include="Assets\Images\Defaults\World_3.png" />

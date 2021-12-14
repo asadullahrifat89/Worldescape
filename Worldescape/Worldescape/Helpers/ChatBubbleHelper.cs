@@ -15,12 +15,22 @@ namespace Worldescape
 {
     public class ChatBubbleHelper
     {
-        readonly AvatarHelper _avatarHelper;
+        #region Fields
+        
+        readonly AvatarHelper _avatarHelper; 
+
+        #endregion
+
+        #region Ctor
 
         public ChatBubbleHelper(AvatarHelper avatarHelper)
         {
             _avatarHelper = avatarHelper;
-        }
+        } 
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Adds a chat bubble to canvas on top of the avatar who sent it.
@@ -181,7 +191,7 @@ namespace Worldescape
         {
             StackPanel spPlaceholder = new StackPanel() { Orientation = Orientation.Horizontal };
 
-            Border brUserImage = _avatarHelper.GetAvatarUserPicture(taggedAvatar);
+            Border brUserImage = _avatarHelper.GetAvatarUserPictureFrame(taggedAvatar);
             brUserImage.VerticalAlignment = VerticalAlignment.Top;
 
             // Textblock containing the message
@@ -232,7 +242,7 @@ namespace Worldescape
             {
                 StackPanel spPlaceholder = new StackPanel() { Orientation = Orientation.Horizontal, Margin = new Thickness(40, 5, 5, 5) };
 
-                Border brUserImage = _avatarHelper.GetAvatarUserPicture(taggedAvatar, 30);
+                Border brUserImage = _avatarHelper.GetAvatarUserPictureFrame(taggedAvatar, 30);
                 brUserImage.VerticalAlignment = VerticalAlignment.Top;
 
                 // Textblock containing the reply message
@@ -285,6 +295,8 @@ namespace Worldescape
             }
 
             spUserImageAndMessage.Children.Add(icon);
-        }
+        } 
+
+        #endregion
     }
 }

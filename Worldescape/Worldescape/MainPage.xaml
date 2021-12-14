@@ -108,6 +108,7 @@
 
         <!--  Busy indicator  -->
         <Border
+            x:Name="BorderBusyIndicator"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Background="{StaticResource DefaultBackgroundColor}"

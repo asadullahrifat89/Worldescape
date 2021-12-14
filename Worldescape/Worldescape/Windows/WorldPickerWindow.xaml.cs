@@ -74,7 +74,7 @@ namespace Worldescape
         {
             if (!_settingWorlds)
             {
-                _pageIndex = _paginationHelper.GetPreviousPageNumber(_pageIndex);
+                _pageIndex = _paginationHelper.GetPreviousPageNumber(pageIndex: _pageIndex);
                 await FetchWorlds();
                 GeneratePageNumbers();
             }
@@ -84,7 +84,10 @@ namespace Worldescape
         {
             if (!_settingWorlds)
             {
-                _pageIndex = _paginationHelper.GetNextPageNumber(_totalPageCount, _pageIndex);
+                _pageIndex = _paginationHelper.GetNextPageNumber(
+                    totalPageCount: _totalPageCount,
+                    pageIndex: _pageIndex);
+
                 await FetchWorlds();
                 GeneratePageNumbers();
             }
@@ -127,7 +130,7 @@ namespace Worldescape
 
             var count = await GetWorldsCount();
 
-            _totalPageCount = _paginationHelper.GetTotalPageCount(_pageSize, count);
+            _totalPageCount = _paginationHelper.GetTotalPageCount(pageSize: _pageSize, dataCount: count);
 
             TextBox_FoundWorldsCount.Text = $"Found {count} worlds{(TextBox_SearchWorldsText.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchWorldsText.Text)}...";
             PopulatePageNumbers(0);
@@ -181,11 +184,11 @@ namespace Worldescape
         private async Task<IEnumerable<World>> GetWorlds()
         {
             var response = await _worldRepository.GetWorlds(
-                                   token: App.Token,
-                                   pageIndex: _pageIndex,
-                                   pageSize: _pageSize,
-                                   searchString: TextBox_SearchWorldsText.Text,
-                                   creatorId: App.User.Id);
+                token: App.Token,
+                pageIndex: _pageIndex,
+                pageSize: _pageSize,
+                searchString: TextBox_SearchWorldsText.Text,
+                creatorId: App.User.Id);
 
             if (!response.Success)
             {
@@ -201,13 +204,21 @@ namespace Worldescape
 
         private void GeneratePageNumbers()
         {
-            _pageNumbers = _paginationHelper.GeneratePageNumbers(_totalPageCount, _pageIndex, _pageNumbers);
+            _pageNumbers = _paginationHelper.GeneratePageNumbers(
+                totalPageCount: _totalPageCount,
+                pageIndex: _pageIndex,
+                _pageNumbers: _pageNumbers);
+
             PagesHolder.ItemsSource = _pageNumbers;
         }
 
         private void PopulatePageNumbers(int? pageIndex = null)
         {
-            _pageNumbers = _paginationHelper.PopulatePageNumbers(_totalPageCount, pageIndex ?? _pageIndex, _pageNumbers);
+            _pageNumbers = _paginationHelper.PopulatePageNumbers(
+                totalPageCount: _totalPageCount,
+                pageIndex: pageIndex ?? _pageIndex,
+                _pageNumbers: _pageNumbers);
+
             PagesHolder.ItemsSource = _pageNumbers;
         }
 

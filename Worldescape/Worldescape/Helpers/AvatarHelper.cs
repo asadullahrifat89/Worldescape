@@ -12,14 +12,22 @@ namespace Worldescape
 {
     public class AvatarHelper
     {
+        #region Fields
+        
         readonly UrlHelper _urlHelper;
 
+        #endregion
+
+        #region Ctor
+        
         public AvatarHelper()
         {
             _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
-        }
+        } 
 
-        #region UI
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Gets the user image in a circular border from the provided avatar.
@@ -27,13 +35,13 @@ namespace Worldescape
         /// <param name="avatar"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public Border GetAvatarUserPicture(
+        public Border GetAvatarUserPictureFrame(
             Avatar avatar,
             double size = 40,
             Color? background = null)
         {
             var bitmapImage = new BitmapImage(new Uri(avatar.User.ImageUrl.Contains("ms-appx:") ? avatar.User.ImageUrl : _urlHelper.BuildBlobUrl(App.Token, avatar.User.ImageUrl)));
-            return PrepareRoundImage(
+            return PrepareRoundPictureFrame(
                 size: size,
                 bitmapImage: bitmapImage,
                 background: background);
@@ -45,13 +53,13 @@ namespace Worldescape
         /// <param name="avatar"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public Border GetAvatarCharacterPicture(
+        public Border GetAvatarCharacterPictureFrame(
             Avatar avatar,
             double size = 40,
             Color? background = null)
         {
             var bitmapImage = new BitmapImage(new Uri(avatar.Character.ImageUrl));
-            return PrepareRoundImage(
+            return PrepareRoundPictureFrame(
                 size: size,
                 bitmapImage: bitmapImage,
                 background: background);
@@ -63,7 +71,7 @@ namespace Worldescape
         /// <param name="size"></param>
         /// <param name="bitmapImage"></param>
         /// <returns></returns>
-        private Border PrepareRoundImage(
+        private Border PrepareRoundPictureFrame(
             double size,
             BitmapImage bitmapImage,
             Color? background = null)

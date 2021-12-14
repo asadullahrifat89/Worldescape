@@ -14,18 +14,26 @@ namespace Worldescape
 {
     public class ConstructHelper
     {
+        #region Fields
+        
         readonly ElementHelper _elementHelper;
-        readonly UrlHelper _urlHelper;
+        readonly UrlHelper _urlHelper; 
+
+        #endregion
+
+        #region Ctor
 
         public ConstructHelper(
-            ElementHelper elementHelper,
-            UrlHelper urlHelper)
+          ElementHelper elementHelper,
+          UrlHelper urlHelper)
         {
             _elementHelper = elementHelper;
             _urlHelper = urlHelper;
-        }
+        } 
 
-        #region UI
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Return if the current app user can manipulate the provided construct.
