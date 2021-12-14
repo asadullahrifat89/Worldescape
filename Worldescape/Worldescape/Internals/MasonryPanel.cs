@@ -23,11 +23,7 @@ namespace Worldescape
         /// <summary>
         /// This method prepares the inner div of this class so that it uses Masonry.
         /// </summary>
-#if SLMIGRATION
-        void MasonryPanel_Loaded(object sender, RoutedEventArgs e)
-#else
         void MasonryPanel_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-#endif
         {
             //            object thisDiv = OpenSilver.Interop.GetDiv(this);
             //            _wall = OpenSilver.Interop.ExecuteJavaScript(@"(function() { //we make this a function so that we can get a return type

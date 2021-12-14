@@ -50,7 +50,7 @@ namespace CSHTML5.Extensions.FileOpenDialog
 
             Html = "<input type='file'>";
 
-            this.Loaded += ControlForDisplayingAFileOpenDialog_Loaded;
+            Loaded += ControlForDisplayingAFileOpenDialog_Loaded;
         }
 
         void ControlForDisplayingAFileOpenDialog_Loaded(object sender, RoutedEventArgs e)
@@ -60,13 +60,13 @@ namespace CSHTML5.Extensions.FileOpenDialog
 
             Action<object> onFileOpened = (result) =>
             {
-                if (this.FileOpened != null)
-                    this.FileOpened(this, new FileOpenedEventArgs(result, this.ResultKind));
+                if (FileOpened != null)
+                    FileOpened(this, new FileOpenedEventArgs(result, ResultKind));
             };
             string resultKindStr = _resultKindStr; // Note: this is here to "capture" the variable so that it can be used inside the "addEventListener" below.
 
             // Apply the "Filter" property to limit the choice of the user to the specified extensions:
-            SetFilter(this.Filter);
+            SetFilter(Filter);
 
             // Listen to the "change" property of the "input" element, and call the callback:
             OpenSilver.Interop.ExecuteJavaScript(@"
@@ -123,7 +123,7 @@ namespace CSHTML5.Extensions.FileOpenDialog
                     itemsKept.Add(splitted[i]);
                 }
             }
-            string filtersInHtml5 = String.Join(",", itemsKept).Replace("*", "").Replace(";", ",");
+            string filtersInHtml5 = string.Join(",", itemsKept).Replace("*", "").Replace(";", ",");
 
             // Apply the filter:
             if (!string.IsNullOrWhiteSpace(filtersInHtml5))
@@ -136,14 +136,13 @@ namespace CSHTML5.Extensions.FileOpenDialog
             }
         }
 
+        public static readonly DependencyProperty FilterProperty = DependencyProperty.Register("Filter", typeof(string), typeof(FileOpenDialogPresenter), new PropertyMetadata("", Filter_Changed));
 
         public string Filter
         {
             get { return (string)GetValue(FilterProperty); }
             set { SetValue(FilterProperty, value); }
         }
-
-        public static readonly DependencyProperty FilterProperty = DependencyProperty.Register("Filter", typeof(string), typeof(FileOpenDialogPresenter), new PropertyMetadata("", Filter_Changed));
 
         static void Filter_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -157,12 +156,6 @@ namespace CSHTML5.Extensions.FileOpenDialog
 
     public class FileOpenedEventArgs : EventArgs
     {
-        ///// <summary>
-        ///// Only available if the property "ResultKind" was set to "Text"
-        ///// </summary>
-        //[Obsolete]
-        //public readonly string PlainTextContent;
-
         /// <summary>
         /// Only available if the property "ResultKind" was set to "Text".
         /// </summary>
@@ -172,16 +165,16 @@ namespace CSHTML5.Extensions.FileOpenDialog
         /// Only available if the property "ResultKind" was set to "DataURL".
         /// </summary>
         public readonly string DataURL;
-                
+
         public FileOpenedEventArgs(object result, ResultKind resultKind)
         {
             if (resultKind == ResultKind.Text)
             {
-                this.Text = /*this.PlainTextContent =*/ (result ?? "").ToString();
+                Text = (result ?? "").ToString();
             }
             else if (resultKind == ResultKind.DataURL)
             {
-                this.DataURL = (result ?? "").ToString();
+                DataURL = (result ?? "").ToString();
             }
             else
             {
