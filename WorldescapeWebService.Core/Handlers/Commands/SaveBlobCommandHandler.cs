@@ -5,7 +5,7 @@ using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
-public class SaveBlobCommandHandler : IRequestHandler<SaveBlobCommand, SaveBlobCommandResponse>
+public class SaveBlobCommandHandler : IRequestHandler<SaveBlobCommand, RecordResponse<int>>
 {
     #region Fields
 
@@ -31,7 +31,7 @@ public class SaveBlobCommandHandler : IRequestHandler<SaveBlobCommand, SaveBlobC
 
     #region Methods
 
-    public async Task<SaveBlobCommandResponse> Handle(
+    public async Task<RecordResponse<int>> Handle(
         SaveBlobCommand request,
         CancellationToken cancellationToken)
     {
@@ -50,7 +50,7 @@ public class SaveBlobCommandHandler : IRequestHandler<SaveBlobCommand, SaveBlobC
             {
                 var result = await _databaseService.FindById<Blob>(request.Id);
 
-                return new SaveBlobCommandResponse() { Id = result.Id, HttpStatusCode = System.Net.HttpStatusCode.OK };
+                return new RecordResponse<int>().BuildSuccessResponse(result.Id);
             }
             else
             {
@@ -60,7 +60,7 @@ public class SaveBlobCommandHandler : IRequestHandler<SaveBlobCommand, SaveBlobC
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new SaveBlobCommandResponse() { HttpStatusCode = System.Net.HttpStatusCode.InternalServerError, ExternalError = ex.Message };
+            return new RecordResponse<int>().BuildErrorResponse(ex.Message);
         }
     }
 

@@ -3,15 +3,15 @@ using Worldescape.Common;
 
 namespace Worldescape.Service
 {
-    public class RepositoryResponse
+    public class RepositoryResponse<T>
     {
-        public object Result { get; set; }
+        public T Result { get; set; }
         public bool Success { get; set; }
         public string Error { get; set; } = string.Empty;
 
-        public static RepositoryResponse BuildResponse(bool success, object result, string error = null)
+        public static RepositoryResponse<T> BuildResponse(bool success, T result, string error = null)
         {
-            return new RepositoryResponse
+            return new RepositoryResponse<T>
             {
                 Error = error,
                 Success = success,

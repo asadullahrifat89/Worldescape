@@ -18,7 +18,7 @@ namespace Worldescape.Service
         /// <param name="token"></param>
         /// <param name="dataUrl"></param>
         /// <returns></returns>
-        public async Task<RepositoryResponse> SaveBlob(string token, string dataUrl)
+        public async Task<RepositoryResponse<int>> SaveBlob(string token, string dataUrl)
         {
             var command = new SaveBlobCommandRequest()
             {
@@ -27,13 +27,13 @@ namespace Worldescape.Service
                 Token = token
             };
 
-            var response = await _httpServiceHelper.SendPostRequest<SaveBlobCommandResponse>(
+            var response = await _httpServiceHelper.SendPostRequest<RecordResponse<int>>(
               actionUri: Constants.Action_SaveBlob,
               payload: command);
 
-            return RepositoryResponse.BuildResponse(
-                   success: RepositoryResponse.IsSuccess(response),
-                   result: response.Id,
+            return RepositoryResponse<int>.BuildResponse(
+                   success: RepositoryResponse<int>.IsSuccess(response),
+                   result: response.Record,
                    error: response.ExternalError);
         }
     }

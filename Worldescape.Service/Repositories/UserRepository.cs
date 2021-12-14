@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Worldescape.Common;
 
@@ -20,15 +21,15 @@ namespace Worldescape.Service
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public async Task<RepositoryResponse> GetUser(string token, string email, string password)
+        public async Task<RepositoryResponse<User>> GetUser(string token, string email, string password)
         {
             var response = await _httpServiceHelper.SendGetRequest<RecordResponse<User>>(
                    actionUri: Constants.Action_GetUser,
                    payload: new GetUserQueryRequest() { Token = token, Email = email, Password = password });
 
-            var success = RepositoryResponse.IsSuccess(response);
+            var success = RepositoryResponse<User>.IsSuccess(response);
 
-            return RepositoryResponse.BuildResponse(
+            return RepositoryResponse<User>.BuildResponse(
                    success: success,
                    result: response.Record,
                    error: success ? null : "Failed to login.");
@@ -44,7 +45,7 @@ namespace Worldescape.Service
         /// <param name="firstname"></param>
         /// <param name="lastname"></param>
         /// <returns></returns>
-        public async Task<RepositoryResponse> AddUser(
+        public async Task<RepositoryResponse<HttpStatusCode>> AddUser(
             string email,
             string password,
             DateTime dateofbirth,
@@ -67,9 +68,9 @@ namespace Worldescape.Service
                 actionUri: Constants.Action_AddUser,
                 payload: command);
 
-            return RepositoryResponse.BuildResponse(
+            return RepositoryResponse<HttpStatusCode>.BuildResponse(
                    success: response.HttpStatusCode == System.Net.HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),
-                   result: System.Net.HttpStatusCode.OK,
+                   result: HttpStatusCode.OK,
                    error: response.ExternalError);
         }
 
@@ -86,7 +87,7 @@ namespace Worldescape.Service
         /// <param name="lastname"></param>
         /// <param name="imageUrl"></param>
         /// <returns></returns>
-        public async Task<RepositoryResponse> UpdateUser(
+        public async Task<RepositoryResponse<HttpStatusCode>> UpdateUser(
             string token,
             int id,
             string email,
@@ -115,7 +116,7 @@ namespace Worldescape.Service
                 actionUri: Constants.Action_UpdateUser,
                 payload: command);
 
-            return RepositoryResponse.BuildResponse(
+            return RepositoryResponse<HttpStatusCode>.BuildResponse(
                    success: response.HttpStatusCode == System.Net.HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),
                    result: System.Net.HttpStatusCode.OK,
                    error: response.ExternalError);

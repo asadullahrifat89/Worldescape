@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Worldescape.Common;
 
 namespace Worldescape.Service
@@ -16,15 +17,15 @@ namespace Worldescape.Service
         /// Get avatar count from server for the current world.
         /// </summary>
         /// <returns></returns>
-        public async Task<RepositoryResponse> GetAvatarsCount(string token, int worldId)
+        public async Task<RepositoryResponse<long>> GetAvatarsCount(string token, int worldId)
         {
             // Get Avatars count for this world
             var response = await _httpServiceHelper.SendGetRequest<RecordsCountResponse>(
                 actionUri: Constants.Action_GetAvatarsCount,
                 payload: new GetAvatarsCountQueryRequest() { Token = token, WorldId = worldId });
 
-            return RepositoryResponse.BuildResponse(
-                success: RepositoryResponse.IsSuccess(response),
+            return RepositoryResponse<long>.BuildResponse(
+                success: RepositoryResponse<long>.IsSuccess(response),
                 result: response.Count,
                 error: response.ExternalError);
         }
@@ -35,15 +36,15 @@ namespace Worldescape.Service
         /// <param name="pageSize"></param>
         /// <param name="pageIndex"></param>
         /// <returns></returns>
-        public async Task<RepositoryResponse> GetAvatars(string token, int worldId, int pageSize, int pageIndex)
+        public async Task<RepositoryResponse<Avatar[]>> GetAvatars(string token, int worldId, int pageSize, int pageIndex)
         {
             // Get Avatars in small packets
             var response = await _httpServiceHelper.SendGetRequest<RecordsResponse<Avatar>>(
                 actionUri: Constants.Action_GetAvatars,
                 payload: new GetAvatarsQueryRequest() { Token = token, PageIndex = pageIndex, PageSize = pageSize, WorldId = worldId });
                        
-            return RepositoryResponse.BuildResponse(
-                success: RepositoryResponse.IsSuccess(response),
+            return RepositoryResponse<Avatar[]>.BuildResponse(
+                success: RepositoryResponse<Avatar[]>.IsSuccess(response),
                 result: response.Records,
                 error: response.ExternalError);
         }

@@ -2781,7 +2781,7 @@ namespace Worldescape
                 return 0;
             }
 
-            return (long)response.Result;
+            return response.Result;
         }
 
         /// <summary>
@@ -3042,7 +3042,7 @@ namespace Worldescape
                 return 0;
             }
 
-            return (long)response.Result;
+            return response.Result;
         }
 
         /// <summary>

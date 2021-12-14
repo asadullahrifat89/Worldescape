@@ -175,7 +175,7 @@ namespace Worldescape
                 return 0;
             }
 
-            return (long)response.Result;
+            return response.Result;
         }
 
         private async Task<IEnumerable<World>> GetWorlds()

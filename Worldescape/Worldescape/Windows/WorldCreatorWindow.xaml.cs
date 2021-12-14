@@ -63,7 +63,7 @@ namespace Worldescape
             }
             else
             {
-                var world = response.Result as World;
+                var world = response.Result;
 
                 if (world != null && world.Id > 0)
                 {
@@ -95,7 +95,7 @@ namespace Worldescape
             }
             else
             {
-                var world = response.Result as World;
+                var world = response.Result;
 
                 if (world != null && world.Id > 0)
                 {

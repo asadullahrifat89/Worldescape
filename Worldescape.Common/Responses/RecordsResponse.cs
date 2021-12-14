@@ -8,14 +8,14 @@ namespace Worldescape.Common
     {
         public long Count { get; set; }
 
-        public IEnumerable<TRecord> Records { get; set; } = Enumerable.Empty<TRecord>();
+        public TRecord[] Records { get; set; } = new TRecord[] { };
 
         public RecordsResponse<TRecord> BuildSuccessResponse(long count, IEnumerable<TRecord> records)
         {
             return new RecordsResponse<TRecord>()
             {
                 Count = count,
-                Records = records ?? Enumerable.Empty<TRecord>(),
+                Records = records != null ? records.ToArray() : new TRecord[] { },
                 HttpStatusCode = HttpStatusCode.OK,
             };
         }

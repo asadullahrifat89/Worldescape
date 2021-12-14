@@ -57,7 +57,7 @@ namespace Worldescape
             }
             else
             {
-                _blobId?.Invoke(((int)response.Result).ToString());
+                _blobId?.Invoke(response.Result.ToString());
                 this.DialogResult = true;
             }
         }

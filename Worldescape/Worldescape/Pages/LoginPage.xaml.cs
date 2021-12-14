@@ -76,7 +76,7 @@ namespace Worldescape
             }
             else
             {
-                var token = apiTokenResponse.Result as string;
+                var token = apiTokenResponse.Result;
 
                 if (token.IsNullOrBlank())
                 {
@@ -103,7 +103,7 @@ namespace Worldescape
                 }
                 else
                 {
-                    App.User = loginResponse.Result as User;
+                    App.User = loginResponse.Result;
 
                     _mainPage.SetLoggedInUserModel();
                     _mainPage.NavigateToPage(Constants.Page_WorldsPage);
