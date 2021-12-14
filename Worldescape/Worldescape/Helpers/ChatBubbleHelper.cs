@@ -83,7 +83,7 @@ namespace Worldescape
                     taggedAvatar: fromTaggedAvatar,
                     loggedInAvatar: loggedInAvatar);
             }
-            else // If received message then image on the right
+            else // If received message then
             {
                 Button meAvatarButton = canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == loggedInAvatar.Id);
                 var receiver = meAvatarButton.Tag as Avatar;
@@ -197,7 +197,7 @@ namespace Worldescape
             }
             else
             {
-                spPlaceholder.HorizontalAlignment = HorizontalAlignment.Right;
+                spPlaceholder.HorizontalAlignment = HorizontalAlignment.Left;
                 spPlaceholder.Children.Add(brUserImage);
                 spPlaceholder.Children.Add(tbMsg);
                 AddMessageTypeIconText(messageType: messageType, spUserImageAndMessage: spPlaceholder);
@@ -233,7 +233,7 @@ namespace Worldescape
                     HorizontalAlignment = HorizontalAlignment.Right,
                 };
 
-                spPlaceholder.HorizontalAlignment = HorizontalAlignment.Left;
+                spPlaceholder.HorizontalAlignment = loggedInAvatar.Id == taggedAvatar.Id ? HorizontalAlignment.Right : HorizontalAlignment.Left;
                 spPlaceholder.Children.Add(brUserImage);
                 spPlaceholder.Children.Add(tbMsg);
 
