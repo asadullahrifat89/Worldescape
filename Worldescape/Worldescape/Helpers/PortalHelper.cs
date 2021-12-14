@@ -14,16 +14,26 @@ namespace Worldescape
 {
     public class PortalHelper
     {
+        #region Fields
+
         readonly WorldHelper _worldHelper;
         readonly ElementHelper _elementHelper;
 
+        #endregion
+
+        #region Ctor
+
         public PortalHelper(
-            WorldHelper worldHelper,
-            ElementHelper elementHelper)
+         WorldHelper worldHelper,
+         ElementHelper elementHelper)
         {
             _worldHelper = worldHelper;
             _elementHelper = elementHelper;
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Generates a portal button with a rounded world image and the world's name below it.
@@ -32,15 +42,9 @@ namespace Worldescape
         /// <returns></returns>
         public Button GeneratePortalButton(World world)
         {
-            var img = _worldHelper.GetWorldPictureFrame(
-                world: world,
-                margin: new Thickness(5),
-                size: 40);
-
             return GeneratePortalButton(
                 world: world,
-                fontSize: 14,
-                img: img);
+                fontSize: 14);
         }
 
         /// <summary>
@@ -52,27 +56,29 @@ namespace Worldescape
         /// <returns></returns>
         private Button GeneratePortalButton(
             World world,
-            double fontSize,
-            Border img)
+            double fontSize)
         {
             var spContent = new StackPanel() { Margin = new Thickness(5) };
 
-            spContent.Children.Add(new TextBlock()
-            {
-                FontSize = fontSize,
-                FontWeight = FontWeights.SemiBold,
-                TextAlignment = TextAlignment.Center,
-                Text = world.Name,
-                Foreground = new SolidColorBrush(Colors.White)
-            });
-            spContent.Children.Add(img);
-            spContent.Children.Add(GeneratalPortalImage());           
+            //spContent.Children.Add(new TextBlock()
+            //{
+            //    FontSize = fontSize,
+            //    FontWeight = FontWeights.SemiBold,
+            //    TextAlignment = TextAlignment.Center,
+            //    Text = world.Name,
+            //    Foreground = new SolidColorBrush(Colors.White)
+            //});
+
+            spContent.Children.Add(_worldHelper.GetWorldPictureFrame(world: world, margin: new Thickness(5)));
+            spContent.Children.Add(GeneratalPortalImage());
 
             var buttonWorld = new Button()
             {
                 Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style,
                 Tag = new Portal() { World = world },
             };
+
+            ToolTipService.SetToolTip(buttonWorld, world.Name);
 
             buttonWorld.Content = spContent;
             return buttonWorld;
@@ -138,12 +144,19 @@ namespace Worldescape
 
             Canvas.SetZIndex(portal, indexZ);
 
+            var easeIn = new ExponentialEase()
+            {
+                EasingMode = EasingMode.EaseIn,
+                Exponent = 5,
+            };
+
             // Set opacity animation
             DoubleAnimation opacityAnimation = new DoubleAnimation()
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromMinutes(3)
+                Duration = TimeSpan.FromMinutes(3),
+                EasingFunction = easeIn
             };
 
             // after opacity reaches zero delete this from canvas
@@ -201,5 +214,7 @@ namespace Worldescape
 
             return portal;
         }
+
+        #endregion
     }
 }

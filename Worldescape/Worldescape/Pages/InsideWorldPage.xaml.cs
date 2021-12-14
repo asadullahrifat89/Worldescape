@@ -2146,7 +2146,7 @@ namespace Worldescape
                 }
                 else if (button.Tag is Portal portal)
                 {
-                    var img = GetWorldPicture(portal.World, 70);
+                    var img = GetWorldPicture(portal.World, 140);
 
                     _pointerImage = img;
                     _pointerImage.Opacity = 0.8;

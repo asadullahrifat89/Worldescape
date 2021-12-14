@@ -204,7 +204,7 @@ namespace Worldescape
 
             Button btnAvatar = new Button()
             {
-                Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
+                Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style,
             };
 
             ToolTipService.SetToolTip(btnAvatar, avatar.Name);
