@@ -31,6 +31,7 @@ namespace Worldescape
         /// <param name="toAvatar"></param>
         /// <param name="canvas"></param>
         /// <param name="loggedInAvatar"></param>
+        /// <param name="replyToChatMessage"></param>
         /// <returns></returns>
         public Button AddChatBubbleToCanvas(
             ChatMessage chatMessage,
@@ -85,7 +86,7 @@ namespace Worldescape
             }
             else // If received message then
             {
-                Button meAvatarButton = canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar meAvatar && meAvatar.Id == loggedInAvatar.Id);
+                Button meAvatarButton = canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar a && a.Id == loggedInAvatar.Id);
                 var receiver = meAvatarButton.Tag as Avatar;
 
                 // This is later used when replying to the sender.
@@ -163,6 +164,14 @@ namespace Worldescape
             return btnChatBubble;
         }
 
+        /// <summary>
+        /// Add message to chatbubble.
+        /// </summary>
+        /// <param name="chatMessage"></param>
+        /// <param name="taggedAvatar"></param>
+        /// <param name="messageType"></param>
+        /// <param name="spContent"></param>
+        /// <param name="loggedInAvatar"></param>
         private void AddMessageToChatBubble(
             ChatMessage chatMessage,
             Avatar taggedAvatar,
@@ -206,6 +215,13 @@ namespace Worldescape
             spContent.Children.Add(spPlaceholder);
         }
 
+        /// <summary>
+        /// Add reply message to chatbubble.
+        /// </summary>
+        /// <param name="replyToChatMessage"></param>
+        /// <param name="taggedAvatar"></param>
+        /// <param name="spContent"></param>
+        /// <param name="loggedInAvatar"></param>
         private void AddReplyMessageToChatBubble(
             ChatMessage replyToChatMessage,
             Avatar taggedAvatar,
@@ -246,7 +262,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="messageType"></param>
         /// <param name="spUserImageAndMessage"></param>
-        private void AddMessageTypeIconText(MessageType messageType, StackPanel spUserImageAndMessage)
+        private void AddMessageTypeIconText(
+            MessageType messageType,
+            StackPanel spUserImageAndMessage)
         {
             var icon = new Image() { Margin = new Thickness(5, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center };
 
