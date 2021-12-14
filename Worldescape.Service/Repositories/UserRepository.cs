@@ -13,27 +13,27 @@ namespace Worldescape.Service
             _httpServiceHelper = httpServiceHelper;
         }
 
-       /// <summary>
-       /// Gets a user information from the provided params.
-       /// </summary>
-       /// <param name="token"></param>
-       /// <param name="email"></param>
-       /// <param name="password"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// Gets a user information from the provided params.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public async Task<RepositoryResponse> GetUser(string token, string email, string password)
         {
-            var user = await _httpServiceHelper.SendGetRequest<User>(
+            var response = await _httpServiceHelper.SendGetRequest<RecordResponse<User>>(
                    actionUri: Constants.Action_GetUser,
                    payload: new GetUserQueryRequest() { Token = token, Email = email, Password = password });
 
-            var success = user != null && !user.IsEmpty();
+            var success = RepositoryResponse.IsSuccess(response);
 
             return RepositoryResponse.BuildResponse(
                    success: success,
-                   result: user,
+                   result: response.Record,
                    error: success ? null : "Failed to login.");
         }
-      
+
         /// <summary>
         /// Adds a user.
         /// </summary>

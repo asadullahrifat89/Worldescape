@@ -3,7 +3,7 @@ using Worldescape.Common;
 
 namespace WorldescapeWebService.Core;
 
-public class GetUserQuery : GetUserQueryRequest, IRequest<User>
+public class GetUserQuery : GetUserQueryRequest, IRequest<RecordResponse<User>>
 {
     
 }

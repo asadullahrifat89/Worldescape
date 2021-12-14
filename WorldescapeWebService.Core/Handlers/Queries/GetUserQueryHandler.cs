@@ -6,7 +6,7 @@ using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
-public class GetUserQueryHandler : IRequestHandler<GetUserQuery, User>
+public class GetUserQueryHandler : IRequestHandler<GetUserQuery, RecordResponse<User>>
 {
     #region Fields
 
@@ -32,7 +32,7 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, User>
 
     #region Methods
 
-    public async Task<User> Handle(
+    public async Task<RecordResponse<User>> Handle(
         GetUserQuery request,
         CancellationToken cancellationToken)
     {
@@ -58,12 +58,12 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, User>
             if (user.Password != request.Password)
                 throw new Exception("Invalid password");
 
-            return user;
+            return new RecordResponse<User>().BuildSuccessResponse(user);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new User();
+            return new RecordResponse<User>().BuildErrorResponse(ex.Message);
         }
     }
 
