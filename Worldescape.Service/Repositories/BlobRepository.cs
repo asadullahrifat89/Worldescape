@@ -12,12 +12,12 @@ namespace Worldescape.Service
             _httpServiceHelper = httpServiceHelper;
         }
 
-       /// <summary>
-       /// Save a blod.
-       /// </summary>
-       /// <param name="token"></param>
-       /// <param name="dataUrl"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// Save a blod.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="dataUrl"></param>
+        /// <returns></returns>
         public async Task<RepositoryResponse> SaveBlob(string token, string dataUrl)
         {
             var command = new SaveBlobCommandRequest()
@@ -32,7 +32,7 @@ namespace Worldescape.Service
               payload: command);
 
             return RepositoryResponse.BuildResponse(
-                   success: response.HttpStatusCode == System.Net.HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),
+                   success: RepositoryResponse.IsSuccess(response),
                    result: response.Id,
                    error: response.ExternalError);
         }

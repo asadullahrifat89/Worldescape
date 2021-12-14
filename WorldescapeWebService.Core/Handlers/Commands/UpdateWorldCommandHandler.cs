@@ -5,7 +5,7 @@ using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
-public class UpdateWorldCommandHandler : IRequestHandler<UpdateWorldCommand, World>
+public class UpdateWorldCommandHandler : IRequestHandler<UpdateWorldCommand, RecordResponse<World>>
 {
     #region Fields
 
@@ -30,7 +30,7 @@ public class UpdateWorldCommandHandler : IRequestHandler<UpdateWorldCommand, Wor
     #endregion
 
     #region Methods
-    public async Task<World> Handle(
+    public async Task<RecordResponse<World>> Handle(
         UpdateWorldCommand request,
         CancellationToken cancellationToken)
     {
@@ -47,7 +47,7 @@ public class UpdateWorldCommandHandler : IRequestHandler<UpdateWorldCommand, Wor
             result.UpdatedOn = DateTime.Now;
 
             if (await _databaseService.ReplaceById(result, result.Id))
-                return result;
+                return new RecordResponse<World>().BuildSuccessResponse(result);
 
             else
                 throw new Exception("World with Id: " + request.Id + "Update failed.");
@@ -55,7 +55,7 @@ public class UpdateWorldCommandHandler : IRequestHandler<UpdateWorldCommand, Wor
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new World();
+            return new RecordResponse<World>().BuildErrorResponse(ex.Message);
         }
     }
 

@@ -64,15 +64,15 @@ namespace Worldescape.Service
                 ImageUrl = imageUrl
             };
 
-            var world = await _httpServiceHelper.SendPostRequest<World>(
+            var response = await _httpServiceHelper.SendPostRequest<RecordResponse<World>>(
                actionUri: Constants.Action_AddWorld,
                payload: command);
 
-            var success = world != null && world.Id > 0;
+            var success = RepositoryResponse.IsSuccess(response);
 
             return RepositoryResponse.BuildResponse(
                 success: success,
-                result: world,
+                result: response.Record,
                 error: success ? null : "Failed to create your world. This shouldn't be happening. Try again.");
         }
 
@@ -92,15 +92,15 @@ namespace Worldescape.Service
                 Id = id
             };
 
-            var world = await _httpServiceHelper.SendPostRequest<World>(
+            var response = await _httpServiceHelper.SendPostRequest<RecordResponse<World>>(
                actionUri: Constants.Action_UpdateWorld,
                payload: command);
 
-            var success = world != null && world.Id > 0;
+            var success = RepositoryResponse.IsSuccess(response);
 
             return RepositoryResponse.BuildResponse(
                 success: success,
-                result: world,
+                result: response.Record,
                 error: success ? null : "Failed to save your world. This shouldn't be happening. Try again.");
         }
     }

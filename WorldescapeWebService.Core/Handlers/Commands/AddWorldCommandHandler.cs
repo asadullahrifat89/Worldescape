@@ -5,7 +5,7 @@ using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
-public class AddWorldCommandHandler : IRequestHandler<AddWorldCommand, World>
+public class AddWorldCommandHandler : IRequestHandler<AddWorldCommand, RecordResponse<World>>
 {
     #region Fields
 
@@ -34,7 +34,7 @@ public class AddWorldCommandHandler : IRequestHandler<AddWorldCommand, World>
 
     #region Methods
 
-    public async Task<World> Handle(
+    public async Task<RecordResponse<World>> Handle(
         AddWorldCommand request,
         CancellationToken cancellationToken)
     {
@@ -59,7 +59,8 @@ public class AddWorldCommandHandler : IRequestHandler<AddWorldCommand, World>
 
             if (await _databaseService.InsertDocument(world))
             {
-                return await _databaseService.FindById<World>(world.Id);
+                var result= await _databaseService.FindById<World>(world.Id);
+                return new RecordResponse<World>().BuildSuccessResponse(result);
             }
             else
             {
@@ -69,7 +70,7 @@ public class AddWorldCommandHandler : IRequestHandler<AddWorldCommand, World>
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new World();
+            return new RecordResponse<World>().BuildErrorResponse(ex.Message);
         }
     }
 
