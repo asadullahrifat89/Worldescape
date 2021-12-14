@@ -6,7 +6,7 @@ namespace WorldescapeWebService.Core;
 /// <summary>
 /// A query that fetches Constructs.
 /// </summary>
-public class GetConstructsQuery : GetConstructsQueryRequest, IRequest<GetConstructsQueryResponse>
+public class GetConstructsQuery : GetConstructsQueryRequest, IRequest<RecordsResponse<Construct>>
 {
     
 }

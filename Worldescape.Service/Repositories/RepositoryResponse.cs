@@ -1,4 +1,7 @@
-﻿namespace Worldescape.Service
+﻿using System.Net;
+using Worldescape.Common;
+
+namespace Worldescape.Service
 {
     public class RepositoryResponse
     {
@@ -14,6 +17,11 @@
                 Success = success,
                 Result = result
             };
+        }
+
+        public static bool IsSuccess(ServiceResponse response)
+        {
+            return response.HttpStatusCode == HttpStatusCode.OK && response.ExternalError.IsNullOrBlank();
         }
     }
 }

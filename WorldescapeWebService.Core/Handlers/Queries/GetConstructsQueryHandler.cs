@@ -6,7 +6,7 @@ using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
-public class GetConstructsQueryHandler : IRequestHandler<GetConstructsQuery, GetConstructsQueryResponse>
+public class GetConstructsQueryHandler : IRequestHandler<GetConstructsQuery, RecordsResponse<Construct>>
 {
     #region Fields
 
@@ -32,7 +32,7 @@ public class GetConstructsQueryHandler : IRequestHandler<GetConstructsQuery, Get
 
     #region Methods
 
-    public async Task<GetConstructsQueryResponse> Handle(
+    public async Task<RecordsResponse<Construct>> Handle(
         GetConstructsQuery request,
         CancellationToken cancellationToken)
     {
@@ -51,17 +51,12 @@ public class GetConstructsQueryHandler : IRequestHandler<GetConstructsQuery, Get
             // Get paginated data
             var results = await _databaseService.GetDocuments(filter, skip: request.PageSize * request.PageIndex, limit: request.PageSize);
 
-            return new GetConstructsQueryResponse()
-            {
-                Count = count,
-                Constructs = results ?? Enumerable.Empty<Construct>(),
-                HttpStatusCode = System.Net.HttpStatusCode.OK,
-            };
+            return new RecordsResponse<Construct>().BuildSuccessResponse(count, results);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new GetConstructsQueryResponse() { HttpStatusCode = System.Net.HttpStatusCode.InternalServerError, Count = 0, Constructs = null, ExternalError = ex.Message };
+            return new RecordsResponse<Construct>().BuildErrorResponse(ex.Message);
         }
     }
 
