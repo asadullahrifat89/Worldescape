@@ -381,6 +381,7 @@ public static class Extensions
         app.UseCors("CorsPolicy");
         app.UseResponseCaching();
         app.UseResponseCompression();
+
         //app.UseHttpsRedirection();
         //app.UseHsts();
 
