@@ -19,7 +19,7 @@ namespace Worldescape.Service
         public async Task<RepositoryResponse> GetConstructsCount(string token, int worldId)
         {
             // Get constructs count for this world
-            var response = await _httpServiceHelper.SendGetRequest<GetConstructsCountQueryResponse>(
+            var response = await _httpServiceHelper.SendGetRequest<RecordsCountResponse>(
                 actionUri: Constants.Action_GetConstructsCount,
                 payload: new GetConstructsCountQueryRequest() { Token = token, WorldId = worldId });
 
