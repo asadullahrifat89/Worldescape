@@ -1073,7 +1073,7 @@ namespace Worldescape
 
             var avatarUIElement = _avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) as Button;
 
-            var pointX = Canvas.GetLeft(avatarUIElement) + avatarUIElement.ActualWidth;
+            var pointX = Canvas.GetLeft(avatarUIElement) + avatarUIElement.ActualWidth / 2 + 3;
             var pointY = Canvas.GetTop(avatarUIElement) + avatarUIElement.ActualHeight;
 
             Canvas.SetLeft(OwnAvatarActionsHolder, pointX);
