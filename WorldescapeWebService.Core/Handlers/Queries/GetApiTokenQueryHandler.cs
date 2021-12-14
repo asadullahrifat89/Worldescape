@@ -6,7 +6,7 @@ using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
-public class GetApiTokenQueryHandler : IRequestHandler<GetApiTokenQuery, StringResponse>
+public class GetApiTokenQueryHandler : IRequestHandler<GetApiTokenQuery, RecordResponse<string>>
 {
     #region Fields
 
@@ -32,7 +32,7 @@ public class GetApiTokenQueryHandler : IRequestHandler<GetApiTokenQuery, StringR
 
     #region Methods
 
-    public async Task<StringResponse> Handle(
+    public async Task<RecordResponse<string>> Handle(
         GetApiTokenQuery request,
         CancellationToken cancellationToken)
     {
@@ -54,12 +54,12 @@ public class GetApiTokenQueryHandler : IRequestHandler<GetApiTokenQuery, StringR
             var tokenfilter = Builders<ApiToken>.Filter.Eq(x => x.UserId, user.Id);
             var accessToken = await _databaseService.FindOne(tokenfilter);
 
-            return new StringResponse() { Response = accessToken.Token };
+            return new RecordResponse<string>().BuildSuccessResponse(accessToken.Token);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new StringResponse() { HttpStatusCode = System.Net.HttpStatusCode.InternalServerError, ExternalError = ex.Message };
+            return new RecordResponse<string>().BuildErrorResponse(ex.Message);
         }
     }
 

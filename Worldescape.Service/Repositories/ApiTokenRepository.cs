@@ -20,13 +20,13 @@ namespace Worldescape.Service
         /// <returns></returns>
         public async Task<RepositoryResponse<string>> GetApiToken(string email, string password)
         {
-            var response = await _httpServiceHelper.SendGetRequest<StringResponse>(
+            var response = await _httpServiceHelper.SendGetRequest<RecordResponse<string>>(
               actionUri: Constants.Action_GetApiToken,
               payload: new GetApiTokenQueryRequest { Email = email, Password = password,  });
 
             return RepositoryResponse<string>.BuildResponse(
-                   success: response.HttpStatusCode == System.Net.HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),
-                   result: response.Response,
+                   success: RepositoryResponse<string>.IsSuccess(response),
+                   result: response.Record,
                    error: response.ExternalError);
         }
     }
