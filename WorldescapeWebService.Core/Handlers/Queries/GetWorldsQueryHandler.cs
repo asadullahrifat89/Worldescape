@@ -7,7 +7,7 @@ using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
-public class GetWorldsQueryHandler : IRequestHandler<GetWorldsQuery, GetWorldsQueryResponse>
+public class GetWorldsQueryHandler : IRequestHandler<GetWorldsQuery, RecordsResponse<World>>
 {
     #region Fields
 
@@ -33,7 +33,7 @@ public class GetWorldsQueryHandler : IRequestHandler<GetWorldsQuery, GetWorldsQu
 
     #region Methods
 
-    public async Task<GetWorldsQueryResponse> Handle(
+    public async Task<RecordsResponse<World>> Handle(
         GetWorldsQuery request,
         CancellationToken cancellationToken)
     {
@@ -56,17 +56,12 @@ public class GetWorldsQueryHandler : IRequestHandler<GetWorldsQuery, GetWorldsQu
             // Get paginated data
             var results = await _databaseService.GetDocuments(filter, skip: request.PageSize * request.PageIndex, limit: request.PageSize);
 
-            return new GetWorldsQueryResponse()
-            {
-                Count = count,
-                Worlds = results ?? Enumerable.Empty<World>(),
-                HttpStatusCode = System.Net.HttpStatusCode.OK,
-            };
+            return new RecordsResponse<World>().BuildSuccessResponse(count, results);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new GetWorldsQueryResponse() { HttpStatusCode = System.Net.HttpStatusCode.InternalServerError, ExternalError = ex.Message };
+            return new RecordsResponse<World>().BuildErrorResponse(ex.Message);
         }
     }
 

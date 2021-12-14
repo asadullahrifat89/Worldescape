@@ -6,7 +6,7 @@ using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
-public class GetAvatarsCountQueryHandler : IRequestHandler<GetAvatarsCountQuery, GetAvatarsCountQueryResponse>
+public class GetAvatarsCountQueryHandler : IRequestHandler<GetAvatarsCountQuery, RecordsCountResponse>
 {
     #region Fields
 
@@ -32,7 +32,7 @@ public class GetAvatarsCountQueryHandler : IRequestHandler<GetAvatarsCountQuery,
 
     #region Methods
 
-    public async Task<GetAvatarsCountQueryResponse> Handle(
+    public async Task<RecordsCountResponse> Handle(
         GetAvatarsCountQuery request,
         CancellationToken cancellationToken)
     {
@@ -48,12 +48,12 @@ public class GetAvatarsCountQueryHandler : IRequestHandler<GetAvatarsCountQuery,
             // Count total number of documents for filter, front end will calculate max number of pages from it
             var count = await _databaseService.CountDocuments(filter);
 
-            return new GetAvatarsCountQueryResponse() { Count = count, HttpStatusCode = System.Net.HttpStatusCode.OK };
+            return new RecordsCountResponse().BuildSuccessResponse(count);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new GetAvatarsCountQueryResponse() { Count = 0, HttpStatusCode = System.Net.HttpStatusCode.InternalServerError, ExternalError = ex.Message }; ;
+            return new RecordsCountResponse().BuildErrorResponse(ex.Message);
         }
     }
 

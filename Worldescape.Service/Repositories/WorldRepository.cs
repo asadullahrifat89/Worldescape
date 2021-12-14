@@ -19,12 +19,12 @@ namespace Worldescape.Service
         public async Task<RepositoryResponse> GetWorldsCount(string token, string searchString, int creatorId)
         {
             // Get Worlds count for this world
-            var response = await _httpServiceHelper.SendGetRequest<GetWorldsCountQueryResponse>(
+            var response = await _httpServiceHelper.SendGetRequest<RecordsCountResponse>(
                 actionUri: Constants.Action_GetWorldsCount,
                 payload: new GetWorldsCountQueryRequest() { Token = token, SearchString = searchString, CreatorId = creatorId });
 
             return RepositoryResponse.BuildResponse(
-                success: response.HttpStatusCode == System.Net.HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),
+                success: RepositoryResponse.IsSuccess(response),
                 result: response.Count,
                 error: response.ExternalError);
         }
@@ -38,13 +38,13 @@ namespace Worldescape.Service
         public async Task<RepositoryResponse> GetWorlds(string token, int pageIndex, int pageSize, string searchString, int creatorId)
         {
             // Get Worlds in small packets
-            var response = await _httpServiceHelper.SendGetRequest<GetWorldsQueryResponse>(
+            var response = await _httpServiceHelper.SendGetRequest<RecordsResponse<World>>(
                 actionUri: Constants.Action_GetWorlds,
                 payload: new GetWorldsQueryRequest() { Token = token, PageIndex = pageIndex, PageSize = pageSize, SearchString = searchString, CreatorId = creatorId });
 
             return RepositoryResponse.BuildResponse(
-                   success: response.HttpStatusCode == System.Net.HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),
-                   result: response.Worlds,
+                   success: RepositoryResponse.IsSuccess(response),
+                   result: response.Records,
                    error: response.ExternalError);
         }
 

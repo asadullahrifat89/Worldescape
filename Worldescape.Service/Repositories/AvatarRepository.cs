@@ -19,12 +19,12 @@ namespace Worldescape.Service
         public async Task<RepositoryResponse> GetAvatarsCount(string token, int worldId)
         {
             // Get Avatars count for this world
-            var response = await _httpServiceHelper.SendGetRequest<GetAvatarsCountQueryResponse>(
+            var response = await _httpServiceHelper.SendGetRequest<RecordsCountResponse>(
                 actionUri: Constants.Action_GetAvatarsCount,
                 payload: new GetAvatarsCountQueryRequest() { Token = token, WorldId = worldId });
 
             return RepositoryResponse.BuildResponse(
-                success: response.HttpStatusCode == System.Net.HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),
+                success: RepositoryResponse.IsSuccess(response),
                 result: response.Count,
                 error: response.ExternalError);
         }
@@ -38,13 +38,13 @@ namespace Worldescape.Service
         public async Task<RepositoryResponse> GetAvatars(string token, int worldId, int pageSize, int pageIndex)
         {
             // Get Avatars in small packets
-            var response = await _httpServiceHelper.SendGetRequest<GetAvatarsQueryResponse>(
+            var response = await _httpServiceHelper.SendGetRequest<RecordsResponse<Avatar>>(
                 actionUri: Constants.Action_GetAvatars,
                 payload: new GetAvatarsQueryRequest() { Token = token, PageIndex = pageIndex, PageSize = pageSize, WorldId = worldId });
                        
             return RepositoryResponse.BuildResponse(
-                success: response.HttpStatusCode == System.Net.HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),
-                result: response.Avatars,
+                success: RepositoryResponse.IsSuccess(response),
+                result: response.Records,
                 error: response.ExternalError);
         }
     }

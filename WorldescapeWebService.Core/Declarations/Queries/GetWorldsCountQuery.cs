@@ -6,7 +6,7 @@ namespace WorldescapeWebService.Core;
 /// <summary>
 /// A query that fetches worlds.
 /// </summary>
-public class GetWorldsCountQuery : GetWorldsCountQueryRequest, IRequest<GetWorldsCountQueryResponse>
+public class GetWorldsCountQuery : GetWorldsCountQueryRequest, IRequest<RecordsCountResponse>
 {
     
 }

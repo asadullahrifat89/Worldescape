@@ -6,7 +6,7 @@ using Worldescape.Database;
 
 namespace WorldescapeWebService.Core;
 
-public class GetAvatarsQueryHandler : IRequestHandler<GetAvatarsQuery, GetAvatarsQueryResponse>
+public class GetAvatarsQueryHandler : IRequestHandler<GetAvatarsQuery, RecordsResponse<Avatar>>
 {
     #region Fields
 
@@ -32,7 +32,7 @@ public class GetAvatarsQueryHandler : IRequestHandler<GetAvatarsQuery, GetAvatar
 
     #region Methods
 
-    public async Task<GetAvatarsQueryResponse> Handle(
+    public async Task<RecordsResponse<Avatar>> Handle(
         GetAvatarsQuery request,
         CancellationToken cancellationToken)
     {
@@ -51,17 +51,12 @@ public class GetAvatarsQueryHandler : IRequestHandler<GetAvatarsQuery, GetAvatar
             // Get paginated data
             var results = await _databaseService.GetDocuments(filter, skip: request.PageSize * request.PageIndex, limit: request.PageSize);
 
-            return new GetAvatarsQueryResponse()
-            {
-                Count = count,
-                Avatars = results ?? Enumerable.Empty<Avatar>(),
-                HttpStatusCode = System.Net.HttpStatusCode.OK,
-            };
+            return new RecordsResponse<Avatar>().BuildSuccessResponse(count, results);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, ex.Message);
-            return new GetAvatarsQueryResponse() { HttpStatusCode = System.Net.HttpStatusCode.InternalServerError, Count = 0, Avatars = null, ExternalError = ex.Message };
+            return new RecordsResponse<Avatar>().BuildErrorResponse(ex.Message);
         }
     }
 

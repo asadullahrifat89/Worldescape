@@ -6,7 +6,7 @@ namespace WorldescapeWebService.Core;
 /// <summary>
 /// A query that fetches Avatars.
 /// </summary>
-public class GetAvatarsQuery : GetAvatarsQueryRequest, IRequest<GetAvatarsQueryResponse>
+public class GetAvatarsQuery : GetAvatarsQueryRequest, IRequest<RecordsResponse<Avatar>>
 {
     
 }

@@ -7,6 +7,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Responses\GetAvatarsQueryResponse.cs" />
 	  <Compile Remove="Responses\GetConstructsCountQueryResponse.cs" />
 	</ItemGroup>
 
