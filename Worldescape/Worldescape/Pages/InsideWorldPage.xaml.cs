@@ -1070,6 +1070,17 @@ namespace Worldescape
         private void Button_MyAvatar_Click(object sender, RoutedEventArgs e)
         {
             ScrollIntoView(Avatar);
+
+            var avatarUIElement = _avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) as Button;
+
+            var pointX = Canvas.GetLeft(avatarUIElement) + avatarUIElement.ActualWidth;
+            var pointY = Canvas.GetTop(avatarUIElement) + avatarUIElement.ActualHeight;
+
+            Canvas.SetLeft(OwnAvatarActionsHolder, pointX);
+            Canvas.SetTop(OwnAvatarActionsHolder, pointY);
+
+            ShowOwnAvatarActionsHolder();
+            HideOtherAvatarActions();
         }
 
         /// <summary>
