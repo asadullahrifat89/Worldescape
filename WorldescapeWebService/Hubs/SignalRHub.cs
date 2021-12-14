@@ -105,7 +105,7 @@ namespace WorldescapeWebService
         #region Avatar Connectivity
 
         [HubMethodName(Constants.Login)]
-        public async Task<HubLoginResponse> Login(Avatar avatar)
+        public async Task<Avatar> Login(Avatar avatar)
         {
             // If an existing avatar
             if (await AvatarExists(avatar))
@@ -169,10 +169,7 @@ namespace WorldescapeWebService
             var newSelf = await GetAvatar(avatar.Id);
 
             // Return the curated avatar
-            return new HubLoginResponse()
-            {
-                Avatar = newSelf
-            };
+            return newSelf;
         }
 
         [HubMethodName(Constants.Logout)]

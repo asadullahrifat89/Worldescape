@@ -52,7 +52,7 @@ namespace Worldescape.Service
 
         #region Session
 
-        Task<HubLoginResponse> Login(Avatar avatar);
+        Task<Avatar> Login(Avatar avatar);
 
         Task Logout();
 

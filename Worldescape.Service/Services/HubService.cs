@@ -146,10 +146,10 @@ namespace Worldescape.Service
 
         #region Session
 
-        public async Task<HubLoginResponse> Login(Avatar newUser)
+        public async Task<Avatar> Login(Avatar newUser)
         {
             Console.WriteLine(">>HubService: LoginAsync");
-            return await _connection.InvokeAsync<HubLoginResponse>(Constants.Login, newUser);
+            return await _connection.InvokeAsync<Avatar>(Constants.Login, newUser);
         }
 
         public async Task Logout()

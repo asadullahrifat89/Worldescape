@@ -2007,13 +2007,11 @@ namespace Worldescape
             {
                 if (CanHubLogin())
                 {
-                    var result = await _hubService.Login(Avatar);
+                    var avatar = await _hubService.Login(Avatar);
 
-                    if (result != null && result.Avatar != null && !result.Avatar.IsEmpty())
+                    if (avatar != null && !avatar.IsEmpty())
                     {
                         Console.WriteLine("LoginToHub: OK");
-
-                        var avatar = result.Avatar;
 
                         // Logged in user's avatar
                         Avatar = avatar;

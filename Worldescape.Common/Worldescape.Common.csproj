@@ -9,6 +9,7 @@
 	<ItemGroup>
 	  <Compile Remove="Responses\GetAvatarsQueryResponse.cs" />
 	  <Compile Remove="Responses\GetConstructsCountQueryResponse.cs" />
+	  <Compile Remove="Responses\HubLoginResponse.cs" />
 	  <Compile Remove="Responses\SaveBlobCommandResponse.cs" />
 	  <Compile Remove="Responses\StringResponse.cs" />
 	</ItemGroup>
