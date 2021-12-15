@@ -14,11 +14,11 @@ namespace Worldescape
         #region Fields
 
         int _pageSize = 21;
-        int _pageIndex = 0;        
+        int _pageIndex = 0;
         double _masonSize = 190;
         long _totalPageCount = 0;
         bool _settingWorlds = false;
-        
+
         readonly MainPage _mainPage;
         readonly WorldHelper _worldHelper;
         readonly PaginationHelper _paginationHelper;
@@ -79,8 +79,14 @@ namespace Worldescape
             {
                 if (result)
                 {
+                    _mainPage.SetIsBusy(true, $"Going to {world.Name}");
+
                     App.World = world;
+
                     _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
+
+                    var insideWorldPage = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;
+                    insideWorldPage.SelectCharacterAndConnect();
                 }
             });
 

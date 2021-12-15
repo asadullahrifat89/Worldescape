@@ -85,9 +85,6 @@ namespace Worldescape
             _avatarRepository = avatarRepository;
 
             SubscribeHub();
-
-            //PopulateClouds();
-            //PopulateClouds(drawOver: true);
         }
 
         #endregion
@@ -120,10 +117,6 @@ namespace Worldescape
             RoutedEventArgs e)
         {
             SetDefault();
-
-            PopulateClouds();
-            PopulateClouds(drawOver: true);
-            SelectCharacterAndConnect();
         }
 
         /// <summary>
@@ -616,16 +609,6 @@ namespace Worldescape
         #endregion
 
         #region Connection
-
-        /// <summary>
-        /// Initiates connection with Hub and login of the user into the Hub.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Button_Connect_Click(object sender, RoutedEventArgs e)
-        {
-            SelectCharacterAndConnect();
-        }
 
         /// <summary>
         /// Logs out and disconnects the current user from Hub.
@@ -1842,14 +1825,17 @@ namespace Worldescape
         #region World
 
         /// <summary>
-        /// Adds random clouds to the canvas. If drawOver= true then adds the clouds on top of existing canvas elements.
+        /// Adds random clouds to the canvas.
         /// </summary>
         /// <param name="drawOver"></param>
-        private async void PopulateClouds(bool drawOver = false)
+        private async void PopulateClouds()
         {
             await _worldHelper.PopulateClouds(
+                  canvas: Canvas_Root);
+
+            await _worldHelper.PopulateClouds(
                 canvas: Canvas_Root,
-                drawOver: drawOver);
+                drawOver: true);
         }
 
         /// <summary>
@@ -2042,6 +2028,8 @@ namespace Worldescape
                         Visibility = Visibility.Visible;
 
                         ScrollIntoView(Avatar);
+
+                        PopulateClouds();
 
                         return true;
                     }
@@ -2335,7 +2323,7 @@ namespace Worldescape
         /// Prompts character selection and establishes communication to hub.
         /// </summary>
         /// <returns></returns>
-        private async void SelectCharacterAndConnect()
+        public async void SelectCharacterAndConnect()
         {
             try
             {
@@ -3811,6 +3799,6 @@ namespace Worldescape
 
         #endregion
 
-        #endregion       
+        #endregion
     }
 }
