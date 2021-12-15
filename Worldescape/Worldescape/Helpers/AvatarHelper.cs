@@ -229,15 +229,13 @@ namespace Worldescape
             // If going backward
             if (goToX < nowX)
             {
-                GetAvatarCharacterImage(avatarButton).RenderTransform = new ScaleTransform() { ScaleX = -1 };
-
+                ((ScaleTransform)GetAvatarCharacterImage(avatarButton).RenderTransform).ScaleX = -1;
             }
             else // If going forward
             {
-                GetAvatarCharacterImage(avatarButton).RenderTransform = new ScaleTransform() { ScaleX = 1 };
+                ((ScaleTransform)GetAvatarCharacterImage(avatarButton).RenderTransform).ScaleX = 1;
             }
         }
-
 
         /// <summary>
         /// Generates a new button from the provided avatar.
