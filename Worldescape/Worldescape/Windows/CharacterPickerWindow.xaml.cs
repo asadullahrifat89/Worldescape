@@ -46,7 +46,7 @@ namespace Worldescape
 
                 var buttonCharacter = new Button()
                 {
-                    Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                    Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style,
                     Width = 100,
                     Height = 100,
                     Margin = new Thickness(3),

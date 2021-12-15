@@ -246,7 +246,7 @@ namespace Worldescape
 
             var buttonConstructAsset = new Button()
             {
-                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style,
                 Height = _constructAssetMasonrySize,
                 Width = _constructAssetMasonrySize,
                 Margin = new Thickness(3),
