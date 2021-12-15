@@ -41,6 +41,7 @@ namespace Worldescape
             Color? background = null)
         {
             var bitmapImage = new BitmapImage(new Uri(avatar.User.ImageUrl.Contains("ms-appx:") ? avatar.User.ImageUrl : _urlHelper.BuildBlobUrl(App.Token, avatar.User.ImageUrl)));
+
             return PrepareRoundPictureFrame(
                 size: size,
                 bitmapImage: bitmapImage,
@@ -59,6 +60,7 @@ namespace Worldescape
             Color? background = null)
         {
             var bitmapImage = new BitmapImage(new Uri(avatar.Character.ImageUrl));
+
             return PrepareRoundPictureFrame(
                 size: size,
                 bitmapImage: bitmapImage,
@@ -163,6 +165,8 @@ namespace Worldescape
                     bitmap.UriSource = new Uri(statusBoundImageUrl.ImageUrl);
                 }
             }
+
+            ToolTipService.SetToolTip(avatarButton, activityStatus.ToString());
         }
 
         /// <summary>
@@ -200,7 +204,7 @@ namespace Worldescape
             AlignAvatarButtonWrtX(
                 goToX: goToX,
                 nowX: nowX,
-                avatarButton: avatarButton);            
+                avatarButton: avatarButton);
         }
 
         /// <summary>
@@ -234,7 +238,22 @@ namespace Worldescape
         /// <returns></returns>
         public Button GenerateAvatarButton(Avatar avatar)
         {
-            var imgUser = GetAvatarUserPictureFrame(avatar);
+            var brUserImg = GetAvatarUserPictureFrame(avatar);
+
+            var tbName = new TextBlock()
+            {
+                Text = avatar.Name,
+                TextAlignment = TextAlignment.Center,
+                Margin = new Thickness(2),
+            };
+
+            var brName = new Border()
+            {
+                CornerRadius = new CornerRadius(5),
+                Background = Application.Current.Resources["DefaultBackgroundColor"] as SolidColorBrush,
+                Margin = new Thickness(5, 5, 5, 10),
+            };
+            brName.Child = tbName;
 
             var imgCharacter = new Image()
             {
@@ -253,10 +272,9 @@ namespace Worldescape
                 Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style,
             };
 
-            ToolTipService.SetToolTip(btnAvatar, avatar.Name);
-
             var spContent = new StackPanel();
-            spContent.Children.Add(imgUser);
+            spContent.Children.Add(brName);
+            spContent.Children.Add(brUserImg);
             spContent.Children.Add(imgCharacter);
 
             btnAvatar.Content = spContent;

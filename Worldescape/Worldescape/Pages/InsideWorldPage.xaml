@@ -484,7 +484,7 @@
                             <StackPanel>
                                 <MenuItem
                                     Click="MenuItem_SetStatus_Click"
-                                    Content="Idle"
+                                    Content="Online"
                                     FontWeight="SemiBold"
                                     Style="{StaticResource MaterialDesign_ContextMenuItem_Style}" />
                                 <MenuItem

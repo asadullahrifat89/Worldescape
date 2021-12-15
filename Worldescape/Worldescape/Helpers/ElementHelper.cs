@@ -258,7 +258,7 @@ namespace Worldescape
                     if (isCrafting && taggedAvatar.Id == App.User.Id)
                         _avatarHelper.SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Crafting);
                     else
-                        _avatarHelper.SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Idle);
+                        _avatarHelper.SetAvatarActivityStatus(button, (Avatar)taggedObject, ActivityStatus.Online);
                 }
             };
 

@@ -241,9 +241,7 @@ namespace Worldescape
 
             var txt = new TextBlock()
             {
-                Text = constructAsset.Name,
-                FontWeight = FontWeights.SemiBold,
-                Foreground = Application.Current.Resources["MaterialDesign_DefaultAccentColor"] as SolidColorBrush,
+                Text = constructAsset.Name,               
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 14
             };

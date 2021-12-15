@@ -42,7 +42,7 @@
     public enum ActivityStatus
     {
         //0
-        Idle,
+        Online,
 
         //1
         Moving,

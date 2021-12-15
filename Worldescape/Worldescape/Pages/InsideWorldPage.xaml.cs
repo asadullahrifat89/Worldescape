@@ -684,7 +684,7 @@ namespace Worldescape
 
                     ShowOperationalConstruct(null);
 
-                    await BroadcastAvatarActivityStatus(ActivityStatus.Idle);
+                    await BroadcastAvatarActivityStatus(ActivityStatus.Online);
                 }
             }
         }
@@ -1547,7 +1547,7 @@ namespace Worldescape
                     SetAvatarActivityStatus(
                         avatarButton: (Button)iElement,
                         avatar: (Avatar)((Button)iElement).Tag,
-                        activityStatus: ActivityStatus.Idle);
+                        activityStatus: ActivityStatus.Online);
 
                     Console.WriteLine("<<HubService_AvatarReconnected: OK");
                 }
@@ -2522,7 +2522,7 @@ namespace Worldescape
             {
                 Id = App.User.Id,
                 Name = App.User.Name,
-                ActivityStatus = ActivityStatus.Idle,
+                ActivityStatus = ActivityStatus.Online,
                 User = new AvatarUser()
                 {
                     Email = App.User.Email,
