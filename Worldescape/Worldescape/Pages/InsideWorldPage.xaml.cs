@@ -1607,8 +1607,7 @@ namespace Worldescape
             AddAvatarOnCanvas(
                 avatar: avatarButton,
                 x: avatar.Coordinate.X,
-                y: avatar.Coordinate.Y,
-                z: avatar.Coordinate.Z);
+                y: avatar.Coordinate.Y);
 
             AvatarMessengers.Add(new AvatarMessenger()
             {
@@ -2744,8 +2743,7 @@ namespace Worldescape
                         AddAvatarOnCanvas(
                             avatar: avatarButton,
                             x: avatar.Coordinate.X,
-                            y: avatar.Coordinate.Y,
-                            z: avatar.Coordinate.Z);
+                            y: avatar.Coordinate.Y);
 
                         AvatarMessengers.Add(new AvatarMessenger { Avatar = avatar, IsLoggedIn = true });
                     });
@@ -2861,15 +2859,13 @@ namespace Worldescape
         private Avatar AddAvatarOnCanvas(
             UIElement avatar,
             double x,
-            double y,
-            int? z = null)
+            double y)
         {
             return _avatarHelper.AddAvatarOnCanvas(
                 avatar: avatar,
                 canvas: Canvas_Root,
                 x: x,
-                y: y,
-                z: z);
+                y: y);
         }
 
         /// <summary>

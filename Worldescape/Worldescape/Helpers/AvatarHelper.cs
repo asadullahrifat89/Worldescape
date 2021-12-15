@@ -137,10 +137,11 @@ namespace Worldescape
             Canvas.SetLeft(avatar, x);
             Canvas.SetTop(avatar, y);
 
-            if (z.HasValue)
-            {
-                Canvas.SetZIndex(avatar, z.Value);
-            }
+            //if (z.HasValue)
+            //{
+            //    Canvas.SetZIndex(avatar, z.Value);
+            //}
+            Canvas.SetZIndex(avatar, 990);
 
             canvas.Children.Add(avatar);
 
