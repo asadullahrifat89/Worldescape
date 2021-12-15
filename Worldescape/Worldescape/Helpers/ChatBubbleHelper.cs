@@ -206,8 +206,8 @@ namespace Worldescape
             {
                 spPlaceholder.HorizontalAlignment = HorizontalAlignment.Left;
                 spPlaceholder.Children.Add(brUserImage);
-                spPlaceholder.Children.Add(tbMsg);
                 AddMessageTypeIconText(messageType: messageType, spUserImageAndMessage: spPlaceholder);
+                spPlaceholder.Children.Add(tbMsg);
             }
 
             Border brMessage = new Border()
@@ -217,7 +217,6 @@ namespace Worldescape
                 Padding = new Thickness(5)
             };
             brMessage.Child = spPlaceholder;
-
             brMessage.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
 
             spContent.Children.Add(brMessage);
@@ -266,10 +265,10 @@ namespace Worldescape
                     CornerRadius = new CornerRadius(100),
                     Background = App.Current.TryFindResource("DefaultBackgroundColor") as SolidColorBrush,
                     Padding = new Thickness(5),
-                    Margin = new Thickness(40, 0, 5, -5)
+                    Margin = new Thickness(40, 0, 5, -5),
+                    HorizontalAlignment = HorizontalAlignment.Right,
                 };
                 brMessage.Child = spPlaceholder;
-
                 brMessage.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
 
                 spContent.Children.Add(brMessage);
@@ -285,7 +284,14 @@ namespace Worldescape
             MessageType messageType,
             StackPanel spUserImageAndMessage)
         {
-            var icon = new Image() { Margin = new Thickness(5, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center };
+            var icon = new Image()
+            {
+                Margin = new Thickness(-5, 15, 0, 0),
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Height = 20,
+                Width = 20,
+                Stretch = Stretch.Uniform
+            };
 
             switch (messageType)
             {
