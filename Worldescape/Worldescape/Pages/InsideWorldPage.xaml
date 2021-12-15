@@ -47,7 +47,7 @@
                     </Canvas.RenderTransform>
                 </Canvas>
 
-                <!--  construct operation buttons  -->
+                <!--  Commands for selected construct  -->
                 <WrapPanel
                     x:Name="ConstructOperationalCommandsHolder"
                     Width="120"
@@ -215,6 +215,7 @@
 
                 </WrapPanel>
 
+                <!--  Commands for selected portal  -->
                 <WrapPanel
                     x:Name="PortalActionsHolder"
                     Canvas.ZIndex="4"
@@ -394,14 +395,14 @@
         <ContentControl
             x:Name="ContentControl_ActiveAvatarsContainer"
             Grid.Row="1"
-            Margin="20,20,130,70"
+            Margin="20,20,130,100"
             HorizontalAlignment="Right"
             Style="{StaticResource MaterialDesign_Card_Style}"
             Visibility="Collapsed">
             <ScrollViewer
                 x:Name="ScrollViewer_ActiveAvatarsContainer"
                 Width="250"
-                Height="700"
+                Height="600"
                 HorizontalScrollBarVisibility="Disabled"
                 VerticalScrollBarVisibility="Auto" />
         </ContentControl>

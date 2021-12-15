@@ -19,7 +19,7 @@ namespace Worldescape
         public event EventHandler<ConstructAsset> AssetSelected;
 
         double _constructAssetMasonrySize = 130;
-        double _constructCategoryMasonrySize = 130;        
+        double _constructCategoryMasonrySize = 130;
 
         int _pageSize = 20;
         int _pageIndex = 0;
@@ -129,26 +129,6 @@ namespace Worldescape
             TextBox_SearchConstructAssets.PlaceholderText = $"{ pagedData.Count() } categories...";
         }
 
-        private void AddConstructCategoryMasonry(MasonryPanelWithProgressiveLoading _masonryPanel, ConstructCategory constructCategory)
-        {
-            var buttonName = constructCategory.Name.Replace(" ", "");
-
-            var button_Category = new Button()
-            {
-                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                Width = _constructCategoryMasonrySize + 30,
-                Height = _constructCategoryMasonrySize - 40,
-                Margin = new Thickness(3),
-                Tag = constructCategory,
-                FontSize = 16,
-                Content = constructCategory.Name,
-                Name = buttonName,
-            };
-
-            button_Category.Click += ButtonConstructCategory_Click;
-            _masonryPanel.Children.Add(button_Category);
-        }
-
         private void ShowConstructSubCategories()
         {
             var pagedData = _constructCategoryFilter.IsNullOrBlank() ? ConstructSubCategories : ConstructSubCategories.Where(x => x.Category == _constructCategoryFilter);
@@ -170,26 +150,6 @@ namespace Worldescape
             PagesHolder.ItemsSource = _pageNumbers;
 
             TextBox_SearchConstructAssets.PlaceholderText = $"{ pagedData.Count() } sub categories in {_pickedConstructCategory?.Name.ToLowerInvariant()}";
-        }
-
-        private void AddConstructSubCategoryMasonry(MasonryPanelWithProgressiveLoading _masonryPanel, ConstructSubCategory constructSubCategory)
-        {
-            var buttonName = constructSubCategory.Name.Replace(" ", "");
-
-            var button_Category = new Button()
-            {
-                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
-                Width = _constructCategoryMasonrySize + 30,
-                Height = _constructCategoryMasonrySize - 40,
-                Margin = new Thickness(3),
-                Tag = constructSubCategory,
-                FontSize = 16,
-                Content = new TextBlock() { Text = constructSubCategory.Name, TextWrapping = TextWrapping.Wrap, FontWeight = FontWeights.SemiBold, FontSize = 16 },
-                Name = buttonName,
-            };
-
-            button_Category.Click += ButtonConstructSubCategory_Click;
-            _masonryPanel.Children.Add(button_Category);
         }
 
         private void GetConstructAssets()
@@ -215,7 +175,67 @@ namespace Worldescape
             _settingConstructAssets = false;
         }
 
-        private void AddConstructAssetMasonry(MasonryPanelWithProgressiveLoading _masonryPanel, ConstructAsset constructAsset)
+        private void ShowConstructAssetsCount()
+        {
+            var count = GetFilteredConstructAssetsCount();
+
+            _totalPageCount = _paginationHelper.GetTotalPageCount(pageSize: _pageSize, dataCount: count);
+
+            var can = _pickedConstructCategory?.Name.ToLowerInvariant();
+            var ccn = _pickedConstructSubCategory?.Name.ToLowerInvariant();
+            var match = TextBox_SearchConstructAssets.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchConstructAssets.Text;
+
+            TextBox_SearchConstructAssets.PlaceholderText = $"{ count } constructs in {can}/{ccn}{match}";
+            PopulatePageNumbers(0);
+        }
+
+        private void AddConstructCategoryMasonry(
+            MasonryPanelWithProgressiveLoading _masonryPanel,
+            ConstructCategory constructCategory)
+        {
+            var buttonName = constructCategory.Name.Replace(" ", "");
+
+            var button_Category = new Button()
+            {
+                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Width = _constructCategoryMasonrySize + 30,
+                Height = _constructCategoryMasonrySize - 40,
+                Margin = new Thickness(3),
+                Tag = constructCategory,
+                FontSize = 16,
+                Content = constructCategory.Name,
+                Name = buttonName,
+            };
+
+            button_Category.Click += ButtonConstructCategory_Click;
+            _masonryPanel.Children.Add(button_Category);
+        }
+
+        private void AddConstructSubCategoryMasonry(
+            MasonryPanelWithProgressiveLoading _masonryPanel,
+            ConstructSubCategory constructSubCategory)
+        {
+            var buttonName = constructSubCategory.Name.Replace(" ", "");
+
+            var button_Category = new Button()
+            {
+                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Width = _constructCategoryMasonrySize + 30,
+                Height = _constructCategoryMasonrySize - 40,
+                Margin = new Thickness(3),
+                Tag = constructSubCategory,
+                FontSize = 16,
+                Content = new TextBlock() { Text = constructSubCategory.Name, TextWrapping = TextWrapping.Wrap, FontWeight = FontWeights.SemiBold, FontSize = 16 },
+                Name = buttonName,
+            };
+
+            button_Category.Click += ButtonConstructSubCategory_Click;
+            _masonryPanel.Children.Add(button_Category);
+        }
+
+        private void AddConstructAssetMasonry(
+            MasonryPanelWithProgressiveLoading _masonryPanel,
+            ConstructAsset constructAsset)
         {
             var buttonName = constructAsset.Name.Replace(" ", "");
 
@@ -235,7 +255,7 @@ namespace Worldescape
 
             var txt = new TextBlock()
             {
-                Text = constructAsset.Name,               
+                Text = constructAsset.Name,
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 14
             };
@@ -248,7 +268,7 @@ namespace Worldescape
             {
                 Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style,
                 Height = _constructAssetMasonrySize,
-                Width = _constructAssetMasonrySize,
+                Width = _constructAssetMasonrySize + 20,
                 Margin = new Thickness(3),
                 Tag = constructAsset,
                 Content = content,
@@ -256,20 +276,6 @@ namespace Worldescape
             };
             buttonConstructAsset.Click += ButtonConstructAsset_Click;
             _masonryPanel.Children.Add(buttonConstructAsset);
-        }
-
-        private void ShowConstructAssetsCount()
-        {
-            var count = GetFilteredConstructAssetsCount();
-
-            _totalPageCount = _paginationHelper.GetTotalPageCount(pageSize: _pageSize, dataCount: count);
-
-            var can = _pickedConstructCategory?.Name.ToLowerInvariant();
-            var ccn = _pickedConstructSubCategory?.Name.ToLowerInvariant();
-            var match = TextBox_SearchConstructAssets.Text.IsNullOrBlank() ? "" : " matching " + TextBox_SearchConstructAssets.Text;
-
-            TextBox_SearchConstructAssets.PlaceholderText = $"{ count } constructs in {can}/{ccn}{match}";
-            PopulatePageNumbers(0);
         }
 
         private void GeneratePageNumbers()
