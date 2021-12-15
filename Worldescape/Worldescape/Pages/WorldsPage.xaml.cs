@@ -15,7 +15,7 @@ namespace Worldescape
 
         int _pageSize = 21;
         int _pageIndex = 0;
-        double _masonSize = 190;
+        double _masonSize = 180;
         long _totalPageCount = 0;
         bool _settingWorlds = false;
 
@@ -180,7 +180,7 @@ namespace Worldescape
 
                 var _masonryPanel = new MasonryPanelWithProgressiveLoading()
                 {
-                    Margin = new Thickness(10, 0, 10, 0),                    
+                    Margin = new Thickness(100, 0, 100, 0),
                     MinHeight = 600
                 };
 
@@ -190,9 +190,10 @@ namespace Worldescape
                         world: world,
                         size: _masonSize,
                         imageMargin: new Thickness(10, 15, 10, 10),
-                        fontSize: 18);
+                        fontSize: 16);
 
                     buttonWorld.Click += ButtonWorld_Click;
+                    buttonWorld.Margin = new Thickness(10);
 
                     _masonryPanel.Children.Add(buttonWorld);
                 }
