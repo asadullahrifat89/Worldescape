@@ -148,7 +148,6 @@
 		  <SubType>Code</SubType>
 		</Compile>
 		<Compile Include="Windows\CharacterPickerWindow.xaml.cs" />
-		<Compile Include="Internals\MasonryPanel.cs" />
 		<Compile Include="Internals\MasonryPanelWithProgressiveLoading.cs" />
 		<Compile Include="MainPage.xaml.cs" />
 		<Compile Include="Pages\InsideWorldPage.xaml.cs" />
