@@ -150,7 +150,7 @@ namespace Worldescape
             };
 
             Storyboard.SetTarget(opacityAnimation, btnChatBubble);
-            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(Button.OpacityProperty));
+            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(UIElement.OpacityProperty));
 
             Storyboard.SetTarget(moveYAnimation, btnChatBubble);
             Storyboard.SetTargetProperty(moveYAnimation, new PropertyPath(Canvas.TopProperty));

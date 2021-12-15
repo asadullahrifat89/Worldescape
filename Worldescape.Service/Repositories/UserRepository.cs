@@ -69,7 +69,7 @@ namespace Worldescape.Service
                 payload: command);
 
             return RepositoryResponse<HttpStatusCode>.BuildResponse(
-                   success: response.HttpStatusCode == System.Net.HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),
+                   success: response.HttpStatusCode == HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),
                    result: HttpStatusCode.OK,
                    error: response.ExternalError);
         }
@@ -117,8 +117,8 @@ namespace Worldescape.Service
                 payload: command);
 
             return RepositoryResponse<HttpStatusCode>.BuildResponse(
-                   success: response.HttpStatusCode == System.Net.HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),
-                   result: System.Net.HttpStatusCode.OK,
+                   success: response.HttpStatusCode == HttpStatusCode.OK && response.ExternalError.IsNullOrBlank(),
+                   result: HttpStatusCode.OK,
                    error: response.ExternalError);
         }
     }

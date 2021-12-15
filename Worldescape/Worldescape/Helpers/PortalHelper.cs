@@ -140,7 +140,7 @@ namespace Worldescape
             };
 
             Storyboard.SetTarget(opacityAnimation, portal);
-            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(Button.OpacityProperty));
+            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(UIElement.OpacityProperty));
 
             canvas.Children.Add(portal);
 

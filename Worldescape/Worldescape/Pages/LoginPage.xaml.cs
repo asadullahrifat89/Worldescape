@@ -105,6 +105,11 @@ namespace Worldescape
                 {
                     App.User = loginResponse.Result;
 
+                    if (CheckBox_RememberMe.IsChecked.Value)
+                    {
+                       //TODO: save in cache
+                    }
+
                     _mainPage.SetLoggedInUserModel();
                     _mainPage.NavigateToPage(Constants.Page_WorldsPage);
                     _mainPage.SetIsBusy(false);
@@ -163,18 +168,5 @@ namespace Worldescape
         #endregion
 
         #endregion
-
-        //private void CheckBox_RememberMe_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //TODO: save user creds in cache
-        //    if (CheckBox_RememberMe.IsChecked.Value)
-        //    {
-
-        //    }
-        //    else
-        //    {
-
-        //    }
-        //}
     }
 }
