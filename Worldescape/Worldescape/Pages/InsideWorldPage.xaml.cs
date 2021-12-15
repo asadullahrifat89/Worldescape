@@ -2600,7 +2600,7 @@ namespace Worldescape
 
                 var brAvatarCharPic = GetAvatarCharacterPicture(avatar);
                 brAvatarCharPic.Margin = new Thickness(5, 0, 5, 0);
-                var tbAvatarName = new TextBlock() { Text = avatar.Character.Name.Replace("_", " "), VerticalAlignment = VerticalAlignment.Center };
+                var tbAvatarName = new TextBlock() { Text = avatar.Character.Name.Replace("_", " "), VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 5, 0) };
                 var spContent = new StackPanel() { Orientation = Orientation.Horizontal };
 
                 spContent.Children.Add(brAvatarCharPic);

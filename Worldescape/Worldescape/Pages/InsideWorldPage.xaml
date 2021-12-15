@@ -237,6 +237,7 @@
 
         <!--  Top  -->
         <Grid Grid.Row="0">
+
             <!--  Top middle connection buttons  -->
             <StackPanel
                 x:Name="TopButtonsHolder"
@@ -321,6 +322,7 @@
                 <!--  Craft and Add buttons  -->
                 <StackPanel
                     x:Name="ConstructCraftingButtonsHolder"
+                    Margin="-5,0,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
                     Orientation="Horizontal"
