@@ -236,7 +236,7 @@
         </ScrollViewer>
 
         <!--  Top  -->
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" Margin="100,0,100,0">
 
             <!--  Top middle connection buttons  -->
             <StackPanel
@@ -378,7 +378,7 @@
         <ContentControl
             x:Name="ContentControl_ConstructAssetsContainer"
             Grid.Row="1"
-            Margin="20,20,30,100"
+            Margin="100,20,30,100"
             HorizontalAlignment="Left"
             Style="{StaticResource MaterialDesign_Card_Style}"
             Visibility="{Binding ElementName=ConstructAssetPickerControl, Path=Visibility, Mode=OneWay}">
@@ -394,7 +394,7 @@
         <ContentControl
             x:Name="ContentControl_ActiveAvatarsContainer"
             Grid.Row="1"
-            Margin="20,20,30,70"
+            Margin="20,20,130,70"
             HorizontalAlignment="Right"
             Style="{StaticResource MaterialDesign_Card_Style}"
             Visibility="Collapsed">
@@ -407,7 +407,7 @@
         </ContentControl>
 
         <!--  Bottom  -->
-        <Grid Grid.Row="2" Margin="0,0,0,20">
+        <Grid Grid.Row="2" Margin="100,0,100,20">
 
             <!--  Bottom middle construct images, messaging, own avatar status, side card controls  -->
             <StackPanel

@@ -189,7 +189,7 @@ namespace Worldescape
                     var buttonWorld = _worldHelper.GenerateWorldButton(
                         world: world,
                         size: _masonSize,
-                        imageMargin: new Thickness(10, 15, 10, 10),
+                        imageMargin: new Thickness(10),
                         fontSize: 16);
 
                     buttonWorld.Click += ButtonWorld_Click;

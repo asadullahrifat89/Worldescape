@@ -116,7 +116,7 @@ namespace Worldescape
 
             var buttonWorld = new Button()
             {
-                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Style = Application.Current.Resources["MaterialDesign_GlassButton_Style"] as Style,
                 Height = size,
                 Width = size,
                 Margin = new Thickness(5),
