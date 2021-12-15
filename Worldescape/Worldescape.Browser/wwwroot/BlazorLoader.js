@@ -11,7 +11,6 @@ Blazor.start({ // start manually with loadBootResource
             headers: { 'MyCustomHeader': 'My custom value' }
         });
 
-
         allResourcesBeingLoaded.push(fetchResources);
         fetchResources.then((r) => {
             i++;
