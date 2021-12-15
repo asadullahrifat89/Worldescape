@@ -16,8 +16,6 @@ namespace Worldescape
 
         readonly UserRepository _userRepository;
 
-        readonly MainPage _mainPage;
-
         #endregion
 
         #region Ctor
@@ -25,21 +23,18 @@ namespace Worldescape
         public AccountPage(
             //ImageHelper imageHelper,
             //UrlHelper urlHelper,
-            //MainPage mainPage
             )
         {
             InitializeComponent();
 
             //_imageHelper = imageHelper;
             //_urlHelper = urlHelper;
-            //_mainPage = mainPage;
 
             AccountModelHolder.DataContext = AccountModel;
 
             _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
             _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
             _userRepository = App.ServiceProvider.GetService(typeof(UserRepository)) as UserRepository;
-            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
         }
 
         private void LoadUserDetails()
@@ -103,17 +98,17 @@ namespace Worldescape
 
         private void NavigateToLoginPage()
         {
-            _mainPage.NavigateToPage(Constants.Page_LoginPage);
+            App.NavigateToPage(Constants.Page_LoginPage);
         }
 
         private void NavigateToWorldsPage()
         {
-            _mainPage.NavigateToPage(Constants.Page_WorldsPage);
+            App.NavigateToPage(Constants.Page_WorldsPage);
         }
 
         private async Task UpdateUser()
         {
-            _mainPage.SetIsBusy(true, "Saving your account...");
+            App.SetIsBusy(true, "Saving your account...");
 
             var response = await _userRepository.UpdateUser(
                token: App.Token,
@@ -131,12 +126,12 @@ namespace Worldescape
                 var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
-                _mainPage.SetIsBusy(false);
+                App.SetIsBusy(false);
             }
             else
             {
                 NavigateToLoginPage();
-                _mainPage.SetIsBusy(false);
+                App.SetIsBusy(false);
             }
         }
 

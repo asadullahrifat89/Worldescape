@@ -19,7 +19,6 @@ namespace Worldescape
         long _totalPageCount = 0;
         bool _settingWorlds = false;
 
-        readonly MainPage _mainPage;
         readonly WorldHelper _worldHelper;
         readonly PaginationHelper _paginationHelper;
 
@@ -34,15 +33,13 @@ namespace Worldescape
         public WorldsPage(
             WorldHelper worldHelper,
             PaginationHelper paginationHelper,
-            WorldRepository worldRepository,
-            MainPage mainPage)
+            WorldRepository worldRepository)
         {
             InitializeComponent();
 
             _worldHelper = worldHelper;
             _paginationHelper = paginationHelper;
             _worldRepository = worldRepository;
-            _mainPage = mainPage;
         }
 
         #endregion
@@ -79,11 +76,11 @@ namespace Worldescape
             {
                 if (result)
                 {
-                    _mainPage.SetIsBusy(true, $"Going to {world.Name}");
+                    App.SetIsBusy(true, $"Teleporting...");
 
                     App.World = world;
 
-                    _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
+                    App.NavigateToPage(Constants.Page_InsideWorldPage);
 
                     var insideWorldPage = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;
                     insideWorldPage.SelectCharacterAndConnect();
@@ -132,7 +129,7 @@ namespace Worldescape
                     if (result)
                     {
                         App.World = world;
-                        _mainPage.NavigateToPage(Constants.Page_InsideWorldPage);
+                        App.NavigateToPage(Constants.Page_InsideWorldPage);
                     }
                     else
                     {
@@ -219,7 +216,7 @@ namespace Worldescape
                 var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
-                _mainPage.SetIsBusy(false);
+                App.SetIsBusy(false);
                 return 0;
             }
 
@@ -240,7 +237,7 @@ namespace Worldescape
                 var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
-                _mainPage.SetIsBusy(false);
+                App.SetIsBusy(false);
                 return System.Linq.Enumerable.Empty<World>();
             }
 

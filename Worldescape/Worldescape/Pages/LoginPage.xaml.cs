@@ -12,26 +12,19 @@ namespace Worldescape
 
         readonly ApiTokenRepository _apiTokenRepository;
         readonly UserRepository _userRepository;
-        readonly MainPage _mainPage;
 
         #endregion
 
         #region Ctor
 
-        public LoginPage(
-            //MainPage mainPage
-            )
+        public LoginPage()
         {
             InitializeComponent();
-
-            //_mainPage = mainPage;
 
             LoginModelHolder.DataContext = LoginModel;
 
             _apiTokenRepository = App.ServiceProvider.GetService(typeof(ApiTokenRepository)) as ApiTokenRepository;
             _userRepository = App.ServiceProvider.GetService(typeof(UserRepository)) as UserRepository;
-            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-
         }
 
         #endregion
@@ -61,7 +54,7 @@ namespace Worldescape
             if (!CheckIfModelValid())
                 return;
 
-            _mainPage.SetIsBusy(true);
+            App.SetIsBusy(true);
 
             var apiTokenResponse = await _apiTokenRepository.GetApiToken(
                 email: LoginModel.Email,
@@ -72,7 +65,7 @@ namespace Worldescape
                 var contentDialogue = new MessageDialogueWindow(title: "Error!", message: apiTokenResponse.Error);
                 contentDialogue.Show();
 
-                _mainPage.SetIsBusy(false);
+                App.SetIsBusy(false);
             }
             else
             {
@@ -83,7 +76,7 @@ namespace Worldescape
                     var contentDialogue = new MessageDialogueWindow(title: "Error!", message: "Failed to login.");
                     contentDialogue.Show();
 
-                    _mainPage.SetIsBusy(false);
+                    App.SetIsBusy(false);
                     return;
                 }
 
@@ -99,15 +92,15 @@ namespace Worldescape
                     var contentDialogue = new MessageDialogueWindow(title: "Error!", message: loginResponse.Error);
                     contentDialogue.Show();
 
-                    _mainPage.SetIsBusy(false);
+                    App.SetIsBusy(false);
                 }
                 else
                 {
                     App.User = loginResponse.Result;
 
-                    _mainPage.SetLoggedInUserModel();
-                    _mainPage.NavigateToPage(Constants.Page_WorldsPage);
-                    _mainPage.SetIsBusy(false);                   
+                    App.SetLoggedInUserModel();
+                    App.NavigateToPage(Constants.Page_WorldsPage);
+                    App.SetIsBusy(false);
                 }
             }
         }
@@ -130,7 +123,7 @@ namespace Worldescape
 
         private void Button_SignUp_Click(object sender, RoutedEventArgs e)
         {
-            _mainPage.NavigateToPage(Constants.Page_SignupPage);
+            App.NavigateToPage(Constants.Page_SignupPage);
         }
 
         #endregion
@@ -163,5 +156,5 @@ namespace Worldescape
         #endregion
 
         #endregion
-    }    
+    }
 }

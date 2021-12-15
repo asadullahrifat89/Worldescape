@@ -105,6 +105,23 @@ namespace Worldescape
             e.Handled = true;
         }
 
+        public static void NavigateToPage(string targetUri) 
+        {
+            var _mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+            _mainPage.NavigateToPage(targetUri);
+        }
+
+        public static void SetIsBusy(bool isBusy, string busyMessage = null) 
+        {
+            var _mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+            _mainPage.SetIsBusy(isBusy, busyMessage);
+        }
+
+        public static void SetLoggedInUserModel() 
+        {
+            var _mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+            _mainPage.SetLoggedInUserModel();
+        }
         #endregion
     }
 }

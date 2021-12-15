@@ -12,26 +12,19 @@ namespace Worldescape
         #region Fields
 
         readonly UserRepository _userRepository;
-        readonly MainPage _mainPage;
 
         #endregion
 
         #region Ctor
 
-        public SignupPage(
-            //MainPage mainPage
-            )
+        public SignupPage()
         {
             InitializeComponent();
 
-            //_httpServiceHelper = httpServiceHelper;
-            //_mainPage = mainPage;
-
-            SignUpModelHolder.DataContext = SignUpModel;
+            //_httpServiceHelper = httpServiceHelper;            
 
             _userRepository = App.ServiceProvider.GetService(typeof(UserRepository)) as UserRepository;
-            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
-
+            SignUpModelHolder.DataContext = SignUpModel;
         }
 
         #endregion
@@ -63,12 +56,12 @@ namespace Worldescape
 
         private void NavigateToLoginPage()
         {
-            _mainPage.NavigateToPage(Constants.Page_LoginPage);
+            App.NavigateToPage(Constants.Page_LoginPage);
         }
 
         private async Task SignUp()
         {
-            _mainPage.SetIsBusy(true, "Creating your account...");
+            App.SetIsBusy(true, "Creating your account...");
 
             var response = await _userRepository.AddUser(
                 email: SignUpModel.Email,
@@ -83,12 +76,12 @@ namespace Worldescape
                 var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
-                _mainPage.SetIsBusy(false);
+                App.SetIsBusy(false);
             }
             else
             {
                 NavigateToLoginPage();
-                _mainPage.SetIsBusy(false);
+                App.SetIsBusy(false);
             }
         }
 

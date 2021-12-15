@@ -42,7 +42,6 @@ namespace Worldescape
         ChatMessage _replyToChatMessage;
 
         readonly IHubService _hubService;
-        readonly MainPage _mainPage;
         readonly AvatarHelper _avatarHelper;
         readonly ConstructHelper _constructHelper;
         readonly WorldHelper _worldHelper;
@@ -67,8 +66,7 @@ namespace Worldescape
             ElementHelper elementHelper,
             ChatBubbleHelper chatBubbleHelper,
             ConstructRepository constructRepository,
-            AvatarRepository avatarRepository,
-            MainPage mainPage)
+            AvatarRepository avatarRepository)
         {
             InitializeComponent();
 
@@ -80,7 +78,6 @@ namespace Worldescape
             _paginationHelper = paginationHelper;
             _elementHelper = elementHelper;
             _chatBubbleHelper = chatBubbleHelper;
-            _mainPage = mainPage;
             _constructRepository = constructRepository;
             _avatarRepository = avatarRepository;
 
@@ -1241,11 +1238,11 @@ namespace Worldescape
                         App.World = portal.World;
                         SetAvatarData();
 
-                        _mainPage.SetIsBusy(true, "Teleporting to world...");
+                        App.SetIsBusy(true, "Teleporting to world...");
 
                         if (await LoginToHub())
                         {
-                            _mainPage.SetIsBusy(false);
+                            App.SetIsBusy(false);
                         }
                     }
                 }
@@ -2011,7 +2008,7 @@ namespace Worldescape
                         // Clearing up canvas prior to login
                         AvatarMessengers.Clear();
 
-                        _mainPage.SetIsBusy(true, "Preparing world...");
+                        App.SetIsBusy(true, "Preparing world...");
 
                         // Get constructs and avatars
                         await FetchConstructs();
@@ -2023,7 +2020,7 @@ namespace Worldescape
                         SetCurrentUserAvatar();
                         SetCurrentWorld();
 
-                        _mainPage.SetIsBusy(false);
+                        App.SetIsBusy(false);
                         Visibility = Visibility.Visible;
 
                         ScrollIntoView(Avatar);
@@ -2336,7 +2333,7 @@ namespace Worldescape
                     {
                         Character = character;
                         SetAvatarData();
-                        _mainPage.SetLoggedInUserModel();
+                        App.SetLoggedInUserModel();
 
                         await Connect();
                     };
@@ -2362,7 +2359,7 @@ namespace Worldescape
             var contentDialogue = new MessageDialogueWindow(title: "Leaving!", message: "Are you sure you want to leave this world?", result: (result) =>
             {
                 if (result)
-                    _mainPage.NavigateToPage(Constants.Page_WorldsPage);
+                    App.NavigateToPage(Constants.Page_WorldsPage);
             });
 
             contentDialogue.Show();
@@ -2773,7 +2770,7 @@ namespace Worldescape
                 var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
-                _mainPage.SetIsBusy(false);
+                App.SetIsBusy(false);
                 return 0;
             }
 
@@ -2802,7 +2799,7 @@ namespace Worldescape
                 var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
-                _mainPage.SetIsBusy(false);
+                App.SetIsBusy(false);
                 return Enumerable.Empty<Avatar>();
             }
 
@@ -3042,7 +3039,7 @@ namespace Worldescape
                 var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
-                _mainPage.SetIsBusy(false);
+                App.SetIsBusy(false);
                 return 0;
             }
 
@@ -3071,7 +3068,7 @@ namespace Worldescape
                 var contentDialogue = new MessageDialogueWindow(title: "Error!", message: response.Error);
                 contentDialogue.Show();
 
-                _mainPage.SetIsBusy(false);
+                App.SetIsBusy(false);
                 return Enumerable.Empty<Construct>();
             }
 

@@ -47,7 +47,7 @@ namespace Worldescape
 
         private async Task UpdateWorld()
         {
-            _mainPage.SetIsBusy(true, "Saving your world...");
+            App.SetIsBusy(true, "Saving your world...");
 
             var response = await _worldRepository.UpdateWorld(
                token: App.Token,
@@ -59,7 +59,7 @@ namespace Worldescape
                 var contentDialogue = new MessageDialogueWindow(title: "Failed!", message: response.Error);
                 contentDialogue.Show();
 
-                _mainPage.SetIsBusy(false);
+                App.SetIsBusy(false);
             }
             else
             {
@@ -67,7 +67,7 @@ namespace Worldescape
 
                 if (world != null && world.Id > 0)
                 {
-                    _mainPage.SetIsBusy(false);
+                    App.SetIsBusy(false);
 
                     _wordSaved?.Invoke(world);
                     this.DialogResult = true;
@@ -77,7 +77,7 @@ namespace Worldescape
 
         private async Task AddWorld()
         {
-            _mainPage.SetIsBusy(true, "Creating your world...");
+            App.SetIsBusy(true, "Creating your world...");
 
             var defaultWorldImageUrl = $"ms-appx:///Assets/Images/Defaults/World_{new Random().Next(0, 9)}.png";
 
@@ -91,7 +91,7 @@ namespace Worldescape
                 var contentDialogue = new MessageDialogueWindow(title: "Failed!", message: response.Error);
                 contentDialogue.Show();
 
-                _mainPage.SetIsBusy(false);
+                App.SetIsBusy(false);
             }
             else
             {
@@ -99,7 +99,7 @@ namespace Worldescape
 
                 if (world != null && world.Id > 0)
                 {
-                    _mainPage.SetIsBusy(false);
+                    App.SetIsBusy(false);
 
                     _wordSaved?.Invoke(world);
                     this.DialogResult = true;
