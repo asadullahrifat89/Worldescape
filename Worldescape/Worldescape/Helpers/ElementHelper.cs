@@ -175,18 +175,10 @@ namespace Worldescape
                     EasingFunction = _constructEaseOut,
                 };
 
-                //TODO: avatar helper
-
-                _avatarHelper.AlignAvatarFaceDirectionWrtX(goToX, nowX, button);
-
-                //if (goToX < nowX) // If going backward
-                //{
-                //    button.RenderTransform = new ScaleTransform() { ScaleX = -1 };
-                //}
-                //else // If going forward
-                //{
-                //    button.RenderTransform = new ScaleTransform() { ScaleX = 1 };
-                //}
+                _avatarHelper.AlignAvatarButtonWrtX(
+                    goToX: goToX,
+                    nowX: nowX,
+                    avatarButton: button);
 
                 var halfTime = timeToTravelDistance / 2;
 

@@ -2853,8 +2853,8 @@ namespace Worldescape
         /// <param name="gotoX"></param>
         private void AlignAvatarFaceDirectionWrtX(double gotoX)
         {
-            _avatarHelper.AlignAvatarFaceDirectionWrtX(
-                gotoX: gotoX,
+            _avatarHelper.AlignAvatarCharacterDirectionWrtX(
+                goToX: gotoX,
                 canvas: Canvas_Root,
                 avatarId: Avatar.Id);
         }

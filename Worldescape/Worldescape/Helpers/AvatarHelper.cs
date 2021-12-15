@@ -183,31 +183,33 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Aligns facing direction of avatar wrt provided gotoX.
+        /// Aligns facing direction of avatar chatacter wrt provided gotoX.
         /// </summary>
-        /// <param name="gotoX"></param>
+        /// <param name="goToX"></param>
         /// <param name="canvas"></param>
         /// <param name="avatarId"></param>
-        public void AlignAvatarFaceDirectionWrtX(
-            double gotoX,
+        public void AlignAvatarCharacterDirectionWrtX(
+            double goToX,
             Canvas canvas,
             int avatarId)
         {
             Button avatarButton = GetAvatarButtonFromCanvas(canvas: canvas, avatarId: avatarId) as Button;
-            var sender = avatarButton.Tag as Avatar;
+            var avatar = avatarButton.Tag as Avatar;
+            var nowX = avatar.Coordinate.X;
 
-            // If x is forward from current avatar
-            if (gotoX > sender.Coordinate.X)
-            {
-                GetAvatarCharacterImage(avatarButton).RenderTransform = new ScaleTransform() { ScaleX = 1 };
-            }
-            else
-            {
-                GetAvatarCharacterImage(avatarButton).RenderTransform = new ScaleTransform() { ScaleX = -1 };
-            }
+            AlignAvatarButtonWrtX(
+                goToX: goToX,
+                nowX: nowX,
+                avatarButton: avatarButton);            
         }
 
-        public void AlignAvatarFaceDirectionWrtX(
+        /// <summary>
+        /// Aligns avatar button wrt provided gotoX.
+        /// </summary>
+        /// <param name="goToX"></param>
+        /// <param name="nowX"></param>
+        /// <param name="avatarButton"></param>
+        public void AlignAvatarButtonWrtX(
             double goToX,
             double nowX,
             Button avatarButton)
