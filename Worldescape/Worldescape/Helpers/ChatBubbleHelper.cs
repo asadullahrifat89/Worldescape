@@ -60,7 +60,7 @@ namespace Worldescape
 
             Button btnChatBubble = new Button()
             {
-                Style = Application.Current.Resources["MaterialDesign_Button_Style"] as Style,
+                Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style,
                 FontWeight = FontWeights.Regular,
                 FontFamily = new FontFamily("Segoe UI"),
                 MaxWidth = 600,
@@ -153,7 +153,7 @@ namespace Worldescape
             Canvas.SetZIndex(btnChatBubble, 999);
 
             // Add a shadow effect to the chat bubble
-            btnChatBubble.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
+            //btnChatBubble.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
 
             canvas.Children.Add(btnChatBubble);
 
@@ -210,7 +210,12 @@ namespace Worldescape
                 AddMessageTypeIconText(messageType: messageType, spUserImageAndMessage: spPlaceholder);
             }
 
-            spContent.Children.Add(spPlaceholder);
+            Border brMessage = new Border() { CornerRadius = new CornerRadius(100), Background = App.Current.TryFindResource("DefaultBackgroundColor") as SolidColorBrush };
+            brMessage.Child = spPlaceholder;
+
+            brMessage.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
+
+            spContent.Children.Add(brMessage);
         }
 
         /// <summary>
@@ -251,7 +256,12 @@ namespace Worldescape
                 spPlaceholder.Children.Add(brUserImage);
                 spPlaceholder.Children.Add(tbMsg);
 
-                spContent.Children.Add(spPlaceholder);
+                Border brMessage = new Border() { CornerRadius = new CornerRadius(100), Background = App.Current.TryFindResource("DefaultBackgroundColor") as SolidColorBrush };
+                brMessage.Child = spPlaceholder;
+
+                brMessage.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
+
+                spContent.Children.Add(brMessage);
             }
         }
 

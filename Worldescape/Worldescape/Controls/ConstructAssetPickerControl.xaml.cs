@@ -237,15 +237,11 @@ namespace Worldescape
             MasonryPanelWithProgressiveLoading _masonryPanel,
             ConstructAsset constructAsset)
         {
-            var buttonName = constructAsset.Name.Replace(" ", "");
+            var uriAsset = _urlHelper.BuildAssetUrl(App.Token, constructAsset.ImageUrl);
 
-            var uri = _urlHelper.BuildAssetUrl(App.Token, constructAsset.ImageUrl);
-
-            var bitmap = new BitmapImage(new Uri(uri, UriKind.RelativeOrAbsolute));
-
-            var img = new Image()
+            var imgAsset = new Image()
             {
-                Source = bitmap,
+                Source = new BitmapImage(new Uri(uriAsset, UriKind.RelativeOrAbsolute)),
                 Stretch = Stretch.Uniform,
                 Height = _constructAssetMasonrySize - 10,
                 Width = _constructAssetMasonrySize - 10,
@@ -253,16 +249,16 @@ namespace Worldescape
                 HorizontalAlignment = HorizontalAlignment.Center,
             };
 
-            var txt = new TextBlock()
+            var tbTxt = new TextBlock()
             {
                 Text = constructAsset.Name,
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 14
             };
 
-            StackPanel content = new StackPanel();
-            content.Children.Add(img);
-            content.Children.Add(txt);
+            StackPanel spContent = new StackPanel();
+            spContent.Children.Add(imgAsset);
+            spContent.Children.Add(tbTxt);
 
             var buttonConstructAsset = new Button()
             {
@@ -271,8 +267,8 @@ namespace Worldescape
                 Width = _constructAssetMasonrySize + 20,
                 Margin = new Thickness(3),
                 Tag = constructAsset,
-                Content = content,
-                Name = buttonName,
+                Content = spContent,
+                Name = constructAsset.Name.Replace(" ", ""),
             };
             buttonConstructAsset.Click += ButtonConstructAsset_Click;
             _masonryPanel.Children.Add(buttonConstructAsset);
