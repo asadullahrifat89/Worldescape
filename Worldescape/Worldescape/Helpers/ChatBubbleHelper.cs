@@ -124,12 +124,12 @@ namespace Worldescape
             btnChatBubble.Content = spContent;
 
             // Set opacity animation according to the length of the message
-            DoubleAnimation opacityAnimation = new DoubleAnimation()
-            {
-                From = 1,
-                To = 0,
-                Duration = TimeSpan.FromMinutes(2)//TimeSpan.FromSeconds(msg.Length * 2).Add(TimeSpan.FromMilliseconds(300)),
-            };
+            //DoubleAnimation opacityAnimation = new DoubleAnimation()
+            //{
+            //    From = 1,
+            //    To = 0,
+            //    Duration = TimeSpan.FromMinutes(2)//TimeSpan.FromSeconds(msg.Length * 2).Add(TimeSpan.FromMilliseconds(300)),
+            //};
 
             DoubleAnimation moveYAnimation = new DoubleAnimation()
             {
@@ -144,19 +144,19 @@ namespace Worldescape
             };
 
             // after opacity reaches zero delete this from canvas
-            opacityAnimation.Completed += (s, e) =>
+            moveYAnimation.Completed += (s, e) =>
             {
                 canvas.Children.Remove(btnChatBubble);
             };
 
-            Storyboard.SetTarget(opacityAnimation, btnChatBubble);
-            Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(UIElement.OpacityProperty));
+            //Storyboard.SetTarget(opacityAnimation, btnChatBubble);
+            //Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(UIElement.OpacityProperty));
 
             Storyboard.SetTarget(moveYAnimation, btnChatBubble);
             Storyboard.SetTargetProperty(moveYAnimation, new PropertyPath(Canvas.TopProperty));
 
             Storyboard fadeStoryBoard = new Storyboard();
-            fadeStoryBoard.Children.Add(opacityAnimation);
+            //fadeStoryBoard.Children.Add(opacityAnimation);
             fadeStoryBoard.Children.Add(moveYAnimation);
 
             // Add to canvas
