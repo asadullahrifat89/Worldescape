@@ -75,6 +75,13 @@
                         PasswordChanged="PasswordBox_Pasword_PasswordChanged"
                         Style="{StaticResource MaterialDesign_RoundPasswordBox_Style}" />
 
+                    <!--<CheckBox
+                        x:Name="CheckBox_RememberMe"
+                        HorizontalContentAlignment="Left"
+                        Click="CheckBox_RememberMe_Click"
+                        Content="Remember me"
+                        Style="{StaticResource MaterialDesign_CheckBox_Style}" />-->
+
                     <!--  Login  -->
                     <Button
                         x:Name="Button_Login"

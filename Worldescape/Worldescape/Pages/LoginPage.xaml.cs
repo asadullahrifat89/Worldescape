@@ -11,7 +11,7 @@ namespace Worldescape
         #region Fields
 
         readonly ApiTokenRepository _apiTokenRepository;
-        readonly UserRepository _userRepository;        
+        readonly UserRepository _userRepository;
         readonly MainPage _mainPage;
 
         #endregion
@@ -29,7 +29,7 @@ namespace Worldescape
             LoginModelHolder.DataContext = LoginModel;
 
             _apiTokenRepository = App.ServiceProvider.GetService(typeof(ApiTokenRepository)) as ApiTokenRepository;
-            _userRepository = App.ServiceProvider.GetService(typeof(UserRepository)) as UserRepository;            
+            _userRepository = App.ServiceProvider.GetService(typeof(UserRepository)) as UserRepository;
             _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
 
         }
@@ -99,7 +99,7 @@ namespace Worldescape
                     var contentDialogue = new MessageDialogueWindow(title: "Error!", message: loginResponse.Error);
                     contentDialogue.Show();
 
-                    _mainPage.SetIsBusy(false);                    
+                    _mainPage.SetIsBusy(false);
                 }
                 else
                 {
@@ -157,11 +157,24 @@ namespace Worldescape
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 await Login();
-            }           
+            }
         }
 
         #endregion
 
-        #endregion        
+        #endregion
+
+        //private void CheckBox_RememberMe_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //TODO: save user creds in cache
+        //    if (CheckBox_RememberMe.IsChecked.Value)
+        //    {
+
+        //    }
+        //    else
+        //    {
+
+        //    }
+        //}
     }
 }

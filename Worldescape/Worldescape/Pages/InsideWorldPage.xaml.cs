@@ -52,7 +52,7 @@ namespace Worldescape
         readonly ChatBubbleHelper _chatBubbleHelper;
 
         readonly ConstructRepository _constructRepository;
-        readonly AvatarRepository _avatarRepository;       
+        readonly AvatarRepository _avatarRepository;
 
         #endregion
 
@@ -1853,9 +1853,9 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Shows current world.
+        /// Shows current world in UI.
         /// </summary>
-        private void ShowCurrentWorld()
+        private void SetCurrentWorld()
         {
             if (!App.World.IsEmpty())
             {
@@ -2035,8 +2035,8 @@ namespace Worldescape
                         _isLoggedIn = true;
 
                         // Set connected user's avatar image
-                        ShowCurrentUserAvatar();
-                        ShowCurrentWorld();
+                        SetCurrentUserAvatar();
+                        SetCurrentWorld();
 
                         _mainPage.SetIsBusy(false);
                         Visibility = Visibility.Visible;
@@ -2588,19 +2588,26 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Shows current user's avatar.
+        /// Shows current user's avatar in UI.
         /// </summary>
-        private void ShowCurrentUserAvatar()
+        private void SetCurrentUserAvatar()
         {
             if (_avatarHelper.GetAvatarButtonFromCanvas(Canvas_Root, Avatar.Id) is UIElement iElement)
             {
                 var avatar = _avatarHelper.GetTaggedAvatar(iElement);
 
                 Button_MyAvatar.Tag = avatar;
-                AvatarImageHolder.Content = GetAvatarCharacterPicture(avatar);
-                CurrentAvatarHolder.Visibility = Visibility.Visible;
-                AvatarNameHolder.Text = avatar.Character.Name.Replace("_", " ");
 
+                var brAvatarCharPic = GetAvatarCharacterPicture(avatar);
+                brAvatarCharPic.Margin = new Thickness(5, 0, 5, 0);
+                var tbAvatarName = new TextBlock() { Text = avatar.Character.Name.Replace("_", " "), VerticalAlignment = VerticalAlignment.Center };
+                var spContent = new StackPanel() { Orientation = Orientation.Horizontal };
+
+                spContent.Children.Add(brAvatarCharPic);
+                spContent.Children.Add(tbAvatarName);
+
+                Button_MyAvatar.Content = spContent;
+                CurrentAvatarHolder.Visibility = Visibility.Visible;
                 Console.WriteLine($"ShowCurrentUserAvatar:OK");
             }
         }
