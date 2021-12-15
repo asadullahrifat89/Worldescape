@@ -13,17 +13,17 @@ namespace Worldescape
     public class AvatarHelper
     {
         #region Fields
-        
+
         readonly UrlHelper _urlHelper;
 
         #endregion
 
         #region Ctor
-        
+
         public AvatarHelper()
         {
             _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
-        } 
+        }
 
         #endregion
 
@@ -91,6 +91,7 @@ namespace Worldescape
                 Height = size,
                 Width = size,
                 Stretch = Stretch.UniformToFill,
+                Name = "AvatarUserImage",
             };
 
             imageBorder.Child = userImage;
@@ -110,29 +111,6 @@ namespace Worldescape
             var avatar = ((Button)uIElement).Tag as Avatar;
 
             return avatar;
-        }
-
-        /// <summary>
-        /// Aligns facing direction of current avatar wrt provided x.
-        /// </summary>
-        /// <param name="construct"></param>
-        public void AlignAvatarFaceDirectionWrtX(
-            double x,
-            Canvas canvas,
-            int avatarId)
-        {
-            Button senderUiElement = canvas.Children.OfType<Button>().FirstOrDefault(x => x.Tag is Avatar taggedAvatar && taggedAvatar.Id == avatarId);
-            var sender = senderUiElement.Tag as Avatar;
-
-            // If x is forward from current avatar
-            if (x > sender.Coordinate.X)
-            {
-                senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = 1 };
-            }
-            else
-            {
-                senderUiElement.RenderTransform = new ScaleTransform() { ScaleX = -1 };
-            }
         }
 
         /// <summary>
@@ -180,12 +158,72 @@ namespace Worldescape
             // Update image according to status
             if (avatar.Character.StatusBoundImageUrls.FirstOrDefault(x => x.Status == activityStatus) is StatusBoundImageUrl statusBoundImageUrl)
             {
-                if (avatarButton.Content is Image img && img.Source is BitmapImage bitmap)
+                if (GetAvatarCharacterImage(avatarButton) is Image img && img.Source is BitmapImage bitmap)
                 {
                     bitmap.UriSource = new Uri(statusBoundImageUrl.ImageUrl);
                 }
             }
         }
+
+        /// <summary>
+        /// Get avatar character image from avatar button.
+        /// </summary>
+        /// <param name="avatarButton"></param>
+        /// <returns></returns>
+        private Image GetAvatarCharacterImage(Button avatarButton)
+        {
+            if (avatarButton.Content is StackPanel spContent && spContent.Children.OfType<Image>().FirstOrDefault(x => x.Name == "AvatarCharacterImage") is Image img)
+            {
+                return img;
+            }
+            else
+            {
+                return new Image();
+            }
+        }
+
+        /// <summary>
+        /// Aligns facing direction of avatar wrt provided gotoX.
+        /// </summary>
+        /// <param name="gotoX"></param>
+        /// <param name="canvas"></param>
+        /// <param name="avatarId"></param>
+        public void AlignAvatarFaceDirectionWrtX(
+            double gotoX,
+            Canvas canvas,
+            int avatarId)
+        {
+            Button avatarButton = GetAvatarButtonFromCanvas(canvas: canvas, avatarId: avatarId) as Button;
+            var sender = avatarButton.Tag as Avatar;
+
+            // If x is forward from current avatar
+            if (gotoX > sender.Coordinate.X)
+            {
+                GetAvatarCharacterImage(avatarButton).RenderTransform = new ScaleTransform() { ScaleX = 1 };
+            }
+            else
+            {
+                GetAvatarCharacterImage(avatarButton).RenderTransform = new ScaleTransform() { ScaleX = -1 };
+            }
+        }
+
+        public void AlignAvatarFaceDirectionWrtX(
+            double goToX,
+            double nowX,
+            Button avatarButton)
+        {
+            // If going backward
+            if (goToX < nowX)
+            {
+                GetAvatarCharacterImage(avatarButton).RenderTransform = new ScaleTransform() { ScaleX = -1 };
+
+            }
+            else // If going forward
+            {
+                GetAvatarCharacterImage(avatarButton).RenderTransform = new ScaleTransform() { ScaleX = 1 };
+            }
+        }
+
 
         /// <summary>
         /// Generates a new button from the provided avatar.
@@ -194,13 +232,19 @@ namespace Worldescape
         /// <returns></returns>
         public Button GenerateAvatarButton(Avatar avatar)
         {
+            var imgUser = GetAvatarUserPictureFrame(avatar);
+
             var imgCharacter = new Image()
             {
                 Source = new BitmapImage(new Uri(avatar.ImageUrl, UriKind.RelativeOrAbsolute)),
                 Stretch = Stretch.Uniform,
                 Height = 100,
                 Width = 100,
+                Name = "AvatarCharacterImage",
             };
+
+            imgCharacter.RenderTransformOrigin = new Windows.Foundation.Point(0.5f, 0.5f);
+            imgCharacter.RenderTransform = new ScaleTransform();
 
             Button btnAvatar = new Button()
             {
@@ -209,10 +253,11 @@ namespace Worldescape
 
             ToolTipService.SetToolTip(btnAvatar, avatar.Name);
 
-            btnAvatar.RenderTransformOrigin = new Windows.Foundation.Point(0.5f, 0.5f);
-            btnAvatar.RenderTransform = new ScaleTransform();
+            var spContent = new StackPanel();
+            spContent.Children.Add(imgUser);
+            spContent.Children.Add(imgCharacter);
 
-            btnAvatar.Content = imgCharacter;
+            btnAvatar.Content = spContent;
             btnAvatar.Tag = avatar;
 
             return btnAvatar;

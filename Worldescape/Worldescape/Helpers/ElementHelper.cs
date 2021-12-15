@@ -45,7 +45,9 @@ namespace Worldescape
         /// <param name="canvas"></param>
         /// <param name="pressedPoint"></param>
         /// <returns></returns>
-        public double NormalizePointerX(Canvas canvas, PointerPoint pressedPoint)
+        public double NormalizePointerX(
+            Canvas canvas,
+            PointerPoint pressedPoint)
         {
             var pointX = pressedPoint.Position.X;
             pointX = pointX / ((CompositeTransform)canvas.RenderTransform).ScaleX;
@@ -58,7 +60,9 @@ namespace Worldescape
         /// <param name="canvas"></param>
         /// <param name="pressedPoint"></param>
         /// <returns></returns>
-        public double NormalizePointerY(Canvas canvas, PointerPoint pressedPoint)
+        public double NormalizePointerY(
+            Canvas canvas,
+            PointerPoint pressedPoint)
         {
             var pointY = pressedPoint.Position.Y;
             pointY = pointY / ((CompositeTransform)canvas.RenderTransform).ScaleY;
@@ -72,7 +76,10 @@ namespace Worldescape
         /// <param name="goToX"></param>
         /// <param name="goToY"></param>
         /// <returns></returns>
-        public object MoveElement(Canvas canvas, UIElement uIElement, PointerRoutedEventArgs e)
+        public object MoveElement(
+            Canvas canvas,
+            UIElement uIElement,
+            PointerRoutedEventArgs e)
         {
             var pressedPoint = e.GetCurrentPoint(canvas);
 
@@ -100,7 +107,12 @@ namespace Worldescape
         /// <param name="goToX"></param>
         /// <param name="goToY"></param>
         /// <returns></returns>
-        public object MoveElement(UIElement uIElement, double goToX, double goToY, int? gotoZ = null, bool isCrafting = false)
+        public object MoveElement(
+            UIElement uIElement,
+            double goToX,
+            double goToY,
+            int? gotoZ = null,
+            bool isCrafting = false)
         {
             if (uIElement == null)
                 return null;
@@ -163,14 +175,18 @@ namespace Worldescape
                     EasingFunction = _constructEaseOut,
                 };
 
-                if (goToX < nowX) // If going backward
-                {
-                    button.RenderTransform = new ScaleTransform() { ScaleX = -1 };
-                }
-                else // If going forward
-                {
-                    button.RenderTransform = new ScaleTransform() { ScaleX = 1 };
-                }
+                //TODO: avatar helper
+
+                _avatarHelper.AlignAvatarFaceDirectionWrtX(goToX, nowX, button);
+
+                //if (goToX < nowX) // If going backward
+                //{
+                //    button.RenderTransform = new ScaleTransform() { ScaleX = -1 };
+                //}
+                //else // If going forward
+                //{
+                //    button.RenderTransform = new ScaleTransform() { ScaleX = 1 };
+                //}
 
                 var halfTime = timeToTravelDistance / 2;
 
@@ -313,7 +329,9 @@ namespace Worldescape
         /// <param name="uIElement"></param>
         /// <param name="scale"></param>
         /// <returns></returns>
-        public object ScaleElement(UIElement uIElement, float scale)
+        public object ScaleElement(
+            UIElement uIElement,
+            float scale)
         {
             uIElement.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
 
@@ -347,7 +365,9 @@ namespace Worldescape
         /// <param name="uIElement"></param>
         /// <param name="rotation"></param>
         /// <returns></returns>
-        public object RotateElement(UIElement uIElement, float rotation)
+        public object RotateElement(
+            UIElement uIElement,
+            float rotation)
         {
             uIElement.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
 
@@ -372,7 +392,7 @@ namespace Worldescape
                 return construct;
             }
             else
-                return null;            
+                return null;
         }
 
         /// <summary>
@@ -380,7 +400,10 @@ namespace Worldescape
         /// </summary>
         /// <param name="e"></param>
         /// <param name="uielement"></param>
-        public void DragStart(Canvas canvas, PointerRoutedEventArgs e, UIElement uielement)
+        public void DragStart(
+            Canvas canvas,
+            PointerRoutedEventArgs e,
+            UIElement uielement)
         {
             // Drag start of a constuct
             _objectLeft = Canvas.GetLeft(uielement);
@@ -402,7 +425,10 @@ namespace Worldescape
         /// </summary>
         /// <param name="e"></param>
         /// <param name="uielement"></param>
-        public void DragElement(Canvas canvas, PointerRoutedEventArgs e, UIElement uielement)
+        public void DragElement(
+            Canvas canvas,
+            PointerRoutedEventArgs e,
+            UIElement uielement)
         {
             if (_isPointerCaptured)
             {
@@ -430,7 +456,9 @@ namespace Worldescape
         /// </summary>
         /// <param name="e"></param>
         /// <param name="uielement"></param>
-        public void DragRelease(PointerRoutedEventArgs e, UIElement uielement)
+        public void DragRelease(
+            PointerRoutedEventArgs e,
+            UIElement uielement)
         {
             _isPointerCaptured = false;
             uielement.ReleasePointerCapture(e.Pointer);

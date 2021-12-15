@@ -473,7 +473,7 @@ namespace Worldescape
                     construct: construct);
 
                 // Align avatar to construct point
-                AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
+                AlignAvatarFaceDirectionWrtX(gotoX: construct.Coordinate.X);
 
                 await _hubService.BroadcastConstruct(construct);
 
@@ -557,7 +557,7 @@ namespace Worldescape
                 portal: portal);
 
             // Align avatar to portal point
-            AlignAvatarFaceDirectionWrtX(x: portal.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(gotoX: portal.Coordinate.X);
 
             await _hubService.BroadcastPortal(portal);
 
@@ -2850,11 +2850,11 @@ namespace Worldescape
         /// <summary>
         /// Aligns facing direction of logged in user's avatar wrt provided x.
         /// </summary>
-        /// <param name="construct"></param>
-        private void AlignAvatarFaceDirectionWrtX(double x)
+        /// <param name="gotoX"></param>
+        private void AlignAvatarFaceDirectionWrtX(double gotoX)
         {
             _avatarHelper.AlignAvatarFaceDirectionWrtX(
-                x: x,
+                gotoX: gotoX,
                 canvas: Canvas_Root,
                 avatarId: Avatar.Id);
         }
@@ -3200,7 +3200,7 @@ namespace Worldescape
             construct = RotateElement(uIElement: selectedConstruct, rotation: newRotation) as Construct;
 
             // Align avatar to construct point
-            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(gotoX: construct.Coordinate.X);
 
             await _hubService.BroadcastConstructRotation(constructId: construct.Id, rotation: construct.Rotation);
 
@@ -3228,7 +3228,7 @@ namespace Worldescape
             construct = ScaleElement(uIElement: _selectedConstruct, scale: newScale) as Construct;
 
             // Align avatar to construct point
-            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(gotoX: construct.Coordinate.X);
 
             await _hubService.BroadcastConstructScale(constructId: construct.Id, scale: construct.Scale);
 
@@ -3251,7 +3251,7 @@ namespace Worldescape
             construct = ScaleElement(uIElement: _selectedConstruct, scale: newScale) as Construct;
 
             // Align avatar to construct point
-            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(gotoX: construct.Coordinate.X);
 
             await _hubService.BroadcastConstructScale(constructId: construct.Id, scale: construct.Scale);
 
@@ -3272,7 +3272,7 @@ namespace Worldescape
             var construct = ((Button)_selectedConstruct).Tag as Construct;
 
             // Align avatar to construct point
-            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(gotoX: construct.Coordinate.X);
 
             await _hubService.BroadcastConstructPlacement(construct.Id, zIndex);
         }
@@ -3291,7 +3291,7 @@ namespace Worldescape
             var construct = ((Button)_selectedConstruct).Tag as Construct;
 
             // Align avatar to construct point
-            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(gotoX: construct.Coordinate.X);
 
             await _hubService.BroadcastConstructPlacement(construct.Id, zIndex);
         }
@@ -3306,7 +3306,7 @@ namespace Worldescape
             var construct = ((Button)_selectedConstruct).Tag as Construct;
 
             // Align avatar to construct point
-            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(gotoX: construct.Coordinate.X);
 
             RemoveConstructFromCanvas(_selectedConstruct);
 
@@ -3490,7 +3490,7 @@ namespace Worldescape
             var construct = taggedObject as Construct;
 
             // Align avatar to construct point
-            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(gotoX: construct.Coordinate.X);
 
             await _hubService.BroadcastConstructMovement(
                 construct.Id,
@@ -3584,7 +3584,7 @@ namespace Worldescape
                 pointY: pointY);
 
             // Align avatar to construct point
-            AlignAvatarFaceDirectionWrtX(x: construct.Coordinate.X);
+            AlignAvatarFaceDirectionWrtX(gotoX: construct.Coordinate.X);
 
             await _hubService.BroadcastConstruct(construct);
             Console.WriteLine("Construct cloned.");

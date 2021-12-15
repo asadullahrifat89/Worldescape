@@ -42,33 +42,7 @@ namespace Worldescape
         /// <returns></returns>
         public Button GeneratePortalButton(World world)
         {
-            return GeneratePortalButton(
-                world: world,
-                fontSize: 14);
-        }
-
-        /// <summary>
-        /// Generate a portal button.
-        /// </summary>
-        /// <param name="world"></param>
-        /// <param name="fontSize"></param>
-        /// <param name="img"></param>
-        /// <returns></returns>
-        private Button GeneratePortalButton(
-            World world,
-            double fontSize)
-        {
             var spContent = new StackPanel() { Margin = new Thickness(5) };
-
-            //spContent.Children.Add(new TextBlock()
-            //{
-            //    FontSize = fontSize,
-            //    FontWeight = FontWeights.SemiBold,
-            //    TextAlignment = TextAlignment.Center,
-            //    Text = world.Name,
-            //    Foreground = new SolidColorBrush(Colors.White)
-            //});
-
             spContent.Children.Add(_worldHelper.GetWorldPictureFrame(world: world, margin: new Thickness(5)));
             spContent.Children.Add(GeneratalPortalImage());
 
@@ -82,7 +56,7 @@ namespace Worldescape
 
             buttonWorld.Content = spContent;
             return buttonWorld;
-        }
+        }      
 
         /// <summary>
         /// Generates a random portal image.

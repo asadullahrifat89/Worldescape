@@ -77,7 +77,7 @@ namespace Worldescape
             {
                 if (toAvatar != null)
                     _avatarHelper.AlignAvatarFaceDirectionWrtX(
-                        x: toTaggedAvatar.Coordinate.X,
+                        gotoX: toTaggedAvatar.Coordinate.X,
                         canvas: canvas,
                         avatarId: loggedInAvatar.Id);
 
@@ -103,7 +103,7 @@ namespace Worldescape
                 btnChatBubble.Tag = chatMessage;
 
                 _avatarHelper.AlignAvatarFaceDirectionWrtX(
-                      x: receiver.Coordinate.X,
+                      gotoX: receiver.Coordinate.X,
                       canvas: canvas,
                       avatarId: fromTaggedAvatar.Id);
 
