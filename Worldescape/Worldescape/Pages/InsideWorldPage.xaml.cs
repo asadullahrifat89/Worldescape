@@ -1781,9 +1781,8 @@ namespace Worldescape
         /// Sets the page to it's defaults.
         /// </summary>
         private void SetDefault()
-        {
-            Color color = App.BackgroundColors[new Random().Next(0, App.BackgroundColors.Count())];
-            Background = new SolidColorBrush(color);
+        {            
+            this.SetRandomBackground();
 
             Visibility = Visibility.Collapsed;
 

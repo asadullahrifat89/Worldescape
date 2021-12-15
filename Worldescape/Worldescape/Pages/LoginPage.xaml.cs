@@ -37,6 +37,54 @@ namespace Worldescape
 
         #region Methods
 
+        #region Page Events
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            CheckIfModelValid();            
+        }
+        #endregion
+
+        #region Button Events
+
+        private async void Button_Login_Click(object sender, RoutedEventArgs e)
+        {
+            await Login();
+        }
+
+        private void Button_SignUp_Click(object sender, RoutedEventArgs e)
+        {
+            App.NavigateToPage(Constants.Page_SignupPage);
+        }
+
+        #endregion
+
+        #region UX Events
+
+        private void PasswordBox_Pasword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
+        private void Control_BindingValidationError(object sender, ValidationErrorEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
+        private void Control_LostFocus(object sender, RoutedEventArgs e)
+        {
+            CheckIfModelValid();
+        }
+
+        private async void PasswordBox_Pasword_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                await Login();
+            }
+        }
+
+        #endregion
+
         #region Functionality
 
         private bool CheckIfModelValid()
@@ -102,54 +150,6 @@ namespace Worldescape
                     App.NavigateToPage(Constants.Page_WorldsPage);
                     App.SetIsBusy(false);
                 }
-            }
-        }
-
-        #endregion
-
-        #region Page Events
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            CheckIfModelValid();
-        }
-        #endregion
-
-        #region Button Events
-
-        private async void Button_Login_Click(object sender, RoutedEventArgs e)
-        {
-            await Login();
-        }
-
-        private void Button_SignUp_Click(object sender, RoutedEventArgs e)
-        {
-            App.NavigateToPage(Constants.Page_SignupPage);
-        }
-
-        #endregion
-
-        #region UX Events
-
-        private void PasswordBox_Pasword_PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            CheckIfModelValid();
-        }
-
-        private void Control_BindingValidationError(object sender, ValidationErrorEventArgs e)
-        {
-            CheckIfModelValid();
-        }
-
-        private void Control_LostFocus(object sender, RoutedEventArgs e)
-        {
-            CheckIfModelValid();
-        }
-
-        private async void PasswordBox_Pasword_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
-        {
-            if (e.Key == Windows.System.VirtualKey.Enter)
-            {
-                await Login();
             }
         }
 
