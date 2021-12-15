@@ -35,7 +35,6 @@ namespace Worldescape
             var _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
                 Margin = new Thickness(5),
-                Style = Application.Current.Resources["Panel_Style"] as Style,
                 Height = 500
             };
 

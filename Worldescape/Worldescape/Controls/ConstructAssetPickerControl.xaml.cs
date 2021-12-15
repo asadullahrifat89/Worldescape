@@ -113,8 +113,6 @@ namespace Worldescape
             var _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
                 Margin = new Thickness(5),
-                Style = Application.Current.Resources["Panel_Style"] as Style,
-                // Height = _masonryPanelHeight
             };
 
             //Add all the categories
@@ -157,9 +155,7 @@ namespace Worldescape
 
             var _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
-                Margin = new Thickness(5),
-                Style = Application.Current.Resources["Panel_Style"] as Style,
-                // Height = _masonryPanelHeight
+                Margin = new Thickness(5)
             };
 
             //Add all the categories
@@ -206,9 +202,7 @@ namespace Worldescape
 
             var _masonryPanel = new MasonryPanelWithProgressiveLoading()
             {
-                Margin = new Thickness(5),
-                Style = Application.Current.Resources["Panel_Style"] as Style,
-                //Height = _masonryPanelHeight
+                Margin = new Thickness(5)
             };
 
             foreach (var item in pagedData)

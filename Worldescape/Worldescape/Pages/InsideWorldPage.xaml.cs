@@ -2656,9 +2656,7 @@ namespace Worldescape
             {
                 var _masonryPanel = new MasonryPanelWithProgressiveLoading()
                 {
-                    Margin = new Thickness(5),
-                    Style = Application.Current.Resources["Panel_Style"] as Style,
-                    //Height = 400
+                    Margin = new Thickness(5)
                 };
 
                 foreach (Avatar avatar in AvatarMessengers.Select(x => x.Avatar))
