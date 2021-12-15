@@ -86,9 +86,11 @@
                     <Button
                         x:Name="Button_Login"
                         Margin="10"
+                        Background="{StaticResource MaterialDesign_DefaultAccentColor}"
                         Click="Button_Login_Click"
                         Content="Log In"
                         FontSize="16"
+                        Foreground="{StaticResource DefaultBackgroundColor}"
                         Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
                     <!--  Signup  -->

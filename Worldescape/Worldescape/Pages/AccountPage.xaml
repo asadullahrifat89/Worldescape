@@ -213,15 +213,19 @@
                             Style="{StaticResource MaterialDesign_RadioButton_Style}" />
                     </StackPanel>
 
+                    <!--  Save  -->
                     <Button
                         x:Name="Button_UpdateAccount"
                         Margin="10"
+                        Background="{StaticResource MaterialDesign_DefaultAccentColor}"
                         Click="Button_UpdateAccount_Click"
                         Content="Save"
                         FontSize="16"
+                        Foreground="{StaticResource DefaultBackgroundColor}"
                         IsEnabled="{Binding Path=IsValid, Mode=OneWay}"
                         Style="{StaticResource MaterialDesign_RoundButton_Style}" />
 
+                    <!--  Discard  -->
                     <Button
                         x:Name="Button_Discard"
                         Margin="10"
