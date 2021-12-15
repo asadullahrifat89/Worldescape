@@ -210,7 +210,12 @@ namespace Worldescape
                 AddMessageTypeIconText(messageType: messageType, spUserImageAndMessage: spPlaceholder);
             }
 
-            Border brMessage = new Border() { CornerRadius = new CornerRadius(100), Background = App.Current.TryFindResource("DefaultBackgroundColor") as SolidColorBrush };
+            Border brMessage = new Border()
+            {
+                CornerRadius = new CornerRadius(100),
+                Background = App.Current.TryFindResource("DefaultBackgroundColor") as SolidColorBrush,
+                Padding = new Thickness(5)
+            };
             brMessage.Child = spPlaceholder;
 
             brMessage.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
@@ -233,7 +238,7 @@ namespace Worldescape
         {
             if (taggedAvatar != null && replyToChatMessage != null)
             {
-                StackPanel spPlaceholder = new StackPanel() { Orientation = Orientation.Horizontal, Margin = new Thickness(40, 5, 5, 5) };
+                StackPanel spPlaceholder = new StackPanel() { Orientation = Orientation.Horizontal };
 
                 Border brUserImage = _avatarHelper.GetAvatarUserPictureFrame(taggedAvatar, 30);
                 brUserImage.VerticalAlignment = VerticalAlignment.Top;
@@ -256,7 +261,13 @@ namespace Worldescape
                 spPlaceholder.Children.Add(brUserImage);
                 spPlaceholder.Children.Add(tbMsg);
 
-                Border brMessage = new Border() { CornerRadius = new CornerRadius(100), Background = App.Current.TryFindResource("DefaultBackgroundColor") as SolidColorBrush };
+                Border brMessage = new Border()
+                {
+                    CornerRadius = new CornerRadius(100),
+                    Background = App.Current.TryFindResource("DefaultBackgroundColor") as SolidColorBrush,
+                    Padding = new Thickness(5),
+                    Margin = new Thickness(40, 0, 5, -5)
+                };
                 brMessage.Child = spPlaceholder;
 
                 brMessage.Effect = new DropShadowEffect() { ShadowDepth = 4, Color = Colors.Black, BlurRadius = 10, Opacity = 0.5 };
