@@ -34,6 +34,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="avatar"></param>
         /// <param name="size"></param>
+        /// <param name="background"></param>
         /// <returns></returns>
         public Border GetAvatarUserPictureFrame(
             Avatar avatar,
@@ -53,6 +54,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="avatar"></param>
         /// <param name="size"></param>
+        /// <param name="background"></param>
         /// <returns></returns>
         public Border GetAvatarCharacterPictureFrame(
             Avatar avatar,
@@ -72,6 +74,7 @@ namespace Worldescape
         /// </summary>
         /// <param name="size"></param>
         /// <param name="bitmapImage"></param>
+        /// <param name="background"></param>
         /// <returns></returns>
         private Border PrepareRoundPictureFrame(
             double size,
@@ -119,6 +122,11 @@ namespace Worldescape
         /// Adds an avatar on canvas.
         /// </summary>
         /// <param name="avatar"></param>
+        /// <param name="canvas"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <returns></returns>
         public Avatar AddAvatarOnCanvas(
             UIElement avatar,
             Canvas canvas,
