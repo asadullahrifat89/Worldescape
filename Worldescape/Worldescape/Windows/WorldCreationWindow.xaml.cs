@@ -7,14 +7,13 @@ using Worldescape.Service;
 
 namespace Worldescape
 {
-    public partial class WorldCreatorWindow : ChildWindow
+    public partial class WorldCreationWindow : ChildWindow
     {
-        Action<World> _wordSaved;
-        World _world;
-
+        readonly World _world;
+        readonly Action<World> _wordSaved;        
         readonly WorldRepository _worldRepository;
 
-        public WorldCreatorWindow(
+        public WorldCreationWindow(
             Action<World> worldSaved,
             World world = null)
         {

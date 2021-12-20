@@ -991,14 +991,14 @@ namespace Worldescape
 
         private void Button_CreatePortal_Click(object sender, RoutedEventArgs e)
         {
-            WorldPickerWindow worldPickerWindow = new WorldPickerWindow();
-            worldPickerWindow.WorldSelected += (sender, world) =>
+            WorldSelectionWindow WorldSelectionWindow = new WorldSelectionWindow();
+            WorldSelectionWindow.WorldSelected += (sender, world) =>
             {
                 Button btnPortal = GeneratePortalButton(world);
                 _addingPortal = btnPortal;
                 AttachPointerElement(btnPortal);
             };
-            worldPickerWindow.Show();
+            WorldSelectionWindow.Show();
         }
 
         private void ActiveAvatarButton_Click(object sender, RoutedEventArgs e)
@@ -2326,16 +2326,15 @@ namespace Worldescape
                 {
                     Characters = Characters.Any() ? Characters : JsonSerializer.Deserialize<Character[]>(Service.Properties.Resources.CharacterAssets).ToList();
 
-                    var characterPicker = new CharacterPickerWindow(characters: Characters);
-
-                    characterPicker.CharacterSelected += async (sender, character) =>
+                    var characterPicker = new CharacterSelectionWindow(characters: Characters, characterSelected: async (character) =>
                     {
                         Character = character;
                         SetAvatarData();
                         App.SetLoggedInUserModel();
 
                         await Connect();
-                    };
+                    });
+                    
                     characterPicker.Show();
                 }
                 else
@@ -3075,33 +3074,33 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Shows the ConstructAssetPickerControl.
+        /// Shows the ConstructAssetSelectionControl.
         /// </summary>
         private void ShowConstructAssetsControl()
         {
-            ConstructAssetPickerControl.Visibility = Visibility.Visible;
+            ConstructAssetSelectionControl.Visibility = Visibility.Visible;
 
-            if (!ConstructAssetPickerControl.FirstHit)
+            if (!ConstructAssetSelectionControl.FirstHit)
             {
-                ConstructAssetPickerControl.ShowConstructCategories();
-                ConstructAssetPickerControl.FirstHit = true;
+                ConstructAssetSelectionControl.ShowConstructCategories();
+                ConstructAssetSelectionControl.FirstHit = true;
             }
         }
 
         /// <summary>
-        /// Hides the ConstructAssetPickerControl.
+        /// Hides the ConstructAssetSelectionControl.
         /// </summary>
         private void HideConstructAssetsControl()
         {
-            ConstructAssetPickerControl.Visibility = Visibility.Collapsed;
+            ConstructAssetSelectionControl.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
-        /// Subscription method for AssetSelected event of ConstructAssetPickerControl.
+        /// Subscription method for AssetSelected event of ConstructAssetSelectionControl.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="constructAsset"></param>
-        private void ConstructAssetPickerControl_AssetSelected(
+        private void ConstructAssetSelectionControl_AssetSelected(
             object sender,
             ConstructAsset constructAsset)
         {

@@ -185,13 +185,13 @@ namespace Worldescape
 
         private void Button_UploadImageUrl_Click(object sender, RoutedEventArgs e)
         {
-            var imagePickerWindow = new ImagePickerWindow(blobId: (blobId) =>
+            var ImageSelectionWindow = new ImageSelectionWindow(blobId: (blobId) =>
             {
                 AccountModel.ImageUrl = blobId;
                 Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_urlHelper.BuildBlobUrl(App.Token, blobId));
             }, imageUrl: AccountModel.ImageUrl);
 
-            imagePickerWindow.Show();
+            ImageSelectionWindow.Show();
         }
 
         private void Button_RemoveImageUrl_Click(object sender, RoutedEventArgs e)

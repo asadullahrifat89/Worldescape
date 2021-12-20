@@ -8,21 +8,24 @@ using Worldescape.Common;
 
 namespace Worldescape
 {
-    public partial class CharacterPickerWindow : ChildWindow
+    public partial class CharacterSelectionWindow : ChildWindow
     {
         #region Fields
 
-        List<Character> _characters = new List<Character>();
-        public event EventHandler<Character> CharacterSelected;
-
+        readonly List<Character> _characters = new List<Character>();
+        readonly Action<Character> _characterSelected;
+        
         #endregion
 
         #region Ctor
 
-        public CharacterPickerWindow(List<Character> characters)
+        public CharacterSelectionWindow(
+            List<Character> characters,
+            Action<Character> characterSelected)
         {
             InitializeComponent();
             _characters = characters;
+            _characterSelected = characterSelected;
             ShowCharacters();
         }
 
@@ -67,7 +70,7 @@ namespace Worldescape
             var button = (Button)sender;
             var character = button.Tag as Character;
 
-            CharacterSelected?.Invoke(this, character);
+            _characterSelected?.Invoke(character);
             this.DialogResult = true;
         }
 

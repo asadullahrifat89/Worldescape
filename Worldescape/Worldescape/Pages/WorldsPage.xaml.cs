@@ -122,7 +122,7 @@ namespace Worldescape
 
         private void Button_CreateWorld_Click(object sender, RoutedEventArgs e)
         {
-            WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow((world) =>
+            WorldCreationWindow WorldCreationWindow = new WorldCreationWindow((world) =>
             {
                 var contentDialogue = new MessageDialogueWindow($"Teleport", "Would you like to teleport to your created world now?", (result) =>
                 {
@@ -139,7 +139,7 @@ namespace Worldescape
 
                 contentDialogue.Show();
             });
-            worldCreatorWindow.Show();
+            WorldCreationWindow.Show();
         }
 
         #endregion

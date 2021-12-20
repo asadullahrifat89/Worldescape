@@ -382,12 +382,12 @@
             Margin="100,20,30,100"
             HorizontalAlignment="Left"
             Style="{StaticResource MaterialDesign_Card_Style}"
-            Visibility="{Binding ElementName=ConstructAssetPickerControl, Path=Visibility, Mode=OneWay}">
-            <worldescape:ConstructAssetPickerControl
-                x:Name="ConstructAssetPickerControl"
+            Visibility="{Binding ElementName=ConstructAssetSelectionControl, Path=Visibility, Mode=OneWay}">
+            <worldescape:ConstructAssetSelectionControl
+                x:Name="ConstructAssetSelectionControl"
                 Height="700"
                 Margin="10,10,10,0"
-                AssetSelected="ConstructAssetPickerControl_AssetSelected"
+                AssetSelected="ConstructAssetSelectionControl_AssetSelected"
                 Visibility="Collapsed" />
         </ContentControl>
 

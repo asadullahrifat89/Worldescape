@@ -6,23 +6,22 @@ using Worldescape.Service;
 
 namespace Worldescape
 {
-    public partial class ImagePickerWindow : ChildWindow
+    public partial class ImageSelectionWindow : ChildWindow
     {
         #region Fields
-
-        Action<string> _blobId;
+                
         string _selectedDataUrl;
+        readonly Action<string> _blobId;
 
         readonly ImageHelper _imageHelper;
         readonly UrlHelper _urlHelper;
-        readonly HttpServiceHelper _httpServiceHelper;
         readonly BlobRepository _blobRepository;
 
         #endregion
 
         #region Ctor
 
-        public ImagePickerWindow(Action<string> blobId, string imageUrl = null)
+        public ImageSelectionWindow(Action<string> blobId, string imageUrl = null)
         {
             InitializeComponent();
 
@@ -30,7 +29,6 @@ namespace Worldescape
 
             _imageHelper = App.ServiceProvider.GetService(typeof(ImageHelper)) as ImageHelper;
             _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;
-            _httpServiceHelper = App.ServiceProvider.GetService(typeof(HttpServiceHelper)) as HttpServiceHelper;
             _blobRepository = App.ServiceProvider.GetService(typeof(BlobRepository)) as BlobRepository;
 
             if (!imageUrl.IsNullOrBlank())
