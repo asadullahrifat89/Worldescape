@@ -1,25 +1,34 @@
 ﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Worldescape.Common;
 
 namespace Worldescape
 {
-    public partial class MessageDialogueWindow : ChildWindow
+    public partial class WorldInteractionWindow : ChildWindow
     {
         readonly Action<bool> _result;
+        readonly WorldHelper _worldHelper;
 
-        public MessageDialogueWindow(string title, string message, Action<bool> result = null)
+        public WorldInteractionWindow(
+            World world,
+            string title = null,
+            Action<bool> result = null)
         {
             InitializeComponent();
-            _result = result;
-            Title = title;
-            TextBlock_Message.Text = message;
 
-            if (message.EndsWith("?"))
-            {
-                OKButton.Content = "Yes";
-                CancelButton.Content = "No";
-            }
+            Title = title ?? world.Name;
+            _result = result;
+            _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
+
+            ContentControl_World.Content = _worldHelper.GenerateWorldButtonContent(
+                world: world,
+                fontSize: 15,
+                pictureFrame: _worldHelper.GetWorldPictureFrame(
+                    world: world,
+                    margin: new Thickness(5),
+                    size: 180));
+
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)

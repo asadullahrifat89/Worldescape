@@ -297,7 +297,6 @@
                     <Image Source="ms-appx:///Worldescape/Assets/Icons/logout_black_24dp.svg" />
                 </Button>
 
-
             </StackPanel>
 
             <!--  Top left current avatar button, scrolls to avatar, becomes visible after avatar hub login  -->

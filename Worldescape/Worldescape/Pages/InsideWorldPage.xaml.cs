@@ -1228,27 +1228,30 @@ namespace Worldescape
 
             var portal = ((Button)_selectedPortal).Tag as Portal;
 
-            var contentDialogue = new MessageDialogueWindow(title: "Teleport!", message: $"Would you like to go to {portal.World.Name}?", result: async (result) =>
-            {
-                if (result)
+            var contentDialogue = new WorldInteractionWindow(
+                world: portal.World,
+                title: $"Teleport to {portal.World.Name}?",
+                result: async (result) =>
                 {
-                    if (await LogoutFromHub())
+                    if (result)
                     {
-                        SetDefault();
-                        App.World = portal.World;
-                        SetAvatarData();
-
-                        App.SetIsBusy(true, "Teleporting to world...");
-
-                        if (await LoginToHub())
+                        if (await LogoutFromHub())
                         {
-                            App.SetIsBusy(false);
+                            SetDefault();
+                            App.World = portal.World;
+                            SetAvatarData();
+
+                            App.SetIsBusy(true, "Teleporting to world...");
+
+                            if (await LoginToHub())
+                            {
+                                App.SetIsBusy(false);
+                            }
                         }
                     }
-                }
 
-                HidePortalActionsHolder();
-            });
+                    HidePortalActionsHolder();
+                });
             contentDialogue.Show();
         }
 
@@ -1781,7 +1784,7 @@ namespace Worldescape
         /// Sets the page to it's defaults.
         /// </summary>
         private void SetDefault()
-        {            
+        {
             this.SetRandomBackground();
 
             Visibility = Visibility.Collapsed;
@@ -1859,7 +1862,7 @@ namespace Worldescape
             World world,
             double size = 40)
         {
-            return _worldHelper.GetWorldPicture(world: world, size: size);
+            return _worldHelper.GetWorldPictureFrame(world: world, size: size);
         }
 
         #endregion
@@ -2334,7 +2337,7 @@ namespace Worldescape
 
                         await Connect();
                     });
-                    
+
                     characterPicker.Show();
                 }
                 else

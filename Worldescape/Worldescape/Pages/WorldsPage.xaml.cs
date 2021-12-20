@@ -72,12 +72,11 @@ namespace Worldescape
         {
             var world = ((Button)sender).Tag as World;
 
-            var contentDialogue = new MessageDialogueWindow(title: $"Go to {world.Name}", message: "Would you like to go to this world?", result: (result) =>
+            var contentDialogue = new WorldInteractionWindow(world: world, title: $"Teleport to {world.Name}?", result: (result) =>
             {
                 if (result)
                 {
                     App.SetIsBusy(true, $"Teleporting...");
-
                     App.World = world;
 
                     App.NavigateToPage(Constants.Page_InsideWorldPage);
