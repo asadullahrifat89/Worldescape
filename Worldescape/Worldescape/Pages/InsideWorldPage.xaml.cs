@@ -3361,7 +3361,12 @@ namespace Worldescape
         {
             if (_selectedConstruct != null && _selectedConstruct is Button button && button.Tag is Construct)
             {
-                PopElementContextCommands(e: e, uIElement: ConstructOperationalCommandsHolder, offsetX: button.ActualWidth / 2, offSetY: button.ActualHeight / 4);
+                PopElementContextCommands(
+                    e: e,
+                    uIElement: ConstructOperationalCommandsHolder,
+                    offsetX: button.ActualWidth / 2,
+                    offSetY: button.ActualHeight / 4);
+
                 ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
             }
         }
