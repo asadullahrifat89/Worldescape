@@ -110,14 +110,20 @@ namespace Worldescape.Database
         public async Task<bool> ReplaceDocument<T>(T document, FilterDefinition<T> filter)
         {
             var collection = GetCollection<T>();
-            var result = await collection.FindOneAndReplaceAsync(filter: filter, replacement: document);
+            var result = await collection.FindOneAndReplaceAsync(filter: filter, replacement: document, options: new FindOneAndReplaceOptions<T>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
             return result != null;
         }
 
         public async Task<bool> UpdateDocument<T>(UpdateDefinition<T> update, FilterDefinition<T> filter)
         {
             var collection = GetCollection<T>();
-            var result = await collection.FindOneAndUpdateAsync(filter: filter, update: update);
+            var result = await collection.FindOneAndUpdateAsync(filter: filter, update: update, options: new FindOneAndUpdateOptions<T>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
             return result != null;
         }
 
@@ -125,7 +131,10 @@ namespace Worldescape.Database
         {
             var filter = Builders<T>.Filter.Eq("Id", id);
             var collection = GetCollection<T>();
-            var result = await collection.FindOneAndUpdateAsync(filter: filter, update: update);
+            var result = await collection.FindOneAndUpdateAsync(filter: filter, update: update, options: new FindOneAndUpdateOptions<T>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
             return result != null;
         }
 
@@ -133,7 +142,10 @@ namespace Worldescape.Database
         {
             var filter = Builders<T>.Filter.Eq("Id", id);
             var collection = GetCollection<T>();
-            var result = await collection.FindOneAndReplaceAsync(filter: filter, replacement: document);
+            var result = await collection.FindOneAndReplaceAsync(filter: filter, replacement: document, options: new FindOneAndReplaceOptions<T>
+            {
+                ReturnDocument = ReturnDocument.After
+            });
             return result != null;
         }
 
