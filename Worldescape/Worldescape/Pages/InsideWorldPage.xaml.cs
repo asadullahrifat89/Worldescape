@@ -56,18 +56,7 @@ namespace Worldescape
         #endregion
 
         #region Ctor
-        public InsideWorldPage(
-            //IHubService hubService,
-            //AvatarHelper avatarHelper,
-            //WorldHelper worldHelper,
-            //PortalHelper portalHelper,
-            //ConstructHelper constructHelper,
-            //PaginationHelper paginationHelper,
-            //ElementHelper elementHelper,
-            //ChatBubbleHelper chatBubbleHelper,
-            //ConstructRepository constructRepository,
-            //AvatarRepository avatarRepository
-            )
+        public InsideWorldPage()
         {
             InitializeComponent();
 

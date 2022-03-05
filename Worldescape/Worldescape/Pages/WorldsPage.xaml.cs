@@ -30,17 +30,9 @@ namespace Worldescape
 
         #region Ctor
 
-        public WorldsPage(
-            //WorldHelper worldHelper,
-            //PaginationHelper paginationHelper,
-            //WorldRepository worldRepository
-            )
+        public WorldsPage()
         {
             InitializeComponent();
-
-            //_worldHelper = worldHelper;
-            //_paginationHelper = paginationHelper;
-            //_worldRepository = worldRepository;
 
             _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
             _worldRepository = App.ServiceProvider.GetService(typeof(WorldRepository)) as WorldRepository;
@@ -77,9 +69,7 @@ namespace Worldescape
         {
             var world = ((Button)sender).Tag as World;
 
-            WorldInteractionWindow contentDialogue = null;
-
-            contentDialogue = new WorldInteractionWindow(world: world, title: $"Teleport to {world.Name}?", result: (result) =>
+            var contentDialogue = new WorldInteractionWindow(world: world, title: $"Teleport to {world.Name}?", result: (result) =>
             {
                 if (result)
                 {
@@ -87,8 +77,6 @@ namespace Worldescape
                     App.World = world;
 
                     App.NavigateToPage(Constants.Page_InsideWorldPage);
-
-                    //contentDialogue.Close();
 
                     //var insideWorldPage = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;
                     //insideWorldPage.SelectCharacterAndConnect();

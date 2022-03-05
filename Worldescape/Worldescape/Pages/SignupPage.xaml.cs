@@ -21,8 +21,6 @@ namespace Worldescape
         {
             InitializeComponent();
 
-            //_httpServiceHelper = httpServiceHelper;            
-
             _userRepository = App.ServiceProvider.GetService(typeof(UserRepository)) as UserRepository;
             SignUpModelHolder.DataContext = SignUpModel;
         }

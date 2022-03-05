@@ -10,7 +10,7 @@ namespace Worldescape
     public partial class AccountPage : Page
     {
         #region Fields
-                
+
         readonly ImageHelper _imageHelper;
         readonly UrlHelper _urlHelper;
 
@@ -21,14 +21,9 @@ namespace Worldescape
         #region Ctor
 
         public AccountPage(
-            //ImageHelper imageHelper,
-            //UrlHelper urlHelper,
             )
         {
             InitializeComponent();
-
-            //_imageHelper = imageHelper;
-            //_urlHelper = urlHelper;
 
             AccountModelHolder.DataContext = AccountModel;
 
