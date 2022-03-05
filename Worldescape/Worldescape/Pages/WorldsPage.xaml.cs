@@ -31,15 +31,20 @@ namespace Worldescape
         #region Ctor
 
         public WorldsPage(
-            WorldHelper worldHelper,
-            PaginationHelper paginationHelper,
-            WorldRepository worldRepository)
+            //WorldHelper worldHelper,
+            //PaginationHelper paginationHelper,
+            //WorldRepository worldRepository
+            )
         {
             InitializeComponent();
 
-            _worldHelper = worldHelper;
-            _paginationHelper = paginationHelper;
-            _worldRepository = worldRepository;
+            //_worldHelper = worldHelper;
+            //_paginationHelper = paginationHelper;
+            //_worldRepository = worldRepository;
+
+            _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
+            _worldRepository = App.ServiceProvider.GetService(typeof(WorldRepository)) as WorldRepository;
+            _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
         }
 
         #endregion
@@ -72,7 +77,9 @@ namespace Worldescape
         {
             var world = ((Button)sender).Tag as World;
 
-            var contentDialogue = new WorldInteractionWindow(world: world, title: $"Teleport to {world.Name}?", result: (result) =>
+            WorldInteractionWindow contentDialogue = null;
+
+            contentDialogue = new WorldInteractionWindow(world: world, title: $"Teleport to {world.Name}?", result: (result) =>
             {
                 if (result)
                 {
@@ -81,8 +88,10 @@ namespace Worldescape
 
                     App.NavigateToPage(Constants.Page_InsideWorldPage);
 
-                    var insideWorldPage = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;
-                    insideWorldPage.SelectCharacterAndConnect();
+                    //contentDialogue.Close();
+
+                    //var insideWorldPage = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;
+                    //insideWorldPage.SelectCharacterAndConnect();
                 }
             });
 

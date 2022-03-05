@@ -90,8 +90,8 @@ namespace Worldescape
 
             // Pages
             services.AddSingleton<MainPage>();
-            services.AddSingleton<WorldsPage>();
-            services.AddSingleton<InsideWorldPage>();
+            //services.AddSingleton<WorldsPage>();
+            //services.AddSingleton<InsideWorldPage>();
 
             //services.AddSingleton<LoginPage>();
             //services.AddSingleton<SignupPage>();

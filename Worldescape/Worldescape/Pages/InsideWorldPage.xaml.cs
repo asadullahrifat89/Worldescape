@@ -57,31 +57,33 @@ namespace Worldescape
 
         #region Ctor
         public InsideWorldPage(
-            IHubService hubService,
-            AvatarHelper avatarHelper,
-            WorldHelper worldHelper,
-            PortalHelper portalHelper,
-            ConstructHelper constructHelper,
-            PaginationHelper paginationHelper,
-            ElementHelper elementHelper,
-            ChatBubbleHelper chatBubbleHelper,
-            ConstructRepository constructRepository,
-            AvatarRepository avatarRepository)
+            //IHubService hubService,
+            //AvatarHelper avatarHelper,
+            //WorldHelper worldHelper,
+            //PortalHelper portalHelper,
+            //ConstructHelper constructHelper,
+            //PaginationHelper paginationHelper,
+            //ElementHelper elementHelper,
+            //ChatBubbleHelper chatBubbleHelper,
+            //ConstructRepository constructRepository,
+            //AvatarRepository avatarRepository
+            )
         {
             InitializeComponent();
 
-            _hubService = hubService;
-            _avatarHelper = avatarHelper;
-            _worldHelper = worldHelper;
-            _portalHelper = portalHelper;
-            _constructHelper = constructHelper;
-            _paginationHelper = paginationHelper;
-            _elementHelper = elementHelper;
-            _chatBubbleHelper = chatBubbleHelper;
-            _constructRepository = constructRepository;
-            _avatarRepository = avatarRepository;
+            _hubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
+            _avatarHelper = App.ServiceProvider.GetService(typeof(AvatarHelper)) as AvatarHelper;
+            _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
+            _portalHelper = App.ServiceProvider.GetService(typeof(PortalHelper)) as PortalHelper;
+            _constructHelper = App.ServiceProvider.GetService(typeof(ConstructHelper)) as ConstructHelper;
+            _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
+            _elementHelper = App.ServiceProvider.GetService(typeof(ElementHelper)) as ElementHelper;
+            _chatBubbleHelper = App.ServiceProvider.GetService(typeof(ChatBubbleHelper)) as ChatBubbleHelper;
+            _constructRepository = App.ServiceProvider.GetService(typeof(ConstructRepository)) as ConstructRepository;
+            _avatarRepository = App.ServiceProvider.GetService(typeof(AvatarRepository)) as AvatarRepository;
 
             SubscribeHub();
+            SelectCharacterAndConnect();
         }
 
         #endregion

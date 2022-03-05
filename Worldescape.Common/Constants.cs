@@ -144,6 +144,7 @@ namespace Worldescape.Common
 
         #region Pages
 
+        public const string Page_MainPage = "/MainPage";
         public const string Page_InsideWorldPage = "/InsideWorldPage";
         public const string Page_LoginPage = "/LoginPage";
         public const string Page_SignupPage = "/SignupPage";
