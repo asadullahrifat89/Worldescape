@@ -20,8 +20,7 @@ namespace Worldescape
 
         #region Ctor
 
-        public AccountPage(
-            )
+        public AccountPage()
         {
             InitializeComponent();
 
