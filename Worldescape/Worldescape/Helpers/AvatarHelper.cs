@@ -251,7 +251,7 @@ namespace Worldescape
             {
                 Text = avatar.Name,
                 TextAlignment = TextAlignment.Center,
-                Margin = new Thickness(2),
+                Margin = new Thickness(5, 2, 5, 2),
             };
 
             var brName = new Border()

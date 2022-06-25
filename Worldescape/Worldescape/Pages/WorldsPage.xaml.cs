@@ -30,16 +30,13 @@ namespace Worldescape
 
         #region Ctor
 
-        public WorldsPage(
-            WorldHelper worldHelper,
-            PaginationHelper paginationHelper,
-            WorldRepository worldRepository)
+        public WorldsPage()
         {
             InitializeComponent();
 
-            _worldHelper = worldHelper;
-            _paginationHelper = paginationHelper;
-            _worldRepository = worldRepository;
+            _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
+            _worldRepository = App.ServiceProvider.GetService(typeof(WorldRepository)) as WorldRepository;
+            _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
         }
 
         #endregion
@@ -72,18 +69,17 @@ namespace Worldescape
         {
             var world = ((Button)sender).Tag as World;
 
-            var contentDialogue = new MessageDialogueWindow(title: $"Go to {world.Name}", message: "Would you like to go to this world?", result: (result) =>
+            var contentDialogue = new WorldInteractionWindow(world: world, title: $"Teleport to {world.Name}?", result: (result) =>
             {
                 if (result)
                 {
                     App.SetIsBusy(true, $"Teleporting...");
-
                     App.World = world;
 
                     App.NavigateToPage(Constants.Page_InsideWorldPage);
 
-                    var insideWorldPage = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;
-                    insideWorldPage.SelectCharacterAndConnect();
+                    //var insideWorldPage = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as InsideWorldPage;
+                    //insideWorldPage.SelectCharacterAndConnect();
                 }
             });
 
@@ -122,7 +118,7 @@ namespace Worldescape
 
         private void Button_CreateWorld_Click(object sender, RoutedEventArgs e)
         {
-            WorldCreatorWindow worldCreatorWindow = new WorldCreatorWindow((world) =>
+            WorldCreationWindow WorldCreationWindow = new WorldCreationWindow((world) =>
             {
                 var contentDialogue = new MessageDialogueWindow($"Teleport", "Would you like to teleport to your created world now?", (result) =>
                 {
@@ -139,7 +135,7 @@ namespace Worldescape
 
                 contentDialogue.Show();
             });
-            worldCreatorWindow.Show();
+            WorldCreationWindow.Show();
         }
 
         #endregion

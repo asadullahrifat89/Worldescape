@@ -116,16 +116,16 @@ namespace Worldescape
         {
             switch (targetUri)
             {
-                case Constants.Page_WorldsPage:
-                    {
-                        PageContainerFrame.Content = App.ServiceProvider.GetService(typeof(WorldsPage)) as Page;
-                    }
-                    break;
-                case Constants.Page_InsideWorldPage:
-                    {
-                        PageContainerFrame.Content = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as Page;
-                    }
-                    break;
+                //case Constants.Page_WorldsPage:
+                //    {
+                //        PageContainerFrame.Content = App.ServiceProvider.GetService(typeof(WorldsPage)) as Page;
+                //    }
+                //    break;
+                //case Constants.Page_InsideWorldPage:
+                //    {
+                //        PageContainerFrame.Content = App.ServiceProvider.GetService(typeof(InsideWorldPage)) as Page;
+                //    }
+                //    break;
                 //case Constants.Page_LoginPage:
                 //    {
                 //        PageContainerFrame.Content = App.ServiceProvider.GetService(typeof(LoginPage)) as Page;

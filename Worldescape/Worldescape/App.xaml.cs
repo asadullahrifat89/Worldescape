@@ -89,14 +89,7 @@ namespace Worldescape
             services.AddSingleton<BlobRepository>();
 
             // Pages
-            services.AddSingleton<MainPage>();
-            services.AddSingleton<WorldsPage>();
-            services.AddSingleton<InsideWorldPage>();
-
-            //services.AddSingleton<LoginPage>();
-            //services.AddSingleton<SignupPage>();
-            //services.AddSingleton<AccountPage>();            
-
+            services.AddSingleton<MainPage>(); // just the main page
         }
 
         private void App_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
@@ -105,19 +98,19 @@ namespace Worldescape
             e.Handled = true;
         }
 
-        public static void NavigateToPage(string targetUri) 
+        public static void NavigateToPage(string targetUri)
         {
             var _mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             _mainPage.NavigateToPage(targetUri);
         }
 
-        public static void SetIsBusy(bool isBusy, string busyMessage = null) 
+        public static void SetIsBusy(bool isBusy, string busyMessage = null)
         {
             var _mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             _mainPage.SetIsBusy(isBusy, busyMessage);
         }
 
-        public static void SetLoggedInUserModel() 
+        public static void SetLoggedInUserModel()
         {
             var _mainPage = ServiceProvider.GetService(typeof(MainPage)) as MainPage;
             _mainPage.SetLoggedInUserModel();

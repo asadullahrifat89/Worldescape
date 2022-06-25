@@ -1,5 +1,5 @@
 ﻿<ChildWindow
-    x:Class="Worldescape.ImagePickerWindow"
+    x:Class="Worldescape.ImageSelectionWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:extensions="clr-namespace:CSHTML5.Extensions.FileOpenDialog"

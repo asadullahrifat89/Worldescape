@@ -56,32 +56,23 @@ namespace Worldescape
         #endregion
 
         #region Ctor
-        public InsideWorldPage(
-            IHubService hubService,
-            AvatarHelper avatarHelper,
-            WorldHelper worldHelper,
-            PortalHelper portalHelper,
-            ConstructHelper constructHelper,
-            PaginationHelper paginationHelper,
-            ElementHelper elementHelper,
-            ChatBubbleHelper chatBubbleHelper,
-            ConstructRepository constructRepository,
-            AvatarRepository avatarRepository)
+        public InsideWorldPage()
         {
             InitializeComponent();
 
-            _hubService = hubService;
-            _avatarHelper = avatarHelper;
-            _worldHelper = worldHelper;
-            _portalHelper = portalHelper;
-            _constructHelper = constructHelper;
-            _paginationHelper = paginationHelper;
-            _elementHelper = elementHelper;
-            _chatBubbleHelper = chatBubbleHelper;
-            _constructRepository = constructRepository;
-            _avatarRepository = avatarRepository;
+            _hubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
+            _avatarHelper = App.ServiceProvider.GetService(typeof(AvatarHelper)) as AvatarHelper;
+            _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
+            _portalHelper = App.ServiceProvider.GetService(typeof(PortalHelper)) as PortalHelper;
+            _constructHelper = App.ServiceProvider.GetService(typeof(ConstructHelper)) as ConstructHelper;
+            _paginationHelper = App.ServiceProvider.GetService(typeof(PaginationHelper)) as PaginationHelper;
+            _elementHelper = App.ServiceProvider.GetService(typeof(ElementHelper)) as ElementHelper;
+            _chatBubbleHelper = App.ServiceProvider.GetService(typeof(ChatBubbleHelper)) as ChatBubbleHelper;
+            _constructRepository = App.ServiceProvider.GetService(typeof(ConstructRepository)) as ConstructRepository;
+            _avatarRepository = App.ServiceProvider.GetService(typeof(AvatarRepository)) as AvatarRepository;
 
             SubscribeHub();
+            SelectCharacterAndConnect();
         }
 
         #endregion
@@ -269,6 +260,7 @@ namespace Worldescape
             UIElement uielement = (UIElement)sender;
             _selectedConstruct = uielement;
 
+            HideAvatarOperationButtons();
             ShowSelectedConstruct(uielement); // Construct
 
             if (_addingPortal != null)
@@ -991,14 +983,14 @@ namespace Worldescape
 
         private void Button_CreatePortal_Click(object sender, RoutedEventArgs e)
         {
-            WorldPickerWindow worldPickerWindow = new WorldPickerWindow();
-            worldPickerWindow.WorldSelected += (sender, world) =>
+            WorldSelectionWindow WorldSelectionWindow = new WorldSelectionWindow();
+            WorldSelectionWindow.WorldSelected += (sender, world) =>
             {
                 Button btnPortal = GeneratePortalButton(world);
                 _addingPortal = btnPortal;
                 AttachPointerElement(btnPortal);
             };
-            worldPickerWindow.Show();
+            WorldSelectionWindow.Show();
         }
 
         private void ActiveAvatarButton_Click(object sender, RoutedEventArgs e)
@@ -1228,27 +1220,30 @@ namespace Worldescape
 
             var portal = ((Button)_selectedPortal).Tag as Portal;
 
-            var contentDialogue = new MessageDialogueWindow(title: "Teleport!", message: $"Would you like to go to {portal.World.Name}?", result: async (result) =>
-            {
-                if (result)
+            var contentDialogue = new WorldInteractionWindow(
+                world: portal.World,
+                title: $"Teleport to {portal.World.Name}?",
+                result: async (result) =>
                 {
-                    if (await LogoutFromHub())
+                    if (result)
                     {
-                        SetDefault();
-                        App.World = portal.World;
-                        SetAvatarData();
-
-                        App.SetIsBusy(true, "Teleporting to world...");
-
-                        if (await LoginToHub())
+                        if (await LogoutFromHub())
                         {
-                            App.SetIsBusy(false);
+                            SetDefault();
+                            App.World = portal.World;
+                            SetAvatarData();
+
+                            App.SetIsBusy(true, "Teleporting to world...");
+
+                            if (await LoginToHub())
+                            {
+                                App.SetIsBusy(false);
+                            }
                         }
                     }
-                }
 
-                HidePortalActionsHolder();
-            });
+                    HidePortalActionsHolder();
+                });
             contentDialogue.Show();
         }
 
@@ -1781,7 +1776,7 @@ namespace Worldescape
         /// Sets the page to it's defaults.
         /// </summary>
         private void SetDefault()
-        {            
+        {
             this.SetRandomBackground();
 
             Visibility = Visibility.Collapsed;
@@ -1859,7 +1854,7 @@ namespace Worldescape
             World world,
             double size = 40)
         {
-            return _worldHelper.GetWorldPicture(world: world, size: size);
+            return _worldHelper.GetWorldPictureFrame(world: world, size: size);
         }
 
         #endregion
@@ -2326,16 +2321,15 @@ namespace Worldescape
                 {
                     Characters = Characters.Any() ? Characters : JsonSerializer.Deserialize<Character[]>(Service.Properties.Resources.CharacterAssets).ToList();
 
-                    var characterPicker = new CharacterPickerWindow(characters: Characters);
-
-                    characterPicker.CharacterSelected += async (sender, character) =>
+                    var characterPicker = new CharacterSelectionWindow(characters: Characters, characterSelected: async (character) =>
                     {
                         Character = character;
                         SetAvatarData();
                         App.SetLoggedInUserModel();
 
                         await Connect();
-                    };
+                    });
+
                     characterPicker.Show();
                 }
                 else
@@ -3075,33 +3069,33 @@ namespace Worldescape
         }
 
         /// <summary>
-        /// Shows the ConstructAssetPickerControl.
+        /// Shows the ConstructAssetSelectionControl.
         /// </summary>
         private void ShowConstructAssetsControl()
         {
-            ConstructAssetPickerControl.Visibility = Visibility.Visible;
+            ConstructAssetSelectionControl.Visibility = Visibility.Visible;
 
-            if (!ConstructAssetPickerControl.FirstHit)
+            if (!ConstructAssetSelectionControl.FirstHit)
             {
-                ConstructAssetPickerControl.ShowConstructCategories();
-                ConstructAssetPickerControl.FirstHit = true;
+                ConstructAssetSelectionControl.ShowConstructCategories();
+                ConstructAssetSelectionControl.FirstHit = true;
             }
         }
 
         /// <summary>
-        /// Hides the ConstructAssetPickerControl.
+        /// Hides the ConstructAssetSelectionControl.
         /// </summary>
         private void HideConstructAssetsControl()
         {
-            ConstructAssetPickerControl.Visibility = Visibility.Collapsed;
+            ConstructAssetSelectionControl.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
-        /// Subscription method for AssetSelected event of ConstructAssetPickerControl.
+        /// Subscription method for AssetSelected event of ConstructAssetSelectionControl.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="constructAsset"></param>
-        private void ConstructAssetPickerControl_AssetSelected(
+        private void ConstructAssetSelectionControl_AssetSelected(
             object sender,
             ConstructAsset constructAsset)
         {
@@ -3359,7 +3353,12 @@ namespace Worldescape
         {
             if (_selectedConstruct != null && _selectedConstruct is Button button && button.Tag is Construct)
             {
-                PopElementContextCommands(e: e, uIElement: ConstructOperationalCommandsHolder, offsetX: button.ActualWidth / 2, offSetY: button.ActualHeight / 4);
+                PopElementContextCommands(
+                    e: e,
+                    uIElement: ConstructOperationalCommandsHolder,
+                    offsetX: button.ActualWidth / 2,
+                    offSetY: button.ActualHeight / 4);
+
                 ConstructOperationalCommandsHolder.Visibility = Visibility.Visible;
             }
         }

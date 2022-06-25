@@ -34,11 +34,14 @@
 		  <SubType>Designer</SubType>
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
-		<Content Include="Windows\ImagePickerWindow.xaml">
+		<Content Include="Windows\ImageSelectionWindow.xaml">
 		  <SubType>Designer</SubType>
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
-		<Content Include="Windows\CharacterPickerWindow.xaml">
+		<Content Include="Windows\CharacterSelectionWindow.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</Content>
+		<Content Include="Windows\WorldInteractionWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
 		<Page Include="MainPage.xaml">
@@ -109,16 +112,16 @@
 		<Page Include="Styles\Styles.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</Page>
-		<Content Include="Windows\WorldPickerWindow.xaml">
+		<Content Include="Windows\WorldSelectionWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
-		<Content Include="Controls\ConstructAssetPickerControl.xaml">
+		<Content Include="Controls\ConstructAssetSelectionControl.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
 		<Content Include="Windows\MessageDialogueWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
-		<Content Include="Windows\WorldCreatorWindow.xaml">
+		<Content Include="Windows\WorldCreationWindow.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Content>
 	</ItemGroup>
@@ -142,12 +145,13 @@
 		  <SubType>Code</SubType>
 		</Compile>
 		<Compile Include="Pages\WorldsPage.xaml.cs" />
-		<Compile Include="Controls\ConstructAssetPickerControl.xaml.cs" />
+		<Compile Include="Controls\ConstructAssetSelectionControl.xaml.cs" />
+		<Compile Include="Windows\WorldInteractionWindow.xaml.cs" />
 		<Compile Include="Windows\MessageDialogueWindow.xaml.cs" />
-		<Compile Include="Windows\ImagePickerWindow.xaml.cs">
+		<Compile Include="Windows\ImageSelectionWindow.xaml.cs">
 		  <SubType>Code</SubType>
 		</Compile>
-		<Compile Include="Windows\CharacterPickerWindow.xaml.cs" />
+		<Compile Include="Windows\CharacterSelectionWindow.xaml.cs" />
 		<Compile Include="Internals\MasonryPanelWithProgressiveLoading.cs" />
 		<Compile Include="MainPage.xaml.cs" />
 		<Compile Include="Pages\InsideWorldPage.xaml.cs" />
@@ -158,8 +162,8 @@
 		<Compile Include="Converters\AccentColorConverter.cs" />
 		<Compile Include="Converters\DoubleToCornerRadiusConverter.cs" />
 		<Compile Include="Converters\TextToPlaceholderTextVisibilityConverter.cs" />
-		<Compile Include="Windows\WorldCreatorWindow.xaml.cs" />
-		<Compile Include="Windows\WorldPickerWindow.xaml.cs" />
+		<Compile Include="Windows\WorldCreationWindow.xaml.cs" />
+		<Compile Include="Windows\WorldSelectionWindow.xaml.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

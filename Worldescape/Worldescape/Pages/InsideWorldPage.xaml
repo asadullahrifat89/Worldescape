@@ -182,6 +182,16 @@
                         <Image Source="ms-appx:///Worldescape/Assets/Icons/post_add_black_24dp.svg" />
                     </Button>-->
 
+                    <!--  Construct  -->
+                    <ToggleButton
+                        x:Name="Button_ConstructCraft"
+                        Width="70"
+                        Margin="5"
+                        Click="Button_ConstructCraft_Click"
+                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
+                        <Image Source="ms-appx:///Worldescape/Assets/Icons/create_black_24dp.svg" />
+                    </ToggleButton>
+
                     <!--  Create portal  -->
                     <Button
                         x:Name="Button_CreatePortal"
@@ -297,7 +307,6 @@
                     <Image Source="ms-appx:///Worldescape/Assets/Icons/logout_black_24dp.svg" />
                 </Button>
 
-
             </StackPanel>
 
             <!--  Top left current avatar button, scrolls to avatar, becomes visible after avatar hub login  -->
@@ -330,6 +339,7 @@
                     Visibility="Collapsed">
 
                     <!--  Construct  -->
+                    <!--
                     <ToggleButton
                         x:Name="Button_ConstructCraft"
                         Width="70"
@@ -337,7 +347,7 @@
                         Click="Button_ConstructCraft_Click"
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
                         <Image Source="ms-appx:///Worldescape/Assets/Icons/create_black_24dp.svg" />
-                    </ToggleButton>
+                    </ToggleButton>-->
 
                     <!--  Add, open construct picker  -->
                     <ToggleButton
@@ -382,12 +392,12 @@
             Margin="100,20,30,100"
             HorizontalAlignment="Left"
             Style="{StaticResource MaterialDesign_Card_Style}"
-            Visibility="{Binding ElementName=ConstructAssetPickerControl, Path=Visibility, Mode=OneWay}">
-            <worldescape:ConstructAssetPickerControl
-                x:Name="ConstructAssetPickerControl"
+            Visibility="{Binding ElementName=ConstructAssetSelectionControl, Path=Visibility, Mode=OneWay}">
+            <worldescape:ConstructAssetSelectionControl
+                x:Name="ConstructAssetSelectionControl"
                 Height="700"
                 Margin="10,10,10,0"
-                AssetSelected="ConstructAssetPickerControl_AssetSelected"
+                AssetSelected="ConstructAssetSelectionControl_AssetSelected"
                 Visibility="Collapsed" />
         </ContentControl>
 

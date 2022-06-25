@@ -9,7 +9,7 @@ using Worldescape.Service;
 
 namespace Worldescape
 {
-    public partial class WorldPickerWindow : ChildWindow
+    public partial class WorldSelectionWindow : ChildWindow
     {
         #region Fields
 
@@ -32,7 +32,7 @@ namespace Worldescape
 
         #region Ctor
 
-        public WorldPickerWindow()
+        public WorldSelectionWindow()
         {
             InitializeComponent();
 

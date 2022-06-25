@@ -10,7 +10,7 @@ namespace Worldescape
     public partial class AccountPage : Page
     {
         #region Fields
-                
+
         readonly ImageHelper _imageHelper;
         readonly UrlHelper _urlHelper;
 
@@ -20,15 +20,9 @@ namespace Worldescape
 
         #region Ctor
 
-        public AccountPage(
-            //ImageHelper imageHelper,
-            //UrlHelper urlHelper,
-            )
+        public AccountPage()
         {
             InitializeComponent();
-
-            //_imageHelper = imageHelper;
-            //_urlHelper = urlHelper;
 
             AccountModelHolder.DataContext = AccountModel;
 
@@ -185,13 +179,13 @@ namespace Worldescape
 
         private void Button_UploadImageUrl_Click(object sender, RoutedEventArgs e)
         {
-            var imagePickerWindow = new ImagePickerWindow(blobId: (blobId) =>
+            var ImageSelectionWindow = new ImageSelectionWindow(blobId: (blobId) =>
             {
                 AccountModel.ImageUrl = blobId;
                 Image_ProfileImageUrl.Source = _imageHelper.GetBitmapImage(_urlHelper.BuildBlobUrl(App.Token, blobId));
             }, imageUrl: AccountModel.ImageUrl);
 
-            imagePickerWindow.Show();
+            ImageSelectionWindow.Show();
         }
 
         private void Button_RemoveImageUrl_Click(object sender, RoutedEventArgs e)

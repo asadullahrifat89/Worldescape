@@ -118,6 +118,11 @@ namespace WorldescapeWebService
                     avatar.Coordinate = existingAvatar.Coordinate;
                     avatar.ActivityStatus = existingAvatar.ActivityStatus;
                 }
+                else // Otherwise get the first construct from the world and set him there
+                {
+                    var construct = await _databaseService.FindOne(Builders<Construct>.Filter.Eq(x => x.World.Id, avatar.World.Id));
+                    avatar.Coordinate = construct.Coordinate;
+                }
 
                 avatar.Session = new AvatarSession()
                 {

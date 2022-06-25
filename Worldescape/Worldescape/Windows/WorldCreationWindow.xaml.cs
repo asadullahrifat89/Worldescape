@@ -7,15 +7,13 @@ using Worldescape.Service;
 
 namespace Worldescape
 {
-    public partial class WorldCreatorWindow : ChildWindow
+    public partial class WorldCreationWindow : ChildWindow
     {
-        Action<World> _wordSaved;
-        World _world;
-
-        readonly MainPage _mainPage;
+        readonly World _world;
+        readonly Action<World> _wordSaved;        
         readonly WorldRepository _worldRepository;
 
-        public WorldCreatorWindow(
+        public WorldCreationWindow(
             Action<World> worldSaved,
             World world = null)
         {
@@ -26,8 +24,7 @@ namespace Worldescape
 
             Title = _world.IsEmpty() ? "Create world" : "Update world";
 
-            _worldRepository = App.ServiceProvider.GetService( typeof(WorldRepository)) as WorldRepository;
-            _mainPage = App.ServiceProvider.GetService(typeof(MainPage)) as MainPage;
+            _worldRepository = App.ServiceProvider.GetService(typeof(WorldRepository)) as WorldRepository;
         }
 
         private async void Button_OK_Click(object sender, RoutedEventArgs e)
@@ -72,7 +69,7 @@ namespace Worldescape
                     _wordSaved?.Invoke(world);
                     this.DialogResult = true;
                 }
-            }            
+            }
         }
 
         private async Task AddWorld()
@@ -86,7 +83,7 @@ namespace Worldescape
                 name: WorldNameHolder.Text,
                 imageUrl: defaultWorldImageUrl);
 
-            if (!response.Success) 
+            if (!response.Success)
             {
                 var contentDialogue = new MessageDialogueWindow(title: "Failed!", message: response.Error);
                 contentDialogue.Show();

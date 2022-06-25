@@ -15,9 +15,9 @@ namespace Worldescape
     public class ConstructHelper
     {
         #region Fields
-        
+
         readonly ElementHelper _elementHelper;
-        readonly UrlHelper _urlHelper; 
+        readonly UrlHelper _urlHelper;
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace Worldescape
         {
             _elementHelper = elementHelper;
             _urlHelper = urlHelper;
-        } 
+        }
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace Worldescape
         /// <returns></returns>
         public bool CanManipulateConstruct(UIElement uIElement)
         {
-            if (uIElement != null && ((Button)uIElement).Tag is Construct c && c.Creator.Id == App.User.Id)
+            if (uIElement != null && ((Button)uIElement).Tag is Construct c && (c.Creator.Id == App.User.Id || App.World.Creator.Id == App.User.Id))
                 return true;
             else
                 return false;

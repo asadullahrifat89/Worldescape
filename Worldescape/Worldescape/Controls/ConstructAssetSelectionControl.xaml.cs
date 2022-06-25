@@ -12,7 +12,7 @@ using Worldescape.Service;
 
 namespace Worldescape
 {
-    public partial class ConstructAssetPickerControl : UserControl
+    public partial class ConstructAssetSelectionControl : UserControl
     {
         #region Fields
 
@@ -46,7 +46,7 @@ namespace Worldescape
         #endregion
 
         #region Ctor
-        public ConstructAssetPickerControl()
+        public ConstructAssetSelectionControl()
         {
             InitializeComponent();
             _urlHelper = App.ServiceProvider.GetService(typeof(UrlHelper)) as UrlHelper;

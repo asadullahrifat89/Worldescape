@@ -21,51 +21,100 @@ namespace Worldescape
 
         }
 
-        #region UI
+        #region Methods
 
+        /// <summary>
+        /// Generates a world button with it's image in it.
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="size"></param>
+        /// <param name="fontSize"></param>
+        /// <returns></returns>
         public Button GenerateWorldButton(
             World world,
             double size,
             double fontSize = 14)
         {
-            var img = GetWorldPictureFrame(
-                world: world,
-                margin: new Thickness(5),
-                size: size);
-
             return GenerateWorldButton(
                 world: world,
                 size: size,
                 fontSize: fontSize,
-                img: img);
+                pictureFrame: GetWorldPictureFrame(
+                    world: world,
+                    margin: new Thickness(5),
+                    size: size));
         }
 
+        /// <summary>
+        /// Generates a world button with it's image in it.
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="size"></param>
+        /// <param name="imageMargin"></param>
+        /// <param name="fontSize"></param>
+        /// <returns></returns>
         public Button GenerateWorldButton(
             World world,
             double size,
             Thickness imageMargin,
             double fontSize = 14)
         {
-            var img = GetWorldPictureFrame(
-                world: world,
-                margin: imageMargin,
-                size: size);
-
             return GenerateWorldButton(
                 world: world,
                 size: size,
                 fontSize: fontSize,
-                img: img);
+                pictureFrame: GetWorldPictureFrame(
+                    world: world,
+                    margin: imageMargin,
+                    size: size));
         }
 
+        /// <summary>
+        /// Generates a world button with it's image in it.
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="size"></param>
+        /// <param name="fontSize"></param>
+        /// <param name="pictureFrame"></param>
+        /// <returns></returns>
         private Button GenerateWorldButton(
             World world,
             double size,
             double fontSize,
-            Border img)
+            Border pictureFrame)
+        {
+            var spContent = GenerateWorldButtonContent(
+                world: world,
+                fontSize: fontSize,
+                pictureFrame: pictureFrame);
+
+            var buttonWorld = new Button()
+            {
+                Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style,
+                Height = size,
+                Width = size,
+                Margin = new Thickness(5),
+                Tag = world,
+                Content = spContent
+            };
+
+            return buttonWorld;
+        }
+
+        /// <summary>
+        /// Generates world button content.
+        /// </summary>
+        /// <param name="world"></param>
+        /// <param name="fontSize"></param>
+        /// <param name="pictureFrame"></param>
+        /// <returns></returns>
+        public StackPanel GenerateWorldButtonContent(
+            World world,
+            double fontSize,
+            Border pictureFrame)
         {
             var spContent = new StackPanel();
-            spContent.Children.Add(img);
+            spContent.Children.Add(pictureFrame);
 
             var spText = new StackPanel()
             {
@@ -113,18 +162,7 @@ namespace Worldescape
             }
 
             spContent.Children.Add(spText);
-
-            var buttonWorld = new Button()
-            {
-                Style = Application.Current.Resources["MaterialDesign_HyperlinkButton_Style"] as Style,
-                Height = size,
-                Width = size,
-                Margin = new Thickness(5),
-                Tag = world,
-            };
-
-            buttonWorld.Content = spContent;
-            return buttonWorld;
+            return spContent;
         }
 
         /// <summary>
@@ -133,7 +171,7 @@ namespace Worldescape
         /// <param name="world"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public Border GetWorldPicture(World world, double size = 40)
+        public Border GetWorldPictureFrame(World world, double size = 40)
         {
             var bitmapImage = new BitmapImage(new Uri(world.ImageUrl));
             return PrepareRoundImage(size, bitmapImage);
