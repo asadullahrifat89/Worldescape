@@ -260,6 +260,7 @@ namespace Worldescape
             UIElement uielement = (UIElement)sender;
             _selectedConstruct = uielement;
 
+            HideAvatarOperationButtons();
             ShowSelectedConstruct(uielement); // Construct
 
             if (_addingPortal != null)

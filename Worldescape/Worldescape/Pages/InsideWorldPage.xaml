@@ -182,6 +182,16 @@
                         <Image Source="ms-appx:///Worldescape/Assets/Icons/post_add_black_24dp.svg" />
                     </Button>-->
 
+                    <!--  Construct  -->
+                    <ToggleButton
+                        x:Name="Button_ConstructCraft"
+                        Width="70"
+                        Margin="5"
+                        Click="Button_ConstructCraft_Click"
+                        Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
+                        <Image Source="ms-appx:///Worldescape/Assets/Icons/create_black_24dp.svg" />
+                    </ToggleButton>
+
                     <!--  Create portal  -->
                     <Button
                         x:Name="Button_CreatePortal"
@@ -329,6 +339,7 @@
                     Visibility="Collapsed">
 
                     <!--  Construct  -->
+                    <!--
                     <ToggleButton
                         x:Name="Button_ConstructCraft"
                         Width="70"
@@ -336,7 +347,7 @@
                         Click="Button_ConstructCraft_Click"
                         Style="{StaticResource MaterialDesign_RoundToggleButton_Style}">
                         <Image Source="ms-appx:///Worldescape/Assets/Icons/create_black_24dp.svg" />
-                    </ToggleButton>
+                    </ToggleButton>-->
 
                     <!--  Add, open construct picker  -->
                     <ToggleButton
