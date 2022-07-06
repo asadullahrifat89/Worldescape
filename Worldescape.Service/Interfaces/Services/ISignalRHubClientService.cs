@@ -4,7 +4,7 @@ using Worldescape.Common;
 
 namespace Worldescape.Service
 {
-    public interface IHubService
+    public interface ISignalRHubClientService
     {
         #region Fields
 

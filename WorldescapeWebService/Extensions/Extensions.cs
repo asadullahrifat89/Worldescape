@@ -385,7 +385,7 @@ public static class Extensions
         //app.UseHttpsRedirection();
         //app.UseHsts();
 
-        app.MapHub<SignalRHub>("/worldescapehub", options =>
+        app.MapHub<SignalRHubServer>("/worldescapehub", options =>
         {
             options.Transports = HttpTransportType.WebSockets;
         });

@@ -66,7 +66,7 @@ namespace Worldescape
             services.AddHttpService();
 
             // Core Services            
-            services.AddSingleton<IHubService, HubService>();
+            services.AddSingleton<ISignalRHubClientService, SignalRHubClientService>();
 
             // Helpers
             services.AddSingleton<UrlHelper>();

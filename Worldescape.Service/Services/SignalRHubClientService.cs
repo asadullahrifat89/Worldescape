@@ -10,7 +10,7 @@ namespace Worldescape.Service
     /// <summary>
     /// Prpvides access to all client side signalR hub methods.
     /// </summary>
-    public class HubService : IHubService
+    public class SignalRHubClientService : ISignalRHubClientService
     {
         #region Fields
 
@@ -51,7 +51,7 @@ namespace Worldescape.Service
 
         #region Ctor
 
-        public HubService(HttpServiceHelper httpServiceHelper)
+        public SignalRHubClientService(HttpServiceHelper httpServiceHelper)
         {
             string url = httpServiceHelper.GetHubServiceUrl();
 

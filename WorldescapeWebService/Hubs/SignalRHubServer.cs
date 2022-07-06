@@ -8,19 +8,19 @@ namespace WorldescapeWebService
     /// <summary>
     /// Provides access to server side signalR hub methods. New ConnectionId is generated per user login.
     /// </summary>
-    public class SignalRHub : Hub
+    public class SignalRHubServer : Hub
     {
         #region Fields
 
-        readonly ILogger<SignalRHub> _logger;
+        readonly ILogger<SignalRHubServer> _logger;
         readonly DatabaseService _databaseService;
 
         #endregion
 
         #region Ctor
 
-        public SignalRHub(
-            ILogger<SignalRHub> logger,
+        public SignalRHubServer(
+            ILogger<SignalRHubServer> logger,
             DatabaseService databaseService)
         {
             _databaseService = databaseService;

@@ -41,7 +41,7 @@ namespace Worldescape
 
         ChatMessage _replyToChatMessage;
 
-        readonly IHubService _hubService;
+        readonly ISignalRHubClientService _hubService;
         readonly AvatarHelper _avatarHelper;
         readonly ConstructHelper _constructHelper;
         readonly WorldHelper _worldHelper;
@@ -60,7 +60,7 @@ namespace Worldescape
         {
             InitializeComponent();
 
-            _hubService = App.ServiceProvider.GetService(typeof(IHubService)) as IHubService;
+            _hubService = App.ServiceProvider.GetService(typeof(ISignalRHubClientService)) as ISignalRHubClientService;
             _avatarHelper = App.ServiceProvider.GetService(typeof(AvatarHelper)) as AvatarHelper;
             _worldHelper = App.ServiceProvider.GetService(typeof(WorldHelper)) as WorldHelper;
             _portalHelper = App.ServiceProvider.GetService(typeof(PortalHelper)) as PortalHelper;
