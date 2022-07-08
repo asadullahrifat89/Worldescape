@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldescapeWebService", "WorldescapeWebService\WorldescapeWebService.csproj", "{09CC312D-F0C1-42D5-A684-C78020DA31AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldescapeServer", "WorldescapeServer\WorldescapeServer.csproj", "{09CC312D-F0C1-42D5-A684-C78020DA31AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldescapeWebService.Core", "WorldescapeWebService.Core\WorldescapeWebService.Core.csproj", "{54FDB26C-EE71-4E77-9D10-86D3A4A7EAAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldescapeServer.Core", "WorldescapeServer.Core\WorldescapeServer.Core.csproj", "{54FDB26C-EE71-4E77-9D10-86D3A4A7EAAC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{CE7D5598-7C96-4969-81CC-2F584423BADE}"
 EndProject

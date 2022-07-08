@@ -4,7 +4,7 @@ using System.Reflection;
 using Worldescape.Assets.Generator;
 
 var executingAssemblyLocation = Assembly.GetExecutingAssembly().Location;
-var assetSourceLocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "WorldescapeWebService\\Assets\\World_Objects");
+var assetSourceLocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "WorldescapeServer\\Assets\\World_Objects");
 var outputFileLocation = executingAssemblyLocation.Replace("Worldescape.Assets.Generator\\bin\\Debug\\net6.0\\Worldescape.Assets.Generator.dll", "Worldescape.Assets.Generator\\World_Objects.json");
 
 Console.WriteLine("Welcom to Worldescape Asset Generator!");
