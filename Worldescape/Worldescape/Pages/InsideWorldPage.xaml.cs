@@ -1818,7 +1818,7 @@ namespace Worldescape
         /// Adds random clouds to the canvas.
         /// </summary>
         /// <param name="drawOver"></param>
-        private async void PopulateClouds()
+        private async void GenerateClouds()
         {
             await _worldHelper.PopulateClouds(
                   canvas: Canvas_Root);
@@ -2019,7 +2019,7 @@ namespace Worldescape
 
                         ScrollIntoView(Avatar);
 
-                        PopulateClouds();
+                        GenerateClouds();
 
                         return true;
                     }
